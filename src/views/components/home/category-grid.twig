@@ -1,10 +1,14 @@
 {% if component.categories|length %}
+{% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
+{% set subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
 <section class="zod-section zod-category-section">
   <div class="container">
-    <div class="zod-section-head">
-      <div><h2>{{ component.title|default(trans('zod.home.shop_categories')) }}</h2>{% if component.subtitle %}<p>{{ component.subtitle }}</p>{% endif %}</div>
-      {% if component.show_all %}<a href="{{ link('categories') }}" class="zod-text-link">{{ trans('zod.home.view_all') }} <i class="sicon-arrow-left rtl:rotate-180"></i></a>{% endif %}
-    </div>
+    {% if title or subtitle or component.show_all %}
+      <div class="zod-section-head">
+        {% if title or subtitle %}<div>{% if title %}<h2>{{ title }}</h2>{% endif %}{% if subtitle %}<p>{{ subtitle }}</p>{% endif %}</div>{% endif %}
+        {% if component.show_all %}<a href="{{ link('categories') }}" class="zod-text-link">{{ trans('zod.home.view_all') }} <i class="sicon-arrow-left rtl:rotate-180"></i></a>{% endif %}
+      </div>
+    {% endif %}
     <div class="zod-category-scroller">
       {% for category in component.categories %}
         <a class="zod-category-card" href="{{ category.url }}">

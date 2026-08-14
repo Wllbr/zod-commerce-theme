@@ -42,7 +42,7 @@
         {% if product.is_out_of_stock %}<span class="zod-stock zod-stock--out"><i></i>{{ trans('zod.product.out_stock') }}</span>
         {% elseif product.can_show_remained_quantity and product.quantity <= 5 %}<span class="zod-stock zod-stock--low"><i></i>{{ trans('zod.product.low_stock') }}{% if product.quantity %} · {{ product.quantity }}{% endif %}</span>
         {% else %}<span class="zod-stock zod-stock--in"><i></i>{{ trans('zod.product.in_stock') }}</span>{% endif %}
-        {% if product.sold_quantity and theme.settings.get('show_product_sold_count', true) %}<span class="zod-sold"><i class="sicon-fire"></i>{{ trans('zod.product.sold') }} {{ product.sold_quantity }}</span>{% endif %}
+        {% if product.sold_quantity and product.can_show_sold and theme.settings.get('show_product_sold_count', true) %}<span class="zod-sold"><i class="sicon-fire"></i>{{ trans('zod.product.sold') }} {{ product.sold_quantity }}</span>{% endif %}
       </div>
       <div data-testid="store-product-price" class="zod-product-price price-wrapper">
         {% if product.is_on_sale %}<div class="price_is_on_sale"><strong class="total-price">{{ product.sale_price|money }}</strong><del class="before-price">{{ product.regular_price|money }}</del>{% if product.discount_percentage %}<span class="zod-discount">-{{ product.discount_percentage }}</span>{% endif %}</div>
@@ -67,8 +67,7 @@
 
       {% if theme.settings.get('show_product_trust', true) %}<div class="zod-product-trust">
         <div><i class="sicon-shipping-fast"></i><span><b>{{ trans('zod.product.delivery') }}</b><small>{{ trans('zod.product.delivery_text') }}</small></span></div>
-        <div><i class="sicon-security"></i><span><b>{{ trans('zod.product.warranty') }}</b><small>{{ trans('zod.product.warranty_text') }}</small></span></div>
-        <div><i class="sicon-check-circle"></i><span><b>{{ trans('zod.product.original') }}</b><small>{{ trans('zod.product.original_text') }}</small></span></div>
+        <div><i class="sicon-check-circle"></i><span><b>{{ trans('zod.product.details') }}</b><small>{{ trans('zod.product.details_text') }}</small></span></div>
         <div><i class="sicon-shield"></i><span><b>{{ trans('zod.product.secure') }}</b><small>{{ trans('zod.product.secure_text') }}</small></span></div>
       </div>{% endif %}
       {% if product.is_giftable %}<salla-gifting data-testid="store-product-gifting" class="zod-gifting" product-id="{{ product.id }}" {{ product.is_require_shipping ? 'physical-products' : '' }}></salla-gifting>{% endif %}
@@ -85,7 +84,7 @@
     </nav>
     <div class="zod-product-info-grid">
       <article id="description" class="zod-info-panel zod-description-panel"><h2>{{ trans('zod.product.description') }}</h2><div data-testid="store-product-description" class="zod-rich-text">{{ product.description|raw }}</div>{% if product.has_metadata %}<div id="specifications" class="zod-specification-block"><h2>{{ trans('zod.product.specifications') }}</h2><salla-metadata data-testid="store-product-metadata"></salla-metadata></div>{% endif %}{% if product.tags|length and theme.settings.get('show_tags', false) %}<div class="zod-tags">{% for tag in product.tags %}<a href="{{ tag.url }}">{{ tag.name }}</a>{% endfor %}</div>{% endif %}</article>
-      <aside id="delivery" class="zod-info-panel"><h2>{{ trans('zod.product.shipping') }}</h2><div class="zod-info-row"><i class="sicon-shipping-fast"></i><p><b>{{ trans('zod.product.delivery') }}</b><span>{{ trans('zod.product.delivery_text') }}</span></p></div><div class="zod-info-row"><i class="sicon-security"></i><p><b>{{ trans('zod.product.warranty') }}</b><span>{{ trans('zod.product.warranty_text') }}</span></p></div><div class="zod-info-row"><i class="sicon-support"></i><p><b>{{ trans('zod.product.support') }}</b><span>{{ trans('zod.product.support_text') }}</span></p></div></aside>
+      <aside id="delivery" class="zod-info-panel"><h2>{{ trans('zod.product.shipping') }}</h2><div class="zod-info-row"><i class="sicon-shipping-fast"></i><p><b>{{ trans('zod.product.delivery') }}</b><span>{{ trans('zod.product.delivery_text') }}</span></p></div><div class="zod-info-row"><i class="sicon-shield"></i><p><b>{{ trans('zod.product.secure') }}</b><span>{{ trans('zod.product.secure_text') }}</span></p></div>{% if store.contacts.whatsapp or store.contacts.mobile or store.contacts.phone or store.contacts.email %}<div class="zod-info-row"><i class="sicon-support"></i><div><b>{{ trans('zod.product.support') }}</b><salla-contacts class="zod-product-contacts"></salla-contacts></div></div>{% endif %}</aside>
     </div>
     {% hook 'product:single.description' %}{% hook 'product:single.description.end' %}
     <salla-offer data-testid="store-product-offer"></salla-offer>

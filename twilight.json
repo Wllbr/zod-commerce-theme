@@ -39,28 +39,6 @@
     {
       "type": "boolean",
       "icon": "sicon-toggle-off",
-      "label": "إظهار شريط المزايا أعلى المتجر",
-      "description": null,
-      "id": "show_announcement_bar",
-      "format": "switch",
-      "required": false,
-      "value": true,
-      "selected": true
-    },
-    {
-      "type": "string",
-      "icon": "sicon-format-text-alt",
-      "label": "نص شريط المزايا",
-      "multilanguage": true,
-      "id": "announcement_text",
-      "value": null,
-      "required": false,
-      "format": "text",
-      "maxLength": 180
-    },
-    {
-      "type": "boolean",
-      "icon": "sicon-toggle-off",
       "label": "إظهار شريط التنقل السفلي على الجوال",
       "description": null,
       "id": "show_mobile_bottom_nav",
@@ -253,9 +231,10 @@
               "multilanguage": true,
               "id": "slides.title",
               "value": null,
-              "required": true,
+              "required": false,
               "format": "text",
-              "maxLength": 120
+              "maxLength": 120,
+              "minLength": 0
             },
             {
               "type": "string",
@@ -1107,63 +1086,6 @@
       ]
     },
     {
-      "key": "f2a3623e-cb22-4b5a-b61d-41f47c7b3799",
-      "title": {
-        "en": "Trust & service",
-        "ar": "الثقة والخدمة"
-      },
-      "icon": "sicon-shield-check",
-      "path": "home.trust-strip",
-      "fields": [
-        {
-          "id": "items",
-          "type": "collection",
-          "format": "collection",
-          "required": false,
-          "minLength": 2,
-          "maxLength": 5,
-          "label": "المزايا",
-          "item_label": "المزايا",
-          "value": [],
-          "fields": [
-            {
-              "type": "string",
-              "icon": "sicon-format-text-alt",
-              "label": "أيقونة Salla (مثال sicon-shipping-fast)",
-              "multilanguage": false,
-              "id": "items.icon",
-              "value": null,
-              "required": true,
-              "format": "text",
-              "maxLength": 80
-            },
-            {
-              "type": "string",
-              "icon": "sicon-format-text-alt",
-              "label": "العنوان",
-              "multilanguage": true,
-              "id": "items.title",
-              "value": null,
-              "required": true,
-              "format": "text",
-              "maxLength": 180
-            },
-            {
-              "type": "string",
-              "icon": "sicon-format-text-alt",
-              "label": "الوصف",
-              "multilanguage": true,
-              "id": "items.text",
-              "value": null,
-              "required": false,
-              "format": "textarea",
-              "maxLength": 130
-            }
-          ]
-        }
-      ]
-    },
-    {
       "key": "e0f883ed-1a01-4bfb-baea-d87c0250e024",
       "title": {
         "en": "Buying guides",
@@ -1412,9 +1334,10 @@
           "multilanguage": true,
           "id": "title",
           "value": null,
-          "required": true,
+          "required": false,
           "format": "text",
-          "maxLength": 180
+          "maxLength": 180,
+          "minLength": 0
         },
         {
           "type": "string",

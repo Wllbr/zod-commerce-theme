@@ -1,20 +1,20 @@
 {% if component.items|length %}
+{% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
+{% set subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
 <section class="zod-section zod-locations-section">
   <div class="container">
-    <div class="zod-section-head">
-      <div>
-        <h2>{{ component.title|default(trans('zod.home.locations')) }}</h2>
-        {% if component.subtitle %}<p>{{ component.subtitle }}</p>{% endif %}
-      </div>
-    </div>
+    {% if title or subtitle %}<div class="zod-section-head"><div>{% if title %}<h2>{{ title }}</h2>{% endif %}{% if subtitle %}<p>{{ subtitle }}</p>{% endif %}</div></div>{% endif %}
     <div class="zod-locations-grid">
       {% for item in component.items %}
+        {% set item_name = item.name is iterable ? item.name[language.code]|default(item.name|first) : item.name %}
+        {% set item_address = item.address is iterable ? item.address[language.code]|default(item.address|first) : item.address %}
+        {% set item_hours = item.hours is iterable ? item.hours[language.code]|default(item.hours|first) : item.hours %}
         <article class="zod-location-card">
-          {% if item.image %}<div class="zod-location-card__media"><img src="{{ item.image }}" alt="{{ item.name }}" loading="lazy"></div>{% endif %}
+          {% if item.image %}<div class="zod-location-card__media"><img src="{{ item.image }}" alt="{{ item_name|default(store.name) }}" loading="lazy"></div>{% endif %}
           <div class="zod-location-card__body">
-            <h3>{{ item.name }}</h3>
-            {% if item.address %}<p><i class="sicon-location"></i><span>{{ item.address }}</span></p>{% endif %}
-            {% if item.hours %}<p><i class="sicon-clock"></i><span>{{ item.hours }}</span></p>{% endif %}
+            <h3>{{ item_name }}</h3>
+            {% if item_address %}<p><i class="sicon-location"></i><span>{{ item_address }}</span></p>{% endif %}
+            {% if item_hours %}<p><i class="sicon-clock"></i><span>{{ item_hours }}</span></p>{% endif %}
             <div class="zod-location-card__actions">
               {% if item.map_url %}<a class="zod-btn zod-btn--outline" href="{{ item.map_url }}" target="_blank" rel="noopener"><i class="sicon-location"></i>{{ trans('zod.home.directions') }}</a>{% endif %}
               {% if item.phone %}<a class="zod-text-link" href="tel:{{ item.phone|replace({' ':'','-':''}) }}"><i class="sicon-phone"></i>{{ trans('zod.home.call') }}</a>{% endif %}

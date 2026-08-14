@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.0.0",
-  "description": "ZOD Commerce \u2014 a fresh bilingual Salla Twilight theme for technical retail",
+  "version": "1.1.0",
+  "description": "ZOD Commerce — bilingual Salla-native theme for technical retail",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

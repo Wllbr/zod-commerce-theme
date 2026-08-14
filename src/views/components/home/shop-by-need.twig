@@ -1,15 +1,17 @@
 {% if component.items|length %}
+{% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
+{% set subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
 <section class="zod-section zod-need-section">
   <div class="container">
-    <div class="zod-section-head">
-      <div><h2>{{ component.title|default(trans('zod.home.shop_need')) }}</h2><p>{{ component.subtitle|default(trans('zod.home.shop_need_sub')) }}</p></div>
-    </div>
+    {% if title or subtitle %}<div class="zod-section-head"><div>{% if title %}<h2>{{ title }}</h2>{% endif %}{% if subtitle %}<p>{{ subtitle }}</p>{% endif %}</div></div>{% endif %}
     <div class="zod-need-grid">
       {% for item in component.items %}
         {% set item_url = item.url.url|default(item.url) %}
+        {% set item_title = item.title is iterable ? item.title[language.code]|default(item.title|first) : item.title %}
+        {% set item_text = item.text is iterable ? item.text[language.code]|default(item.text|first) : item.text %}
         <a href="{{ item_url|default('#') }}" class="zod-need-card">
-          <span class="zod-need-card__media"><img src="{{ item.image }}" alt="{{ item.title }}" loading="lazy"></span>
-          <span class="zod-need-card__body"><strong>{{ item.title }}</strong>{% if item.text %}<small>{{ item.text }}</small>{% endif %}<span>{{ trans('zod.home.shop_now') }} <i class="sicon-arrow-left rtl:rotate-180"></i></span></span>
+          <span class="zod-need-card__media"><img src="{{ item.image }}" alt="{{ item_title|default(store.name) }}" loading="lazy"></span>
+          <span class="zod-need-card__body"><strong>{{ item_title }}</strong>{% if item_text %}<small>{{ item_text }}</small>{% endif %}<i class="sicon-arrow-left rtl:rotate-180" aria-hidden="true"></i></span>
         </a>
       {% endfor %}
     </div>

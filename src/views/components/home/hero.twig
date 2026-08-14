@@ -1,23 +1,29 @@
 {% if component.slides|length %}
-<section class="zod-hero" aria-label="{{ trans('zod.home.shop_now') }}">
+<section class="zod-hero">
   <salla-slider id="zod-commerce-hero" class="zod-hero-slider" autoplay loop pagination>
     <div slot="items">
       {% for slide in component.slides %}
         {% set slide_url = slide.url.url|default(slide.url) %}
+        {% set eyebrow = slide.eyebrow is iterable ? slide.eyebrow[language.code]|default(slide.eyebrow|first) : slide.eyebrow %}
+        {% set title = slide.title is iterable ? slide.title[language.code]|default(slide.title|first) : slide.title %}
+        {% set text = slide.text is iterable ? slide.text[language.code]|default(slide.text|first) : slide.text %}
+        {% set button = slide.button is iterable ? slide.button[language.code]|default(slide.button|first) : slide.button %}
         <article class="swiper-slide zod-hero-slide {{ slide.light_text ? 'is-light' : '' }}">
           <picture class="zod-hero-media">
             {% if slide.mobile_image %}<source media="(max-width: 767px)" srcset="{{ slide.mobile_image }}">{% endif %}
-            <img src="{{ slide.image }}" alt="{{ slide.title }}" {{ loop.first ? 'fetchpriority="high" loading="eager"' : 'loading="lazy"' }}>
+            <img src="{{ slide.image }}" alt="{{ title|default(store.name) }}" {{ loop.first ? 'fetchpriority="high" loading="eager"' : 'loading="lazy"' }}>
           </picture>
           <div class="zod-hero-overlay"></div>
-          <div class="container zod-hero-content">
-            <div class="zod-hero-copy">
-              {% if slide.eyebrow %}<span class="zod-eyebrow">{{ slide.eyebrow }}</span>{% endif %}
-              <h2>{{ slide.title }}</h2>
-              {% if slide.text %}<p>{{ slide.text }}</p>{% endif %}
-              {% if slide_url %}<a class="zod-btn zod-btn--primary" href="{{ slide_url }}">{{ slide.button|default(trans('zod.home.shop_now')) }}<i class="sicon-arrow-left rtl:rotate-180"></i></a>{% endif %}
+          {% if eyebrow or title or text or (slide_url and button) %}
+            <div class="container zod-hero-content">
+              <div class="zod-hero-copy">
+                {% if eyebrow %}<span class="zod-eyebrow">{{ eyebrow }}</span>{% endif %}
+                {% if title %}<h2>{{ title }}</h2>{% endif %}
+                {% if text %}<p>{{ text }}</p>{% endif %}
+                {% if slide_url and button %}<a class="zod-btn zod-btn--primary" href="{{ slide_url }}">{{ button }}<i class="sicon-arrow-left rtl:rotate-180"></i></a>{% endif %}
+              </div>
             </div>
-          </div>
+          {% endif %}
         </article>
       {% endfor %}
     </div>

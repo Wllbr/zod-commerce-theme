@@ -1,4 +1,11 @@
-<section class="zod-section zod-wholesale-section"><div class="container"><div class="zod-wholesale">
-  {% if component.image %}<div class="zod-wholesale__media"><img src="{{ component.image }}" alt="{{ component.title|default(trans('zod.home.wholesale')) }}" loading="lazy"></div>{% endif %}
-  <div class="zod-wholesale__content">{% if component.eyebrow %}<span class="zod-eyebrow">{{ component.eyebrow }}</span>{% endif %}<h2>{{ component.title|default(trans('zod.home.wholesale')) }}</h2><p>{{ component.text|default(trans('zod.home.wholesale_text')) }}</p><a class="zod-btn zod-btn--light" href="{{ component.url.url|default(component.url)|default(link('contact-us')) }}">{{ component.button|default(trans('zod.home.request_quote')) }} <i class="sicon-arrow-left rtl:rotate-180"></i></a></div>
-</div></div></section>
+{% set eyebrow = component.eyebrow is iterable ? component.eyebrow[language.code]|default(component.eyebrow|first) : component.eyebrow %}
+{% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
+{% set text = component.text is iterable ? component.text[language.code]|default(component.text|first) : component.text %}
+{% set button = component.button is iterable ? component.button[language.code]|default(component.button|first) : component.button %}
+{% set target_url = component.url.url|default(component.url) %}
+{% if component.image or eyebrow or title or text or (button and target_url) %}
+<section class="zod-section zod-wholesale-section"><div class="container"><article class="zod-wholesale">
+  {% if component.image %}<div class="zod-wholesale__media"><img src="{{ component.image }}" alt="{{ title|default(store.name) }}" loading="lazy"></div>{% endif %}
+  <div class="zod-wholesale__content">{% if eyebrow %}<span class="zod-eyebrow">{{ eyebrow }}</span>{% endif %}{% if title %}<h2>{{ title }}</h2>{% endif %}{% if text %}<p>{{ text }}</p>{% endif %}{% if button and target_url %}<a class="zod-btn zod-btn--light" href="{{ target_url }}">{{ button }} <i class="sicon-arrow-left rtl:rotate-180"></i></a>{% endif %}</div>
+</article></div></section>
+{% endif %}

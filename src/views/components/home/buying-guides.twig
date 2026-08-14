@@ -1,6 +1,12 @@
 {% if component.items|length %}
+{% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
+{% set subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
 <section class="zod-section zod-guides-section"><div class="container">
-  <div class="zod-section-head"><div><h2>{{ component.title|default(trans('zod.home.guides')) }}</h2><p>{{ component.subtitle|default(trans('zod.home.guides_sub')) }}</p></div><a href="{{ link('blog') }}" class="zod-text-link">{{ trans('zod.home.view_all') }} <i class="sicon-arrow-left rtl:rotate-180"></i></a></div>
-  <div class="zod-guide-grid">{% for item in component.items %}<a class="zod-guide-card" href="{{ item.url.url|default(item.url)|default('#') }}"><span class="zod-guide-card__media"><img src="{{ item.image }}" alt="{{ item.title }}" loading="lazy"></span><span class="zod-guide-card__body"><strong>{{ item.title }}</strong>{% if item.text %}<small>{{ item.text }}</small>{% endif %}<b>{{ trans('zod.home.learn_more') }} <i class="sicon-arrow-left rtl:rotate-180"></i></b></span></a>{% endfor %}</div>
+  {% if title or subtitle %}<div class="zod-section-head"><div>{% if title %}<h2>{{ title }}</h2>{% endif %}{% if subtitle %}<p>{{ subtitle }}</p>{% endif %}</div></div>{% endif %}
+  <div class="zod-guide-grid">{% for item in component.items %}
+    {% set item_title = item.title is iterable ? item.title[language.code]|default(item.title|first) : item.title %}
+    {% set item_text = item.text is iterable ? item.text[language.code]|default(item.text|first) : item.text %}
+    <a class="zod-guide-card" href="{{ item.url.url|default(item.url)|default('#') }}"><span class="zod-guide-card__media"><img src="{{ item.image }}" alt="{{ item_title|default(store.name) }}" loading="lazy"></span><span class="zod-guide-card__body"><strong>{{ item_title }}</strong>{% if item_text %}<small>{{ item_text }}</small>{% endif %}<i class="sicon-arrow-left rtl:rotate-180" aria-hidden="true"></i></span></a>
+  {% endfor %}</div>
 </div></section>
 {% endif %}

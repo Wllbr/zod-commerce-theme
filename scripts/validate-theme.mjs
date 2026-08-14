@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.0.0','package.json: expected v1.0.0');
+assert(pkg.version==='1.1.0','package.json: expected v1.1.0');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -55,6 +55,13 @@ for(const setting of config.settings||[]){
   assert(!settingIds.has(setting.id),`twilight.json: duplicate setting id ${setting.id}`);
   settingIds.add(setting.id);
 }
+
+// Business/store data must come from Salla, not duplicate theme settings.
+for(const forbidden of ['show_announcement_bar','announcement_text','store_name','store_logo','store_phone','store_email','store_whatsapp','tax_number','vat_number','currency','language']){
+  assert(!settingIds.has(forbidden),`twilight.json: ${forbidden} duplicates a Salla dashboard/store setting`);
+}
+assert(!componentPaths.has('home.trust-strip'),'twilight.json: custom trust strip duplicates Salla Store Features; use component-store-features');
+assert((config.features||[]).includes('component-store-features'),'twilight.json: Salla Store Features support must remain enabled');
 
 const ar=JSON.parse(read('src/locales/ar.json'));
 const en=JSON.parse(read('src/locales/en.json'));
@@ -89,6 +96,15 @@ const requiredTemplates=[
   'src/views/pages/customer/orders/index.twig','src/views/pages/customer/orders/single.twig'
 ];
 for(const f of requiredTemplates) assert(fs.existsSync(path.join(root,f)),`Required storefront template missing: ${f}`);
+
+
+const headerTwig=read('src/views/components/header/header.twig');
+const footerTwig=read('src/views/components/footer/footer.twig');
+assert(headerTwig.includes('<salla-advertisement'),'Header must use Salla native advertisement bar');
+assert(headerTwig.includes('store.settings.is_multilingual'),'Header must respect Salla multilingual setting');
+assert(headerTwig.includes('<salla-localization-modal'),'Header must use Salla localization component');
+for(const token of ['store.logo','store.name','<salla-search','<salla-user-menu','<salla-cart-summary']) assert(headerTwig.includes(token),`Header missing native Salla source: ${token}`);
+for(const token of ['store.description','<salla-menu','<salla-contacts','<salla-social','<salla-trust-badges','store.settings.tax.number','<salla-payments']) assert(footerTwig.includes(token),`Footer missing native Salla source: ${token}`);
 
 const appCss=read('src/assets/styles/app.scss');
 for(const selector of ['.zod-header','.zod-hero','.zod-product-card','.zod-product-main','.zod-catalog-layout','.zod-footer','.zod-mobile-dock','.zod-option-support']){

@@ -1,12 +1,22 @@
-{% set announcement = theme.settings.get('announcement_text') %}
 <header data-testid="store-header" class="zod-header" data-sticky="{{ theme.settings.get('header_is_sticky', true) ? '1' : '0' }}">
-  {% if theme.settings.get('show_announcement_bar', true) %}
-    <div class="zod-announcement">
-      <div class="container zod-announcement__inner">
-        <span><i class="sicon-shipping-fast"></i>{{ announcement ? (announcement is iterable ? announcement[language.code]|default(announcement|first) : announcement) : trans('zod.topbar.default') }}</span>
-        <div class="zod-announcement__tools">
-          {% if store.scope %}<button onclick="salla.event.dispatch('scopes::open', {'mode':'default'})"><i class="sicon-location"></i>{{ store.scope.name }}</button>{% endif %}
-          {% if store.settings.is_multilingual or store.settings.currencies_enabled %}<salla-localization-modal data-testid="store-header-localization" show-trigger></salla-localization-modal>{% endif %}
+  {# Salla Dashboard advertisements are the source of truth for the announcement/promotion bar. #}
+  <salla-advertisement data-testid="store-header-advertisement" class="zod-native-advertisement"></salla-advertisement>
+
+  {% if store.slogan or store.scope or store.settings.is_multilingual or store.settings.currencies_enabled %}
+    <div class="zod-utility-bar">
+      <div class="container zod-utility-bar__inner">
+        <div class="zod-utility-bar__brand">
+          {% if store.slogan %}<span>{{ store.slogan }}</span>{% endif %}
+        </div>
+        <div class="zod-utility-bar__tools">
+          {% if store.scope %}
+            <button type="button" onclick="salla.event.dispatch('scopes::open', {'mode':'default'})">
+              <i class="sicon-location"></i><span>{{ store.scope.name }}</span>
+            </button>
+          {% endif %}
+          {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
+            <salla-localization-modal data-testid="store-header-localization" show-trigger></salla-localization-modal>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -17,7 +27,7 @@
       <button class="zod-mobile-menu-btn lg:hidden" type="button" aria-label="{{ trans('zod.header.menu') }}" onclick="window.zodMenu?.openMobile()"><i class="sicon-menu"></i></button>
       <a data-testid="store-header-logo" class="zod-logo" href="{{ store.url }}">
         <img fetchpriority="high" loading="eager" src="{{ store.logo|cdn(220) }}" alt="{{ store.name }}">
-        {% if is_page('index') %}<h1 class="sr-only">{{ store.name }}</h1>{% endif %}
+        {% if is_page('index') %}<h1 class="sr-only">{{ store.name }}</h1>{% else %}<span class="sr-only">{{ store.name }}</span>{% endif %}
       </a>
       <div class="zod-desktop-search hidden lg:block" data-zod-search>
         <salla-search data-testid="store-header-search" inline oval height="50"></salla-search>

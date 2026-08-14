@@ -61,7 +61,9 @@
       "sold": "Purchased",
       "remaining": "Remaining",
       "share": "Share",
-      "buy_box": "Order this product"
+      "buy_box": "Order this product",
+      "details": "Product information",
+      "details_text": "Brand, model and available specifications come from the product data in Salla."
     },
     "catalog": {
       "products": "Products",
@@ -94,7 +96,9 @@
       "returns": "Returns",
       "follow": "Follow ZOD",
       "payments": "Secure payment methods",
-      "back_top": "Back to top"
+      "back_top": "Back to top",
+      "store_info": "Store information",
+      "view_certificate": "View tax certificate"
     },
     "mobile": {
       "home": "Home",

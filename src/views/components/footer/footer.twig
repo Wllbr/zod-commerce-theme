@@ -4,29 +4,43 @@
     <div class="container zod-footer-grid">
       <div class="zod-footer-brand">
         <a href="{{ link('/') }}" class="zod-footer-logo"><img src="{{ store.logo|cdn(200) }}" alt="{{ store.name }}"></a>
-        <p>{{ store.description ? store.description|striptags : trans('zod.footer.about') }}</p>
+        {% if store.description %}<div class="zod-footer-description">{{ store.description|raw }}</div>{% endif %}
         <salla-social data-testid="store-footer-social"></salla-social>
+        <salla-trust-badges data-testid="store-footer-trust-badges"></salla-trust-badges>
       </div>
+
       <details class="zod-footer-column zod-footer-disclosure" data-footer-disclosure open>
-        <summary><span>{{ trans('zod.footer.shop') }}</span><i class="sicon-keyboard_arrow_down"></i></summary>
+        <summary><span>{{ trans('blocks.footer.pages_links') }}</span><i class="sicon-keyboard_arrow_down"></i></summary>
         <div class="zod-footer-disclosure__body"><salla-menu data-testid="store-footer-menu" source="footer" with-cookie-preferences></salla-menu></div>
       </details>
+
       <details class="zod-footer-column zod-footer-disclosure" data-footer-disclosure open>
-        <summary><span>{{ trans('zod.footer.help') }}</span><i class="sicon-keyboard_arrow_down"></i></summary>
+        <summary><span>{{ trans('zod.footer.contact') }}</span><i class="sicon-keyboard_arrow_down"></i></summary>
         <div class="zod-footer-disclosure__body"><salla-contacts data-testid="store-footer-contacts"></salla-contacts></div>
       </details>
-      <details class="zod-footer-column zod-footer-trust zod-footer-disclosure" data-footer-disclosure open>
-        <summary><span>{{ trans('zod.footer.business') }}</span><i class="sicon-keyboard_arrow_down"></i></summary>
-        <div class="zod-footer-disclosure__body"><salla-apps-icons data-testid="store-footer-apps"></salla-apps-icons><salla-trust-badges data-testid="store-footer-trust-badges"></salla-trust-badges></div>
-      </details>
+
+      <div class="zod-footer-column zod-footer-store-info">
+        <h3>{{ trans('zod.footer.store_info') }}</h3>
+        {% if store.slogan %}<p>{{ store.slogan }}</p>{% endif %}
+        <salla-apps-icons data-testid="store-footer-apps"></salla-apps-icons>
+        {% if store.settings.tax.number %}
+          <div class="zod-footer-tax">
+            <span>{{ trans('common.elements.tax_number') }}</span>
+            <b>{{ store.settings.tax.number }}</b>
+            {% if store.settings.tax.certificate %}<a class="load-img-onclick" data-modal-id="modal-zod-tax" href="#/">{{ trans('zod.footer.view_certificate') }}</a>{% endif %}
+          </div>
+          {% if store.settings.tax.certificate %}
+            <salla-modal sub-title-first sub-title="{{ trans('common.elements.tax_number') }}" modal-title="{{ store.settings.tax.number }}" id="modal-zod-tax">
+              <div class="flex justify-center max-w-full"><img class="w-full" loading="lazy" data-src="{{ store.settings.tax.certificate }}" alt="{{ store.settings.tax.number }}"></div>
+            </salla-modal>
+          {% endif %}
+        {% endif %}
+      </div>
     </div>
   </div>
   <div class="zod-footer-bottom">
     <div class="container zod-footer-bottom__inner">
-      <div class="zod-company-meta">
-        <span>{% hook copyright %}</span>
-        {% if store.settings.tax.number %}<span>{{ trans('common.elements.tax_number') }}: <b>{{ store.settings.tax.number }}</b></span>{% endif %}
-      </div>
+      <span>{% hook copyright %}</span>
       <salla-payments data-testid="store-footer-payments"></salla-payments>
     </div>
   </div>

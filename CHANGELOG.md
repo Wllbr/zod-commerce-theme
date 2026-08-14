@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.1.0 — 2026-08-15
+
+- Reworked the theme around a Salla-first source-of-truth architecture.
+- Removed the duplicate custom announcement-bar settings and now render Salla's native advertisement component.
+- Header now uses Salla store slogan, scopes, language/currency setting, search, user menu and cart data.
+- Footer now uses Salla description, footer menu, contacts, social links, trust badges, apps, tax certificate and payment methods.
+- Fixed multilingual rendering for all custom homepage merchant fields.
+- Removed forced demo/fallback headings and CTA labels from custom sections so blank fields stay blank.
+- Removed the custom Trust & Service component in favor of Salla's native Store Features component.
+- Product-page sold count now respects `product.can_show_sold`.
+- Removed global warranty claims from the purchase reassurance area because warranty coverage can vary by product.
+- Added automated checks preventing future duplication of key Salla dashboard settings.
+- Added `SALLA_NATIVE_INTEGRATION.md`.
+
 ## 1.0.0 — 2026-08-14
 
 Initial fresh ZOD Commerce release.
@@ -30,3 +44,10 @@ Initial fresh ZOD Commerce release.
 - Responsive behavior for mobile, tablet and desktop.
 - Reduced-motion handling and keyboard-friendly navigation states.
 - No fabricated reviews, promotions, branches, category selections or product claims enabled by default.
+
+## 1.0.1 — Salla import compatibility
+- Restored importer-safe Twilight author/support metadata used by the previously accepted ZOD theme structure.
+- Added current Theme Raed built-in feature declarations for parallax and square-photo components.
+- Replaced manual dropdown keys with UUID-form keys used by current Raed.
+- Removed nonessential custom-component `is_default` flags from the initial import schema.
+- Normalized the spotlight product selector to an array-backed single-product selection.

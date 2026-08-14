@@ -1,6 +1,14 @@
 {% if component.items|length %}
+{% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
+{% set subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
 <section class="zod-section zod-faq-section"><div class="container zod-faq-layout">
-  <div class="zod-faq-intro"><span class="zod-eyebrow">ZOD</span><h2>{{ component.title|default(trans('zod.home.faq')) }}</h2><p>{{ component.subtitle|default(trans('zod.home.faq_sub')) }}</p></div>
-  <div class="zod-faq-list">{% for item in component.items %}<details class="zod-faq-item" {% if loop.first %}open{% endif %}><summary><span>{{ item.question }}</span><i class="sicon-add"></i></summary><div>{{ item.answer }}</div></details>{% endfor %}</div>
+  {% if title or subtitle %}<div class="zod-faq-intro">{% if title %}<h2>{{ title }}</h2>{% endif %}{% if subtitle %}<p>{{ subtitle }}</p>{% endif %}</div>{% endif %}
+  <div class="zod-faq-list">
+    {% for item in component.items %}
+      {% set question = item.question is iterable ? item.question[language.code]|default(item.question|first) : item.question %}
+      {% set answer = item.answer is iterable ? item.answer[language.code]|default(item.answer|first) : item.answer %}
+      <details class="zod-faq-item"><summary><span>{{ question }}</span><i class="sicon-keyboard_arrow_down"></i></summary><div>{{ answer }}</div></details>
+    {% endfor %}
+  </div>
 </div></section>
 {% endif %}

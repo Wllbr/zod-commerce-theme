@@ -1,9 +1,13 @@
+{% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
+{% set subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
 <section class="zod-section zod-product-shelf {{ component.soft_background ? 'zod-section--soft' : '' }}">
   <div class="container">
-    <div class="zod-section-head">
-      <div><h2>{{ component.title|default(trans('zod.home.latest_products')) }}</h2>{% if component.subtitle %}<p>{{ component.subtitle }}</p>{% endif %}</div>
-      {% if component.display_all_url %}<a class="zod-text-link" href="{{ component.display_all_url.url|default(component.display_all_url) }}">{{ trans('zod.home.view_all') }} <i class="sicon-arrow-left rtl:rotate-180"></i></a>{% endif %}
-    </div>
+    {% if title or subtitle or component.display_all_url %}
+      <div class="zod-section-head">
+        {% if title or subtitle %}<div>{% if title %}<h2>{{ title }}</h2>{% endif %}{% if subtitle %}<p>{{ subtitle }}</p>{% endif %}</div>{% endif %}
+        {% if component.display_all_url %}<a class="zod-text-link" href="{{ component.display_all_url.url|default(component.display_all_url) }}">{{ trans('zod.home.view_all') }} <i class="sicon-arrow-left rtl:rotate-180"></i></a>{% endif %}
+      </div>
+    {% endif %}
     {% if component.products|length %}<salla-products-slider source="selected" source-value="[{{ component.products|map((product) => product.id)|join(',') }}]" limit="12" slider-id="zod-shelf-{{ position }}"></salla-products-slider>{% else %}<salla-products-slider source="latest" limit="12" slider-id="zod-shelf-{{ position }}"></salla-products-slider>{% endif %}
   </div>
 </section>

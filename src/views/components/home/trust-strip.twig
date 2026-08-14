@@ -1,5 +1,9 @@
 {% if component.items|length %}
 <section class="zod-trust-strip"><div class="container"><div class="zod-trust-grid">
-{% for item in component.items %}<div class="zod-trust-item"><span class="zod-trust-icon"><i class="{{ item.icon|default('sicon-check-circle') }}"></i></span><span><strong>{{ item.title }}</strong>{% if item.text %}<small>{{ item.text }}</small>{% endif %}</span></div>{% endfor %}
+{% for item in component.items %}
+  {% set item_title = item.title is iterable ? item.title[language.code]|default(item.title|first) : item.title %}
+  {% set item_text = item.text is iterable ? item.text[language.code]|default(item.text|first) : item.text %}
+  <div class="zod-trust-item"><span class="zod-trust-icon"><i class="{{ item.icon|default('sicon-check-circle') }}"></i></span><span><strong>{{ item_title }}</strong>{% if item_text %}<small>{{ item_text }}</small>{% endif %}</span></div>
+{% endfor %}
 </div></div></section>
 {% endif %}
