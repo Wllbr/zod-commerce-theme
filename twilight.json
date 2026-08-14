@@ -4,7 +4,7 @@
     "en": "ZOD Commerce"
   },
   "repository": "https://github.com/Wllbr/zod-commerce-theme",
-  "author_email": "zodbajafar@gmail.com",
+  "author_email": "support@salla.sa",
   "features": [
     "mega-menu",
     "fonts",
@@ -16,7 +16,9 @@
     "component-fixed-products",
     "component-products-slider",
     "component-photos-slider",
+    "component-parallax-background",
     "component-testimonials",
+    "component-square-photos",
     "component-store-features",
     "component-youtube",
     "menu-images",
@@ -175,19 +177,19 @@
         {
           "label": "Contain",
           "value": "contain",
-          "key": "contain"
+          "key": "f4adec13-6e4c-433b-b141-b2807935ced9"
         }
       ],
       "options": [
         {
           "label": "Contain",
           "value": "contain",
-          "key": "contain"
+          "key": "f4adec13-6e4c-433b-b141-b2807935ced9"
         },
         {
           "label": "Cover",
           "value": "cover",
-          "key": "cover"
+          "key": "e9c8ea8f-c5c6-438e-9d45-3bce269afde4"
         }
       ],
       "source": "Manual",
@@ -203,7 +205,6 @@
       },
       "icon": "sicon-image-carousel",
       "path": "home.hero",
-      "is_default": false,
       "fields": [
         {
           "id": "slides",
@@ -369,7 +370,6 @@
       },
       "icon": "sicon-layout-grid",
       "path": "home.category-grid",
-      "is_default": false,
       "fields": [
         {
           "type": "string",
@@ -429,7 +429,6 @@
       },
       "icon": "sicon-lightbulb",
       "path": "home.shop-by-need",
-      "is_default": false,
       "fields": [
         {
           "type": "string",
@@ -575,7 +574,6 @@
       },
       "icon": "sicon-shopping-bag",
       "path": "home.product-shelf",
-      "is_default": true,
       "fields": [
         {
           "type": "string",
@@ -703,7 +701,6 @@
       },
       "icon": "sicon-star",
       "path": "home.product-spotlight",
-      "is_default": false,
       "fields": [
         {
           "type": "items",
@@ -714,7 +711,7 @@
           "selected": [],
           "options": [],
           "required": true,
-          "multichoice": false,
+          "multichoice": true,
           "searchable": true,
           "source": "products",
           "maxLength": 1,
@@ -816,7 +813,6 @@
       },
       "icon": "sicon-image",
       "path": "home.promo-grid",
-      "is_default": false,
       "fields": [
         {
           "id": "banners",
@@ -951,7 +947,6 @@
       },
       "icon": "sicon-award-ribbon",
       "path": "home.brands",
-      "is_default": false,
       "fields": [
         {
           "type": "string",
@@ -1011,7 +1006,6 @@
       },
       "icon": "sicon-location",
       "path": "home.locations",
-      "is_default": false,
       "fields": [
         {
           "type": "string",
@@ -1120,7 +1114,6 @@
       },
       "icon": "sicon-shield-check",
       "path": "home.trust-strip",
-      "is_default": false,
       "fields": [
         {
           "id": "items",
@@ -1178,7 +1171,6 @@
       },
       "icon": "sicon-book-open",
       "path": "home.buying-guides",
-      "is_default": false,
       "fields": [
         {
           "type": "string",
@@ -1324,7 +1316,6 @@
       },
       "icon": "sicon-help",
       "path": "home.faq",
-      "is_default": false,
       "fields": [
         {
           "type": "string",
@@ -1393,7 +1384,6 @@
       },
       "icon": "sicon-briefcase",
       "path": "home.wholesale-cta",
-      "is_default": false,
       "fields": [
         {
           "type": "string",
@@ -1518,5 +1508,10 @@
         }
       ]
     }
-  ]
+  ],
+  "support_url": "https://zodstore.sa/",
+  "description": {
+    "ar": "ثيم متجر زود التجاري — واجهة احترافية ثنائية اللغة للمنتجات التقنية والإلكترونية والأجهزة.",
+    "en": "ZOD Commerce — a professional bilingual storefront for technical products, electronics, appliances, and equipment."
+  }
 }
