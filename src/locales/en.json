@@ -10,7 +10,9 @@
       "account": "Account",
       "wishlist": "Wishlist",
       "cart": "Cart",
-      "offers": "Offers"
+      "offers": "Offers",
+      "search_question": "What are you looking for?",
+      "close": "Close"
     },
     "home": {
       "shop_categories": "Shop by category",

@@ -171,3 +171,125 @@ custom-salla-product-card{display:block;height:100%}.zod-product-card{height:100
 .zod-location-card__actions .zod-btn{min-height:40px;padding:8px 13px;font-size:12px}
 @media(max-width:900px){.zod-locations-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.zod-locations-grid{grid-template-columns:1fr}.zod-location-card__media{aspect-ratio:2/1}}
+
+/* =========================================================
+   ZOD v1.2 — compact Orkida-inspired interaction shell
+   (original ZOD visuals; Salla remains the data source)
+   ========================================================= */
+
+/* Compact header: actions physically left, logo centered, menu physically right. */
+.zod-header{z-index:220;background:#fff}
+.zod-header-main--compact{background:#fff;border-bottom:1px solid #eceef1}
+.zod-compact-header{height:92px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px;direction:ltr}
+.zod-header-actions--physical-left{justify-self:start;display:flex;align-items:center;gap:8px;direction:ltr;min-width:0}
+.zod-header-actions--physical-left salla-cart-summary,.zod-header-actions--physical-left salla-user-menu{--color-primary:var(--zod-ink)}
+.zod-header-icon-button{width:42px;height:42px;border:0;background:transparent;color:var(--zod-ink);border-radius:50%;display:grid;place-items:center;font-size:22px;cursor:pointer;transition:background .2s ease,color .2s ease,transform .2s ease}
+.zod-header-icon-button:hover{background:#f3f4f6;color:var(--color-primary);transform:translateY(-1px)}
+.zod-header-localization{display:flex;align-items:center;min-width:0}
+.zod-logo--centered{justify-self:center;display:flex;align-items:center;justify-content:center;min-width:120px}
+.zod-logo--centered img{width:auto;max-width:190px;max-height:58px;object-fit:contain}
+.zod-menu-trigger{justify-self:end;display:flex;align-items:center;gap:10px;min-height:44px;padding:0 2px 0 12px;border:0;background:transparent;color:var(--zod-ink);font-size:17px;font-weight:700;cursor:pointer;direction:rtl;transition:color .2s ease}
+.zod-menu-trigger i{font-size:27px;color:var(--color-primary)}
+.zod-menu-trigger:hover{color:var(--color-primary)}
+.zod-menu-source{display:none!important}
+
+/* Universal category drawer — same interaction on desktop and mobile. */
+.zod-catalog-drawer{position:fixed;inset:0;z-index:1000;visibility:hidden;pointer-events:none}
+.zod-catalog-drawer__backdrop{position:absolute;inset:0;background:rgba(21,25,31,.20);backdrop-filter:blur(0);-webkit-backdrop-filter:blur(0);opacity:0;transition:opacity .28s ease,backdrop-filter .35s ease,-webkit-backdrop-filter .35s ease}
+.zod-catalog-drawer__panel{position:absolute;top:0;right:0;bottom:0;width:min(410px,92vw);background:#fff;color:var(--zod-ink);box-shadow:-24px 0 60px rgba(16,24,40,.14);transform:translateX(104%);transition:transform .34s cubic-bezier(.22,.8,.24,1);display:flex;flex-direction:column;overflow:hidden}
+.zod-catalog-drawer.is-open{visibility:visible;pointer-events:auto}
+.zod-catalog-drawer.is-open .zod-catalog-drawer__backdrop{opacity:1;backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px)}
+.zod-catalog-drawer.is-open .zod-catalog-drawer__panel{transform:translateX(0)}
+.zod-catalog-drawer__head{min-height:70px;padding:0 18px;border-bottom:1px solid var(--zod-line);display:flex;align-items:center;justify-content:space-between;gap:14px;flex:0 0 auto}
+.zod-catalog-drawer__head strong{font-size:15px;font-weight:850}
+.zod-overlay-close{width:40px;height:40px;border:0;background:#fff;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:#344054;font-size:18px;transition:.2s ease}
+.zod-overlay-close:hover{background:#f2f4f7;color:var(--color-primary)}
+.zod-catalog-drawer__scope{margin:12px 16px 0;min-height:46px;padding:0 12px;border:1px solid var(--zod-line);border-radius:11px;background:#fafafa;display:flex;align-items:center;gap:9px;text-align:start;color:#475467;cursor:pointer}
+.zod-catalog-drawer__scope span{flex:1}
+.zod-catalog-drawer__content{overflow-y:auto;overscroll-behavior:contain;padding:8px 16px 28px;flex:1}
+.zod-mobile-level{padding:0}
+.zod-mobile-menu-item>a,.zod-mobile-menu-item>button{width:100%;min-height:58px;display:flex;align-items:center;gap:12px;border:0;border-bottom:1px solid #eff1f3;background:#fff;text-align:start;padding:8px 4px;font-weight:700;color:#252a31;cursor:pointer;transition:color .18s ease,background .18s ease}
+.zod-mobile-menu-item>a:hover,.zod-mobile-menu-item>button:hover{color:var(--color-primary);background:#fafafa}
+.zod-mobile-menu-item img{width:42px;height:42px;object-fit:contain;border-radius:9px;background:#f6f7f8;padding:3px}
+.zod-mobile-menu-item span{flex:1;min-width:0}
+.zod-mobile-menu-item i{font-size:15px;color:#98a2b3}
+.zod-mobile-back{width:100%;min-height:50px;border:0;border-bottom:1px solid var(--zod-line);background:#f8f9fa;padding:0 8px;display:flex;align-items:center;gap:8px;font-weight:800;color:#344054;cursor:pointer}
+
+/* Full-page search with smooth blur. Clicking anywhere except the search box closes it. */
+.zod-search-overlay{position:fixed;inset:0;z-index:1010;visibility:hidden;pointer-events:none;opacity:0;background:rgba(247,248,249,.70);backdrop-filter:blur(0) saturate(.9);-webkit-backdrop-filter:blur(0) saturate(.9);transition:opacity .30s ease,visibility .30s ease,backdrop-filter .38s ease,-webkit-backdrop-filter .38s ease;overflow:auto}
+.zod-search-overlay::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 18% 24%,rgba(204,24,34,.07),transparent 21%),radial-gradient(circle at 72% 35%,rgba(23,25,28,.045),transparent 24%),radial-gradient(circle at 45% 76%,rgba(204,24,34,.045),transparent 23%)}
+.zod-search-overlay.is-open{visibility:visible;pointer-events:auto;opacity:1;backdrop-filter:blur(20px) saturate(.82);-webkit-backdrop-filter:blur(20px) saturate(.82)}
+.zod-search-overlay__close{position:fixed;top:22px;left:22px;z-index:3;width:46px;height:46px;border:0;border-radius:50%;background:rgba(255,255,255,.82);color:var(--color-primary);display:grid;place-items:center;font-size:22px;cursor:pointer;box-shadow:0 8px 24px rgba(16,24,40,.08);transition:transform .2s ease,background .2s ease}
+.zod-search-overlay__close:hover{transform:rotate(5deg) scale(1.04);background:#fff}
+.zod-search-overlay__content{position:relative;z-index:2;width:min(900px,calc(100% - 40px));margin:10vh auto 60px;text-align:center;transform:translateY(-12px) scale(.985);opacity:0;transition:transform .34s cubic-bezier(.22,.8,.24,1),opacity .28s ease;pointer-events:none}
+.zod-search-overlay.is-open .zod-search-overlay__content{transform:none;opacity:1}
+.zod-search-overlay__logo{width:auto;max-width:190px;max-height:76px;object-fit:contain;margin:0 auto 24px}
+.zod-search-overlay__content h2{margin:0 0 20px;font-size:clamp(24px,3vw,36px);font-weight:850;color:#22252a;letter-spacing:-.02em}
+.zod-search-box{width:min(760px,100%);margin:auto;pointer-events:auto;border-radius:14px;background:#fff;box-shadow:0 16px 50px rgba(16,24,40,.08)}
+.zod-search-box salla-search{display:block;width:100%}
+
+/* Footer — light retail layout, all business/store data comes from Salla. */
+.zod-footer.zod-footer--light{margin-top:auto;background:#f7f8f9;color:#191c20;border-top:1px solid #eceef1}
+.zod-footer--light .zod-footer-main{padding:34px 0 44px}
+.zod-footer-social-row{min-height:66px;display:flex;align-items:center;justify-content:flex-start;direction:ltr}
+.zod-footer-social-row salla-social{display:block}
+.zod-footer-divider{height:1px;background:#e1e4e8;margin-bottom:38px}
+.zod-footer--light .zod-footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:46px;align-items:start}
+.zod-footer--light .zod-footer-logo{display:inline-flex;margin-bottom:14px}
+.zod-footer--light .zod-footer-logo img{max-width:170px;max-height:64px;object-fit:contain;filter:none!important}
+.zod-footer-slogan{display:block;margin:0 0 10px;font-size:13px;color:#475467}
+.zod-footer-description{max-width:390px;color:#414651;font-size:14px;line-height:1.9}
+.zod-footer-description p{margin:0 0 8px}
+.zod-footer--light .zod-footer-column h3,.zod-footer--light .zod-footer-disclosure>summary{color:var(--color-primary);font-size:15px;font-weight:850}
+.zod-footer--light .zod-footer-disclosure__body{color:#30353b;font-size:14px;line-height:1.9}
+.zod-footer--light .zod-footer-column salla-menu,.zod-footer--light .zod-footer-column salla-contacts{--color-primary:var(--zod-ink)}
+.zod-footer-business salla-trust-badges{display:block;margin:0 0 22px}
+.zod-footer-tax{display:flex;flex-direction:column;align-items:flex-start;gap:5px;padding-top:16px;border-top:1px solid #e1e4e8;color:#475467;font-size:12px}
+.zod-footer-tax b{font-size:14px;color:#22262b}
+.zod-footer-tax a{color:var(--color-primary);font-weight:750}
+.zod-footer--light .zod-footer-bottom{background:#fff;border-top:1px solid #e1e4e8;padding:18px 0}
+.zod-footer--light .zod-footer-bottom__inner{display:flex;align-items:center;justify-content:space-between;gap:24px;color:#98a2b3}
+.zod-footer-copyright{font-size:12px}
+.zod-footer--light .zod-footer-disclosure{border:0}
+.zod-footer--light .zod-footer-disclosure>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:default}
+.zod-footer--light .zod-footer-disclosure>summary::-webkit-details-marker{display:none}
+.zod-footer--light .zod-footer-disclosure>summary>i{display:none;transition:transform .2s ease}
+
+@media(max-width:900px){
+  .zod-compact-header{height:78px}
+  .zod-logo--centered img{max-width:155px;max-height:50px}
+  .zod-header-localization{display:none}
+  .zod-footer--light .zod-footer-grid{grid-template-columns:1.2fr 1fr 1fr;gap:30px}
+  .zod-footer-business{grid-column:2/4}
+}
+
+@media(max-width:640px){
+  .zod-compact-header{height:68px;gap:8px}
+  .zod-header-actions--physical-left{gap:2px}
+  .zod-header-actions--physical-left salla-user-menu{display:none}
+  .zod-header-icon-button{width:38px;height:38px;font-size:20px}
+  .zod-logo--centered{min-width:0}
+  .zod-logo--centered img{max-width:122px;max-height:42px}
+  .zod-menu-trigger{padding:0;min-width:38px;justify-content:flex-end}
+  .zod-menu-trigger span{display:none}
+  .zod-menu-trigger i{font-size:25px}
+  .zod-catalog-drawer__panel{width:min(88vw,370px)}
+  .zod-catalog-drawer__backdrop{background:rgba(21,25,31,.22)}
+  .zod-search-overlay__close{top:14px;left:14px;width:42px;height:42px}
+  .zod-search-overlay__content{width:calc(100% - 28px);margin-top:12vh}
+  .zod-search-overlay__logo{max-width:150px;max-height:58px;margin-bottom:20px}
+  .zod-search-overlay__content h2{font-size:25px;margin-bottom:16px}
+  .zod-search-box{border-radius:12px}
+  .zod-footer--light .zod-footer-main{padding:28px 0 34px}
+  .zod-footer-social-row{min-height:58px}
+  .zod-footer-divider{margin-bottom:24px}
+  .zod-footer--light .zod-footer-grid{grid-template-columns:1fr;gap:0}
+  .zod-footer-brand,.zod-footer-business{grid-column:auto!important;padding-bottom:22px}
+  .zod-footer--light .zod-footer-column,.zod-footer--light .zod-footer-disclosure{border-top:1px solid #e1e4e8!important;padding:0!important}
+  .zod-footer--light .zod-footer-disclosure>summary{min-height:56px;cursor:pointer;color:#22262b}
+  .zod-footer--light .zod-footer-disclosure>summary>i{display:inline-block}
+  .zod-footer--light .zod-footer-disclosure[open]>summary>i{transform:rotate(180deg)}
+  .zod-footer--light .zod-footer-disclosure__body{margin:0;padding:0 0 20px}
+  .zod-footer-business{padding-top:24px;border-top:1px solid #e1e4e8}
+  .zod-footer--light .zod-footer-bottom__inner{flex-direction:column;align-items:flex-start;gap:14px}
+}

@@ -1,6 +1,6 @@
 # ZOD Commerce Theme
 
-**Version 1.1.0** — Salla-native bilingual storefront for ZOD.
+**Version 1.0.0** — fresh Salla Twilight storefront for ZOD.
 
 This repository is an independent, clean-start Salla theme project.
 
@@ -86,9 +86,3 @@ Only the product shelf is enabled as a safe default so a new store can render wi
 Create a dedicated empty repository for this theme:
 
 `Wllbr/zod-commerce-theme`
-
-## Salla-first data architecture
-
-This release follows a strict rule: **Salla Dashboard owns store/business data; the theme owns presentation and merchandising.** Announcement bars, store identity, menus, brands, contacts, social links, tax data, payment methods, product prices/stock/offers, languages/currencies and reviews are rendered from Salla-native data/components rather than duplicated theme settings.
-
-See `SALLA_NATIVE_INTEGRATION.md` for the complete source-of-truth matrix.

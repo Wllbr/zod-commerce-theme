@@ -10,7 +10,9 @@
       "account": "الحساب",
       "wishlist": "المفضلة",
       "cart": "السلة",
-      "offers": "العروض"
+      "offers": "العروض",
+      "search_question": "ما الذي تبحث عنه؟",
+      "close": "إغلاق"
     },
     "home": {
       "shop_categories": "تصفح حسب التصنيف",

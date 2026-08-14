@@ -1,18 +1,14 @@
 # Changelog
 
-## 1.1.0 — 2026-08-15
-
-- Reworked the theme around a Salla-first source-of-truth architecture.
-- Removed the duplicate custom announcement-bar settings and now render Salla's native advertisement component.
-- Header now uses Salla store slogan, scopes, language/currency setting, search, user menu and cart data.
-- Footer now uses Salla description, footer menu, contacts, social links, trust badges, apps, tax certificate and payment methods.
-- Fixed multilingual rendering for all custom homepage merchant fields.
-- Removed forced demo/fallback headings and CTA labels from custom sections so blank fields stay blank.
-- Removed the custom Trust & Service component in favor of Salla's native Store Features component.
-- Product-page sold count now respects `product.can_show_sold`.
-- Removed global warranty claims from the purchase reassurance area because warranty coverage can vary by product.
-- Added automated checks preventing future duplication of key Salla dashboard settings.
-- Added `SALLA_NATIVE_INTEGRATION.md`.
+## 1.2.0 — Fluid navigation shell
+- Rebuilt desktop header to use the same compact menu interaction as mobile.
+- Added a right-side category drawer with smooth background blur.
+- Category drawer closes with X, Escape, or an outside click.
+- Added a full-page blurred search overlay using the Salla search component and the store logo.
+- Search closes with X, Escape, or a click outside the search field/results area.
+- Rebuilt the footer as a light retail footer sourced from Salla store data.
+- Removed newsletter UI entirely.
+- Footer continues to use Salla description, footer menu, contacts, social links, trust badges, tax details, payments, and copyright.
 
 ## 1.0.0 — 2026-08-14
 

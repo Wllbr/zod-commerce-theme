@@ -1,60 +1,61 @@
 <header data-testid="store-header" class="zod-header" data-sticky="{{ theme.settings.get('header_is_sticky', true) ? '1' : '0' }}">
-  {# Salla Dashboard advertisements are the source of truth for the announcement/promotion bar. #}
+  {# Salla Dashboard advertisement bar remains the source of truth. #}
   <salla-advertisement data-testid="store-header-advertisement" class="zod-native-advertisement"></salla-advertisement>
 
-  {% if store.slogan or store.scope or store.settings.is_multilingual or store.settings.currencies_enabled %}
-    <div class="zod-utility-bar">
-      <div class="container zod-utility-bar__inner">
-        <div class="zod-utility-bar__brand">
-          {% if store.slogan %}<span>{{ store.slogan }}</span>{% endif %}
-        </div>
-        <div class="zod-utility-bar__tools">
-          {% if store.scope %}
-            <button type="button" onclick="salla.event.dispatch('scopes::open', {'mode':'default'})">
-              <i class="sicon-location"></i><span>{{ store.scope.name }}</span>
-            </button>
-          {% endif %}
-          {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
+  <div class="zod-header-main zod-header-main--compact">
+    <div class="container zod-compact-header">
+      <div class="zod-header-actions zod-header-actions--physical-left" aria-label="{{ trans('zod.header.account') }}">
+        <salla-cart-summary data-testid="store-header-cart"><i slot="icon" class="sicon-shopping-bag"></i></salla-cart-summary>
+        <salla-user-menu data-testid="store-header-user-menu" avatar-only show-header show-trigger></salla-user-menu>
+        <button class="zod-header-icon-button" type="button" aria-label="{{ trans('zod.mobile.search') }}" onclick="window.zodTheme?.openSearch(this)">
+          <i class="sicon-search"></i>
+        </button>
+        {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
+          <div class="zod-header-localization">
             <salla-localization-modal data-testid="store-header-localization" show-trigger></salla-localization-modal>
-          {% endif %}
-        </div>
+          </div>
+        {% endif %}
       </div>
-    </div>
-  {% endif %}
 
-  <div class="zod-header-main">
-    <div class="container zod-header-main__inner">
-      <button class="zod-mobile-menu-btn lg:hidden" type="button" aria-label="{{ trans('zod.header.menu') }}" onclick="window.zodMenu?.openMobile()"><i class="sicon-menu"></i></button>
-      <a data-testid="store-header-logo" class="zod-logo" href="{{ store.url }}">
-        <img fetchpriority="high" loading="eager" src="{{ store.logo|cdn(220) }}" alt="{{ store.name }}">
+      <a data-testid="store-header-logo" class="zod-logo zod-logo--centered" href="{{ store.url }}">
+        <img fetchpriority="high" loading="eager" src="{{ store.logo|cdn(240) }}" alt="{{ store.name }}">
         {% if is_page('index') %}<h1 class="sr-only">{{ store.name }}</h1>{% else %}<span class="sr-only">{{ store.name }}</span>{% endif %}
       </a>
-      <div class="zod-desktop-search hidden lg:block" data-zod-search>
-        <salla-search data-testid="store-header-search" inline oval height="50"></salla-search>
-      </div>
-      <div class="zod-header-actions">
-        <salla-user-menu data-testid="store-header-user-menu" avatar-only show-header show-trigger></salla-user-menu>
-        <a class="zod-action-btn hidden sm:flex" href="{{ link('wishlist') }}" aria-label="{{ trans('zod.header.wishlist') }}"><i class="sicon-heart"></i></a>
-        <salla-cart-summary data-testid="store-header-cart"><i slot="icon" class="sicon-shopping-bag"></i></salla-cart-summary>
-      </div>
-    </div>
-    <div class="container zod-mobile-search lg:hidden" data-zod-mobile-search>
-      <salla-search data-testid="store-header-search-mobile" inline oval height="46"></salla-search>
+
+      <button class="zod-menu-trigger" type="button" aria-label="{{ trans('zod.header.menu') }}" aria-controls="zod-catalog-drawer" aria-expanded="false" onclick="window.zodMenu?.open(this)">
+        <span>{{ trans('zod.header.menu') }}</span>
+        <i class="sicon-menu"></i>
+      </button>
     </div>
   </div>
 
-  <div class="zod-nav-shell hidden lg:block">
-    <div class="container zod-nav-row">
-      <button class="zod-all-categories" type="button" onclick="window.zodMenu?.toggleCatalog()"><i class="sicon-menu"></i><span>{{ trans('zod.header.all_categories') }}</span><i class="sicon-keyboard_arrow_down"></i></button>
-      <zod-main-menu aria-label="{{ trans('zod.header.menu') }}"></zod-main-menu>
-      <a class="zod-offers-link" href="{{ link('offers') }}"><i class="sicon-tag"></i>{{ trans('zod.header.offers') }}</a>
-    </div>
+  {# Hidden menu data source. Categories themselves always come from Salla menus/categories. #}
+  <zod-main-menu class="zod-menu-source" aria-hidden="true"></zod-main-menu>
+
+  <div id="zod-catalog-drawer" class="zod-catalog-drawer" aria-hidden="true">
+    <div class="zod-catalog-drawer__backdrop" data-zod-menu-close></div>
+    <aside class="zod-catalog-drawer__panel" role="dialog" aria-modal="true" aria-label="{{ trans('zod.header.all_categories') }}">
+      <div class="zod-catalog-drawer__head">
+        <strong>{{ trans('zod.header.all_categories') }}</strong>
+        <button type="button" class="zod-overlay-close" aria-label="{{ trans('zod.header.close') }}" onclick="window.zodMenu?.close()"><i class="sicon-cancel"></i></button>
+      </div>
+      {% if store.scope %}
+        <button class="zod-catalog-drawer__scope" type="button" onclick="salla.event.dispatch('scopes::open', {'mode':'default'})">
+          <i class="sicon-location"></i><span>{{ store.scope.name }}</span><i class="sicon-keyboard_arrow_down"></i>
+        </button>
+      {% endif %}
+      <div id="zod-mobile-menu-content" class="zod-catalog-drawer__content"></div>
+    </aside>
   </div>
-  <div id="zod-mobile-menu" class="zod-mobile-menu" aria-hidden="true">
-    <div class="zod-mobile-menu__backdrop" onclick="window.zodMenu?.closeMobile()"></div>
-    <div class="zod-mobile-menu__panel">
-      <div class="zod-mobile-menu__head"><strong>{{ trans('zod.header.all_categories') }}</strong><button onclick="window.zodMenu?.closeMobile()"><i class="sicon-cancel"></i></button></div>
-      <div id="zod-mobile-menu-content"></div>
+
+  <div id="zod-search-overlay" class="zod-search-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="zod-search-title">
+    <button type="button" class="zod-search-overlay__close" aria-label="{{ trans('zod.header.close') }}" onclick="window.zodTheme?.closeSearch()"><i class="sicon-cancel"></i></button>
+    <div class="zod-search-overlay__content">
+      <img class="zod-search-overlay__logo" src="{{ store.logo|cdn(260) }}" alt="{{ store.name }}">
+      <h2 id="zod-search-title">{{ trans('zod.header.search_question') }}</h2>
+      <div class="zod-search-box" data-zod-search-box>
+        <salla-search data-testid="store-header-search" inline oval height="58"></salla-search>
+      </div>
     </div>
   </div>
 </header>

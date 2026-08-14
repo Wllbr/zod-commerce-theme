@@ -57,3 +57,9 @@ These are visual merchandising choices that do not duplicate store configuration
 ## Current intentional non-feature
 
 The theme does not ship a fake newsletter form. A newsletter field will only be added when it is connected to a supported Salla marketing/app workflow that actually stores subscriptions.
+
+
+## Navigation overlays
+The compact header, category drawer, and search overlay are visual theme behavior only. Category data still comes from Salla menus/categories and search results still come from the native `salla-search` component.
+
+The footer does not contain a newsletter form. Store identity, description, contacts, footer navigation, social links, tax details, trust badges, payment methods, and copyright remain sourced from Salla.
