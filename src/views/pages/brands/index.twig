@@ -1,0 +1,3 @@
+{% extends "layouts.master" %}
+{% block content %}<div class="container"><nav class="zod-breadcrumb"><salla-breadcrumb></salla-breadcrumb></nav><section class="zod-brands-page"><header class="zod-page-hero"><span class="zod-eyebrow">ZOD</span><h1>{{ trans('zod.brands.title') }}</h1><p>{{ trans('zod.brands.subtitle') }}</p></header><div class="zod-brands-directory">{% for brand in brands %}<a href="{{ brand.url }}" class="zod-brand-directory-card"><span><img src="{{ brand.logo|default(brand.image) }}" alt="{{ brand.name }}" loading="lazy"></span><strong>{{ brand.name }}</strong></a>{% endfor %}</div></section></div>{% endblock %}
+{% block scripts %}<script defer src="{{ 'pages.js'|asset }}"></script>{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "layouts.master" %}
+{% block content %}
+  {% if not landing %}
+    <section class="zod-section"><div class="container"><div class="zod-empty-state"><span><i class="sicon-search"></i></span><h1>{{ trans('common.errors.404') }}</h1><a href="{{ link('/') }}" class="zod-btn zod-btn--primary">{{ trans('common.elements.back_home') }}</a></div></div></section>
+  {% elseif landing.is_expired %}
+    <section class="zod-section"><div class="container"><div class="zod-empty-state"><span><i class="sicon-time"></i></span><h1>{{ trans('pages.offer.offer_finished') }}</h1><p>{{ trans('pages.offer.offer_expired_message') }}</p><a href="{{ link('/') }}" class="zod-btn zod-btn--primary">{{ trans('common.elements.back_home') }}</a></div></div></section>
+  {% else %}
+    <section data-testid="store-landing-page" class="zod-landing-page">
+      <header class="zod-landing-hero"><div class="container zod-landing-hero__inner"><a class="zod-landing-logo" href="{{ store.url }}"><img src="{{ store.logo }}" alt="{{ store.name }}"></a><div><h1 data-testid="store-landing-title">{{ landing.title }}</h1>{% if landing.content %}<div class="zod-rich-text">{{ landing.content|raw }}</div>{% endif %}</div>{% if landing.offer_ends_at %}<div class="zod-landing-countdown"><strong>{{ trans('pages.offer.offer_remaining_time') }}</strong><salla-count-down data-testid="store-landing-countdown" date="{{ landing.offer_ends_at }}" labeled size="lg"></salla-count-down></div>{% endif %}</div></header>
+      <div class="container zod-landing-products">
+        <div class="zod-section-head"><div><h2>{{ trans('pages.offer.included_products') }}</h2></div></div>
+        {% if landing.is_slider %}<salla-products-slider data-testid="store-landing-products-slider" source="landing-page"></salla-products-slider>{% else %}<salla-products-list data-testid="store-landing-products-list" source="landing-page"></salla-products-list>{% endif %}
+        {% if landing.products|length %}<div class="zod-landing-checkout"><salla-mini-checkout-widget data-testid="store-landing-quick-buy" products="[{{ landing.products|map((product) => product.id)|join(',') }}]" language="{{ user.language_code }}" label="{{ trans('pages.orders.finish_payment') }}" store-id="{{ store.id }}" api="{{ store.api }}"></salla-mini-checkout-widget></div>{% endif %}
+      </div>
+      {% if landing.show_store_features %}<div class="container">{% component 'home.store-features' %}</div>{% endif %}
+      {% if landing.testimonials_type %}<div class="container zod-section"><salla-reviews source="store"></salla-reviews></div>{% endif %}
+    </section>
+  {% endif %}
+{% endblock %}

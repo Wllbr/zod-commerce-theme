@@ -1,0 +1,6 @@
+{% if component.items|length %}
+<section class="zod-section zod-faq-section"><div class="container zod-faq-layout">
+  <div class="zod-faq-intro"><span class="zod-eyebrow">ZOD</span><h2>{{ component.title|default(trans('zod.home.faq')) }}</h2><p>{{ component.subtitle|default(trans('zod.home.faq_sub')) }}</p></div>
+  <div class="zod-faq-list">{% for item in component.items %}<details class="zod-faq-item" {% if loop.first %}open{% endif %}><summary><span>{{ item.question }}</span><i class="sicon-add"></i></summary><div>{{ item.answer }}</div></details>{% endfor %}</div>
+</div></section>
+{% endif %}

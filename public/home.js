@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll(".zod-faq-item").forEach(e=>e.addEventListener("toggle",()=>{e.open&&document.querySelectorAll(".zod-faq-item[open]").forEach(o=>{o!==e&&(o.open=!1)})}))});

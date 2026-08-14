@@ -1,0 +1,28 @@
+{% if component.items|length %}
+<section class="zod-section zod-locations-section">
+  <div class="container">
+    <div class="zod-section-head">
+      <div>
+        <h2>{{ component.title|default(trans('zod.home.locations')) }}</h2>
+        {% if component.subtitle %}<p>{{ component.subtitle }}</p>{% endif %}
+      </div>
+    </div>
+    <div class="zod-locations-grid">
+      {% for item in component.items %}
+        <article class="zod-location-card">
+          {% if item.image %}<div class="zod-location-card__media"><img src="{{ item.image }}" alt="{{ item.name }}" loading="lazy"></div>{% endif %}
+          <div class="zod-location-card__body">
+            <h3>{{ item.name }}</h3>
+            {% if item.address %}<p><i class="sicon-location"></i><span>{{ item.address }}</span></p>{% endif %}
+            {% if item.hours %}<p><i class="sicon-clock"></i><span>{{ item.hours }}</span></p>{% endif %}
+            <div class="zod-location-card__actions">
+              {% if item.map_url %}<a class="zod-btn zod-btn--outline" href="{{ item.map_url }}" target="_blank" rel="noopener"><i class="sicon-location"></i>{{ trans('zod.home.directions') }}</a>{% endif %}
+              {% if item.phone %}<a class="zod-text-link" href="tel:{{ item.phone|replace({' ':'','-':''}) }}"><i class="sicon-phone"></i>{{ trans('zod.home.call') }}</a>{% endif %}
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

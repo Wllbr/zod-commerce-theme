@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="{{ language.code }}" dir="{{ theme.is_rtl ? 'rtl' : 'ltr' }}">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  {{ theme.settings.set('placeholder', 'images/placeholder.svg') }}
+  <script defer data-cfasync="false" src="{{ 'zod-menu.js'|asset }}"></script>
+  {% block head_scripts %}{% endblock %}
+  {% hook 'head:start' %}
+  {% hook head %}
+  {% block styles %}{% endblock %}
+  <link rel="stylesheet" href="{{ 'app.css' | asset }}">
+  <link rel="stylesheet" href="{{ theme.font.path|cdn }}">
+  <link rel="stylesheet" href="{{ 'fonts/sallaicons.css'|cdn }}">
+  <style>
+    :root {
+      --font-main: '{{ theme.font.name }}';
+      --color-primary: {{ theme.color.primary }};
+      --color-primary-dark: {{ theme.color.darker(0.14) }};
+      --color-primary-light: {{ theme.color.lighter(0.22) }};
+      --color-primary-reverse: {{ theme.color.reverse_text }};
+      --zod-ink: #17191c;
+      --zod-muted: #667085;
+      --zod-canvas: #f6f7f8;
+      --zod-line: #e7e9ec;
+      --zod-success: #147a4b;
+      --zod-danger: #b4232a;
+      --zod-radius: 16px;
+    }
+  </style>
+  {% hook 'head:end' %}
+</head>
+<body id="app" class="zod-commerce overflow-x-hidden {% hook 'body:classes' %} {{ theme.settings.get('sticky_add_to_cart') ? 'is-sticky-product-bar' : '' }} {{ is_page('product.single') ? 'product-single' : '' }}">
+<noscript><div class="zod-noscript">{{ trans('zod.common.javascript_required') }}</div></noscript>
+<div class="app-inner min-h-screen flex flex-col">
+  {% hook 'body:start' %}
+  {% component 'header.header' %}
+  <main id="main-content" role="main" class="flex-1">
+    {% block content %}{% endblock %}
+  </main>
+  {% component 'footer.footer' %}
+</div>
+{% hook 'body:end' %}
+{% if theme.settings.get('enable_add_product_toast', true) %}<salla-add-product-toast data-testid="store-add-product-toast"></salla-add-product-toast>{% endif %}
+<script>
+  window.zodSettings = {
+    stickyHeader: {{ theme.settings.get('header_is_sticky', true) | json_encode }},
+    mobileBottomNav: {{ theme.settings.get('show_mobile_bottom_nav', true) | json_encode }},
+    notifyWhenAvailable: {{ theme.settings.get('notify_when_available_in_card', true) | json_encode }}
+  };
+</script>
+<script defer crossorigin="anonymous" src="{{ 'app.js' | asset }}"></script>
+<salla-offer-modal data-testid="store-offer-modal"></salla-offer-modal>
+<salla-search data-testid="store-search-modal"></salla-search>
+<salla-login-modal data-testid="store-login-modal"></salla-login-modal>
+{% if store.scope %}<salla-scopes data-testid="store-scopes" selection="{{ store.scope.display_as == 'popup' ? 'mandatory' : 'optional' }}"></salla-scopes>{% endif %}
+{% if theme.settings.get('show_mobile_bottom_nav', true) %}
+<nav class="zod-mobile-dock lg:hidden" aria-label="{{ trans('zod.header.menu') }}">
+  <a href="{{ link('/') }}"><i class="sicon-home"></i><span>{{ trans('zod.mobile.home') }}</span></a>
+  <button type="button" onclick="window.zodMenu?.openMobile()"><i class="sicon-layout-grid"></i><span>{{ trans('zod.mobile.categories') }}</span></button>
+  <button type="button" onclick="window.zodTheme?.focusSearch()"><span class="zod-dock-search"><i class="sicon-search"></i></span><small>{{ trans('zod.mobile.search') }}</small></button>
+  <a href="{{ link('wishlist') }}"><i class="sicon-heart"></i><span>{{ trans('zod.mobile.wishlist') }}</span></a>
+  <a href="{{ link('cart') }}"><i class="sicon-shopping-bag"></i><span>{{ trans('zod.mobile.cart') }}</span></a>
+</nav>
+{% endif %}
+{% block scripts %}{% endblock %}
+</body>
+</html>

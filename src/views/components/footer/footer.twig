@@ -1,0 +1,33 @@
+<footer data-testid="store-footer" class="zod-footer">
+  <button class="zod-back-top" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="sicon-keyboard_arrow_up"></i><span>{{ trans('zod.footer.back_top') }}</span></button>
+  <div class="zod-footer-main">
+    <div class="container zod-footer-grid">
+      <div class="zod-footer-brand">
+        <a href="{{ link('/') }}" class="zod-footer-logo"><img src="{{ store.logo|cdn(200) }}" alt="{{ store.name }}"></a>
+        <p>{{ store.description ? store.description|striptags : trans('zod.footer.about') }}</p>
+        <salla-social data-testid="store-footer-social"></salla-social>
+      </div>
+      <details class="zod-footer-column zod-footer-disclosure" data-footer-disclosure open>
+        <summary><span>{{ trans('zod.footer.shop') }}</span><i class="sicon-keyboard_arrow_down"></i></summary>
+        <div class="zod-footer-disclosure__body"><salla-menu data-testid="store-footer-menu" source="footer" with-cookie-preferences></salla-menu></div>
+      </details>
+      <details class="zod-footer-column zod-footer-disclosure" data-footer-disclosure open>
+        <summary><span>{{ trans('zod.footer.help') }}</span><i class="sicon-keyboard_arrow_down"></i></summary>
+        <div class="zod-footer-disclosure__body"><salla-contacts data-testid="store-footer-contacts"></salla-contacts></div>
+      </details>
+      <details class="zod-footer-column zod-footer-trust zod-footer-disclosure" data-footer-disclosure open>
+        <summary><span>{{ trans('zod.footer.business') }}</span><i class="sicon-keyboard_arrow_down"></i></summary>
+        <div class="zod-footer-disclosure__body"><salla-apps-icons data-testid="store-footer-apps"></salla-apps-icons><salla-trust-badges data-testid="store-footer-trust-badges"></salla-trust-badges></div>
+      </details>
+    </div>
+  </div>
+  <div class="zod-footer-bottom">
+    <div class="container zod-footer-bottom__inner">
+      <div class="zod-company-meta">
+        <span>{% hook copyright %}</span>
+        {% if store.settings.tax.number %}<span>{{ trans('common.elements.tax_number') }}: <b>{{ store.settings.tax.number }}</b></span>{% endif %}
+      </div>
+      <salla-payments data-testid="store-footer-payments"></salla-payments>
+    </div>
+  </div>
+</footer>

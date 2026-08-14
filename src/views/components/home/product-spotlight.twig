@@ -1,0 +1,25 @@
+{% set featured = component.products|first %}
+{% if featured %}
+<section class="zod-section zod-spotlight-section">
+  <div class="container">
+    <article class="zod-spotlight">
+      <div class="zod-spotlight__media">
+        <img src="{{ component.media|default(featured.image.url|default(featured.thumbnail)) }}" alt="{{ component.title|default(featured.name) }}" loading="lazy">
+      </div>
+      <div class="zod-spotlight__content">
+        {% if component.eyebrow %}<span class="zod-eyebrow">{{ component.eyebrow }}</span>{% endif %}
+        <h2>{{ component.title|default(featured.name) }}</h2>
+        {% if component.text %}<p>{{ component.text }}</p>{% endif %}
+        <ul class="zod-check-list">
+          {% for benefit in [component.benefit_one, component.benefit_two, component.benefit_three] %}{% if benefit %}<li><i class="sicon-check-circle"></i>{{ benefit }}</li>{% endif %}{% endfor %}
+        </ul>
+        {% if featured.price %}<div class="zod-spotlight__price">{{ featured.sale_price|default(featured.price)|money }}{% if featured.is_on_sale %}<del>{{ featured.regular_price|money }}</del>{% endif %}</div>{% endif %}
+        <div class="zod-spotlight__actions">
+          <a class="zod-btn zod-btn--primary" href="{{ featured.url }}">{{ component.button|default(trans('zod.home.shop_now')) }}</a>
+          {% if featured.id %}<salla-add-product-button fill="outline" product-id="{{ featured.id }}" product-status="{{ featured.status }}" product-type="{{ featured.type }}">{{ featured.add_to_cart_label|default(trans('pages.cart.add_to_cart')) }}</salla-add-product-button>{% endif %}
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+{% endif %}

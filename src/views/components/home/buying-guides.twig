@@ -1,0 +1,6 @@
+{% if component.items|length %}
+<section class="zod-section zod-guides-section"><div class="container">
+  <div class="zod-section-head"><div><h2>{{ component.title|default(trans('zod.home.guides')) }}</h2><p>{{ component.subtitle|default(trans('zod.home.guides_sub')) }}</p></div><a href="{{ link('blog') }}" class="zod-text-link">{{ trans('zod.home.view_all') }} <i class="sicon-arrow-left rtl:rotate-180"></i></a></div>
+  <div class="zod-guide-grid">{% for item in component.items %}<a class="zod-guide-card" href="{{ item.url.url|default(item.url)|default('#') }}"><span class="zod-guide-card__media"><img src="{{ item.image }}" alt="{{ item.title }}" loading="lazy"></span><span class="zod-guide-card__body"><strong>{{ item.title }}</strong>{% if item.text %}<small>{{ item.text }}</small>{% endif %}<b>{{ trans('zod.home.learn_more') }} <i class="sicon-arrow-left rtl:rotate-180"></i></b></span></a>{% endfor %}</div>
+</div></section>
+{% endif %}

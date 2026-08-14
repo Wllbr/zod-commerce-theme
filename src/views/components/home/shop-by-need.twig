@@ -1,0 +1,18 @@
+{% if component.items|length %}
+<section class="zod-section zod-need-section">
+  <div class="container">
+    <div class="zod-section-head">
+      <div><h2>{{ component.title|default(trans('zod.home.shop_need')) }}</h2><p>{{ component.subtitle|default(trans('zod.home.shop_need_sub')) }}</p></div>
+    </div>
+    <div class="zod-need-grid">
+      {% for item in component.items %}
+        {% set item_url = item.url.url|default(item.url) %}
+        <a href="{{ item_url|default('#') }}" class="zod-need-card">
+          <span class="zod-need-card__media"><img src="{{ item.image }}" alt="{{ item.title }}" loading="lazy"></span>
+          <span class="zod-need-card__body"><strong>{{ item.title }}</strong>{% if item.text %}<small>{{ item.text }}</small>{% endif %}<span>{{ trans('zod.home.shop_now') }} <i class="sicon-arrow-left rtl:rotate-180"></i></span></span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

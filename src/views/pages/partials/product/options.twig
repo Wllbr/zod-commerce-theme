@@ -1,0 +1,83 @@
+{% if product.options|length %}
+  <div class="zod-product-options-wrap">
+    <salla-product-options
+      data-testid="store-product-options"
+      options="{{ product.options }}"
+      product-id="{{ product.id }}">
+    </salla-product-options>
+  </div>
+{% endif %}
+
+{% if product.has_bundle_products %}
+  <div class="zod-bundle-options">
+    <salla-multiple-bundle-product bundle-sections='{{ product|json_encode }}'></salla-multiple-bundle-product>
+  </div>
+{% endif %}
+
+{% if product.weight or product.has_size_guide %}
+  <section class="zod-option-support zod-option-support--compact">
+    {% if product.weight %}
+      <div class="zod-option-support__row">
+        <span><i class="sicon-luggage-cart"></i>{{ trans('pages.products.weight') }}</span>
+        <strong class="product-weight">{{ product.weight }}</strong>
+      </div>
+    {% endif %}
+    {% if product.has_size_guide %}
+      <div class="zod-option-support__row">
+        <span><i class="sicon-pencil-ruler"></i>{{ trans('pages.products.size_guides') }}</span>
+        <button type="button" class="zod-inline-action" onclick="salla.event.dispatch('size-guide::open', '{{ product.id }}')">
+          {{ trans('pages.products.show_size_guides') }}
+          <i class="sicon-keyboard_arrow_left"></i>
+        </button>
+      </div>
+      <salla-product-size-guide data-testid="store-product-size-guide"></salla-product-size-guide>
+    {% endif %}
+  </section>
+{% endif %}
+
+{% if product.can_add_note or product.can_upload_file %}
+  <section class="zod-option-support">
+    <div class="zod-option-support__heading">
+      <i class="sicon-paperclip"></i>
+      <strong>{{ trans('pages.products.attachments') }}</strong>
+    </div>
+    <div class="zod-option-actions">
+      {% if product.can_add_note %}
+        <button data-testid="store-product-add-note" class="zod-option-toggle" type="button" data-show="note_{{ product.id }}">
+          <i class="sicon-chat-conversation-alt"></i>
+          <span>{{ trans('pages.products.add_note') }}</span>
+        </button>
+      {% endif %}
+      {% if product.can_upload_file %}
+        <button data-testid="store-product-attach-file" class="zod-option-toggle" type="button" data-show="file_{{ product.id }}">
+          <i class="sicon-paperclip"></i>
+          <span>{{ trans('pages.products.add_file') }}</span>
+        </button>
+      {% endif %}
+    </div>
+
+    {% if product.can_add_note %}
+      <div class="collapse-content zod-option-collapse" id="note_{{ product.id }}">
+        <textarea class="zod-form-textarea" placeholder="{{ trans('pages.products.notes_placeholder') }}" name="notes" cols="30" rows="4">{{ product.notes }}</textarea>
+      </div>
+    {% endif %}
+
+    {% if product.can_upload_file %}
+      <div class="collapse-content zod-option-collapse" id="file_{{ product.id }}">
+        <salla-file-upload
+          accept="image/png, image/jpeg, image/jpg, image/gif, video/*, application/pdf"
+          class="zod-product-uploader"
+          {% if is_page('cart') %}
+            files="{{ product.attachments|json_encode }}"
+            cart-item-id="{{ product.id }}"
+          {% endif %}>
+          <div class="zod-upload-placeholder">
+            <i class="sicon-camera"></i>
+            <span>{{ trans('common.uploader.drag_and_drop') }}</span>
+            <b>{{ trans('common.uploader.browse') }}</b>
+          </div>
+        </salla-file-upload>
+      </div>
+    {% endif %}
+  </section>
+{% endif %}

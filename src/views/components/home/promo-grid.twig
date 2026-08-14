@@ -1,0 +1,10 @@
+{% if component.banners|length %}
+<section class="zod-section zod-promo-section"><div class="container"><div class="zod-promo-grid">
+{% for banner in component.banners %}
+  <a href="{{ banner.url.url|default(banner.url)|default('#') }}" class="zod-promo-card {{ banner.light_text ? 'is-light' : '' }}">
+    <img src="{{ banner.image }}" alt="{{ banner.title }}" loading="lazy"><span class="zod-promo-card__shade"></span>
+    <span class="zod-promo-card__content"><strong>{{ banner.title }}</strong>{% if banner.text %}<small>{{ banner.text }}</small>{% endif %}<b>{{ trans('zod.home.shop_now') }} <i class="sicon-arrow-left rtl:rotate-180"></i></b></span>
+  </a>
+{% endfor %}
+</div></div></section>
+{% endif %}

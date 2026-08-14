@@ -1,0 +1,119 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const failures=[];
+const assert=(cond,msg)=>{if(!cond) failures.push(msg)};
+const read=p=>fs.readFileSync(path.join(root,p),'utf8');
+const walk=(dir,exts=[])=>{
+  const out=[]; const abs=path.join(root,dir); if(!fs.existsSync(abs)) return out;
+  for(const item of fs.readdirSync(abs,{withFileTypes:true})){
+    const rel=path.join(dir,item.name);
+    if(item.isDirectory()) out.push(...walk(rel,exts));
+    else if(!exts.length||exts.some(e=>item.name.endsWith(e))) out.push(rel);
+  }
+  return out;
+};
+
+const jsonFiles=['package.json','twilight.json','src/locales/ar.json','src/locales/en.json'];
+for(const f of jsonFiles){
+  try{JSON.parse(read(f));}catch(e){failures.push(`${f}: invalid JSON (${e.message})`);}
+}
+
+const pkg=JSON.parse(read('package.json'));
+const config=JSON.parse(read('twilight.json'));
+assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
+assert(pkg.version==='1.0.0','package.json: expected v1.0.0');
+assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
+assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
+assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
+assert(Array.isArray(config.components)&&config.components.length>=8,'twilight.json: expected commerce components');
+
+const componentPaths=new Set();
+const componentKeys=new Set();
+for(const c of config.components||[]){
+  assert(c.path && !componentPaths.has(c.path),`twilight.json: duplicate component path ${c.path}`);
+  componentPaths.add(c.path);
+  assert(c.key && !componentKeys.has(c.key),`twilight.json: duplicate/missing component key ${c.key||c.path}`);
+  componentKeys.add(c.key);
+  const f=`src/views/components/${String(c.path).replaceAll('.','/')}.twig`;
+  assert(fs.existsSync(path.join(root,f)),`Missing component template: ${f}`);
+  if(c.is_default){
+    for(const field of c.fields||[]){
+      const value=field.value;
+      const empty=value===null || value===undefined || value==='' || (Array.isArray(value)&&value.length===0);
+      assert(!(field.required && empty),`Default component ${c.path} has required empty field ${field.id}`);
+    }
+  }
+}
+
+const settingIds=new Set();
+for(const setting of config.settings||[]){
+  if(!setting.id) continue;
+  assert(!settingIds.has(setting.id),`twilight.json: duplicate setting id ${setting.id}`);
+  settingIds.add(setting.id);
+}
+
+const ar=JSON.parse(read('src/locales/ar.json'));
+const en=JSON.parse(read('src/locales/en.json'));
+const flatten=(o,p='')=>Object.entries(o).flatMap(([k,v])=>v&&typeof v==='object'&&!Array.isArray(v)?flatten(v,p?`${p}.${k}`:k):[p?`${p}.${k}`:k]);
+const ak=new Set(flatten(ar)), ek=new Set(flatten(en));
+for(const k of ak) assert(ek.has(k),`English locale missing ${k}`);
+for(const k of ek) assert(ak.has(k),`Arabic locale missing ${k}`);
+
+const twig=walk('src/views',['.twig']);
+let transRefs=0;
+const arabic=/[\u0600-\u06FF]/;
+for(const f of twig){
+  const s=read(f);
+  const opens=(s.match(/{%/g)||[]).length, closes=(s.match(/%}/g)||[]).length;
+  const vo=(s.match(/{{/g)||[]).length, vc=(s.match(/}}/g)||[]).length;
+  assert(opens===closes,`${f}: Twig statement delimiters unbalanced`);
+  assert(vo===vc,`${f}: Twig output delimiters unbalanced`);
+  assert(!arabic.test(s),`${f}: hard-coded Arabic found; use locales/multilanguage data instead`);
+  for(const m of s.matchAll(/trans\(['"](zod\.[^'"]+)['"]\)/g)){
+    transRefs++;
+    assert(ek.has(m[1]),`${f}: missing translation ${m[1]}`);
+  }
+}
+
+const requiredTemplates=[
+  'src/views/layouts/master.twig','src/views/layouts/customer.twig',
+  'src/views/components/header/header.twig','src/views/components/footer/footer.twig',
+  'src/views/pages/index.twig','src/views/pages/product/single.twig','src/views/pages/product/index.twig',
+  'src/views/pages/cart.twig','src/views/pages/brands/index.twig','src/views/pages/brands/single.twig',
+  'src/views/pages/blog/index.twig','src/views/pages/blog/single.twig','src/views/pages/testimonials.twig',
+  'src/views/pages/customer/profile.twig','src/views/pages/customer/wishlist.twig',
+  'src/views/pages/customer/orders/index.twig','src/views/pages/customer/orders/single.twig'
+];
+for(const f of requiredTemplates) assert(fs.existsSync(path.join(root,f)),`Required storefront template missing: ${f}`);
+
+const appCss=read('src/assets/styles/app.scss');
+for(const selector of ['.zod-header','.zod-hero','.zod-product-card','.zod-product-main','.zod-catalog-layout','.zod-footer','.zod-mobile-dock','.zod-option-support']){
+  assert(appCss.includes(selector),`app.scss missing ${selector}`);
+}
+
+const jsFiles=walk('src/assets/js',['.js']);
+for(const f of jsFiles){
+  const result=spawnSync(process.execPath,['--check',path.join(root,f)],{encoding:'utf8'});
+  assert(result.status===0,`${f}: JavaScript syntax error ${result.stderr?.trim()||''}`);
+}
+
+const approval=read('pnpm-workspace.yaml');
+for(const dep of ['@parcel/watcher','bufferutil','es5-ext','utf-8-validate']){
+  assert(approval.includes(dep),`pnpm-workspace.yaml missing build approval for ${dep}`);
+}
+assert(!/set this to true or false/i.test(approval),'pnpm-workspace.yaml contains unfinished approval placeholders');
+
+const projectText=[...twig,...jsFiles,'README.md','CHANGELOG.md','twilight.json'].map(read).join('\n').toLowerCase();
+for(const oldTerm of ['zod-twilight-theme','professional v1.1','commerce edition v1.3','neon gaming']){
+  assert(!projectText.includes(oldTerm),`Old theme reference found: ${oldTerm}`);
+}
+
+if(failures.length){
+  console.error(`\nTheme validation failed (${failures.length} issue${failures.length===1?'':'s'}):\n- ${failures.join('\n- ')}`);
+  process.exit(1);
+}
+console.log(`✓ ZOD Commerce validation passed: ${twig.length} Twig templates, ${config.components.length} custom components, ${transRefs} ZOD translation references, ${jsFiles.length} JavaScript files.`);

@@ -1,0 +1,22 @@
+{% extends "layouts.master" %}
+{% block content %}
+{% if theme.settings.get('product_index_show_breadcrumbs', true) %}<div class="container"><nav class="zod-breadcrumb"><salla-breadcrumb></salla-breadcrumb></nav></div>{% endif %}
+<section class="zod-catalog-head"><div class="container">
+  <div class="zod-catalog-title-wrap">{% if category.image %}<img src="{{ category.image }}" alt="{{ category.name }}">{% endif %}<div><h1 id="page-main-title">{{ page.title|raw }}</h1>{% if search_query %}<p>“{{ search_query }}”</p>{% elseif category.description %}<div class="zod-category-description">{{ category.description|raw }}</div>{% endif %}</div></div>
+  {% if category.sub_categories|length %}<div class="zod-subcategory-strip"><span class="zod-subcategory-label">{{ trans('zod.catalog.subcategories') }}</span><div class="zod-subcategory-scroll">{% for sub in category.sub_categories %}<a href="{{ sub.url }}" class="zod-subcategory-card"><span>{% if sub.image %}<img src="{{ sub.image }}" alt="{{ sub.name }}" loading="lazy">{% else %}<i class="sicon-folder"></i>{% endif %}</span><b>{{ sub.name }}</b></a>{% endfor %}</div></div>{% endif %}
+</div></section>
+<div class="s-blocks-wrapper !mt-0">{% hook 'product.index.before_products_group_with_filter' %}</div>
+<section class="zod-catalog-body"><div class="container zod-catalog-layout">
+  {% if filters %}<aside class="zod-filter-sidebar" id="zod-filters"><div class="zod-filter-head"><strong>{{ trans('zod.catalog.filter') }}</strong><button type="button" class="lg:hidden" data-filter-close><i class="sicon-cancel"></i></button></div><salla-filters data-testid="store-products-filters" id="filters-menu"></salla-filters></aside><div class="zod-filter-backdrop" data-filter-close></div>{% endif %}
+  <div class="zod-catalog-main">
+    <div class="zod-catalog-toolbar"><div class="zod-catalog-toolbar__left"><strong>{{ trans('zod.catalog.products') }}</strong></div><div class="zod-catalog-toolbar__actions">{% if filters %}<button data-testid="store-products-filters-mobile-trigger" type="button" class="zod-filter-trigger lg:hidden" data-filter-open><i class="sicon-filter"></i>{{ trans('zod.catalog.filter') }}</button>{% endif %}{% if sort_options|length %}<label class="zod-sort"><span>{{ trans('zod.catalog.sort') }}</span><select id="product-filter">{% for sort in sort_options %}<option value="{{ sort.id }}" {{ sort.is_selected ? 'selected' : '' }}>{{ sort.name }}</option>{% endfor %}</select></label>{% endif %}</div></div>
+    {% hook 'product:index.items.start' %}
+    <salla-products-list data-testid="store-products-list" class="zod-products-list" source="{{ page.slug }}" source-value="{{ page.id }}" {{ filters ? 'filters-Results' : '' }}></salla-products-list>
+    {% hook 'product:index.items.end' %}
+  </div>
+</div></section>
+<div class="s-blocks-wrapper">{% hook 'product.index.after_products_group_with_filter' %}</div>
+{% if store.settings.category.testimonial_enabled %}{% component 'home.testimonials' %}{% endif %}
+<div class="s-blocks-wrapper">{% hook 'product.index.after_testimonials' %}</div>
+{% endblock %}
+{% block scripts %}<script defer src="{{ 'products.js'|asset }}"></script>{% endblock %}

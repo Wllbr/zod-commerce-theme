@@ -1,0 +1,100 @@
+{% extends "layouts.master" %}
+{% block content %}
+{% if theme.settings.get('product_show_breadcrumbs', true) %}<div class="container"><nav class="zod-breadcrumb"><salla-breadcrumb></salla-breadcrumb></nav></div>{% endif %}
+<div class="s-blocks-wrapper !mt-0">{% hook 'product.single.before_product_info' %}</div>
+<section class="zod-product-page" id="product-{{ product.id }}">
+  <div class="container zod-product-main">
+    <div class="zod-product-gallery">
+      {% set many = product.images|length > 1 %}
+      <salla-slider data-testid="store-product-image-slider" id="details-slider-{{ product.id }}" class="zod-product-slider" type="thumbs" loop="false" auto-height listen-to-thumbnails-option show-thumbs-controls="false">
+        {% if product.promotion_title %}<div class="zod-product-badge">{{ product.promotion_title }}</div>{% endif %}
+        <salla-button class="zod-gallery-wishlist" data-id="{{ product.id }}" onclick="salla.wishlist.toggle('{{ product.id }}')" shape="icon" fill="outline" color="light" aria-label="{{ trans('zod.header.wishlist') }}"><i class="sicon-heart"></i></salla-button>
+        <div slot="items">
+          {% for image in product.images %}
+            {% if image.three_d_image_url %}
+              <model-viewer class="swiper-slide zod-model-viewer" camera-controls touch-action="pan-y" auto-rotate poster="{{ image.url }}" src="{{ image.three_d_image_url }}" alt="{{ image.alt|default(product.name) }}"></model-viewer>
+            {% else %}
+              <a class="swiper-slide zod-gallery-slide {{ image.video_url ? 'is-video' : '' }}" data-fslightbox="product_{{ product.id }}" data-type="{{ image.video_type|default('image') }}" {% if image.video_url %}data-video-src="{{ image.video_url }}"{% endif %} href="{{ (image.video_url is iterable ? image.video_url|first : image.video_url)|default(image.url) }}" aria-label="{{ product.name }}">
+                <img src="{{ image.url }}" alt="{{ image.alt|default(product.name) }}" class="zod-product-image zod-fit-{{ theme.settings.get('product_image_fit','contain') }}" {{ loop.first ? 'fetchpriority="high" loading="eager"' : 'loading="lazy"' }}>
+                {% if image.video_url %}<span class="zod-video-play"><i class="sicon-play"></i></span>{% endif %}
+              </a>
+            {% endif %}
+          {% else %}
+            <div class="swiper-slide zod-gallery-slide"><img src="{{ 'images/placeholder.svg'|asset }}" alt="{{ product.name }}"></div>
+          {% endfor %}
+        </div>
+        {% if many %}<div slot="thumbs">{% for image in product.images %}<div class="zod-gallery-thumb"><img src="{{ image.url }}" alt="{{ image.alt|default(product.name) }}" loading="lazy"></div>{% endfor %}</div>{% endif %}
+      </salla-slider>
+    </div>
+
+    <div class="zod-product-buybox">
+      <div class="zod-product-brand-row">
+        {% if product.brand %}<a class="zod-product-brand" href="{{ product.brand.url }}">{% if product.brand.logo %}<img src="{{ product.brand.logo }}" alt="{{ product.brand.name }}">{% endif %}<span>{{ product.brand.name }}</span></a>{% endif %}
+        <div class="zod-product-tools"><salla-social-share data-testid="store-product-social-share"></salla-social-share><salla-button data-testid="store-product-wishlist-btn" data-id="{{ product.id }}" onclick="salla.wishlist.toggle('{{ product.id }}')" shape="icon" fill="outline" color="light"><i class="sicon-heart"></i></salla-button></div>
+      </div>
+      <h1 data-testid="store-product-title" class="zod-product-title">{{ product.name }}</h1>
+      {% if product.subtitle %}<p class="zod-product-subtitle">{{ product.subtitle }}</p>{% endif %}
+      <div class="zod-product-meta-line">
+        {% if product.rating %}<salla-rating-stars data-testid="store-product-rating" value="{{ product.rating.stars }}" reviews="{{ product.rating.count }}"></salla-rating-stars>{% endif %}
+        {% if product.sku and theme.settings.get('show_product_sku', true) %}<span><i class="sicon-barcode"></i>{{ trans('zod.product.model') }}: <b class="product-sku">{{ product.sku }}</b></span>{% endif %}
+      </div>
+      <div class="zod-stock-row">
+        {% if product.is_out_of_stock %}<span class="zod-stock zod-stock--out"><i></i>{{ trans('zod.product.out_stock') }}</span>
+        {% elseif product.can_show_remained_quantity and product.quantity <= 5 %}<span class="zod-stock zod-stock--low"><i></i>{{ trans('zod.product.low_stock') }}{% if product.quantity %} · {{ product.quantity }}{% endif %}</span>
+        {% else %}<span class="zod-stock zod-stock--in"><i></i>{{ trans('zod.product.in_stock') }}</span>{% endif %}
+        {% if product.sold_quantity and theme.settings.get('show_product_sold_count', true) %}<span class="zod-sold"><i class="sicon-fire"></i>{{ trans('zod.product.sold') }} {{ product.sold_quantity }}</span>{% endif %}
+      </div>
+      <div data-testid="store-product-price" class="zod-product-price price-wrapper">
+        {% if product.is_on_sale %}<div class="price_is_on_sale"><strong class="total-price">{{ product.sale_price|money }}</strong><del class="before-price">{{ product.regular_price|money }}</del>{% if product.discount_percentage %}<span class="zod-discount">-{{ product.discount_percentage }}</span>{% endif %}</div>
+        {% else %}<div class="starting-or-normal-price">{% if product.starting_price %}<small>{{ trans('pages.products.starting_price') }}</small>{% endif %}<strong class="total-price">{{ (product.starting_price|default(product.price))|money }}</strong></div>{% endif %}
+        <div data-testid="store-product-out-of-stock" class="out-of-stock hidden">{{ trans('zod.product.out_stock') }}</div>
+        {% if product.is_taxable %}<small>{{ trans('zod.product.tax_included') }}</small>{% endif %}
+      </div>
+      <salla-installment data-testid="store-product-installment" price="{{ product.price }}"></salla-installment>
+      {% if product.show_availability %}<button class="zod-availability" type="button" onclick="salla.event.dispatch('scopes::open',{mode:'availability',product_id:'{{ product.id }}'})"><i class="sicon-location"></i><span>{{ trans('pages.products.availability') }}</span><i class="sicon-keyboard_arrow_left rtl:rotate-180"></i></button>{% endif %}
+      <form data-testid="store-product-form" class="zod-purchase-form" enctype="multipart/form-data" method="post" onsubmit="return salla.form.onSubmit('cart.addItem', event)">
+        <input type="hidden" name="id" value="{{ product.id }}">
+        {% hook 'product:single.form.start' %}
+        {% include 'pages.partials.product.options' %}
+        {% hook 'product:single.form.end' %}
+        {% if product.has_preorder_campaign %}<salla-count-down data-testid="store-product-preorder-countdown" pre-order='{{ product.preorder|json_encode }}' boxed labeled></salla-count-down>{% endif %}
+        <div class="zod-buy-controls sticky-product-bar">
+          {% if product.is_hidden_quantity or product.type == 'booking' %}<input type="hidden" name="quantity" value="1">
+          {% else %}<div class="zod-qty-row sticky-product-bar__quantity"><label>{{ trans('zod.product.quantity') }}</label><salla-quantity-input data-testid="store-product-quantity" max="{{ product.max_quantity }}" value="1" name="quantity"></salla-quantity-input></div>{% endif %}
+          <salla-add-product-button data-testid="store-product-add-to-cart" {{ product.can_quick_buy ? 'quick-buy' : '' }} {{ theme.settings.get('sticky_add_to_cart') ? 'support-sticky-bar' : '' }} {{ product.is_require_shipping ? 'required-shipping' : '' }} {{ product.has_preorder_campaign ? 'has-pre-order' : '' }} amount="{{ product.base_currency_price }}" class="zod-main-add sticky-product-bar__btn" product-status="{{ product.status }}" product-type="{{ product.type }}" product-id="{{ product.id }}" loader-position="end" type="submit" width="wide" {% if product.notify_availability %}{{ product.notify_availability.subscribed ? 'is-subscribed' : '' }} channels="{{ product.notify_availability.channels|join(',') }}" subscribed-options="{{ product.notify_availability.subscribed_options|json_encode }}" {{ product.notify_availability.options ? 'notify-options-availability' : '' }}{% endif %}>{{ product.add_to_cart_label }}</salla-add-product-button>
+        </div>
+      </form>
+
+      {% if theme.settings.get('show_product_trust', true) %}<div class="zod-product-trust">
+        <div><i class="sicon-shipping-fast"></i><span><b>{{ trans('zod.product.delivery') }}</b><small>{{ trans('zod.product.delivery_text') }}</small></span></div>
+        <div><i class="sicon-security"></i><span><b>{{ trans('zod.product.warranty') }}</b><small>{{ trans('zod.product.warranty_text') }}</small></span></div>
+        <div><i class="sicon-check-circle"></i><span><b>{{ trans('zod.product.original') }}</b><small>{{ trans('zod.product.original_text') }}</small></span></div>
+        <div><i class="sicon-shield"></i><span><b>{{ trans('zod.product.secure') }}</b><small>{{ trans('zod.product.secure_text') }}</small></span></div>
+      </div>{% endif %}
+      {% if product.is_giftable %}<salla-gifting data-testid="store-product-gifting" class="zod-gifting" product-id="{{ product.id }}" {{ product.is_require_shipping ? 'physical-products' : '' }}></salla-gifting>{% endif %}
+      <salla-quick-order data-testid="store-product-quick-order" class="zod-quick-order"></salla-quick-order>
+    </div>
+  </div>
+
+  <div class="container zod-product-lower">
+    <nav class="zod-product-tabs" aria-label="{{ trans('zod.product.description') }}">
+      <a href="#description">{{ trans('zod.product.description') }}</a>
+      {% if product.has_metadata %}<a href="#specifications">{{ trans('zod.product.specifications') }}</a>{% endif %}
+      <a href="#delivery">{{ trans('zod.product.shipping') }}</a>
+      {% if store.settings.rating.show_on_product %}<a href="#reviews">{{ trans('zod.product.reviews') }}</a>{% endif %}
+    </nav>
+    <div class="zod-product-info-grid">
+      <article id="description" class="zod-info-panel zod-description-panel"><h2>{{ trans('zod.product.description') }}</h2><div data-testid="store-product-description" class="zod-rich-text">{{ product.description|raw }}</div>{% if product.has_metadata %}<div id="specifications" class="zod-specification-block"><h2>{{ trans('zod.product.specifications') }}</h2><salla-metadata data-testid="store-product-metadata"></salla-metadata></div>{% endif %}{% if product.tags|length and theme.settings.get('show_tags', false) %}<div class="zod-tags">{% for tag in product.tags %}<a href="{{ tag.url }}">{{ tag.name }}</a>{% endfor %}</div>{% endif %}</article>
+      <aside id="delivery" class="zod-info-panel"><h2>{{ trans('zod.product.shipping') }}</h2><div class="zod-info-row"><i class="sicon-shipping-fast"></i><p><b>{{ trans('zod.product.delivery') }}</b><span>{{ trans('zod.product.delivery_text') }}</span></p></div><div class="zod-info-row"><i class="sicon-security"></i><p><b>{{ trans('zod.product.warranty') }}</b><span>{{ trans('zod.product.warranty_text') }}</span></p></div><div class="zod-info-row"><i class="sicon-support"></i><p><b>{{ trans('zod.product.support') }}</b><span>{{ trans('zod.product.support_text') }}</span></p></div></aside>
+    </div>
+    {% hook 'product:single.description' %}{% hook 'product:single.description.end' %}
+    <salla-offer data-testid="store-product-offer"></salla-offer>
+  </div>
+</section>
+<div class="s-blocks-wrapper">{% hook 'product.single.before_customer_reviews' %}</div>
+{% if store.settings.rating.show_on_product %}<section id="reviews" class="zod-section zod-product-reviews"><div class="container"><salla-comments data-testid="store-product-comments" item-id="{{ product.id }}" type="product"></salla-comments></div></section>{% endif %}
+<div class="s-blocks-wrapper">{% hook 'product.single.before_product_recommendations' %}</div>
+<section class="zod-section"><div class="container"><salla-products-slider data-testid="store-product-related" source="related" source-value="{{ product.id }}" block-title="{{ trans('zod.product.related') }}" display-all-url></salla-products-slider></div></section>
+<div class="s-blocks-wrapper">{% hook 'product.single.after_product_recommendations' %}</div>
+{% endblock %}
+{% block scripts %}<script defer src="{{ 'product.js'|asset }}"></script>{% if product.has_3d_image %}<script type="module" defer src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>{% endif %}{% endblock %}

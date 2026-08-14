@@ -1,0 +1,18 @@
+{% extends "layouts.master" %}
+{% block content %}
+<section class="zod-account-hero">
+  <div class="container"><salla-breadcrumb></salla-breadcrumb></div>
+</section>
+<div class="container zod-account-layout">
+  <aside class="zod-account-sidebar">
+    {% if is_page('customer.profile') %}
+      <div class="zod-account-avatar"><salla-file-upload data-testid="store-profile-avatar-upload" profile-image value="{{ user.avatar }}"></salla-file-upload></div>
+    {% endif %}
+    <salla-user-menu data-testid="store-sidebar-user-menu" inline></salla-user-menu>
+  </aside>
+  <section class="zod-account-content">
+    {% block inner_title %}<h1 class="zod-account-page-title">{{ page.title }}</h1>{% endblock %}
+    {% block inner_content %}{% endblock %}
+  </section>
+</div>
+{% endblock %}

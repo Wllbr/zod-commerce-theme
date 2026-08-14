@@ -1,0 +1,4 @@
+<section class="zod-section zod-wholesale-section"><div class="container"><div class="zod-wholesale">
+  {% if component.image %}<div class="zod-wholesale__media"><img src="{{ component.image }}" alt="{{ component.title|default(trans('zod.home.wholesale')) }}" loading="lazy"></div>{% endif %}
+  <div class="zod-wholesale__content">{% if component.eyebrow %}<span class="zod-eyebrow">{{ component.eyebrow }}</span>{% endif %}<h2>{{ component.title|default(trans('zod.home.wholesale')) }}</h2><p>{{ component.text|default(trans('zod.home.wholesale_text')) }}</p><a class="zod-btn zod-btn--light" href="{{ component.url.url|default(component.url)|default(link('contact-us')) }}">{{ component.button|default(trans('zod.home.request_quote')) }} <i class="sicon-arrow-left rtl:rotate-180"></i></a></div>
+</div></div></section>

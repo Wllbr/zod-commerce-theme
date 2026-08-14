@@ -1,0 +1,9 @@
+{% extends "layouts.master" %}
+{% block content %}
+  {% hook 'index:start' %}
+  <div class="zod-home">
+    {% component home %}
+  </div>
+  {% hook 'index:end' %}
+{% endblock %}
+{% block scripts %}<script defer src="{{ 'home.js'|asset }}"></script>{% endblock %}

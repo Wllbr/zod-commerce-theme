@@ -1,0 +1,110 @@
+{
+  "zod": {
+    "topbar": {
+      "default": "Fast delivery across Saudi Arabia · Secure payments · Wholesale available"
+    },
+    "header": {
+      "search_placeholder": "Search products, brands or model numbers...",
+      "all_categories": "All categories",
+      "menu": "Menu",
+      "account": "Account",
+      "wishlist": "Wishlist",
+      "cart": "Cart",
+      "offers": "Offers"
+    },
+    "home": {
+      "shop_categories": "Shop by category",
+      "shop_categories_sub": "Find the right product faster through clear specialist categories.",
+      "shop_need": "Shop by need",
+      "shop_need_sub": "Start with your goal and we’ll take you to the right products.",
+      "best_sellers": "Best sellers",
+      "new_arrivals": "New arrivals",
+      "brands": "Shop trusted brands",
+      "brands_sub": "Browse products by manufacturer.",
+      "guides": "Buying guides",
+      "guides_sub": "Practical guides to help you choose the right technical product.",
+      "faq": "Frequently asked questions",
+      "faq_sub": "Delivery, warranty, business orders and more.",
+      "view_all": "View all",
+      "learn_more": "Learn more",
+      "shop_now": "Shop now",
+      "wholesale": "Business & wholesale",
+      "wholesale_text": "Need quantities, project supply or a formal quotation? Our sales team can help.",
+      "request_quote": "Request a quotation",
+      "locations": "Visit or contact us",
+      "directions": "Directions",
+      "call": "Call",
+      "latest_products": "Latest products"
+    },
+    "product": {
+      "in_stock": "In stock",
+      "low_stock": "Low stock",
+      "out_stock": "Out of stock",
+      "model": "Model / SKU",
+      "tax_included": "VAT included",
+      "quantity": "Quantity",
+      "delivery": "Delivery",
+      "delivery_text": "Delivery options and ETA are confirmed at checkout.",
+      "warranty": "Warranty",
+      "warranty_text": "Warranty coverage follows the product or manufacturer terms.",
+      "original": "Clear product details",
+      "original_text": "Brand, model and available specifications are shown before checkout.",
+      "secure": "Secure payment",
+      "secure_text": "Protected checkout with Salla supported payment methods.",
+      "support": "Need help choosing?",
+      "support_text": "Contact our sales team before ordering.",
+      "description": "Description",
+      "specifications": "Specifications",
+      "shipping": "Shipping & delivery",
+      "reviews": "Reviews",
+      "related": "You may also like",
+      "sold": "Purchased",
+      "remaining": "Remaining",
+      "share": "Share",
+      "buy_box": "Order this product"
+    },
+    "catalog": {
+      "products": "Products",
+      "filter": "Filter",
+      "sort": "Sort",
+      "results": "results",
+      "subcategories": "Browse subcategories",
+      "empty_title": "No products found",
+      "empty_text": "Try another category or adjust the filters."
+    },
+    "brands": {
+      "title": "Brands",
+      "subtitle": "Browse our manufacturers and specialist brands.",
+      "all_products": "Products by"
+    },
+    "blog": {
+      "title": "Guides & articles",
+      "subtitle": "Technical advice, comparisons and practical buying guides.",
+      "related": "Related guides"
+    },
+    "footer": {
+      "about": "ZOD supplies technical, electrical and commercial products for homes and businesses across Saudi Arabia.",
+      "shop": "Shop",
+      "help": "Customer service",
+      "business": "Business",
+      "contact": "Contact us",
+      "wholesale": "Wholesale & projects",
+      "warranty": "Warranty & service",
+      "shipping": "Shipping & delivery",
+      "returns": "Returns",
+      "follow": "Follow ZOD",
+      "payments": "Secure payment methods",
+      "back_top": "Back to top"
+    },
+    "mobile": {
+      "home": "Home",
+      "categories": "Categories",
+      "search": "Search",
+      "wishlist": "Wishlist",
+      "cart": "Cart"
+    },
+    "common": {
+      "javascript_required": "JavaScript is required for the full shopping experience."
+    }
+  }
+}

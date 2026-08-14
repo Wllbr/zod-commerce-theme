@@ -1,0 +1,6 @@
+{% if component.brands|length %}
+<section class="zod-section zod-brands-section"><div class="container">
+  <div class="zod-section-head"><div><h2>{{ component.title|default(trans('zod.home.brands')) }}</h2><p>{{ component.subtitle|default(trans('zod.home.brands_sub')) }}</p></div>{% if component.show_all %}<a href="{{ link('brands') }}" class="zod-text-link">{{ trans('zod.home.view_all') }} <i class="sicon-arrow-left rtl:rotate-180"></i></a>{% endif %}</div>
+  <div class="zod-brand-grid">{% for brand in component.brands %}<a class="zod-brand-card" href="{{ brand.url }}"><img src="{{ brand.logo|default(brand.image) }}" alt="{{ brand.name }}" loading="lazy"><span>{{ brand.name }}</span></a>{% endfor %}</div>
+</div></section>
+{% endif %}

@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll("[data-accordion-trigger]").forEach(e=>e.addEventListener("click",()=>e.closest("[data-accordion]")?.classList.toggle("is-open")))});

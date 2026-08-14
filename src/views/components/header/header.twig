@@ -1,0 +1,50 @@
+{% set announcement = theme.settings.get('announcement_text') %}
+<header data-testid="store-header" class="zod-header" data-sticky="{{ theme.settings.get('header_is_sticky', true) ? '1' : '0' }}">
+  {% if theme.settings.get('show_announcement_bar', true) %}
+    <div class="zod-announcement">
+      <div class="container zod-announcement__inner">
+        <span><i class="sicon-shipping-fast"></i>{{ announcement ? (announcement is iterable ? announcement[language.code]|default(announcement|first) : announcement) : trans('zod.topbar.default') }}</span>
+        <div class="zod-announcement__tools">
+          {% if store.scope %}<button onclick="salla.event.dispatch('scopes::open', {'mode':'default'})"><i class="sicon-location"></i>{{ store.scope.name }}</button>{% endif %}
+          {% if store.settings.is_multilingual or store.settings.currencies_enabled %}<salla-localization-modal data-testid="store-header-localization" show-trigger></salla-localization-modal>{% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="zod-header-main">
+    <div class="container zod-header-main__inner">
+      <button class="zod-mobile-menu-btn lg:hidden" type="button" aria-label="{{ trans('zod.header.menu') }}" onclick="window.zodMenu?.openMobile()"><i class="sicon-menu"></i></button>
+      <a data-testid="store-header-logo" class="zod-logo" href="{{ store.url }}">
+        <img fetchpriority="high" loading="eager" src="{{ store.logo|cdn(220) }}" alt="{{ store.name }}">
+        {% if is_page('index') %}<h1 class="sr-only">{{ store.name }}</h1>{% endif %}
+      </a>
+      <div class="zod-desktop-search hidden lg:block" data-zod-search>
+        <salla-search data-testid="store-header-search" inline oval height="50"></salla-search>
+      </div>
+      <div class="zod-header-actions">
+        <salla-user-menu data-testid="store-header-user-menu" avatar-only show-header show-trigger></salla-user-menu>
+        <a class="zod-action-btn hidden sm:flex" href="{{ link('wishlist') }}" aria-label="{{ trans('zod.header.wishlist') }}"><i class="sicon-heart"></i></a>
+        <salla-cart-summary data-testid="store-header-cart"><i slot="icon" class="sicon-shopping-bag"></i></salla-cart-summary>
+      </div>
+    </div>
+    <div class="container zod-mobile-search lg:hidden" data-zod-mobile-search>
+      <salla-search data-testid="store-header-search-mobile" inline oval height="46"></salla-search>
+    </div>
+  </div>
+
+  <div class="zod-nav-shell hidden lg:block">
+    <div class="container zod-nav-row">
+      <button class="zod-all-categories" type="button" onclick="window.zodMenu?.toggleCatalog()"><i class="sicon-menu"></i><span>{{ trans('zod.header.all_categories') }}</span><i class="sicon-keyboard_arrow_down"></i></button>
+      <zod-main-menu aria-label="{{ trans('zod.header.menu') }}"></zod-main-menu>
+      <a class="zod-offers-link" href="{{ link('offers') }}"><i class="sicon-tag"></i>{{ trans('zod.header.offers') }}</a>
+    </div>
+  </div>
+  <div id="zod-mobile-menu" class="zod-mobile-menu" aria-hidden="true">
+    <div class="zod-mobile-menu__backdrop" onclick="window.zodMenu?.closeMobile()"></div>
+    <div class="zod-mobile-menu__panel">
+      <div class="zod-mobile-menu__head"><strong>{{ trans('zod.header.all_categories') }}</strong><button onclick="window.zodMenu?.closeMobile()"><i class="sicon-cancel"></i></button></div>
+      <div id="zod-mobile-menu-content"></div>
+    </div>
+  </div>
+</header>
