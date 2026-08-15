@@ -86,43 +86,20 @@ class ZodProductPage {
 
   initStickyPurchase() {
     if (!this.buyAnchor || !this.buyBar || !document.body.classList.contains('is-sticky-product-bar')) return;
-    let docked = false;
-    let raf = 0;
-
-    const headerOffset = () => {
-      const header = document.querySelector('.zod-header');
-      return (header?.getBoundingClientRect().height || 0) + 12;
+    const dock = () => {
+      const height = this.buyBar.getBoundingClientRect().height || 92;
+      this.buyAnchor.style.minHeight = `${height}px`;
+      this.buyBar.classList.add('is-docked');
+      document.body.classList.add('zod-product-dock-visible');
+      requestAnimationFrame(() => this.buyBar.classList.add('is-ready'));
     };
-
-    const setDocked = next => {
-      if (next === docked) return;
-      docked = next;
-      if (next) {
-        this.buyAnchor.style.minHeight = `${this.buyBar.getBoundingClientRect().height}px`;
-        this.buyBar.classList.add('is-docked');
-        document.body.classList.add('zod-product-dock-visible');
-      } else {
-        this.buyBar.classList.remove('is-docked');
-        document.body.classList.remove('zod-product-dock-visible');
-        this.buyAnchor.style.minHeight = '';
-      }
-    };
-
-    const update = () => {
-      raf = 0;
-      const trigger = this.mainPrice || this.buyAnchor;
-      const rect = trigger.getBoundingClientRect();
-      setDocked(rect.bottom < headerOffset());
-    };
-
-    const schedule = () => {
-      if (!raf) raf = requestAnimationFrame(update);
-    };
-
-    update();
-    window.addEventListener('scroll', schedule, { passive: true });
-    window.addEventListener('resize', schedule, { passive: true });
+    requestAnimationFrame(() => requestAnimationFrame(dock));
+    window.addEventListener('resize', () => {
+      if (!this.buyBar.classList.contains('is-docked')) return;
+      this.buyAnchor.style.minHeight = `${this.buyBar.getBoundingClientRect().height || 92}px`;
+    }, { passive: true });
   }
+
 }
 
 document.addEventListener('DOMContentLoaded', () => new ZodProductPage());

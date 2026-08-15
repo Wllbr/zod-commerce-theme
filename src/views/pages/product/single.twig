@@ -80,13 +80,18 @@
         {% set sticky_price_value = product.is_on_sale ? product.sale_price : (product.starting_price ? product.starting_price : product.price) %}
         <div class="zod-buy-controls-anchor" data-zod-buy-anchor>
           <div class="zod-buy-controls sticky-product-bar" data-zod-sticky-buy>
-            <div class="zod-sticky-product-summary" aria-hidden="true">
-              <div class="zod-sticky-product-summary__name">{{ product.name }}</div>
-              <div class="zod-sticky-product-summary__price" data-zod-sticky-price>{{ sticky_price_value|money }}</div>
+            {% set sticky_image = product.images|first %}
+            <div class="zod-sticky-product-summary">
+              <div class="zod-sticky-product-summary__image">{% if sticky_image %}<img src="{{ sticky_image.url }}" alt="{{ product.name }}">{% else %}<img src="{{ 'images/placeholder.svg'|asset }}" alt="{{ product.name }}">{% endif %}</div>
+              <div class="zod-sticky-product-summary__copy">
+                <div class="zod-sticky-product-summary__name">{{ product.name }}</div>
+                <div class="zod-sticky-product-summary__price" data-zod-sticky-price>{{ sticky_price_value|money }}</div>
+              </div>
             </div>
             {% if product.is_hidden_quantity or product.type == 'booking' %}<input type="hidden" name="quantity" value="1">
             {% else %}<div class="zod-qty-row sticky-product-bar__quantity"><label>{{ trans('zod.product.quantity') }}</label><salla-quantity-input data-testid="store-product-quantity" max="{{ product.max_quantity }}" value="1" name="quantity"></salla-quantity-input></div>{% endif %}
-            <salla-add-product-button data-testid="store-product-add-to-cart" {{ product.can_quick_buy ? 'quick-buy' : '' }} {{ theme.settings.get('sticky_add_to_cart') ? 'support-sticky-bar' : '' }} {{ product.is_require_shipping ? 'required-shipping' : '' }} {{ product.has_preorder_campaign ? 'has-pre-order' : '' }} amount="{{ product.base_currency_price }}" class="zod-main-add sticky-product-bar__btn" product-status="{{ product.status }}" product-type="{{ product.type }}" product-id="{{ product.id }}" loader-position="end" type="submit" width="wide" {% if product.notify_availability %}{{ product.notify_availability.subscribed ? 'is-subscribed' : '' }} channels="{{ product.notify_availability.channels|join(',') }}" subscribed-options="{{ product.notify_availability.subscribed_options|json_encode }}" {{ product.notify_availability.options ? 'notify-options-availability' : '' }}{% endif %}>{{ product.add_to_cart_label }}</salla-add-product-button>
+            <salla-add-product-button data-testid="store-product-add-to-cart" {{ product.is_require_shipping ? 'required-shipping' : '' }} {{ product.has_preorder_campaign ? 'has-pre-order' : '' }} amount="{{ product.base_currency_price }}" class="zod-main-add sticky-product-bar__btn" product-status="{{ product.status }}" product-type="{{ product.type }}" product-id="{{ product.id }}" loader-position="end" type="submit" width="wide" {% if product.notify_availability %}{{ product.notify_availability.subscribed ? 'is-subscribed' : '' }} channels="{{ product.notify_availability.channels|join(',') }}" subscribed-options="{{ product.notify_availability.subscribed_options|json_encode }}" {{ product.notify_availability.options ? 'notify-options-availability' : '' }}{% endif %}>{{ product.add_to_cart_label }}</salla-add-product-button>
+            {% if product.can_quick_buy %}<salla-quick-buy class="zod-sticky-quick-buy" product-id="{{ product.id }}" amount="{{ product.base_currency_price }}" {{ product.is_require_shipping ? 'is-require-shipping' : '' }} type="buy"></salla-quick-buy>{% endif %}
           </div>
         </div>
       </form>

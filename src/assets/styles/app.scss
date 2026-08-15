@@ -836,3 +836,56 @@ body.zod-checkout-is-transitioning{overflow:hidden}
   .zod-order-complete-progress{grid-template-columns:auto 1fr auto;max-width:100%;padding:10px;margin-bottom:18px}.zod-order-complete-progress>span:nth-of-type(2){display:none}.zod-order-complete-progress>em:nth-of-type(2){display:none}.zod-order-complete-progress>span{font-size:9px}.zod-order-complete-card{padding:30px 16px}
 }
 @media(prefers-reduced-motion:reduce){.zod-checkout-transition__motion span,.zod-checkout-transition__motion i,.zod-checkout-transition__track i,.zod-cart-progress.is-completing [data-zod-progress-checkout]>i{animation:none!important}.zod-checkout-transition__track i{transform:scaleX(1)}}
+
+
+/* =========================================================
+   ZOD v1.5.5 — stable cart feedback + always-on purchase dock
+   ========================================================= */
+.zod-cart-toast.is-remove .zod-cart-toast__icon{background:#fff1f2;color:#d92d20}
+.zod-cart-toast.is-remove .zod-cart-toast__icon i{animation:zodRemovePop .42s cubic-bezier(.2,.9,.25,1)}
+@keyframes zodRemovePop{0%{transform:scale(.55) rotate(-10deg)}70%{transform:scale(1.12) rotate(2deg)}100%{transform:scale(1) rotate(0)}}
+.zod-cart-item.is-removing{opacity:.62;transform:scale(.992);filter:saturate(.7);pointer-events:none}
+.zod-cart-item.is-removing:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.72),transparent);transform:translateX(-110%);animation:zodRemoveSweep .65s ease infinite;z-index:3;pointer-events:none}
+.zod-cart-item.is-removed{opacity:0;transform:scale(.97);max-height:0!important;margin:0!important;padding-block:0!important;border-width:0!important;overflow:hidden;transition:opacity .2s ease,transform .25s ease,max-height .32s ease,padding .32s ease,margin .32s ease}
+@keyframes zodRemoveSweep{to{transform:translateX(110%)}}
+
+/* Keep checkout navigation native to Salla. No interception/redirect overlay. */
+.zod-checkout-transition{display:none!important}
+body.zod-checkout-is-transitioning{overflow:auto!important}
+
+/* Purchase dock is visible immediately on product pages and enters smoothly from below. */
+.product-single .zod-buy-controls.is-docked{opacity:0;transform:translateY(115%);animation:none!important;transition:transform .36s cubic-bezier(.18,.85,.22,1),opacity .24s ease}
+.product-single .zod-buy-controls.is-docked.is-ready{opacity:1;transform:translateY(0)}
+.product-single .zod-buy-controls.is-docked{grid-template-columns:minmax(260px,1fr) auto minmax(210px,300px) minmax(175px,240px);gap:12px}
+.product-single .zod-sticky-product-summary{display:flex!important;align-items:center;gap:11px;min-width:0}
+.product-single .zod-sticky-product-summary__image{width:54px;height:54px;flex:0 0 54px;border:1px solid #e7e9ec;border-radius:12px;background:#f7f8f9;overflow:hidden;display:grid;place-items:center}
+.product-single .zod-sticky-product-summary__image img{width:100%;height:100%;object-fit:contain;padding:4px}
+.product-single .zod-sticky-product-summary__copy{min-width:0}
+.product-single .zod-sticky-product-summary__name{display:block!important;max-width:520px;font-size:12px;font-weight:850;color:var(--zod-ink);line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.product-single .zod-sticky-product-summary__price{font-size:18px;margin-top:3px}
+.product-single .zod-sticky-quick-buy{display:block;min-width:0}
+.product-single .zod-sticky-quick-buy::part(button){min-height:50px;border-radius:12px;font-weight:900}
+body.zod-product-dock-visible.product-single{padding-bottom:96px}
+
+@media(max-width:767px){
+  body.zod-product-dock-visible.product-single{padding-bottom:214px}
+  .product-single .zod-buy-controls.is-docked{bottom:68px;padding:8px 10px calc(8px + env(safe-area-inset-bottom));display:grid;grid-template-columns:82px minmax(0,1fr) minmax(0,1fr);gap:7px 8px;border-radius:16px 16px 0 0!important}
+  .product-single .zod-buy-controls.is-docked .zod-sticky-product-summary{grid-column:1/-1;display:grid!important;grid-template-columns:46px minmax(0,1fr) auto;gap:9px;align-items:center;padding-bottom:7px;border-bottom:1px solid #eef0f2}
+  .product-single .zod-sticky-product-summary__image{width:46px;height:46px;flex-basis:46px;border-radius:10px}
+  .product-single .zod-sticky-product-summary__copy{display:contents}
+  .product-single .zod-sticky-product-summary__name{font-size:10.5px;line-height:1.35;white-space:normal;display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:none}
+  .product-single .zod-sticky-product-summary__price{font-size:14px;margin:0;white-space:nowrap;text-align:end}
+  .product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity{grid-column:1;display:block;margin:0}
+  .product-single .zod-buy-controls.is-docked .sticky-product-bar__btn{grid-column:2;margin:0!important}
+  .product-single .zod-buy-controls.is-docked .zod-sticky-quick-buy{grid-column:3}
+  .product-single .zod-buy-controls.is-docked .sticky-product-bar__btn::part(button),.product-single .zod-sticky-quick-buy::part(button){min-height:46px;border-radius:11px;font-size:11px}
+}
+@media(max-width:390px){
+  .product-single .zod-buy-controls.is-docked{grid-template-columns:74px minmax(0,1fr) minmax(0,1fr);padding-inline:7px}
+  .product-single .zod-sticky-product-summary__name{font-size:10px}
+  .product-single .zod-sticky-product-summary__price{font-size:13px}
+}
+@media(prefers-reduced-motion:reduce){
+  .product-single .zod-buy-controls.is-docked,.zod-cart-item.is-removed{transition:none!important}
+  .zod-cart-toast.is-remove .zod-cart-toast__icon i,.zod-cart-item.is-removing:before{animation:none!important}
+}

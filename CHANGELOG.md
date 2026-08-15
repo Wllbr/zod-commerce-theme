@@ -1,3 +1,9 @@
+# v1.5.5
+- Fixed literal `zod.cart.added` / `zod.cart.updated` feedback.
+- Added remove-from-cart feedback and animation.
+- Restored native Salla checkout navigation to fix checkout/410 regressions.
+- Added an immediate sticky purchase dock with product image/title and explicit Quick Buy.
+
 # Changelog
 
 ## 1.5.4

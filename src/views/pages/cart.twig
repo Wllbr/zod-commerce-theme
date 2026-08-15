@@ -1,7 +1,7 @@
 {% extends "layouts.master" %}
 {% block content %}
 <div class="container"><nav class="zod-breadcrumb zod-cart-breadcrumb"><salla-breadcrumb></salla-breadcrumb></nav></div>
-<section class="zod-cart-page {{ cart.items|length ? 'zod-cart-page--has-items' : '' }}" data-zod-cart-page data-checkout-url="{{ link('checkout') }}">
+<section class="zod-cart-page {{ cart.items|length ? 'zod-cart-page--has-items' : '' }}" data-zod-cart-page>
   <div class="container">
     <div class="zod-cart-heading">
       <div>
@@ -11,7 +11,7 @@
       {% if cart.items|length %}<a href="{{ link('/') }}" class="zod-cart-continue"><i class="sicon-keyboard_arrow_left"></i>{{ trans('zod.cart.continue') }}</a>{% endif %}
     </div>
     {% if cart.items|length %}
-    <div class="zod-cart-progress zod-cart-progress--two" data-zod-checkout-progress aria-label="{{ trans('zod.cart.progress_label') }}">
+    <div class="zod-cart-progress zod-cart-progress--two" aria-label="{{ trans('zod.cart.progress_label') }}">
       <span class="zod-cart-progress__step is-active" data-zod-progress-cart><i class="sicon-shopping-bag"></i><b>{{ trans('zod.cart.step_cart') }}</b></span>
       <span class="zod-cart-progress__line"><i></i><em></em></span>
       <span class="zod-cart-progress__step" data-zod-progress-checkout><i class="sicon-shipping-fast"></i><b>{{ trans('zod.cart.step_delivery_payment') }}</b></span>
@@ -34,7 +34,7 @@
                   {% if item.weight_label %}<small>{{ trans('pages.products.weight') }}: {{ item.weight_label }}</small>{% endif %}
                   {% if item.is_on_sale %}<div class="zod-cart-item__unit-price"><del>{{ item.original_price|money }}</del><span>{{ item.price|money }}</span></div>{% endif %}
                 </div>
-                <salla-button data-testid="store-cart-delete-item" type="button" shape="icon" size="small" color="danger" class="zod-cart-delete" onclick="salla.cart.deleteItem('{{ item.id }}').then(()=>document.querySelector('#item-{{ item.id }}')?.remove())"><i class="sicon-trash"></i></salla-button>
+                <salla-button data-testid="store-cart-delete-item" type="button" shape="icon" size="small" color="danger" class="zod-cart-delete" onclick="window.zodTheme ? window.zodTheme.deleteCartItem('{{ item.id }}', '#item-{{ item.id }}') : salla.cart.deleteItem('{{ item.id }}').then(()=>document.querySelector('#item-{{ item.id }}')?.remove())"><i class="sicon-trash"></i></salla-button>
               </div>
               {% if item.offer %}<div class="zod-cart-offer"><i class="sicon-discount-calculator"></i>{{ item.offer.names }}</div>{% endif %}
               <salla-cart-item-offers quantity="{{ item.quantity }}" item-id="{{ item.id }}" product-price="{{ item.product_price }}" offers="{{ item.detailed_offers|json_encode }}"></salla-cart-item-offers>
@@ -68,25 +68,11 @@
         <span>{{ trans('zod.cart.total') }}</span>
         <strong data-zod-cart-grand-total>{{ cart.total|money }}</strong>
       </div>
-      <a data-testid="store-cart-checkout-mobile" data-zod-checkout-transition-link href="{{ link('checkout') }}" class="zod-cart-mobile-checkout__button">
+      <a data-testid="store-cart-checkout-mobile" href="{{ link('checkout') }}" class="zod-cart-mobile-checkout__button">
         <span class="zod-cart-mobile-checkout__button-copy"><strong>{{ trans('zod.cart.checkout') }}</strong><small>{{ trans('zod.cart.checkout_step') }}</small></span>
         <span class="zod-cart-mobile-checkout__lock"><i class="sicon-lock"></i></span>
       </a>
       <p class="zod-cart-mobile-checkout__reassurance"><i class="sicon-shield-check"></i>{{ trans('zod.cart.checkout_reassurance') }}</p>
-    </div>
-    <div class="zod-checkout-transition" data-zod-checkout-transition aria-hidden="true" role="status" aria-live="polite">
-      <div class="zod-checkout-transition__backdrop"></div>
-      <div class="zod-checkout-transition__card">
-        <div class="zod-checkout-transition__brand"><img src="{{ store.logo|cdn(220) }}" alt="{{ store.name }}"></div>
-        <div class="zod-checkout-transition__motion" aria-hidden="true"><span></span><i class="sicon-shipping-fast"></i></div>
-        <h2>{{ trans('zod.cart.opening_checkout') }}</h2>
-        <p>{{ trans('zod.cart.opening_checkout_hint') }}</p>
-        <div class="zod-checkout-transition__track"><i></i></div>
-        <div class="zod-checkout-transition__steps">
-          <span class="is-done"><i class="sicon-check"></i>{{ trans('zod.cart.transition_cart_done') }}</span>
-          <span><i class="sicon-shipping-fast"></i>{{ trans('zod.cart.transition_next') }}</span>
-        </div>
-      </div>
     </div>
     {% else %}
       <div class="zod-empty-state" data-testid="store-cart-empty"><span><i class="sicon-shopping-bag"></i></span><h2>{{ trans('pages.cart.empty_cart') }}</h2><a href="{{ link('/') }}" class="zod-btn zod-btn--primary">{{ trans('common.elements.back_home') }}</a></div>

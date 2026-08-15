@@ -87,6 +87,10 @@ class ZodTheme {
   focusSearch() { this.openSearch(document.activeElement); }
 
 
+  uiText(key, fallback = '') {
+    return window.zodSettings?.i18n?.[key] || fallback;
+  }
+
   initSuccessAlertGuard() {
     if (window.__zodAlertGuardInstalled) return;
     window.__zodAlertGuardInstalled = true;
@@ -94,7 +98,7 @@ class ZodTheme {
     window.alert = message => {
       const text = String(message ?? '').trim();
       const isCartPage = document.body?.classList?.contains('cart-page') || /\/cart(?:\/|$|\?)/i.test(location.pathname + location.search);
-      const isCartAdded = /تمت\s+إضافة\s+المنتج.*بنجاح/i.test(text)
+      const isCartAdded = /تمت?\s+إضافة\s+المنتج.*بنجاح/i.test(text)
         || /product\s+(was\s+)?added.*(cart|success)/i.test(text)
         || /added\s+to\s+(your\s+)?cart/i.test(text);
       const isCartUpdated = isCartPage && (
@@ -102,15 +106,25 @@ class ZodTheme {
         || /(?:cart|data|item).*updated.*success/i.test(text)
         || /updated\s+successfully/i.test(text)
       );
+      const isCartRemoved = isCartPage && (
+        /تم\s+حذف\s+المنتج.*بنجاح/i.test(text)
+        || /تمت\s+إزالة\s+المنتج.*(?:السلة|بنجاح)/i.test(text)
+        || /(?:cart\s+)?item.*(?:deleted|removed).*success/i.test(text)
+        || /product.*removed.*cart/i.test(text)
+      );
+
       if (isCartAdded) {
-        this.showCartToast(null, 'added');
+        this.showCartToast(this.uiText('cartAdded', 'Product added to cart'), 'added');
         return;
       }
       if (isCartUpdated) {
-        let updatedText = 'Cart updated';
-        try { updatedText = salla.lang.get('zod.cart.updated') || updatedText; } catch (_) {}
-        this.showCartToast(updatedText, 'updated');
+        this.showCartToast(this.uiText('cartUpdated', 'Cart updated'), 'updated');
         document.dispatchEvent(new CustomEvent('zod:cart-update-success'));
+        return;
+      }
+      if (isCartRemoved) {
+        this.showCartToast(this.uiText('cartRemoved', 'Product removed from cart'), 'removed');
+        document.dispatchEvent(new CustomEvent('zod:cart-delete-success'));
         return;
       }
       return nativeAlert(message);
@@ -119,7 +133,7 @@ class ZodTheme {
 
   showCartToast(message = null, variant = 'added') {
     const now = Date.now();
-    if (this.lastCartToastAt && now - this.lastCartToastAt < 700) return;
+    if (this.lastCartToastAt && now - this.lastCartToastAt < 650) return;
     this.lastCartToastAt = now;
     let toast = document.getElementById('zod-cart-toast');
     if (!toast) {
@@ -129,23 +143,21 @@ class ZodTheme {
       toast.setAttribute('role', 'status');
       toast.setAttribute('aria-live', 'polite');
       toast.innerHTML = '<span class="zod-cart-toast__icon"><i class="sicon-check"></i></span><span data-zod-cart-toast-text></span>';
-
       document.body.appendChild(toast);
     }
-    const text = message || (() => {
-      try { return salla.lang.get('zod.cart.added') || 'Product added to cart'; }
-      catch (_) { return 'Product added to cart'; }
-    })();
+    const fallback = this.uiText('cartAdded', 'Product added to cart');
+    const text = message || fallback;
     const textNode = toast.querySelector('[data-zod-cart-toast-text]');
     if (textNode) textNode.textContent = text;
     toast.classList.toggle('is-update', variant === 'updated');
+    toast.classList.toggle('is-remove', variant === 'removed');
     const icon = toast.querySelector('.zod-cart-toast__icon i');
-    if (icon) icon.className = variant === 'updated' ? 'sicon-refresh' : 'sicon-check';
+    if (icon) icon.className = variant === 'updated' ? 'sicon-refresh' : (variant === 'removed' ? 'sicon-trash' : 'sicon-check');
     toast.classList.remove('is-visible');
     void toast.offsetWidth;
     toast.classList.add('is-visible');
     clearTimeout(this.cartToastTimer);
-    this.cartToastTimer = setTimeout(() => toast.classList.remove('is-visible'), 2400);
+    this.cartToastTimer = setTimeout(() => toast.classList.remove('is-visible'), 2100);
   }
 
   moneyNumber(value) {
@@ -287,16 +299,38 @@ class ZodTheme {
     setTimeout(() => card?.classList.remove('is-added'), 700);
   }
 
+  async deleteCartItem(itemId, selector) {
+    const form = selector ? document.querySelector(selector) : null;
+    const card = form?.querySelector('[data-zod-cart-item]') || form;
+    card?.classList.add('is-removing');
+    try {
+      const response = await salla.cart.deleteItem(itemId);
+      card?.classList.remove('is-removing');
+      card?.classList.add('is-removed');
+      setTimeout(() => form?.remove(), 360);
+      const count = this.extractCartCount(response);
+      this.updateCartBadge(count, false);
+      if (count === 0) setTimeout(() => window.location.reload(), 430);
+      return response;
+    } catch (error) {
+      card?.classList.remove('is-removing');
+      throw error;
+    }
+  }
+
   initCartExperience() {
     const bind = () => {
       this.updateCartBadge();
       const cartEvents = salla?.cart?.event;
       cartEvents?.onItemAdded?.((response, productId) => {
         this.animateProductToCart(productId);
-        this.showCartToast();
+        this.showCartToast(this.uiText('cartAdded', 'Product added to cart'), 'added');
         setTimeout(() => this.updateCartBadge(this.extractCartCount(response), true), 60);
       });
-      cartEvents?.onItemDeleted?.((response) => setTimeout(() => this.updateCartBadge(this.extractCartCount(response)), 60));
+      cartEvents?.onItemDeleted?.((response) => {
+        this.showCartToast(this.uiText('cartRemoved', 'Product removed from cart'), 'removed');
+        setTimeout(() => this.updateCartBadge(this.extractCartCount(response)), 60);
+      });
       document.addEventListener('visibilitychange', () => { if (!document.hidden) this.updateCartBadge(); });
     };
     if (window.salla?.onReady) window.salla.onReady().then(bind).catch(()=>{});

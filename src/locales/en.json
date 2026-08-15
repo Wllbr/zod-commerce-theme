@@ -69,7 +69,8 @@
       "read_more": "Read more",
       "read_less": "Show less",
       "category": "Product category",
-      "available_now": "Available now"
+      "available_now": "Available now",
+      "buy_now": "Buy now"
     },
     "catalog": {
       "products": "Products",
@@ -147,7 +148,8 @@
       "transition_next": "Next: delivery & payment",
       "order_complete": "Order complete",
       "journey_complete": "Your order is complete",
-      "thank_you_hint": "Your order has been submitted successfully. Review the details below."
+      "thank_you_hint": "Your order has been submitted successfully. Review the details below.",
+      "removed": "Product removed from cart"
     },
     "whatsapp": {
       "aria": "Contact ZOD on WhatsApp"

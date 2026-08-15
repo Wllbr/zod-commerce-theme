@@ -47,7 +47,12 @@
   window.zodSettings = {
     stickyHeader: {{ theme.settings.get('header_is_sticky', true) | json_encode }},
     mobileBottomNav: {{ theme.settings.get('show_mobile_bottom_nav', true) | json_encode }},
-    notifyWhenAvailable: {{ theme.settings.get('notify_when_available_in_card', true) | json_encode }}
+    notifyWhenAvailable: {{ theme.settings.get('notify_when_available_in_card', true) | json_encode }},
+    i18n: {
+      cartAdded: {{ trans('zod.cart.added') | json_encode | raw }},
+      cartUpdated: {{ trans('zod.cart.updated') | json_encode | raw }},
+      cartRemoved: {{ trans('zod.cart.removed') | json_encode | raw }}
+    }
   };
 </script>
 <script defer crossorigin="anonymous" src="{{ 'app.js' | asset }}"></script>

@@ -69,7 +69,8 @@
       "read_more": "قراءة المزيد",
       "read_less": "عرض أقل",
       "category": "تصنيف المنتج",
-      "available_now": "متوفر الآن"
+      "available_now": "متوفر الآن",
+      "buy_now": "اشتر الآن"
     },
     "catalog": {
       "products": "المنتجات",
@@ -147,7 +148,8 @@
       "transition_next": "التالي: التوصيل والدفع",
       "order_complete": "تم الطلب",
       "journey_complete": "اكتمل طلبك بنجاح",
-      "thank_you_hint": "تم إرسال طلبك، ويمكنك مراجعة تفاصيله أدناه."
+      "thank_you_hint": "تم إرسال طلبك، ويمكنك مراجعة تفاصيله أدناه.",
+      "removed": "تم حذف المنتج من السلة"
     },
     "whatsapp": {
       "aria": "تواصل مع متجر زود عبر واتساب"
