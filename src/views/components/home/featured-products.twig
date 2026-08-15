@@ -1,1 +1,8 @@
-<section class="zod-section"><div class="container"><salla-products-slider autoplay source="selected" source-value="{{ component.products|json_encode }}" block-title="{{ component.title }}" display-all-url></salla-products-slider></div></section>
+<section class="zod-section"><div class="container">
+  {% if component.title %}<div class="zod-section-head"><h2>{{ component.title }}</h2></div>{% endif %}
+  {% if component.products|length %}
+    <salla-slider class="zod-native-product-carousel zod-density-carousel" type="carousel" auto-play loop show-controls="false" slider-config='{"autoplay":{"delay":3600,"disableOnInteraction":false,"pauseOnMouseEnter":true},"speed":600,"spaceBetween":10}'>
+      <div slot="items">{% for product in component.products|slice(0,12) %}<div class="swiper-slide zod-native-product-slide"><custom-salla-product-card product="{{ product }}"></custom-salla-product-card></div>{% endfor %}</div>
+    </salla-slider>
+  {% endif %}
+</div></section>

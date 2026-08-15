@@ -5,7 +5,13 @@
   <div class="zod-header-main zod-header-main--compact">
     <div class="container zod-compact-header">
       <div class="zod-header-actions zod-header-actions--physical-left" aria-label="{{ trans('zod.header.account') }}">
-        <salla-cart-summary data-testid="store-header-cart"><i slot="icon" class="sicon-shopping-bag"></i></salla-cart-summary>
+        <span class="zod-header-cart-wrap">
+          <salla-cart-summary class="zod-native-cart-summary" aria-hidden="true"><i slot="icon" class="sicon-shopping-bag"></i></salla-cart-summary>
+          <a data-testid="store-header-cart" class="zod-cart-link" href="{{ link('cart') }}" aria-label="{{ trans('zod.mobile.cart') }}">
+            <i class="sicon-shopping-bag"></i>
+            <span class="zod-cart-count" data-zod-cart-count hidden>0</span>
+          </a>
+        </span>
         <salla-user-menu data-testid="store-header-user-menu" avatar-only show-header show-trigger></salla-user-menu>
         <button class="zod-header-icon-button" type="button" aria-label="{{ trans('zod.mobile.search') }}" onclick="window.zodTheme?.openSearch(this)">
           <i class="sicon-search"></i>

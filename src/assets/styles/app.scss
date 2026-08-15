@@ -410,4 +410,68 @@ custom-salla-product-card{display:block;height:100%}.zod-product-card{height:100
 .zod-native-product-carousel{display:block;overflow:hidden}
 .zod-native-product-slide{width:270px;min-width:270px;height:auto}
 .zod-native-product-slide custom-salla-product-card{display:block;height:100%}
-@media(max-width:767px){.zod-native-product-slide{width:72vw;min-width:230px;max-width:285px}}
+@media(max-width:767px){.zod-native-product-slide{width:calc((100vw - 38px)/2)!important;min-width:0!important;max-width:190px!important}}
+
+
+/* =========================================================
+   ZOD v1.4 — mobile commerce density + count-only cart UX
+   ========================================================= */
+.zod-header-cart-wrap{position:relative;display:grid;place-items:center;width:42px;height:42px;flex:none}
+.zod-native-cart-summary{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;clip-path:inset(50%)!important;white-space:nowrap!important;opacity:0!important;pointer-events:none!important}
+.zod-cart-link{position:relative;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;color:var(--zod-ink);font-size:22px;transition:transform .2s ease,background .2s ease,color .2s ease}
+.zod-cart-link:hover{background:#f3f4f6;color:var(--color-primary)}
+.zod-cart-count{position:absolute;top:1px;inset-inline-end:0;min-width:18px;height:18px;padding:0 4px;border-radius:999px;background:var(--color-primary);color:var(--color-primary-reverse);display:grid;place-items:center;font-size:10px;line-height:1;font-weight:900;border:2px solid #fff;box-shadow:0 2px 7px rgba(16,24,40,.16);transform-origin:center}
+.zod-cart-count[hidden]{display:none!important}
+.zod-cart-link.is-bumping{animation:zodCartBump .62s cubic-bezier(.2,.9,.25,1)}
+.zod-cart-link.is-bumping .zod-cart-count{animation:zodBadgePop .62s cubic-bezier(.2,.9,.25,1)}
+@keyframes zodCartBump{0%,100%{transform:scale(1)}35%{transform:scale(1.18) rotate(-7deg)}60%{transform:scale(.96) rotate(3deg)}}
+@keyframes zodBadgePop{0%{transform:scale(.45);opacity:.2}45%{transform:scale(1.3);opacity:1}100%{transform:scale(1)}}
+.zod-fly-to-cart{position:fixed;z-index:3000;object-fit:contain;border-radius:14px;background:#fff;border:1px solid var(--zod-line);padding:4px;pointer-events:none;box-shadow:0 14px 36px rgba(16,24,40,.18);will-change:transform,opacity}
+.zod-product-card.is-added{animation:zodCardAdded .68s ease}
+@keyframes zodCardAdded{0%,100%{border-color:var(--zod-line);box-shadow:none}35%{border-color:color-mix(in srgb,var(--color-primary) 65%,white);box-shadow:0 0 0 4px color-mix(in srgb,var(--color-primary) 12%,transparent)}}
+
+/* Denser carousel cards: two useful products should be visible on a phone, not one oversized card. */
+.zod-density-carousel{overflow:hidden}
+.zod-density-carousel .zod-native-product-slide{height:auto}
+
+@media(max-width:767px){
+  .zod-header-actions--physical-left>.zod-header-icon-button{display:none!important} /* bottom dock owns mobile search */
+  .zod-header-cart-wrap,.zod-cart-link{width:38px;height:38px}
+  .zod-cart-link{font-size:20px}
+  .zod-cart-count{top:-1px;inset-inline-end:-1px;min-width:17px;height:17px;font-size:9px}
+
+  .zod-native-product-carousel{margin-inline:-2px}
+  .zod-native-product-slide{width:calc((100vw - 38px)/2)!important;min-width:0!important;max-width:none!important}
+  .zod-product-card{border-radius:13px;box-shadow:none!important;transform:none!important}
+  .zpc-media{aspect-ratio:1/1}
+  .zpc-media img{padding:7px}
+  .zpc-badge,.zpc-stock-badge{top:7px;inset-inline-start:7px;padding:4px 6px;border-radius:6px;font-size:8px;max-width:calc(100% - 44px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .zpc-badge+.zpc-stock-badge{top:31px}
+  .zpc-wishlist{top:7px;inset-inline-end:7px;width:30px;height:30px;font-size:14px}
+  .zpc-body{padding:9px 9px 10px;min-height:160px}
+  .zpc-brand{font-size:9px;margin-bottom:3px;letter-spacing:.02em}
+  .zpc-body h3{font-size:12px;line-height:1.45;min-height:35px;-webkit-line-clamp:2}
+  .zpc-body>p{display:none}
+  .zpc-meta{height:18px;margin-top:3px}
+  .zpc-rating{font-size:9px;gap:2px}
+  .zpc-rating small{display:none}
+  .zpc-bottom{padding-top:4px}
+  .zpc-price{gap:4px;align-items:baseline}
+  .zpc-price strong{font-size:14px}
+  .zpc-price del{font-size:9px}
+  .zpc-price span{font-size:8px;padding:2px 4px}
+  .zpc-price small{font-size:8px}
+  .zpc-add{margin-top:7px;width:100%;font-size:11px}
+
+  /* Best-effort density overrides for Salla's native product-slider wrapper as well. */
+  salla-products-slider{--slider-gap:8px;--slide-width:calc((100vw - 38px)/2)}
+  salla-products-slider .swiper-slide,
+  salla-products-slider .s-products-slider-card{width:calc((100vw - 38px)/2)!important;max-width:190px!important;min-width:0!important}
+}
+
+@media(max-width:390px){
+  .zod-native-product-slide{width:calc((100vw - 34px)/2)!important}
+  .zpc-body{padding:8px;min-height:154px}
+  .zpc-body h3{font-size:11.5px}
+  .zpc-price strong{font-size:13px}
+}

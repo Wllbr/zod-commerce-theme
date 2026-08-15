@@ -8,6 +8,14 @@
         {% if component.display_all_url %}<a class="zod-text-link" href="{{ component.display_all_url.url|default(component.display_all_url) }}">{{ trans('zod.home.view_all') }} <i class="sicon-arrow-left rtl:rotate-180"></i></a>{% endif %}
       </div>
     {% endif %}
-    {% if component.products|length %}<salla-products-slider autoplay source="selected" source-value="[{{ component.products|map((product) => product.id)|join(',') }}]" limit="12" slider-id="zod-shelf-{{ position }}"></salla-products-slider>{% else %}<salla-products-slider autoplay source="latest" limit="12" slider-id="zod-shelf-{{ position }}"></salla-products-slider>{% endif %}
+    {% if component.products|length %}
+      <salla-slider class="zod-native-product-carousel zod-density-carousel" type="carousel" auto-play loop show-controls="false" slider-config='{"autoplay":{"delay":3600,"disableOnInteraction":false,"pauseOnMouseEnter":true},"speed":600,"spaceBetween":10}'>
+        <div slot="items">
+          {% for product in component.products|slice(0,12) %}<div class="swiper-slide zod-native-product-slide"><custom-salla-product-card product="{{ product }}"></custom-salla-product-card></div>{% endfor %}
+        </div>
+      </salla-slider>
+    {% else %}
+      <salla-products-slider autoplay source="latest" limit="12" slider-id="zod-shelf-{{ position }}"></salla-products-slider>
+    {% endif %}
   </div>
 </section>

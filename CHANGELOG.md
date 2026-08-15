@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.4.0 — Mobile Commerce Pass
+
+- Replaced the visible native header cart summary with a clean count-only cart button while keeping Salla cart state as the source of truth.
+- Empty cart badges are hidden; no red `0` is shown.
+- Removed the duplicate top-header search trigger on phone layouts because the bottom navigation owns search on mobile.
+- Added smooth add-to-cart feedback: product-card confirmation pulse, cart bump, badge pop, and a lightweight product-image fly-to-cart animation.
+- Rebuilt selected homepage product shelves around controlled two-card mobile carousels.
+- Reduced mobile card image, typography, badges, wishlist, price, spacing, and button proportions.
+- Updated custom featured product slide density from a one-card 72vw layout to a two-card mobile layout.
+
+
 ## 1.3.1 — Native MP4 Showcase
 
 - Replaced YouTube embedding in **Interactive Featured Product / منتج مميز تفاعلي** with native HTML5 MP4 video.
