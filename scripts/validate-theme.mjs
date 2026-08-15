@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.0','package.json: expected v1.5.5');
+assert(pkg.version==='1.6.1','package.json: expected v1.6.1');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -97,10 +97,15 @@ const requiredTemplates=[
 ];
 for(const f of requiredTemplates) assert(fs.existsSync(path.join(root,f)),`Required storefront template missing: ${f}`);
 
+const single=read('src/views/pages/product/single.twig');
 const cartTwig=read('src/views/pages/cart.twig');
 assert(cartTwig.includes('data-zod-cart-grand-total'),'Cart must expose the grand total for mobile and desktop');
 assert(cartTwig.includes('cart.total|money'),'Cart must render Salla cart.total');
 assert(cartTwig.includes('store-cart-checkout-mobile'),'Cart must keep a mobile checkout action');
+
+assert(single.includes('<salla-reviews-summary item-id="{{ product.id }}">'), 'product page: Salla reviews summary is required');
+assert(single.includes('<salla-payments>'), 'product page: Salla-native payment methods are required');
+assert(single.includes("show_product_reviews_summary"), 'product page: review summary setting is required');
 
 const headerTwig=read('src/views/components/header/header.twig');
 const footerTwig=read('src/views/components/footer/footer.twig');
@@ -139,4 +144,5 @@ if(failures.length){
   console.error(`\nTheme validation failed (${failures.length} issue${failures.length===1?'':'s'}):\n- ${failures.join('\n- ')}`);
   process.exit(1);
 }
+
 console.log(`✓ ZOD Commerce validation passed: ${twig.length} Twig templates, ${config.components.length} custom components, ${transRefs} ZOD translation references, ${jsFiles.length} JavaScript files.`);

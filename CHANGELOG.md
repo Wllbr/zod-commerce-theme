@@ -1,3 +1,14 @@
+# Changelog
+
+## 1.6.1 — Salla-Native Trust & Reviews
+
+- Added the native `salla-reviews-summary` component beside Salla product comments to create an Orkida-style ratings/reviews area without duplicating review data.
+- Added active Salla payment methods to the product page using `salla-payments`.
+- Reworked the three product confidence cards into Original Products, Trusted Payment, and Fast Delivery with ZOD styling.
+- Added merchant switches for product payment methods and the review summary.
+- Kept review visibility controlled by Salla's `store.settings.rating.show_on_product`.
+- Added responsive desktop/mobile layouts for reviews, trust cards, and payment methods.
+
 # v1.5.5
 - Fixed literal `zod.cart.added` / `zod.cart.updated` feedback.
 - Added remove-from-cart feedback and animation.

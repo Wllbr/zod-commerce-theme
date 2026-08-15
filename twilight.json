@@ -115,6 +115,28 @@
     },
     {
       "type": "boolean",
+      "icon": "sicon-credit-card",
+      "label": "إظهار وسائل الدفع المتاحة في صفحة المنتج",
+      "description": "يعرض وسائل الدفع المفعلة في إعدادات متجر سلة داخل صفحة المنتج.",
+      "id": "show_product_payment_methods",
+      "format": "switch",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "boolean",
+      "icon": "sicon-star",
+      "label": "إظهار ملخص التقييمات في صفحة المنتج",
+      "description": "يعتمد على تقييمات المنتج الفعلية في سلة ويظهر فقط عندما تكون تقييمات المنتجات مفعلة.",
+      "id": "show_product_reviews_summary",
+      "format": "switch",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "boolean",
       "icon": "sicon-toggle-off",
       "label": "إظهار رقم SKU / الموديل",
       "description": null,

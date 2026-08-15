@@ -998,3 +998,35 @@ body.zod-product-dock-visible.product-single{padding-bottom:84px}
 @media(prefers-reduced-motion:reduce){
   .product-single .zod-live-stock__pulse::after{animation:none!important}.product-single .zod-buy-controls.is-docked{transition:none!important}.product-single .zod-buybox-description__body{transition:none!important}
 }
+
+
+/* v1.6.1 — Orkida-inspired, Salla-native product confidence + reviews */
+.product-single .zod-product-confidence{margin-top:13px;display:grid;gap:10px}
+.product-single .zod-product-trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0}
+.product-single .zod-trust-card{min-width:0;position:relative;display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #eceef1;border-radius:14px;background:linear-gradient(180deg,#fff,#fbfbfc);overflow:hidden;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.product-single .zod-trust-card::after{content:"";position:absolute;inset:auto 12px 0;height:2px;border-radius:999px;background:var(--color-primary);opacity:.18;transform:scaleX(.35);transition:opacity .22s ease,transform .22s ease}
+.product-single .zod-trust-card:hover,.product-single .zod-trust-card:focus-within{transform:translateY(-2px);border-color:color-mix(in srgb,var(--color-primary) 24%,#eceef1);box-shadow:0 10px 24px rgba(16,24,40,.06)}
+.product-single .zod-trust-card:hover::after,.product-single .zod-trust-card:focus-within::after{opacity:1;transform:scaleX(1)}
+.product-single .zod-trust-card>i{width:36px;height:36px;flex:0 0 36px;border-radius:11px;display:grid;place-items:center;background:color-mix(in srgb,var(--color-primary) 8%,#fff);color:var(--color-primary);font-size:17px}
+.product-single .zod-trust-card span{min-width:0;display:grid;gap:2px}.product-single .zod-trust-card b{font-size:11px;font-weight:950;color:#1b1e22}.product-single .zod-trust-card small{font-size:8.7px;line-height:1.45;color:#777f8a}
+.product-single .zod-product-payments{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 14px;border:1px solid #e9ebee;border-radius:14px;background:#fff}
+.product-single .zod-product-payments__copy{display:flex;align-items:center;gap:10px;min-width:180px}.product-single .zod-product-payments__copy>i{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:#f4f5f7;color:#17191c;font-size:16px}.product-single .zod-product-payments__copy span{display:grid;gap:1px}.product-single .zod-product-payments__copy b{font-size:11px;font-weight:950}.product-single .zod-product-payments__copy small{font-size:8.5px;color:#7a818b;line-height:1.4}
+.product-single .zod-product-payments salla-payments{display:block;flex:1;min-width:0;text-align:end}
+
+.product-single .zod-product-reviews{background:linear-gradient(180deg,#f7f8f9 0%,#fff 100%);padding:42px 0}
+.product-single .zod-review-header{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:18px}
+.product-single .zod-review-header__eyebrow{display:inline-flex;align-items:center;gap:6px;color:var(--color-primary);font-size:10px;font-weight:900;margin-bottom:5px}.product-single .zod-review-header__eyebrow i{font-size:12px}.product-single .zod-review-header h2{margin:0;font-size:24px;font-weight:950;color:#17191c}.product-single .zod-review-header p{margin:5px 0 0;color:#78808b;font-size:11px}.product-single .zod-review-header__rating{flex:0 0 auto}
+.product-single .zod-review-layout{display:grid;grid-template-columns:minmax(260px,.8fr) minmax(0,1.7fr);gap:14px;align-items:start}.product-single .zod-review-layout--comments-only{grid-template-columns:1fr}
+.product-single .zod-review-summary-card,.product-single .zod-review-comments-card{border:1px solid #e7e9ec;border-radius:18px;background:#fff;box-shadow:0 7px 24px rgba(16,24,40,.035);overflow:hidden}
+.product-single .zod-review-summary-card{padding:18px;position:sticky;top:96px}.product-single .zod-review-comments-card{padding:4px 12px 12px}
+.product-single .zod-review-summary-card salla-reviews-summary,.product-single .zod-review-comments-card salla-comments{display:block;width:100%}
+
+@media(max-width:991px){
+  .product-single .zod-review-layout{grid-template-columns:1fr}.product-single .zod-review-summary-card{position:relative;top:auto}
+}
+@media(max-width:767px){
+  .product-single .zod-product-trust{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:8px;padding-bottom:2px;scrollbar-width:none}.product-single .zod-product-trust::-webkit-scrollbar{display:none}.product-single .zod-trust-card{flex:0 0 78%;scroll-snap-align:start;padding:10px}.product-single .zod-trust-card>i{width:32px;height:32px;flex-basis:32px}.product-single .zod-trust-card b{font-size:10px}.product-single .zod-trust-card small{font-size:8.2px}
+  .product-single .zod-product-payments{align-items:flex-start;flex-direction:column;padding:11px}.product-single .zod-product-payments__copy{min-width:0}.product-single .zod-product-payments salla-payments{width:100%;text-align:start}
+  .product-single .zod-product-reviews{padding:28px 0}.product-single .zod-review-header{align-items:flex-start;flex-direction:column;margin-bottom:12px}.product-single .zod-review-header h2{font-size:19px}.product-single .zod-review-header p{font-size:9.5px}.product-single .zod-review-summary-card{padding:10px;border-radius:14px}.product-single .zod-review-comments-card{padding:2px 6px 8px;border-radius:14px}.product-single .zod-review-layout{gap:10px}
+}
+@media(prefers-reduced-motion:reduce){.product-single .zod-trust-card{transition:none!important}}

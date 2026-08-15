@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.0",
-  "description": "ZOD Commerce — Salla-native bilingual commerce theme with optimized responsive product pages, live Salla product data, options, installments, ratings, stock states, metadata, availability, cart interactions, always-on purchase dock, Quick Buy, mobile localization, and motion storefront components",
+  "version": "1.6.1",
+  "description": "ZOD Commerce — Salla-native bilingual commerce theme with an Orkida-inspired responsive product page, native Salla review summary/comments, active payment methods, trust features, live product data, options, stock states, metadata, Quick Buy, and always-on purchase dock",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

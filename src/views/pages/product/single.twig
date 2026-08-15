@@ -191,11 +191,19 @@
       </form>
 
       {% if theme.settings.get('show_product_trust', true) %}
-      <div class="zod-product-trust">
-        <div><i class="sicon-shipping-fast"></i><span><b>{{ trans('zod.product.delivery') }}</b><small>{{ trans('zod.product.delivery_text') }}</small></span></div>
-        <div><i class="sicon-check-circle"></i><span><b>{{ trans('zod.product.details') }}</b><small>{{ trans('zod.product.details_text') }}</small></span></div>
-        <div><i class="sicon-shield"></i><span><b>{{ trans('zod.product.secure') }}</b><small>{{ trans('zod.product.secure_text') }}</small></span></div>
-      </div>
+      <section class="zod-product-confidence" aria-label="{{ trans('zod.product.details') }}">
+        <div class="zod-product-trust">
+          <div class="zod-trust-card"><i class="sicon-check-circle"></i><span><b>{{ trans('zod.product.original') }}</b><small>{{ trans('zod.product.original_text') }}</small></span></div>
+          <div class="zod-trust-card"><i class="sicon-shield"></i><span><b>{{ trans('zod.product.secure') }}</b><small>{{ trans('zod.product.secure_text') }}</small></span></div>
+          <div class="zod-trust-card"><i class="sicon-shipping-fast"></i><span><b>{{ trans('zod.product.delivery') }}</b><small>{{ trans('zod.product.delivery_text') }}</small></span></div>
+        </div>
+        {% if theme.settings.get('show_product_payment_methods', true) %}
+        <div class="zod-product-payments" data-testid="store-product-payment-methods">
+          <div class="zod-product-payments__copy"><i class="sicon-credit-card"></i><span><b>{{ trans('zod.product.payment_methods') }}</b><small>{{ trans('zod.product.payment_methods_text') }}</small></span></div>
+          <salla-payments></salla-payments>
+        </div>
+        {% endif %}
+      </section>
       {% endif %}
 
       {% if product.is_giftable %}<salla-gifting data-testid="store-product-gifting" class="zod-gifting" product-id="{{ product.id }}" {{ product.is_require_shipping ? 'physical-products' : '' }}></salla-gifting>{% endif %}
@@ -228,7 +236,24 @@
 
 <div class="s-blocks-wrapper s-before-reviews">{% hook 'product.single.before_customer_reviews' %}</div>
 {% if store.settings.rating.show_on_product %}
-<section id="reviews" class="zod-section zod-product-reviews"><div class="container"><div class="zod-section-heading"><h2>{{ trans('zod.product.reviews') }}</h2></div><salla-comments data-testid="store-product-comments" item-id="{{ product.id }}" type="product"></salla-comments></div></section>
+<section id="reviews" class="zod-section zod-product-reviews">
+  <div class="container">
+    <div class="zod-review-header">
+      <div><span class="zod-review-header__eyebrow"><i class="sicon-star"></i>{{ trans('zod.product.reviews_summary') }}</span><h2>{{ trans('zod.product.reviews_title') }}</h2><p>{{ trans('zod.product.reviews_text') }}</p></div>
+      {% if product.rating %}<a class="zod-review-header__rating" href="#reviews"><salla-rating-stars value="{{ product.rating.stars }}" reviews="{{ product.rating.count }}"></salla-rating-stars></a>{% endif %}
+    </div>
+    <div class="zod-review-layout {{ theme.settings.get('show_product_reviews_summary', true) ? '' : 'zod-review-layout--comments-only' }}">
+      {% if theme.settings.get('show_product_reviews_summary', true) %}
+      <div class="zod-review-summary-card">
+        <salla-reviews-summary item-id="{{ product.id }}"></salla-reviews-summary>
+      </div>
+      {% endif %}
+      <div class="zod-review-comments-card">
+        <salla-comments data-testid="store-product-comments" item-id="{{ product.id }}" type="product" show-form-avatar></salla-comments>
+      </div>
+    </div>
+  </div>
+</section>
 {% endif %}
 
 <div class="s-blocks-wrapper s-before-related">{% hook 'product.single.before_product_recommendations' %}</div>
