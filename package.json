@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.5.5",
-  "description": "ZOD Commerce — stable bilingual Salla theme with translated cart feedback, animated cart mutations, always-on product purchase dock with product image/title and Quick Buy, native Salla checkout handoff, mobile localization, motion carousels, and Salla-native store data",
+  "version": "1.6.0",
+  "description": "ZOD Commerce — Salla-native bilingual commerce theme with optimized responsive product pages, live Salla product data, options, installments, ratings, stock states, metadata, availability, cart interactions, always-on purchase dock, Quick Buy, mobile localization, and motion storefront components",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

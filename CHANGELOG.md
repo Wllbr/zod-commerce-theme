@@ -80,3 +80,15 @@
 - Removed the sticky product-tabs layer that could visually collide with the fixed header while scrolling.
 - Added compact product facts for category, weight, SKU/model and sold count when Salla allows it.
 - Added Read More / Show Less for long descriptions.
+
+## 1.6.0
+- Rebuilt the single product page around current Salla/Twilight product data and web components.
+- Product description now sits immediately under price and live stock state.
+- Added Salla-controlled remaining/sold quantity states without duplicate merchant settings.
+- Preserved Salla product hooks and native ratings, installments, product options, availability, gifting, offers and related products.
+- Added compact product facts and a dedicated metadata/specifications section.
+- Improved desktop gallery/buy-box balance and mobile typography/spacing.
+- Improved green/red pulsing availability state and option-driven stock changes.
+- Refined immediate purchase dock with product image, title, mirrored live price, quantity, Add to Cart and native Salla Quick Buy.
+- Sticky dock now accounts for whether the ZOD mobile bottom navigation is enabled.
+- Removed duplicate weight display from the option support area.

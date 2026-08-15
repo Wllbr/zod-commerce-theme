@@ -17,24 +17,39 @@ class ZodProductPage {
   init() {
     this.initDescription();
     this.initStockStatus();
-    this.initStickyPurchase();
     this.initPriceMirror();
+    this.initStickyPurchase();
+    this.initOptionPanels();
   }
 
   initDescription() {
     const body = this.page.querySelector('[data-zod-description-body]');
     const toggle = this.page.querySelector('[data-zod-description-toggle]');
     if (!body || !toggle) return;
+
     const update = () => {
       const collapsed = body.classList.contains('is-collapsed');
       toggle.textContent = collapsed ? toggle.dataset.more : toggle.dataset.less;
       toggle.setAttribute('aria-expanded', String(!collapsed));
     };
+
     toggle.addEventListener('click', () => {
       body.classList.toggle('is-collapsed');
       update();
     });
     update();
+  }
+
+  initOptionPanels() {
+    this.page.querySelectorAll('[data-show]').forEach(button => {
+      button.addEventListener('click', () => {
+        const target = document.getElementById(button.dataset.show);
+        if (!target) return;
+        const opening = !target.classList.contains('is-open');
+        target.classList.toggle('is-open', opening);
+        button.classList.toggle('is-active', opening);
+      });
+    });
   }
 
   setStock(available) {
@@ -64,6 +79,7 @@ class ZodProductPage {
 
     if (this.options) {
       this.options.addEventListener('changed', async () => {
+        await Promise.resolve();
         let available = this.inferButtonAvailability();
         try {
           const hasOut = await this.options.hasOutOfStockOption?.();
@@ -74,32 +90,43 @@ class ZodProductPage {
     }
   }
 
+  getVisiblePrice() {
+    if (!this.mainPrice) return null;
+    return this.mainPrice.querySelector('.price_is_on_sale:not(.hidden) .total-price')
+      || this.mainPrice.querySelector('.starting-or-normal-price:not(.hidden) .total-price')
+      || [...this.mainPrice.querySelectorAll('.total-price')].find(el => getComputedStyle(el).display !== 'none');
+  }
+
   initPriceMirror() {
     if (!this.mainPrice || !this.stickyPrice) return;
     const sync = () => {
-      const current = this.mainPrice.querySelector('.total-price');
-      if (current?.textContent?.trim()) this.stickyPrice.textContent = current.textContent.trim();
+      const current = this.getVisiblePrice();
+      const value = current?.textContent?.trim();
+      if (value) this.stickyPrice.textContent = value;
     };
     sync();
-    new MutationObserver(sync).observe(this.mainPrice, { childList: true, subtree: true, characterData: true });
+    new MutationObserver(sync).observe(this.mainPrice, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+      attributes: true,
+      attributeFilter: ['class', 'style']
+    });
+    this.options?.addEventListener('changed', () => requestAnimationFrame(sync));
   }
 
   initStickyPurchase() {
     if (!this.buyAnchor || !this.buyBar || !document.body.classList.contains('is-sticky-product-bar')) return;
+
     const dock = () => {
-      const height = this.buyBar.getBoundingClientRect().height || 92;
-      this.buyAnchor.style.minHeight = `${height}px`;
+      this.buyAnchor.style.minHeight = '0px';
       this.buyBar.classList.add('is-docked');
       document.body.classList.add('zod-product-dock-visible');
       requestAnimationFrame(() => this.buyBar.classList.add('is-ready'));
     };
-    requestAnimationFrame(() => requestAnimationFrame(dock));
-    window.addEventListener('resize', () => {
-      if (!this.buyBar.classList.contains('is-docked')) return;
-      this.buyAnchor.style.minHeight = `${this.buyBar.getBoundingClientRect().height || 92}px`;
-    }, { passive: true });
-  }
 
+    requestAnimationFrame(() => requestAnimationFrame(dock));
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => new ZodProductPage());
