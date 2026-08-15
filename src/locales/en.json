@@ -114,7 +114,8 @@
       "categories": "Categories",
       "search": "Search",
       "wishlist": "Wishlist",
-      "cart": "Cart"
+      "cart": "Cart",
+      "language": "Language"
     },
     "common": {
       "javascript_required": "JavaScript is required for the full shopping experience."
@@ -124,7 +125,11 @@
       "features": "Product features"
     },
     "cart": {
-      "added": "Product added to cart"
+      "added": "Product added to cart",
+      "checkout": "Checkout",
+      "cart_title": "Shopping Cart",
+      "continue": "Continue shopping",
+      "secure_checkout": "Secure checkout"
     },
     "whatsapp": {
       "aria": "Contact ZOD on WhatsApp"

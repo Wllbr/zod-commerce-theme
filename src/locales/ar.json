@@ -114,7 +114,8 @@
       "categories": "التصنيفات",
       "search": "بحث",
       "wishlist": "المفضلة",
-      "cart": "السلة"
+      "cart": "السلة",
+      "language": "اللغة"
     },
     "common": {
       "javascript_required": "يلزم تفعيل JavaScript للحصول على تجربة التسوق الكاملة."
@@ -124,7 +125,11 @@
       "features": "مميزات المنتج"
     },
     "cart": {
-      "added": "تمت إضافة المنتج إلى السلة"
+      "added": "تمت إضافة المنتج إلى السلة",
+      "checkout": "إتمام الطلب",
+      "cart_title": "سلة التسوق",
+      "continue": "متابعة التسوق",
+      "secure_checkout": "إتمام طلب آمن"
     },
     "whatsapp": {
       "aria": "تواصل مع متجر زود عبر واتساب"

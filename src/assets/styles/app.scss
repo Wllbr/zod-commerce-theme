@@ -623,3 +623,88 @@ custom-salla-product-card{display:block;height:100%}.zod-product-card{height:100
 }
 @media(min-width:768px){body.zod-product-dock-visible.product-single{padding-bottom:82px}}
 .product-single .zod-native-out-stock-state{display:none!important}
+\n\n
+
+/* =========================================================
+   ZOD v1.5.1 — cart refinement + mobile localization
+   ========================================================= */
+.zod-localization-trigger{height:40px;min-width:52px;padding:0 11px;border:0;border-radius:999px;background:#f4f5f6;color:var(--zod-ink);display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;font-weight:850;cursor:pointer;transition:background .2s ease,color .2s ease,transform .2s ease}
+.zod-localization-trigger:hover{background:#eceef1;color:var(--color-primary);transform:translateY(-1px)}
+.zod-localization-trigger i{font-size:16px}
+
+.zod-cart-page{padding:18px 0 90px;background:linear-gradient(180deg,#f6f7f8 0,#fafafa 48%,#f6f7f8 100%)}
+.zod-cart-breadcrumb{padding-top:15px}
+.zod-cart-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin:8px 0 24px}
+.zod-cart-heading__eyebrow{display:inline-flex;align-items:center;gap:7px;color:var(--color-primary);font-size:11px;font-weight:850;margin-bottom:7px}
+.zod-cart-heading h1{font-size:clamp(25px,3vw,36px);font-weight:950;letter-spacing:-.03em;margin:0;color:var(--zod-ink)}
+.zod-cart-continue{display:inline-flex;align-items:center;gap:6px;color:#667085;font-size:12px;font-weight:750;padding-bottom:5px}
+.zod-cart-continue:hover{color:var(--color-primary)}
+.zod-cart-layout{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:26px;align-items:start}
+.zod-cart-items{display:flex;flex-direction:column;gap:13px}
+.zod-cart-item{background:#fff;border:1px solid #e5e7eb;border-radius:20px;padding:14px;display:grid;grid-template-columns:112px minmax(0,1fr);gap:16px;box-shadow:0 6px 22px rgba(16,24,40,.035);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+.zod-cart-item:hover{border-color:#d7dbe0;box-shadow:0 12px 32px rgba(16,24,40,.06)}
+.zod-cart-item__image{width:112px;aspect-ratio:1;border-radius:15px;background:#f7f8f9;border:1px solid #eef0f2;overflow:hidden;display:grid;place-items:center}
+.zod-cart-item__image img{width:100%;height:100%;object-fit:contain;padding:8px}
+.zod-cart-item__main{min-width:0;display:flex;flex-direction:column}
+.zod-cart-item__head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.zod-cart-item__identity{min-width:0}
+.zod-cart-item__name{display:block;color:var(--zod-ink);font-size:15px;font-weight:850;line-height:1.65}
+.zod-cart-item__head small{display:block;color:#98a2b3;font-size:10px;margin-top:3px}
+.zod-cart-item__unit-price{display:flex;align-items:center;gap:7px;margin-top:6px;font-size:11px}
+.zod-cart-item__unit-price del{color:#98a2b3}.zod-cart-item__unit-price span{color:var(--color-primary);font-weight:800}
+.zod-cart-delete{flex:none}
+.zod-cart-offer{font-size:11px;color:var(--zod-success);display:flex;gap:6px;margin:8px 0}
+.zod-cart-item__bottom{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-top:auto;padding-top:13px;border-top:1px solid #eef0f2}
+.zod-cart-item__price{display:flex;align-items:center;gap:8px}.zod-cart-item__price del{font-size:10px;color:#98a2b3}.zod-cart-item__price strong{font-size:18px;color:var(--zod-ink);font-weight:900}
+.zod-cart-summary{position:sticky;top:110px;display:flex;flex-direction:column;gap:12px}
+.zod-cart-summary__accent{display:flex;align-items:center;gap:8px;border-radius:14px;background:#17191c;color:#fff;padding:11px 14px;font-size:11px;font-weight:800}.zod-cart-summary__accent i{color:var(--color-primary)}
+.zod-cart-summary> salla-cart-summary-card,.zod-cart-widget,.zod-free-shipping{background:#fff;border:1px solid #e5e7eb;border-radius:18px;box-shadow:0 7px 24px rgba(16,24,40,.035);overflow:hidden}
+.zod-free-shipping{padding:16px}.zod-free-shipping>div{display:flex;gap:8px;align-items:center}.zod-free-shipping p{font-size:11px;color:#667085;line-height:1.6}.zod-free-shipping>span{display:block;height:7px;border-radius:99px;background:#eceff1;overflow:hidden}.zod-free-shipping>span i{display:block;height:100%;background:var(--color-primary);border-radius:inherit}
+.zod-cart-widget{padding:5px}
+.zod-cart-mobile-checkout{display:none}
+
+@media(max-width:900px){
+  .zod-header-localization{display:flex!important;align-items:center}
+  .zod-localization-trigger{height:38px;min-width:47px;padding:0 8px;font-size:10px}
+  .zod-localization-trigger i{font-size:15px}
+  .zod-cart-layout{grid-template-columns:1fr}
+  .zod-cart-summary{position:static}
+}
+
+@media(max-width:767px){
+  body.cart-page{padding-bottom:150px!important}
+  body.cart-page .zod-cart-page{padding-bottom:185px}
+  .zod-cart-breadcrumb{display:none}
+  .zod-cart-heading{align-items:center;margin:15px 0 14px}
+  .zod-cart-heading__eyebrow{display:none}
+  .zod-cart-heading h1{font-size:22px}
+  .zod-cart-continue{font-size:10px;padding:7px 9px;border:1px solid #e5e7eb;border-radius:999px;background:#fff}
+  .zod-cart-item{grid-template-columns:82px minmax(0,1fr);gap:10px;padding:10px;border-radius:15px;box-shadow:none}
+  .zod-cart-item:hover{transform:none;box-shadow:none}
+  .zod-cart-item__image{width:82px;border-radius:11px}
+  .zod-cart-item__image img{padding:5px}
+  .zod-cart-item__name{font-size:12px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;padding-inline-end:2px}
+  .zod-cart-item__head small,.zod-cart-item__unit-price{display:none}
+  .zod-cart-delete{transform:scale(.9);transform-origin:top center}
+  .zod-cart-item__bottom{grid-column:auto;margin-top:9px;padding-top:9px;gap:8px}
+  .zod-cart-item__price{flex-direction:column;align-items:flex-end;gap:0}.zod-cart-item__price strong{font-size:14px}
+  .zod-cart-quantity salla-quantity-input{max-width:122px}
+  .zod-cart-summary{gap:9px}
+  .zod-cart-summary__accent{display:none}
+  .zod-cart-summary> salla-cart-summary-card,.zod-cart-widget,.zod-free-shipping{border-radius:15px;box-shadow:none}
+  .zod-cart-mobile-checkout{position:fixed;left:0;right:0;bottom:68px;z-index:109;display:block;padding:9px 12px calc(9px + env(safe-area-inset-bottom));background:rgba(255,255,255,.94);border-top:1px solid #e5e7eb;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+  .zod-cart-mobile-checkout__button{height:50px;border-radius:14px;background:var(--color-primary);color:var(--color-primary-reverse);display:flex;align-items:center;justify-content:center;gap:9px;font-weight:900;font-size:14px;box-shadow:0 9px 24px color-mix(in srgb,var(--color-primary) 24%,transparent);transition:transform .18s ease,box-shadow .18s ease}
+  .zod-cart-mobile-checkout__button:active{transform:scale(.985);box-shadow:0 4px 14px color-mix(in srgb,var(--color-primary) 20%,transparent)}
+  .zod-cart-mobile-checkout__button i:first-child{font-size:14px}.zod-cart-mobile-checkout__button i:last-child{font-size:17px}
+}
+
+@media(max-width:430px){
+  .zod-header-actions--physical-left{gap:1px}
+  .zod-header-cart-wrap,.zod-cart-link{width:35px;height:35px}
+  .zod-localization-trigger{height:35px;min-width:42px;padding:0 7px}
+  .zod-localization-trigger i{display:none}
+  .zod-cart-heading{padding-inline:2px}
+  .zod-cart-continue{max-width:118px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+}
+
+.zod-dock-language-code{width:24px;height:24px;border-radius:50%;background:#f2f3f5;color:var(--zod-ink);display:grid;place-items:center;font-size:9px;font-weight:950;line-height:1}

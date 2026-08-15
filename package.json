@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.5.0",
-  "description": "ZOD Commerce — bilingual Salla theme with Orkida-inspired product information flow, live pulsing availability, scroll-activated purchase dock, compact mobile commerce, motion carousels, and Salla-native store data",
+  "version": "1.5.1",
+  "description": "ZOD Commerce — bilingual Salla theme with refined cart UI, persistent mobile checkout, shared native localization modal, product purchase dock, compact mobile commerce, motion carousels, and Salla-native store data",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

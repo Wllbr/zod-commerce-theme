@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.1 — Cart & mobile navigation
+- Redesigned cart cards and summary surfaces to match the ZOD commerce design.
+- Added a persistent mobile checkout CTA above the bottom navigation so checkout is always reachable.
+- Added a compact custom trigger for Salla's single native localization modal and restored mobile language access.
+- Kept checkout/cart data and localization fully Salla-native.
+
 ## 1.4.1
 - Replaced blocking add-to-cart success alerts with a non-blocking ZOD cart toast in preview/storefront.
 - Interactive featured product now refreshes its displayed price from Salla live product APIs.
