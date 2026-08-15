@@ -109,6 +109,8 @@ window.zodMenu = {
 };
 
 document.addEventListener('click', event => {
+  // The backdrop covers every pixel outside the drawer panel, so clicking anywhere
+  // outside the category area behaves exactly like clicking the close X.
   if (event.target.closest('[data-zod-menu-close]')) window.zodMenu?.close();
 });
 

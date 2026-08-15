@@ -111,6 +111,10 @@
     },
     "common": {
       "javascript_required": "يلزم تفعيل JavaScript للحصول على تجربة التسوق الكاملة."
+    },
+    "showcase": {
+      "offer_ends": "متبقي على انتهاء العرض:",
+      "features": "مميزات المنتج"
     }
   }
 }

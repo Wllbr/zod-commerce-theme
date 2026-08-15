@@ -1,1 +1,17 @@
-<section data-testid="store-home-features" class="zod-trust-strip"><div class="container"><div class="zod-trust-grid">{% for item in items %}<div class="zod-trust-item"><span class="zod-trust-icon"><i class="{{ item.icon }}"></i></span><span><strong>{{ item.title }}</strong><small>{{ item.text }}</small></span></div>{% endfor %}</div></div></section>
+{% if items|length %}
+<section data-testid="store-home-features" class="zod-store-features">
+  <div class="container">
+    <div class="zod-store-features__grid">
+      {% for item in items %}
+        <article class="zod-store-feature-card">
+          <span class="zod-store-feature-card__icon"><i class="{{ item.icon }}"></i></span>
+          <div>
+            <strong>{{ item.title }}</strong>
+            {% if item.text %}<p>{{ item.text }}</p>{% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

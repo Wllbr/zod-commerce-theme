@@ -1,8 +1,31 @@
 {% if component.brands|length %}
 {% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
 {% set subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
-<section class="zod-section zod-brands-section"><div class="container">
-  {% if title or subtitle or component.show_all %}<div class="zod-section-head">{% if title or subtitle %}<div>{% if title %}<h2>{{ title }}</h2>{% endif %}{% if subtitle %}<p>{{ subtitle }}</p>{% endif %}</div>{% endif %}{% if component.show_all %}<a href="{{ link('brands') }}" class="zod-text-link">{{ trans('zod.home.view_all') }} <i class="sicon-arrow-left rtl:rotate-180"></i></a>{% endif %}</div>{% endif %}
-  <div class="zod-brand-grid">{% for brand in component.brands %}<a class="zod-brand-card" href="{{ brand.url }}"><img src="{{ brand.logo|default(brand.image) }}" alt="{{ brand.name }}" loading="lazy"><span>{{ brand.name }}</span></a>{% endfor %}</div>
-</div></section>
+<section class="zod-section zod-brands-section">
+  <div class="container">
+    {% if title or subtitle or component.show_all %}
+      <div class="zod-section-head">
+        {% if title or subtitle %}<div>{% if title %}<h2>{{ title }}</h2>{% endif %}{% if subtitle %}<p>{{ subtitle }}</p>{% endif %}</div>{% endif %}
+        {% if component.show_all %}<a href="{{ link('brands') }}" class="zod-text-link">{{ trans('zod.home.view_all') }} <i class="sicon-arrow-left rtl:rotate-180"></i></a>{% endif %}
+      </div>
+    {% endif %}
+    <salla-slider
+      class="zod-brand-slider"
+      type="carousel"
+      auto-play
+      loop
+      show-controls="false"
+      slider-config='{"autoplay":{"delay":1800,"disableOnInteraction":false,"pauseOnMouseEnter":true},"speed":850,"spaceBetween":14}'
+    >
+      <div slot="items">
+        {% for brand in component.brands %}
+          <a class="swiper-slide zod-brand-card" href="{{ brand.url }}">
+            <span class="zod-brand-card__logo"><img src="{{ brand.logo|default(brand.image) }}" alt="{{ brand.name }}" loading="lazy"></span>
+            <span>{{ brand.name }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    </salla-slider>
+  </div>
+</section>
 {% endif %}

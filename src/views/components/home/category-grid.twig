@@ -9,15 +9,24 @@
         {% if component.show_all %}<a href="{{ link('categories') }}" class="zod-text-link">{{ trans('zod.home.view_all') }} <i class="sicon-arrow-left rtl:rotate-180"></i></a>{% endif %}
       </div>
     {% endif %}
-    <div class="zod-category-scroller">
-      {% for category in component.categories %}
-        <a class="zod-category-card" href="{{ category.url }}">
-          <span class="zod-category-card__media"><img src="{{ category.image|default('images/placeholder.svg'|asset) }}" alt="{{ category.name }}" loading="lazy"></span>
-          <span class="zod-category-card__name">{{ category.name }}</span>
-          {% if category.products_count %}<small>{{ category.products_count }} {{ trans('zod.catalog.products')|lower }}</small>{% endif %}
-        </a>
-      {% endfor %}
-    </div>
+    <salla-slider
+      class="zod-category-slider"
+      type="carousel"
+      auto-play
+      loop
+      show-controls="false"
+      slider-config='{"autoplay":{"delay":2800,"disableOnInteraction":false,"pauseOnMouseEnter":true},"speed":650,"spaceBetween":14}'
+    >
+      <div slot="items">
+        {% for category in component.categories %}
+          <a class="swiper-slide zod-category-card" href="{{ category.url }}">
+            <span class="zod-category-card__media"><img src="{{ category.image|default('images/placeholder.svg'|asset) }}" alt="{{ category.name }}" loading="lazy"></span>
+            <span class="zod-category-card__name">{{ category.name }}</span>
+            {% if category.products_count %}<small>{{ category.products_count }} {{ trans('zod.catalog.products')|lower }}</small>{% endif %}
+          </a>
+        {% endfor %}
+      </div>
+    </salla-slider>
   </div>
 </section>
 {% endif %}

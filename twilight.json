@@ -785,6 +785,210 @@
       ]
     },
     {
+      "key": "024f6813-7415-44dd-b412-49aa738f2897",
+      "title": {
+        "en": "Interactive featured product",
+        "ar": "منتج مميز تفاعلي"
+      },
+      "icon": "sicon-list-play",
+      "path": "home.interactive-product-showcase",
+      "fields": [
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "label": "اختر منتجاً",
+          "id": "products",
+          "format": "dropdown-list",
+          "selected": [],
+          "options": [],
+          "required": true,
+          "multichoice": true,
+          "searchable": true,
+          "source": "products",
+          "maxLength": 1,
+          "value": []
+        },
+        {
+          "type": "string",
+          "icon": "sicon-image",
+          "label": "صورة الغلاف / Poster (تستخدم أيضاً عند عدم إضافة فيديو)",
+          "id": "media",
+          "value": null,
+          "format": "image",
+          "required": false,
+          "description": "تظهر قبل تشغيل الفيديو وتستخدم كصورة بديلة إذا لم تتم إضافة رابط MP4."
+        },
+        {
+          "type": "string",
+          "icon": "sicon-play",
+          "label": "رابط فيديو MP4 مباشر (اختياري)",
+          "description": "أدخل رابط HTTPS مباشر ينتهي عادةً بـ .mp4. مثال: https://example.com/video.mp4",
+          "id": "video_url",
+          "value": null,
+          "required": false,
+          "format": "text",
+          "maxLength": 500
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "سطر صغير",
+          "multilanguage": true,
+          "id": "eyebrow",
+          "value": null,
+          "required": false,
+          "format": "text",
+          "maxLength": 120
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "العنوان",
+          "multilanguage": true,
+          "id": "title",
+          "value": null,
+          "required": false,
+          "format": "text",
+          "maxLength": 180
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "الوصف",
+          "multilanguage": true,
+          "id": "text",
+          "value": null,
+          "required": false,
+          "format": "textarea",
+          "maxLength": 420
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "label": "إظهار عداد نهاية العرض",
+          "id": "show_countdown",
+          "format": "switch",
+          "required": false,
+          "value": false,
+          "selected": false
+        },
+        {
+          "type": "string",
+          "icon": "sicon-clock",
+          "label": "تاريخ نهاية العرض",
+          "description": "الصيغة: Dec 30, 2026 23:59:59",
+          "id": "countdown_date",
+          "value": null,
+          "required": false,
+          "format": "text",
+          "maxLength": 60
+        },
+        {
+          "id": "features",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "المزايا التفاعلية",
+          "item_label": "ميزة",
+          "value": [],
+          "fields": [
+            {
+              "id": "features.icon",
+              "type": "items",
+              "format": "dropdown-list",
+              "label": "الأيقونة",
+              "selected": [
+                {
+                  "label": "شاشة / Display",
+                  "value": "screen",
+                  "key": "22a90c45-8ea9-42d7-9dfa-33b96386eeb1"
+                }
+              ],
+              "options": [
+                {
+                  "label": "شاشة / Display",
+                  "value": "screen",
+                  "key": "22a90c45-8ea9-42d7-9dfa-33b96386eeb1"
+                },
+                {
+                  "label": "واي فاي / Wi-Fi",
+                  "value": "wifi",
+                  "key": "09e54c59-f307-4f98-b1b8-acc1ba7bf082"
+                },
+                {
+                  "label": "مدخل / Door",
+                  "value": "door",
+                  "key": "fffe51d9-ccad-40b9-a5b3-e2f441185e60"
+                },
+                {
+                  "label": "طاقة / Power",
+                  "value": "power",
+                  "key": "33c9b3be-7c4e-4ad2-9864-a431ddf674ec"
+                },
+                {
+                  "label": "كاميرا / Camera",
+                  "value": "camera",
+                  "key": "3f8d5f4b-a69f-4153-9be7-3be316ee6f2b"
+                },
+                {
+                  "label": "حماية / Shield",
+                  "value": "shield",
+                  "key": "18c75470-9949-44de-82f7-5e80d2475a70"
+                },
+                {
+                  "label": "توصيل / Delivery",
+                  "value": "delivery",
+                  "key": "2ac8406a-7d3a-40cc-9863-6cdde29c4f27"
+                },
+                {
+                  "label": "عام / General",
+                  "value": "general",
+                  "key": "9cd9391d-ce32-4f9e-90d0-f59ca86cd409"
+                }
+              ],
+              "source": "Manual",
+              "required": true
+            },
+            {
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "label": "عنوان الميزة",
+              "multilanguage": true,
+              "id": "features.title",
+              "value": null,
+              "required": false,
+              "format": "text",
+              "maxLength": 100
+            },
+            {
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "label": "وصف الميزة",
+              "multilanguage": true,
+              "id": "features.text",
+              "value": null,
+              "required": false,
+              "format": "textarea",
+              "maxLength": 220
+            }
+          ]
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "نص زر عرض المنتج",
+          "multilanguage": true,
+          "id": "view_button",
+          "value": null,
+          "required": false,
+          "format": "text",
+          "maxLength": 40
+        }
+      ]
+    },
+    {
       "key": "62e387d2-dcfa-41b2-82ed-4a603ad781b9",
       "title": {
         "en": "Promotional banners",

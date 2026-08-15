@@ -44,9 +44,13 @@ class ZodTheme {
   initSearchOverlay() {
     if (!this.searchOverlay) return;
 
-    // The user can dismiss search by clicking anywhere outside the actual search field/results area.
+    // Dismiss search from the X button, Escape, or anywhere outside the live search field/results.
+    // composedPath() keeps clicks inside Salla's web component from being mistaken for backdrop clicks.
     this.searchOverlay.addEventListener('click', event => {
-      if (event.target.closest('[data-zod-search-box]')) return;
+      const path = typeof event.composedPath === 'function' ? event.composedPath() : [];
+      const insideSearch = path.some(node => node?.matches?.('[data-zod-search-box], [data-zod-search-box] *'))
+        || event.target.closest?.('[data-zod-search-box]');
+      if (insideSearch) return;
       this.closeSearch();
     });
 

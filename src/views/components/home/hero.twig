@@ -1,6 +1,15 @@
 {% if component.slides|length %}
 <section class="zod-hero">
-  <salla-slider id="zod-commerce-hero" class="zod-hero-slider" autoplay loop pagination>
+  <salla-slider
+    id="zod-commerce-hero"
+    class="zod-hero-slider"
+    type="carousel"
+    auto-play
+    loop
+    pagination
+    show-controls="false"
+    slider-config='{"autoplay":{"delay":6000,"disableOnInteraction":false,"pauseOnMouseEnter":true},"speed":700}'
+  >
     <div slot="items">
       {% for slide in component.slides %}
         {% set slide_url = slide.url.url|default(slide.url) %}

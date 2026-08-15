@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.2.0",
-  "description": "ZOD Commerce \u2014 bilingual Salla-native theme with fluid search and catalog overlays",
+  "version": "1.3.1",
+  "description": "ZOD Commerce — motion-first bilingual Salla theme with autoplay discovery, native MP4 interactive featured products, and Salla-native store features",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

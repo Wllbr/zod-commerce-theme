@@ -111,6 +111,10 @@
     },
     "common": {
       "javascript_required": "JavaScript is required for the full shopping experience."
+    },
+    "showcase": {
+      "offer_ends": "Offer ends in:",
+      "features": "Product features"
     }
   }
 }

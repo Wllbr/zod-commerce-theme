@@ -1,0 +1,109 @@
+{% set featured = component.products|first %}
+{% if featured %}
+  {% set eyebrow = component.eyebrow is iterable ? component.eyebrow[language.code]|default(component.eyebrow|first) : component.eyebrow %}
+  {% set custom_title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
+  {% set text = component.text is iterable ? component.text[language.code]|default(component.text|first) : component.text %}
+  {% set view_button = component.view_button is iterable ? component.view_button[language.code]|default(component.view_button|first) : component.view_button %}
+  <section class="zod-section zod-interactive-showcase-section" data-zod-interactive-showcase>
+    <div class="container">
+      <article class="zod-interactive-showcase">
+        <div class="zod-interactive-showcase__media">
+          {% set poster = component.media|default(featured.image.url|default(featured.thumbnail)) %}
+          {% if component.video_url %}
+            <video
+              class="zod-interactive-showcase__video"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="none"
+              {% if poster %}poster="{{ poster }}"{% endif %}
+              aria-label="{{ custom_title|default(featured.name) }}"
+            >
+              <source src="{{ component.video_url }}" type="video/mp4">
+            </video>
+          {% elseif poster %}
+            <img src="{{ poster }}" alt="{{ custom_title|default(featured.name) }}" loading="lazy">
+          {% endif %}
+          <div class="zod-interactive-showcase__media-shade"></div>
+        </div>
+
+        <div class="zod-interactive-showcase__content">
+          {% if eyebrow %}<span class="zod-eyebrow">{{ eyebrow }}</span>{% endif %}
+          <h2>{{ custom_title|default(featured.name) }}</h2>
+          {% if text %}<p class="zod-interactive-showcase__lead">{{ text }}</p>{% endif %}
+
+          {% if featured.price %}
+            <div class="zod-interactive-showcase__price">
+              <strong>{{ featured.sale_price|default(featured.price)|money }}</strong>
+              {% if featured.is_on_sale %}<del>{{ featured.regular_price|money }}</del>{% endif %}
+            </div>
+          {% endif %}
+
+          {% if component.show_countdown and component.countdown_date %}
+            <div class="zod-interactive-showcase__countdown">
+              <span><i class="sicon-clock"></i>{{ trans('zod.showcase.offer_ends') }}</span>
+              <salla-count-down date="{{ component.countdown_date }}" color="primary" size="sm" labeled></salla-count-down>
+            </div>
+          {% endif %}
+
+          {% if component.features|length %}
+            <div class="zod-interactive-features" role="tablist" aria-label="{{ trans('zod.showcase.features') }}">
+              <div class="zod-interactive-features__icons">
+                {% for feature in component.features %}
+                  {% set feature_title = feature.title is iterable ? feature.title[language.code]|default(feature.title|first) : feature.title %}
+                  {% set icon_choice = feature.icon is iterable ? feature.icon|first : feature.icon %}
+                  {% set icon_value = icon_choice.value|default(icon_choice) %}
+                  <button
+                    type="button"
+                    class="zod-feature-icon {{ loop.first ? 'is-active' : '' }}"
+                    data-zod-feature-trigger="{{ loop.index0 }}"
+                    role="tab"
+                    aria-selected="{{ loop.first ? 'true' : 'false' }}"
+                    aria-label="{{ feature_title }}"
+                  >
+                    {% if icon_value == 'screen' %}
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                    {% elseif icon_value == 'wifi' %}
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 20h.01M2 9a14 14 0 0 1 20 0"/></svg>
+                    {% elseif icon_value == 'door' %}
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21h14M7 21V4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v17"/><path d="M14 12h.01"/></svg>
+                    {% elseif icon_value == 'power' %}
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+                    {% elseif icon_value == 'camera' %}
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l2-3h6l2 3h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"/><circle cx="12" cy="13" r="4"/></svg>
+                    {% elseif icon_value == 'shield' %}
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v5c0 5 3.3 8.5 8 10 4.7-1.5 8-5 8-10V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+                    {% elseif icon_value == 'delivery' %}
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+                    {% else %}
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                    {% endif %}
+                  </button>
+                {% endfor %}
+              </div>
+
+              <div class="zod-interactive-features__copy">
+                {% for feature in component.features %}
+                  {% set feature_title = feature.title is iterable ? feature.title[language.code]|default(feature.title|first) : feature.title %}
+                  {% set feature_text = feature.text is iterable ? feature.text[language.code]|default(feature.text|first) : feature.text %}
+                  <div class="zod-feature-panel {{ loop.first ? 'is-active' : '' }}" data-zod-feature-panel="{{ loop.index0 }}" role="tabpanel">
+                    {% if feature_title %}<strong>{{ feature_title }}</strong>{% endif %}
+                    {% if feature_text %}<p>{{ feature_text }}</p>{% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+
+          <div class="zod-interactive-showcase__actions">
+            {% if featured.id %}
+              <salla-add-product-button fill="solid" product-id="{{ featured.id }}" product-status="{{ featured.status }}" product-type="{{ featured.type }}">{{ featured.add_to_cart_label|default(trans('pages.cart.add_to_cart')) }}</salla-add-product-button>
+            {% endif %}
+            {% if view_button %}<a class="zod-btn zod-btn--ghost" href="{{ featured.url }}">{{ view_button }} <i class="sicon-arrow-left rtl:rotate-180"></i></a>{% endif %}
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+{% endif %}

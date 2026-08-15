@@ -86,3 +86,15 @@ Only the product shelf is enabled as a safe default so a new store can render wi
 Create a dedicated empty repository for this theme:
 
 `Wllbr/zod-commerce-theme`
+
+## v1.3.1 interaction behavior
+
+- Catalog navigation uses one right-side drawer on desktop and mobile. The page behind it blurs smoothly; X, Escape, or any click outside the drawer closes it.
+- Search opens as a full-page blurred overlay using the current Salla store logo and native `salla-search`. X, Escape, or any click outside the search field/results closes it.
+- The footer has no newsletter form. Store description/slogan, footer menu, contacts, social links, tax/trust information, payment methods and copyright remain sourced from Salla.
+
+
+
+## v1.3 Motion Commerce
+
+The homepage now uses motion intentionally: hero slides autoplay without large arrow controls; category, brand and product rails move horizontally; and the new Interactive Featured Product component combines product media, native Salla commerce data and auto-cycling clickable benefit icons. The native Salla Store Features component is styled by the theme rather than duplicated as store data.

@@ -195,10 +195,10 @@ custom-salla-product-card{display:block;height:100%}.zod-product-card{height:100
 
 /* Universal category drawer — same interaction on desktop and mobile. */
 .zod-catalog-drawer{position:fixed;inset:0;z-index:1000;visibility:hidden;pointer-events:none}
-.zod-catalog-drawer__backdrop{position:absolute;inset:0;background:rgba(21,25,31,.20);backdrop-filter:blur(0);-webkit-backdrop-filter:blur(0);opacity:0;transition:opacity .28s ease,backdrop-filter .35s ease,-webkit-backdrop-filter .35s ease}
+.zod-catalog-drawer__backdrop{position:absolute;inset:0;background:rgba(22,25,30,.22);backdrop-filter:blur(14px) saturate(.86);-webkit-backdrop-filter:blur(14px) saturate(.86);opacity:0;transition:opacity .34s cubic-bezier(.22,.8,.24,1);cursor:default}
 .zod-catalog-drawer__panel{position:absolute;top:0;right:0;bottom:0;width:min(410px,92vw);background:#fff;color:var(--zod-ink);box-shadow:-24px 0 60px rgba(16,24,40,.14);transform:translateX(104%);transition:transform .34s cubic-bezier(.22,.8,.24,1);display:flex;flex-direction:column;overflow:hidden}
 .zod-catalog-drawer.is-open{visibility:visible;pointer-events:auto}
-.zod-catalog-drawer.is-open .zod-catalog-drawer__backdrop{opacity:1;backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px)}
+.zod-catalog-drawer.is-open .zod-catalog-drawer__backdrop{opacity:1}
 .zod-catalog-drawer.is-open .zod-catalog-drawer__panel{transform:translateX(0)}
 .zod-catalog-drawer__head{min-height:70px;padding:0 18px;border-bottom:1px solid var(--zod-line);display:flex;align-items:center;justify-content:space-between;gap:14px;flex:0 0 auto}
 .zod-catalog-drawer__head strong{font-size:15px;font-weight:850}
@@ -216,9 +216,9 @@ custom-salla-product-card{display:block;height:100%}.zod-product-card{height:100
 .zod-mobile-back{width:100%;min-height:50px;border:0;border-bottom:1px solid var(--zod-line);background:#f8f9fa;padding:0 8px;display:flex;align-items:center;gap:8px;font-weight:800;color:#344054;cursor:pointer}
 
 /* Full-page search with smooth blur. Clicking anywhere except the search box closes it. */
-.zod-search-overlay{position:fixed;inset:0;z-index:1010;visibility:hidden;pointer-events:none;opacity:0;background:rgba(247,248,249,.70);backdrop-filter:blur(0) saturate(.9);-webkit-backdrop-filter:blur(0) saturate(.9);transition:opacity .30s ease,visibility .30s ease,backdrop-filter .38s ease,-webkit-backdrop-filter .38s ease;overflow:auto}
-.zod-search-overlay::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 18% 24%,rgba(204,24,34,.07),transparent 21%),radial-gradient(circle at 72% 35%,rgba(23,25,28,.045),transparent 24%),radial-gradient(circle at 45% 76%,rgba(204,24,34,.045),transparent 23%)}
-.zod-search-overlay.is-open{visibility:visible;pointer-events:auto;opacity:1;backdrop-filter:blur(20px) saturate(.82);-webkit-backdrop-filter:blur(20px) saturate(.82)}
+.zod-search-overlay{position:fixed;inset:0;z-index:1010;visibility:hidden;pointer-events:none;opacity:0;background:rgba(248,249,250,.66);backdrop-filter:blur(20px) saturate(.84);-webkit-backdrop-filter:blur(20px) saturate(.84);transition:opacity .34s cubic-bezier(.22,.8,.24,1),visibility .34s ease;overflow:auto}
+.zod-search-overlay::before{content:"";position:absolute;inset:0;pointer-events:none;background:rgba(255,255,255,.08)}
+.zod-search-overlay.is-open{visibility:visible;pointer-events:auto;opacity:1}
 .zod-search-overlay__close{position:fixed;top:22px;left:22px;z-index:3;width:46px;height:46px;border:0;border-radius:50%;background:rgba(255,255,255,.82);color:var(--color-primary);display:grid;place-items:center;font-size:22px;cursor:pointer;box-shadow:0 8px 24px rgba(16,24,40,.08);transition:transform .2s ease,background .2s ease}
 .zod-search-overlay__close:hover{transform:rotate(5deg) scale(1.04);background:#fff}
 .zod-search-overlay__content{position:relative;z-index:2;width:min(900px,calc(100% - 40px));margin:10vh auto 60px;text-align:center;transform:translateY(-12px) scale(.985);opacity:0;transition:transform .34s cubic-bezier(.22,.8,.24,1),opacity .28s ease;pointer-events:none}
@@ -293,3 +293,121 @@ custom-salla-product-card{display:block;height:100%}.zod-product-card{height:100
   .zod-footer-business{padding-top:24px;border-top:1px solid #e1e4e8}
   .zod-footer--light .zod-footer-bottom__inner{flex-direction:column;align-items:flex-start;gap:14px}
 }
+
+/* ============================================================
+   ZOD v1.3 Motion Commerce
+   Horizontal discovery, autoplay products and interactive showcase
+   ============================================================ */
+
+/* Keep the hero clean: autoplay + pagination only, never oversized arrows. */
+.zod-hero-slider::part(prev-button),
+.zod-hero-slider::part(next-button),
+.zod-hero-slider .swiper-button-prev,
+.zod-hero-slider .swiper-button-next{display:none!important}
+.zod-hero-slider::part(pagination){bottom:18px}
+
+/* Category carousel */
+.zod-category-slider,
+.zod-brand-slider{display:block;overflow:hidden}
+.zod-category-slider .zod-category-card{width:210px;min-width:210px;height:auto;margin:0;scroll-snap-align:unset}
+.zod-category-slider .zod-category-card__media{aspect-ratio:1.08}
+.zod-category-slider .zod-category-card__name{font-size:14px}
+
+/* Brand carousel: one polished logo rail rather than a stacked grid. */
+.zod-brand-slider .zod-brand-card{width:220px;min-width:220px;height:145px;margin:0;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.zod-brand-slider .zod-brand-card:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--color-primary) 32%,var(--zod-line));box-shadow:0 12px 28px rgba(16,24,40,.08)}
+.zod-brand-card__logo{height:76px;width:100%;display:grid;place-items:center}
+.zod-brand-card__logo img{max-width:86%;max-height:68px;width:auto!important;height:auto!important;object-fit:contain}
+
+/* Native Salla product rails autoplay in Twig. Keep their footprint calm. */
+.zod-product-shelf salla-products-slider,
+.zod-section salla-products-slider{--slider-gap:14px}
+
+/* Interactive featured product */
+.zod-interactive-showcase-section{overflow:hidden}
+.zod-interactive-showcase{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);background:#fff;border:1px solid var(--zod-line);border-radius:24px;overflow:hidden;min-height:590px;box-shadow:0 18px 48px rgba(16,24,40,.06)}
+.zod-interactive-showcase__media{position:relative;background:#111315;min-height:590px;overflow:hidden}
+.zod-interactive-showcase__media>img,.zod-interactive-showcase__video{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover}
+.zod-interactive-showcase__media-shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(8,10,12,.02),rgba(8,10,12,.2))}
+.zod-interactive-showcase__content{padding:clamp(34px,5vw,72px);display:flex;flex-direction:column;justify-content:center;min-width:0}
+.zod-interactive-showcase__content h2{font-size:clamp(31px,3.3vw,50px);line-height:1.12;font-weight:900;letter-spacing:-.035em;margin:8px 0 0;color:var(--zod-ink)}
+.zod-interactive-showcase__lead{color:var(--zod-muted);font-size:16px;line-height:1.85;margin:16px 0 14px}
+.zod-interactive-showcase__price{display:flex;align-items:baseline;gap:11px;margin:3px 0 16px}
+.zod-interactive-showcase__price strong{font-size:30px;font-weight:900;color:var(--color-primary)}
+.zod-interactive-showcase__price del{font-size:15px;color:#9aa0a8}
+.zod-interactive-showcase__countdown{display:flex;flex-direction:column;align-items:flex-start;gap:7px;margin:0 0 22px;color:var(--color-primary)}
+.zod-interactive-showcase__countdown>span{font-size:13px;font-weight:800;display:flex;align-items:center;gap:6px}
+.zod-interactive-features{margin:10px 0 28px}
+.zod-interactive-features__icons{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.zod-feature-icon{position:relative;width:56px;height:56px;border-radius:50%;border:2px solid #d8dce1;background:#fff;display:grid;place-items:center;color:#202326;cursor:pointer;transition:transform .25s ease,color .25s ease,border-color .25s ease,background .25s ease,box-shadow .25s ease;padding:0}
+.zod-feature-icon svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.zod-feature-icon:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--color-primary) 55%,#d8dce1)}
+.zod-feature-icon.is-active{color:#fff;background:var(--color-primary);border-color:var(--color-primary);transform:translateY(-2px) scale(1.04);box-shadow:0 0 0 7px color-mix(in srgb,var(--color-primary) 12%,transparent),0 8px 24px color-mix(in srgb,var(--color-primary) 28%,transparent)}
+.zod-feature-icon.is-active::after{content:"";position:absolute;inset:-8px;border:1px solid color-mix(in srgb,var(--color-primary) 32%,transparent);border-radius:50%;animation:zodFeaturePulse 2s ease-out infinite}
+@keyframes zodFeaturePulse{0%{transform:scale(.82);opacity:.85}75%,100%{transform:scale(1.12);opacity:0}}
+.zod-interactive-features__copy{position:relative;min-height:78px}
+.zod-feature-panel{position:absolute;inset:0;opacity:0;transform:translateY(7px);visibility:hidden;transition:opacity .28s ease,transform .28s ease,visibility .28s}
+.zod-feature-panel.is-active{position:relative;opacity:1;transform:none;visibility:visible}
+.zod-feature-panel strong{display:block;font-size:20px;font-weight:900;margin-bottom:6px}
+.zod-feature-panel p{margin:0;color:var(--zod-muted);line-height:1.75;font-size:14px}
+.zod-interactive-showcase__actions{display:grid;grid-template-columns:1.08fr .92fr;gap:10px;align-items:stretch}
+.zod-interactive-showcase__actions salla-add-product-button,.zod-interactive-showcase__actions .zod-btn{width:100%;min-height:52px}
+.zod-interactive-showcase__actions .zod-btn--ghost{border:1px solid var(--zod-line);background:#fff;color:var(--zod-ink);justify-content:center}
+.zod-interactive-showcase__actions .zod-btn--ghost:hover{border-color:var(--color-primary);color:var(--color-primary)}
+
+/* Theme-native Store Features — uses Salla's real feature content. */
+.zod-store-features{padding:52px 0;background:linear-gradient(180deg,#fff,var(--zod-canvas));border-block:1px solid var(--zod-line)}
+.zod-store-features__head{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:24px}
+.zod-store-features__head h2{font-size:clamp(27px,3vw,38px);font-weight:900;margin:0;letter-spacing:-.025em}
+.zod-store-features__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.zod-store-feature-card{position:relative;overflow:hidden;background:#fff;border:1px solid var(--zod-line);border-radius:18px;padding:24px 20px;display:flex;gap:15px;align-items:flex-start;min-height:130px;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.zod-store-feature-card::before{content:"";position:absolute;inset-inline-start:0;top:18px;bottom:18px;width:3px;border-radius:3px;background:var(--color-primary);opacity:.9}
+.zod-store-feature-card:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--color-primary) 28%,var(--zod-line));box-shadow:0 14px 32px rgba(16,24,40,.07)}
+.zod-store-feature-card__icon{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;background:color-mix(in srgb,var(--color-primary) 10%,white);color:var(--color-primary);font-size:23px;flex:none}
+.zod-store-feature-card strong{display:block;font-size:15px;font-weight:900;margin:4px 0 6px}
+.zod-store-feature-card p{font-size:12px;color:var(--zod-muted);line-height:1.65;margin:0}
+
+@media(max-width:1023px){
+  .zod-category-slider .zod-category-card{width:190px;min-width:190px}
+  .zod-brand-slider .zod-brand-card{width:200px;min-width:200px}
+  .zod-interactive-showcase{grid-template-columns:1fr;min-height:0}
+  .zod-interactive-showcase__media{min-height:430px;order:0}
+  .zod-interactive-showcase__content{order:1;padding:38px}
+  .zod-store-features__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media(max-width:767px){
+  .zod-category-slider,.zod-brand-slider{margin-inline:-14px;padding-inline:14px}
+  .zod-category-slider .zod-category-card{width:44vw;min-width:150px;max-width:184px}
+  .zod-brand-slider .zod-brand-card{width:47vw;min-width:160px;max-width:205px;height:125px}
+  .zod-brand-card__logo{height:62px}
+  .zod-brand-card__logo img{max-height:55px}
+  .zod-interactive-showcase{border-radius:18px}
+  .zod-interactive-showcase__media{min-height:320px}
+  .zod-interactive-showcase__content{padding:26px 20px 24px}
+  .zod-interactive-showcase__content h2{font-size:28px}
+  .zod-interactive-showcase__lead{font-size:14px}
+  .zod-interactive-showcase__price strong{font-size:25px}
+  .zod-interactive-features__icons{gap:9px;flex-wrap:nowrap;overflow:auto;padding:7px 4px 10px;margin-inline:-4px;scrollbar-width:none}
+  .zod-interactive-features__icons::-webkit-scrollbar{display:none}
+  .zod-feature-icon{width:50px;height:50px;min-width:50px}
+  .zod-feature-icon svg{width:21px;height:21px}
+  .zod-feature-panel strong{font-size:18px}
+  .zod-interactive-showcase__actions{grid-template-columns:1fr}
+  .zod-store-features{padding:38px 0}
+  .zod-store-features__head{margin-bottom:18px}
+  .zod-store-features__grid{display:flex;overflow:auto;scroll-snap-type:x mandatory;gap:10px;margin-inline:-14px;padding-inline:14px 6px;scrollbar-width:none}
+  .zod-store-features__grid::-webkit-scrollbar{display:none}
+  .zod-store-feature-card{flex:0 0 82vw;max-width:330px;scroll-snap-align:start;min-height:116px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .zod-feature-icon.is-active::after{animation:none}
+  .zod-feature-icon,.zod-feature-panel,.zod-store-feature-card,.zod-brand-card,.zod-category-card{transition:none!important}
+}
+
+/* Native featured-product variants also follow the horizontal motion system. */
+.zod-native-product-carousel{display:block;overflow:hidden}
+.zod-native-product-slide{width:270px;min-width:270px;height:auto}
+.zod-native-product-slide custom-salla-product-card{display:block;height:100%}
+@media(max-width:767px){.zod-native-product-slide{width:72vw;min-width:230px;max-width:285px}}
