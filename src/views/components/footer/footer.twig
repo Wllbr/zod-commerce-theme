@@ -21,12 +21,22 @@
           </div>
         </details>
 
-        <details class="zod-footer-column zod-footer-disclosure" data-footer-disclosure open>
-          <summary><span>{{ trans('zod.footer.contact') }}</span><i class="sicon-keyboard_arrow_down"></i></summary>
-          <div class="zod-footer-disclosure__body">
-            <salla-contacts data-testid="store-footer-contacts"></salla-contacts>
+        <div class="zod-footer-column zod-footer-contact-column">
+          <h3>{{ trans('zod.footer.contact') }}</h3>
+          <div class="zod-footer-contact-icons" data-testid="store-footer-contacts">
+            {% if store.contacts.email %}
+              <a class="zod-footer-contact-icon" href="mailto:{{ store.contacts.email }}" aria-label="{{ trans('zod.footer.email') }}" title="{{ trans('zod.footer.email') }}"><i class="sicon-mail"></i></a>
+            {% endif %}
+            {% set zod_phone = store.contacts.mobile|default(store.contacts.phone) %}
+            {% if zod_phone %}
+              <a class="zod-footer-contact-icon" href="tel:{{ zod_phone }}" aria-label="{{ trans('zod.footer.phone') }}" title="{{ trans('zod.footer.phone') }}"><i class="sicon-phone"></i></a>
+            {% endif %}
+            {% if store.contacts.whatsapp %}
+              {% set zod_whatsapp = store.contacts.whatsapp|replace({'+':'',' ':'','-':'','(':'',')':''}) %}
+              <a class="zod-footer-contact-icon zod-footer-contact-icon--whatsapp" href="https://wa.me/{{ zod_whatsapp }}" target="_blank" rel="noopener" aria-label="{{ trans('zod.footer.whatsapp') }}" title="{{ trans('zod.footer.whatsapp') }}"><i class="sicon-whatsapp"></i></a>
+            {% endif %}
           </div>
-        </details>
+        </div>
 
         <div class="zod-footer-column zod-footer-business">
           <h3>{{ trans('zod.footer.store_info') }}</h3>

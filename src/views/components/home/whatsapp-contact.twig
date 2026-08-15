@@ -1,0 +1,20 @@
+{% if store.contacts.whatsapp %}
+  {% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
+  {% set text = component.text is iterable ? component.text[language.code]|default(component.text|first) : component.text %}
+  {% set button = component.button is iterable ? component.button[language.code]|default(component.button|first) : component.button %}
+  {% set zod_whatsapp = store.contacts.whatsapp|replace({'+':'',' ':'','-':'','(':'',')':''}) %}
+  <section class="zod-section zod-whatsapp-section">
+    <div class="container">
+      <a class="zod-whatsapp-card" href="https://wa.me/{{ zod_whatsapp }}" target="_blank" rel="noopener" aria-label="{{ trans('zod.whatsapp.aria') }}">
+        <span class="zod-whatsapp-card__icon" aria-hidden="true"><i class="sicon-whatsapp"></i></span>
+        {% if title or text %}
+          <span class="zod-whatsapp-card__copy">
+            {% if title %}<strong>{{ title }}</strong>{% endif %}
+            {% if text %}<small>{{ text }}</small>{% endif %}
+          </span>
+        {% endif %}
+        {% if button %}<span class="zod-whatsapp-card__button">{{ button }} <i class="sicon-arrow-left rtl:rotate-180"></i></span>{% endif %}
+      </a>
+    </div>
+  </section>
+{% endif %}

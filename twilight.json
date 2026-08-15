@@ -94,8 +94,8 @@
     {
       "type": "boolean",
       "icon": "sicon-toggle-off",
-      "label": "تثبيت شريط الشراء أسفل شاشة الجوال",
-      "description": null,
+      "label": "تثبيت شريط الشراء عند التمرير",
+      "description": "يثبت السعر والكمية وزر الشراء أسفل الشاشة بعد تجاوز منطقة الشراء الأصلية على الجوال والكمبيوتر.",
       "id": "sticky_add_to_cart",
       "format": "switch",
       "required": false,
@@ -832,17 +832,6 @@
         {
           "type": "string",
           "icon": "sicon-format-text-alt",
-          "label": "سطر صغير",
-          "multilanguage": true,
-          "id": "eyebrow",
-          "value": null,
-          "required": false,
-          "format": "text",
-          "maxLength": 120
-        },
-        {
-          "type": "string",
-          "icon": "sicon-format-text-alt",
           "label": "العنوان",
           "multilanguage": true,
           "id": "title",
@@ -1431,6 +1420,50 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    {
+      "key": "27902d73-6fe3-4775-ab2c-43f17c44b8fa",
+      "title": {
+        "en": "WhatsApp contact",
+        "ar": "تواصل واتساب"
+      },
+      "icon": "sicon-whatsapp",
+      "path": "home.whatsapp-contact",
+      "fields": [
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "العنوان",
+          "multilanguage": true,
+          "id": "title",
+          "value": null,
+          "required": false,
+          "format": "text",
+          "maxLength": 160
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "الوصف",
+          "multilanguage": true,
+          "id": "text",
+          "value": null,
+          "required": false,
+          "format": "textarea",
+          "maxLength": 260
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "نص الزر",
+          "multilanguage": true,
+          "id": "button",
+          "value": null,
+          "required": false,
+          "format": "text",
+          "maxLength": 50
         }
       ]
     },

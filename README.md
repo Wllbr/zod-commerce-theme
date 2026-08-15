@@ -103,3 +103,11 @@ The homepage now uses motion intentionally: hero slides autoplay without large a
 ## Mobile commerce density
 
 Version 1.4 uses a count-only header cart badge (hidden at zero), bottom-dock search on phones, two-card mobile product rails, and animated add-to-cart feedback.
+
+## v1.4.1 polish
+
+- Blocking add-to-cart success alerts are intercepted and replaced by a non-blocking ZOD cart confirmation pill.
+- Interactive showcase price refreshes from Salla's live storefront product APIs.
+- Interactive showcase no longer renders an eyebrow / featured-offer line.
+- `WhatsApp contact` is a custom homepage component that reads the WhatsApp number from Salla store contacts.
+- Footer customer-service contacts are icon-only, sourced from Salla, with hover/focus glow interactions.

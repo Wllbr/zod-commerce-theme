@@ -65,7 +65,11 @@
       "share": "Share",
       "buy_box": "Order this product",
       "details": "Product information",
-      "details_text": "Brand, model and available specifications come from the product data in Salla."
+      "details_text": "Brand, model and available specifications come from the product data in Salla.",
+      "read_more": "Read more",
+      "read_less": "Show less",
+      "category": "Product category",
+      "available_now": "Available now"
     },
     "catalog": {
       "products": "Products",
@@ -100,7 +104,10 @@
       "payments": "Secure payment methods",
       "back_top": "Back to top",
       "store_info": "Store information",
-      "view_certificate": "View tax certificate"
+      "view_certificate": "View tax certificate",
+      "email": "Email",
+      "phone": "Call",
+      "whatsapp": "WhatsApp"
     },
     "mobile": {
       "home": "Home",
@@ -115,6 +122,12 @@
     "showcase": {
       "offer_ends": "Offer ends in:",
       "features": "Product features"
+    },
+    "cart": {
+      "added": "Product added to cart"
+    },
+    "whatsapp": {
+      "aria": "Contact ZOD on WhatsApp"
     }
   }
 }

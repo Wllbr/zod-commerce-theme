@@ -30,7 +30,9 @@ class ZodTheme {
     });
 
     this.initSearchOverlay();
+    this.initSuccessAlertGuard();
     this.initCartExperience();
+    this.initLiveShowcasePrices();
     this.initFooterDisclosures();
     this.initDisclosureToggles();
     window.salla?.onReady?.().then(() => document.dispatchEvent(new CustomEvent('zod::ready')));
@@ -85,6 +87,123 @@ class ZodTheme {
   focusSearch() { this.openSearch(document.activeElement); }
 
 
+  initSuccessAlertGuard() {
+    if (window.__zodAlertGuardInstalled) return;
+    window.__zodAlertGuardInstalled = true;
+    const nativeAlert = window.alert.bind(window);
+    window.alert = message => {
+      const text = String(message ?? '').trim();
+      const isCartSuccess = /تمت\s+إضافة\s+المنتج.*بنجاح/i.test(text)
+        || /product\s+(was\s+)?added.*(cart|success)/i.test(text)
+        || /added\s+to\s+(your\s+)?cart/i.test(text);
+      if (isCartSuccess) {
+        this.showCartToast();
+        return;
+      }
+      return nativeAlert(message);
+    };
+  }
+
+  showCartToast(message = null) {
+    const now = Date.now();
+    if (this.lastCartToastAt && now - this.lastCartToastAt < 700) return;
+    this.lastCartToastAt = now;
+    let toast = document.getElementById('zod-cart-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'zod-cart-toast';
+      toast.className = 'zod-cart-toast';
+      toast.setAttribute('role', 'status');
+      toast.setAttribute('aria-live', 'polite');
+      toast.innerHTML = '<span class="zod-cart-toast__icon"><i class="sicon-check"></i></span><span data-zod-cart-toast-text></span>';
+      document.body.appendChild(toast);
+    }
+    const text = message || (() => {
+      try { return salla.lang.get('zod.cart.added') || 'Product added to cart'; }
+      catch (_) { return 'Product added to cart'; }
+    })();
+    const textNode = toast.querySelector('[data-zod-cart-toast-text]');
+    if (textNode) textNode.textContent = text;
+    toast.classList.remove('is-visible');
+    void toast.offsetWidth;
+    toast.classList.add('is-visible');
+    clearTimeout(this.cartToastTimer);
+    this.cartToastTimer = setTimeout(() => toast.classList.remove('is-visible'), 2400);
+  }
+
+  moneyNumber(value) {
+    if (value === null || value === undefined || value === '') return null;
+    if (typeof value === 'number') return Number.isFinite(value) ? value : null;
+    if (typeof value === 'string') {
+      const n = Number(value.replace(/[^0-9.\-]/g, ''));
+      return Number.isFinite(n) ? n : null;
+    }
+    if (typeof value === 'object') {
+      for (const key of ['amount','value','price','amount_with_tax','amount_without_tax']) {
+        const n = this.moneyNumber(value?.[key]);
+        if (n !== null) return n;
+      }
+    }
+    return null;
+  }
+
+  extractProductPrice(payload) {
+    const root = payload?.data?.data ?? payload?.data ?? payload ?? {};
+    const product = root?.product ?? root;
+    const sale = this.moneyNumber(product?.sale_price ?? product?.salePrice);
+    const base = this.moneyNumber(product?.price ?? product?.current_price ?? root?.price);
+    const regular = this.moneyNumber(product?.regular_price ?? product?.regularPrice ?? product?.original_price);
+    const current = sale !== null && sale > 0 ? sale : base;
+    return {
+      current,
+      regular: regular !== null && current !== null && regular > current ? regular : null
+    };
+  }
+
+  applyLivePrice(node, priceData) {
+    if (!node || !priceData?.current || priceData.current <= 0) return false;
+    const current = node.querySelector('[data-zod-price-current]');
+    const regular = node.querySelector('[data-zod-price-regular]');
+    try { current.textContent = salla.money(priceData.current); }
+    catch (_) { current.textContent = String(priceData.current); }
+    if (regular) {
+      if (priceData.regular && priceData.regular > priceData.current) {
+        try { regular.textContent = salla.money(priceData.regular); }
+        catch (_) { regular.textContent = String(priceData.regular); }
+        regular.hidden = false;
+      } else {
+        regular.hidden = true;
+        regular.textContent = '';
+      }
+    }
+    node.hidden = false;
+    return true;
+  }
+
+  initLiveShowcasePrices() {
+    const bind = async () => {
+      const nodes = [...document.querySelectorAll('[data-zod-live-price][data-product-id]')];
+      for (const node of nodes) {
+        const productId = Number(node.dataset.productId);
+        if (!productId) continue;
+        let applied = false;
+        try {
+          const response = await salla.product.getPrice(productId);
+          applied = this.applyLivePrice(node, this.extractProductPrice(response));
+        } catch (_) {}
+        if (!applied) {
+          try {
+            const response = await salla.product.getDetails(productId);
+            this.applyLivePrice(node, this.extractProductPrice(response));
+          } catch (_) {}
+        }
+      }
+    };
+    if (window.salla?.onReady) window.salla.onReady().then(bind).catch(()=>{});
+    else document.addEventListener('zod::ready', bind, {once:true});
+  }
+
+
   getStoredCartCount() {
     try {
       const summary = salla.storage.get('cart.summery') || salla.storage.get('cart.summary') || {};
@@ -128,8 +247,8 @@ class ZodTheme {
 
   animateProductToCart(productId) {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const card = document.querySelector(`custom-salla-product-card[data-product-id="${productId}"]`);
-    const source = card?.querySelector('.zpc-media img');
+    const card = document.querySelector(`custom-salla-product-card[data-product-id="${productId}"]`) || document.querySelector(`[data-zod-interactive-showcase][data-product-id="${productId}"]`);
+    const source = card?.querySelector('.zpc-media img, .zod-interactive-showcase__media img');
     const target = document.querySelector('.zod-cart-link');
     if (!source || !target) return;
     const a = source.getBoundingClientRect();
@@ -157,6 +276,7 @@ class ZodTheme {
       const cartEvents = salla?.cart?.event;
       cartEvents?.onItemAdded?.((response, productId) => {
         this.animateProductToCart(productId);
+        this.showCartToast();
         setTimeout(() => this.updateCartBadge(this.extractCartCount(response), true), 60);
       });
       cartEvents?.onItemDeleted?.((response) => setTimeout(() => this.updateCartBadge(this.extractCartCount(response)), 60));

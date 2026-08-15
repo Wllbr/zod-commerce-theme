@@ -1,10 +1,9 @@
 {% set featured = component.products|first %}
 {% if featured %}
-  {% set eyebrow = component.eyebrow is iterable ? component.eyebrow[language.code]|default(component.eyebrow|first) : component.eyebrow %}
   {% set custom_title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
   {% set text = component.text is iterable ? component.text[language.code]|default(component.text|first) : component.text %}
   {% set view_button = component.view_button is iterable ? component.view_button[language.code]|default(component.view_button|first) : component.view_button %}
-  <section class="zod-section zod-interactive-showcase-section" data-zod-interactive-showcase>
+  <section class="zod-section zod-interactive-showcase-section" data-zod-interactive-showcase data-product-id="{{ featured.id }}">
     <div class="container">
       <article class="zod-interactive-showcase">
         <div class="zod-interactive-showcase__media">
@@ -29,16 +28,13 @@
         </div>
 
         <div class="zod-interactive-showcase__content">
-          {% if eyebrow %}<span class="zod-eyebrow">{{ eyebrow }}</span>{% endif %}
           <h2>{{ custom_title|default(featured.name) }}</h2>
           {% if text %}<p class="zod-interactive-showcase__lead">{{ text }}</p>{% endif %}
 
-          {% if featured.price %}
-            <div class="zod-interactive-showcase__price">
-              <strong>{{ featured.sale_price|default(featured.price)|money }}</strong>
-              {% if featured.is_on_sale %}<del>{{ featured.regular_price|money }}</del>{% endif %}
-            </div>
-          {% endif %}
+          <div class="zod-interactive-showcase__price" data-zod-live-price data-product-id="{{ featured.id }}" {{ not featured.price ? 'hidden' : '' }}>
+            <strong data-zod-price-current>{% if featured.price %}{{ featured.sale_price|default(featured.price)|money }}{% endif %}</strong>
+            <del data-zod-price-regular {{ not featured.is_on_sale ? 'hidden' : '' }}>{% if featured.is_on_sale %}{{ featured.regular_price|money }}{% endif %}</del>
+          </div>
 
           {% if component.show_countdown and component.countdown_date %}
             <div class="zod-interactive-showcase__countdown">

@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.4.0','package.json: expected v1.4.0');
+assert(pkg.version==='1.5.0','package.json: expected v1.5.0');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -104,7 +104,7 @@ assert(headerTwig.includes('<salla-advertisement'),'Header must use Salla native
 assert(headerTwig.includes('store.settings.is_multilingual'),'Header must respect Salla multilingual setting');
 assert(headerTwig.includes('<salla-localization-modal'),'Header must use Salla localization component');
 for(const token of ['store.logo','store.name','<salla-search','<salla-user-menu','<salla-cart-summary']) assert(headerTwig.includes(token),`Header missing native Salla source: ${token}`);
-for(const token of ['store.description','<salla-menu','<salla-contacts','<salla-social','<salla-trust-badges','store.settings.tax.number','<salla-payments']) assert(footerTwig.includes(token),`Footer missing native Salla source: ${token}`);
+for(const token of ['store.description','<salla-menu','store.contacts','<salla-social','<salla-trust-badges','store.settings.tax.number','<salla-payments']) assert(footerTwig.includes(token),`Footer missing native Salla source: ${token}`);
 assert(headerTwig.includes('zod-search-overlay'),'Header must include the ZOD fluid search overlay');
 assert(headerTwig.includes('zod-catalog-drawer'),'Header must include the universal catalog drawer');
 assert(!footerTwig.toLowerCase().includes('newsletter'),'Footer must not include a newsletter section');

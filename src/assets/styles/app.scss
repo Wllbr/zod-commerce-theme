@@ -475,3 +475,151 @@ custom-salla-product-card{display:block;height:100%}.zod-product-card{height:100
   .zpc-body h3{font-size:11.5px}
   .zpc-price strong{font-size:13px}
 }
+
+
+/* =========================================================
+   ZOD v1.4.1 — non-blocking cart feedback, live showcase price,
+   WhatsApp contact and icon-only footer support
+   ========================================================= */
+.zod-cart-toast{position:fixed;z-index:5000;left:50%;bottom:92px;transform:translate(-50%,18px) scale(.96);opacity:0;pointer-events:none;display:flex;align-items:center;gap:10px;min-height:48px;max-width:min(90vw,420px);padding:10px 16px;border-radius:999px;background:#17191c;color:#fff;box-shadow:0 16px 44px rgba(16,24,40,.24);font-size:13px;font-weight:800;transition:opacity .22s ease,transform .28s cubic-bezier(.2,.9,.25,1)}
+.zod-cart-toast.is-visible{opacity:1;transform:translate(-50%,0) scale(1)}
+.zod-cart-toast__icon{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--color-primary);color:var(--color-primary-reverse);flex:none}
+.zod-interactive-showcase__price[hidden]{display:none!important}
+
+.zod-footer-contact-icons{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:18px}
+.zod-footer-contact-icon{position:relative;width:58px;height:58px;border-radius:12px;border:1px solid #e5e7eb;background:#fff;color:#111417;display:grid;place-items:center;font-size:27px;box-shadow:0 5px 16px rgba(16,24,40,.04);transition:transform .22s ease,color .22s ease,border-color .22s ease,box-shadow .22s ease,background .22s ease}
+.zod-footer-contact-icon::after{content:"";position:absolute;inset:-5px;border-radius:16px;border:1px solid color-mix(in srgb,var(--color-primary) 50%,transparent);opacity:0;transform:scale(.9);transition:opacity .22s ease,transform .22s ease}
+.zod-footer-contact-icon:hover,.zod-footer-contact-icon:focus-visible{transform:translateY(-3px) scale(1.04);color:var(--color-primary);border-color:color-mix(in srgb,var(--color-primary) 45%,#e5e7eb);box-shadow:0 0 0 4px color-mix(in srgb,var(--color-primary) 9%,transparent),0 12px 30px color-mix(in srgb,var(--color-primary) 18%,transparent);outline:none}
+.zod-footer-contact-icon:hover::after,.zod-footer-contact-icon:focus-visible::after{opacity:1;transform:scale(1)}
+.zod-footer-contact-icon--whatsapp:hover,.zod-footer-contact-icon--whatsapp:focus-visible{color:#18a957;border-color:rgba(24,169,87,.42);box-shadow:0 0 0 4px rgba(24,169,87,.08),0 12px 30px rgba(24,169,87,.17)}
+.zod-footer-contact-icon--whatsapp:hover::after,.zod-footer-contact-icon--whatsapp:focus-visible::after{border-color:rgba(24,169,87,.45)}
+.zod-footer-contact-column h3{margin-bottom:0!important}
+.zod-footer-social-row salla-social{transition:filter .22s ease,transform .22s ease}
+.zod-footer-social-row salla-social:hover{filter:drop-shadow(0 0 9px color-mix(in srgb,var(--color-primary) 35%,transparent));transform:translateY(-1px)}
+
+.zod-whatsapp-section{padding-top:20px;padding-bottom:34px}
+.zod-whatsapp-card{position:relative;overflow:hidden;display:flex;align-items:center;gap:18px;min-height:118px;padding:22px 26px;border-radius:22px;background:#151719;color:#fff;border:1px solid #25282c;box-shadow:0 16px 42px rgba(16,24,40,.09);transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease}
+.zod-whatsapp-card::before{content:"";position:absolute;width:240px;height:240px;border-radius:50%;inset-inline-end:-90px;top:-115px;background:radial-gradient(circle,rgba(37,211,102,.18),transparent 70%);pointer-events:none}
+.zod-whatsapp-card:hover{transform:translateY(-3px);border-color:rgba(37,211,102,.4);box-shadow:0 20px 48px rgba(16,24,40,.14),0 0 0 4px rgba(37,211,102,.055)}
+.zod-whatsapp-card__icon{position:relative;z-index:1;width:68px;height:68px;border-radius:20px;background:#25d366;color:#fff;display:grid;place-items:center;font-size:34px;flex:none;box-shadow:0 10px 26px rgba(37,211,102,.28);transition:transform .24s ease,box-shadow .24s ease}
+.zod-whatsapp-card:hover .zod-whatsapp-card__icon{transform:scale(1.06) rotate(-2deg);box-shadow:0 0 0 7px rgba(37,211,102,.1),0 12px 30px rgba(37,211,102,.35)}
+.zod-whatsapp-card__copy{position:relative;z-index:1;display:flex;flex-direction:column;gap:4px;min-width:0;flex:1}
+.zod-whatsapp-card__copy strong{font-size:21px;font-weight:900;line-height:1.35}
+.zod-whatsapp-card__copy small{font-size:13px;line-height:1.7;color:#c8cdd2}
+.zod-whatsapp-card__button{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 18px;border-radius:12px;background:#25d366;color:#0a321a;font-size:13px;font-weight:900;white-space:nowrap}
+
+@media(max-width:767px){
+  .zod-cart-toast{bottom:82px;font-size:12px;min-height:44px;padding:8px 13px}
+  .zod-footer-contact-icons{gap:11px;margin-top:14px}
+  .zod-footer-contact-icon{width:54px;height:54px;font-size:25px}
+  .zod-footer-contact-column{padding:22px 0!important;border-top:1px solid #e1e4e8!important}
+  .zod-whatsapp-card{min-height:102px;padding:18px;border-radius:18px;gap:13px}
+  .zod-whatsapp-card__icon{width:58px;height:58px;border-radius:17px;font-size:29px}
+  .zod-whatsapp-card__copy strong{font-size:17px}
+  .zod-whatsapp-card__copy small{font-size:11px}
+  .zod-whatsapp-card__button{min-height:42px;padding:0 13px;font-size:11px}
+}
+@media(max-width:520px){
+  .zod-whatsapp-card{align-items:flex-start;flex-wrap:wrap}
+  .zod-whatsapp-card__copy{width:calc(100% - 75px)}
+  .zod-whatsapp-card__button{margin-inline-start:71px}
+}
+@media(prefers-reduced-motion:reduce){
+  .zod-cart-toast,.zod-footer-contact-icon,.zod-whatsapp-card,.zod-whatsapp-card__icon{transition:none!important}
+}
+
+/* --------------------------------------------------------------------------
+   ZOD v1.5 — Orkida-inspired product commerce flow (original ZOD styling)
+   -------------------------------------------------------------------------- */
+.product-single .zod-product-page{padding-bottom:44px}
+.product-single .zod-product-main{grid-template-columns:minmax(0,1.02fr) minmax(420px,.98fr);gap:46px;padding-bottom:34px}
+.product-single .zod-product-gallery{top:118px}
+.product-single .zod-product-buybox{padding-top:2px;min-width:0}
+.product-single .zod-tax-kicker{font-size:12px;color:var(--zod-muted);margin:6px 0 2px}
+.product-single .zod-product-title{font-size:clamp(27px,2.5vw,36px);margin:6px 0 8px;line-height:1.32}
+.product-single .zod-product-rating{margin:4px 0 10px}
+.product-single .zod-product-price{padding:5px 0 4px}
+.product-single .zod-product-price strong{font-size:32px}
+.product-single .zod-live-stock{display:inline-flex;align-items:center;gap:10px;margin:10px 0 16px;font-size:14px;font-weight:900;color:var(--zod-success)}
+.product-single .zod-live-stock:has(.is-out){color:var(--zod-danger)}
+.product-single .zod-live-stock__pulse{position:relative;width:10px;height:10px;border-radius:50%;background:currentColor;box-shadow:0 0 0 0 currentColor;flex:0 0 10px}
+.product-single .zod-live-stock__pulse::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid currentColor;opacity:.55;animation:zodAvailabilityPulse 1.55s ease-out infinite}
+.product-single .zod-live-stock__pulse.is-available{color:var(--zod-success)}
+.product-single .zod-live-stock__pulse.is-out{color:var(--zod-danger)}
+@keyframes zodAvailabilityPulse{0%{transform:scale(.55);opacity:.72}70%,100%{transform:scale(1.65);opacity:0}}
+
+.product-single .zod-buybox-description{border-top:1px solid var(--zod-line);border-bottom:1px solid var(--zod-line);padding:16px 0;margin:2px 0 14px}
+.product-single .zod-buybox-description__body{font-size:14px;line-height:1.95;color:#25282d;position:relative;overflow:hidden;transition:max-height .32s ease}
+.product-single .zod-buybox-description__body.is-collapsed{max-height:9.5rem}
+.product-single .zod-buybox-description__body.is-collapsed::after{content:"";position:absolute;inset-inline:0;bottom:0;height:56px;background:linear-gradient(to bottom,rgba(255,255,255,0),#fff 85%);pointer-events:none}
+.product-single .zod-buybox-description__body:not(.is-collapsed){max-height:2000px}
+.product-single .zod-description-toggle{border:0;background:transparent;color:var(--color-primary);font-weight:850;padding:8px 0 0;cursor:pointer}
+
+.product-single .zod-product-facts{border:1px solid var(--zod-line);border-radius:14px;overflow:hidden;margin:12px 0 16px;background:#fff}
+.product-single .zod-product-fact{display:grid;grid-template-columns:minmax(150px,.8fr) minmax(0,1.2fr);align-items:center;gap:16px;padding:13px 16px;border-bottom:1px solid var(--zod-line);font-size:12px;color:var(--zod-ink)}
+.product-single .zod-product-fact:last-child{border-bottom:0}
+.product-single .zod-product-fact>span{display:flex;align-items:center;gap:8px;color:var(--zod-muted)}
+.product-single .zod-product-fact>span i{color:var(--color-primary);font-size:16px}
+.product-single .zod-product-fact>strong{text-align:end;overflow-wrap:anywhere}
+.product-single .zod-product-fact--sold>span i{color:var(--zod-danger)}
+
+.product-single .zod-purchase-form{margin-top:16px;padding-top:0;border-top:0}
+.product-single .zod-buy-controls-anchor{position:relative}
+.product-single .zod-buy-controls{margin-top:14px}
+.product-single .zod-sticky-product-summary{display:none;min-width:0}
+.product-single .zod-product-lower{padding-top:12px;border-top:0}
+.product-single .zod-product-info-grid{grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);margin-top:12px}
+.product-single .zod-product-info-grid--single{grid-template-columns:1fr}
+.product-single .zod-specification-panel{min-width:0}
+.product-single #reviews{scroll-margin-top:130px}
+.product-single #specifications,.product-single #delivery{scroll-margin-top:130px}
+
+/* The buy form becomes a consumer-facing purchase dock only after its original position scrolls past the header. */
+.product-single .zod-buy-controls.is-docked{position:fixed!important;left:0;right:0;bottom:0;z-index:125;margin:0!important;border:0!important;border-top:1px solid var(--zod-line)!important;border-radius:0!important;background:rgba(255,255,255,.98)!important;box-shadow:0 -12px 34px rgba(16,24,40,.14);backdrop-filter:blur(14px);padding:11px max(24px,calc((100vw - 1180px)/2));display:grid;grid-template-columns:minmax(0,1fr) auto minmax(300px,420px);align-items:center;gap:18px;animation:zodDockIn .24s ease both}
+.product-single .zod-buy-controls.is-docked .zod-sticky-product-summary{display:block}
+.product-single .zod-sticky-product-summary__name{font-size:12px;font-weight:750;color:var(--zod-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:360px}
+.product-single .zod-sticky-product-summary__price{font-size:21px;font-weight:950;color:var(--zod-ink);margin-top:2px}
+.product-single .zod-buy-controls.is-docked .zod-qty-row{gap:8px}
+.product-single .zod-buy-controls.is-docked .zod-qty-row label{display:none}
+.product-single .zod-buy-controls.is-docked .sticky-product-bar__btn{margin:0!important;min-width:0}
+.product-single .zod-buy-controls.is-docked .sticky-product-bar__btn::part(button){min-height:50px;border-radius:12px;font-weight:900}
+@keyframes zodDockIn{from{transform:translateY(110%);opacity:.55}to{transform:translateY(0);opacity:1}}
+
+@media(max-width:991px){
+  .product-single .zod-product-main{grid-template-columns:1fr;gap:22px}
+  .product-single .zod-product-gallery{position:relative;top:auto}
+  .product-single .zod-product-info-grid{grid-template-columns:1fr}
+}
+
+@media(max-width:767px){
+  .product-single .zod-product-main{padding-bottom:26px}
+  .product-single .zod-product-title{font-size:24px}
+  .product-single .zod-product-price strong{font-size:28px}
+  .product-single .zod-product-fact{grid-template-columns:1fr auto;padding:11px 12px}
+  .product-single .zod-buybox-description__body{font-size:13px;line-height:1.9}
+  .product-single .zod-buy-controls.is-docked{bottom:68px;padding:8px 10px calc(8px + env(safe-area-inset-bottom));grid-template-columns:minmax(78px,.55fr) auto minmax(0,1.45fr);gap:8px;border-radius:16px 16px 0 0!important}
+  .product-single .zod-buy-controls.is-docked .zod-sticky-product-summary{display:block}
+  .product-single .zod-sticky-product-summary__name{display:none}
+  .product-single .zod-sticky-product-summary__price{font-size:16px;margin:0;white-space:nowrap}
+  .product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity{display:block;margin:0}
+  .product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity>label{display:none}
+  .product-single .zod-buy-controls.is-docked .sticky-product-bar__btn::part(button){min-height:46px;border-radius:10px;font-size:12px}
+  body.zod-product-dock-visible.product-single{padding-bottom:145px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .product-single .zod-live-stock__pulse::after{animation:none}
+  .product-single .zod-buy-controls.is-docked{animation:none}
+  .product-single .zod-buybox-description__body{transition:none}
+}
+
+/* Neutralize the v1.4 always-fixed mobile purchase rule; v1.5 docks only after scroll. */
+@media(max-width:767px){
+  body.is-sticky-product-bar.product-single .sticky-product-bar:not(.is-docked){position:static!important;left:auto!important;right:auto!important;bottom:auto!important;z-index:auto!important;border:1px solid var(--zod-line)!important;border-radius:16px!important;background:#fff!important;box-shadow:none!important;padding:16px!important;display:grid;grid-template-columns:1fr;gap:12px}
+  body.is-sticky-product-bar.product-single .sticky-product-bar:not(.is-docked) .sticky-product-bar__quantity{display:flex;margin:0}
+  body.is-sticky-product-bar.product-single .sticky-product-bar:not(.is-docked) .sticky-product-bar__quantity>label{display:block}
+  body.is-sticky-product-bar.product-single{padding-bottom:0}
+  body.zod-product-dock-visible.product-single{padding-bottom:145px}
+}
+@media(min-width:768px){body.zod-product-dock-visible.product-single{padding-bottom:82px}}
+.product-single .zod-native-out-stock-state{display:none!important}
