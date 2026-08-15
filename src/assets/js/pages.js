@@ -1,6 +1,39 @@
 document.addEventListener('DOMContentLoaded',()=>{
   document.querySelectorAll('[data-accordion-trigger]').forEach(btn=>btn.addEventListener('click',()=>btn.closest('[data-accordion]')?.classList.toggle('is-open')));
 
+  const cartPage=document.querySelector('[data-zod-cart-page]');
+  const checkoutUrl=cartPage?.dataset.checkoutUrl||'';
+  const checkoutOverlay=document.querySelector('[data-zod-checkout-transition]');
+  const checkoutProgress=document.querySelector('[data-zod-checkout-progress]');
+  let checkoutNavigating=false;
+  const beginCheckoutTransition=event=>{
+    if(checkoutNavigating||!checkoutUrl) return;
+    if(event && (event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)) return;
+    event?.preventDefault?.();
+    event?.stopPropagation?.();
+    event?.stopImmediatePropagation?.();
+    checkoutNavigating=true;
+    document.body.classList.add('zod-checkout-is-transitioning');
+    document.body.setAttribute('aria-busy','true');
+    checkoutProgress?.classList.add('is-completing');
+    checkoutOverlay?.classList.add('is-open');
+    checkoutOverlay?.setAttribute('aria-hidden','false');
+    try{sessionStorage.setItem('zod.checkout.journey','delivery-payment');}catch(_){}
+    const delay=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches?120:820;
+    window.setTimeout(()=>window.location.assign(checkoutUrl),delay);
+  };
+
+  document.addEventListener('click',event=>{
+    if(!cartPage||checkoutNavigating) return;
+    const path=typeof event.composedPath==='function'?event.composedPath():[];
+    const explicit=event.target?.closest?.('[data-zod-checkout-transition-link]')||path.find(node=>node?.matches?.('[data-zod-checkout-transition-link]'));
+    const checkoutAnchor=path.find(node=>node?.tagName==='A'&&/\/checkout(?:[/?#]|$)/i.test(node.href||node.getAttribute?.('href')||''));
+    const testIdNode=path.find(node=>/checkout/i.test(node?.getAttribute?.('data-testid')||''));
+    const summaryCard=path.find(node=>node?.tagName==='SALLA-CART-SUMMARY-CARD');
+    const actionable=path.some(node=>node?.tagName==='BUTTON'||node?.tagName==='A'||node?.classList?.contains?.('s-button-element'));
+    if(explicit||checkoutAnchor||testIdNode||(summaryCard&&actionable)) beginCheckoutTransition(event);
+  },true);
+
   const totalNodes=[...document.querySelectorAll('[data-zod-cart-grand-total]')];
   if(!totalNodes.length) return;
 

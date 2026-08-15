@@ -139,7 +139,15 @@
       "progress_label": "خطوات إتمام الطلب",
       "step_cart": "السلة",
       "step_delivery": "التوصيل",
-      "step_payment": "الدفع"
+      "step_payment": "الدفع",
+      "step_delivery_payment": "التوصيل والدفع",
+      "opening_checkout": "نجهّز لك التوصيل والدفع",
+      "opening_checkout_hint": "لحظات وننقلك لإكمال عنوان التوصيل وطريقة الدفع.",
+      "transition_cart_done": "تمت مراجعة السلة",
+      "transition_next": "التالي: التوصيل والدفع",
+      "order_complete": "تم الطلب",
+      "journey_complete": "اكتمل طلبك بنجاح",
+      "thank_you_hint": "تم إرسال طلبك، ويمكنك مراجعة تفاصيله أدناه."
     },
     "whatsapp": {
       "aria": "تواصل مع متجر زود عبر واتساب"

@@ -1,3 +1,11 @@
+# Changelog
+
+## 1.5.4
+- Simplified cart progress to Cart → Delivery & Payment.
+- Added animated progress fill and branded checkout handoff overlay.
+- Added completed order journey styling to Thank You page.
+- Preserved Salla-hosted checkout for address, shipping, and payment security.
+
 ## 1.5.3 — Frictionless Cart Updates
 
 - Replaced Salla cart quantity success alerts with non-blocking ZOD cart-update toast feedback on the cart page.
