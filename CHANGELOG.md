@@ -1,4 +1,19 @@
+## 1.5.3 — Frictionless Cart Updates
+
+- Replaced Salla cart quantity success alerts with non-blocking ZOD cart-update toast feedback on the cart page.
+- Added animated quantity-update state on cart item cards and a confirmation pulse after successful updates.
+- Added animated grand-total refresh feedback when quantities change.
+- Replaced the plain "Secure checkout" cart heading/accent with a three-step Cart → Delivery → Payment journey indicator.
+- Added clearer cart review copy while keeping Salla as the source of truth for quantities, totals and checkout.
+
 # Changelog
+
+## 1.5.2 — Mobile total & checkout handoff
+- Added an always-visible mobile cart grand total beside the checkout CTA.
+- Added live total refresh using Salla Cart Details / cart summary after quantity and delete changes.
+- Refined the sticky mobile checkout handoff with a secure-purchase reassurance line.
+- Added an explicit desktop grand-total panel while retaining Salla's native cart summary component.
+- Documented the Salla platform boundary: hosted checkout/payment is not a Twilight theme template and remains Salla-controlled.
 
 ## 1.5.1 — Cart & mobile navigation
 - Redesigned cart cards and summary surfaces to match the ZOD commerce design.

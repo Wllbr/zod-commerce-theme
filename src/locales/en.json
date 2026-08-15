@@ -129,7 +129,17 @@
       "checkout": "Checkout",
       "cart_title": "Shopping Cart",
       "continue": "Continue shopping",
-      "secure_checkout": "Secure checkout"
+      "total": "Total",
+      "items": "Items",
+      "checkout_reassurance": "You can review delivery and payment before confirming your order",
+      "checkout_step": "Next: delivery and payment",
+      "order_summary": "Order summary",
+      "updated": "Cart updated",
+      "review_hint": "Review your items and quantities, then continue to delivery and payment.",
+      "progress_label": "Checkout steps",
+      "step_cart": "Cart",
+      "step_delivery": "Delivery",
+      "step_payment": "Payment"
     },
     "whatsapp": {
       "aria": "Contact ZOD on WhatsApp"

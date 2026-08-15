@@ -129,7 +129,17 @@
       "checkout": "إتمام الطلب",
       "cart_title": "سلة التسوق",
       "continue": "متابعة التسوق",
-      "secure_checkout": "إتمام طلب آمن"
+      "total": "الإجمالي",
+      "items": "المنتجات",
+      "checkout_reassurance": "يمكنك مراجعة التوصيل والدفع قبل تأكيد الطلب",
+      "checkout_step": "التالي: التوصيل والدفع",
+      "order_summary": "ملخص الطلب",
+      "updated": "تم تحديث السلة",
+      "review_hint": "راجع المنتجات والكميات، ثم انتقل للتوصيل والدفع.",
+      "progress_label": "خطوات إتمام الطلب",
+      "step_cart": "السلة",
+      "step_delivery": "التوصيل",
+      "step_payment": "الدفع"
     },
     "whatsapp": {
       "aria": "تواصل مع متجر زود عبر واتساب"

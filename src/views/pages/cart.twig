@@ -5,20 +5,29 @@
   <div class="container">
     <div class="zod-cart-heading">
       <div>
-        <span class="zod-cart-heading__eyebrow"><i class="sicon-shopping-bag"></i>{{ trans('zod.cart.secure_checkout') }}</span>
         <h1>{{ trans('zod.cart.cart_title') }}</h1>
+        <p class="zod-cart-heading__hint">{{ trans('zod.cart.review_hint') }}</p>
       </div>
       {% if cart.items|length %}<a href="{{ link('/') }}" class="zod-cart-continue"><i class="sicon-keyboard_arrow_left"></i>{{ trans('zod.cart.continue') }}</a>{% endif %}
     </div>
+    {% if cart.items|length %}
+    <div class="zod-cart-progress" aria-label="{{ trans('zod.cart.progress_label') }}">
+      <span class="zod-cart-progress__step is-active"><i class="sicon-shopping-bag"></i><b>{{ trans('zod.cart.step_cart') }}</b></span>
+      <span class="zod-cart-progress__line"><i></i></span>
+      <span class="zod-cart-progress__step"><i class="sicon-shipping-fast"></i><b>{{ trans('zod.cart.step_delivery') }}</b></span>
+      <span class="zod-cart-progress__line"><i></i></span>
+      <span class="zod-cart-progress__step"><i class="sicon-wallet"></i><b>{{ trans('zod.cart.step_payment') }}</b></span>
+    </div>
+    {% endif %}
     <salla-conditional-offer data-testid="store-cart-conditional-offer"></salla-conditional-offer>
     {% if cart.items|length %}
     <div class="zod-cart-layout">
       <div class="zod-cart-items">
         {% hook 'cart:items.start' %}
         {% for item in cart.items %}
-        <form id="item-{{ item.id }}" onchange="salla.form.onChange('cart.updateItem', event)">
+        <form id="item-{{ item.id }}" data-zod-cart-item-form onchange="salla.form.onChange('cart.updateItem', event)">
           <input type="hidden" name="id" value="{{ item.id }}">
-          <article data-testid="store-cart-item-{{ item.id }}" class="zod-cart-item">
+          <article data-testid="store-cart-item-{{ item.id }}" data-zod-cart-item="{{ item.id }}" class="zod-cart-item">
             <a class="zod-cart-item__image" href="{{ item.url }}"><img src="{{ item.product_image }}" alt="{{ item.product_name }}" loading="{{ loop.first ? 'eager' : 'lazy' }}"></a>
             <div class="zod-cart-item__main">
               <div class="zod-cart-item__head">
@@ -46,7 +55,7 @@
       </div>
       {% hook 'cart:summary.start' %}
       <aside class="zod-cart-summary">
-        <div class="zod-cart-summary__accent"><i class="sicon-check"></i><span>{{ trans('zod.cart.secure_checkout') }}</span></div>
+        <div class="zod-cart-grand-total" aria-label="{{ trans('zod.cart.total') }}"><span>{{ trans('zod.cart.total') }}</span><strong data-zod-cart-grand-total>{{ cart.total|money }}</strong></div>
         {% hook 'cart:summary-card.start' %}<salla-cart-summary-card data-testid="store-cart-summary"></salla-cart-summary-card>{% hook 'cart:summary-card.end' %}
         {% if cart.free_shipping_bar %}<div class="zod-free-shipping"><div><i class="sicon-shipping-fast"></i><strong>{{ trans('pages.cart.free_shipping') }}</strong></div><p>{{ cart.free_shipping_bar.has_free_shipping ? trans('pages.cart.has_free_shipping') : trans('pages.cart.free_shipping_alert', {'amount':cart.free_shipping_bar.remaining|money})|raw }}</p><span><i style="width:{{ cart.free_shipping_bar.percent }}%"></i></span></div>{% endif %}
         {% if store.settings.cart.apply_coupon_enabled %}{% hook 'cart:coupon.start' %}<div class="zod-cart-widget"><salla-cart-coupons data-testid="store-cart-coupons"></salla-cart-coupons></div>{% hook 'cart:coupon.end' %}{% endif %}
@@ -57,9 +66,15 @@
       {% hook 'cart:summary.end' %}
     </div>
     <div class="zod-cart-mobile-checkout" aria-label="{{ trans('zod.cart.checkout') }}">
+      <div class="zod-cart-mobile-checkout__meta">
+        <span>{{ trans('zod.cart.total') }}</span>
+        <strong data-zod-cart-grand-total>{{ cart.total|money }}</strong>
+      </div>
       <a data-testid="store-cart-checkout-mobile" href="{{ link('checkout') }}" class="zod-cart-mobile-checkout__button">
-        <i class="sicon-lock"></i><span>{{ trans('zod.cart.checkout') }}</span><i class="sicon-keyboard_arrow_left"></i>
+        <span class="zod-cart-mobile-checkout__button-copy"><strong>{{ trans('zod.cart.checkout') }}</strong><small>{{ trans('zod.cart.checkout_step') }}</small></span>
+        <span class="zod-cart-mobile-checkout__lock"><i class="sicon-lock"></i></span>
       </a>
+      <p class="zod-cart-mobile-checkout__reassurance"><i class="sicon-shield-check"></i>{{ trans('zod.cart.checkout_reassurance') }}</p>
     </div>
     {% else %}
       <div class="zod-empty-state" data-testid="store-cart-empty"><span><i class="sicon-shopping-bag"></i></span><h2>{{ trans('pages.cart.empty_cart') }}</h2><a href="{{ link('/') }}" class="zod-btn zod-btn--primary">{{ trans('common.elements.back_home') }}</a></div>

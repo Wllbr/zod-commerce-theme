@@ -93,18 +93,31 @@ class ZodTheme {
     const nativeAlert = window.alert.bind(window);
     window.alert = message => {
       const text = String(message ?? '').trim();
-      const isCartSuccess = /تمت\s+إضافة\s+المنتج.*بنجاح/i.test(text)
+      const isCartPage = document.body?.classList?.contains('cart-page') || /\/cart(?:\/|$|\?)/i.test(location.pathname + location.search);
+      const isCartAdded = /تمت\s+إضافة\s+المنتج.*بنجاح/i.test(text)
         || /product\s+(was\s+)?added.*(cart|success)/i.test(text)
         || /added\s+to\s+(your\s+)?cart/i.test(text);
-      if (isCartSuccess) {
-        this.showCartToast();
+      const isCartUpdated = isCartPage && (
+        /تم\s+تحديث\s+(?:البيانات|السلة).*بنجاح/i.test(text)
+        || /(?:cart|data|item).*updated.*success/i.test(text)
+        || /updated\s+successfully/i.test(text)
+      );
+      if (isCartAdded) {
+        this.showCartToast(null, 'added');
+        return;
+      }
+      if (isCartUpdated) {
+        let updatedText = 'Cart updated';
+        try { updatedText = salla.lang.get('zod.cart.updated') || updatedText; } catch (_) {}
+        this.showCartToast(updatedText, 'updated');
+        document.dispatchEvent(new CustomEvent('zod:cart-update-success'));
         return;
       }
       return nativeAlert(message);
     };
   }
 
-  showCartToast(message = null) {
+  showCartToast(message = null, variant = 'added') {
     const now = Date.now();
     if (this.lastCartToastAt && now - this.lastCartToastAt < 700) return;
     this.lastCartToastAt = now;
@@ -116,6 +129,7 @@ class ZodTheme {
       toast.setAttribute('role', 'status');
       toast.setAttribute('aria-live', 'polite');
       toast.innerHTML = '<span class="zod-cart-toast__icon"><i class="sicon-check"></i></span><span data-zod-cart-toast-text></span>';
+
       document.body.appendChild(toast);
     }
     const text = message || (() => {
@@ -124,6 +138,9 @@ class ZodTheme {
     })();
     const textNode = toast.querySelector('[data-zod-cart-toast-text]');
     if (textNode) textNode.textContent = text;
+    toast.classList.toggle('is-update', variant === 'updated');
+    const icon = toast.querySelector('.zod-cart-toast__icon i');
+    if (icon) icon.className = variant === 'updated' ? 'sicon-refresh' : 'sicon-check';
     toast.classList.remove('is-visible');
     void toast.offsetWidth;
     toast.classList.add('is-visible');

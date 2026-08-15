@@ -4,6 +4,13 @@
 
 This repository is an independent, clean-start Salla theme project.
 
+## v1.5.3 cart interaction polish
+
+- Cart quantity changes no longer require a blocking browser OK alert.
+- Quantity updates show a compact ZOD toast and animate the changed cart row.
+- Cart totals animate when the live amount changes.
+- The old Secure Checkout label is replaced by a Cart → Delivery → Payment journey indicator on desktop.
+
 ## Product philosophy
 
 The storefront is built around three jobs:
@@ -111,3 +118,7 @@ Version 1.4 uses a count-only header cart badge (hidden at zero), bottom-dock se
 - Interactive showcase no longer renders an eyebrow / featured-offer line.
 - `WhatsApp contact` is a custom homepage component that reads the WhatsApp number from Salla store contacts.
 - Footer customer-service contacts are icon-only, sourced from Salla, with hover/focus glow interactions.
+
+## v1.5.2 cart / checkout handoff
+
+The cart now keeps the grand total visible in the mobile sticky checkout dock and refreshes it from Salla cart data after cart changes. The actual hosted checkout/payment screen is controlled by Salla rather than a Twilight `checkout.twig`; see `CHECKOUT_EXPERIENCE_V152.md` for the supported customization boundary and recommended Salla dashboard settings.
