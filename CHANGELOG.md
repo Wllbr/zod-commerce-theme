@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.6.2 — Native Fast Checkout + Product Layout Polish
+
+- Removed the redundant large Shipping & Delivery / contact panel from the lower product page.
+- Moved the Salla reviews summary into the product buybox, directly above Tabby/Tamara installments.
+- Kept the full Salla comments/review form lower on the product page without duplicating the rating summary.
+- Replaced the custom standalone `<salla-quick-buy>` implementation with Salla's supported `quick-buy` property on `<salla-add-product-button>`.
+- This enables Salla Fast Checkout to surface Add to Cart + Buy Now and, on supported Apple/Safari environments with Apple Pay enabled, the Apple Pay action.
+- Mobile sticky purchase dock now stacks product summary → quantity → purchase actions for easier thumb use.
+- Desktop purchase dock keeps the product summary while grouping quantity and native Salla purchase actions cleanly.
+- Added Salla mini-checkout sizing variables so fast-checkout controls match the ZOD radius/height system without overriding Salla checkout logic.
+
 ## 1.6.1 — Salla-Native Trust & Reviews
 
 - Added the native `salla-reviews-summary` component beside Salla product comments to create an Orkida-style ratings/reviews area without duplicating review data.

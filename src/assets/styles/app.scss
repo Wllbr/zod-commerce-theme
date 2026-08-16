@@ -1030,3 +1030,47 @@ body.zod-product-dock-visible.product-single{padding-bottom:84px}
   .product-single .zod-product-reviews{padding:28px 0}.product-single .zod-review-header{align-items:flex-start;flex-direction:column;margin-bottom:12px}.product-single .zod-review-header h2{font-size:19px}.product-single .zod-review-header p{font-size:9.5px}.product-single .zod-review-summary-card{padding:10px;border-radius:14px}.product-single .zod-review-comments-card{padding:2px 6px 8px;border-radius:14px}.product-single .zod-review-layout{gap:10px}
 }
 @media(prefers-reduced-motion:reduce){.product-single .zod-trust-card{transition:none!important}}
+
+/* v1.6.2 — purchase controls + compact review placement */
+.product-single .zod-buybox-review-card{margin:12px 0 10px;border:1px solid #e7e9ec;border-radius:16px;background:#fff;box-shadow:0 7px 22px rgba(16,24,40,.035);overflow:hidden;padding:14px}
+.product-single .zod-buybox-review-card__head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:10px;margin-bottom:8px;border-bottom:1px solid #eef0f2}
+.product-single .zod-buybox-review-card__head>div{display:grid;gap:2px;min-width:0}.product-single .zod-buybox-review-card__head strong{font-size:13px;font-weight:950;color:#181b20}.product-single .zod-buybox-review-card__eyebrow{display:inline-flex;align-items:center;gap:5px;color:var(--color-primary);font-size:9px;font-weight:900}.product-single .zod-buybox-review-card__eyebrow i{font-size:11px}.product-single .zod-buybox-review-card__rating{flex:0 0 auto}
+.product-single .zod-buybox-review-card salla-reviews-summary{display:block;width:100%;max-width:100%}
+.product-single .zod-installment-zone{margin:8px 0 11px}.product-single .zod-installment-zone salla-installment{display:block;margin:0}
+
+/* Use Salla's native fast-checkout implementation. quick-buy on the add-product
+   component is responsible for Buy Now and Apple Pay availability. */
+.product-single .zod-purchase-stack{min-width:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:center}
+.product-single .zod-purchase-actions{min-width:0;width:100%}.product-single .zod-purchase-actions .zod-main-add{display:block;width:100%;margin:0!important}
+.product-single salla-mini-checkout-widget{--salla-fast-checkout-button-height:48px;--salla-fast-checkout-button-width:100%;--salla-fast-checkout-button-border-radius:11px}
+.product-single .zod-buy-controls:not(.is-docked){display:block;padding:13px}.product-single .zod-buy-controls:not(.is-docked) .zod-purchase-stack{display:grid;grid-template-columns:150px minmax(0,1fr);gap:10px}.product-single .zod-buy-controls:not(.is-docked) .zod-qty-row{grid-column:1}.product-single .zod-buy-controls:not(.is-docked) .zod-purchase-actions{grid-column:2}.product-single .zod-buy-controls:not(.is-docked).zod-buy-controls--no-qty .zod-purchase-stack{grid-template-columns:1fr}.product-single .zod-buy-controls:not(.is-docked).zod-buy-controls--no-qty .zod-purchase-actions{grid-column:1}
+
+/* Dock: product summary + one native Salla purchase group. */
+.product-single .zod-buy-controls.is-docked{grid-template-columns:minmax(260px,1fr) minmax(470px,620px)!important;gap:16px!important}
+.product-single .zod-buy-controls.is-docked .zod-purchase-stack{display:grid;grid-template-columns:145px minmax(0,1fr);gap:10px;align-items:center;min-width:0}
+.product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity{grid-column:1;margin:0}.product-single .zod-buy-controls.is-docked .zod-purchase-actions{grid-column:2;min-width:0}.product-single .zod-buy-controls.is-docked.zod-buy-controls--no-qty{grid-template-columns:minmax(260px,1fr) minmax(320px,520px)!important}.product-single .zod-buy-controls.is-docked.zod-buy-controls--no-qty .zod-purchase-stack{grid-template-columns:1fr}.product-single .zod-buy-controls.is-docked.zod-buy-controls--no-qty .zod-purchase-actions{grid-column:1}
+
+/* Full customer comments stay lower on the page; the summary now lives in the buybox. */
+.product-single .zod-review-comments-card--wide{width:100%;padding:5px 12px 12px;border:1px solid #e7e9ec;border-radius:18px;background:#fff;box-shadow:0 7px 24px rgba(16,24,40,.035);overflow:hidden}
+
+@media(max-width:767px){
+  .product-single .zod-buybox-review-card{padding:10px;border-radius:14px;margin:9px 0}.product-single .zod-buybox-review-card__head{padding-bottom:8px;margin-bottom:6px}.product-single .zod-buybox-review-card__head strong{font-size:11.5px}.product-single .zod-buybox-review-card__eyebrow{font-size:8.5px}
+  .product-single .zod-installment-zone{margin:7px 0 9px}
+
+  /* Mobile purchase pattern: summary, quantity on its own row, then Salla's
+     Add to Cart + Buy Now / Apple Pay controls underneath. */
+  .product-single .zod-buy-controls.is-docked{grid-template-columns:1fr!important;gap:7px!important;padding:7px 8px calc(7px + env(safe-area-inset-bottom))}
+  .product-single .zod-buy-controls.is-docked .zod-sticky-product-summary{grid-column:1!important}
+  .product-single .zod-buy-controls.is-docked .zod-purchase-stack{grid-column:1;display:grid;grid-template-columns:1fr;gap:7px;width:100%}
+  .product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity{grid-column:1;display:flex!important;align-items:center;justify-content:center;gap:10px;padding:2px 0}.product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity>label{display:inline!important;font-size:9.5px;font-weight:850;color:#666e79}
+  .product-single .zod-buy-controls.is-docked .zod-purchase-actions{grid-column:1;width:100%;min-width:0}.product-single .zod-buy-controls.is-docked .zod-main-add{width:100%}
+  .product-single .zod-buy-controls.is-docked.zod-buy-controls--no-qty .zod-purchase-stack{grid-template-columns:1fr}
+  .product-single salla-mini-checkout-widget{--salla-fast-checkout-button-height:44px;--salla-fast-checkout-button-width:100%;--salla-fast-checkout-button-border-radius:10px}
+
+  .product-single .zod-buy-controls:not(.is-docked) .zod-purchase-stack{grid-template-columns:1fr;gap:8px}.product-single .zod-buy-controls:not(.is-docked) .zod-qty-row{grid-column:1;justify-content:space-between}.product-single .zod-buy-controls:not(.is-docked) .zod-purchase-actions{grid-column:1}
+  body.zod-product-dock-visible.product-single{padding-bottom:190px}.has-mobile-bottom-nav.zod-product-dock-visible.product-single{padding-bottom:258px}
+}
+
+@media(max-width:390px){
+  .product-single .zod-buy-controls.is-docked .zod-purchase-stack{gap:6px}.product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity>label{font-size:9px}
+}
