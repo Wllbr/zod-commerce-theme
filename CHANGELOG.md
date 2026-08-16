@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.6.3 — Product Gallery + Sale Price Fix
+- Prevent invalid zero sale prices from rendering when Salla reports an on-sale state with a zero `sale_price`.
+- Replace the below-gallery thumbnail strip with a floating, swipeable thumbnail rail inside the product image stage.
+- Replace native filled gallery controls with transparent arrow-only controls backed by Salla Slider methods.
+- Add small mobile share + wishlist controls directly below the product gallery.
+- Keep the gallery swipe/lightbox behavior and Salla product image data native.
+
 ## 1.6.2 — Native Fast Checkout + Product Layout Polish
 
 - Removed the redundant large Shipping & Delivery / contact panel from the lower product page.

@@ -3,7 +3,10 @@
 {% block content %}
 {% set product_available = product.is_available or product.status == 'sale' %}
 {% set sticky_image = product.image.url ? product.image : (product.images|first) %}
-{% set sticky_price_value = product.is_on_sale ? product.sale_price : (product.starting_price ? product.starting_price : product.price) %}
+{# Some Salla product snapshots may flag is_on_sale while sale_price is zero. Never render 0 as a real discount. #}
+{% set has_valid_sale = product.is_on_sale and product.sale_price and product.sale_price > 0 %}
+{% set display_price_value = has_valid_sale ? product.sale_price : (product.starting_price and product.starting_price > 0 ? product.starting_price : product.price) %}
+{% set sticky_price_value = display_price_value %}
 {% set show_product_reviews = store.settings.rating.show_on_product %}
 
 {% if theme.settings.get('product_show_breadcrumbs', true) %}
@@ -18,51 +21,64 @@
   <div class="container zod-product-main">
     <div class="zod-product-gallery">
       {% set many = product.images|length > 1 %}
-      <salla-slider
-        data-testid="store-product-image-slider"
-        id="details-slider-{{ product.id }}"
-        class="zod-product-slider"
-        type="thumbs"
-        loop="false"
-        auto-height
-        listen-to-thumbnails-option
-        show-thumbs-controls="false">
+      <div class="zod-product-gallery-stage" data-zod-gallery-stage>
+        <salla-slider
+          data-testid="store-product-image-slider"
+          data-zod-gallery-slider
+          id="details-slider-{{ product.id }}"
+          class="zod-product-slider"
+          type="default"
+          loop="false"
+          auto-height
+          show-controls="false">
 
-        {% if product.promotion_title %}<div class="zod-product-badge">{{ product.promotion_title }}</div>{% endif %}
-        {% if product.calories %}<div class="zod-calories-badge"><strong>{{ product.calories }}</strong><span>{{ trans('pages.products.calories') }}</span></div>{% endif %}
-        <salla-button class="zod-gallery-wishlist" data-id="{{ product.id }}" onclick="salla.wishlist.toggle('{{ product.id }}')" shape="icon" fill="outline" color="light" aria-label="{{ trans('zod.header.wishlist') }}"><i class="sicon-heart"></i></salla-button>
+          {% if product.promotion_title %}<div class="zod-product-badge">{{ product.promotion_title }}</div>{% endif %}
+          {% if product.calories %}<div class="zod-calories-badge"><strong>{{ product.calories }}</strong><span>{{ trans('pages.products.calories') }}</span></div>{% endif %}
+          <salla-button class="zod-gallery-wishlist" data-id="{{ product.id }}" onclick="salla.wishlist.toggle('{{ product.id }}')" shape="icon" fill="outline" color="light" aria-label="{{ trans('zod.header.wishlist') }}"><i class="sicon-heart"></i></salla-button>
 
-        <div slot="items">
-          {% for image in product.images %}
-            {% if image.three_d_image_url %}
-              <model-viewer class="swiper-slide zod-model-viewer" loading="eager" camera-controls touch-action="pan-y" auto-rotate poster="{{ image.url }}" src="{{ image.three_d_image_url }}" shadow-intensity="1" alt="{{ image.alt|default(product.name) }}"></model-viewer>
+          <div slot="items">
+            {% for image in product.images %}
+              {% if image.three_d_image_url %}
+                <model-viewer class="swiper-slide zod-model-viewer" data-zod-slide-index="{{ loop.index0 }}" loading="eager" camera-controls touch-action="pan-y" auto-rotate poster="{{ image.url }}" src="{{ image.three_d_image_url }}" shadow-intensity="1" alt="{{ image.alt|default(product.name) }}"></model-viewer>
+              {% else %}
+                <a class="swiper-slide zod-gallery-slide {{ image.video_url ? 'is-video' : '' }}"
+                   data-fslightbox="product_{{ product.id }}"
+                   data-img-id="{{ image.id }}"
+                   data-slid-index="{{ loop.index0 }}"
+                   data-zod-slide-index="{{ loop.index0 }}"
+                   data-type="{{ image.video_type|default('image') }}"
+                   {% if image.video_url %}data-video-src="{{ image.video_url }}"{% endif %}
+                   href="{{ (image.video_url is iterable ? image.video_url|first : image.video_url)|default(image.url) }}"
+                   aria-label="{{ product.name }}">
+                  <img src="{{ image.url }}" alt="{{ image.alt|default(product.name) }}" class="zod-product-image zod-fit-{{ theme.settings.get('product_image_fit','contain') }}" {{ loop.first ? 'fetchpriority="high" loading="eager"' : 'loading="lazy"' }}>
+                  {% if image.video_url %}<span class="zod-video-play"><i class="sicon-play"></i></span>{% endif %}
+                </a>
+              {% endif %}
             {% else %}
-              <a class="swiper-slide zod-gallery-slide {{ image.video_url ? 'is-video' : '' }}"
-                 data-fslightbox="product_{{ product.id }}"
-                 data-img-id="{{ image.id }}"
-                 data-type="{{ image.video_type|default('image') }}"
-                 {% if image.video_url %}data-video-src="{{ image.video_url }}"{% endif %}
-                 href="{{ (image.video_url is iterable ? image.video_url|first : image.video_url)|default(image.url) }}"
-                 aria-label="{{ product.name }}">
-                <img src="{{ image.url }}" alt="{{ image.alt|default(product.name) }}" class="zod-product-image zod-fit-{{ theme.settings.get('product_image_fit','contain') }}" {{ loop.first ? 'fetchpriority="high" loading="eager"' : 'loading="lazy"' }}>
-                {% if image.video_url %}<span class="zod-video-play"><i class="sicon-play"></i></span>{% endif %}
-              </a>
-            {% endif %}
-          {% else %}
-            <div class="swiper-slide zod-gallery-slide"><img src="{{ 'images/placeholder.svg'|asset }}" alt="{{ product.name }}"></div>
-          {% endfor %}
-        </div>
+              <div class="swiper-slide zod-gallery-slide" data-zod-slide-index="0"><img src="{{ 'images/placeholder.svg'|asset }}" alt="{{ product.name }}"></div>
+            {% endfor %}
+          </div>
+        </salla-slider>
 
         {% if many %}
-        <div data-testid="store-product-thumbnails" slot="thumbs">
-          {% for image in product.images %}
-            <div class="zod-gallery-thumb {{ image.video_url ? 'is-video' : '' }} {{ image.three_d_image_url ? 'is-model' : '' }}">
-              <img src="{{ image.url }}" alt="{{ image.alt|default(product.name) }}" loading="{{ loop.index < 5 ? 'eager' : 'lazy' }}">
-            </div>
-          {% endfor %}
-        </div>
+          <button type="button" class="zod-gallery-arrow zod-gallery-arrow--prev" data-zod-gallery-prev aria-label="{{ trans('common.elements.previous')|default('Previous') }}"><i class="sicon-keyboard_arrow_left"></i></button>
+          <button type="button" class="zod-gallery-arrow zod-gallery-arrow--next" data-zod-gallery-next aria-label="{{ trans('common.elements.next')|default('Next') }}"><i class="sicon-keyboard_arrow_right"></i></button>
+
+          <div class="zod-floating-thumbs" data-zod-gallery-thumbs aria-label="{{ product.name }}">
+            {% for image in product.images %}
+              <button type="button" class="zod-floating-thumb {{ loop.first ? 'is-active' : '' }} {{ image.video_url ? 'is-video' : '' }} {{ image.three_d_image_url ? 'is-model' : '' }}" data-zod-thumb-index="{{ loop.index0 }}" aria-label="{{ image.alt|default(product.name) }}">
+                <img src="{{ image.url }}" alt="" loading="{{ loop.index < 5 ? 'eager' : 'lazy' }}">
+                {% if image.video_url %}<i class="sicon-play"></i>{% endif %}
+              </button>
+            {% endfor %}
+          </div>
         {% endif %}
-      </salla-slider>
+      </div>
+
+      <div class="zod-mobile-gallery-tools" aria-label="{{ trans('zod.product.share') }}">
+        <span class="zod-mobile-gallery-action"><salla-social-share data-testid="store-product-mobile-social-share" aria-label="{{ trans('zod.product.share') }}"></salla-social-share></span>
+        <salla-button class="zod-mobile-gallery-action zod-mobile-gallery-wishlist" data-id="{{ product.id }}" onclick="salla.wishlist.toggle('{{ product.id }}')" shape="icon" fill="outline" color="light" aria-label="{{ trans('zod.header.wishlist') }}"><i class="sicon-heart"></i></salla-button>
+      </div>
     </div>
 
     <div class="zod-product-buybox">
@@ -87,14 +103,14 @@
       {% if product.rating %}<a href="#reviews" class="zod-product-rating"><salla-rating-stars data-testid="store-product-rating" value="{{ product.rating.stars }}" reviews="{{ product.rating.count }}"></salla-rating-stars></a>{% endif %}
 
       <div data-testid="store-product-price" class="zod-product-price price-wrapper" data-zod-main-price>
-        <div class="price_is_on_sale {{ product.is_on_sale ? '' : 'hidden' }}">
+        <div class="price_is_on_sale {{ has_valid_sale ? '' : 'hidden' }}">
           <strong class="total-price">{{ product.sale_price|money }}</strong>
           <del class="before-price">{{ product.regular_price|money }}</del>
-          {% if product.discount_percentage %}<span class="zod-discount">-{{ product.discount_percentage }}</span>{% endif %}
+          {% if has_valid_sale and product.discount_percentage %}<span class="zod-discount">-{{ product.discount_percentage }}</span>{% endif %}
         </div>
-        <div class="starting-or-normal-price {{ product.is_on_sale ? 'hidden' : '' }}">
-          {% if product.starting_price %}<small class="starting-price-title">{{ trans('pages.products.starting_price') }}</small>{% endif %}
-          <strong class="total-price">{{ (product.starting_price|default(product.price))|money }}</strong>
+        <div class="starting-or-normal-price {{ has_valid_sale ? 'hidden' : '' }}">
+          {% if product.starting_price and product.starting_price > 0 %}<small class="starting-price-title">{{ trans('pages.products.starting_price') }}</small>{% endif %}
+          <strong class="total-price">{{ display_price_value|money }}</strong>
         </div>
         <div data-testid="store-product-out-of-stock" class="out-of-stock zod-native-out-stock-state hidden" aria-hidden="true"></div>
       </div>
@@ -161,7 +177,7 @@
         {% hook 'product:single.form.end' %}
 
         {% if product.has_preorder_campaign %}<div class="zod-preorder"><salla-count-down data-testid="store-product-preorder-countdown" pre-order='{{ product.preorder|json_encode }}' boxed labeled></salla-count-down></div>{% endif %}
-        {% if product.discount_ends and product.is_on_sale %}<div class="zod-sale-countdown"><salla-count-down date="{{ product.discount_ends }}" color="primary" size="sm" labeled></salla-count-down></div>{% endif %}
+        {% if product.discount_ends and has_valid_sale %}<div class="zod-sale-countdown"><salla-count-down date="{{ product.discount_ends }}" color="primary" size="sm" labeled></salla-count-down></div>{% endif %}
 
         <div class="zod-buy-controls-anchor" data-zod-buy-anchor>
           <div class="zod-buy-controls sticky-product-bar {{ product.is_hidden_quantity or product.type == 'booking' ? 'zod-buy-controls--no-qty' : '' }} {{ product.can_quick_buy ? 'zod-buy-controls--quick' : '' }}" data-zod-sticky-buy>

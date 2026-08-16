@@ -1074,3 +1074,40 @@ body.zod-product-dock-visible.product-single{padding-bottom:84px}
 @media(max-width:390px){
   .product-single .zod-buy-controls.is-docked .zod-purchase-stack{gap:6px}.product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity>label{font-size:9px}
 }
+
+/* ZOD Commerce v1.6.3 — clean sale price + floating gallery controls */
+.product-single .zod-product-gallery-stage{position:relative;min-width:0}
+.product-single .zod-product-slider{overflow:hidden}
+.product-single .zod-gallery-slide{padding-bottom:0}
+.product-single .zod-gallery-thumb{display:none!important}
+.product-single .zod-floating-thumbs{position:absolute;z-index:12;inset-inline-start:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:center;gap:7px;width:max-content;max-width:min(72%,430px);overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;scrollbar-width:none;padding:6px;border:1px solid rgba(226,229,234,.9);border-radius:15px;background:rgba(255,255,255,.78);box-shadow:0 9px 30px rgba(16,24,40,.10);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px)}
+.product-single .zod-floating-thumbs::-webkit-scrollbar{display:none}
+.product-single .zod-floating-thumb{position:relative;flex:0 0 54px;width:54px;height:48px;display:grid;place-items:center;overflow:hidden;scroll-snap-align:center;border:1px solid transparent;border-radius:10px;background:rgba(248,249,250,.96);padding:3px;opacity:.72;transition:opacity .2s ease,border-color .2s ease,transform .2s ease,box-shadow .2s ease;cursor:pointer}
+.product-single .zod-floating-thumb img{width:100%;height:100%;object-fit:contain;border-radius:7px;background:#fff}
+.product-single .zod-floating-thumb>i{position:absolute;inset:50% auto auto 50%;transform:translate(-50%,-50%);width:19px;height:19px;display:grid;place-items:center;border-radius:50%;background:rgba(17,19,22,.72);color:#fff;font-size:8px}
+.product-single .zod-floating-thumb:hover{opacity:1;transform:translateY(-1px)}
+.product-single .zod-floating-thumb.is-active{opacity:1;border-color:var(--color-primary);box-shadow:0 0 0 2px color-mix(in srgb,var(--color-primary) 10%,transparent)}
+.product-single .zod-gallery-arrow{position:absolute;z-index:13;top:50%;transform:translateY(-50%);width:42px;height:66px;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;color:#7b828d;display:grid;place-items:center;padding:0;opacity:.72;cursor:pointer;transition:color .18s ease,opacity .18s ease,transform .18s ease}
+.product-single .zod-gallery-arrow i{font-size:32px;line-height:1;text-shadow:0 1px 9px rgba(255,255,255,.95),0 2px 15px rgba(16,24,40,.14)}
+.product-single .zod-gallery-arrow:hover{color:var(--color-primary);opacity:1;transform:translateY(-50%) scale(1.08)}
+.product-single .zod-gallery-arrow--prev{inset-inline-start:10px}
+.product-single .zod-gallery-arrow--next{inset-inline-end:10px}
+.product-single .zod-mobile-gallery-tools{display:none}
+
+@media(max-width:767px){
+  .product-single .zod-gallery-wishlist{display:none!important}
+  .product-single .zod-floating-thumbs{bottom:9px;gap:5px;max-width:76%;padding:5px;border-radius:13px;background:rgba(255,255,255,.82)}
+  .product-single .zod-floating-thumb{flex-basis:43px;width:43px;height:39px;border-radius:8px;padding:2px}
+  .product-single .zod-gallery-arrow{width:32px;height:52px;opacity:.68}
+  .product-single .zod-gallery-arrow i{font-size:25px}
+  .product-single .zod-gallery-arrow--prev{inset-inline-start:4px}
+  .product-single .zod-gallery-arrow--next{inset-inline-end:4px}
+  .product-single .zod-mobile-gallery-tools{display:flex;align-items:center;justify-content:center;gap:9px;padding:9px 0 1px}
+  .product-single .zod-mobile-gallery-action{width:38px;height:38px;display:grid;place-items:center;border:1px solid #e6e9ed;border-radius:50%;background:#fff;color:#24272b;box-shadow:0 4px 14px rgba(16,24,40,.045)}
+  .product-single .zod-mobile-gallery-action:hover,.product-single .zod-mobile-gallery-action:focus-within{border-color:color-mix(in srgb,var(--color-primary) 35%,#e6e9ed);color:var(--color-primary);box-shadow:0 0 0 4px color-mix(in srgb,var(--color-primary) 7%,transparent)}
+  .product-single .zod-mobile-gallery-action salla-social-share{display:grid;place-items:center;width:100%;height:100%}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .product-single .zod-floating-thumb,.product-single .zod-gallery-arrow{transition:none!important}
+}

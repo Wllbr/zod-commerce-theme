@@ -11,15 +11,81 @@ class ZodProductPage {
     this.buyBar = this.page.querySelector('[data-zod-sticky-buy]');
     this.mainPrice = this.page.querySelector('[data-zod-main-price]');
     this.stickyPrice = this.page.querySelector('[data-zod-sticky-price]');
+    this.gallery = this.page.querySelector('[data-zod-gallery-slider]');
     this.init();
   }
 
   init() {
+    this.initGallery();
     this.initDescription();
     this.initStockStatus();
     this.initPriceMirror();
     this.initStickyPurchase();
     this.initOptionPanels();
+  }
+
+  initGallery() {
+    if (!this.gallery) return;
+
+    const prev = this.page.querySelector('[data-zod-gallery-prev]');
+    const next = this.page.querySelector('[data-zod-gallery-next]');
+    const thumbRail = this.page.querySelector('[data-zod-gallery-thumbs]');
+    const thumbs = thumbRail ? [...thumbRail.querySelectorAll('[data-zod-thumb-index]')] : [];
+
+    const activeIndexFromEvent = event => {
+      const detail = event?.detail;
+      const candidates = [detail?.realIndex, detail?.activeIndex, detail?.swiper?.realIndex, detail?.swiper?.activeIndex, detail?.[0]?.realIndex, detail?.[0]?.activeIndex];
+      return candidates.find(value => Number.isInteger(value));
+    };
+
+    const syncThumb = index => {
+      if (!Number.isInteger(index) || index < 0) return;
+      thumbs.forEach((thumb, thumbIndex) => {
+        const active = thumbIndex === index;
+        thumb.classList.toggle('is-active', active);
+        thumb.setAttribute('aria-current', active ? 'true' : 'false');
+      });
+      const activeThumb = thumbs[index];
+      if (activeThumb) {
+        activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    };
+
+    prev?.addEventListener('click', () => {
+      const action = document.documentElement.dir === 'rtl' ? this.gallery.slideNext?.bind(this.gallery) : this.gallery.slidePrev?.bind(this.gallery);
+      Promise.resolve(action?.(320, true)).catch(() => {});
+    });
+
+    next?.addEventListener('click', () => {
+      const action = document.documentElement.dir === 'rtl' ? this.gallery.slidePrev?.bind(this.gallery) : this.gallery.slideNext?.bind(this.gallery);
+      Promise.resolve(action?.(320, true)).catch(() => {});
+    });
+
+    thumbs.forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        const index = Number(thumb.dataset.zodThumbIndex);
+        if (!Number.isInteger(index)) return;
+        syncThumb(index);
+        Promise.resolve(this.gallery.slideTo?.(index, 320, true)).catch(() => {});
+      });
+    });
+
+    const onSlideChange = event => {
+      const eventIndex = activeIndexFromEvent(event);
+      if (Number.isInteger(eventIndex)) {
+        syncThumb(eventIndex);
+        return;
+      }
+      requestAnimationFrame(() => {
+        const active = this.page.querySelector('[data-zod-slide-index].swiper-slide-active');
+        if (active) syncThumb(Number(active.dataset.zodSlideIndex));
+      });
+    };
+
+    this.gallery.addEventListener('afterInit', onSlideChange);
+    this.gallery.addEventListener('slideChange', onSlideChange);
+    this.gallery.addEventListener('slideChangeTransitionEnd', onSlideChange);
+    syncThumb(0);
   }
 
   initDescription() {
