@@ -1,3 +1,11 @@
+# v1.6.4 — Price & Wishlist Runtime Fix
+
+- Hardened sale detection so a product is treated as discounted only when sale price is numeric, greater than zero, and lower than the regular price.
+- Added an explicit product-price visibility fallback so the inactive sale/normal price block cannot leak into Salla editor/runtime CSS and display an extra `0` price.
+- Replaced direct inline wishlist toggles on the product page with a guarded Salla-native handler. Guests now open the existing `salla-login-modal` instead of triggering the browser-style login alert.
+- Kept authenticated wishlist actions on `salla.wishlist.toggle` and synchronized all product-page heart buttons from Salla wishlist storage.
+- Applied the same valid-sale guard and guest-safe wishlist behavior to custom product cards.
+
 # Changelog
 
 ## 1.6.3 — Product Gallery + Sale Price Fix

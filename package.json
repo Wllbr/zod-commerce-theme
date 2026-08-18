@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.3",
-  "description": "ZOD Commerce — Salla-native bilingual theme with corrected sale pricing, floating in-gallery product thumbnails, transparent gallery arrows, mobile wishlist/share controls, native fast checkout, ratings, installments, trust and responsive purchase dock.",
+  "version": "1.6.4",
+  "description": "ZOD Commerce — Salla-native bilingual theme with hardened discounted-price rendering, guest-safe native wishlist login flow, floating in-gallery thumbnails, transparent gallery arrows, mobile wishlist/share controls and responsive purchase dock.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

@@ -1111,3 +1111,8 @@ body.zod-product-dock-visible.product-single{padding-bottom:84px}
 @media(prefers-reduced-motion:reduce){
   .product-single .zod-floating-thumb,.product-single .zod-gallery-arrow{transition:none!important}
 }
+
+/* v1.6.4: keep mutually-exclusive price states truly exclusive even in editor/compiled CSS fallbacks. */
+.product-single .zod-product-price .hidden{display:none!important}
+.product-single [data-zod-wishlist].is-active{color:var(--color-primary)!important;border-color:var(--color-primary)!important}
+.product-single [data-zod-wishlist].is-active i{color:var(--color-primary)!important}

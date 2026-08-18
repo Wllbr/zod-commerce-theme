@@ -23,10 +23,18 @@ class ZodProductCard extends HTMLElement {
   esc(value='') { return String(value).replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch])); }
   money(value) { if (value === undefined || value === null) return ''; try { return salla.money(value); } catch (_) { return value; } }
   t(key, fallback='') { try { return salla.lang.get(key) || fallback; } catch (_) { return fallback; } }
+  number(value) {
+    const numeric=Number(value);
+    return Number.isFinite(numeric) ? numeric : 0;
+  }
   price() {
     const p=this.product;
-    if (p.is_on_sale) return `<div class="zpc-price"><strong>${this.money(p.sale_price)}</strong><del>${this.money(p.regular_price)}</del>${p.discount_percentage?`<span>-${this.esc(p.discount_percentage)}</span>`:''}</div>`;
-    if (p.starting_price) return `<div class="zpc-price"><small>${this.t('pages.products.starting_price','From')}</small><strong>${this.money(p.starting_price)}</strong></div>`;
+    const sale=this.number(p.sale_price);
+    const regular=this.number(p.regular_price);
+    const starting=this.number(p.starting_price);
+    const hasValidSale=Boolean(p.is_on_sale && sale>0 && regular>sale);
+    if (hasValidSale) return `<div class="zpc-price"><strong>${this.money(sale)}</strong><del>${this.money(regular)}</del>${p.discount_percentage?`<span>-${this.esc(p.discount_percentage)}</span>`:''}</div>`;
+    if (starting>0) return `<div class="zpc-price"><small>${this.t('pages.products.starting_price','From')}</small><strong>${this.money(starting)}</strong></div>`;
     return `<div class="zpc-price"><strong>${this.money(p.price)}</strong></div>`;
   }
   render() {
@@ -45,7 +53,7 @@ class ZodProductCard extends HTMLElement {
         <a href="${this.esc(p.url||'#')}" aria-label="${imageAlt}"><img src="${this.esc(image)}" alt="${imageAlt}" loading="lazy"></a>
         ${p.promotion_title?`<span class="zpc-badge">${this.esc(p.promotion_title)}</span>`:''}
         ${p.is_out_of_stock?`<span class="zpc-stock-badge">${this.esc(outLabel)}</span>`:''}
-        <button type="button" class="zpc-wishlist ${inWishlist?'is-active':''}" data-id="${p.id}" aria-label="${wishlistLabel}"><i class="sicon-heart"></i></button>
+        <button type="button" class="zpc-wishlist ${inWishlist?'is-active':''}" data-id="${p.id}" aria-label="${wishlistLabel}" aria-pressed="${inWishlist?'true':'false'}"><i class="sicon-heart"></i></button>
       </div>
       <div class="zpc-body">
         ${p.brand?.name?`<a class="zpc-brand" href="${this.esc(p.brand.url||'#')}">${this.esc(p.brand.name)}</a>`:''}
@@ -55,11 +63,29 @@ class ZodProductCard extends HTMLElement {
         <div class="zpc-bottom">${this.price()}</div>
         <salla-add-product-button class="zpc-add" width="wide" fill="outline" product-id="${p.id}" product-status="${this.esc(status||'')}" product-type="${this.esc(p.type||'product')}">${this.esc(addLabel)}</salla-add-product-button>
       </div>`;
-    this.querySelector('.zpc-wishlist')?.addEventListener('click', e=>{
+    this.querySelector('.zpc-wishlist')?.addEventListener('click', async e=>{
       e.preventDefault();
+      e.stopPropagation();
       const btn=e.currentTarget;
-      salla.wishlist.toggle(p.id);
-      btn.classList.toggle('is-active');
+      if (salla.config.isGuest()) {
+        const modal=document.querySelector('salla-login-modal');
+        if (typeof modal?.open==='function') modal.open(e);
+        return;
+      }
+      btn.setAttribute('aria-busy','true');
+      try {
+        await salla.wishlist.toggle(p.id);
+        const active=(salla.storage.get('salla::wishlist',[])||[]).map(Number).includes(Number(p.id));
+        btn.classList.toggle('is-active',active);
+        btn.setAttribute('aria-pressed',String(active));
+      } catch (_) {
+        if (salla.config.isGuest()) {
+          const modal=document.querySelector('salla-login-modal');
+          if (typeof modal?.open==='function') modal.open(e);
+        }
+      } finally {
+        btn.removeAttribute('aria-busy');
+      }
     });
   }
 }
