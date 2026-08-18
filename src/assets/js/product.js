@@ -241,11 +241,42 @@ class ZodProductPage {
 
   initShareActions() {
     this.page.querySelectorAll('[data-zod-share]').forEach(button => {
-      button.addEventListener('click', () => {
+      button.addEventListener('click', async event => {
+        event.preventDefault();
+        event.stopPropagation();
+
         button.classList.remove('is-pulsing');
         void button.offsetWidth;
         button.classList.add('is-pulsing');
         window.setTimeout(() => button.classList.remove('is-pulsing'), 560);
+
+        const shareComponent = button.closest('salla-social-share');
+        try {
+          if (window.customElements?.whenDefined) {
+            await window.customElements.whenDefined('salla-social-share');
+          }
+          if (shareComponent && typeof shareComponent.open === 'function') {
+            await shareComponent.open();
+            return;
+          }
+        } catch (_) {
+          // Fall through to the browser share sheet when Salla's menu cannot open.
+        }
+
+        if (navigator.share) {
+          try {
+            await navigator.share({ title: document.title, url: window.location.href });
+            return;
+          } catch (error) {
+            if (error?.name === 'AbortError') return;
+          }
+        }
+
+        try {
+          await navigator.clipboard?.writeText(window.location.href);
+        } catch (_) {
+          // Nothing else to do; Salla/native sharing is unavailable in this browser.
+        }
       });
     });
   }

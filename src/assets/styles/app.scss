@@ -1386,3 +1386,39 @@ body.zod-product-dock-visible.product-single{padding-bottom:84px}
   .product-single .zod-heart-svg{transition:none!important}
 }
 
+
+
+/* v1.6.12 — single action set, bare centered dots, working share trigger, clean trust cards */
+.product-single .zod-floating-thumbs{
+  left:50%!important;
+  right:auto!important;
+  inset-inline:auto!important;
+  transform:translateX(-50%)!important;
+  width:max-content!important;
+  max-width:78%!important;
+  min-height:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  overflow-x:auto!important;
+}
+.product-single .zod-floating-thumb{background:rgba(72,78,88,.22)!important}
+.product-single .zod-floating-thumb.is-active{background:var(--color-primary)!important}
+
+/* One pair of actions per viewport: desktop beside the product heading, mobile under the gallery. */
+.product-single .zod-mobile-gallery-tools{display:none!important}
+.product-single .zod-gallery-wishlist{display:none!important}
+@media(max-width:767px){
+  .product-single .zod-mobile-gallery-tools{display:flex!important;align-items:center;justify-content:center;gap:10px;padding:10px 0 2px}
+}
+
+/* Remove the decorative square that sat at the left of each confidence feature. */
+.product-single .zod-trust-card::before{display:none!important;content:none!important;animation:none!important}
+
+@media(prefers-reduced-motion:reduce){
+  .product-single .zod-floating-thumb.is-active{animation:none!important}
+}

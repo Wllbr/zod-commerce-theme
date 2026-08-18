@@ -1,3 +1,11 @@
+# v1.6.12 — Product Gallery + Actions Cleanup
+
+- Explicitly calls Salla Social Share `open()` from the custom share trigger, with browser-share fallback.
+- Centers gallery dots on desktop and mobile and removes the translucent pill/background entirely.
+- Removes the redundant wishlist button floating over the product image.
+- Desktop now uses one share + wishlist pair beside the product heading; mobile uses one pair below the gallery.
+- Removes the decorative blank square from the left side of the three product confidence cards.
+
 # v1.6.11 — Stable Gallery Actions + Avatar Upload
 
 - Rebased on the last known-good v1.6.9 package to remove the malformed v1.6.10 CSS/Twig changes.
