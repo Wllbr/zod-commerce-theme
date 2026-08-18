@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.12",
-  "description": "ZOD Commerce — v1.6.12 product gallery/action cleanup, explicit Salla share opening, centered bare dots, and clean trust cards.",
+  "version": "1.6.13",
+  "description": "ZOD Commerce — v1.6.13 product gallery/action cleanup, explicit Salla share opening, centered bare dots, and clean trust cards.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

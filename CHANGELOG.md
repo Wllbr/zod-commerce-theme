@@ -1,3 +1,9 @@
+# v1.6.13 — Gallery Dot Centering Hotfix
+
+- Centers the product gallery dot rail using physical + logical zero insets and automatic margins, so Arabic RTL and English LTR render identically.
+- Removes the direction-dependent `left:50% / translateX(-50%)` positioning conflict.
+- Keeps the dot rail background fully transparent and pins dot ordering to a stable LTR sequence.
+
 # v1.6.12 — Product Gallery + Actions Cleanup
 
 - Explicitly calls Salla Social Share `open()` from the custom share trigger, with browser-share fallback.
