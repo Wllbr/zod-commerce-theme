@@ -1,3 +1,10 @@
+# v1.6.14 — Gallery Dot Selection Beep
+
+- Removed the continuous glow from the selected gallery dot.
+- The selected dot now stays clean and solid red.
+- Added one small ring pulse only when the active image changes.
+- Repeated slider lifecycle events no longer retrigger the effect for the same image.
+
 # v1.6.13 — Gallery Dot Centering Hotfix
 
 - Centers the product gallery dot rail using physical + logical zero insets and automatic margins, so Arabic RTL and English LTR render identically.

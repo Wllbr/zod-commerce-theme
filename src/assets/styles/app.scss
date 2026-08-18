@@ -1448,3 +1448,34 @@ body.zod-product-dock-visible.product-single{padding-bottom:84px}
 @media(max-width:767px){
   .product-single .zod-floating-thumbs{max-width:82%!important;}
 }
+
+
+/* v1.6.14 — quiet one-shot gallery dot selection beep */
+@keyframes zodGalleryDotBeep{
+  0%{transform:translate(-50%,-50%) scale(.75);opacity:.55}
+  65%{transform:translate(-50%,-50%) scale(1.8);opacity:.18}
+  100%{transform:translate(-50%,-50%) scale(2.05);opacity:0}
+}
+.product-single .zod-floating-thumb.is-active{
+  box-shadow:none!important;
+  animation:none!important;
+}
+.product-single .zod-floating-thumb::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:100%;
+  height:100%;
+  border:1px solid var(--color-primary);
+  border-radius:999px;
+  transform:translate(-50%,-50%) scale(.75);
+  opacity:0;
+  pointer-events:none;
+}
+.product-single .zod-floating-thumb.is-beeping::after{
+  animation:zodGalleryDotBeep .34s ease-out 1;
+}
+@media(prefers-reduced-motion:reduce){
+  .product-single .zod-floating-thumb.is-beeping::after{animation:none!important}
+}

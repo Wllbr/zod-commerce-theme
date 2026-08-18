@@ -52,14 +52,27 @@ class ZodProductPage {
       return candidates.find(value => Number.isInteger(value));
     };
 
+    let lastThumbIndex = -1;
+    let beepTimer;
+
     const syncThumb = index => {
       if (!Number.isInteger(index) || index < 0) return;
+      const changed = index !== lastThumbIndex;
       thumbs.forEach((thumb, thumbIndex) => {
         const active = thumbIndex === index;
         thumb.classList.toggle('is-active', active);
+        if (!active) thumb.classList.remove('is-beeping');
         thumb.setAttribute('aria-current', active ? 'true' : 'false');
       });
       const activeThumb = thumbs[index];
+      if (activeThumb && changed) {
+        clearTimeout(beepTimer);
+        activeThumb.classList.remove('is-beeping');
+        void activeThumb.offsetWidth;
+        activeThumb.classList.add('is-beeping');
+        beepTimer = window.setTimeout(() => activeThumb.classList.remove('is-beeping'), 380);
+      }
+      lastThumbIndex = index;
       if (activeThumb && thumbRail) {
         const railRect = thumbRail.getBoundingClientRect();
         const thumbRect = activeThumb.getBoundingClientRect();
