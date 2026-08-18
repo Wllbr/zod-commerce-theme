@@ -2,7 +2,11 @@
 {% block content %}
   {% hook 'index:start' %}
   <div class="zod-home">
-    {% component home %}
+    {% if theme.settings.get('homepage_ready_layout', true) %}
+      {% include 'components.home.ready-home' %}
+    {% else %}
+      {% component home %}
+    {% endif %}
   </div>
   {% hook 'index:end' %}
 {% endblock %}

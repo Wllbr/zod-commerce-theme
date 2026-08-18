@@ -1,6 +1,6 @@
 # ZOD Commerce Theme
 
-**Version 1.0.0** — fresh Salla Twilight storefront for ZOD.
+**Version 1.7.0** — catalog-first Salla Twilight storefront for ZOD.
 
 This repository is an independent, clean-start Salla theme project.
 
@@ -86,7 +86,7 @@ See `DESIGN_SYSTEM.md` for the visual and responsive rules.
 13. Real Salla Reviews / Testimonials component
 14. Trust & Service
 
-Only the product shelf is enabled as a safe default so a new store can render without fake banners, fake category imagery, fake trust claims, or placeholder reviews. Configure the remaining sections in the Salla theme editor with real store content.
+Version 1.7.0 ships with the **Ready ZOD Homepage** enabled by default. It uses real ZOD catalog imagery and Salla-native product feeds, with no generated product renders or fabricated reviews. Disable `homepage_ready_layout` in theme settings only when you want to build the homepage entirely with Salla editor components.
 
 ## Repository recommendation
 

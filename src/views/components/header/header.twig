@@ -1,3 +1,4 @@
+{% set zod_brand_logo = store.logo ? store.logo|cdn(260) : 'images/zod-logo.png'|asset %}
 <header data-testid="store-header" class="zod-header" data-sticky="{{ theme.settings.get('header_is_sticky', true) ? '1' : '0' }}">
   {# Salla Dashboard advertisement bar remains the source of truth. #}
   <salla-advertisement data-testid="store-header-advertisement" class="zod-native-advertisement"></salla-advertisement>
@@ -27,7 +28,7 @@
       </div>
 
       <a data-testid="store-header-logo" class="zod-logo zod-logo--centered" href="{{ store.url }}">
-        <img fetchpriority="high" loading="eager" src="{{ store.logo|cdn(240) }}" alt="{{ store.name }}">
+        <img fetchpriority="high" loading="eager" src="{{ zod_brand_logo }}" alt="{{ store.name }}">
         {% if is_page('index') %}<h1 class="sr-only">{{ store.name }}</h1>{% else %}<span class="sr-only">{{ store.name }}</span>{% endif %}
       </a>
 
@@ -60,7 +61,7 @@
   <div id="zod-search-overlay" class="zod-search-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="zod-search-title">
     <button type="button" class="zod-search-overlay__close" aria-label="{{ trans('zod.header.close') }}" onclick="window.zodTheme?.closeSearch()"><i class="sicon-cancel"></i></button>
     <div class="zod-search-overlay__content">
-      <img class="zod-search-overlay__logo" src="{{ store.logo|cdn(260) }}" alt="{{ store.name }}">
+      <img class="zod-search-overlay__logo" src="{{ zod_brand_logo }}" alt="{{ store.name }}">
       <h2 id="zod-search-title">{{ trans('zod.header.search_question') }}</h2>
       <div class="zod-search-box" data-zod-search-box>
         <salla-search data-testid="store-header-search" inline oval height="58"></salla-search>

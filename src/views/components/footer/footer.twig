@@ -1,3 +1,4 @@
+{% set zod_brand_logo = store.logo ? store.logo|cdn(240) : 'images/zod-logo.png'|asset %}
 <footer data-testid="store-footer" class="zod-footer zod-footer--light">
   <div class="zod-footer-main">
     <div class="container">
@@ -9,7 +10,7 @@
 
       <div class="zod-footer-grid">
         <div class="zod-footer-brand">
-          <a href="{{ link('/') }}" class="zod-footer-logo"><img src="{{ store.logo|cdn(220) }}" alt="{{ store.name }}"></a>
+          <a href="{{ link('/') }}" class="zod-footer-logo"><img src="{{ zod_brand_logo }}" alt="{{ store.name }}"></a>
           {% if store.slogan %}<strong class="zod-footer-slogan">{{ store.slogan }}</strong>{% endif %}
           {% if store.description %}<div class="zod-footer-description">{{ store.description|raw }}</div>{% endif %}
         </div>

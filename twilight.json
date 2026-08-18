@@ -1,7 +1,7 @@
 {
   "name": {
-    "ar": "زود للتجارة",
-    "en": "ZOD Commerce"
+    "ar": "ZOD",
+    "en": "ZOD"
   },
   "repository": "https://github.com/Wllbr/zod-commerce-theme",
   "author_email": "support@salla.sa",
@@ -42,6 +42,17 @@
       "label": "إظهار شريط التنقل السفلي على الجوال",
       "description": null,
       "id": "show_mobile_bottom_nav",
+      "format": "switch",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "boolean",
+      "icon": "sicon-layout-grid",
+      "label": "استخدام الصفحة الرئيسية الجاهزة لزود",
+      "description": "صفحة رئيسية جاهزة مبنية على أقسام ومنتجات المتجر الفعلية. عطّلها إذا أردت الاعتماد بالكامل على محرر مكونات الصفحة الرئيسية.",
+      "id": "homepage_ready_layout",
       "format": "switch",
       "required": false,
       "value": true,
@@ -1693,7 +1704,7 @@
   ],
   "support_url": "https://zodstore.sa/",
   "description": {
-    "ar": "ثيم متجر زود التجاري — واجهة احترافية ثنائية اللغة للمنتجات التقنية والإلكترونية والأجهزة.",
-    "en": "ZOD Commerce — a professional bilingual storefront for technical products, electronics, appliances, and equipment."
+    "ar": "واجهة ZOD ثنائية اللغة للمنتجات والتجهيزات المنزلية والتجارية والتقنية.",
+    "en": "A bilingual ZOD storefront for technical, commercial and home products."
   }
 }
