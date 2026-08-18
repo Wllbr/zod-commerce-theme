@@ -12,7 +12,19 @@ class ZodProductPage {
     this.mainPrice = this.page.querySelector('[data-zod-main-price]');
     this.stickyPrice = this.page.querySelector('[data-zod-sticky-price]');
     this.gallery = this.page.querySelector('[data-zod-gallery-slider]');
+    this.resetInitialScroll();
     this.init();
+  }
+
+
+  resetInitialScroll() {
+    if (window.location.hash) return;
+    const nav = performance.getEntriesByType?.('navigation')?.[0];
+    if (nav?.type === 'back_forward') return;
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    const reset = () => window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    reset();
+    requestAnimationFrame(reset);
   }
 
   init() {
@@ -47,8 +59,11 @@ class ZodProductPage {
         thumb.setAttribute('aria-current', active ? 'true' : 'false');
       });
       const activeThumb = thumbs[index];
-      if (activeThumb) {
-        activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      if (activeThumb && thumbRail) {
+        const railRect = thumbRail.getBoundingClientRect();
+        const thumbRect = activeThumb.getBoundingClientRect();
+        const delta = (thumbRect.left + thumbRect.width / 2) - (railRect.left + railRect.width / 2);
+        if (Math.abs(delta) > 2) thumbRail.scrollBy({ left: delta, behavior: 'smooth' });
       }
     };
 

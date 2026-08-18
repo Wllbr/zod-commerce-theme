@@ -1,3 +1,7 @@
+if (document.querySelector('lite-youtube')) {
+  import('lite-youtube-embed/src/lite-yt-embed.js').catch(() => {});
+}
+
 const initFaq = (root = document) => {
   root.querySelectorAll('.zod-faq-item:not([data-zod-faq-ready])').forEach(item => {
     item.dataset.zodFaqReady = 'true';
@@ -63,13 +67,24 @@ const initHome = (root = document) => {
 
 document.addEventListener('DOMContentLoaded', () => {
   initHome();
+  let queued = false;
+  const pending = new Set();
+  const flush = () => {
+    queued = false;
+    pending.forEach(node => {
+      if (!node.isConnected) return;
+      if (node.matches?.('[data-zod-interactive-showcase]')) initInteractiveShowcase(node);
+      initHome(node);
+    });
+    pending.clear();
+  };
   const observer = new MutationObserver(mutations => {
     for (const mutation of mutations) {
-      mutation.addedNodes.forEach(node => {
-        if (!(node instanceof HTMLElement)) return;
-        if (node.matches?.('[data-zod-interactive-showcase]')) initInteractiveShowcase(node);
-        initHome(node);
-      });
+      mutation.addedNodes.forEach(node => { if (node instanceof HTMLElement) pending.add(node); });
+    }
+    if (!queued && pending.size) {
+      queued = true;
+      requestAnimationFrame(flush);
     }
   });
   observer.observe(document.body, { childList: true, subtree: true });

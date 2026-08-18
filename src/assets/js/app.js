@@ -1,4 +1,3 @@
-import 'lite-youtube-embed/src/lite-yt-embed.js';
 import './partials/product-card';
 
 class ZodTheme {
@@ -167,7 +166,12 @@ class ZodTheme {
       const n = Number(value.replace(/[^0-9.\-]/g, ''));
       return Number.isFinite(n) ? n : null;
     }
-    if (typeof value === 'object') {
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        const n = this.moneyNumber(item);
+        if (n !== null) return n;
+      }
+    } else if (typeof value === 'object') {
       for (const key of ['amount','value','price','amount_with_tax','amount_without_tax']) {
         const n = this.moneyNumber(value?.[key]);
         if (n !== null) return n;
@@ -180,7 +184,7 @@ class ZodTheme {
     const root = payload?.data?.data ?? payload?.data ?? payload ?? {};
     const product = root?.product ?? root;
     const sale = this.moneyNumber(product?.sale_price ?? product?.salePrice);
-    const base = this.moneyNumber(product?.price ?? product?.current_price ?? root?.price);
+    const base = this.moneyNumber(product?.price ?? product?.current_price ?? root?.price) ?? this.moneyNumber(product);
     const regular = this.moneyNumber(product?.regular_price ?? product?.regularPrice ?? product?.original_price);
     const current = sale !== null && sale > 0 ? sale : base;
     return {
@@ -211,10 +215,19 @@ class ZodTheme {
 
   initLiveShowcasePrices() {
     const bind = async () => {
-      const nodes = [...document.querySelectorAll('[data-zod-live-price][data-product-id]')];
-      for (const node of nodes) {
+      const nodes = [...document.querySelectorAll('[data-zod-live-price][data-product-id]')]
+        .filter(node => {
+          if (node.dataset.priceReady === '1') {
+            node.hidden = false;
+            return false;
+          }
+          return true;
+        });
+      if (!nodes.length) return;
+
+      await Promise.all(nodes.map(async node => {
         const productId = Number(node.dataset.productId);
-        if (!productId) continue;
+        if (!productId) return;
         let applied = false;
         try {
           const response = await salla.product.getPrice(productId);
@@ -226,7 +239,7 @@ class ZodTheme {
             this.applyLivePrice(node, this.extractProductPrice(response));
           } catch (_) {}
         }
-      }
+      }));
     };
     if (window.salla?.onReady) window.salla.onReady().then(bind).catch(()=>{});
     else document.addEventListener('zod::ready', bind, {once:true});

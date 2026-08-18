@@ -1,27 +1,33 @@
 class ZodMainMenu extends HTMLElement {
   connectedCallback() {
-    this.waitForSalla()
-      .then(() => salla.onReady())
-      .then(() => salla.api.component.getMenus())
-      .then(({ data }) => {
-        const menus = Array.isArray(data) ? data : [];
-        window.zodMenu?.setMenus(menus);
-      })
-      .catch(() => window.zodMenu?.setMenus([]));
+    window.zodMenuSource = this;
   }
 
   waitForSalla(timeout = 8000) {
-    return new Promise((resolve, reject) => {
+    if (this.readyPromise) return this.readyPromise;
+    this.readyPromise = new Promise((resolve, reject) => {
       const started = Date.now();
       const check = () => {
         if (window.salla?.onReady && window.salla?.api?.component) return resolve(window.salla);
         if (Date.now() - started >= timeout) return reject(new Error('Salla SDK unavailable'));
-        setTimeout(check, 50);
+        setTimeout(check, 80);
       };
       check();
     });
+    return this.readyPromise;
+  }
+
+  loadMenus() {
+    if (this.menuPromise) return this.menuPromise;
+    this.menuPromise = this.waitForSalla()
+      .then(() => salla.onReady())
+      .then(() => salla.api.component.getMenus())
+      .then(({ data }) => Array.isArray(data) ? data : [])
+      .catch(() => []);
+    return this.menuPromise;
   }
 }
+
 
 if (!customElements.get('zod-main-menu')) customElements.define('zod-main-menu', ZodMainMenu);
 
@@ -48,7 +54,12 @@ window.zodMenu = {
     window.zodTheme?.closeSearch?.(false);
     this.lastFocus = trigger || document.activeElement;
     this.stack = [];
-    this.renderLevel(this.menus, null);
+    if (this.menus.length) this.renderLevel(this.menus, null);
+    else {
+      const box = document.getElementById('zod-mobile-menu-content');
+      if (box) box.innerHTML = '<div class="zod-menu-loading" aria-busy="true"><span></span><span></span><span></span></div>';
+      window.zodMenuSource?.loadMenus?.().then(menus => this.setMenus(menus));
+    }
     el.classList.add('is-open');
     el.setAttribute('aria-hidden', 'false');
     trigger?.setAttribute?.('aria-expanded', 'true');

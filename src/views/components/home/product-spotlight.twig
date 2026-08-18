@@ -1,22 +1,22 @@
 {% set featured = component.products|first %}
 {% if featured %}
-{% set eyebrow = component.eyebrow is iterable ? component.eyebrow[language.code]|default(component.eyebrow|first) : component.eyebrow %}
 {% set custom_title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
 {% set text = component.text is iterable ? component.text[language.code]|default(component.text|first) : component.text %}
 {% set benefit_one = component.benefit_one is iterable ? component.benefit_one[language.code]|default(component.benefit_one|first) : component.benefit_one %}
 {% set benefit_two = component.benefit_two is iterable ? component.benefit_two[language.code]|default(component.benefit_two|first) : component.benefit_two %}
 {% set benefit_three = component.benefit_three is iterable ? component.benefit_three[language.code]|default(component.benefit_three|first) : component.benefit_three %}
 {% set button = component.button is iterable ? component.button[language.code]|default(component.button|first) : component.button %}
+{% set has_valid_sale = featured.is_on_sale and featured.sale_price and featured.sale_price > 0 %}
+{% set spotlight_price = has_valid_sale ? featured.sale_price : featured.price %}
 <section class="zod-section zod-spotlight-section">
   <div class="container">
     <article class="zod-spotlight">
       <div class="zod-spotlight__media"><img src="{{ component.media|default(featured.image.url|default(featured.thumbnail)) }}" alt="{{ custom_title|default(featured.name) }}" loading="lazy"></div>
       <div class="zod-spotlight__content">
-        {% if eyebrow %}<span class="zod-eyebrow">{{ eyebrow }}</span>{% endif %}
         <h2>{{ custom_title|default(featured.name) }}</h2>
         {% if text %}<p>{{ text }}</p>{% endif %}
         {% if benefit_one or benefit_two or benefit_three %}<ul class="zod-check-list">{% for benefit in [benefit_one, benefit_two, benefit_three] %}{% if benefit %}<li><i class="sicon-check-circle"></i>{{ benefit }}</li>{% endif %}{% endfor %}</ul>{% endif %}
-        {% if featured.price %}<div class="zod-spotlight__price">{{ featured.sale_price|default(featured.price)|money }}{% if featured.is_on_sale %}<del>{{ featured.regular_price|money }}</del>{% endif %}</div>{% endif %}
+        {% if featured.id %}<div class="zod-spotlight__price" data-zod-live-price data-product-id="{{ featured.id }}" data-price-ready="{{ spotlight_price ? '1' : '0' }}" {{ not spotlight_price ? 'hidden' : '' }}><strong data-zod-price-current>{% if spotlight_price %}{{ spotlight_price|money }}{% endif %}</strong>{% if has_valid_sale %}<del data-zod-price-regular>{{ featured.regular_price|money }}</del>{% else %}<del data-zod-price-regular hidden></del>{% endif %}</div>{% endif %}
         <div class="zod-spotlight__actions">
           {% if button %}<a class="zod-btn zod-btn--primary" href="{{ featured.url }}">{{ button }}</a>{% endif %}
           {% if featured.id %}<salla-add-product-button fill="outline" product-id="{{ featured.id }}" product-status="{{ featured.status }}" product-type="{{ featured.type }}">{{ featured.add_to_cart_label|default(trans('pages.cart.add_to_cart')) }}</salla-add-product-button>{% endif %}

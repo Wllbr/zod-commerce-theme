@@ -18,7 +18,7 @@
         </button>
         {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
           <div class="zod-header-localization">
-            <salla-localization-modal id="zod-localization-modal" data-testid="store-header-localization"></salla-localization-modal>
+            <salla-localization-modal id="zod-localization-modal" language="{{ language.code }}" data-testid="store-header-localization"></salla-localization-modal>
             <button type="button" class="zod-localization-trigger" aria-label="{{ trans('zod.mobile.language') }}" onclick="document.getElementById('zod-localization-modal')?.open()">
               <span>{{ language.code|upper }}</span>
             </button>

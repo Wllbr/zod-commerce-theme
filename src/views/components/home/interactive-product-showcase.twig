@@ -3,6 +3,8 @@
   {% set custom_title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
   {% set text = component.text is iterable ? component.text[language.code]|default(component.text|first) : component.text %}
   {% set view_button = component.view_button is iterable ? component.view_button[language.code]|default(component.view_button|first) : component.view_button %}
+  {% set has_valid_sale = featured.is_on_sale and featured.sale_price and featured.sale_price > 0 %}
+  {% set showcase_price = has_valid_sale ? featured.sale_price : featured.price %}
   <section class="zod-section zod-interactive-showcase-section" data-zod-interactive-showcase data-product-id="{{ featured.id }}">
     <div class="container">
       <article class="zod-interactive-showcase">
@@ -31,9 +33,9 @@
           <h2>{{ custom_title|default(featured.name) }}</h2>
           {% if text %}<p class="zod-interactive-showcase__lead">{{ text }}</p>{% endif %}
 
-          <div class="zod-interactive-showcase__price" data-zod-live-price data-product-id="{{ featured.id }}" {{ not featured.price ? 'hidden' : '' }}>
-            <strong data-zod-price-current>{% if featured.price %}{{ featured.sale_price|default(featured.price)|money }}{% endif %}</strong>
-            <del data-zod-price-regular {{ not featured.is_on_sale ? 'hidden' : '' }}>{% if featured.is_on_sale %}{{ featured.regular_price|money }}{% endif %}</del>
+          <div class="zod-interactive-showcase__price" data-zod-live-price data-product-id="{{ featured.id }}" data-price-ready="{{ showcase_price ? '1' : '0' }}" {{ not showcase_price ? 'hidden' : '' }}>
+            <strong data-zod-price-current>{% if showcase_price %}{{ showcase_price|money }}{% endif %}</strong>
+            <del data-zod-price-regular {{ not has_valid_sale ? 'hidden' : '' }}>{% if has_valid_sale %}{{ featured.regular_price|money }}{% endif %}</del>
           </div>
 
           {% if component.show_countdown and component.countdown_date %}

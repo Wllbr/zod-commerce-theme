@@ -10,23 +10,33 @@ class ZodProductCard extends HTMLElement {
     }).catch(()=>{});
   }
   waitForSalla(timeout=8000) {
-    return new Promise((resolve,reject)=>{
+    if (window.__zodSallaReadyPromise) return window.__zodSallaReadyPromise;
+    window.__zodSallaReadyPromise = new Promise((resolve,reject)=>{
       const started=Date.now();
       const check=()=>{
         if(window.salla?.onReady) return resolve(window.salla);
         if(Date.now()-started>=timeout) return reject(new Error('Salla SDK unavailable'));
-        setTimeout(check,50);
+        setTimeout(check,80);
       };
       check();
     });
+    return window.__zodSallaReadyPromise;
   }
   esc(value='') { return String(value).replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch])); }
   money(value) { if (value === undefined || value === null) return ''; try { return salla.money(value); } catch (_) { return value; } }
+  number(value) {
+    if (typeof value === 'number') return Number.isFinite(value) ? value : 0;
+    if (typeof value === 'string') { const n=Number(value.replace(/[^0-9.\-]/g,'')); return Number.isFinite(n)?n:0; }
+    if (value && typeof value === 'object') return this.number(value.amount ?? value.value ?? value.price);
+    return 0;
+  }
   t(key, fallback='') { try { return salla.lang.get(key) || fallback; } catch (_) { return fallback; } }
   price() {
     const p=this.product;
-    if (p.is_on_sale) return `<div class="zpc-price"><strong>${this.money(p.sale_price)}</strong><del>${this.money(p.regular_price)}</del>${p.discount_percentage?`<span>-${this.esc(p.discount_percentage)}</span>`:''}</div>`;
-    if (p.starting_price) return `<div class="zpc-price"><small>${this.t('pages.products.starting_price','From')}</small><strong>${this.money(p.starting_price)}</strong></div>`;
+    const sale=this.number(p.sale_price);
+    const regular=this.number(p.regular_price);
+    if (p.is_on_sale && sale>0 && (!regular || regular>sale)) return `<div class="zpc-price"><strong>${this.money(p.sale_price)}</strong>${regular?`<del>${this.money(p.regular_price)}</del>`:''}${p.discount_percentage?`<span>-${this.esc(p.discount_percentage)}</span>`:''}</div>`;
+    if (this.number(p.starting_price)>0) return `<div class="zpc-price"><small>${this.t('pages.products.starting_price','From')}</small><strong>${this.money(p.starting_price)}</strong></div>`;
     return `<div class="zpc-price"><strong>${this.money(p.price)}</strong></div>`;
   }
   render() {
