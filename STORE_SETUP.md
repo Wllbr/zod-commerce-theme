@@ -75,13 +75,7 @@ pnpm production
 salla theme preview --with-editor
 ```
 
-## D. Homepage mode
-
-The theme now opens with the **Ready ZOD Homepage** enabled. It is already structured around the connected store catalog and real catalog imagery. Keep `homepage_ready_layout` enabled for the finished layout. Disable it only if you intentionally want to replace the homepage with Salla editor components.
-
-The component editor remains available for future campaigns and seasonal changes.
-
-## E. Optional component-editor build order
+## D. Theme editor — homepage build order
 
 The fresh project intentionally does not ship fake customer content or invented campaign artwork. Build the live homepage with real store content in this order:
 
@@ -146,7 +140,7 @@ Use Salla's real review/testimonial data. Do not create fabricated names or revi
 ### 14. Trust & Service
 Use only claims the business can actually support. Keep each point short.
 
-## F. Menu architecture
+## E. Menu architecture
 
 Keep category trees meaningful and customer-friendly. A technical store benefits from a three-path navigation model:
 
@@ -156,7 +150,7 @@ Keep category trees meaningful and customer-friendly. A technical store benefits
 
 The desktop theme renders deep menus as a mega-menu; mobile renders them as a drill-down catalog drawer.
 
-## G. Search quality checklist
+## F. Search quality checklist
 
 Because the theme uses Salla's live search, search quality depends heavily on product data.
 
@@ -172,7 +166,7 @@ For every technical product keep these consistent:
 
 Test model-number variants and Arabic/English searches before launch.
 
-## H. Product page data checklist
+## G. Product page data checklist
 
 For each product:
 - 5–7 useful images when possible
@@ -190,7 +184,7 @@ For each product:
 - what's in the box
 - video/3D asset only when it genuinely helps
 
-## I. Policy and trust pages
+## H. Policy and trust pages
 
 Before public launch, verify and publish real pages for:
 - Shipping & Delivery
@@ -204,7 +198,7 @@ Before public launch, verify and publish real pages for:
 
 Link them through the Salla footer menu so the theme renders them automatically.
 
-## J. Bilingual QA
+## I. Bilingual QA
 
 Test every important page twice: Arabic and English.
 

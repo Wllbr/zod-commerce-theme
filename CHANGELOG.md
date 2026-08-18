@@ -1,14 +1,3 @@
-# v1.7.0 — Real Catalog Ready Homepage
-
-- Replaced placeholder-first homepage setup with a complete ready-to-use ZOD homepage.
-- Homepage hero and solution cards use real product/category imagery from the connected ZOD Salla catalog, including COMMAX intercom, TAT ventilation, ASEEL insect control and LONG batteries.
-- Added catalog-first department navigation for intercom, ventilation, fans, insect control, LED lighting, PA/audio, electrical, kitchen, home appliances and safety.
-- Added Salla-native popular and latest product feeds so live pricing, stock and product data remain sourced from Salla.
-- Added business/project supply CTA using the store's real WhatsApp contact when available.
-- Added a `homepage_ready_layout` theme switch: enabled by default for the finished ZOD layout, with the component editor still available when switched off.
-- Switched theme display name to `ZOD` and added the supplied ZOD logo as a local fallback; storefront branding remains logo-only.
-- Preserved all v1.6.15 product-gallery RTL, centered-dot, share, wishlist, sticky purchase, review and payment fixes.
-
 # v1.6.15 — Arabic Gallery Direction Fix
 
 - Gallery pagination dots now follow the storefront language direction.
