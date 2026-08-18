@@ -1116,3 +1116,35 @@ body.zod-product-dock-visible.product-single{padding-bottom:84px}
 .product-single .zod-product-price .hidden{display:none!important}
 .product-single [data-zod-wishlist].is-active{color:var(--color-primary)!important;border-color:var(--color-primary)!important}
 .product-single [data-zod-wishlist].is-active i{color:var(--color-primary)!important}
+
+
+/* v1.6.6 — mobile trust-card repair + animated icons */
+@keyframes zodTrustIconFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-3px) scale(1.03)}}
+@keyframes zodTrustGlow{0%,100%{opacity:.18;transform:scale(.92)}50%{opacity:.34;transform:scale(1.08)}}
+.product-single .zod-trust-card{isolation:isolate}
+.product-single .zod-trust-card::before{content:"";position:absolute;inset:auto auto 10px 10px;width:44px;height:44px;border-radius:14px;background:color-mix(in srgb,var(--color-primary) 14%,#fff);opacity:.18;filter:blur(0);z-index:0;animation:zodTrustGlow 2.8s ease-in-out infinite}
+.product-single .zod-trust-card:nth-child(2)::before,.product-single .zod-trust-card:nth-child(2)>i{animation-delay:.35s}
+.product-single .zod-trust-card:nth-child(3)::before,.product-single .zod-trust-card:nth-child(3)>i{animation-delay:.7s}
+.product-single .zod-trust-card>i{position:relative;z-index:1;box-shadow:0 8px 18px rgba(16,24,40,.08);animation:zodTrustIconFloat 2.8s ease-in-out infinite}
+.product-single .zod-trust-card span{position:relative;z-index:1}
+
+@media(max-width:767px){
+  .product-single .zod-product-confidence{gap:9px}
+  .product-single .zod-product-trust{display:grid;grid-template-columns:1fr;gap:8px;overflow:visible;scroll-snap-type:none;padding-bottom:0}
+  .product-single .zod-trust-card{flex:none;width:100%;min-height:76px;padding:11px 12px;scroll-snap-align:unset;border-radius:13px}
+  .product-single .zod-trust-card>i{width:34px;height:34px;flex:0 0 34px;font-size:16px}
+  .product-single .zod-trust-card b{font-size:10.6px}
+  .product-single .zod-trust-card small{display:block;font-size:8.2px;line-height:1.45}
+}
+
+@media(max-width:420px){
+  .product-single .zod-trust-card{padding:10px 11px;gap:9px}
+  .product-single .zod-trust-card::before{width:40px;height:40px;inset:auto auto 9px 9px}
+  .product-single .zod-trust-card>i{width:32px;height:32px;flex-basis:32px;font-size:15px}
+  .product-single .zod-trust-card b{font-size:10px}
+  .product-single .zod-trust-card small{font-size:8px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .product-single .zod-trust-card::before,.product-single .zod-trust-card>i{animation:none!important}
+}

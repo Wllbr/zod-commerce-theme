@@ -1,3 +1,10 @@
+# v1.6.6 — Mobile Trust Cards Polish
+
+- Fixed the product confidence/trust cards on mobile so they no longer break into a clipped horizontal strip.
+- Replaced the middle trust icon with a valid Salla icon (`sicon-shield-check`) so the secure-payment card displays correctly.
+- Added subtle floating/pulsing animation to the three trust icons for a cleaner premium feel.
+- Kept desktop trust-card styling intact while giving phones a stable full-width stacked layout.
+
 # v1.6.5 — Product Page Runtime Hotfix
 
 - Rebased the fix on the last known-good v1.6.3 product template.

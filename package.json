@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.5",
-  "description": "ZOD Commerce — v1.6.5 hotfix restoring the known-good product Twig runtime, hiding inactive price branches, and routing guest wishlist clicks to Salla login.",
+  "version": "1.6.6",
+  "description": "ZOD Commerce — v1.6.6 polish fixing mobile product trust cards, replacing the secure-payment icon, and adding subtle trust-icon animation.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
