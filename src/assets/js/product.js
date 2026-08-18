@@ -182,89 +182,36 @@ class ZodProductPage {
     this.options?.addEventListener('changed', () => requestAnimationFrame(sync));
   }
 
-  waitForSalla(timeout = 8000) {
-    return new Promise((resolve, reject) => {
-      const started = Date.now();
-      const check = () => {
-        if (window.salla?.onReady) return resolve(window.salla);
-        if (Date.now() - started >= timeout) return reject(new Error('Salla SDK unavailable'));
-        setTimeout(check, 50);
-      };
-      check();
-    });
-  }
-
-  isGuestCustomer(sdk = window.salla) {
-    try {
-      if (typeof sdk?.config?.isGuest === 'function') return sdk.config.isGuest();
-    } catch (_) {}
-    try {
-      return !sdk?.config?.get?.('user.id');
-    } catch (_) {
-      return true;
-    }
-  }
-
-  isWishlisted(productId, sdk = window.salla) {
-    try {
-      const list = sdk?.storage?.get?.('salla::wishlist', []) || [];
-      return list.map(Number).includes(Number(productId));
-    } catch (_) {
-      return false;
-    }
-  }
-
-  syncWishlistButtons(active) {
-    this.page.querySelectorAll('[data-zod-wishlist]').forEach(button => {
-      button.classList.toggle('is-active', active);
-      button.setAttribute('aria-pressed', String(active));
-    });
-  }
-
-  openLoginModal(event) {
-    const modal = document.querySelector('salla-login-modal');
-    if (typeof modal?.open === 'function') {
-      modal.open(event);
-      return true;
-    }
-    return false;
-  }
-
   initWishlist() {
     const buttons = [...this.page.querySelectorAll('[data-zod-wishlist]')];
     if (!buttons.length) return;
     const productId = Number(this.page.dataset.productId || buttons[0]?.dataset.id);
 
-    this.waitForSalla()
-      .then(async sdk => {
-        try { await sdk.onReady(); } catch (_) {}
-        if (!this.isGuestCustomer(sdk)) this.syncWishlistButtons(this.isWishlisted(productId, sdk));
-      })
-      .catch(() => {});
+    const sync = active => {
+      buttons.forEach(button => {
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+    };
 
     buttons.forEach(button => {
       button.addEventListener('click', async event => {
         event.preventDefault();
         event.stopPropagation();
-        let sdk;
-        try {
-          sdk = await this.waitForSalla();
-          try { await sdk.onReady(); } catch (_) {}
-        } catch (_) {
-          return;
-        }
 
-        if (this.isGuestCustomer(sdk)) {
-          this.openLoginModal(event);
+        if (!window.salla) return;
+        if (salla.config.isGuest()) {
+          const modal = document.querySelector('salla-login-modal');
+          if (typeof modal?.open === 'function') await modal.open(event);
           return;
         }
 
         button.setAttribute('aria-busy', 'true');
         try {
-          await sdk.wishlist.toggle(productId);
-          this.syncWishlistButtons(this.isWishlisted(productId, sdk));
+          await salla.wishlist.toggle(productId);
+          sync(button.getAttribute('aria-pressed') !== 'true');
         } catch (_) {
-          if (this.isGuestCustomer(sdk)) this.openLoginModal(event);
+          // Keep Salla's native state unchanged if the request fails.
         } finally {
           button.removeAttribute('aria-busy');
         }

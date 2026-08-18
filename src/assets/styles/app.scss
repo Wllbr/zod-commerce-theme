@@ -1112,7 +1112,7 @@ body.zod-product-dock-visible.product-single{padding-bottom:84px}
   .product-single .zod-floating-thumb,.product-single .zod-gallery-arrow{transition:none!important}
 }
 
-/* v1.6.4: keep mutually-exclusive price states truly exclusive even in editor/compiled CSS fallbacks. */
+/* v1.6.5: ensure the inactive product-price branch never leaks into the UI. */
 .product-single .zod-product-price .hidden{display:none!important}
 .product-single [data-zod-wishlist].is-active{color:var(--color-primary)!important;border-color:var(--color-primary)!important}
 .product-single [data-zod-wishlist].is-active i{color:var(--color-primary)!important}

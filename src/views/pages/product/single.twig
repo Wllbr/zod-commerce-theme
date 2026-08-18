@@ -3,12 +3,9 @@
 {% block content %}
 {% set product_available = product.is_available or product.status == 'sale' %}
 {% set sticky_image = product.image.url ? product.image : (product.images|first) %}
-{# Normalize numeric price values before deciding whether this is a real sale. #}
-{% set sale_price_value = product.sale_price|default(0) + 0 %}
-{% set regular_price_value = product.regular_price|default(0) + 0 %}
-{% set starting_price_value = product.starting_price|default(0) + 0 %}
-{% set has_valid_sale = product.is_on_sale and sale_price_value > 0 and regular_price_value > sale_price_value %}
-{% set display_price_value = has_valid_sale ? sale_price_value : (starting_price_value > 0 ? starting_price_value : product.price) %}
+{# Some Salla product snapshots may flag is_on_sale while sale_price is zero. Never render 0 as a real discount. #}
+{% set has_valid_sale = product.is_on_sale and product.sale_price and product.sale_price > 0 %}
+{% set display_price_value = has_valid_sale ? product.sale_price : (product.starting_price and product.starting_price > 0 ? product.starting_price : product.price) %}
 {% set sticky_price_value = display_price_value %}
 {% set show_product_reviews = store.settings.rating.show_on_product %}
 
@@ -37,7 +34,7 @@
 
           {% if product.promotion_title %}<div class="zod-product-badge">{{ product.promotion_title }}</div>{% endif %}
           {% if product.calories %}<div class="zod-calories-badge"><strong>{{ product.calories }}</strong><span>{{ trans('pages.products.calories') }}</span></div>{% endif %}
-          <salla-button class="zod-gallery-wishlist" data-id="{{ product.id }}" data-zod-wishlist aria-pressed="false" shape="icon" fill="outline" color="light" aria-label="{{ trans('zod.header.wishlist') }}"><i class="sicon-heart"></i></salla-button>
+          <salla-button class="zod-gallery-wishlist {{ product.is_in_wishlist ? 'is-active' : '' }}" data-id="{{ product.id }}" data-zod-wishlist aria-pressed="{{ product.is_in_wishlist ? 'true' : 'false' }}" shape="icon" fill="outline" color="light" aria-label="{{ trans('zod.header.wishlist') }}"><i class="sicon-heart"></i></salla-button>
 
           <div slot="items">
             {% for image in product.images %}
@@ -80,7 +77,7 @@
 
       <div class="zod-mobile-gallery-tools" aria-label="{{ trans('zod.product.share') }}">
         <span class="zod-mobile-gallery-action"><salla-social-share data-testid="store-product-mobile-social-share" aria-label="{{ trans('zod.product.share') }}"></salla-social-share></span>
-        <salla-button class="zod-mobile-gallery-action zod-mobile-gallery-wishlist" data-id="{{ product.id }}" data-zod-wishlist aria-pressed="false" shape="icon" fill="outline" color="light" aria-label="{{ trans('zod.header.wishlist') }}"><i class="sicon-heart"></i></salla-button>
+        <salla-button class="zod-mobile-gallery-action zod-mobile-gallery-wishlist {{ product.is_in_wishlist ? 'is-active' : '' }}" data-id="{{ product.id }}" data-zod-wishlist aria-pressed="{{ product.is_in_wishlist ? 'true' : 'false' }}" shape="icon" fill="outline" color="light" aria-label="{{ trans('zod.header.wishlist') }}"><i class="sicon-heart"></i></salla-button>
       </div>
     </div>
 
@@ -96,7 +93,7 @@
         {% endif %}
         <div class="zod-product-tools">
           <salla-social-share data-testid="store-product-social-share" aria-label="{{ trans('zod.product.share') }}"></salla-social-share>
-          <salla-button data-testid="store-product-wishlist-btn" data-id="{{ product.id }}" data-zod-wishlist aria-pressed="false" shape="icon" fill="outline" color="light" aria-label="{{ trans('zod.header.wishlist') }}"><i class="sicon-heart"></i></salla-button>
+          <salla-button data-testid="store-product-wishlist-btn" class="{{ product.is_in_wishlist ? 'is-active' : '' }}" data-id="{{ product.id }}" data-zod-wishlist aria-pressed="{{ product.is_in_wishlist ? 'true' : 'false' }}" shape="icon" fill="outline" color="light" aria-label="{{ trans('zod.header.wishlist') }}"><i class="sicon-heart"></i></salla-button>
         </div>
       </div>
 
@@ -107,12 +104,12 @@
 
       <div data-testid="store-product-price" class="zod-product-price price-wrapper" data-zod-main-price>
         <div class="price_is_on_sale {{ has_valid_sale ? '' : 'hidden' }}">
-          <strong class="total-price">{{ sale_price_value|money }}</strong>
-          <del class="before-price">{{ regular_price_value|money }}</del>
+          <strong class="total-price">{{ product.sale_price|money }}</strong>
+          <del class="before-price">{{ product.regular_price|money }}</del>
           {% if has_valid_sale and product.discount_percentage %}<span class="zod-discount">-{{ product.discount_percentage }}</span>{% endif %}
         </div>
         <div class="starting-or-normal-price {{ has_valid_sale ? 'hidden' : '' }}">
-          {% if starting_price_value > 0 %}<small class="starting-price-title">{{ trans('pages.products.starting_price') }}</small>{% endif %}
+          {% if product.starting_price and product.starting_price > 0 %}<small class="starting-price-title">{{ trans('pages.products.starting_price') }}</small>{% endif %}
           <strong class="total-price">{{ display_price_value|money }}</strong>
         </div>
         <div data-testid="store-product-out-of-stock" class="out-of-stock zod-native-out-stock-state hidden" aria-hidden="true"></div>

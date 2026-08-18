@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.4",
-  "description": "ZOD Commerce — Salla-native bilingual theme with hardened discounted-price rendering, guest-safe native wishlist login flow, floating in-gallery thumbnails, transparent gallery arrows, mobile wishlist/share controls and responsive purchase dock.",
+  "version": "1.6.5",
+  "description": "ZOD Commerce — v1.6.5 hotfix restoring the known-good product Twig runtime, hiding inactive price branches, and routing guest wishlist clicks to Salla login.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
