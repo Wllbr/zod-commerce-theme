@@ -33,6 +33,7 @@ class ZodProductPage {
     this.initStockStatus();
     this.initPriceMirror();
     this.initWishlist();
+    this.initShareActions();
     this.initStickyPurchase();
     this.initOptionPanels();
   }
@@ -221,6 +222,10 @@ class ZodProductPage {
           return;
         }
 
+        button.classList.remove('is-pulsing');
+        void button.offsetWidth;
+        button.classList.add('is-pulsing');
+        setTimeout(() => button.classList.remove('is-pulsing'), 520);
         button.setAttribute('aria-busy', 'true');
         try {
           await salla.wishlist.toggle(productId);
@@ -230,6 +235,22 @@ class ZodProductPage {
         } finally {
           button.removeAttribute('aria-busy');
         }
+      });
+    });
+  }
+
+  initShareActions() {
+    const buttons = [...this.page.querySelectorAll('[data-zod-share]')];
+    buttons.forEach(button => {
+      button.addEventListener('click', async event => {
+        event.preventDefault();
+        event.stopPropagation();
+        button.classList.remove('is-pulsing');
+        void button.offsetWidth;
+        button.classList.add('is-pulsing');
+        setTimeout(() => button.classList.remove('is-pulsing'), 520);
+        const share = button.closest('salla-social-share');
+        try { await share?.open?.(); } catch (_) {}
       });
     });
   }

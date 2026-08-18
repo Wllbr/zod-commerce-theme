@@ -34,6 +34,7 @@ class ZodTheme {
     this.initLiveShowcasePrices();
     this.initFooterDisclosures();
     this.initDisclosureToggles();
+    this.initProfileAvatarUpload();
     window.salla?.onReady?.().then(() => document.dispatchEvent(new CustomEvent('zod::ready')));
   }
 
@@ -348,6 +349,32 @@ class ZodTheme {
     };
     if (window.salla?.onReady) window.salla.onReady().then(bind).catch(()=>{});
     else document.addEventListener('zod::ready', bind, {once:true});
+  }
+
+  initProfileAvatarUpload() {
+    const uploader = document.querySelector('[data-zod-profile-avatar]');
+    if (!uploader) return;
+
+    const notify = (type, message) => {
+      try { salla?.notify?.[type]?.(message); } catch (_) {}
+    };
+
+    uploader.addEventListener('uploaded', async event => {
+      const detail = event.detail;
+      const avatar = typeof detail === 'string' ? detail : (detail?.url || detail?.data?.url || detail?.data || '');
+      if (!avatar || !window.salla?.profile?.update) return;
+      uploader.classList.add('is-saving-avatar');
+      try {
+        await salla.profile.update({ avatar });
+        uploader.setAttribute('value', avatar);
+        document.querySelectorAll('[data-zod-account-avatar] img').forEach(img => { img.src = avatar; });
+        notify('success', this.uiText('avatarUpdated', document.documentElement.lang === 'ar' ? 'تم تحديث الصورة الشخصية' : 'Profile image updated'));
+      } catch (_) {
+        notify('error', this.uiText('avatarUpdateFailed', document.documentElement.lang === 'ar' ? 'تعذر تحديث الصورة الشخصية' : 'Could not update profile image'));
+      } finally {
+        uploader.classList.remove('is-saving-avatar');
+      }
+    });
   }
 
   initDisclosureToggles() {

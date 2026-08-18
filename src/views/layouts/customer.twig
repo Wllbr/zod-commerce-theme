@@ -6,7 +6,19 @@
 <div class="container zod-account-layout">
   <aside class="zod-account-sidebar">
     {% if is_page('customer.profile') %}
-      <div class="zod-account-avatar"><salla-file-upload data-testid="store-profile-avatar-upload" profile-image value="{{ user.avatar }}"></salla-file-upload></div>
+      <div class="zod-account-avatar" data-zod-account-avatar>
+        <salla-file-upload
+          data-testid="store-profile-avatar-upload"
+          data-zod-profile-avatar
+          profile-image
+          instant-upload
+          value="{{ user.avatar }}"
+          url="{{ store.url|trim('/'~user.language_code) }}/upload-image"
+          payload-name="image"
+          accept="image/png, image/jpeg, image/jpg"
+          max-files-size="2MB">
+        </salla-file-upload>
+      </div>
     {% endif %}
     <salla-user-menu data-testid="store-sidebar-user-menu" inline></salla-user-menu>
   </aside>
