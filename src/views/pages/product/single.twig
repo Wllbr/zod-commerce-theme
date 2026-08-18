@@ -34,7 +34,7 @@
 
           {% if product.promotion_title %}<div class="zod-product-badge">{{ product.promotion_title }}</div>{% endif %}
           {% if product.calories %}<div class="zod-calories-badge"><strong>{{ product.calories }}</strong><span>{{ trans('pages.products.calories') }}</span></div>{% endif %}
-          <button type="button" class="zod-icon-action zod-wishlist-action zod-gallery-wishlist { product.is_in_wishlist ? 'is-active' : '' }" data-id="{{ product.id }}" data-zod-wishlist aria-pressed="{{ product.is_in_wishlist ? 'true' : 'false' }}" aria-label="{{ trans('zod.header.wishlist') }}"><svg class="zod-heart-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg></button>
+          <button type="button" class="zod-icon-action zod-wishlist-action zod-gallery-wishlist {{ product.is_in_wishlist ? 'is-active' : '' }}" data-id="{{ product.id }}" data-zod-wishlist aria-pressed="{{ product.is_in_wishlist ? 'true' : 'false' }}" aria-label="{{ trans('zod.header.wishlist') }}"><svg class="zod-heart-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg></button>
 
           <div slot="items">
             {% for image in product.images %}
@@ -73,7 +73,9 @@
       </div>
 
       <div class="zod-mobile-gallery-tools" aria-label="{{ trans('zod.product.share') }}">
-        <salla-social-share class="zod-share-component" data-testid="store-product-mobile-social-share" aria-label="{{ trans('zod.product.share') }}"><button type="button" slot="widget" class="zod-icon-action zod-share-action zod-mobile-gallery-action" data-zod-share aria-label="{{ trans('zod.product.share') }}"><svg class="zod-share-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4"/><path d="m7.5 8.5 4.5-4.5 4.5 4.5"/><path d="M5 13.5v5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-5"/></svg></button></salla-social-share>
+        <salla-social-share class="zod-share-component" data-testid="store-product-mobile-social-share" aria-label="{{ trans('zod.product.share') }}">
+          <button type="button" slot="widget" class="zod-icon-action zod-share-action zod-mobile-gallery-action" data-zod-share aria-label="{{ trans('zod.product.share') }}"><svg class="zod-share-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4"/><path d="m7.5 8.5 4.5-4.5 4.5 4.5"/><path d="M5 13.5v5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-5"/></svg></button>
+        </salla-social-share>
         <button type="button" class="zod-icon-action zod-wishlist-action zod-mobile-gallery-action zod-mobile-gallery-wishlist {{ product.is_in_wishlist ? 'is-active' : '' }}" data-id="{{ product.id }}" data-zod-wishlist aria-pressed="{{ product.is_in_wishlist ? 'true' : 'false' }}" aria-label="{{ trans('zod.header.wishlist') }}"><svg class="zod-heart-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg></button>
       </div>
     </div>
@@ -89,7 +91,9 @@
           </a>
         {% endif %}
         <div class="zod-product-tools">
-          <salla-social-share class="zod-share-component" data-testid="store-product-social-share" aria-label="{{ trans('zod.product.share') }}"><button type="button" slot="widget" class="zod-icon-action zod-share-action" data-zod-share aria-label="{{ trans('zod.product.share') }}"><svg class="zod-share-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4"/><path d="m7.5 8.5 4.5-4.5 4.5 4.5"/><path d="M5 13.5v5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-5"/></svg></button></salla-social-share>
+          <salla-social-share class="zod-share-component" data-testid="store-product-social-share" aria-label="{{ trans('zod.product.share') }}">
+            <button type="button" slot="widget" class="zod-icon-action zod-share-action" data-zod-share aria-label="{{ trans('zod.product.share') }}"><svg class="zod-share-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4"/><path d="m7.5 8.5 4.5-4.5 4.5 4.5"/><path d="M5 13.5v5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-5"/></svg></button>
+          </salla-social-share>
           <button type="button" data-testid="store-product-wishlist-btn" class="zod-icon-action zod-wishlist-action {{ product.is_in_wishlist ? 'is-active' : '' }}" data-id="{{ product.id }}" data-zod-wishlist aria-pressed="{{ product.is_in_wishlist ? 'true' : 'false' }}" aria-label="{{ trans('zod.header.wishlist') }}"><svg class="zod-heart-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg></button>
         </div>
       </div>

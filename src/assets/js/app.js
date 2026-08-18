@@ -355,22 +355,15 @@ class ZodTheme {
     const uploader = document.querySelector('[data-zod-profile-avatar]');
     if (!uploader) return;
 
-    const notify = (type, message) => {
-      try { salla?.notify?.[type]?.(message); } catch (_) {}
-    };
-
     uploader.addEventListener('uploaded', async event => {
-      const detail = event.detail;
-      const avatar = typeof detail === 'string' ? detail : (detail?.url || detail?.data?.url || detail?.data || '');
+      const avatar = typeof event.detail === 'string' ? event.detail : '';
       if (!avatar || !window.salla?.profile?.update) return;
       uploader.classList.add('is-saving-avatar');
       try {
         await salla.profile.update({ avatar });
         uploader.setAttribute('value', avatar);
-        document.querySelectorAll('[data-zod-account-avatar] img').forEach(img => { img.src = avatar; });
-        notify('success', this.uiText('avatarUpdated', document.documentElement.lang === 'ar' ? 'تم تحديث الصورة الشخصية' : 'Profile image updated'));
       } catch (_) {
-        notify('error', this.uiText('avatarUpdateFailed', document.documentElement.lang === 'ar' ? 'تعذر تحديث الصورة الشخصية' : 'Could not update profile image'));
+        // Salla's native profile endpoint owns the user-facing error state.
       } finally {
         uploader.classList.remove('is-saving-avatar');
       }

@@ -1,10 +1,10 @@
-# v1.6.10 — Gallery Actions + Profile Avatar Fix
+# v1.6.11 — Stable Gallery Actions + Avatar Upload
 
-- Uses translucent glowing gallery dots on desktop and mobile; thumbnail images no longer cover product artwork.
-- Replaces product wishlist controls with theme-owned SVG hearts so the selected heart itself fills red while the button circle stays white.
-- Adds a matching minimalist share icon with hover/click glow and keeps Salla's native social-share menu.
-- Configures the profile avatar uploader with Salla's supported `/upload-image` endpoint and persists the returned image through `salla.profile.update({ avatar })`.
-- Keeps reduced-motion behavior for accessibility.
+- Rebased on the last known-good v1.6.9 package to remove the malformed v1.6.10 CSS/Twig changes.
+- Uses translucent glowing gallery dots on desktop and mobile.
+- Adds clean custom heart/share controls with hover/click glow; wishlist fills only the heart glyph red.
+- Configures profile-image upload with Salla's documented `/upload-image` flow and saves the returned URL with the profile SDK.
+- Preserves all v1.6.9 navigation, performance, pricing, mobile dock, trust-card and product-page fixes.
 
 # v1.6.9 — Mobile Gallery Controls Polish
 

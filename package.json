@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.10",
-  "description": "ZOD Commerce \u2014 v1.6.9 mobile dock navigation with Cart and My Account replacing the duplicate language shortcut.",
+  "version": "1.6.11",
+  "description": "ZOD Commerce — v1.6.11 stable gallery actions and profile avatar upload fix, rebased on v1.6.9.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
