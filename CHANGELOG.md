@@ -1,3 +1,10 @@
+# v1.6.9 — Mobile Gallery Controls Polish
+
+- Replaced mobile gallery image thumbnails with small translucent pagination dots so they no longer cover product artwork or specification images.
+- Added a subtle primary-color glow/pulse to the currently selected gallery dot.
+- Removed the extra theme-drawn circles and hover halo from the mobile share and wishlist wrappers, leaving Salla's native single circular controls visible.
+- Desktop floating image thumbnails remain unchanged.
+
 # v1.6.8 — Mobile Dock Account Navigation
 
 - Removed the duplicate Language shortcut from the mobile bottom navigation.

@@ -1157,3 +1157,89 @@ body.zod-product-dock-visible.product-single{padding-bottom:84px}
 /* v1.6.8 — mobile dock account + cart layout */
 .zod-dock-account-icon{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .zod-mobile-dock .zod-dock-account,.zod-mobile-dock a[href*="cart"]{position:relative}
+
+
+/* v1.6.9 — mobile gallery dots + clean single-circle share/wishlist */
+@keyframes zodGalleryDotGlow{
+  0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--color-primary) 0%,transparent),0 0 8px color-mix(in srgb,var(--color-primary) 22%,transparent)}
+  50%{box-shadow:0 0 0 4px color-mix(in srgb,var(--color-primary) 10%,transparent),0 0 14px color-mix(in srgb,var(--color-primary) 42%,transparent)}
+}
+
+@media(max-width:767px){
+  /* Replace image thumbnails with tiny translucent pagination dots so product artwork stays visible. */
+  .product-single .zod-floating-thumbs{
+    bottom:10px;
+    gap:7px;
+    max-width:78%;
+    min-height:24px;
+    padding:6px 9px;
+    border:0;
+    border-radius:999px;
+    background:rgba(255,255,255,.28);
+    box-shadow:none;
+    backdrop-filter:blur(5px);
+    -webkit-backdrop-filter:blur(5px);
+  }
+  .product-single .zod-floating-thumb{
+    flex:0 0 7px;
+    width:7px;
+    height:7px;
+    min-width:7px;
+    min-height:7px;
+    padding:0;
+    border:0!important;
+    border-radius:999px;
+    background:rgba(77,83,92,.26);
+    opacity:.72;
+    box-shadow:none;
+    transform:none!important;
+    overflow:visible;
+  }
+  .product-single .zod-floating-thumb img,
+  .product-single .zod-floating-thumb>i{display:none!important}
+  .product-single .zod-floating-thumb:hover{opacity:.9;transform:none!important}
+  .product-single .zod-floating-thumb.is-active{
+    width:9px;
+    height:9px;
+    flex-basis:9px;
+    background:var(--color-primary);
+    opacity:1;
+    border:0!important;
+    animation:zodGalleryDotGlow 2s ease-in-out infinite;
+  }
+
+  /* Salla's controls already draw their own round button. The theme wrapper must stay invisible,
+     otherwise a second circle appears behind the native control. */
+  .product-single .zod-mobile-gallery-tools{gap:10px;padding:10px 0 2px}
+  .product-single .zod-mobile-gallery-action{
+    width:40px;
+    height:40px;
+    display:grid;
+    place-items:center;
+    padding:0!important;
+    border:0!important;
+    border-radius:0!important;
+    background:transparent!important;
+    color:#24272b;
+    box-shadow:none!important;
+    outline:0;
+  }
+  .product-single .zod-mobile-gallery-action:hover,
+  .product-single .zod-mobile-gallery-action:focus,
+  .product-single .zod-mobile-gallery-action:focus-within{
+    border:0!important;
+    background:transparent!important;
+    color:var(--color-primary);
+    box-shadow:none!important;
+  }
+  .product-single .zod-mobile-gallery-action salla-social-share{
+    display:grid;
+    place-items:center;
+    width:40px;
+    height:40px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .product-single .zod-floating-thumb.is-active{animation:none!important}
+}
