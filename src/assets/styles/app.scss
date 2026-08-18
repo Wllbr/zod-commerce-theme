@@ -1152,3 +1152,8 @@ body.zod-product-dock-visible.product-single{padding-bottom:84px}
 
 /* v1.6.7 — navigation/performance polish */
 .zod-menu-loading{min-height:140px;display:flex;align-items:center;justify-content:center;gap:6px}.zod-menu-loading span{width:7px;height:7px;border-radius:50%;background:var(--color-primary);animation:zodMenuLoading .8s ease-in-out infinite alternate}.zod-menu-loading span:nth-child(2){animation-delay:.15s}.zod-menu-loading span:nth-child(3){animation-delay:.3s}@keyframes zodMenuLoading{from{opacity:.28;transform:translateY(2px)}to{opacity:1;transform:translateY(-2px)}}@media(prefers-reduced-motion:reduce){.zod-menu-loading span{animation:none}}
+
+
+/* v1.6.8 — mobile dock account + cart layout */
+.zod-dock-account-icon{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.zod-mobile-dock .zod-dock-account,.zod-mobile-dock a[href*="cart"]{position:relative}

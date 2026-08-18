@@ -1,3 +1,11 @@
+# v1.6.8 — Mobile Dock Account Navigation
+
+- Removed the duplicate Language shortcut from the mobile bottom navigation.
+- The fourth dock position is now Cart.
+- The fifth/leftmost position in Arabic RTL is now My Account / حسابي.
+- Kept language switching in the mobile header next to the cart, avoiding duplicated navigation.
+- Added a lightweight inline account icon so the dock does not depend on an uncertain icon-font glyph.
+
 # v1.6.7 — Navigation, Price & Performance Fix
 
 - New product navigations start at the top instead of inheriting a lower scroll position.

@@ -122,7 +122,8 @@
       "search": "Search",
       "wishlist": "Wishlist",
       "cart": "Cart",
-      "language": "Language"
+      "language": "Language",
+      "account": "My Account"
     },
     "common": {
       "javascript_required": "JavaScript is required for the full shopping experience."

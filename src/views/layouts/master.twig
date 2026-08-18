@@ -64,12 +64,11 @@
   <a href="{{ link('/') }}"><i class="sicon-home"></i><span>{{ trans('zod.mobile.home') }}</span></a>
   <button type="button" onclick="window.zodMenu?.open(this)"><i class="sicon-layout-grid"></i><span>{{ trans('zod.mobile.categories') }}</span></button>
   <button type="button" onclick="window.zodTheme?.openSearch(this)"><span class="zod-dock-search"><i class="sicon-search"></i></span><small>{{ trans('zod.mobile.search') }}</small></button>
-  {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
-    <button type="button" class="zod-dock-language" onclick="document.getElementById('zod-localization-modal')?.open()"><strong class="zod-dock-language-code">{{ language.code|upper }}</strong><span>{{ trans('zod.mobile.language') }}</span></button>
-  {% else %}
-    <a href="{{ link('wishlist') }}"><i class="sicon-heart"></i><span>{{ trans('zod.mobile.wishlist') }}</span></a>
-  {% endif %}
   <a href="{{ link('cart') }}"><i class="sicon-shopping-bag"></i><span>{{ trans('zod.mobile.cart') }}</span></a>
+  <a href="{{ link('profile') }}" class="zod-dock-account" aria-label="{{ trans('zod.mobile.account') }}">
+    <svg class="zod-dock-account-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3.25"></circle><path d="M5.75 19c.7-3.25 3-5 6.25-5s5.55 1.75 6.25 5"></path></svg>
+    <span>{{ trans('zod.mobile.account') }}</span>
+  </a>
 </nav>
 {% endif %}
 {% block scripts %}{% endblock %}
