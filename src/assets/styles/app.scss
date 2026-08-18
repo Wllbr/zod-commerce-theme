@@ -1479,3 +1479,8 @@ body.zod-product-dock-visible.product-single{padding-bottom:84px}
 @media(prefers-reduced-motion:reduce){
   .product-single .zod-floating-thumb.is-beeping::after{animation:none!important}
 }
+
+
+/* v1.6.15 — locale-aware gallery dot direction */
+html[dir="ltr"] .product-single .zod-floating-thumbs{direction:ltr!important;flex-direction:row!important}
+html[dir="rtl"] .product-single .zod-floating-thumbs{direction:rtl!important;flex-direction:row!important}

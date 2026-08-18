@@ -1,3 +1,10 @@
+# v1.6.15 — Arabic Gallery Direction Fix
+
+- Gallery pagination dots now follow the storefront language direction.
+- English remains left-to-right.
+- Arabic now renders the dot sequence right-to-left instead of being forced LTR.
+- Keeps the centered dot rail and one-shot selection beep from v1.6.14.
+
 # v1.6.14 — Gallery Dot Selection Beep
 
 - Removed the continuous glow from the selected gallery dot.
