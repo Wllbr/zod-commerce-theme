@@ -64,6 +64,7 @@ const initProductSwitcher = (section) => {
   if (!section || section.dataset.zodProductSwitcherReady === 'true') return;
   section.dataset.zodProductSwitcherReady = 'true';
 
+  const tabsRail = section.querySelector('[data-zod-product-switcher-tabs]');
   const tabs = [...section.querySelectorAll('[data-zod-product-switcher-tab]')];
   const panels = [...section.querySelectorAll('[data-zod-product-switcher-panel]')];
   const link = section.querySelector('[data-zod-product-switcher-link]');
@@ -71,55 +72,115 @@ const initProductSwitcher = (section) => {
   const prefix = section.dataset.zodProductSwitcherPrefix || '';
   if (!tabs.length || tabs.length !== panels.length) return;
 
+  let activeIndex = 0;
+
+  const refreshPanel = (panel) => {
+    const refresh = () => {
+      panel.querySelectorAll('salla-slider').forEach(slider => {
+        try { slider.update?.(); } catch (_) {}
+        try { slider.swiper?.update?.(); } catch (_) {}
+        try { slider.slider?.update?.(); } catch (_) {}
+      });
+
+      panel.querySelectorAll('salla-products-slider').forEach(productsSlider => {
+        try { productsSlider.update?.(); } catch (_) {}
+        try { productsSlider.swiper?.update?.(); } catch (_) {}
+        try { productsSlider.slider?.update?.(); } catch (_) {}
+
+        const innerSlider = productsSlider.shadowRoot?.querySelector?.('salla-slider');
+        if (innerSlider) {
+          try { innerSlider.update?.(); } catch (_) {}
+          try { innerSlider.swiper?.update?.(); } catch (_) {}
+          try { innerSlider.slider?.update?.(); } catch (_) {}
+        }
+      });
+    };
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      refresh();
+      window.dispatchEvent(new Event('resize'));
+    }));
+
+    window.setTimeout(refresh, 220);
+  };
+
   const mountPanel = (panel) => {
+    if (!panel || panel.dataset.zodProductSwitcherMounted === 'true') return;
+
     const template = panel.querySelector('[data-zod-product-switcher-template]');
-    if (!template) return;
-    panel.append(template.content.cloneNode(true));
-    template.remove();
+    if (template) {
+      panel.append(template.content.cloneNode(true));
+      template.remove();
+    }
+
+    try { window.customElements?.upgrade?.(panel); } catch (_) {}
+    panel.dataset.zodProductSwitcherMounted = 'true';
+  };
+
+  const centerTab = (tab, smooth = true) => {
+    if (!tabsRail || !tab) return;
+    const railRect = tabsRail.getBoundingClientRect();
+    const tabRect = tab.getBoundingClientRect();
+    const delta = (tabRect.left + tabRect.width / 2) - (railRect.left + railRect.width / 2);
+    if (Math.abs(delta) < 4) return;
+    tabsRail.scrollBy({ left: delta, behavior: smooth ? 'smooth' : 'auto' });
   };
 
   const activate = (index, { focus = false, scroll = false } = {}) => {
     const nextIndex = (index + tabs.length) % tabs.length;
+    const nextPanel = panels[nextIndex];
+    const nextTab = tabs[nextIndex];
+
     tabs.forEach((tab, tabIndex) => {
       const active = tabIndex === nextIndex;
       tab.classList.toggle('is-active', active);
       tab.setAttribute('aria-selected', active ? 'true' : 'false');
       tab.tabIndex = active ? 0 : -1;
     });
+
     panels.forEach((panel, panelIndex) => {
       const active = panelIndex === nextIndex;
       if (active) mountPanel(panel);
       panel.hidden = !active;
+      panel.setAttribute('aria-hidden', active ? 'false' : 'true');
       panel.classList.toggle('is-active', active);
     });
 
-    const activeTab = tabs[nextIndex];
-    const url = activeTab.dataset.zodProductSwitcherUrl || '';
-    const label = activeTab.dataset.zodProductSwitcherLabel || '';
+    activeIndex = nextIndex;
+
+    const url = nextTab.dataset.zodProductSwitcherUrl || '';
+    const label = nextTab.dataset.zodProductSwitcherLabel || '';
     if (link) {
       link.hidden = !url;
       if (url) link.href = url;
     }
     if (linkLabel) linkLabel.textContent = `${prefix} ${label}`.trim();
-    if (focus) activeTab.focus();
-    if (scroll) activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    if (focus) nextTab.focus({ preventScroll: true });
+    if (scroll) centerTab(nextTab, true);
+
+    refreshPanel(nextPanel);
   };
 
   tabs.forEach((tab, index) => {
     tab.addEventListener('click', () => activate(index, { scroll: true }));
-    tab.addEventListener('keydown', (event) => {
+    tab.addEventListener('keydown', event => {
       const rtl = document.documentElement.dir === 'rtl';
       let nextIndex = null;
       if (event.key === 'Home') nextIndex = 0;
       if (event.key === 'End') nextIndex = tabs.length - 1;
       if (event.key === 'ArrowRight') nextIndex = index + (rtl ? -1 : 1);
       if (event.key === 'ArrowLeft') nextIndex = index + (rtl ? 1 : -1);
+      if (event.key === 'Enter' || event.key === ' ') nextIndex = index;
       if (nextIndex === null) return;
       event.preventDefault();
       activate(nextIndex, { focus: true, scroll: true });
     });
   });
 
+  section.addEventListener('zod:product-switcher-refresh', () => refreshPanel(panels[activeIndex]));
+  window.addEventListener('load', () => refreshPanel(panels[activeIndex]), { once: true });
+
+  panels[0].dataset.zodProductSwitcherMounted = 'true';
   activate(0);
 };
 

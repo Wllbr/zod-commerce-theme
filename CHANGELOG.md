@@ -1,3 +1,12 @@
+# v1.6.24 — Product Type Switcher Reliability & Polish
+
+- Reworks the Products by Type section into a cleaner ZOD segmented-tab surface for desktop and mobile.
+- Keeps the existing saved `groups` collection, categories, selected products, and custom links intact.
+- Reliably mounts inactive Salla product sliders only when selected, then refreshes their layout after they become visible.
+- Prevents tab centering from vertically moving the page; only the horizontal tab rail scrolls.
+- Keeps keyboard navigation and correct RTL/LTR arrow behavior.
+- Updates the active Browse All link to the selected product type and keeps mobile product cards swipeable.
+
 # v1.6.22 — Existing Product Tabs Rendered
 
 - Preserves the existing `groups` collection so saved tabs and product selections are not discarded.

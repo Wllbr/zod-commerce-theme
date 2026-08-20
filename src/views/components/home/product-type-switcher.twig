@@ -3,9 +3,10 @@
   {% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
   {% set subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
   {% set first_type = product_types|first %}
-  {% set first_category = first_type.category|first %}
+  {% set first_categories = first_type.category|default([]) %}
+  {% set first_category = first_categories|first %}
   {% set first_type_title = first_type.title is iterable ? first_type.title[language.code]|default(first_type.title|first) : first_type.title %}
-  {% set first_type_title = first_type_title|default(first_category.name) %}
+  {% set first_type_title = first_type_title|default(first_category.name)|default(trans('zod.home.product_type_fallback')) %}
   {% set first_custom_url = first_type.url.url|default(first_type.url) %}
   {% set first_url = first_custom_url|default(first_category.url) %}
 
@@ -17,7 +18,7 @@
     <div class="container">
       <div class="zod-product-switcher__surface {{ component.soft_background ? 'zod-product-switcher__surface--soft' : '' }}">
         <div class="zod-section-head zod-product-switcher__head">
-          <div>
+          <div class="zod-product-switcher__heading-copy">
             {% if title %}<h2>{{ title }}</h2>{% endif %}
             {% if subtitle %}<p>{{ subtitle }}</p>{% endif %}
           </div>
@@ -32,77 +33,65 @@
           </a>
         </div>
 
-        <div class="zod-product-switcher__tabs" role="tablist" aria-label="{{ title|default(trans('zod.home.product_types')) }}">
-          {% for product_type in product_types %}
-            {% set category = product_type.category|first %}
-            {% set type_title = product_type.title is iterable ? product_type.title[language.code]|default(product_type.title|first) : product_type.title %}
-            {% set type_title = type_title|default(category.name)|default(trans('zod.home.product_type_fallback')) %}
-            {% set custom_url = product_type.url.url|default(product_type.url) %}
-            {% set type_url = custom_url|default(category.url) %}
-            <button
-              type="button"
-              class="zod-product-switcher__tab {{ loop.first ? 'is-active' : '' }}"
-              id="zod-product-type-tab-{{ position }}-{{ loop.index0 }}"
-              role="tab"
-              aria-selected="{{ loop.first ? 'true' : 'false' }}"
-              aria-controls="zod-product-type-panel-{{ position }}-{{ loop.index0 }}"
-              tabindex="{{ loop.first ? '0' : '-1' }}"
-              data-zod-product-switcher-tab
-              data-zod-product-switcher-label="{{ type_title }}"
-              data-zod-product-switcher-url="{{ type_url }}"
-            >{{ type_title }}</button>
-          {% endfor %}
+        <div class="zod-product-switcher__nav" data-zod-product-switcher-nav>
+          <div
+            class="zod-product-switcher__tabs"
+            role="tablist"
+            aria-label="{{ title|default(trans('zod.home.product_types')) }}"
+            data-zod-product-switcher-tabs
+          >
+            {% for product_type in product_types %}
+              {% set categories = product_type.category|default([]) %}
+              {% set category = categories|first %}
+              {% set type_title = product_type.title is iterable ? product_type.title[language.code]|default(product_type.title|first) : product_type.title %}
+              {% set type_title = type_title|default(category.name)|default(trans('zod.home.product_type_fallback')) %}
+              {% set custom_url = product_type.url.url|default(product_type.url) %}
+              {% set type_url = custom_url|default(category.url) %}
+              <button
+                type="button"
+                class="zod-product-switcher__tab {{ loop.first ? 'is-active' : '' }}"
+                id="zod-product-type-tab-{{ position }}-{{ loop.index0 }}"
+                role="tab"
+                aria-selected="{{ loop.first ? 'true' : 'false' }}"
+                aria-controls="zod-product-type-panel-{{ position }}-{{ loop.index0 }}"
+                tabindex="{{ loop.first ? '0' : '-1' }}"
+                data-zod-product-switcher-tab
+                data-zod-product-switcher-label="{{ type_title }}"
+                data-zod-product-switcher-url="{{ type_url }}"
+              >
+                <span class="zod-product-switcher__tab-dot" aria-hidden="true"></span>
+                <span>{{ type_title }}</span>
+              </button>
+            {% endfor %}
+          </div>
         </div>
 
-        <div class="zod-product-switcher__panels">
+        <div class="zod-product-switcher__panels" data-zod-product-switcher-panels>
           {% for product_type in product_types %}
-            {% set category = product_type.category|first %}
+            {% set categories = product_type.category|default([]) %}
+            {% set category = categories|first %}
+            {% set selected_products = product_type.products|default([]) %}
             <div
               class="zod-product-switcher__panel {{ loop.first ? 'is-active' : '' }}"
               id="zod-product-type-panel-{{ position }}-{{ loop.index0 }}"
               role="tabpanel"
               aria-labelledby="zod-product-type-tab-{{ position }}-{{ loop.index0 }}"
+              aria-hidden="{{ loop.first ? 'false' : 'true' }}"
               data-zod-product-switcher-panel
+              data-zod-product-switcher-panel-index="{{ loop.index0 }}"
               {{ not loop.first ? 'hidden' : '' }}
             >
               {% if loop.first %}
-                {% if product_type.products|length %}
-                  <salla-slider
-                    class="zod-native-product-carousel zod-density-carousel"
-                    type="carousel"
-                    show-controls="false"
-                    slider-config='{"speed":520,"spaceBetween":10}'
-                  >
-                    <div slot="items">
-                      {% for product in product_type.products|slice(0,12) %}
-                        <div class="swiper-slide zod-native-product-slide">
-                          <custom-salla-product-card product="{{ product }}"></custom-salla-product-card>
-                        </div>
-                      {% endfor %}
-                    </div>
-                  </salla-slider>
-                {% elseif category and category.id %}
-                  <salla-products-slider
-                    source="categories"
-                    source-value="{{ [category.id]|json_encode }}"
-                    limit="12"
-                    product-card-component="custom-salla-product-card"
-                    slider-id="zod-product-type-{{ position }}-{{ loop.index0 }}"
-                  ></salla-products-slider>
-                {% else %}
-                  <p class="zod-product-switcher__empty">{{ trans('zod.home.product_switcher_empty') }}</p>
-                {% endif %}
-              {% else %}
-                <template data-zod-product-switcher-template>
-                  {% if product_type.products|length %}
+                <div class="zod-product-switcher__panel-content" data-zod-product-switcher-content>
+                  {% if selected_products|length %}
                     <salla-slider
                       class="zod-native-product-carousel zod-density-carousel"
                       type="carousel"
                       show-controls="false"
-                      slider-config='{"speed":520,"spaceBetween":10}'
+                      slider-config='{"speed":520,"spaceBetween":10,"watchOverflow":true}'
                     >
                       <div slot="items">
-                        {% for product in product_type.products|slice(0,12) %}
+                        {% for product in selected_products|slice(0,12) %}
                           <div class="swiper-slide zod-native-product-slide">
                             <custom-salla-product-card product="{{ product }}"></custom-salla-product-card>
                           </div>
@@ -120,6 +109,37 @@
                   {% else %}
                     <p class="zod-product-switcher__empty">{{ trans('zod.home.product_switcher_empty') }}</p>
                   {% endif %}
+                </div>
+              {% else %}
+                <template data-zod-product-switcher-template>
+                  <div class="zod-product-switcher__panel-content" data-zod-product-switcher-content>
+                    {% if selected_products|length %}
+                      <salla-slider
+                        class="zod-native-product-carousel zod-density-carousel"
+                        type="carousel"
+                        show-controls="false"
+                        slider-config='{"speed":520,"spaceBetween":10,"watchOverflow":true}'
+                      >
+                        <div slot="items">
+                          {% for product in selected_products|slice(0,12) %}
+                            <div class="swiper-slide zod-native-product-slide">
+                              <custom-salla-product-card product="{{ product }}"></custom-salla-product-card>
+                            </div>
+                          {% endfor %}
+                        </div>
+                      </salla-slider>
+                    {% elseif category and category.id %}
+                      <salla-products-slider
+                        source="categories"
+                        source-value="{{ [category.id]|json_encode }}"
+                        limit="12"
+                        product-card-component="custom-salla-product-card"
+                        slider-id="zod-product-type-{{ position }}-{{ loop.index0 }}"
+                      ></salla-products-slider>
+                    {% else %}
+                      <p class="zod-product-switcher__empty">{{ trans('zod.home.product_switcher_empty') }}</p>
+                    {% endif %}
+                  </div>
                 </template>
               {% endif %}
             </div>
