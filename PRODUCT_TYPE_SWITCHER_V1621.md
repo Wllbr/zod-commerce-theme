@@ -1,13 +1,12 @@
-# ZOD Commerce v1.6.21 — Product Type Switcher
+# ZOD Commerce v1.6.21 — Superseded Investigation
 
 ## Cause
 
-Salla kept the editor rows for the switcher but returned the generic `groups` collection as empty to the Twig storefront renderer. The page contained the component's editor markers with no section between them.
+Salla kept the editor rows for the switcher but ambiguous dot access returned the generic `groups` collection as empty to the Twig storefront renderer. The page contained the component's editor markers with no section between them.
 
 ## Fix
 
-- The collection now uses the dedicated `product_types` key.
-- Each type still supports an automatic category source, up to 12 manually selected products, and an optional browse-all link.
-- A validation rule prevents the old conflicting key from being used again.
+- Renaming the field did not migrate existing component instances, so this approach was superseded by v1.6.22.
+- v1.6.22 preserves `groups` and reads it with explicit Twig bracket access.
 
-Existing switcher settings must be saved once in the updated editor so Salla stores the values under the new collection key.
+No component recreation or migration is required after v1.6.22.

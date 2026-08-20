@@ -1,3 +1,10 @@
+# v1.6.22 — Existing Product Tabs Rendered
+
+- Preserves the existing `groups` collection so saved tabs and product selections are not discarded.
+- Reads the collection with explicit Twig bracket access to avoid Salla's ambiguous `component.groups` resolution.
+- Fixes the current product-type section without deleting or recreating it.
+- Adds validation that rejects ambiguous dot access while retaining the saved field schema.
+
 # v1.6.21 — Product Type Sources Restored
 
 - Renames the switcher's collection from the conflicting `groups` key to `product_types`.

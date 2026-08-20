@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.21",
-  "description": "ZOD Commerce — v1.6.21 restores product sources in the product type switcher.",
+  "version": "1.6.22",
+  "description": "ZOD Commerce — v1.6.22 renders existing product type switcher selections safely.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

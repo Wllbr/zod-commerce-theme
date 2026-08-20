@@ -1,7 +1,8 @@
-{% if component.product_types|length %}
+{% set product_types = component['groups']|default([]) %}
+{% if product_types|length %}
   {% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
   {% set subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
-  {% set first_type = component.product_types|first %}
+  {% set first_type = product_types|first %}
   {% set first_category = first_type.category|first %}
   {% set first_type_title = first_type.title is iterable ? first_type.title[language.code]|default(first_type.title|first) : first_type.title %}
   {% set first_type_title = first_type_title|default(first_category.name) %}
@@ -32,7 +33,7 @@
         </div>
 
         <div class="zod-product-switcher__tabs" role="tablist" aria-label="{{ title|default(trans('zod.home.product_types')) }}">
-          {% for product_type in component.product_types %}
+          {% for product_type in product_types %}
             {% set category = product_type.category|first %}
             {% set type_title = product_type.title is iterable ? product_type.title[language.code]|default(product_type.title|first) : product_type.title %}
             {% set type_title = type_title|default(category.name)|default(trans('zod.home.product_type_fallback')) %}
@@ -54,7 +55,7 @@
         </div>
 
         <div class="zod-product-switcher__panels">
-          {% for product_type in component.product_types %}
+          {% for product_type in product_types %}
             {% set category = product_type.category|first %}
             <div
               class="zod-product-switcher__panel {{ loop.first ? 'is-active' : '' }}"
