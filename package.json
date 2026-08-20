@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.17",
-  "description": "ZOD Commerce — v1.6.17 makes the product type switcher compatible with Salla's production Twig renderer.",
+  "version": "1.6.18",
+  "description": "ZOD Commerce — v1.6.18 adds a lightweight one-time product-card scroll reveal.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

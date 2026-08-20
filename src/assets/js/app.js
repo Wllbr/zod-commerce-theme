@@ -32,6 +32,7 @@ class ZodTheme {
     this.initSuccessAlertGuard();
     this.initCartExperience();
     this.initLiveShowcasePrices();
+    this.initProductCardReveal();
     this.initFooterDisclosures();
     this.initDisclosureToggles();
     this.initProfileAvatarUpload();
@@ -244,6 +245,91 @@ class ZodTheme {
     };
     if (window.salla?.onReady) window.salla.onReady().then(bind).catch(()=>{});
     else document.addEventListener('zod::ready', bind, {once:true});
+  }
+
+  initProductCardReveal() {
+    const selector = 'custom-salla-product-card, .s-product-card-entry';
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const seen = new WeakSet();
+    const pending = new Set();
+    let revealObserver = null;
+
+    const show = card => {
+      if (!card?.isConnected) return;
+      pending.delete(card);
+      revealObserver?.unobserve(card);
+      if (reducedMotion.matches) return;
+
+      card.classList.add('is-visible');
+      let cleanupTimer = null;
+      const onAnimationEnd = event => {
+        if (event.target === card && event.animationName === 'zodProductCardReveal') cleanup();
+      };
+      const cleanup = () => {
+        card.removeEventListener('animationend', onAnimationEnd);
+        window.clearTimeout(cleanupTimer);
+        card.classList.remove('zod-product-reveal', 'is-visible');
+        card.style.removeProperty('--zod-reveal-delay');
+      };
+      card.addEventListener('animationend', onAnimationEnd);
+      cleanupTimer = window.setTimeout(cleanup, 720);
+    };
+
+    if ('IntersectionObserver' in window && !reducedMotion.matches) {
+      revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting) show(entry.target); });
+      }, { rootMargin: '0px 0px -5% 0px', threshold: 0.08 });
+    }
+
+    const registerCards = cards => {
+      const columns = window.matchMedia('(max-width: 640px)').matches ? 2 : 4;
+      cards.forEach((card, index) => {
+        if (seen.has(card)) return;
+        seen.add(card);
+        if (reducedMotion.matches || !revealObserver) return;
+        card.classList.add('zod-product-reveal');
+        card.style.setProperty('--zod-reveal-delay', `${(index % columns) * (columns === 2 ? 45 : 50)}ms`);
+        pending.add(card);
+        revealObserver.observe(card);
+      });
+    };
+
+    const collectCards = roots => {
+      const cards = [];
+      roots.forEach(root => {
+        if (!(root instanceof Element)) return;
+        if (root.matches(selector)) cards.push(root);
+        cards.push(...root.querySelectorAll(selector));
+      });
+      registerCards([...new Set(cards)]);
+    };
+
+    collectCards([document.body]);
+    let queued = false;
+    const addedRoots = new Set();
+    const mutationObserver = new MutationObserver(mutations => {
+      mutations.forEach(mutation => mutation.addedNodes.forEach(node => {
+        if (node instanceof Element) addedRoots.add(node);
+      }));
+      if (queued || !addedRoots.size) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        collectCards([...addedRoots]);
+        addedRoots.clear();
+      });
+    });
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    reducedMotion.addEventListener?.('change', event => {
+      if (!event.matches) return;
+      pending.forEach(card => {
+        revealObserver?.unobserve(card);
+        card.classList.remove('zod-product-reveal', 'is-visible');
+        card.style.removeProperty('--zod-reveal-delay');
+      });
+      pending.clear();
+    });
   }
 
 

@@ -1,3 +1,11 @@
+# v1.6.18 — Smooth Product Card Reveal
+
+- Adds a short, one-time fade-and-rise entrance as product cards reach the viewport.
+- Supports both ZOD custom cards and Salla-native cards, including dynamically injected slider and catalog results.
+- Uses a restrained row stagger, with shorter movement and timing on mobile.
+- Leaves browser scrolling native and removes reveal styles after each entrance so existing hover interactions remain unchanged.
+- Shows products immediately when reduced motion is preferred or Intersection Observer is unavailable.
+
 # v1.6.17 — Salla Twig Compatibility
 
 - Removed the disabled Twig `import`/macro pattern from the product type switcher.
