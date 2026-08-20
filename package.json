@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.18",
-  "description": "ZOD Commerce — v1.6.18 adds a lightweight one-time product-card scroll reveal.",
+  "version": "1.6.19",
+  "description": "ZOD Commerce — v1.6.19 synchronizes the mobile cart badge with Salla's live cart.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

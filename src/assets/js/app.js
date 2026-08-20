@@ -341,8 +341,11 @@ class ZodTheme {
     } catch (_) { return 0; }
   }
 
-  extractCartCount(payload) {
+  extractCartCount(payload, allowStoredFallback = payload == null) {
     const values = [
+      payload?.data?.data?.cart?.summary?.count,
+      payload?.data?.data?.summary?.count,
+      payload?.data?.data?.count,
       payload?.data?.cart?.summary?.count,
       payload?.data?.summary?.count,
       payload?.data?.cart?.count,
@@ -355,7 +358,25 @@ class ZodTheme {
       const count = Number(value);
       if (Number.isFinite(count) && count >= 0) return count;
     }
-    return this.getStoredCartCount();
+
+    const lists = [
+      payload?.data?.data?.cart?.items,
+      payload?.data?.data?.items,
+      payload?.data?.cart?.items,
+      payload?.data?.items,
+      payload?.cart?.items,
+      payload?.items,
+      Array.isArray(payload?.data?.data) ? payload.data.data : null,
+      Array.isArray(payload?.data) ? payload.data : null
+    ];
+    for (const list of lists) {
+      if (!Array.isArray(list)) continue;
+      return list.reduce((total, item) => {
+        const quantity = Number(item?.quantity ?? 1);
+        return total + (Number.isFinite(quantity) && quantity > 0 ? quantity : 1);
+      }, 0);
+    }
+    return allowStoredFallback ? this.getStoredCartCount() : null;
   }
 
   updateCartBadge(count = this.getStoredCartCount(), animate = false) {
@@ -371,6 +392,36 @@ class ZodTheme {
       void cart.offsetWidth;
       cart.classList.add('is-bumping');
       setTimeout(() => cart.classList.remove('is-bumping'), 650);
+    }
+  }
+
+  recoverEmptyCartPage(count) {
+    const cartPage = document.querySelector('[data-zod-cart-page]');
+    if (!cartPage) return;
+    const emptyState = document.querySelector('[data-testid="store-cart-empty"]');
+    if (!emptyState || count <= 0) {
+      try { sessionStorage.removeItem('zod::cart-recovery-attempted'); } catch (_) {}
+      return;
+    }
+    try {
+      if (sessionStorage.getItem('zod::cart-recovery-attempted') === '1') return;
+      sessionStorage.setItem('zod::cart-recovery-attempted', '1');
+      window.setTimeout(() => window.location.reload(), 80);
+    } catch (_) {}
+  }
+
+  async refreshCartBadge({ recoverCartPage = false, animate = false } = {}) {
+    try {
+      const response = await salla.cart.details();
+      const liveCount = this.extractCartCount(response, false);
+      if (liveCount === null) throw new Error('Cart count missing from Salla response');
+      this.updateCartBadge(liveCount, animate);
+      if (recoverCartPage) this.recoverEmptyCartPage(liveCount);
+      return liveCount;
+    } catch (_) {
+      const storedCount = this.getStoredCartCount();
+      this.updateCartBadge(storedCount, animate);
+      return storedCount;
     }
   }
 
@@ -408,8 +459,9 @@ class ZodTheme {
       card?.classList.remove('is-removing');
       card?.classList.add('is-removed');
       setTimeout(() => form?.remove(), 360);
-      const count = this.extractCartCount(response);
-      this.updateCartBadge(count, false);
+      const count = this.extractCartCount(response, false);
+      if (count !== null) this.updateCartBadge(count, false);
+      else this.refreshCartBadge();
       if (count === 0) setTimeout(() => window.location.reload(), 430);
       return response;
     } catch (error) {
@@ -420,18 +472,24 @@ class ZodTheme {
 
   initCartExperience() {
     const bind = () => {
-      this.updateCartBadge();
+      // Never paint a cached count as authoritative. The live Salla cart owns the badge.
+      this.updateCartBadge(0);
       const cartEvents = salla?.cart?.event;
       cartEvents?.onItemAdded?.((response, productId) => {
         this.animateProductToCart(productId);
         this.showCartToast(this.uiText('cartAdded', 'Product added to cart'), 'added');
-        setTimeout(() => this.updateCartBadge(this.extractCartCount(response), true), 60);
+        const responseCount = this.extractCartCount(response, false);
+        if (responseCount !== null) this.updateCartBadge(responseCount, true);
+        setTimeout(() => this.refreshCartBadge({ animate: responseCount === null }), 100);
       });
       cartEvents?.onItemDeleted?.((response) => {
         this.showCartToast(this.uiText('cartRemoved', 'Product removed from cart'), 'removed');
-        setTimeout(() => this.updateCartBadge(this.extractCartCount(response)), 60);
+        const responseCount = this.extractCartCount(response, false);
+        if (responseCount !== null) this.updateCartBadge(responseCount);
+        setTimeout(() => this.refreshCartBadge(), 100);
       });
-      document.addEventListener('visibilitychange', () => { if (!document.hidden) this.updateCartBadge(); });
+      this.refreshCartBadge({ recoverCartPage: true });
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) this.refreshCartBadge(); });
     };
     if (window.salla?.onReady) window.salla.onReady().then(bind).catch(()=>{});
     else document.addEventListener('zod::ready', bind, {once:true});

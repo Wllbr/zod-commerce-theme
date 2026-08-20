@@ -1,3 +1,11 @@
+# v1.6.19 — Mobile Cart State Synchronization
+
+- Stops the header cart badge from treating Salla's cached browser count as authoritative.
+- Refreshes the badge from `salla.cart.details()` on page load, cart changes, and returning to the storefront.
+- Recognizes counts supplied directly or through live cart item quantities.
+- Performs one guarded recovery reload when Salla reports live items but the server-rendered cart page is empty.
+- Keeps the cached count only as a network-failure fallback.
+
 # v1.6.18 — Smooth Product Card Reveal
 
 - Adds a short, one-time fade-and-rise entrance as product cards reach the viewport.
