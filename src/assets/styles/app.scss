@@ -1515,6 +1515,30 @@ html[dir="rtl"] .product-single .zod-floating-thumbs{direction:rtl!important;fle
 }
 @media(prefers-reduced-motion:reduce){.zod-product-switcher__panel.is-active{animation:none}}
 
+/* v1.6.23 — preserve horizontal product discovery on small screens.
+   Custom shelves already use Salla sliders; this covers native featured-grid fallbacks. */
+@media(max-width:767px){
+  .zod-featured-native__grid,
+  .zod-featured-native__grid--full{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    overscroll-behavior-inline:contain;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;
+    margin-inline:-14px;
+    padding:2px 14px 10px;
+  }
+  .zod-featured-native__grid::-webkit-scrollbar,
+  .zod-featured-native__grid--full::-webkit-scrollbar{display:none}
+  .zod-featured-native__grid>*{
+    flex:0 0 calc((100vw - 38px)/2);
+    width:calc((100vw - 38px)/2);
+    max-width:190px;
+    scroll-snap-align:start;
+  }
+}
+
 /* v1.6.18 — one-time product-card scroll reveal */
 .zod-product-reveal{opacity:0;transform:translateY(14px)}
 .zod-product-reveal.is-visible{animation:zodProductCardReveal .4s cubic-bezier(.2,.72,.25,1) var(--zod-reveal-delay,0ms) both}
