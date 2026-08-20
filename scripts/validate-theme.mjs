@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.19','package.json: expected v1.6.19');
+assert(pkg.version==='1.6.20','package.json: expected v1.6.20');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -123,6 +123,7 @@ const appCss=read('src/assets/styles/app.scss');
 for(const selector of ['.zod-header','.zod-hero','.zod-product-card','.zod-product-main','.zod-catalog-layout','.zod-footer','.zod-mobile-dock','.zod-option-support']){
   assert(appCss.includes(selector),`app.scss missing ${selector}`);
 }
+assert(/@media\(max-width:767px\)[\s\S]*?\.zod-header-cart-wrap\{display:none!important\}/.test(appCss),'Mobile must use the bottom dock as its single cart entry');
 
 const jsFiles=walk('src/assets/js',['.js']);
 for(const f of jsFiles){

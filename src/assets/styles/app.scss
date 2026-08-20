@@ -436,9 +436,7 @@ custom-salla-product-card{display:block;height:100%}.zod-product-card{height:100
 
 @media(max-width:767px){
   .zod-header-actions--physical-left>.zod-header-icon-button{display:none!important} /* bottom dock owns mobile search */
-  .zod-header-cart-wrap,.zod-cart-link{width:38px;height:38px}
-  .zod-cart-link{font-size:20px}
-  .zod-cart-count{top:-1px;inset-inline-end:-1px;min-width:17px;height:17px;font-size:9px}
+  .zod-header-cart-wrap{display:none!important} /* bottom dock is the single mobile cart entry */
 
   .zod-native-product-carousel{margin-inline:-2px}
   .zod-native-product-slide{width:calc((100vw - 38px)/2)!important;min-width:0!important;max-width:none!important}

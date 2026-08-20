@@ -1,3 +1,10 @@
+# v1.6.20 — One Mobile Cart Entry
+
+- Hides the header cart on mobile while keeping it available on desktop.
+- Leaves the bottom navigation cart as the single, easy-to-find mobile cart entry.
+- Preserves Salla's native add-to-cart submission and the v1.6.19 live cart synchronization.
+- Adds a theme validation check that prevents the duplicate mobile cart from returning.
+
 # v1.6.19 — Mobile Cart State Synchronization
 
 - Stops the header cart badge from treating Salla's cached browser count as authoritative.
