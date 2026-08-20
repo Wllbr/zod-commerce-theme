@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.16",
-  "description": "ZOD Commerce — v1.6.16 adds a universal category and selected-product switcher for the home page.",
+  "version": "1.6.17",
+  "description": "ZOD Commerce — v1.6.17 makes the product type switcher compatible with Salla's production Twig renderer.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

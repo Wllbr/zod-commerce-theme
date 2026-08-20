@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.16','package.json: expected v1.6.16');
+assert(pkg.version==='1.6.17','package.json: expected v1.6.17');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -79,6 +79,7 @@ for(const f of twig){
   const vo=(s.match(/{{/g)||[]).length, vc=(s.match(/}}/g)||[]).length;
   assert(opens===closes,`${f}: Twig statement delimiters unbalanced`);
   assert(vo===vc,`${f}: Twig output delimiters unbalanced`);
+  assert(!/{%\s*(?:import|from)\b/.test(s),`${f}: Twig import/from is disabled by Salla's production renderer`);
   assert(!arabic.test(s),`${f}: hard-coded Arabic found; use locales/multilanguage data instead`);
   for(const m of s.matchAll(/trans\(['"](zod\.[^'"]+)['"]\)/g)){
     transRefs++;

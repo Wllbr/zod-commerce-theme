@@ -1,3 +1,9 @@
+# v1.6.17 — Salla Twig Compatibility
+
+- Removed the disabled Twig `import`/macro pattern from the product type switcher.
+- Inlined group product rendering so the component works in Salla's production preview renderer.
+- Verified the issue and fix path against the accepted preview connected to the real ZOD Store.
+
 # v1.6.16 — Universal Product Type Switcher
 
 - Adds a reusable home-page section for ventilation, intercoms, batteries, extensions, insect traps, and any future catalog department.

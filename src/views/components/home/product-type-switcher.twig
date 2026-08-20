@@ -1,34 +1,3 @@
-{% macro products_for_group(group, category, position, index) %}
-  {% if group.products|length %}
-    <salla-slider
-      class="zod-native-product-carousel zod-density-carousel"
-      type="carousel"
-      show-controls="false"
-      slider-config='{"speed":520,"spaceBetween":10}'
-    >
-      <div slot="items">
-        {% for product in group.products|slice(0,12) %}
-          <div class="swiper-slide zod-native-product-slide">
-            <custom-salla-product-card product="{{ product }}"></custom-salla-product-card>
-          </div>
-        {% endfor %}
-      </div>
-    </salla-slider>
-  {% elseif category and category.id %}
-    <salla-products-slider
-      source="categories"
-      source-value="{{ [category.id]|json_encode }}"
-      limit="12"
-      product-card-component="custom-salla-product-card"
-      slider-id="zod-product-type-{{ position }}-{{ index }}"
-    ></salla-products-slider>
-  {% else %}
-    <p class="zod-product-switcher__empty">{{ trans('zod.home.product_switcher_empty') }}</p>
-  {% endif %}
-{% endmacro %}
-
-{% import _self as switcher %}
-
 {% if component.groups|length %}
   {% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
   {% set subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
@@ -96,10 +65,60 @@
               {{ not loop.first ? 'hidden' : '' }}
             >
               {% if loop.first %}
-                {{ switcher.products_for_group(group, category, position, loop.index0) }}
+                {% if group.products|length %}
+                  <salla-slider
+                    class="zod-native-product-carousel zod-density-carousel"
+                    type="carousel"
+                    show-controls="false"
+                    slider-config='{"speed":520,"spaceBetween":10}'
+                  >
+                    <div slot="items">
+                      {% for product in group.products|slice(0,12) %}
+                        <div class="swiper-slide zod-native-product-slide">
+                          <custom-salla-product-card product="{{ product }}"></custom-salla-product-card>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </salla-slider>
+                {% elseif category and category.id %}
+                  <salla-products-slider
+                    source="categories"
+                    source-value="{{ [category.id]|json_encode }}"
+                    limit="12"
+                    product-card-component="custom-salla-product-card"
+                    slider-id="zod-product-type-{{ position }}-{{ loop.index0 }}"
+                  ></salla-products-slider>
+                {% else %}
+                  <p class="zod-product-switcher__empty">{{ trans('zod.home.product_switcher_empty') }}</p>
+                {% endif %}
               {% else %}
                 <template data-zod-product-switcher-template>
-                  {{ switcher.products_for_group(group, category, position, loop.index0) }}
+                  {% if group.products|length %}
+                    <salla-slider
+                      class="zod-native-product-carousel zod-density-carousel"
+                      type="carousel"
+                      show-controls="false"
+                      slider-config='{"speed":520,"spaceBetween":10}'
+                    >
+                      <div slot="items">
+                        {% for product in group.products|slice(0,12) %}
+                          <div class="swiper-slide zod-native-product-slide">
+                            <custom-salla-product-card product="{{ product }}"></custom-salla-product-card>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    </salla-slider>
+                  {% elseif category and category.id %}
+                    <salla-products-slider
+                      source="categories"
+                      source-value="{{ [category.id]|json_encode }}"
+                      limit="12"
+                      product-card-component="custom-salla-product-card"
+                      slider-id="zod-product-type-{{ position }}-{{ loop.index0 }}"
+                    ></salla-products-slider>
+                  {% else %}
+                    <p class="zod-product-switcher__empty">{{ trans('zod.home.product_switcher_empty') }}</p>
+                  {% endif %}
                 </template>
               {% endif %}
             </div>
