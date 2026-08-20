@@ -695,6 +695,156 @@
       ]
     },
     {
+      "key": "d9e9024d-031e-4bbc-9725-44483717e80c",
+      "title": {
+        "en": "Product type switcher",
+        "ar": "منتجات حسب النوع"
+      },
+      "icon": "sicon-grid-alt",
+      "path": "home.product-type-switcher",
+      "fields": [
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "عنوان القسم",
+          "multilanguage": true,
+          "id": "title",
+          "value": null,
+          "required": true,
+          "format": "text",
+          "maxLength": 180
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "وصف مختصر",
+          "multilanguage": true,
+          "id": "subtitle",
+          "value": null,
+          "required": false,
+          "format": "textarea",
+          "maxLength": 220
+        },
+        {
+          "id": "groups",
+          "type": "collection",
+          "format": "collection",
+          "required": true,
+          "minLength": 2,
+          "maxLength": 8,
+          "label": "أنواع المنتجات",
+          "item_label": "نوع منتج",
+          "value": [],
+          "fields": [
+            {
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "label": "اسم النوع",
+              "description": "مثال: شفاط سقفي أو بطاريات قابلة للشحن",
+              "multilanguage": true,
+              "id": "groups.title",
+              "value": null,
+              "required": false,
+              "format": "text",
+              "maxLength": 100
+            },
+            {
+              "type": "items",
+              "icon": "sicon-folder",
+              "label": "التصنيف",
+              "description": "يعرض منتجات هذا التصنيف تلقائياً ويستخدم رابطه لعرض الكل.",
+              "id": "groups.category",
+              "format": "dropdown-list",
+              "selected": [],
+              "options": [],
+              "required": false,
+              "multichoice": true,
+              "searchable": true,
+              "source": "categories",
+              "maxLength": 1,
+              "value": []
+            },
+            {
+              "type": "items",
+              "icon": "sicon-shopping-bag",
+              "label": "منتجات مختارة (اختياري)",
+              "description": "عند اختيار منتجات هنا ستظهر بدلاً من منتجات التصنيف.",
+              "id": "groups.products",
+              "format": "dropdown-list",
+              "selected": [],
+              "options": [],
+              "required": false,
+              "multichoice": true,
+              "searchable": true,
+              "source": "products",
+              "maxLength": 12,
+              "value": []
+            },
+            {
+              "type": "items",
+              "icon": "sicon-link",
+              "label": "رابط عرض الكل (اختياري)",
+              "description": "اتركه فارغاً لاستخدام رابط التصنيف تلقائياً.",
+              "id": "groups.url",
+              "value": [],
+              "required": false,
+              "format": "variable-list",
+              "searchable": true,
+              "source": "custom",
+              "sources": [
+                {
+                  "label": "منتج",
+                  "key": "products",
+                  "value": "products"
+                },
+                {
+                  "label": "منتجات مع وسم",
+                  "key": "products_tags",
+                  "value": "products_tags"
+                },
+                {
+                  "label": "تصنيف",
+                  "key": "categories",
+                  "value": "categories"
+                },
+                {
+                  "label": "ماركة تجارية",
+                  "key": "brands",
+                  "value": "brands"
+                },
+                {
+                  "label": "صفحة تعريفية",
+                  "key": "pages",
+                  "value": "pages"
+                },
+                {
+                  "label": "التخفيضات",
+                  "key": "offers_link",
+                  "value": "offers_link"
+                },
+                {
+                  "label": "رابط خارجي",
+                  "key": "custom",
+                  "value": "custom"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "label": "استخدام خلفية محايدة فاتحة",
+          "description": "تساعد الخلفية الهادئة على فصل القسم وإبراز بطاقات المنتجات.",
+          "id": "soft_background",
+          "format": "switch",
+          "required": false,
+          "value": true,
+          "selected": true
+        }
+      ]
+    },
+    {
       "key": "53581304-ba89-4a7b-8147-e8d14e0e8221",
       "title": {
         "en": "Product spotlight",

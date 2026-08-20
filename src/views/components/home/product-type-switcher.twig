@@ -1,0 +1,111 @@
+{% macro products_for_group(group, category, position, index) %}
+  {% if group.products|length %}
+    <salla-slider
+      class="zod-native-product-carousel zod-density-carousel"
+      type="carousel"
+      show-controls="false"
+      slider-config='{"speed":520,"spaceBetween":10}'
+    >
+      <div slot="items">
+        {% for product in group.products|slice(0,12) %}
+          <div class="swiper-slide zod-native-product-slide">
+            <custom-salla-product-card product="{{ product }}"></custom-salla-product-card>
+          </div>
+        {% endfor %}
+      </div>
+    </salla-slider>
+  {% elseif category and category.id %}
+    <salla-products-slider
+      source="categories"
+      source-value="{{ [category.id]|json_encode }}"
+      limit="12"
+      product-card-component="custom-salla-product-card"
+      slider-id="zod-product-type-{{ position }}-{{ index }}"
+    ></salla-products-slider>
+  {% else %}
+    <p class="zod-product-switcher__empty">{{ trans('zod.home.product_switcher_empty') }}</p>
+  {% endif %}
+{% endmacro %}
+
+{% import _self as switcher %}
+
+{% if component.groups|length %}
+  {% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
+  {% set subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
+  {% set first_group = component.groups|first %}
+  {% set first_category = first_group.category|first %}
+  {% set first_group_title = first_group.title is iterable ? first_group.title[language.code]|default(first_group.title|first) : first_group.title %}
+  {% set first_group_title = first_group_title|default(first_category.name) %}
+  {% set first_custom_url = first_group.url.url|default(first_group.url) %}
+  {% set first_url = first_custom_url|default(first_category.url) %}
+
+  <section
+    class="zod-section zod-product-switcher"
+    data-zod-product-switcher
+    data-zod-product-switcher-prefix="{{ trans('zod.home.browse_all') }}"
+  >
+    <div class="container">
+      <div class="zod-product-switcher__surface {{ component.soft_background ? 'zod-product-switcher__surface--soft' : '' }}">
+        <div class="zod-section-head zod-product-switcher__head">
+          <div>
+            {% if title %}<h2>{{ title }}</h2>{% endif %}
+            {% if subtitle %}<p>{{ subtitle }}</p>{% endif %}
+          </div>
+          <a
+            class="zod-text-link zod-product-switcher__link"
+            href="{{ first_url|default('#') }}"
+            data-zod-product-switcher-link
+            {{ not first_url ? 'hidden' : '' }}
+          >
+            <span data-zod-product-switcher-link-label>{{ trans('zod.home.browse_all') }} {{ first_group_title }}</span>
+            <i class="sicon-arrow-left rtl:rotate-180" aria-hidden="true"></i>
+          </a>
+        </div>
+
+        <div class="zod-product-switcher__tabs" role="tablist" aria-label="{{ title|default(trans('zod.home.product_types')) }}">
+          {% for group in component.groups %}
+            {% set category = group.category|first %}
+            {% set group_title = group.title is iterable ? group.title[language.code]|default(group.title|first) : group.title %}
+            {% set group_title = group_title|default(category.name)|default(trans('zod.home.product_type_fallback')) %}
+            {% set custom_url = group.url.url|default(group.url) %}
+            {% set group_url = custom_url|default(category.url) %}
+            <button
+              type="button"
+              class="zod-product-switcher__tab {{ loop.first ? 'is-active' : '' }}"
+              id="zod-product-type-tab-{{ position }}-{{ loop.index0 }}"
+              role="tab"
+              aria-selected="{{ loop.first ? 'true' : 'false' }}"
+              aria-controls="zod-product-type-panel-{{ position }}-{{ loop.index0 }}"
+              tabindex="{{ loop.first ? '0' : '-1' }}"
+              data-zod-product-switcher-tab
+              data-zod-product-switcher-label="{{ group_title }}"
+              data-zod-product-switcher-url="{{ group_url }}"
+            >{{ group_title }}</button>
+          {% endfor %}
+        </div>
+
+        <div class="zod-product-switcher__panels">
+          {% for group in component.groups %}
+            {% set category = group.category|first %}
+            <div
+              class="zod-product-switcher__panel {{ loop.first ? 'is-active' : '' }}"
+              id="zod-product-type-panel-{{ position }}-{{ loop.index0 }}"
+              role="tabpanel"
+              aria-labelledby="zod-product-type-tab-{{ position }}-{{ loop.index0 }}"
+              data-zod-product-switcher-panel
+              {{ not loop.first ? 'hidden' : '' }}
+            >
+              {% if loop.first %}
+                {{ switcher.products_for_group(group, category, position, loop.index0) }}
+              {% else %}
+                <template data-zod-product-switcher-template>
+                  {{ switcher.products_for_group(group, category, position, loop.index0) }}
+                </template>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endif %}

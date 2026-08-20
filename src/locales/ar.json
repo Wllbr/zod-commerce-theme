@@ -36,7 +36,11 @@
       "locations": "زرنا أو تواصل معنا",
       "directions": "الاتجاهات",
       "call": "اتصال",
-      "latest_products": "أحدث المنتجات"
+      "latest_products": "أحدث المنتجات",
+      "browse_all": "تصفح الكل",
+      "product_types": "أنواع المنتجات",
+      "product_type_fallback": "المنتجات",
+      "product_switcher_empty": "اختر تصنيفاً أو منتجات محددة لهذا النوع."
     },
     "product": {
       "in_stock": "متوفر",

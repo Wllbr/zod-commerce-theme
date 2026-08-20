@@ -60,9 +60,73 @@ const initInteractiveShowcase = (section) => {
   start();
 };
 
+const initProductSwitcher = (section) => {
+  if (!section || section.dataset.zodProductSwitcherReady === 'true') return;
+  section.dataset.zodProductSwitcherReady = 'true';
+
+  const tabs = [...section.querySelectorAll('[data-zod-product-switcher-tab]')];
+  const panels = [...section.querySelectorAll('[data-zod-product-switcher-panel]')];
+  const link = section.querySelector('[data-zod-product-switcher-link]');
+  const linkLabel = section.querySelector('[data-zod-product-switcher-link-label]');
+  const prefix = section.dataset.zodProductSwitcherPrefix || '';
+  if (!tabs.length || tabs.length !== panels.length) return;
+
+  const mountPanel = (panel) => {
+    const template = panel.querySelector('[data-zod-product-switcher-template]');
+    if (!template) return;
+    panel.append(template.content.cloneNode(true));
+    template.remove();
+  };
+
+  const activate = (index, { focus = false, scroll = false } = {}) => {
+    const nextIndex = (index + tabs.length) % tabs.length;
+    tabs.forEach((tab, tabIndex) => {
+      const active = tabIndex === nextIndex;
+      tab.classList.toggle('is-active', active);
+      tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      tab.tabIndex = active ? 0 : -1;
+    });
+    panels.forEach((panel, panelIndex) => {
+      const active = panelIndex === nextIndex;
+      if (active) mountPanel(panel);
+      panel.hidden = !active;
+      panel.classList.toggle('is-active', active);
+    });
+
+    const activeTab = tabs[nextIndex];
+    const url = activeTab.dataset.zodProductSwitcherUrl || '';
+    const label = activeTab.dataset.zodProductSwitcherLabel || '';
+    if (link) {
+      link.hidden = !url;
+      if (url) link.href = url;
+    }
+    if (linkLabel) linkLabel.textContent = `${prefix} ${label}`.trim();
+    if (focus) activeTab.focus();
+    if (scroll) activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  };
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => activate(index, { scroll: true }));
+    tab.addEventListener('keydown', (event) => {
+      const rtl = document.documentElement.dir === 'rtl';
+      let nextIndex = null;
+      if (event.key === 'Home') nextIndex = 0;
+      if (event.key === 'End') nextIndex = tabs.length - 1;
+      if (event.key === 'ArrowRight') nextIndex = index + (rtl ? -1 : 1);
+      if (event.key === 'ArrowLeft') nextIndex = index + (rtl ? 1 : -1);
+      if (nextIndex === null) return;
+      event.preventDefault();
+      activate(nextIndex, { focus: true, scroll: true });
+    });
+  });
+
+  activate(0);
+};
+
 const initHome = (root = document) => {
   initFaq(root);
   root.querySelectorAll('[data-zod-interactive-showcase]').forEach(initInteractiveShowcase);
+  root.querySelectorAll('[data-zod-product-switcher]').forEach(initProductSwitcher);
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -74,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     pending.forEach(node => {
       if (!node.isConnected) return;
       if (node.matches?.('[data-zod-interactive-showcase]')) initInteractiveShowcase(node);
+      if (node.matches?.('[data-zod-product-switcher]')) initProductSwitcher(node);
       initHome(node);
     });
     pending.clear();

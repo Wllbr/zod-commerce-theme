@@ -36,7 +36,11 @@
       "locations": "Visit or contact us",
       "directions": "Directions",
       "call": "Call",
-      "latest_products": "Latest products"
+      "latest_products": "Latest products",
+      "browse_all": "Browse all",
+      "product_types": "Product types",
+      "product_type_fallback": "Products",
+      "product_switcher_empty": "Choose a category or selected products for this product type."
     },
     "product": {
       "in_stock": "In stock",

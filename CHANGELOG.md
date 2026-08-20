@@ -1,3 +1,11 @@
+# v1.6.16 — Universal Product Type Switcher
+
+- Adds a reusable home-page section for ventilation, intercoms, batteries, extensions, insect traps, and any future catalog department.
+- Each tab can load products automatically from one Salla category or use manually selected products instead.
+- The active tab updates its matching “Browse all” category or custom link.
+- Additional tabs are lazy-mounted only when selected to reduce initial storefront work.
+- Uses the existing ZOD product card, restrained red active state, soft-neutral optional background, two-card mobile layout, and accessible RTL/LTR tab controls.
+
 # v1.6.15 — Arabic Gallery Direction Fix
 
 - Gallery pagination dots now follow the storefront language direction.
