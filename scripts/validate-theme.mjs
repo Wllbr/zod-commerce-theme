@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.20','package.json: expected v1.6.20');
+assert(pkg.version==='1.6.21','package.json: expected v1.6.21');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -100,6 +100,12 @@ for(const f of requiredTemplates) assert(fs.existsSync(path.join(root,f)),`Requi
 
 const single=read('src/views/pages/product/single.twig');
 const cartTwig=read('src/views/pages/cart.twig');
+const productSwitcher=read('src/views/components/home/product-type-switcher.twig');
+const productSwitcherConfig=(config.components||[]).find(component=>component.path==='home.product-type-switcher');
+assert(productSwitcherConfig?.fields?.some(field=>field.id==='product_types'),'Product type switcher must use its dedicated product_types collection');
+assert(!productSwitcherConfig?.fields?.some(field=>field.id==='groups'),'Product type switcher must not use Salla-reserved groups data');
+assert(productSwitcher.includes('component.product_types'),'Product type switcher template must render product_types');
+assert(!productSwitcher.includes('component.groups'),'Product type switcher template still reads the conflicting groups key');
 assert(cartTwig.includes('data-zod-cart-grand-total'),'Cart must expose the grand total for mobile and desktop');
 assert(cartTwig.includes('cart.total|money'),'Cart must render Salla cart.total');
 assert(cartTwig.includes('store-cart-checkout-mobile'),'Cart must keep a mobile checkout action');

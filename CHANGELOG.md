@@ -1,3 +1,10 @@
+# v1.6.21 — Product Type Sources Restored
+
+- Renames the switcher's collection from the conflicting `groups` key to `product_types`.
+- Restores the product-type section in Salla's storefront renderer.
+- Keeps automatic category products and manually selected products supported per tab.
+- Adds validation that blocks the conflicting collection key from returning.
+
 # v1.6.20 — One Mobile Cart Entry
 
 - Hides the header cart on mobile while keeping it available on desktop.

@@ -1,11 +1,11 @@
-{% if component.groups|length %}
+{% if component.product_types|length %}
   {% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
   {% set subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
-  {% set first_group = component.groups|first %}
-  {% set first_category = first_group.category|first %}
-  {% set first_group_title = first_group.title is iterable ? first_group.title[language.code]|default(first_group.title|first) : first_group.title %}
-  {% set first_group_title = first_group_title|default(first_category.name) %}
-  {% set first_custom_url = first_group.url.url|default(first_group.url) %}
+  {% set first_type = component.product_types|first %}
+  {% set first_category = first_type.category|first %}
+  {% set first_type_title = first_type.title is iterable ? first_type.title[language.code]|default(first_type.title|first) : first_type.title %}
+  {% set first_type_title = first_type_title|default(first_category.name) %}
+  {% set first_custom_url = first_type.url.url|default(first_type.url) %}
   {% set first_url = first_custom_url|default(first_category.url) %}
 
   <section
@@ -26,18 +26,18 @@
             data-zod-product-switcher-link
             {{ not first_url ? 'hidden' : '' }}
           >
-            <span data-zod-product-switcher-link-label>{{ trans('zod.home.browse_all') }} {{ first_group_title }}</span>
+            <span data-zod-product-switcher-link-label>{{ trans('zod.home.browse_all') }} {{ first_type_title }}</span>
             <i class="sicon-arrow-left rtl:rotate-180" aria-hidden="true"></i>
           </a>
         </div>
 
         <div class="zod-product-switcher__tabs" role="tablist" aria-label="{{ title|default(trans('zod.home.product_types')) }}">
-          {% for group in component.groups %}
-            {% set category = group.category|first %}
-            {% set group_title = group.title is iterable ? group.title[language.code]|default(group.title|first) : group.title %}
-            {% set group_title = group_title|default(category.name)|default(trans('zod.home.product_type_fallback')) %}
-            {% set custom_url = group.url.url|default(group.url) %}
-            {% set group_url = custom_url|default(category.url) %}
+          {% for product_type in component.product_types %}
+            {% set category = product_type.category|first %}
+            {% set type_title = product_type.title is iterable ? product_type.title[language.code]|default(product_type.title|first) : product_type.title %}
+            {% set type_title = type_title|default(category.name)|default(trans('zod.home.product_type_fallback')) %}
+            {% set custom_url = product_type.url.url|default(product_type.url) %}
+            {% set type_url = custom_url|default(category.url) %}
             <button
               type="button"
               class="zod-product-switcher__tab {{ loop.first ? 'is-active' : '' }}"
@@ -47,15 +47,15 @@
               aria-controls="zod-product-type-panel-{{ position }}-{{ loop.index0 }}"
               tabindex="{{ loop.first ? '0' : '-1' }}"
               data-zod-product-switcher-tab
-              data-zod-product-switcher-label="{{ group_title }}"
-              data-zod-product-switcher-url="{{ group_url }}"
-            >{{ group_title }}</button>
+              data-zod-product-switcher-label="{{ type_title }}"
+              data-zod-product-switcher-url="{{ type_url }}"
+            >{{ type_title }}</button>
           {% endfor %}
         </div>
 
         <div class="zod-product-switcher__panels">
-          {% for group in component.groups %}
-            {% set category = group.category|first %}
+          {% for product_type in component.product_types %}
+            {% set category = product_type.category|first %}
             <div
               class="zod-product-switcher__panel {{ loop.first ? 'is-active' : '' }}"
               id="zod-product-type-panel-{{ position }}-{{ loop.index0 }}"
@@ -65,7 +65,7 @@
               {{ not loop.first ? 'hidden' : '' }}
             >
               {% if loop.first %}
-                {% if group.products|length %}
+                {% if product_type.products|length %}
                   <salla-slider
                     class="zod-native-product-carousel zod-density-carousel"
                     type="carousel"
@@ -73,7 +73,7 @@
                     slider-config='{"speed":520,"spaceBetween":10}'
                   >
                     <div slot="items">
-                      {% for product in group.products|slice(0,12) %}
+                      {% for product in product_type.products|slice(0,12) %}
                         <div class="swiper-slide zod-native-product-slide">
                           <custom-salla-product-card product="{{ product }}"></custom-salla-product-card>
                         </div>
@@ -93,7 +93,7 @@
                 {% endif %}
               {% else %}
                 <template data-zod-product-switcher-template>
-                  {% if group.products|length %}
+                  {% if product_type.products|length %}
                     <salla-slider
                       class="zod-native-product-carousel zod-density-carousel"
                       type="carousel"
@@ -101,7 +101,7 @@
                       slider-config='{"speed":520,"spaceBetween":10}'
                     >
                       <div slot="items">
-                        {% for product in group.products|slice(0,12) %}
+                        {% for product in product_type.products|slice(0,12) %}
                           <div class="swiper-slide zod-native-product-slide">
                             <custom-salla-product-card product="{{ product }}"></custom-salla-product-card>
                           </div>

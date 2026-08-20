@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.20",
-  "description": "ZOD Commerce — v1.6.20 keeps one clear mobile cart entry and preserves Salla's live cart flow.",
+  "version": "1.6.21",
+  "description": "ZOD Commerce — v1.6.21 restores product sources in the product type switcher.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
