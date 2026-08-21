@@ -1,3 +1,11 @@
+# v1.6.27 — Product Type Switcher Rendering Fix
+
+- Normalizes Salla category selector values whether returned as scalar IDs, item objects, or one-item arrays.
+- Normalizes manually selected products to product IDs and renders them with `salla-products-slider source="selected"`.
+- Category fallback renders with `source="categories"` using the normalized single category ID.
+- Keeps one category per type and preserves the existing ZOD tabs, RTL/LTR behavior, and native product cards.
+- No unrelated storefront behavior changed.
+
 # v1.6.26 — Product Type Switcher & Visible Image Requirements
 
 - Fixed `منتجات حسب النوع` so category data works whether Salla returns one category object or an older one-item array.
