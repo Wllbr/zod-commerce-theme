@@ -1,3 +1,8 @@
+## 1.6.28
+- Enlarged promotional product labels so they read as intentional product badges.
+- Replaced the tiny out-of-stock chip with a faded centered stamp over the product image.
+- Dimmed out-of-stock product imagery while preserving wishlist and product-card interaction.
+
 # v1.6.27 — Product Type Switcher Rendering Fix
 
 - Normalizes Salla category selector values whether returned as scalar IDs, item objects, or one-item arrays.

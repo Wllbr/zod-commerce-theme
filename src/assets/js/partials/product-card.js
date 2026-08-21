@@ -51,10 +51,10 @@ class ZodProductCard extends HTMLElement {
     this.classList.add('zod-product-card');
     this.setAttribute('data-product-id', p.id);
     this.innerHTML=`
-      <div class="zpc-media">
+      <div class="zpc-media ${p.is_out_of_stock ? 'is-out' : ''}">
         <a href="${this.esc(p.url||'#')}" aria-label="${imageAlt}"><img src="${this.esc(image)}" alt="${imageAlt}" loading="lazy"></a>
-        ${p.promotion_title?`<span class="zpc-badge">${this.esc(p.promotion_title)}</span>`:''}
-        ${p.is_out_of_stock?`<span class="zpc-stock-badge">${this.esc(outLabel)}</span>`:''}
+        ${p.promotion_title?`<span class="zpc-promo-label">${this.esc(p.promotion_title)}</span>`:''}
+        ${p.is_out_of_stock?`<span class="zpc-stock-stamp">${this.esc(outLabel)}</span>`:''}
         <button type="button" class="zpc-wishlist ${inWishlist?'is-active':''}" data-id="${p.id}" aria-label="${wishlistLabel}"><i class="sicon-heart"></i></button>
       </div>
       <div class="zpc-body">
