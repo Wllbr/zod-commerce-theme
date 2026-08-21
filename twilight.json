@@ -220,20 +220,32 @@
             {
               "type": "string",
               "icon": "sicon-image",
-              "label": "صورة سطح المكتب",
+              "label": "صورة سطح المكتب — 1920×900 بكسل",
               "id": "slides.image",
               "value": null,
               "format": "image",
-              "required": true
+              "required": true,
+              "description": "المقاس الموصى به: 1920 × 900 بكسل (سطح المكتب). استخدم صورة أفقية عريضة واترك مساحة آمنة حول المنتج والنص لتجنب القص على الشاشات المختلفة.",
+              "settings": {
+                "width": 1920,
+                "height": 900
+              },
+              "placeholder": null
             },
             {
               "type": "string",
               "icon": "sicon-image",
-              "label": "صورة الجوال",
+              "label": "صورة الجوال — 1080×1350 بكسل (4:5)",
               "id": "slides.mobile_image",
               "value": null,
               "format": "image",
-              "required": false
+              "required": false,
+              "description": "المقاس الموصى به: 1080 × 1350 بكسل بنسبة 4:5 (الجوال). استخدم تكويناً مخصصاً للجوال ولا تكتفِ بقص صورة سطح المكتب.",
+              "settings": {
+                "width": 1080,
+                "height": 1350
+              },
+              "placeholder": null
             },
             {
               "type": "string",
@@ -467,11 +479,17 @@
             {
               "type": "string",
               "icon": "sicon-image",
-              "label": "الصورة",
+              "label": "الصورة — 1200×1500 بكسل (4:5)",
               "id": "items.image",
               "value": null,
               "format": "image",
-              "required": true
+              "required": true,
+              "description": "المقاس الموصى به: 1200 × 1500 بكسل بنسبة 4:5. اجعل العنصر الرئيسي في المنتصف واترك الجزء السفلي هادئاً لظهور عنوان البطاقة بوضوح.",
+              "settings": {
+                "width": 1200,
+                "height": 1500
+              },
+              "placeholder": null
             },
             {
               "type": "string",
@@ -700,7 +718,7 @@
         "en": "Product type switcher",
         "ar": "منتجات حسب النوع"
       },
-      "icon": "sicon-grid-alt",
+      "icon": "sicon-layout-grid",
       "path": "home.product-type-switcher",
       "fields": [
         {
@@ -752,13 +770,13 @@
               "type": "items",
               "icon": "sicon-folder",
               "label": "التصنيف",
-              "description": "يعرض منتجات هذا التصنيف تلقائياً ويستخدم رابطه لعرض الكل.",
+              "description": "اختر تصنيفاً واحداً فقط لهذا النوع. سيتم عرض منتجات هذا التصنيف تلقائياً ويستخدم رابطه لزر عرض الكل.",
               "id": "groups.category",
               "format": "dropdown-list",
               "selected": [],
               "options": [],
               "required": false,
-              "multichoice": true,
+              "multichoice": false,
               "searchable": true,
               "source": "categories",
               "maxLength": 1,
@@ -871,11 +889,17 @@
         {
           "type": "string",
           "icon": "sicon-image",
-          "label": "صورة أو خلفية للقسم",
+          "label": "صورة أو خلفية للقسم — 1200×1200 بكسل (1:1)",
           "id": "media",
           "value": null,
           "format": "image",
-          "required": false
+          "required": false,
+          "description": "المقاس الموصى به: 1200 × 1200 بكسل بنسبة 1:1. يفضل صورة منتج نظيفة ومتمركزة مع هامش كافٍ حول المنتج لأن الصورة تظهر بتنسيق احتواء (Contain).",
+          "settings": {
+            "width": 1200,
+            "height": 1200
+          },
+          "placeholder": null
         },
         {
           "type": "string",
@@ -983,12 +1007,17 @@
         {
           "type": "string",
           "icon": "sicon-image",
-          "label": "صورة الغلاف / Poster (تستخدم أيضاً عند عدم إضافة فيديو)",
+          "label": "صورة الغلاف / Poster — 1200×1200 بكسل (1:1)",
           "id": "media",
           "value": null,
           "format": "image",
           "required": false,
-          "description": "تظهر قبل تشغيل الفيديو وتستخدم كصورة بديلة إذا لم تتم إضافة رابط MP4."
+          "description": "تظهر قبل تشغيل الفيديو وتستخدم كصورة بديلة إذا لم تتم إضافة رابط MP4. المقاس الموصى به: 1200 × 1200 بكسل بنسبة 1:1. حافظ على المنتج ونقاط الاهتمام داخل المنطقة الوسطى لأن الصورة قد تُقص بشكل بسيط بين سطح المكتب والجوال.",
+          "settings": {
+            "width": 1200,
+            "height": 1200
+          },
+          "placeholder": null
         },
         {
           "type": "string",
@@ -1172,11 +1201,17 @@
             {
               "type": "string",
               "icon": "sicon-image",
-              "label": "الصورة",
+              "label": "الصورة — 1600×900 بكسل (16:9)",
               "id": "banners.image",
               "value": null,
               "format": "image",
-              "required": true
+              "required": true,
+              "description": "المقاس الموصى به: 1600 × 900 بكسل بنسبة 16:9. ضع العناصر المهمة في المنتصف واترك مساحة آمنة لأن البطاقة تستخدم قص Cover وقد يتغير القص على الجوال.",
+              "settings": {
+                "width": 1600,
+                "height": 900
+              },
+              "placeholder": null
             },
             {
               "type": "string",
@@ -1387,11 +1422,17 @@
             {
               "type": "string",
               "icon": "sicon-image",
-              "label": "الصورة",
+              "label": "الصورة — 1600×900 بكسل (16:9)",
               "id": "items.image",
               "value": null,
               "format": "image",
-              "required": false
+              "required": false,
+              "description": "المقاس الموصى به: 1600 × 900 بكسل بنسبة 16:9. حافظ على واجهة الفرع أو العنصر المهم في منتصف الصورة لأن عرض الجوال قد يقص الصورة إلى نسبة أعرض.",
+              "settings": {
+                "width": 1600,
+                "height": 900
+              },
+              "placeholder": null
             },
             {
               "type": "string",
@@ -1495,11 +1536,17 @@
             {
               "type": "string",
               "icon": "sicon-image",
-              "label": "الصورة",
+              "label": "الصورة — 1600×900 بكسل (16:9)",
               "id": "items.image",
               "value": null,
               "format": "image",
-              "required": true
+              "required": true,
+              "description": "المقاس الموصى به: 1600 × 900 بكسل بنسبة 16:9. استخدم صورة واضحة ومبسطة مناسبة لغلاف دليل، مع إبقاء التفاصيل المهمة بعيداً عن الحواف.",
+              "settings": {
+                "width": 1600,
+                "height": 900
+              },
+              "placeholder": null
             },
             {
               "type": "string",
@@ -1719,11 +1766,17 @@
         {
           "type": "string",
           "icon": "sicon-image",
-          "label": "الصورة",
+          "label": "الصورة — 1600×900 بكسل (16:9)",
           "id": "image",
           "value": null,
           "format": "image",
-          "required": false
+          "required": false,
+          "description": "المقاس الموصى به: 1600 × 900 بكسل بنسبة 16:9. اجعل موضوع الصورة في الوسط واترك هامشاً آمناً للحفاظ على التكوين في سطح المكتب والجوال.",
+          "settings": {
+            "width": 1600,
+            "height": 900
+          },
+          "placeholder": null
         },
         {
           "type": "string",

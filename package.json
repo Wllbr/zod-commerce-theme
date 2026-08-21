@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.24",
-  "description": "ZOD Commerce — v1.6.24 fixes the product type/category switcher with reliable Salla slider mounting and a polished responsive tab design.",
+  "version": "1.6.26",
+  "description": "ZOD Commerce — v1.6.26 fixes the Products by Type category switcher, enforces one category per type, restores the component icon, and makes image dimensions visible in Salla editor fields.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

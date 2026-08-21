@@ -1,3 +1,18 @@
+# v1.6.26 — Product Type Switcher & Visible Image Requirements
+
+- Fixed `منتجات حسب النوع` so category data works whether Salla returns one category object or an older one-item array.
+- Each type now accepts one category only instead of multiple categories.
+- All category product sliders are rendered up front, then the active panel is shown/refreshed when the customer changes tabs.
+- Replaced the missing component icon with the supported `sicon-layout-grid`.
+- Image dimensions are now written directly in each upload-field label and also supplied through width/height settings so they are visible inside the Salla editor.
+- Existing Arabic/English, RTL/LTR, selected-product override, and Browse All behavior are preserved.
+
+# v1.6.25 — Image Upload Guidance
+
+- Added clear recommended pixel dimensions directly below every component image-upload field in the Salla theme editor.
+- Added responsive crop guidance for desktop/mobile hero images, Shop by Need cards, promotional banners, locations, buying guides, product spotlight, interactive product poster, and wholesale imagery.
+- Kept all existing component behavior and storefront rendering unchanged.
+
 # v1.6.24 — Product Type Switcher Reliability & Polish
 
 - Reworks the Products by Type section into a cleaner ZOD segmented-tab surface for desktop and mobile.
