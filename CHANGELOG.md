@@ -1,3 +1,9 @@
+## 1.6.29 — Product card label consistency
+- Enlarged promotional title labels and reserved clear space away from the wishlist heart.
+- Made the out-of-stock stamp larger, bolder, and more visible over the product image.
+- Standardized homepage/native product sliders on `custom-salla-product-card` so out-of-stock products show the same stamp instead of only appearing greyed out.
+- Kept RTL/LTR behavior and responsive mobile sizing.
+
 ## 1.6.28
 - Enlarged promotional product labels so they read as intentional product badges.
 - Replaced the tiny out-of-stock chip with a faded centered stamp over the product image.

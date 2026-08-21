@@ -43,7 +43,14 @@ class ZodProductCard extends HTMLElement {
     const p=this.product;
     const image=p?.image?.url || p.thumbnail || '';
     const imageAlt=this.esc(p?.image?.alt || p.name || '');
-    const status=(p.is_out_of_stock && window.notify_when_available_in_card !== false && !['donating','financial_support'].includes(p.type)) ? 'out-and-notify' : p.status;
+    const rawStatus=String(p.status || '').toLowerCase();
+    const explicitQuantity=(p.quantity !== undefined && p.quantity !== null && p.quantity !== '') ? Number(p.quantity) : null;
+    const isOut=Boolean(
+      p.is_out_of_stock ||
+      ['out','out-of-stock','out_of_stock','sold-out','sold_out','out-and-notify'].includes(rawStatus) ||
+      (Number.isFinite(explicitQuantity) && explicitQuantity <= 0 && !['donating','financial_support'].includes(p.type))
+    );
+    const status=(isOut && window.notify_when_available_in_card !== false && !['donating','financial_support'].includes(p.type)) ? 'out-and-notify' : p.status;
     const addLabel=p.add_to_cart_label || this.t(p.type==='booking'?'pages.cart.book_now':'pages.cart.add_to_cart','Add to cart');
     const outLabel=this.t('pages.products.out_of_stock','Out of stock');
     const wishlistLabel=this.esc(this.t('zod.header.wishlist','Wishlist'));
@@ -51,10 +58,10 @@ class ZodProductCard extends HTMLElement {
     this.classList.add('zod-product-card');
     this.setAttribute('data-product-id', p.id);
     this.innerHTML=`
-      <div class="zpc-media ${p.is_out_of_stock ? 'is-out' : ''}">
+      <div class="zpc-media ${isOut ? 'is-out' : ''}">
         <a href="${this.esc(p.url||'#')}" aria-label="${imageAlt}"><img src="${this.esc(image)}" alt="${imageAlt}" loading="lazy"></a>
         ${p.promotion_title?`<span class="zpc-promo-label">${this.esc(p.promotion_title)}</span>`:''}
-        ${p.is_out_of_stock?`<span class="zpc-stock-stamp">${this.esc(outLabel)}</span>`:''}
+        ${isOut?`<span class="zpc-stock-stamp">${this.esc(outLabel)}</span>`:''}
         <button type="button" class="zpc-wishlist ${inWishlist?'is-active':''}" data-id="${p.id}" aria-label="${wishlistLabel}"><i class="sicon-heart"></i></button>
       </div>
       <div class="zpc-body">

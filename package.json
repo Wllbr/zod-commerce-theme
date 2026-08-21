@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.28",
-  "description": "ZOD Commerce — v1.6.27 fixes Products by Type rendering by normalizing Salla category/product selector values to IDs and loading both selected products and category products through the native products slider.",
+  "version": "1.6.29",
+  "description": "ZOD Commerce — v1.6.29 makes promo labels larger, adds bold faded out-of-stock stamps, detects Salla out-of-stock status robustly, and standardizes theme product sliders on the ZOD product card.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
