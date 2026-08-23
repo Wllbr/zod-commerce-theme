@@ -1,10 +1,3 @@
-## 1.6.30 — Product card label visibility
-- Moved the promotional title to a full-width lower image label so it never sits behind the wishlist heart.
-- Increased promotional title size and weight on desktop and mobile.
-- Expanded the out-of-stock stamp nearly edge-to-edge across the product image with larger, bolder Arabic/English text.
-- Added a fallback overlay for native Salla product cards that are out of stock but do not render the custom ZOD card.
-- Preserved RTL/LTR behavior and existing product interactions.
-
 ## 1.6.29 — Product card label consistency
 - Enlarged promotional title labels and reserved clear space away from the wishlist heart.
 - Made the out-of-stock stamp larger, bolder, and more visible over the product image.

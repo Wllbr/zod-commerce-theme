@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.30",
-  "description": "ZOD Commerce — v1.6.30 makes promotional labels readable and keeps them clear of wishlist controls, expands out-of-stock stamps nearly edge-to-edge, and adds a native Salla product-card stock stamp fallback.",
+  "version": "1.6.29",
+  "description": "ZOD Commerce — v1.6.29 makes promo labels larger, adds bold faded out-of-stock stamps, detects Salla out-of-stock status robustly, and standardizes theme product sliders on the ZOD product card.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

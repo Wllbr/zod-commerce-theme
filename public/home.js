@@ -1,1 +1,217 @@
-(()=>{var e={};const t={};function r(o){const n=t[o];if(void 0!==n)return n.exports;const c=t[o]={exports:{}};return e[o](c,c.exports,r),c.exports}r.m=e,(()=>{const e=Object.getPrototypeOf?e=>Object.getPrototypeOf(e):e=>e.__proto__;let t;r.t=function(o,n){if(1&n&&(o=this(o)),8&n)return o;if("object"==typeof o&&o){if(4&n&&o.__esModule)return o;if(16&n&&"function"==typeof o.then)return o}const c=Object.create(null);r.r(c);const a={};t=t||[null,e({}),e([]),e(e)];for(var d=2&n&&o;("object"==typeof d||"function"==typeof d)&&!~t.indexOf(d);d=e(d))Object.getOwnPropertyNames(d).forEach(e=>a[e]=()=>o[e]);return a.default=()=>o,r.d(c,a),c}})(),r.d=(e,t)=>{if(Array.isArray(t))for(var o=0;o<t.length;){var n=t[o++],c=t[o++];r.o(e,n)?0===c&&o++:0===c?Object.defineProperty(e,n,{enumerable:!0,value:t[o++]}):Object.defineProperty(e,n,{enumerable:!0,get:c})}else for(var n in t)r.o(t,n)&&!r.o(e,n)&&Object.defineProperty(e,n,{enumerable:!0,get:t[n]})},r.f={},r.e=e=>Promise.all(Object.keys(r.f).reduce((t,o)=>(r.f[o](e,t),t),[])),r.u=e=>e+".d18f08966778e4fd7975.js",r.miniCssF=e=>{},r.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(e){if("object"==typeof window)return window}}(),r.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),(()=>{const e={},t="zod-commerce-theme:";r.l=(o,n,c,a)=>{if(e[o])return void e[o].push(n);let d,i;if(void 0!==c){const e=document.getElementsByTagName("script");for(var s=0;s<e.length;s++){const r=e[s];if(r.getAttribute("src")==o||r.getAttribute("data-webpack")==t+c){d=r;break}}}d||(i=!0,d=document.createElement("script"),d.charset="utf-8",r.nc&&d.setAttribute("nonce",r.nc),d.setAttribute("data-webpack",t+c),d.src=o),e[o]=[n];const l=(t,r)=>{d.onerror=d.onload=null,clearTimeout(u);const n=e[o];if(delete e[o],d.parentNode?.removeChild(d),n?.forEach(e=>e(r)),t)return t(r)},u=setTimeout(l.bind(null,void 0,{type:"timeout",target:d}),12e4);d.onerror=l.bind(null,d.onerror),d.onload=l.bind(null,d.onload),i&&document.head.appendChild(d)}})(),r.r=e=>{Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},(()=>{let e;r.g.importScripts&&(e=r.g.location+"");const t=r.g.document;if(!e&&t&&("SCRIPT"===t.currentScript?.tagName.toUpperCase()&&(e=t.currentScript.src),!e)){const r=t.getElementsByTagName("script");if(r.length){let t=r.length-1;for(;t>-1&&(!e||!/^http(s?):/.test(e));)e=r[t--].src}}if(!e)throw new Error("Automatic publicPath is not supported in this browser");e=e.replace(/^blob:/,"").replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),r.p=e})(),(()=>{const e={962:0};r.f.j=(t,o)=>{let n=r.o(e,t)?e[t]:void 0;if(0!==n)if(n)o.push(n[2]);else{const c=new Promise((r,o)=>n=e[t]=[r,o]);o.push(n[2]=c);const a=r.p+r.u(t),d=new Error,i=o=>{if(r.o(e,t)&&(n=e[t],0!==n&&(e[t]=void 0),n)){const e=o&&("load"===o.type?"missing":o.type),r=o&&o.target&&o.target.src;d.message="Loading chunk "+t+" failed.\n("+e+": "+r+")",d.name="ChunkLoadError",d.type=e,d.request=r,d.event=o,n[1](d)}};r.l(a,i,"chunk-"+t,t)}};const t=(t,o)=>{let[n,c,a]=o;var d,i,s=0;if(n.some(t=>0!==e[t])){for(d in c)r.o(c,d)&&(r.m[d]=c[d]);a&&a(r)}for(t&&t(o);s<n.length;s++)i=n[s],r.o(e,i)&&e[i]&&e[i][0](),e[i]=0},o=self.webpackChunkzod_commerce_theme=self.webpackChunkzod_commerce_theme||[];o.forEach(t.bind(null,0)),o.push=t.bind(null,o.push.bind(o))})(),document.querySelector("lite-youtube")&&r.e(675).then(r.t.bind(r,675,23)).catch(()=>{});const o=e=>{if(!e||"true"===e.dataset.zodShowcaseReady)return;e.dataset.zodShowcaseReady="true";const t=[...e.querySelectorAll("[data-zod-feature-trigger]")],r=[...e.querySelectorAll("[data-zod-feature-panel]")];if(!t.length||!r.length)return;let o=0,n=null;const c=(e,n=!1)=>{o=(e+t.length)%t.length,t.forEach((e,t)=>{const r=t===o;e.classList.toggle("is-active",r),e.setAttribute("aria-selected",r?"true":"false")}),r.forEach((e,t)=>e.classList.toggle("is-active",t===o)),n&&i()},a=()=>{n&&window.clearInterval(n),n=null},d=()=>{a(),window.matchMedia("(prefers-reduced-motion: reduce)").matches||t.length<2||(n=window.setInterval(()=>c(o+1),3600))},i=()=>d();t.forEach((e,t)=>e.addEventListener("click",()=>c(t,!0))),e.addEventListener("mouseenter",a),e.addEventListener("mouseleave",d),e.addEventListener("focusin",a),e.addEventListener("focusout",t=>{e.contains(t.relatedTarget)||d()}),document.addEventListener("visibilitychange",()=>document.hidden?a():d()),c(0),d()},n=e=>{if(!e||"true"===e.dataset.zodProductSwitcherReady)return;e.dataset.zodProductSwitcherReady="true";const t=e.querySelector("[data-zod-product-switcher-tabs]"),r=[...e.querySelectorAll("[data-zod-product-switcher-tab]")],o=[...e.querySelectorAll("[data-zod-product-switcher-panel]")],n=e.querySelector("[data-zod-product-switcher-link]"),c=e.querySelector("[data-zod-product-switcher-link-label]"),a=e.dataset.zodProductSwitcherPrefix||"";if(!r.length||r.length!==o.length)return;let d=0;const i=e=>{const t=()=>{e.querySelectorAll("salla-slider").forEach(e=>{try{e.update?.()}catch(e){}try{e.swiper?.update?.()}catch(e){}try{e.slider?.update?.()}catch(e){}}),e.querySelectorAll("salla-products-slider").forEach(e=>{try{e.update?.()}catch(e){}try{e.swiper?.update?.()}catch(e){}try{e.slider?.update?.()}catch(e){}const t=e.shadowRoot?.querySelector?.("salla-slider");if(t){try{t.update?.()}catch(e){}try{t.swiper?.update?.()}catch(e){}try{t.slider?.update?.()}catch(e){}}})};requestAnimationFrame(()=>requestAnimationFrame(()=>{t(),window.dispatchEvent(new Event("resize"))})),window.setTimeout(t,220)},s=(e,{focus:s=!1,scroll:l=!1}={})=>{const u=(e+r.length)%r.length,h=o[u],f=r[u];r.forEach((e,t)=>{const r=t===u;e.classList.toggle("is-active",r),e.setAttribute("aria-selected",r?"true":"false"),e.tabIndex=r?0:-1}),o.forEach((e,t)=>{const r=t===u;r&&(e=>{if(!e||"true"===e.dataset.zodProductSwitcherMounted)return;const t=e.querySelector("[data-zod-product-switcher-template]");t&&(e.append(t.content.cloneNode(!0)),t.remove());try{window.customElements?.upgrade?.(e)}catch(e){}e.dataset.zodProductSwitcherMounted="true"})(e),e.hidden=!r,e.setAttribute("aria-hidden",r?"false":"true"),e.classList.toggle("is-active",r)}),d=u;const p=f.dataset.zodProductSwitcherUrl||"",m=f.dataset.zodProductSwitcherLabel||"";n&&(n.hidden=!p,p&&(n.href=p)),c&&(c.textContent=`${a} ${m}`.trim()),s&&f.focus({preventScroll:!0}),l&&((e,r=!0)=>{if(!t||!e)return;const o=t.getBoundingClientRect(),n=e.getBoundingClientRect(),c=n.left+n.width/2-(o.left+o.width/2);Math.abs(c)<4||t.scrollBy({left:c,behavior:r?"smooth":"auto"})})(f,!0),i(h)};r.forEach((e,t)=>{e.addEventListener("click",()=>s(t,{scroll:!0})),e.addEventListener("keydown",e=>{const o="rtl"===document.documentElement.dir;let n=null;"Home"===e.key&&(n=0),"End"===e.key&&(n=r.length-1),"ArrowRight"===e.key&&(n=t+(o?-1:1)),"ArrowLeft"===e.key&&(n=t+(o?1:-1)),"Enter"!==e.key&&" "!==e.key||(n=t),null!==n&&(e.preventDefault(),s(n,{focus:!0,scroll:!0}))})}),e.addEventListener("zod:product-switcher-refresh",()=>i(o[d])),window.addEventListener("load",()=>i(o[d]),{once:!0}),o[0].dataset.zodProductSwitcherMounted="true",s(0)},c=(e=document)=>{((e=document)=>{e.querySelectorAll(".zod-faq-item:not([data-zod-faq-ready])").forEach(e=>{e.dataset.zodFaqReady="true",e.addEventListener("toggle",()=>{e.open&&document.querySelectorAll(".zod-faq-item[open]").forEach(t=>{t!==e&&(t.open=!1)})})})})(e),e.querySelectorAll("[data-zod-interactive-showcase]").forEach(o),e.querySelectorAll("[data-zod-product-switcher]").forEach(n)};document.addEventListener("DOMContentLoaded",()=>{c();let e=!1;const t=new Set,r=()=>{e=!1,t.forEach(e=>{e.isConnected&&(e.matches?.("[data-zod-interactive-showcase]")&&o(e),e.matches?.("[data-zod-product-switcher]")&&n(e),c(e))}),t.clear()};new MutationObserver(o=>{for(const e of o)e.addedNodes.forEach(e=>{e instanceof HTMLElement&&t.add(e)});!e&&t.size&&(e=!0,requestAnimationFrame(r))}).observe(document.body,{childList:!0,subtree:!0})})})();
+if (document.querySelector('lite-youtube')) {
+  import('lite-youtube-embed/src/lite-yt-embed.js').catch(() => {});
+}
+
+const initFaq = (root = document) => {
+  root.querySelectorAll('.zod-faq-item:not([data-zod-faq-ready])').forEach(item => {
+    item.dataset.zodFaqReady = 'true';
+    item.addEventListener('toggle', () => {
+      if (item.open) document.querySelectorAll('.zod-faq-item[open]').forEach(other => { if (other !== item) other.open = false; });
+    });
+  });
+};
+
+const initInteractiveShowcase = (section) => {
+  if (!section || section.dataset.zodShowcaseReady === 'true') return;
+  section.dataset.zodShowcaseReady = 'true';
+
+  const triggers = [...section.querySelectorAll('[data-zod-feature-trigger]')];
+  const panels = [...section.querySelectorAll('[data-zod-feature-panel]')];
+  if (!triggers.length || !panels.length) return;
+
+  let activeIndex = 0;
+  let timer = null;
+  const delay = 3600;
+
+  const activate = (index, userInitiated = false) => {
+    activeIndex = (index + triggers.length) % triggers.length;
+    triggers.forEach((trigger, i) => {
+      const active = i === activeIndex;
+      trigger.classList.toggle('is-active', active);
+      trigger.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    panels.forEach((panel, i) => panel.classList.toggle('is-active', i === activeIndex));
+    if (userInitiated) restart();
+  };
+
+  const stop = () => {
+    if (timer) window.clearInterval(timer);
+    timer = null;
+  };
+
+  const start = () => {
+    stop();
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || triggers.length < 2) return;
+    timer = window.setInterval(() => activate(activeIndex + 1), delay);
+  };
+
+  const restart = () => start();
+
+  triggers.forEach((trigger, i) => trigger.addEventListener('click', () => activate(i, true)));
+  section.addEventListener('mouseenter', stop);
+  section.addEventListener('mouseleave', start);
+  section.addEventListener('focusin', stop);
+  section.addEventListener('focusout', (event) => {
+    if (!section.contains(event.relatedTarget)) start();
+  });
+  document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+
+  activate(0);
+  start();
+};
+
+const initProductSwitcher = (section) => {
+  if (!section || section.dataset.zodProductSwitcherReady === 'true') return;
+  section.dataset.zodProductSwitcherReady = 'true';
+
+  const tabsRail = section.querySelector('[data-zod-product-switcher-tabs]');
+  const tabs = [...section.querySelectorAll('[data-zod-product-switcher-tab]')];
+  const panels = [...section.querySelectorAll('[data-zod-product-switcher-panel]')];
+  const link = section.querySelector('[data-zod-product-switcher-link]');
+  const linkLabel = section.querySelector('[data-zod-product-switcher-link-label]');
+  const prefix = section.dataset.zodProductSwitcherPrefix || '';
+  if (!tabs.length || tabs.length !== panels.length) return;
+
+  let activeIndex = 0;
+
+  const refreshPanel = (panel) => {
+    const refresh = () => {
+      panel.querySelectorAll('salla-slider').forEach(slider => {
+        try { slider.update?.(); } catch (_) {}
+        try { slider.swiper?.update?.(); } catch (_) {}
+        try { slider.slider?.update?.(); } catch (_) {}
+      });
+
+      panel.querySelectorAll('salla-products-slider').forEach(productsSlider => {
+        try { productsSlider.update?.(); } catch (_) {}
+        try { productsSlider.swiper?.update?.(); } catch (_) {}
+        try { productsSlider.slider?.update?.(); } catch (_) {}
+
+        const innerSlider = productsSlider.shadowRoot?.querySelector?.('salla-slider');
+        if (innerSlider) {
+          try { innerSlider.update?.(); } catch (_) {}
+          try { innerSlider.swiper?.update?.(); } catch (_) {}
+          try { innerSlider.slider?.update?.(); } catch (_) {}
+        }
+      });
+    };
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      refresh();
+      window.dispatchEvent(new Event('resize'));
+    }));
+
+    window.setTimeout(refresh, 220);
+  };
+
+  const mountPanel = (panel) => {
+    if (!panel || panel.dataset.zodProductSwitcherMounted === 'true') return;
+
+    const template = panel.querySelector('[data-zod-product-switcher-template]');
+    if (template) {
+      panel.append(template.content.cloneNode(true));
+      template.remove();
+    }
+
+    try { window.customElements?.upgrade?.(panel); } catch (_) {}
+    panel.dataset.zodProductSwitcherMounted = 'true';
+  };
+
+  const centerTab = (tab, smooth = true) => {
+    if (!tabsRail || !tab) return;
+    const railRect = tabsRail.getBoundingClientRect();
+    const tabRect = tab.getBoundingClientRect();
+    const delta = (tabRect.left + tabRect.width / 2) - (railRect.left + railRect.width / 2);
+    if (Math.abs(delta) < 4) return;
+    tabsRail.scrollBy({ left: delta, behavior: smooth ? 'smooth' : 'auto' });
+  };
+
+  const activate = (index, { focus = false, scroll = false } = {}) => {
+    const nextIndex = (index + tabs.length) % tabs.length;
+    const nextPanel = panels[nextIndex];
+    const nextTab = tabs[nextIndex];
+
+    tabs.forEach((tab, tabIndex) => {
+      const active = tabIndex === nextIndex;
+      tab.classList.toggle('is-active', active);
+      tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      tab.tabIndex = active ? 0 : -1;
+    });
+
+    panels.forEach((panel, panelIndex) => {
+      const active = panelIndex === nextIndex;
+      if (active) mountPanel(panel);
+      panel.hidden = !active;
+      panel.setAttribute('aria-hidden', active ? 'false' : 'true');
+      panel.classList.toggle('is-active', active);
+    });
+
+    activeIndex = nextIndex;
+
+    const url = nextTab.dataset.zodProductSwitcherUrl || '';
+    const label = nextTab.dataset.zodProductSwitcherLabel || '';
+    if (link) {
+      link.hidden = !url;
+      if (url) link.href = url;
+    }
+    if (linkLabel) linkLabel.textContent = `${prefix} ${label}`.trim();
+    if (focus) nextTab.focus({ preventScroll: true });
+    if (scroll) centerTab(nextTab, true);
+
+    refreshPanel(nextPanel);
+  };
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => activate(index, { scroll: true }));
+    tab.addEventListener('keydown', event => {
+      const rtl = document.documentElement.dir === 'rtl';
+      let nextIndex = null;
+      if (event.key === 'Home') nextIndex = 0;
+      if (event.key === 'End') nextIndex = tabs.length - 1;
+      if (event.key === 'ArrowRight') nextIndex = index + (rtl ? -1 : 1);
+      if (event.key === 'ArrowLeft') nextIndex = index + (rtl ? 1 : -1);
+      if (event.key === 'Enter' || event.key === ' ') nextIndex = index;
+      if (nextIndex === null) return;
+      event.preventDefault();
+      activate(nextIndex, { focus: true, scroll: true });
+    });
+  });
+
+  section.addEventListener('zod:product-switcher-refresh', () => refreshPanel(panels[activeIndex]));
+  window.addEventListener('load', () => refreshPanel(panels[activeIndex]), { once: true });
+
+  panels[0].dataset.zodProductSwitcherMounted = 'true';
+  activate(0);
+};
+
+const initHome = (root = document) => {
+  initFaq(root);
+  root.querySelectorAll('[data-zod-interactive-showcase]').forEach(initInteractiveShowcase);
+  root.querySelectorAll('[data-zod-product-switcher]').forEach(initProductSwitcher);
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  initHome();
+  let queued = false;
+  const pending = new Set();
+  const flush = () => {
+    queued = false;
+    pending.forEach(node => {
+      if (!node.isConnected) return;
+      if (node.matches?.('[data-zod-interactive-showcase]')) initInteractiveShowcase(node);
+      if (node.matches?.('[data-zod-product-switcher]')) initProductSwitcher(node);
+      initHome(node);
+    });
+    pending.clear();
+  };
+  const observer = new MutationObserver(mutations => {
+    for (const mutation of mutations) {
+      mutation.addedNodes.forEach(node => { if (node instanceof HTMLElement) pending.add(node); });
+    }
+    if (!queued && pending.size) {
+      queued = true;
+      requestAnimationFrame(flush);
+    }
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+});
