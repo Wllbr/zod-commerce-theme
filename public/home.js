@@ -67,22 +67,41 @@ const initProductSwitcher = (section) => {
   const tabsRail = section.querySelector('[data-zod-product-switcher-tabs]');
   const tabs = [...section.querySelectorAll('[data-zod-product-switcher-tab]')];
   const panels = [...section.querySelectorAll('[data-zod-product-switcher-panel]')];
-  const link = section.querySelector('[data-zod-product-switcher-link]');
-  const linkLabel = section.querySelector('[data-zod-product-switcher-link-label]');
-  const prefix = section.dataset.zodProductSwitcherPrefix || '';
   if (!tabs.length || tabs.length !== panels.length) return;
 
+  const mobileQuery = window.matchMedia('(max-width: 767px)');
+  const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   let activeIndex = 0;
+  let autoplayTimer = 0;
+  let autoplayResumeTimer = 0;
+
+  const findSliderApi = (panel) => {
+    if (!panel) return null;
+    const productSliders = [...panel.querySelectorAll('salla-products-slider')];
+    for (const productsSlider of productSliders) {
+      const inner = productsSlider.shadowRoot?.querySelector?.('salla-slider');
+      const candidates = [
+        productsSlider.swiper,
+        productsSlider.slider,
+        inner?.swiper,
+        inner?.slider
+      ].filter(Boolean);
+      const api = candidates.find(candidate => typeof candidate?.slideNext === 'function');
+      if (api) return api;
+    }
+    const direct = panel.querySelector('salla-slider');
+    return [direct?.swiper, direct?.slider].find(candidate => typeof candidate?.slideNext === 'function') || null;
+  };
 
   const refreshPanel = (panel) => {
     const refresh = () => {
-      panel.querySelectorAll('salla-slider').forEach(slider => {
+      panel?.querySelectorAll('salla-slider').forEach(slider => {
         try { slider.update?.(); } catch (_) {}
         try { slider.swiper?.update?.(); } catch (_) {}
         try { slider.slider?.update?.(); } catch (_) {}
       });
 
-      panel.querySelectorAll('salla-products-slider').forEach(productsSlider => {
+      panel?.querySelectorAll('salla-products-slider').forEach(productsSlider => {
         try { productsSlider.update?.(); } catch (_) {}
         try { productsSlider.swiper?.update?.(); } catch (_) {}
         try { productsSlider.slider?.update?.(); } catch (_) {}
@@ -100,30 +119,51 @@ const initProductSwitcher = (section) => {
       refresh();
       window.dispatchEvent(new Event('resize'));
     }));
-
     window.setTimeout(refresh, 220);
-  };
-
-  const mountPanel = (panel) => {
-    if (!panel || panel.dataset.zodProductSwitcherMounted === 'true') return;
-
-    const template = panel.querySelector('[data-zod-product-switcher-template]');
-    if (template) {
-      panel.append(template.content.cloneNode(true));
-      template.remove();
-    }
-
-    try { window.customElements?.upgrade?.(panel); } catch (_) {}
-    panel.dataset.zodProductSwitcherMounted = 'true';
+    window.setTimeout(refresh, 700);
   };
 
   const centerTab = (tab, smooth = true) => {
-    if (!tabsRail || !tab) return;
+    if (!tabsRail || !tab || tabsRail.scrollWidth <= tabsRail.clientWidth + 4) return;
     const railRect = tabsRail.getBoundingClientRect();
     const tabRect = tab.getBoundingClientRect();
     const delta = (tabRect.left + tabRect.width / 2) - (railRect.left + railRect.width / 2);
     if (Math.abs(delta) < 4) return;
     tabsRail.scrollBy({ left: delta, behavior: smooth ? 'smooth' : 'auto' });
+  };
+
+  const sectionIsVisible = () => {
+    const rect = section.getBoundingClientRect();
+    return rect.bottom > 0 && rect.top < window.innerHeight;
+  };
+
+  const stopAutoplay = () => {
+    window.clearInterval(autoplayTimer);
+    autoplayTimer = 0;
+  };
+
+  const advanceMobileSlider = () => {
+    if (!mobileQuery.matches || reducedMotionQuery.matches || document.hidden || !sectionIsVisible()) return;
+    const api = findSliderApi(panels[activeIndex]);
+    if (!api) return;
+    try {
+      if (api.isEnd && typeof api.slideTo === 'function') api.slideTo(0);
+      else api.slideNext();
+    } catch (_) {}
+  };
+
+  const startAutoplay = () => {
+    stopAutoplay();
+    window.clearTimeout(autoplayResumeTimer);
+    autoplayResumeTimer = 0;
+    if (!mobileQuery.matches || reducedMotionQuery.matches || document.hidden) return;
+    autoplayTimer = window.setInterval(advanceMobileSlider, 4400);
+  };
+
+  const pauseForInteraction = () => {
+    stopAutoplay();
+    window.clearTimeout(autoplayResumeTimer);
+    autoplayResumeTimer = window.setTimeout(startAutoplay, 6500);
   };
 
   const activate = (index, { focus = false, scroll = false } = {}) => {
@@ -140,25 +180,16 @@ const initProductSwitcher = (section) => {
 
     panels.forEach((panel, panelIndex) => {
       const active = panelIndex === nextIndex;
-      if (active) mountPanel(panel);
       panel.hidden = !active;
       panel.setAttribute('aria-hidden', active ? 'false' : 'true');
       panel.classList.toggle('is-active', active);
     });
 
     activeIndex = nextIndex;
-
-    const url = nextTab.dataset.zodProductSwitcherUrl || '';
-    const label = nextTab.dataset.zodProductSwitcherLabel || '';
-    if (link) {
-      link.hidden = !url;
-      if (url) link.href = url;
-    }
-    if (linkLabel) linkLabel.textContent = `${prefix} ${label}`.trim();
     if (focus) nextTab.focus({ preventScroll: true });
     if (scroll) centerTab(nextTab, true);
-
     refreshPanel(nextPanel);
+    startAutoplay();
   };
 
   tabs.forEach((tab, index) => {
@@ -177,10 +208,21 @@ const initProductSwitcher = (section) => {
     });
   });
 
-  section.addEventListener('zod:product-switcher-refresh', () => refreshPanel(panels[activeIndex]));
-  window.addEventListener('load', () => refreshPanel(panels[activeIndex]), { once: true });
+  section.addEventListener('pointerdown', pauseForInteraction, { passive: true });
+  section.addEventListener('touchstart', pauseForInteraction, { passive: true });
+  section.addEventListener('wheel', pauseForInteraction, { passive: true });
+  section.addEventListener('zod:product-switcher-refresh', () => {
+    refreshPanel(panels[activeIndex]);
+    startAutoplay();
+  });
+  document.addEventListener('visibilitychange', () => document.hidden ? stopAutoplay() : startAutoplay());
+  mobileQuery.addEventListener?.('change', startAutoplay);
+  reducedMotionQuery.addEventListener?.('change', startAutoplay);
+  window.addEventListener('load', () => {
+    refreshPanel(panels[activeIndex]);
+    startAutoplay();
+  }, { once: true });
 
-  panels[0].dataset.zodProductSwitcherMounted = 'true';
   activate(0);
 };
 

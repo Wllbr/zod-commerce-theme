@@ -748,9 +748,9 @@
           "type": "collection",
           "format": "collection",
           "required": true,
-          "minLength": 2,
-          "maxLength": 8,
-          "label": "أنواع المنتجات",
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "أنواع المنتجات — حتى 6 خيارات",
           "item_label": "نوع منتج",
           "value": [],
           "fields": [
@@ -758,19 +758,19 @@
               "type": "string",
               "icon": "sicon-format-text-alt",
               "label": "اسم النوع",
-              "description": "مثال: شفاط سقفي أو بطاريات قابلة للشحن",
+              "description": "اسم الخيار الذي سيظهر في شريط التبديل. مثال: شفاطات الجدران أو مراوح ستاند.",
               "multilanguage": true,
               "id": "groups.title",
               "value": null,
-              "required": false,
+              "required": true,
               "format": "text",
               "maxLength": 100
             },
             {
               "type": "items",
               "icon": "sicon-folder",
-              "label": "التصنيف",
-              "description": "اختر تصنيفاً واحداً فقط لهذا النوع. سيتم عرض منتجات هذا التصنيف تلقائياً ويستخدم رابطه لزر عرض الكل.",
+              "label": "التصنيف — تصنيف واحد فقط",
+              "description": "اختر تصنيفاً واحداً فقط لهذا الخيار. سيتم عرض ما يصل إلى 36 منتجاً من التصنيف تلقائياً.",
               "id": "groups.category",
               "format": "dropdown-list",
               "selected": [],
@@ -785,8 +785,8 @@
             {
               "type": "items",
               "icon": "sicon-shopping-bag",
-              "label": "منتجات مختارة (اختياري)",
-              "description": "عند اختيار منتجات هنا ستظهر بدلاً من منتجات التصنيف.",
+              "label": "منتجات مختارة (اختياري — حتى 36 منتجاً)",
+              "description": "إذا اخترت منتجات هنا فستظهر بدلاً من منتجات التصنيف. اتركها فارغة لاستخدام التصنيف تلقائياً.",
               "id": "groups.products",
               "format": "dropdown-list",
               "selected": [],
@@ -795,8 +795,92 @@
               "multichoice": true,
               "searchable": true,
               "source": "products",
-              "maxLength": 12,
+              "maxLength": 36,
               "value": []
+            },
+            {
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "label": "عنوان البانر",
+              "description": "يظهر داخل البانر الصغير عند تحديد هذا الخيار. إذا تركته فارغاً سيُستخدم اسم النوع.",
+              "multilanguage": true,
+              "id": "groups.banner_title",
+              "value": null,
+              "required": false,
+              "format": "text",
+              "maxLength": 120
+            },
+            {
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "label": "وصف البانر",
+              "description": "سطر قصير من 1–2 سطر فقط. اجعله واضحاً ومباشراً حتى يبقى البانر صغيراً.",
+              "multilanguage": true,
+              "id": "groups.banner_text",
+              "value": null,
+              "required": false,
+              "format": "textarea",
+              "maxLength": 180
+            },
+            {
+              "type": "string",
+              "icon": "sicon-image",
+              "label": "صورة المنتج المنبثقة — سطح المكتب 1000×1000 بكسل",
+              "id": "groups.popup_image_desktop",
+              "value": null,
+              "format": "image",
+              "required": false,
+              "description": "المقاس الموصى به 1000×1000 بكسل. يفضّل PNG بخلفية شفافة، بدون نص أو أزرار، وصورة منتج واضحة مع فراغ حولها. الحجم المفضّل أقل من 500KB.",
+              "settings": {
+                "width": 1000,
+                "height": 1000
+              },
+              "placeholder": null
+            },
+            {
+              "type": "string",
+              "icon": "sicon-image",
+              "label": "صورة المنتج المنبثقة — الجوال 800×800 بكسل",
+              "id": "groups.popup_image_mobile",
+              "value": null,
+              "format": "image",
+              "required": false,
+              "description": "المقاس الموصى به 800×800 بكسل. يفضّل PNG بخلفية شفافة وبقصّة أبسط للجوال. إذا تركتها فارغة سيتم استخدام صورة سطح المكتب. الحجم المفضّل أقل من 400KB.",
+              "settings": {
+                "width": 800,
+                "height": 800
+              },
+              "placeholder": null
+            },
+            {
+              "type": "string",
+              "icon": "sicon-image",
+              "label": "خلفية البانر — سطح المكتب 1600×420 بكسل",
+              "id": "groups.banner_background_desktop",
+              "value": null,
+              "format": "image",
+              "required": false,
+              "description": "المقاس الموصى به 1600×420 بكسل. استخدم JPG/WebP خفيفاً وخلفية هادئة بلا نص مدمج. اترك مساحة نظيفة للنص وصورة المنتج. يمكن استخدام صورة متحركة خفيفة إذا كانت صيغة الرفع مدعومة. الحجم المفضّل أقل من 800KB.",
+              "settings": {
+                "width": 1600,
+                "height": 420
+              },
+              "placeholder": null
+            },
+            {
+              "type": "string",
+              "icon": "sicon-image",
+              "label": "خلفية البانر — الجوال 1080×540 بكسل",
+              "id": "groups.banner_background_mobile",
+              "value": null,
+              "format": "image",
+              "required": false,
+              "description": "المقاس الموصى به 1080×540 بكسل. اجعل الخلفية أبسط للجوال ولا تضع نصاً داخل الصورة. إذا تركتها فارغة سيتم استخدام خلفية سطح المكتب. الحجم المفضّل أقل من 500KB.",
+              "settings": {
+                "width": 1080,
+                "height": 540
+              },
+              "placeholder": null
             },
             {
               "type": "items",
@@ -852,13 +936,13 @@
         {
           "type": "boolean",
           "icon": "sicon-toggle-off",
-          "label": "استخدام خلفية محايدة فاتحة",
-          "description": "تساعد الخلفية الهادئة على فصل القسم وإبراز بطاقات المنتجات.",
+          "label": "خلفية قسم هادئة",
+          "description": "يضيف تدرجاً خفيفاً خلف القسم مع الحفاظ على البانر والمنتجات بشكل بسيط.",
           "id": "soft_background",
           "format": "switch",
           "required": false,
-          "value": true,
-          "selected": true
+          "value": false,
+          "selected": false
         }
       ]
     },

@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.29",
-  "description": "ZOD Commerce — v1.6.29 makes promo labels larger, adds bold faded out-of-stock stamps, detects Salla out-of-stock status robustly, and standardizes theme product sliders on the ZOD product card.",
+  "version": "1.6.31",
+  "description": "ZOD Commerce — v1.6.31 redesigns Product Type Switcher as a compact 6-option showcase with responsive banner imagery, animated product pop-ins, up to 36 products per type, and mobile auto-sliding.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

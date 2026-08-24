@@ -33,6 +33,7 @@ class ZodTheme {
     this.initCartExperience();
     this.initLiveShowcasePrices();
     this.initProductCardReveal();
+    this.initNativeStockBadges();
     this.initFooterDisclosures();
     this.initDisclosureToggles();
     this.initProfileAvatarUpload();
@@ -493,6 +494,39 @@ class ZodTheme {
     };
     if (window.salla?.onReady) window.salla.onReady().then(bind).catch(()=>{});
     else document.addEventListener('zod::ready', bind, {once:true});
+  }
+
+
+  initNativeStockBadges() {
+    const outAr = 'نفدت الكمية';
+    const outEn = 'Out of stock';
+    const label = document.documentElement.lang?.toLowerCase().startsWith('ar') ? outAr : outEn;
+    const isOutStatus = value => ['out','out-of-stock','out_of_stock','sold-out','sold_out','out-and-notify'].includes(String(value || '').toLowerCase());
+
+    const decorate = card => {
+      if (!card || card.matches('custom-salla-product-card')) return;
+      const p = card.product || card.productData || card.data?.product || {};
+      const qty = p.quantity !== undefined && p.quantity !== null && p.quantity !== '' ? Number(p.quantity) : null;
+      let isOut = Boolean(p.is_out_of_stock || isOutStatus(p.status) || isOutStatus(card.getAttribute('product-status')) || isOutStatus(card.getAttribute('status')) || (Number.isFinite(qty) && qty <= 0));
+      const roots = [card, card.shadowRoot].filter(Boolean);
+      for (const root of roots) {
+        const add = root.querySelector?.('salla-add-product-button,button[disabled],[product-status]');
+        const status = add?.getAttribute?.('product-status') || add?.getAttribute?.('status');
+        const text = root.textContent || '';
+        if (isOutStatus(status) || /نفدت\s*الكمية|out\s+of\s+stock/i.test(text)) isOut = true;
+      }
+      card.classList.toggle('zod-native-out-of-stock', isOut);
+      if (isOut) card.setAttribute('data-zod-stock-label', label);
+      else card.removeAttribute('data-zod-stock-label');
+    };
+
+    const scan = () => document.querySelectorAll('salla-product-card').forEach(decorate);
+    scan();
+    const observer = new MutationObserver(() => requestAnimationFrame(scan));
+    observer.observe(document.documentElement, {childList:true, subtree:true, attributes:true, attributeFilter:['product-status','status','disabled']});
+    setTimeout(scan, 450);
+    setTimeout(scan, 1400);
+    setTimeout(scan, 3000);
   }
 
   initProfileAvatarUpload() {

@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.29','package.json: expected v1.6.29');
+assert(pkg.version==='1.6.31','package.json: expected v1.6.31');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -105,6 +105,25 @@ const productSwitcherConfig=(config.components||[]).find(component=>component.pa
 assert(productSwitcherConfig?.fields?.some(field=>field.id==='groups'),'Product type switcher must preserve the existing groups collection');
 assert(productSwitcher.includes("component['groups']"),'Product type switcher must use explicit bracket access for the groups field');
 assert(!productSwitcher.includes('component.groups'),'Product type switcher must not use ambiguous dot access for the groups field');
+const productSwitcherGroups=productSwitcherConfig?.fields?.find(field=>field.id==='groups');
+assert(productSwitcherGroups?.maxLength===6,'Product type switcher must allow at most 6 type options');
+const productSwitcherCategory=productSwitcherGroups?.fields?.find(field=>field.id==='groups.category');
+assert(productSwitcherCategory?.multichoice===false && productSwitcherCategory?.maxLength===1,'Product type switcher category must remain single-select');
+const productSwitcherProducts=productSwitcherGroups?.fields?.find(field=>field.id==='groups.products');
+assert(productSwitcherProducts?.maxLength===36,'Product type switcher manual products must allow up to 36 products');
+for(const [id,width,height] of [
+  ['groups.popup_image_desktop',1000,1000],
+  ['groups.popup_image_mobile',800,800],
+  ['groups.banner_background_desktop',1600,420],
+  ['groups.banner_background_mobile',1080,540]
+]){
+  const field=productSwitcherGroups?.fields?.find(item=>item.id===id);
+  assert(field?.format==='image',`Product type switcher missing image field ${id}`);
+  assert(field?.settings?.width===width && field?.settings?.height===height,`Product type switcher ${id} must declare ${width}x${height} guidance`);
+}
+assert(productSwitcher.includes('limit="36"'),'Product type switcher must render up to 36 products per type');
+assert(productSwitcher.includes('zod-product-switcher__showcase'),'Product type switcher must include the compact showcase banner');
+
 assert(cartTwig.includes('data-zod-cart-grand-total'),'Cart must expose the grand total for mobile and desktop');
 assert(cartTwig.includes('cart.total|money'),'Cart must render Salla cart.total');
 assert(cartTwig.includes('store-cart-checkout-mobile'),'Cart must keep a mobile checkout action');
