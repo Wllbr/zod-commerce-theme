@@ -13,14 +13,16 @@ Recommended editor uploads:
 - Wholesale / Projects image: **1600 × 900 px (16:9)**
 
 These requirements are now shown as instructions directly in the related Salla editor image fields.
-## Product Type Switcher v1.6.31
+## Product Type Switcher v1.6.32
 
-Each of the six type options can have its own responsive micro-banner media:
+Each of the six type options can use custom icons plus image or video banner media:
 
-- Popup product — desktop: **1000×1000 px**, transparent PNG preferred, under **500 KB** recommended.
-- Popup product — mobile: **800×800 px**, transparent PNG preferred, under **400 KB** recommended.
-- Banner background — desktop: **1600×420 px**, JPG/WebP preferred, under **800 KB** recommended.
-- Banner background — mobile: **1080×540 px**, JPG/WebP preferred, under **500 KB** recommended.
-- Keep text and buttons out of the image itself so Arabic/English content can switch correctly.
-- Use a clean product cutout with breathing room; do not crop tightly around the product.
+- Type icon: **128×128 px**, transparent PNG/WebP, under **100 KB** recommended; displayed at about 22×22 px.
+- Banner background/poster — desktop: **1600×300 px**, JPG/WebP, under **700 KB** recommended.
+- Banner background — mobile: **1080×420 px**, JPG/WebP, under **500 KB** recommended.
+- Banner video: direct HTTPS **MP4/WebM**, approximately **1600×300** ratio, **4–8 seconds**, muted/looping, under **3 MB** recommended. Video takes priority and the image acts as poster/fallback.
+- Popup product — desktop: **900×900 px**, transparent PNG/WebP, under **450 KB** recommended.
+- Popup product — mobile: **700×700 px**, transparent PNG/WebP, under **350 KB** recommended.
+- Keep all text/buttons out of uploaded media so Arabic/English copy can switch correctly.
+- Keep the important product subject away from the banner edges because desktop/mobile crops can differ.
 

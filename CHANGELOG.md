@@ -1,3 +1,14 @@
+# v1.6.32 — Product type media showcase + wide desktop
+
+- Completely redesigned Product Type Switcher to match the approved compact mockup.
+- Added custom image icons for each of up to six type tabs.
+- Added direct MP4/WebM banner video URL support with responsive image poster/fallback.
+- Updated banner image guidance to 1600×300 desktop and 1080×420 mobile.
+- Added compact localized banner copy and animated popup product visual.
+- Preserved up to 36 products per type and mobile product auto-slide behavior.
+- Added efficient banner video pause/play handling for hidden tabs, off-screen sections, and reduced-motion users.
+- Added a wider 1600px desktop container mode to create a more open desktop layout without forcing browser zoom.
+
 ## 1.6.31 — Product type micro-showcase
 
 - Redesigned `منتجات حسب النوع` as a clean, universal six-option selector with no heavy boxed navigation.

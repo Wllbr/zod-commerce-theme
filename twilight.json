@@ -767,6 +767,21 @@
               "maxLength": 100
             },
             {
+              "type": "string",
+              "icon": "sicon-image",
+              "label": "أيقونة الخيار — 128×128 بكسل",
+              "id": "groups.icon_image",
+              "value": null,
+              "format": "image",
+              "required": false,
+              "description": "أيقونة صغيرة تظهر بجانب اسم النوع في شريط الاختيار. المقاس الموصى به 128×128 بكسل، PNG أو WebP بخلفية شفافة، بدون نص، والحجم المفضل أقل من 100KB. ستظهر الأيقونة داخل المتجر بحجم يقارب 22×22 بكسل.",
+              "settings": {
+                "width": 128,
+                "height": 128
+              },
+              "placeholder": null
+            },
+            {
               "type": "items",
               "icon": "sicon-folder",
               "label": "التصنيف — تصنيف واحد فقط",
@@ -824,45 +839,41 @@
             },
             {
               "type": "string",
-              "icon": "sicon-image",
-              "label": "صورة المنتج المنبثقة — سطح المكتب 1000×1000 بكسل",
-              "id": "groups.popup_image_desktop",
+              "icon": "sicon-play",
+              "label": "رابط فيديو البانر المباشر MP4 / WebM (اختياري)",
+              "description": "الخيار الأول للبانر: ضع رابط HTTPS مباشر لملف MP4 أو WebM. إذا أضفت فيديو فسيتم عرضه تلقائياً بدون صوت وبشكل متكرر، وسيأخذ الأولوية على صورة الخلفية. المقاس/النسبة الموصى بها للفيديو: 1600×300 بكسل تقريباً (نسبة 16:3)، مدة 4–8 ثوانٍ، بدون صوت، وحجم مفضل أقل من 3MB. ارفع الفيديو على CDN أو استضافة ملفات مباشرة؛ ويمكن استخدام رابط GitHub Raw مباشر عند الحاجة. أضف صورة خلفية أيضاً كـ Poster/Fallback.",
+              "id": "groups.banner_video_url",
               "value": null,
-              "format": "image",
               "required": false,
-              "description": "المقاس الموصى به 1000×1000 بكسل. يفضّل PNG بخلفية شفافة، بدون نص أو أزرار، وصورة منتج واضحة مع فراغ حولها. الحجم المفضّل أقل من 500KB.",
-              "settings": {
-                "width": 1000,
-                "height": 1000
-              },
-              "placeholder": null
+              "format": "url",
+              "maxLength": 800
             },
             {
               "type": "string",
               "icon": "sicon-image",
-              "label": "صورة المنتج المنبثقة — الجوال 800×800 بكسل",
-              "id": "groups.popup_image_mobile",
-              "value": null,
-              "format": "image",
-              "required": false,
-              "description": "المقاس الموصى به 800×800 بكسل. يفضّل PNG بخلفية شفافة وبقصّة أبسط للجوال. إذا تركتها فارغة سيتم استخدام صورة سطح المكتب. الحجم المفضّل أقل من 400KB.",
-              "settings": {
-                "width": 800,
-                "height": 800
-              },
-              "placeholder": null
-            },
-            {
-              "type": "string",
-              "icon": "sicon-image",
-              "label": "خلفية البانر — سطح المكتب 1600×420 بكسل",
+              "label": "خلفية البانر — سطح المكتب 1600×300 بكسل",
               "id": "groups.banner_background_desktop",
               "value": null,
               "format": "image",
               "required": false,
-              "description": "المقاس الموصى به 1600×420 بكسل. استخدم JPG/WebP خفيفاً وخلفية هادئة بلا نص مدمج. اترك مساحة نظيفة للنص وصورة المنتج. يمكن استخدام صورة متحركة خفيفة إذا كانت صيغة الرفع مدعومة. الحجم المفضّل أقل من 800KB.",
+              "description": "الخيار الثاني للبانر أو صورة احتياطية للفيديو. المقاس المطلوب 1600×300 بكسل تقريباً (بانر طويل ورفيع مثل نموذج التصميم). استخدم JPG أو WebP، بدون نص مدمج، واترك مساحة نظيفة في جهة النص. الحجم المفضل أقل من 700KB. إذا وُجد فيديو فستُستخدم هذه الصورة كـ Poster/Fallback.",
               "settings": {
                 "width": 1600,
+                "height": 300
+              },
+              "placeholder": null
+            },
+            {
+              "type": "string",
+              "icon": "sicon-image",
+              "label": "خلفية البانر — الجوال 1080×420 بكسل",
+              "id": "groups.banner_background_mobile",
+              "value": null,
+              "format": "image",
+              "required": false,
+              "description": "نسخة الجوال للبانر. المقاس الموصى به 1080×420 بكسل. اجعل التركيب أبسط واترك مساحة آمنة للنص والصورة المنبثقة. بدون نص مدمج. إذا تركتها فارغة سيتم استخدام صورة سطح المكتب. الحجم المفضل أقل من 500KB.",
+              "settings": {
+                "width": 1080,
                 "height": 420
               },
               "placeholder": null
@@ -870,15 +881,30 @@
             {
               "type": "string",
               "icon": "sicon-image",
-              "label": "خلفية البانر — الجوال 1080×540 بكسل",
-              "id": "groups.banner_background_mobile",
+              "label": "صورة المنتج المنبثقة — سطح المكتب 900×900 بكسل",
+              "id": "groups.popup_image_desktop",
               "value": null,
               "format": "image",
               "required": false,
-              "description": "المقاس الموصى به 1080×540 بكسل. اجعل الخلفية أبسط للجوال ولا تضع نصاً داخل الصورة. إذا تركتها فارغة سيتم استخدام خلفية سطح المكتب. الحجم المفضّل أقل من 500KB.",
+              "description": "صورة اختيارية تطفو فوق البانر عند تحديد النوع. المقاس الموصى به 900×900 بكسل، PNG أو WebP بخلفية شفافة، منتج واحد واضح بدون نص أو أزرار، والحجم المفضل أقل من 450KB.",
               "settings": {
-                "width": 1080,
-                "height": 540
+                "width": 900,
+                "height": 900
+              },
+              "placeholder": null
+            },
+            {
+              "type": "string",
+              "icon": "sicon-image",
+              "label": "صورة المنتج المنبثقة — الجوال 700×700 بكسل",
+              "id": "groups.popup_image_mobile",
+              "value": null,
+              "format": "image",
+              "required": false,
+              "description": "نسخة مبسطة للجوال. المقاس الموصى به 700×700 بكسل، PNG أو WebP بخلفية شفافة. إذا تركتها فارغة سيتم استخدام صورة سطح المكتب. الحجم المفضل أقل من 350KB.",
+              "settings": {
+                "width": 700,
+                "height": 700
               },
               "placeholder": null
             },

@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.31",
-  "description": "ZOD Commerce — v1.6.31 redesigns Product Type Switcher as a compact 6-option showcase with responsive banner imagery, animated product pop-ins, up to 36 products per type, and mobile auto-sliding.",
+  "version": "1.6.32",
+  "description": "ZOD Commerce — v1.6.32 completely redesigns Product Type Switcher with custom option icons, compact 1600x300 image/video banners, localized responsive showcase content, 36-product mobile autoplay shelves, and a wider desktop density layout.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

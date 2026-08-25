@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.31','package.json: expected v1.6.31');
+assert(pkg.version==='1.6.32','package.json: expected v1.6.32');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -112,10 +112,11 @@ assert(productSwitcherCategory?.multichoice===false && productSwitcherCategory?.
 const productSwitcherProducts=productSwitcherGroups?.fields?.find(field=>field.id==='groups.products');
 assert(productSwitcherProducts?.maxLength===36,'Product type switcher manual products must allow up to 36 products');
 for(const [id,width,height] of [
-  ['groups.popup_image_desktop',1000,1000],
-  ['groups.popup_image_mobile',800,800],
-  ['groups.banner_background_desktop',1600,420],
-  ['groups.banner_background_mobile',1080,540]
+  ['groups.icon_image',128,128],
+  ['groups.popup_image_desktop',900,900],
+  ['groups.popup_image_mobile',700,700],
+  ['groups.banner_background_desktop',1600,300],
+  ['groups.banner_background_mobile',1080,420]
 ]){
   const field=productSwitcherGroups?.fields?.find(item=>item.id===id);
   assert(field?.format==='image',`Product type switcher missing image field ${id}`);
@@ -123,6 +124,10 @@ for(const [id,width,height] of [
 }
 assert(productSwitcher.includes('limit="36"'),'Product type switcher must render up to 36 products per type');
 assert(productSwitcher.includes('zod-product-switcher__showcase'),'Product type switcher must include the compact showcase banner');
+const productSwitcherVideo=productSwitcherGroups?.fields?.find(field=>field.id==='groups.banner_video_url');
+assert(productSwitcherVideo?.format==='url','Product type switcher must provide a direct banner video URL field');
+assert(productSwitcher.includes('data-zod-product-switcher-video'),'Product type switcher must render banner video support');
+assert(productSwitcher.includes('zod-product-switcher__tab-icon'),'Product type switcher must render custom type icons');
 
 assert(cartTwig.includes('data-zod-cart-grand-total'),'Cart must expose the grand total for mobile and desktop');
 assert(cartTwig.includes('cart.total|money'),'Cart must render Salla cart.total');

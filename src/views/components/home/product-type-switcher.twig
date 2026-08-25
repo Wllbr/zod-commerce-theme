@@ -3,19 +3,16 @@
   {% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
   {% set subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
 
-  <section
-    class="zod-section zod-product-switcher"
-    data-zod-product-switcher
-  >
+  <section class="zod-section zod-product-switcher" data-zod-product-switcher>
     <div class="container">
-      <div class="zod-product-switcher__surface {{ component.soft_background ? 'zod-product-switcher__surface--soft' : '' }}">
-        <div class="zod-section-head zod-product-switcher__head">
-          <div class="zod-product-switcher__heading-copy">
-            {% if title %}<h2>{{ title }}</h2>{% endif %}
-            {% if subtitle %}<p>{{ subtitle }}</p>{% endif %}
-          </div>
+      <div class="zod-section-head zod-product-switcher__head">
+        <div class="zod-product-switcher__heading-copy">
+          {% if title %}<h2>{{ title }}</h2>{% endif %}
+          {% if subtitle %}<p>{{ subtitle }}</p>{% endif %}
         </div>
+      </div>
 
+      <div class="zod-product-switcher__experience {{ component.soft_background ? 'zod-product-switcher__experience--soft' : '' }}">
         <div class="zod-product-switcher__nav" data-zod-product-switcher-nav>
           <div
             class="zod-product-switcher__tabs"
@@ -31,6 +28,7 @@
               {% set category_name = category_raw.name|default(category_raw.label)|default(null) %}
               {% set type_title = product_type.title is iterable ? product_type.title[language.code]|default(product_type.title|first) : product_type.title %}
               {% set type_title = type_title|default(category_name)|default(trans('zod.home.product_type_fallback')) %}
+              {% set type_icon = product_type.icon_image|default(null) %}
               <button
                 type="button"
                 class="zod-product-switcher__tab {{ loop.first ? 'is-active' : '' }}"
@@ -42,8 +40,12 @@
                 data-zod-product-switcher-tab
                 data-zod-product-switcher-label="{{ type_title }}"
               >
-                <span class="zod-product-switcher__tab-dot" aria-hidden="true"></span>
-                <span>{{ type_title }}</span>
+                {% if type_icon %}
+                  <span class="zod-product-switcher__tab-icon" aria-hidden="true"><img src="{{ type_icon }}" alt="" loading="lazy" decoding="async"></span>
+                {% else %}
+                  <span class="zod-product-switcher__tab-dot" aria-hidden="true"></span>
+                {% endif %}
+                <span class="zod-product-switcher__tab-label">{{ type_title }}</span>
               </button>
             {% endfor %}
           </div>
@@ -72,6 +74,7 @@
             {% set popup_mobile = product_type.popup_image_mobile|default(null) %}
             {% set background_desktop = product_type.banner_background_desktop|default(null) %}
             {% set background_mobile = product_type.banner_background_mobile|default(null) %}
+            {% set banner_video = product_type.banner_video_url.url|default(product_type.banner_video_url)|default(null) %}
 
             {% set selected_product_ids = [] %}
             {% for selected_product in product_type.products|default([]) %}
@@ -99,9 +102,27 @@
                     <img src="{{ background_desktop|default(background_mobile) }}" alt="" loading="lazy" decoding="async">
                   </picture>
                 {% endif %}
+
+                {% if banner_video %}
+                  <video
+                    class="zod-product-switcher__showcase-video"
+                    data-zod-product-switcher-video
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                    {% if background_desktop %}poster="{{ background_desktop }}"{% endif %}
+                    aria-hidden="true"
+                  >
+                    <source src="{{ banner_video }}">
+                  </video>
+                {% endif %}
+
                 <span class="zod-product-switcher__showcase-wash" aria-hidden="true"></span>
+                <span class="zod-product-switcher__showcase-glow" aria-hidden="true"></span>
 
                 <div class="zod-product-switcher__showcase-copy">
+                  <span class="zod-product-switcher__showcase-kicker" aria-hidden="true"><i class="sicon-star2"></i></span>
                   {% if banner_title %}<h3>{{ banner_title }}</h3>{% endif %}
                   {% if banner_text %}<p>{{ banner_text }}</p>{% endif %}
                   {% if type_url %}

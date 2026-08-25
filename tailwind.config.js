@@ -2,7 +2,7 @@ module.exports = {
   important: false,
   content: ['src/views/**/*.twig','src/assets/js/**/*.js'],
   theme: {
-    container: { center: true, padding: {DEFAULT:'16px',lg:'24px'}, screens: {'2xl':'1320px'} },
+    container: { center: true, padding: {DEFAULT:'16px',lg:'24px'}, screens: {'2xl':'1600px'} },
     fontFamily: { sans: ['var(--font-main)','-apple-system','BlinkMacSystemFont','Segoe UI','sans-serif'], primary:'var(--font-main)' },
     extend: {
       colors: {

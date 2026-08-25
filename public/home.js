@@ -166,6 +166,23 @@ const initProductSwitcher = (section) => {
     autoplayResumeTimer = window.setTimeout(startAutoplay, 6500);
   };
 
+  const syncBannerVideos = (activePanel = panels[activeIndex]) => {
+    panels.forEach(panel => {
+      const video = panel.querySelector('[data-zod-product-switcher-video]');
+      if (!video) return;
+      const shouldPlay = panel === activePanel && !document.hidden && !reducedMotionQuery.matches && sectionIsVisible();
+      if (!shouldPlay) {
+        try { video.pause(); } catch (_) {}
+        return;
+      }
+      try {
+        video.muted = true;
+        const playPromise = video.play?.();
+        playPromise?.catch?.(() => {});
+      } catch (_) {}
+    });
+  };
+
   const activate = (index, { focus = false, scroll = false } = {}) => {
     const nextIndex = (index + tabs.length) % tabs.length;
     const nextPanel = panels[nextIndex];
@@ -189,6 +206,7 @@ const initProductSwitcher = (section) => {
     if (focus) nextTab.focus({ preventScroll: true });
     if (scroll) centerTab(nextTab, true);
     refreshPanel(nextPanel);
+    syncBannerVideos(nextPanel);
     startAutoplay();
   };
 
@@ -215,13 +233,27 @@ const initProductSwitcher = (section) => {
     refreshPanel(panels[activeIndex]);
     startAutoplay();
   });
-  document.addEventListener('visibilitychange', () => document.hidden ? stopAutoplay() : startAutoplay());
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopAutoplay();
+    else startAutoplay();
+    syncBannerVideos();
+  });
   mobileQuery.addEventListener?.('change', startAutoplay);
-  reducedMotionQuery.addEventListener?.('change', startAutoplay);
+  reducedMotionQuery.addEventListener?.('change', () => {
+    startAutoplay();
+    syncBannerVideos();
+  });
   window.addEventListener('load', () => {
     refreshPanel(panels[activeIndex]);
+    syncBannerVideos();
     startAutoplay();
   }, { once: true });
+
+  const bannerObserver = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+    if (entries.some(entry => entry.isIntersecting)) syncBannerVideos();
+    else panels.forEach(panel => panel.querySelector('[data-zod-product-switcher-video]')?.pause?.());
+  }, { threshold: 0.08 }) : null;
+  bannerObserver?.observe(section);
 
   activate(0);
 };
