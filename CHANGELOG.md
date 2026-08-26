@@ -1,3 +1,15 @@
+# v1.6.34 — Catalog, brands, product cards and purchase controls
+
+- Fixed category pages collapsing product results into the narrow filter column when filters are unavailable.
+- Category and brand product listings now use the ZOD custom product card and explicit responsive grid sizing.
+- Fixed Salla grouped brand collections so the brands directory renders real brand cards instead of blank placeholders.
+- Product cards now center logo, title, metadata and price; brand identity remains logo-only and disappears when no logo exists.
+- Product page now has one polished brand block above the title with the localized “Explore more from this brand” action.
+- Removed the duplicate secondary brand block.
+- Restored persistent Add to Cart plus native Buy Now/quick-buy controls and made the sticky purchase dock resilient to old saved settings.
+- Hardened category editor previews against missing category context.
+- Added official customized information-page hook support and safe preview fallbacks.
+
 # v1.6.33 — Type icon visibility + brand logo experience
 
 - Enlarged Product Type Switcher labels and custom icons on desktop and mobile for better readability.

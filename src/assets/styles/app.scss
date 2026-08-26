@@ -1691,3 +1691,70 @@ salla-product-card.zod-native-out-of-stock::after{content:attr(data-zod-stock-la
   .product-single .zod-brand-explore-card__logo img{max-width:64px;max-height:29px}
   .product-single .zod-brand-explore-card__copy strong{font-size:11px}
 }
+
+
+/* =========================================================
+   ZOD v1.6.34 — catalog/brand repair + centered cards + single brand panel + purchase dock
+   ========================================================= */
+.zod-catalog-layout.zod-catalog-layout--full{grid-template-columns:minmax(0,1fr)}
+.zod-catalog-layout.zod-catalog-layout--filters{grid-template-columns:250px minmax(0,1fr)}
+.zod-catalog-main{min-width:0;width:100%}
+.zod-products-list{display:block;width:100%;min-width:0}
+.zod-products-list::part(list){display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;width:100%}
+.zod-products-list custom-salla-product-card{min-width:0;width:100%}
+
+/* Product card content is intentionally centered; brand identity is logo-only. */
+.zpc-body{align-items:center;text-align:center}
+.zpc-brand-logo{align-self:center;justify-content:center;min-height:27px;max-width:82px;margin:0 auto 7px}
+.zpc-brand-logo img{max-width:82px;max-height:25px;object-fit:contain}
+.zpc-body h3,.zpc-body h3 a,.zpc-body>p{width:100%;text-align:center}
+.zpc-meta{width:100%;justify-content:center}
+.zpc-bottom{width:100%;text-align:center}
+.zpc-price{width:100%;justify-content:center}
+.zpc-add{align-self:stretch}
+
+/* Brand directory handles Salla's grouped brand collection without empty placeholder cards. */
+.zod-brand-directory-card__fallback{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:var(--zod-canvas);color:var(--color-primary);font-size:24px;font-weight:950}
+.zod-brand-hero.no-logo{grid-template-columns:1fr}
+.zod-brand-products-list{margin-top:8px}
+
+/* One brand identity block only, directly above the product title. */
+.product-single .zod-product-brand-row{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:52px;margin-bottom:8px}
+.product-single .zod-product-brand-row.no-brand-logo{justify-content:flex-end;min-height:38px;margin-bottom:2px}
+.product-single .zod-product-brand-card{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;min-width:230px;max-width:420px;min-height:52px;padding:7px 11px;border:1px solid #e5e9ec;border-radius:14px;background:linear-gradient(180deg,#fff,#fbfcfc);color:var(--zod-ink);box-shadow:0 7px 20px rgba(16,24,40,.045);transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}
+.product-single .zod-product-brand-card:hover{border-color:color-mix(in srgb,var(--color-primary) 42%,#e5e9ec);box-shadow:0 10px 25px rgba(16,24,40,.075);transform:translateY(-1px)}
+.product-single .zod-product-brand-card__logo{width:64px;height:36px;display:flex;align-items:center;justify-content:center;padding-inline:4px;border-inline-end:1px solid #edf0f2}
+.product-single .zod-product-brand-card__logo img{display:block;max-width:54px;max-height:30px;width:auto;height:auto;object-fit:contain}
+.product-single .zod-product-brand-card__copy{min-width:0;display:flex;align-items:center}
+.product-single .zod-product-brand-card__copy strong{font-size:12px;font-weight:900;line-height:1.45}
+.product-single .zod-product-brand-card>i{font-size:18px;color:var(--color-primary)}
+.product-single .zod-brand-explore-card,.product-single .zod-product-brand-logo-link{display:none!important}
+
+/* Always-visible, real purchase actions: Add to Cart + Salla native Quick Buy. */
+.product-single .zod-purchase-actions{display:grid;grid-template-columns:1fr;gap:9px;min-width:0;width:100%}
+.product-single .zod-purchase-actions.has-quick-buy{grid-template-columns:repeat(2,minmax(0,1fr))}
+.product-single .zod-purchase-actions .zod-main-add,.product-single .zod-purchase-actions .zod-quick-buy{display:block;width:100%;min-width:0;margin:0!important}
+.product-single .zod-purchase-actions .zod-main-add::part(button),.product-single .zod-purchase-actions .zod-quick-buy::part(button){min-height:48px;border-radius:11px;font-weight:900}
+.product-single .zod-quick-buy::part(button){background:#17191c;color:#fff;border-color:#17191c}
+.product-single .zod-buy-controls.is-docked .zod-purchase-actions{width:100%}
+
+@media(max-width:1200px) and (min-width:768px){
+  .zod-products-list::part(list){grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .zod-catalog-layout.zod-catalog-layout--filters{grid-template-columns:220px minmax(0,1fr);gap:20px}
+}
+@media(max-width:767px){
+  .zod-catalog-layout.zod-catalog-layout--filters,.zod-catalog-layout.zod-catalog-layout--full{grid-template-columns:1fr}
+  .zod-products-list::part(list){grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .zpc-brand-logo{min-height:22px;max-width:68px;margin-bottom:4px}.zpc-brand-logo img{max-width:68px;max-height:21px}
+  .product-single .zod-product-brand-row{align-items:center;min-height:45px;margin-bottom:6px}
+  .product-single .zod-product-brand-card{min-width:0;max-width:min(78vw,330px);min-height:45px;grid-template-columns:auto minmax(0,1fr) auto;padding:6px 9px;border-radius:12px;gap:8px}
+  .product-single .zod-product-brand-card__logo{width:51px;height:31px}.product-single .zod-product-brand-card__logo img{max-width:43px;max-height:25px}
+  .product-single .zod-product-brand-card__copy strong{font-size:10.5px}
+  .product-single .zod-purchase-actions.has-quick-buy{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .product-single .zod-purchase-actions .zod-main-add::part(button),.product-single .zod-purchase-actions .zod-quick-buy::part(button){min-height:44px;font-size:11px;border-radius:10px}
+}
+@media(max-width:390px){
+  .zod-products-list::part(list){gap:8px}
+  .product-single .zod-product-brand-card{max-width:76vw}
+  .product-single .zod-product-brand-card__copy strong{font-size:10px}
+}

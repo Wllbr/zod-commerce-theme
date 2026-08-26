@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.33",
-  "description": "ZOD Commerce \u2014 v1.6.33 enlarges Product Type Switcher icons/labels, removes icon backing boxes, and introduces logo-only brand presentation on product cards and product pages with a localized brand exploration CTA.",
+  "version": "1.6.34",
+  "description": "ZOD Commerce — v1.6.34 repairs category/brand listings, centers product-card content, adds logo-only brand identity, restores persistent Add to Cart + Buy Now controls, and hardens category/information page previews.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

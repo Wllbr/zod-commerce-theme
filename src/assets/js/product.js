@@ -295,7 +295,7 @@ class ZodProductPage {
   }
 
   initStickyPurchase() {
-    if (!this.buyAnchor || !this.buyBar || !document.body.classList.contains('is-sticky-product-bar')) return;
+    if (!this.buyAnchor || !this.buyBar) return;
 
     const dock = () => {
       this.buyAnchor.style.minHeight = '0px';

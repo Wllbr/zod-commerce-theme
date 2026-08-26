@@ -1,2 +1,22 @@
 {% extends "layouts.master" %}
-{% block content %}<div class="container"><nav class="zod-breadcrumb"><salla-breadcrumb></salla-breadcrumb></nav><section class="zod-brand-page"><header class="zod-brand-hero">{% if brand.logo %}<div class="zod-brand-hero__logo"><img src="{{ brand.logo }}" alt="{{ brand.name }}"></div>{% endif %}<div><span class="zod-eyebrow">{{ trans('zod.brands.title') }}</span><h1>{{ brand.name }}</h1>{% if brand.description %}<div class="zod-rich-text">{{ brand.description|raw }}</div>{% endif %}</div></header><salla-products-list source="brands" source-value="{{ brand.id }}"></salla-products-list></section></div>{% endblock %}
+{% block content %}
+{% set brand_data = brand|default({}) %}
+{% set page_data = page|default({}) %}
+{% set brand_logo = brand_data.logo.url|default(brand_data.logo)|default(null) %}
+{% set listing_source = page_data.slug|default('brands') %}
+{% set listing_value = page_data.id|default(brand_data.id) %}
+<div class="container">
+  <nav class="zod-breadcrumb"><salla-breadcrumb></salla-breadcrumb></nav>
+  <section class="zod-brand-page">
+    {% hook 'brands:single.details.start' %}
+    <header class="zod-brand-hero {{ brand_logo ? 'has-logo' : 'no-logo' }}">
+      {% if brand_logo %}<div class="zod-brand-hero__logo"><img src="{{ brand_logo }}" alt="{{ brand_data.name }}"></div>{% endif %}
+      <div><span class="zod-eyebrow">{{ trans('zod.brands.title') }}</span><h1>{{ brand_data.name|default(trans('zod.brands.title')) }}</h1>{% if brand_data.description %}<div class="zod-rich-text">{{ brand_data.description|raw }}</div>{% endif %}</div>
+    </header>
+    {% hook 'brands:single.details.end' %}
+    {% hook 'brands:single.items.start' %}
+    <salla-products-list class="zod-products-list zod-brand-products-list" source="{{ listing_source }}" source-value="{{ listing_value }}" product-card-component="custom-salla-product-card"></salla-products-list>
+    {% hook 'brands:single.items.end' %}
+  </section>
+</div>
+{% endblock %}

@@ -54,7 +54,7 @@ class ZodProductCard extends HTMLElement {
     const addLabel=p.add_to_cart_label || this.t(p.type==='booking'?'pages.cart.book_now':'pages.cart.add_to_cart','Add to cart');
     const outLabel=this.t('pages.products.out_of_stock','Out of stock');
     const wishlistLabel=this.esc(this.t('zod.header.wishlist','Wishlist'));
-    const brandLogoRaw=p?.brand?.logo?.url || p?.brand?.logo || '';
+    const brandLogoRaw=p?.brand?.logo?.url || p?.brand?.logo || p?.brand?.logo_url || '';
     const brandLogo=typeof brandLogoRaw==='string' ? brandLogoRaw : '';
     const brandUrl=p?.brand?.url || '#';
     const brandName=this.esc(p?.brand?.name || '');
@@ -76,6 +76,7 @@ class ZodProductCard extends HTMLElement {
         <div class="zpc-bottom">${this.price()}</div>
         <salla-add-product-button class="zpc-add" width="wide" fill="outline" product-id="${p.id}" product-status="${this.esc(status||'')}" product-type="${this.esc(p.type||'product')}">${this.esc(addLabel)}</salla-add-product-button>
       </div>`;
+    this.querySelector('.zpc-brand-logo img')?.addEventListener('error', e=>e.currentTarget.closest('.zpc-brand-logo')?.remove(), {once:true});
     this.querySelector('.zpc-wishlist')?.addEventListener('click', async e=>{
       e.preventDefault();
       e.stopPropagation();

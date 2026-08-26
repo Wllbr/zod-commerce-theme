@@ -1,2 +1,17 @@
 {% extends "layouts.master" %}
-{% block content %}<div class="container"><nav class="zod-breadcrumb"><salla-breadcrumb></salla-breadcrumb></nav><article class="zod-content-page"><header><h1>{{ page.title }}</h1></header><div class="zod-rich-text">{{ page.content|raw }}</div></article></div>{% endblock %}
+{% block content %}
+{% set info_page = page|default({}) %}
+{% set customised = info_page.type|default('customised') == 'customised' %}
+{% if customised %}
+  <div class="s-blocks-wrapper s-information-page !mt-0">{% hook 'information_page.information_page' %}</div>
+{% else %}
+  <div class="container">
+    <nav class="zod-breadcrumb"><salla-breadcrumb></salla-breadcrumb></nav>
+    <article class="zod-content-page">
+      <header><h1>{{ info_page.title|default('') }}</h1></header>
+      <div class="zod-rich-text">{{ info_page.content|default('')|raw }}</div>
+      {% if info_page.id %}<salla-comments data-testid="store-page-comments" item-id="{{ info_page.id }}" type="page"></salla-comments>{% endif %}
+    </article>
+  </div>
+{% endif %}
+{% endblock %}

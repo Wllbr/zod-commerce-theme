@@ -1,3 +1,32 @@
 {% extends "layouts.master" %}
-{% block content %}<div class="container"><nav class="zod-breadcrumb"><salla-breadcrumb></salla-breadcrumb></nav><section class="zod-brands-page"><header class="zod-page-hero"><span class="zod-eyebrow">ZOD</span><h1>{{ trans('zod.brands.title') }}</h1><p>{{ trans('zod.brands.subtitle') }}</p></header><div class="zod-brands-directory">{% for brand in brands %}<a href="{{ brand.url }}" class="zod-brand-directory-card"><span><img src="{{ brand.logo|default(brand.image) }}" alt="{{ brand.name }}" loading="lazy"></span><strong>{{ brand.name }}</strong></a>{% endfor %}</div></section></div>{% endblock %}
+{% block content %}
+{% set brand_groups = brands|default([]) %}
+<div class="container">
+  <nav class="zod-breadcrumb"><salla-breadcrumb></salla-breadcrumb></nav>
+  <section class="zod-brands-page">
+    <header class="zod-page-hero"><span class="zod-eyebrow">ZOD</span><h1>{{ trans('zod.brands.title') }}</h1><p>{{ trans('zod.brands.subtitle') }}</p></header>
+    {% hook 'brands:index.items.start' %}
+    <div class="zod-brands-directory">
+      {% for group_key, group in brand_groups %}
+        {% if group.name is defined %}
+          {% set brand_logo = group.logo.url|default(group.logo)|default(null) %}
+          <a href="{{ group.url }}" class="zod-brand-directory-card {{ brand_logo ? 'has-logo' : 'no-logo' }}">
+            <span>{% if brand_logo %}<img src="{{ brand_logo }}" alt="{{ group.name }}" loading="lazy">{% else %}<b class="zod-brand-directory-card__fallback">{{ group.name|slice(0,1) }}</b>{% endif %}</span>
+            <strong>{{ group.name }}</strong>
+          </a>
+        {% elseif group is iterable %}
+          {% for brand in group %}
+            {% set brand_logo = brand.logo.url|default(brand.logo)|default(null) %}
+            <a href="{{ brand.url }}" class="zod-brand-directory-card {{ brand_logo ? 'has-logo' : 'no-logo' }}">
+              <span>{% if brand_logo %}<img src="{{ brand_logo }}" alt="{{ brand.name }}" loading="lazy">{% else %}<b class="zod-brand-directory-card__fallback">{{ brand.name|slice(0,1) }}</b>{% endif %}</span>
+              <strong>{{ brand.name }}</strong>
+            </a>
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% hook 'brands:index.items.end' %}
+  </section>
+</div>
+{% endblock %}
 {% block scripts %}<script defer src="{{ 'pages.js'|asset }}"></script>{% endblock %}
