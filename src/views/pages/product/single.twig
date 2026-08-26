@@ -8,6 +8,7 @@
 {% set display_price_value = has_valid_sale ? product.sale_price : (product.starting_price and product.starting_price > 0 ? product.starting_price : product.price) %}
 {% set sticky_price_value = display_price_value %}
 {% set show_product_reviews = store.settings.rating.show_on_product %}
+{% set brand_logo = product.brand and product.brand.logo ? product.brand.logo.url|default(product.brand.logo) : null %}
 
 {% if theme.settings.get('product_show_breadcrumbs', true) %}
 <div class="container zod-product-breadcrumb-wrap">
@@ -82,11 +83,10 @@
     <div class="zod-product-buybox">
       {% hook 'product:single.description.start' %}
 
-      <div class="zod-product-brand-row">
-        {% if product.brand %}
-          <a class="zod-product-brand" href="{{ product.brand.url }}" title="{{ product.brand.name }}">
-            {% if product.brand.logo %}<img src="{{ product.brand.logo }}" alt="{{ product.brand.name }}">{% endif %}
-            <span>{{ product.brand.name }}</span>
+      <div class="zod-product-brand-row {{ brand_logo ? 'has-brand-logo' : 'no-brand-logo' }}">
+        {% if brand_logo %}
+          <a class="zod-product-brand-logo-link" href="{{ product.brand.url }}" title="{{ product.brand.name }}" aria-label="{{ product.brand.name }}">
+            <img src="{{ brand_logo }}" alt="{{ product.brand.name }}">
           </a>
         {% endif %}
         <div class="zod-product-tools">
@@ -123,6 +123,16 @@
         {% if product.can_show_remained_quantity and product.quantity is not null %}<span class="zod-stock-remaining"><i class="sicon-box-bankers"></i>{{ trans('zod.product.remaining') }}: <b>{{ product.quantity }}</b></span>{% endif %}
         {% if product.sold_quantity and product.can_show_sold and theme.settings.get('show_product_sold_count', true) %}<span class="zod-product-sold-chip"><i class="sicon-fire"></i>{{ trans('zod.product.sold') }}: <b>{{ product.sold_quantity }}</b></span>{% endif %}
       </div>
+
+      {% if brand_logo and product.brand.url %}
+        <a class="zod-brand-explore-card" href="{{ product.brand.url }}" aria-label="{{ trans('zod.product.explore_brand') }}">
+          <span class="zod-brand-explore-card__logo"><img src="{{ brand_logo }}" alt="{{ product.brand.name }}" loading="lazy"></span>
+          <span class="zod-brand-explore-card__copy">
+            <strong>{{ trans('zod.product.explore_brand') }}</strong>
+          </span>
+          <i class="sicon-keyboard_arrow_left rtl:rotate-180" aria-hidden="true"></i>
+        </a>
+      {% endif %}
 
       {% if product.description %}
       <section class="zod-buybox-description" data-zod-buybox-description>

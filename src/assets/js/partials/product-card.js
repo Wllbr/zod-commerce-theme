@@ -54,6 +54,10 @@ class ZodProductCard extends HTMLElement {
     const addLabel=p.add_to_cart_label || this.t(p.type==='booking'?'pages.cart.book_now':'pages.cart.add_to_cart','Add to cart');
     const outLabel=this.t('pages.products.out_of_stock','Out of stock');
     const wishlistLabel=this.esc(this.t('zod.header.wishlist','Wishlist'));
+    const brandLogoRaw=p?.brand?.logo?.url || p?.brand?.logo || '';
+    const brandLogo=typeof brandLogoRaw==='string' ? brandLogoRaw : '';
+    const brandUrl=p?.brand?.url || '#';
+    const brandName=this.esc(p?.brand?.name || '');
     const inWishlist=!salla.config.isGuest() && (salla.storage.get('salla::wishlist',[])||[]).includes(Number(p.id));
     this.classList.add('zod-product-card');
     this.setAttribute('data-product-id', p.id);
@@ -65,7 +69,7 @@ class ZodProductCard extends HTMLElement {
         <button type="button" class="zpc-wishlist ${inWishlist?'is-active':''}" data-id="${p.id}" aria-label="${wishlistLabel}"><i class="sicon-heart"></i></button>
       </div>
       <div class="zpc-body">
-        ${p.brand?.name?`<a class="zpc-brand" href="${this.esc(p.brand.url||'#')}">${this.esc(p.brand.name)}</a>`:''}
+        ${brandLogo?`<a class="zpc-brand-logo" href="${this.esc(brandUrl)}" aria-label="${brandName}" title="${brandName}"><img src="${this.esc(brandLogo)}" alt="${brandName}" loading="lazy" decoding="async"></a>`:''}
         <h3><a href="${this.esc(p.url||'#')}">${this.esc(p.name)}</a></h3>
         ${p.subtitle?`<p>${this.esc(p.subtitle)}</p>`:''}
         <div class="zpc-meta">${p.rating?.stars?`<span class="zpc-rating"><i class="sicon-star2"></i>${this.esc(p.rating.stars)}${p.rating.count?` <small>(${this.esc(p.rating.count)})</small>`:''}</span>`:''}</div>

@@ -1,3 +1,13 @@
+# v1.6.33 — Type icon visibility + brand logo experience
+
+- Enlarged Product Type Switcher labels and custom icons on desktop and mobile for better readability.
+- Removed the grey backing box behind uploaded type icons so transparent 128×128 artwork displays cleanly.
+- Replaced plain-text product-card brand names with the actual brand logo when Salla supplies one.
+- Hides the product-card brand area completely when no brand logo exists.
+- Replaced the plain-text brand name on the product page with a logo-only brand link.
+- Added a localized brand exploration card: `استكشف المزيد من هذه العلامة التجارية` / `Explore more from this brand`.
+- Hides all brand presentation areas when the product has no brand logo.
+
 # v1.6.32 — Product type media showcase + wide desktop
 
 - Completely redesigned Product Type Switcher to match the approved compact mockup.

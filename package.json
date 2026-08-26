@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.32",
-  "description": "ZOD Commerce — v1.6.32 completely redesigns Product Type Switcher with custom option icons, compact 1600x300 image/video banners, localized responsive showcase content, 36-product mobile autoplay shelves, and a wider desktop density layout.",
+  "version": "1.6.33",
+  "description": "ZOD Commerce \u2014 v1.6.33 enlarges Product Type Switcher icons/labels, removes icon backing boxes, and introduces logo-only brand presentation on product cards and product pages with a localized brand exploration CTA.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
