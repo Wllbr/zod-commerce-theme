@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.34','package.json: expected v1.6.34');
+assert(pkg.version==='1.6.35','package.json: expected v1.6.35');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -144,7 +144,7 @@ assert(read('src/views/pages/brands/single.twig').includes('product-card-compone
 assert(read('src/views/pages/page-single.twig').includes("information_page.information_page"),'Customized information pages must expose the Salla information-page hook');
 assert(single.includes('zod-product-brand-card'),'Product page must render the single brand exploration card');
 assert(!single.includes('zod-brand-explore-card'),'Product page must not render the old duplicate brand card');
-assert(single.includes('data-testid="store-product-buy-now"'),'Product page must render a native quick-buy action when supported');
+assert(single.includes("product.can_quick_buy and product_available ? 'quick-buy' : ''"),'Product page must enable native quick-buy on the single purchase component when supported');
 
 const headerTwig=read('src/views/components/header/header.twig');
 const footerTwig=read('src/views/components/footer/footer.twig');

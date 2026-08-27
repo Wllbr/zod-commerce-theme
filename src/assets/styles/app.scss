@@ -1758,3 +1758,331 @@ salla-product-card.zod-native-out-of-stock::after{content:attr(data-zod-stock-la
   .product-single .zod-product-brand-card{max-width:76vw}
   .product-single .zod-product-brand-card__copy strong{font-size:10px}
 }
+
+/* =========================================================
+   ZOD v1.6.35 — compact reference product card + intelligent sticky purchase dock
+   ========================================================= */
+
+/* Reference-inspired global product card. */
+.zod-product-card{
+  border-radius:17px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow:none;
+}
+.zod-product-card:hover{
+  transform:translateY(-2px);
+  border-color:#d9dde1;
+  box-shadow:0 10px 28px rgba(16,24,40,.07);
+}
+.zpc-media{
+  aspect-ratio:1/1;
+  background:#fff;
+  overflow:hidden;
+}
+.zpc-media img{
+  padding:12px;
+  object-fit:contain;
+  transition:transform .28s ease,opacity .24s ease,filter .24s ease;
+}
+.zod-product-card:hover .zpc-media img{transform:scale(1.018)}
+
+.zpc-discount-badge,
+.zpc-offer-badge{
+  position:absolute;
+  top:10px;
+  z-index:8;
+  min-height:27px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:0;
+  padding:5px 8px;
+  font-size:11px;
+  line-height:1;
+  font-weight:950;
+  box-shadow:0 3px 10px rgba(16,24,40,.06);
+}
+.zpc-discount-badge{
+  inset-inline-start:10px;
+  background:#ff6369;
+  color:#fff;
+}
+.zpc-offer-badge{
+  inset-inline-end:10px;
+  max-width:55%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  background:#82c949;
+  color:#fff;
+  border-radius:0 0 0 10px;
+}
+[dir="ltr"] .zpc-offer-badge{border-radius:0 0 10px 0}
+
+.zpc-hover-actions{
+  position:absolute;
+  z-index:10;
+  left:50%;
+  bottom:11px;
+  transform:translate(-50%,10px) scale(.96);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .18s ease,transform .2s ease;
+}
+.zod-product-card:hover .zpc-hover-actions,
+.zod-product-card:focus-within .zpc-hover-actions{
+  opacity:1;
+  transform:translate(-50%,0) scale(1);
+  pointer-events:auto;
+}
+.zpc-action{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:1px solid #e5e7ea;
+  background:rgba(255,255,255,.96);
+  color:#454a52;
+  display:grid;
+  place-items:center;
+  font-size:18px;
+  box-shadow:0 8px 22px rgba(16,24,40,.10);
+  cursor:pointer;
+  transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;
+}
+.zpc-action:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(16,24,40,.14)}
+.zpc-wishlist.is-active{
+  background:#ff6268!important;
+  color:#fff!important;
+  border-color:#ff6268!important;
+}
+.zpc-wishlist.is-active i{color:#fff!important}
+.zpc-wishlist.is-pulsing{animation:zodWishlistPulse .4s ease}
+@keyframes zodWishlistPulse{50%{transform:scale(1.14)}100%{transform:scale(1)}}
+
+.zpc-stock-stamp{
+  top:50%;
+  width:auto;
+  min-width:62%;
+  max-width:88%;
+  min-height:48px;
+  padding:10px 17px;
+  border:3px solid rgba(208,63,63,.72);
+  border-radius:12px;
+  background:rgba(255,250,250,.9);
+  color:#c73939;
+  box-shadow:0 8px 24px rgba(110,12,12,.11);
+  font-size:18px;
+  font-weight:1000;
+  letter-spacing:.01em;
+  backdrop-filter:blur(2px);
+}
+.zpc-media.is-out img{opacity:.48;filter:grayscale(.23) saturate(.7)}
+
+.zpc-body{
+  padding:12px 14px 14px;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+.zpc-category{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  max-width:92%;
+  min-height:24px;
+  margin:0 auto 7px;
+  padding:4px 8px;
+  border-radius:3px;
+  background:#eceeef;
+  color:#666d76;
+  font-size:9.5px;
+  font-weight:800;
+  line-height:1.25;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.zpc-brand-logo{
+  min-height:22px;
+  max-width:78px;
+  margin:0 auto 5px;
+}
+.zpc-brand-logo img{max-width:78px;max-height:20px}
+.zpc-body h3{
+  width:100%;
+  margin:0;
+  min-height:40px;
+  font-size:13.5px;
+  line-height:1.48;
+  font-weight:850;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  text-align:center;
+}
+.zpc-body h3 a{display:block;width:100%;text-align:center}
+.zpc-tax{
+  margin:4px 0 0!important;
+  color:#91969d!important;
+  font-size:9.5px!important;
+  line-height:1.4!important;
+  text-align:center!important;
+  white-space:normal!important;
+}
+.zpc-meta{
+  width:100%;
+  min-height:0;
+  height:auto;
+  margin:5px 0 0;
+  justify-content:center;
+}
+.zpc-rating{font-size:10px}
+.zpc-bottom{
+  width:100%;
+  margin:8px 0 0;
+  padding:0;
+  text-align:center;
+}
+.zpc-price{
+  width:100%;
+  justify-content:center;
+  align-items:baseline;
+  gap:7px;
+}
+.zpc-price strong{font-size:18px;font-weight:950;color:#17191c}
+.zpc-price del{font-size:11px;color:#8e949d}
+.zpc-price small{font-size:9.5px;color:#858c96}
+.zpc-add{
+  width:100%;
+  align-self:stretch;
+  margin-top:auto;
+  padding-top:11px;
+}
+.zpc-add::part(button){
+  min-height:42px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:850;
+}
+
+/* Sticky purchase bar now appears only after the in-flow purchase controls
+   have actually been passed. JS toggles is-docked/is-ready as needed. */
+.product-single .zod-buy-controls:not(.is-docked){
+  position:relative!important;
+  transform:none!important;
+  opacity:1!important;
+  box-shadow:none!important;
+}
+.product-single .zod-buy-controls.is-docked{
+  min-height:68px;
+  padding:7px max(18px,calc((100vw - 1460px)/2))!important;
+  grid-template-columns:minmax(230px,.9fr) minmax(430px,610px)!important;
+  gap:14px!important;
+}
+.product-single .zod-buy-controls.is-docked .zod-sticky-product-summary__image{
+  width:46px;height:46px;flex-basis:46px;border-radius:9px;
+}
+.product-single .zod-buy-controls.is-docked .zod-sticky-product-summary__name{font-size:10.5px}
+.product-single .zod-buy-controls.is-docked .zod-sticky-product-summary__price{font-size:15px}
+.product-single .zod-buy-controls.is-docked .zod-purchase-stack{
+  grid-template-columns:124px minmax(0,1fr)!important;
+  gap:8px!important;
+}
+.product-single .zod-buy-controls.is-docked .zod-purchase-actions{
+  display:block!important;
+  width:100%;
+}
+.product-single .zod-main-add{
+  display:block;
+  width:100%;
+  --salla-fast-checkout-button-height:42px;
+  --salla-fast-checkout-button-width:100%;
+  --salla-fast-checkout-button-border-radius:9px;
+}
+.product-single .zod-main-add::part(button){min-height:42px!important;border-radius:9px!important;font-size:12px!important}
+body.zod-product-dock-visible.product-single{
+  padding-bottom:calc(var(--zod-product-dock-height,68px) + 14px)!important;
+}
+
+@media(max-width:767px){
+  .zpc-media img{padding:7px}
+  .zpc-discount-badge,.zpc-offer-badge{top:7px;min-height:23px;padding:4px 6px;font-size:9px}
+  .zpc-discount-badge{inset-inline-start:7px}
+  .zpc-offer-badge{inset-inline-end:7px;max-width:58%}
+  .zpc-hover-actions{
+    bottom:7px;
+    opacity:1;
+    transform:translate(-50%,0) scale(1);
+    pointer-events:auto;
+  }
+  .zpc-quick-view{display:none}
+  .zpc-action{width:34px;height:34px;font-size:15px;box-shadow:0 5px 15px rgba(16,24,40,.09)}
+  .zpc-stock-stamp{min-width:68%;min-height:42px;padding:8px 12px;border-width:2.5px;font-size:15px}
+  .zpc-body{padding:9px 9px 10px}
+  .zpc-category{min-height:21px;margin-bottom:5px;padding:3px 6px;font-size:8px;max-width:96%}
+  .zpc-brand-logo{min-height:18px;max-width:60px;margin-bottom:3px}.zpc-brand-logo img{max-width:60px;max-height:17px}
+  .zpc-body h3{font-size:11.5px;line-height:1.42;min-height:33px}
+  .zpc-tax{font-size:8px!important;margin-top:3px!important}
+  .zpc-meta{margin-top:3px}.zpc-rating{font-size:8.5px}.zpc-rating small{display:none}
+  .zpc-bottom{margin-top:6px}.zpc-price{gap:4px}.zpc-price strong{font-size:14.5px}.zpc-price del{font-size:9px}
+  .zpc-add{padding-top:8px}.zpc-add::part(button){min-height:37px;font-size:10px}
+
+  .product-single .zod-buy-controls.is-docked{
+    bottom:0;
+    min-height:0;
+    grid-template-columns:1fr!important;
+    gap:5px!important;
+    padding:6px 8px calc(6px + env(safe-area-inset-bottom))!important;
+    border-radius:13px 13px 0 0!important;
+  }
+  body.has-mobile-bottom-nav.product-single .zod-buy-controls.is-docked{bottom:68px!important}
+  .product-single .zod-buy-controls.is-docked .zod-sticky-product-summary{
+    grid-column:1!important;
+    grid-template-columns:38px minmax(0,1fr) auto!important;
+    gap:7px!important;
+    padding-bottom:4px!important;
+  }
+  .product-single .zod-buy-controls.is-docked .zod-sticky-product-summary__image{width:38px;height:38px;flex-basis:38px}
+  .product-single .zod-buy-controls.is-docked .zod-sticky-product-summary__name{font-size:9px!important;-webkit-line-clamp:1!important;white-space:nowrap!important}
+  .product-single .zod-buy-controls.is-docked .zod-sticky-product-summary__price{font-size:12px!important}
+  .product-single .zod-buy-controls.is-docked .zod-purchase-stack{
+    grid-column:1!important;
+    grid-template-columns:96px minmax(0,1fr)!important;
+    gap:6px!important;
+  }
+  .product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity{
+    grid-column:1!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:5px!important;
+    padding:0!important;
+  }
+  .product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity>label{display:none!important}
+  .product-single .zod-buy-controls.is-docked .zod-purchase-actions{grid-column:2!important}
+  .product-single .zod-main-add{
+    --salla-fast-checkout-button-height:39px;
+    --salla-fast-checkout-button-border-radius:8px;
+  }
+  .product-single .zod-main-add::part(button){min-height:39px!important;font-size:10.5px!important;border-radius:8px!important}
+  body.zod-product-dock-visible.product-single{
+    padding-bottom:calc(var(--zod-product-dock-height,96px) + 14px)!important;
+  }
+  body.has-mobile-bottom-nav.zod-product-dock-visible.product-single{
+    padding-bottom:calc(var(--zod-product-dock-height,96px) + 82px)!important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .zpc-hover-actions,.zpc-action,.zpc-media img,.zod-product-card{transition:none!important}
+  .zpc-wishlist.is-pulsing{animation:none!important}
+}
+.zpc-price.is-sale strong{color:#ee4f55}

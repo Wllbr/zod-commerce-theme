@@ -296,15 +296,63 @@ class ZodProductPage {
 
   initStickyPurchase() {
     if (!this.buyAnchor || !this.buyBar) return;
+    if (!document.body.classList.contains('is-sticky-product-bar')) return;
 
-    const dock = () => {
-      this.buyAnchor.style.minHeight = '0px';
-      this.buyBar.classList.add('is-docked');
-      document.body.classList.add('zod-product-dock-visible');
-      requestAnimationFrame(() => this.buyBar.classList.add('is-ready'));
+    let docked = false;
+    let raf = 0;
+    let naturalHeight = 0;
+
+    const measureDock = () => {
+      const height = Math.ceil(this.buyBar.getBoundingClientRect().height || 0);
+      if (height > 0) document.documentElement.style.setProperty('--zod-product-dock-height', `${height}px`);
     };
 
-    requestAnimationFrame(() => requestAnimationFrame(dock));
+    const dock = () => {
+      if (docked) return;
+      naturalHeight = Math.ceil(this.buyBar.getBoundingClientRect().height || naturalHeight || 0);
+      if (naturalHeight > 0) this.buyAnchor.style.minHeight = `${naturalHeight}px`;
+      this.buyBar.classList.add('is-docked');
+      document.body.classList.add('zod-product-dock-visible');
+      docked = true;
+      requestAnimationFrame(() => {
+        this.buyBar.classList.add('is-ready');
+        measureDock();
+      });
+    };
+
+    const undock = () => {
+      if (!docked) return;
+      this.buyBar.classList.remove('is-ready');
+      document.body.classList.remove('zod-product-dock-visible');
+      docked = false;
+      window.setTimeout(() => {
+        if (docked) return;
+        this.buyBar.classList.remove('is-docked');
+        this.buyAnchor.style.minHeight = '';
+        document.documentElement.style.removeProperty('--zod-product-dock-height');
+      }, 240);
+    };
+
+    const update = () => {
+      raf = 0;
+      const rect = this.buyAnchor.getBoundingClientRect();
+      const header = document.querySelector('.zod-header');
+      const headerBottom = header ? Math.max(0, header.getBoundingClientRect().bottom) : 0;
+      const passedOriginalControls = rect.bottom < Math.max(72, headerBottom + 8);
+      if (passedOriginalControls) dock();
+      else undock();
+      if (docked) measureDock();
+    };
+
+    const schedule = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(update);
+    };
+
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
+    if ('ResizeObserver' in window) new ResizeObserver(() => docked && measureDock()).observe(this.buyBar);
+    requestAnimationFrame(() => requestAnimationFrame(update));
   }
 }
 

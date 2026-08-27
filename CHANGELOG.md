@@ -1,3 +1,13 @@
+## 1.6.35 — Product card + purchase dock repair
+
+- Rebuilt the global custom product card around the approved compact reference: discount badge, optional promotion badge, category pill, logo-only brand row, centered title/price, and compact cart action.
+- Added desktop hover actions for View Product and Wishlist; wishlist uses a white inactive circle and solid accent active state.
+- Kept mobile wishlist accessible without relying on hover.
+- Strengthened out-of-stock stamping and removed the dead title-to-price spacing.
+- Added one-per-brand lazy brand-logo hydration using Salla product details when product-list data contains the brand but omits its logo.
+- Removed the duplicated explicit Buy Now component. A single native Salla add-product component now owns Add to Cart + native fast checkout.
+- Sticky purchase controls remain in-flow until the customer scrolls past them, then dock cleanly above the mobile bottom navigation.
+
 # v1.6.34 — Catalog, brands, product cards and purchase controls
 
 - Fixed category pages collapsing product results into the narrow filter column when filters are unavailable.

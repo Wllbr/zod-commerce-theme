@@ -203,10 +203,14 @@
                 </div>
               {% endif %}
 
-              <div class="zod-purchase-actions {{ product.can_quick_buy and product_available ? 'has-quick-buy' : '' }}">
+              <div class="zod-purchase-actions">
+                {# One native Salla purchase component only. When quick-buy is enabled,
+                   Salla renders its own Buy Now / fast-checkout action inside this
+                   component, preventing the duplicate Buy Now buttons we had before. #}
                 <salla-add-product-button
                   data-testid="store-product-add-to-cart"
                   support-sticky-bar
+                  {{ product.can_quick_buy and product_available ? 'quick-buy' : '' }}
                   {{ product.is_require_shipping ? 'required-shipping' : '' }}
                   {{ product.has_preorder_campaign ? 'has-pre-order' : '' }}
                   amount="{{ product.base_currency_price }}"
@@ -223,22 +227,6 @@
                     subscribed-options="{{ product.notify_availability.subscribed_options|json_encode }}"
                     {{ product.notify_availability.options ? 'notify-options-availability' : '' }}
                   {% endif %}>{{ product.add_to_cart_label }}</salla-add-product-button>
-
-                {% if product.can_quick_buy and product_available %}
-                  <salla-add-product-button
-                    data-testid="store-product-buy-now"
-                    quick-buy
-                    support-sticky-bar
-                    {{ product.is_require_shipping ? 'required-shipping' : '' }}
-                    amount="{{ product.base_currency_price }}"
-                    class="zod-quick-buy"
-                    product-status="{{ product.status }}"
-                    product-type="{{ product.type }}"
-                    product-id="{{ product.id }}"
-                    loader-position="end"
-                    type="submit"
-                    width="wide">{{ trans('zod.product.buy_now') }}</salla-add-product-button>
-                {% endif %}
               </div>
             </div>
           </div>
