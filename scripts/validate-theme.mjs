@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.38','package.json: expected v1.6.38');
+assert(pkg.version==='1.6.39','package.json: expected v1.6.39');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -139,7 +139,9 @@ assert(single.includes("show_product_reviews_summary"), 'product page: review su
 
 assert(read('src/views/pages/product/index.twig').includes('zod-catalog-layout--full'),'Category listing must support a full-width no-filter layout');
 assert(read('src/views/pages/product/index.twig').includes('product-card-component="custom-salla-product-card"'),'Category listing must use the ZOD product card');
-assert(read('src/views/pages/brands/index.twig').includes('group is iterable'),'Brand directory must support Salla grouped brand collections');
+const brandsIndex=read('src/views/pages/brands/index.twig');
+assert(brandsIndex.includes('group is iterable') && brandsIndex.includes('for brand in group'),'Brand directory must iterate Salla grouped brand collections');
+assert(!brandsIndex.includes('group.name is defined'),'Brand directory must not mistake a grouped collection for a brand');
 assert(read('src/views/pages/brands/single.twig').includes('product-card-component="custom-salla-product-card"'),'Brand products must use the ZOD product card');
 assert(read('src/views/pages/page-single.twig').includes("information_page.information_page"),'Customized information pages must expose the Salla information-page hook');
 assert(single.includes('zod-product-brand-card'),'Product page must render the single brand exploration card');
@@ -162,6 +164,12 @@ for(const selector of ['.zod-header','.zod-hero','.zod-product-card','.zod-produ
   assert(appCss.includes(selector),`app.scss missing ${selector}`);
 }
 assert(/@media\(max-width:767px\)[\s\S]*?\.zod-header-cart-wrap\{display:none!important\}/.test(appCss),'Mobile must use the bottom dock as its single cart entry');
+assert(appCss.includes('.zod-products-list>.s-products-list-wrapper'),'Catalog density must target Salla product lists rendered in light DOM');
+
+const productPageJs=read('src/assets/js/product.js');
+const productCardJs=read('src/assets/js/partials/product-card.js');
+assert(productPageJs.includes('anchorRect.bottom <= headerBottom'),'Product purchase dock must activate from the in-flow anchor position');
+assert(productCardJs.includes('product.is_available === true || product.unlimited_quantity === true'),'Quick View stock must respect explicit Salla availability');
 
 const jsFiles=walk('src/assets/js',['.js']);
 for(const f of jsFiles){

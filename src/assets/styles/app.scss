@@ -2680,6 +2680,29 @@ body.zod-qv-open{overflow:hidden}
   line-height:1.4;
 }
 
+/* Product-list cards are rendered into Salla's light-DOM wrapper. */
+.zod-products-list>.s-products-list-wrapper{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:12px!important;
+  width:100%!important;
+}
+@media(min-width:1440px){
+  .zod-products-list>.s-products-list-wrapper{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+}
+@media(min-width:1200px) and (max-width:1439px){
+  .zod-products-list>.s-products-list-wrapper{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+}
+@media(min-width:1024px) and (max-width:1199px){
+  .zod-products-list>.s-products-list-wrapper{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+}
+@media(min-width:768px) and (max-width:1023px){
+  .zod-products-list>.s-products-list-wrapper{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}
+@media(max-width:767px){
+  .zod-products-list>.s-products-list-wrapper{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+}
+
 /* =========================================================
    ZOD v1.6.38 — Salla-native behavior pass
    Keep Salla as the source of truth for wishlist/cart/product data.

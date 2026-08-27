@@ -291,12 +291,12 @@ class ZodProductPage {
   initStickyPurchase() {
     if (!this.buyBar) return;
 
-    // v1.6.36: keep the native Salla purchase dock available at all times.
-    // This is the same purchase component used by the form, so quantity,
-    // Add to Cart and Buy Now stay synchronized with options and stock.
+    // The same native controls remain in the form and only become fixed after
+    // their original position has fully scrolled behind the sticky header.
     document.body.classList.add('is-sticky-product-bar');
 
     let raf = 0;
+    let docked = false;
 
     const measureDock = () => {
       const height = Math.ceil(this.buyBar.getBoundingClientRect().height || 0);
@@ -306,9 +306,10 @@ class ZodProductPage {
     };
 
     const activateDock = () => {
+      if (docked) return;
+      docked = true;
       this.buyBar.classList.add('is-docked');
       document.body.classList.add('zod-product-dock-visible');
-      if (this.buyAnchor) this.buyAnchor.style.minHeight = '1px';
 
       requestAnimationFrame(() => {
         this.buyBar.classList.add('is-ready');
@@ -316,28 +317,62 @@ class ZodProductPage {
       });
     };
 
-    const scheduleMeasure = () => {
+    const deactivateDock = () => {
+      if (!docked) return;
+      docked = false;
+      this.buyBar.classList.remove('is-docked', 'is-ready');
+      document.body.classList.remove('zod-product-dock-visible');
+    };
+
+    const updateDock = () => {
+      if (!this.buyAnchor) return deactivateDock();
+      const anchorRect = this.buyAnchor.getBoundingClientRect();
+      const header = document.querySelector('.zod-header');
+      const headerBottom = Math.max(0, header?.getBoundingClientRect().bottom || 0);
+      if (anchorRect.bottom <= headerBottom) activateDock();
+      else deactivateDock();
+    };
+
+    const scheduleUpdate = () => {
       if (raf) return;
       raf = requestAnimationFrame(() => {
         raf = 0;
-        measureDock();
+        updateDock();
+        if (docked) measureDock();
       });
     };
 
-    activateDock();
+    const reserveAnchorHeight = () => {
+      if (!this.buyAnchor || docked) return;
+      const height = Math.ceil(this.buyBar.getBoundingClientRect().height || 0);
+      if (height > 0) this.buyAnchor.style.minHeight = `${height}px`;
+    };
 
-    window.addEventListener('resize', scheduleMeasure, { passive: true });
-    window.addEventListener('orientationchange', scheduleMeasure, { passive: true });
+    reserveAnchorHeight();
+    requestAnimationFrame(() => {
+      reserveAnchorHeight();
+      updateDock();
+    });
+
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate, { passive: true });
+    window.addEventListener('orientationchange', scheduleUpdate, { passive: true });
 
     if ('ResizeObserver' in window) {
-      new ResizeObserver(scheduleMeasure).observe(this.buyBar);
+      new ResizeObserver(() => {
+        reserveAnchorHeight();
+        scheduleUpdate();
+      }).observe(this.buyBar);
     }
 
     if (window.customElements?.whenDefined) {
       Promise.allSettled([
         window.customElements.whenDefined('salla-add-product-button'),
         window.customElements.whenDefined('salla-quantity-input')
-      ]).then(() => requestAnimationFrame(measureDock));
+      ]).then(() => requestAnimationFrame(() => {
+        reserveAnchorHeight();
+        scheduleUpdate();
+      }));
     }
   }
 }

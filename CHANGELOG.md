@@ -1,3 +1,10 @@
+## 1.6.39 — Catalog and purchase-state fixes
+
+- Quick View now respects Salla's explicit availability and unlimited-quantity flags instead of treating a placeholder zero quantity as out of stock.
+- The native purchase controls remain in the product form and dock only after their original position has scrolled out of view.
+- Category, brand, landing and wishlist lists target Salla's actual light-DOM product wrapper for responsive six-card desktop density.
+- Brand directory rendering now follows Salla's official grouped-by-character collection shape and ignores incomplete entries.
+
 ## 1.6.38 — Salla-native behavior refactor
 
 - Removed the global `window.alert` monkey-patch so ZOD no longer overrides browser/platform behavior globally.

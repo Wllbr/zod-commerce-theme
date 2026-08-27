@@ -105,6 +105,10 @@ class ZodProductCard extends HTMLElement {
   isOutOfStock(product = this.product) {
     const rawStatus = String(product.status || '').toLowerCase();
     const explicitQuantity = (product.quantity !== undefined && product.quantity !== null && product.quantity !== '') ? Number(product.quantity) : null;
+    // Salla can return quantity=0 for unlimited products in product details.
+    // Explicit availability is more authoritative than that placeholder value.
+    if (product.is_available === true || product.unlimited_quantity === true) return false;
+    if (product.is_available === false) return true;
     return Boolean(
       product.is_out_of_stock ||
       ['out', 'out-of-stock', 'out_of_stock', 'sold-out', 'sold_out', 'out-and-notify'].includes(rawStatus) ||
@@ -190,7 +194,17 @@ class ZodProductCard extends HTMLElement {
       response?.data?.data, response?.data, response
     ];
     const full = candidates.find(value => value && typeof value === 'object' && (value.id || value.name));
-    return full ? { ...fallback, ...full } : fallback;
+    if (!full) return fallback;
+
+    const merged = { ...fallback, ...full };
+    const fallbackIsAvailable = fallback?.is_available === true || fallback?.unlimited_quantity === true;
+    if (fallbackIsAvailable && fallback?.is_out_of_stock !== true) {
+      merged.is_available = true;
+      merged.is_out_of_stock = false;
+      merged.unlimited_quantity = fallback?.unlimited_quantity === true || full?.unlimited_quantity === true;
+      if (this.isOutOfStock(full)) merged.status = fallback.status || 'sale';
+    }
+    return merged;
   }
 
   async openQuickView(product = this.product) {
