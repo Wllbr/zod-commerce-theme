@@ -99,11 +99,11 @@
         </div>
       </div>
 
-      {% if product.is_taxable %}<div class="zod-tax-kicker">{{ trans('zod.product.tax_included') }}</div>{% endif %}
       <h1 data-testid="store-product-title" class="zod-product-title">{{ product.name }}</h1>
       {% if product.subtitle %}<p class="zod-product-subtitle">{{ product.subtitle }}</p>{% endif %}
       {% if product.rating %}<a href="#reviews" class="zod-product-rating"><salla-rating-stars data-testid="store-product-rating" value="{{ product.rating.stars }}" reviews="{{ product.rating.count }}"></salla-rating-stars></a>{% endif %}
 
+      {% if product.is_taxable %}<small class="zod-native-tax-label">{{ trans('pages.products.tax_included') }}</small>{% endif %}
       <div data-testid="store-product-price" class="zod-product-price price-wrapper" data-zod-main-price>
         <div class="price_is_on_sale {{ has_valid_sale ? '' : 'hidden' }}">
           <strong class="total-price">{{ product.sale_price|money }}</strong>

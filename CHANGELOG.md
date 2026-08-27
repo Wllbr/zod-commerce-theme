@@ -1,3 +1,26 @@
+## 1.6.38 — Salla-native behavior refactor
+
+- Removed the global `window.alert` monkey-patch so ZOD no longer overrides browser/platform behavior globally.
+- Wishlist buttons on product cards and product pages now use one native `salla.wishlist.toggle(String(id))` call, matching current Theme Raed ID handling and avoiding duplicate add/remove requests.
+- Wishlist state is synchronized between the product page and matching visible product cards after a successful native toggle.
+- Quick View now refreshes product details through `salla.product.getDetails()` before rendering, while retaining the compact ZOD modal design.
+- Quick View uses native Salla quantity and add-product web components; simple eligible products expose native Quick Buy, while products with options direct customers to the full product page instead of submitting incomplete option data.
+- Kept Salla/Twilight product lists as the catalog/brand/wishlist data source and retained the custom ZOD card only as the visual presentation layer.
+- VAT labels continue to use Salla's official `pages.products.tax_included` translation and `product.is_taxable` state.
+- Persistent product purchase dock still reuses the single native Salla quantity/add-product controls rather than creating a second cart implementation.
+
+## 1.6.37 — Orkida product density + quick view + wishlist repair
+
+- Reworked wide desktop product shelves and product lists to target six visible cards at 1440px+ widths, with five cards on medium desktops and four on smaller desktops.
+- Removed product-card brand-logo rows to keep the approved clean card composition.
+- Fixed Eye + Heart positioning so the two controls never overlap: desktop reveals the pair on hover, while mobile keeps both visible.
+- Added a lightweight Quick View overlay with product image, category, price, stock, short details, quantity, Add to Cart and a full-details link.
+- Wishlist interactions now stay non-blocking and suppress Salla's legacy already-added browser alert; active hearts remain ZOD red regardless of theme accent.
+- Switched VAT copy to Salla's native `pages.products.tax_included` translation instead of the broken ZOD translation key.
+- Reduced desktop product-title and gallery scale again so normal 100% zoom matches the preferred compact visual density.
+- Slimmed the desktop header.
+- Rebuilt the mobile sticky purchase dock as two compact rows: quantity first, then the native Add to Cart + Buy Now actions, with the product-summary row removed on mobile.
+
 ## 1.6.36 — Compact product page + persistent purchase dock
 
 - Reworked desktop product-page density so normal 100% browser zoom visually matches the previously preferred 75% zoom composition.

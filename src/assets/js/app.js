@@ -29,7 +29,6 @@ class ZodTheme {
     });
 
     this.initSearchOverlay();
-    this.initSuccessAlertGuard();
     this.initCartExperience();
     this.initLiveShowcasePrices();
     this.initProductCardReveal();
@@ -91,46 +90,6 @@ class ZodTheme {
 
   uiText(key, fallback = '') {
     return window.zodSettings?.i18n?.[key] || fallback;
-  }
-
-  initSuccessAlertGuard() {
-    if (window.__zodAlertGuardInstalled) return;
-    window.__zodAlertGuardInstalled = true;
-    const nativeAlert = window.alert.bind(window);
-    window.alert = message => {
-      const text = String(message ?? '').trim();
-      const isCartPage = document.body?.classList?.contains('cart-page') || /\/cart(?:\/|$|\?)/i.test(location.pathname + location.search);
-      const isCartAdded = /تمت?\s+إضافة\s+المنتج.*بنجاح/i.test(text)
-        || /product\s+(was\s+)?added.*(cart|success)/i.test(text)
-        || /added\s+to\s+(your\s+)?cart/i.test(text);
-      const isCartUpdated = isCartPage && (
-        /تم\s+تحديث\s+(?:البيانات|السلة).*بنجاح/i.test(text)
-        || /(?:cart|data|item).*updated.*success/i.test(text)
-        || /updated\s+successfully/i.test(text)
-      );
-      const isCartRemoved = isCartPage && (
-        /تم\s+حذف\s+المنتج.*بنجاح/i.test(text)
-        || /تمت\s+إزالة\s+المنتج.*(?:السلة|بنجاح)/i.test(text)
-        || /(?:cart\s+)?item.*(?:deleted|removed).*success/i.test(text)
-        || /product.*removed.*cart/i.test(text)
-      );
-
-      if (isCartAdded) {
-        this.showCartToast(this.uiText('cartAdded', 'Product added to cart'), 'added');
-        return;
-      }
-      if (isCartUpdated) {
-        this.showCartToast(this.uiText('cartUpdated', 'Cart updated'), 'updated');
-        document.dispatchEvent(new CustomEvent('zod:cart-update-success'));
-        return;
-      }
-      if (isCartRemoved) {
-        this.showCartToast(this.uiText('cartRemoved', 'Product removed from cart'), 'removed');
-        document.dispatchEvent(new CustomEvent('zod:cart-delete-success'));
-        return;
-      }
-      return nativeAlert(message);
-    };
   }
 
   showCartToast(message = null, variant = 'added') {

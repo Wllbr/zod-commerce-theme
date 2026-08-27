@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.36",
-  "description": "ZOD Commerce — v1.6.36 compacts the product page to match the preferred 75% visual density at normal zoom, restores the persistent synchronized purchase dock, keeps mobile Eye + Heart actions always visible, and makes product-card promotions theme-aware.",
+  "version": "1.6.38",
+  "description": "ZOD Commerce — v1.6.38 refactors wishlist, quick view and purchase behavior around Salla native APIs while preserving the Orkida-inspired six-card density, custom quick view UI, native VAT labels and persistent purchase dock.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

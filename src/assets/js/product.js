@@ -211,43 +211,37 @@ class ZodProductPage {
     this.options?.addEventListener('changed', () => requestAnimationFrame(sync));
   }
 
+
   initWishlist() {
     const buttons = [...this.page.querySelectorAll('[data-zod-wishlist]')];
     if (!buttons.length) return;
-    const productId = Number(this.page.dataset.productId || buttons[0]?.dataset.id);
-
+    const productId = String(this.page.dataset.productId || buttons[0]?.dataset.id || '');
     const sync = active => {
-      buttons.forEach(button => {
-        button.classList.toggle('is-active', active);
-        button.setAttribute('aria-pressed', String(active));
-      });
+      document.querySelectorAll(`[data-zod-product-page][data-product-id="${CSS.escape(productId)}"] [data-zod-wishlist], custom-salla-product-card[data-product-id="${CSS.escape(productId)}"] .zpc-wishlist`)
+        .forEach(button => {
+          button.classList.toggle('is-active', active);
+          button.setAttribute('aria-pressed', String(active));
+        });
     };
-
     buttons.forEach(button => {
       button.addEventListener('click', async event => {
-        event.preventDefault();
-        event.stopPropagation();
-        button.classList.remove('is-pulsing');
-        void button.offsetWidth;
-        button.classList.add('is-pulsing');
-        window.setTimeout(() => button.classList.remove('is-pulsing'), 560);
-
-        if (!window.salla) return;
+        event.preventDefault(); event.stopPropagation();
+        if (button.getAttribute('aria-busy') === 'true' || !window.salla) return;
         if (salla.config.isGuest()) {
           const modal = document.querySelector('salla-login-modal');
           if (typeof modal?.open === 'function') await modal.open(event);
           return;
         }
-
+        const wasActive = button.getAttribute('aria-pressed') === 'true' || button.classList.contains('is-active');
         button.setAttribute('aria-busy', 'true');
         try {
           await salla.wishlist.toggle(productId);
-          sync(button.getAttribute('aria-pressed') !== 'true');
-        } catch (_) {
-          // Keep Salla's native state unchanged if the request fails.
-        } finally {
-          button.removeAttribute('aria-busy');
-        }
+          const active = !wasActive;
+          sync(active);
+          button.classList.remove('is-pulsing'); void button.offsetWidth; button.classList.add('is-pulsing');
+          window.setTimeout(() => button.classList.remove('is-pulsing'), 420);
+        } catch (_) { sync(wasActive); }
+        finally { button.removeAttribute('aria-busy'); }
       });
     });
   }
