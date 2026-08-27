@@ -1,3 +1,13 @@
+## 1.6.36 — Compact product page + persistent purchase dock
+
+- Reworked desktop product-page density so normal 100% browser zoom visually matches the previously preferred 75% zoom composition.
+- Reduced product-title scale and gallery footprint while preserving the single brand exploration card, wishlist, share, description and Salla-native product data.
+- Restored the synchronized always-visible product purchase dock with product summary, quantity and the single native Salla Add to Cart / Quick Buy component.
+- Removed the Salla `support-sticky-bar` flag so ZOD owns the one fixed dock and avoids competing sticky behavior.
+- Product-card discount and promotion badges now inherit the active Salla theme color instead of fixed red/green colors.
+- Desktop product cards keep hover-only Eye + Heart controls; mobile keeps both visible at all times with Eye on the left and Heart on the right.
+- Increased product-card category, title and price readability while keeping the compact card height and out-of-stock stamp.
+
 ## 1.6.35 — Product card + purchase dock repair
 
 - Rebuilt the global custom product card around the approved compact reference: discount badge, optional promotion badge, category pill, logo-only brand row, centered title/price, and compact cart action.

@@ -2086,3 +2086,339 @@ body.zod-product-dock-visible.product-single{
   .zpc-wishlist.is-pulsing{animation:none!important}
 }
 .zpc-price.is-sale strong{color:#ee4f55}
+
+
+/* =========================================================
+   ZOD v1.6.36 — compact product page + persistent purchase dock
+   + reference product-card polish
+   ========================================================= */
+
+/* Product-card promotions follow the merchant theme color. */
+.zpc-discount-badge{
+  background:var(--color-primary)!important;
+  color:var(--color-primary-reverse,#fff)!important;
+}
+.zpc-offer-badge{
+  background:color-mix(in srgb,var(--color-primary) 14%,#fff)!important;
+  color:var(--color-primary)!important;
+  border:1px solid color-mix(in srgb,var(--color-primary) 30%,#fff)!important;
+  box-shadow:0 3px 12px color-mix(in srgb,var(--color-primary) 12%,transparent)!important;
+}
+.zpc-wishlist.is-active{
+  background:var(--color-primary)!important;
+  color:var(--color-primary-reverse,#fff)!important;
+  border-color:var(--color-primary)!important;
+}
+
+/* Reference-card action cluster: eye on the left, heart on the right. */
+.zpc-media{overflow:visible!important}
+.zpc-hover-actions{
+  direction:ltr;
+  bottom:-21px!important;
+  gap:10px!important;
+}
+.zpc-body{
+  padding-top:36px!important;
+}
+.zpc-category{
+  min-height:28px!important;
+  padding:5px 10px!important;
+  margin-bottom:8px!important;
+  font-size:11px!important;
+  font-weight:850!important;
+  border-radius:4px!important;
+}
+.zpc-body h3{
+  min-height:44px!important;
+  font-size:15px!important;
+  line-height:1.46!important;
+  font-weight:900!important;
+}
+.zpc-tax{
+  font-size:10.5px!important;
+}
+.zpc-bottom{
+  margin-top:9px!important;
+}
+.zpc-price strong{
+  font-size:20px!important;
+  font-weight:1000!important;
+}
+.zpc-price del{
+  font-size:12px!important;
+}
+.zpc-add::part(button){
+  min-height:43px!important;
+  font-size:12.5px!important;
+}
+.zpc-brand-logo{
+  margin-inline:auto!important;
+}
+
+/* Desktop product page should visually match the former 75% browser-zoom density
+   while the browser remains at a normal 100% zoom. */
+@media(min-width:1024px){
+  .product-single .zod-product-page--v16{
+    padding-top:4px!important;
+    padding-bottom:30px!important;
+  }
+  .product-single .zod-product-main{
+    width:min(100%,1420px)!important;
+    margin-inline:auto!important;
+    grid-template-columns:minmax(0,640px) minmax(430px,660px)!important;
+    justify-content:space-between!important;
+    gap:52px!important;
+    padding-bottom:22px!important;
+  }
+  .product-single .zod-product-gallery{
+    width:100%!important;
+    max-width:640px!important;
+    top:102px!important;
+    justify-self:center!important;
+  }
+  .product-single .zod-product-slider{
+    width:100%!important;
+    max-width:640px!important;
+    border-radius:18px!important;
+  }
+  .product-single .zod-gallery-slide{
+    aspect-ratio:1.04!important;
+    max-height:615px!important;
+  }
+  .product-single .zod-product-image{
+    padding:15px!important;
+  }
+  .product-single .zod-product-buybox{
+    width:100%!important;
+    max-width:660px!important;
+    padding-top:0!important;
+  }
+  .product-single .zod-product-brand-row{
+    min-height:34px!important;
+    margin-bottom:5px!important;
+  }
+  .product-single .zod-brand-explore-card{
+    margin-bottom:11px!important;
+    padding:9px 12px!important;
+  }
+  .product-single .zod-brand-explore-card__logo{
+    width:78px!important;
+    height:36px!important;
+  }
+  .product-single .zod-brand-explore-card__logo img{
+    max-width:66px!important;
+    max-height:29px!important;
+  }
+  .product-single .zod-brand-explore-card__copy strong{
+    font-size:11.5px!important;
+  }
+  .product-single .zod-product-title{
+    margin:5px 0 6px!important;
+    font-size:clamp(24px,1.55vw,29px)!important;
+    line-height:1.34!important;
+    letter-spacing:-.015em!important;
+  }
+  .product-single .zod-product-subtitle{
+    margin-bottom:7px!important;
+    font-size:12px!important;
+  }
+  .product-single .zod-product-price{
+    padding-top:2px!important;
+  }
+  .product-single .zod-product-price strong{
+    font-size:27px!important;
+  }
+  .product-single .zod-stock-cluster{
+    margin:8px 0 10px!important;
+  }
+  .product-single .zod-buybox-description{
+    padding:11px 0 8px!important;
+  }
+  .product-single .zod-buybox-description__body{
+    font-size:12.5px!important;
+    line-height:1.78!important;
+  }
+  .product-single .zod-product-facts{
+    margin:6px 0 10px!important;
+  }
+  .product-single .zod-product-fact{
+    padding:9px 11px!important;
+    font-size:10.5px!important;
+  }
+}
+
+/* Persistent native Salla purchase dock — one source of truth, always visible. */
+.product-single .zod-buy-controls.is-docked{
+  min-height:66px!important;
+  padding:7px max(20px,calc((100vw - 1420px)/2))!important;
+  display:grid!important;
+  grid-template-columns:minmax(250px,1fr) minmax(500px,680px)!important;
+  gap:16px!important;
+  align-items:center!important;
+  opacity:1!important;
+  transform:none!important;
+  transition:none!important;
+}
+.product-single .zod-buy-controls.is-docked .zod-sticky-product-summary{
+  min-width:0!important;
+}
+.product-single .zod-buy-controls.is-docked .zod-sticky-product-summary__image{
+  width:44px!important;
+  height:44px!important;
+  flex-basis:44px!important;
+}
+.product-single .zod-buy-controls.is-docked .zod-sticky-product-summary__name{
+  font-size:10.5px!important;
+  -webkit-line-clamp:1!important;
+}
+.product-single .zod-buy-controls.is-docked .zod-sticky-product-summary__price{
+  font-size:15px!important;
+}
+.product-single .zod-buy-controls.is-docked .zod-purchase-stack{
+  grid-template-columns:132px minmax(0,1fr)!important;
+  gap:8px!important;
+}
+.product-single .zod-buy-controls.is-docked .zod-qty-row{
+  min-width:0!important;
+}
+.product-single .zod-buy-controls.is-docked .zod-purchase-actions{
+  width:100%!important;
+}
+.product-single .zod-buy-controls.is-docked .zod-main-add{
+  width:100%!important;
+  --salla-fast-checkout-button-height:42px;
+  --salla-fast-checkout-button-width:100%;
+  --salla-fast-checkout-button-border-radius:9px;
+}
+.product-single .zod-buy-controls.is-docked .zod-main-add::part(button){
+  min-height:42px!important;
+  border-radius:9px!important;
+  font-size:12px!important;
+}
+body.zod-product-dock-visible.product-single{
+  padding-bottom:calc(var(--zod-product-dock-height,66px) + 12px)!important;
+}
+
+@media(max-width:767px){
+  /* No hover exists on touch screens: both actions stay visible.
+     DOM order + LTR action direction guarantees Eye left / Heart right. */
+  .zpc-hover-actions{
+    display:flex!important;
+    opacity:1!important;
+    pointer-events:auto!important;
+    transform:translate(-50%,0) scale(1)!important;
+    bottom:-18px!important;
+    direction:ltr!important;
+  }
+  .zpc-quick-view{
+    display:grid!important;
+  }
+  .zpc-action{
+    width:36px!important;
+    height:36px!important;
+    font-size:16px!important;
+  }
+  .zpc-body{
+    padding:31px 10px 11px!important;
+  }
+  .zpc-category{
+    min-height:24px!important;
+    padding:4px 7px!important;
+    margin-bottom:6px!important;
+    font-size:9.5px!important;
+  }
+  .zpc-body h3{
+    min-height:36px!important;
+    font-size:12.5px!important;
+    line-height:1.44!important;
+  }
+  .zpc-tax{
+    font-size:8.5px!important;
+  }
+  .zpc-price strong{
+    font-size:16.5px!important;
+  }
+  .zpc-price del{
+    font-size:9.5px!important;
+  }
+  .zpc-add::part(button){
+    min-height:39px!important;
+    font-size:10.5px!important;
+  }
+
+  .product-single .zod-buy-controls.is-docked{
+    bottom:0!important;
+    min-height:0!important;
+    grid-template-columns:1fr!important;
+    gap:5px!important;
+    padding:6px 8px calc(6px + env(safe-area-inset-bottom))!important;
+    border-radius:13px 13px 0 0!important;
+  }
+  body.has-mobile-bottom-nav.product-single .zod-buy-controls.is-docked{
+    bottom:68px!important;
+  }
+  .product-single .zod-buy-controls.is-docked .zod-sticky-product-summary{
+    grid-column:1!important;
+    display:grid!important;
+    grid-template-columns:38px minmax(0,1fr) auto!important;
+    gap:7px!important;
+    padding-bottom:4px!important;
+  }
+  .product-single .zod-buy-controls.is-docked .zod-sticky-product-summary__image{
+    width:38px!important;
+    height:38px!important;
+    flex-basis:38px!important;
+  }
+  .product-single .zod-buy-controls.is-docked .zod-sticky-product-summary__name{
+    font-size:9px!important;
+    white-space:nowrap!important;
+    -webkit-line-clamp:1!important;
+  }
+  .product-single .zod-buy-controls.is-docked .zod-sticky-product-summary__price{
+    font-size:12px!important;
+  }
+  .product-single .zod-buy-controls.is-docked .zod-purchase-stack{
+    grid-column:1!important;
+    grid-template-columns:94px minmax(0,1fr)!important;
+    gap:6px!important;
+    width:100%!important;
+  }
+  .product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity{
+    grid-column:1!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    padding:0!important;
+  }
+  .product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity>label{
+    display:none!important;
+  }
+  .product-single .zod-buy-controls.is-docked .zod-purchase-actions{
+    grid-column:2!important;
+  }
+  .product-single .zod-buy-controls.is-docked .zod-main-add{
+    --salla-fast-checkout-button-height:39px;
+    --salla-fast-checkout-button-border-radius:8px;
+  }
+  .product-single .zod-buy-controls.is-docked .zod-main-add::part(button){
+    min-height:39px!important;
+    font-size:10.5px!important;
+    border-radius:8px!important;
+  }
+  body.zod-product-dock-visible.product-single{
+    padding-bottom:calc(var(--zod-product-dock-height,94px) + 12px)!important;
+  }
+  body.has-mobile-bottom-nav.zod-product-dock-visible.product-single{
+    padding-bottom:calc(var(--zod-product-dock-height,94px) + 80px)!important;
+  }
+}
+
+@media(min-width:768px) and (max-width:1023px){
+  .product-single .zod-product-title{
+    font-size:24px!important;
+  }
+  .product-single .zod-product-gallery{
+    max-width:620px;
+    margin-inline:auto;
+  }
+}

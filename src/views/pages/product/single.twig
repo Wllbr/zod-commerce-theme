@@ -209,7 +209,6 @@
                    component, preventing the duplicate Buy Now buttons we had before. #}
                 <salla-add-product-button
                   data-testid="store-product-add-to-cart"
-                  support-sticky-bar
                   {{ product.can_quick_buy and product_available ? 'quick-buy' : '' }}
                   {{ product.is_require_shipping ? 'required-shipping' : '' }}
                   {{ product.has_preorder_campaign ? 'has-pre-order' : '' }}

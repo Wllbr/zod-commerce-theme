@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.35",
-  "description": "ZOD Commerce — v1.6.35 redesigns global product cards around compact hover actions and clear sale badges, fixes duplicated Buy Now controls, and makes the sticky purchase dock appear only after the in-flow purchase controls are passed.",
+  "version": "1.6.36",
+  "description": "ZOD Commerce — v1.6.36 compacts the product page to match the preferred 75% visual density at normal zoom, restores the persistent synchronized purchase dock, keeps mobile Eye + Heart actions always visible, and makes product-card promotions theme-aware.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
