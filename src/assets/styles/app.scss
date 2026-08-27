@@ -2715,3 +2715,240 @@ body.zod-qv-open{overflow:hidden}
 .zod-qv__options-note i{color:var(--color-primary)}
 @media(max-width:767px){.zod-qv__loading{min-height:220px}.zod-qv__options-note{font-size:10px;padding:8px 9px}}
 @media(prefers-reduced-motion:reduce){.zod-qv__spinner{animation:none}}
+
+/* =========================================================
+   ZOD v1.6.40 — unified Orkida-density product cards
+   Salla may render either its native card or ZOD's custom card depending on
+   hydration timing. Both paths intentionally share the same geometry.
+   ========================================================= */
+:root{
+  --zod-card-accent:color-mix(in srgb,var(--color-primary) 56%,#315c63);
+}
+
+/* Give product-led sections the same near-edge-to-edge density as the
+   reference while leaving general page content on the normal container. */
+@media(min-width:1200px){
+  .zod-product-switcher>.container,
+  .zod-product-shelf>.container,
+  .zod-related-products>.container,
+  .zod-catalog-body>.container,
+  .zod-section>.container:has(>salla-products-slider){
+    width:min(1420px,calc(100% - 20px))!important;
+    max-width:1420px!important;
+  }
+}
+
+/* One card shell, whether Salla's native component or ZOD's custom element. */
+custom-salla-product-card,
+salla-product-card.s-product-card-vertical{height:100%!important;min-width:0!important}
+.zod-product-card,
+salla-product-card.s-product-card-vertical{
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
+  border:1px solid #eceff1!important;
+  border-radius:12px!important;
+  background:#fff!important;
+  box-shadow:none!important;
+  opacity:1!important;
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease!important;
+}
+.zod-product-card:hover,
+salla-product-card.s-product-card-vertical:hover{
+  transform:translateY(-3px)!important;
+  border-color:#dce1e4!important;
+  box-shadow:0 10px 24px rgba(16,24,40,.065)!important;
+}
+
+/* Consistent square product stage. Contain is safer for mixed merchant images
+   than native cover/cropping and gives close-cropped photos breathing room. */
+.zpc-media,
+salla-product-card.s-product-card-vertical .s-product-card-image{
+  width:100%!important;
+  height:auto!important;
+  aspect-ratio:1/1!important;
+  flex:0 0 auto!important;
+  overflow:hidden!important;
+  border-radius:11px 11px 0 0!important;
+  background:#fff!important;
+}
+.zpc-media>a,
+salla-product-card.s-product-card-vertical .s-product-card-image>a{display:block!important;width:100%!important;height:100%!important}
+.zpc-media img,
+salla-product-card.s-product-card-vertical .s-product-card-image img{
+  width:100%!important;
+  height:100%!important;
+  aspect-ratio:1/1!important;
+  padding:14px!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  background:#fff!important;
+}
+.zod-product-card:hover .zpc-media img,
+salla-product-card.s-product-card-vertical:hover .s-product-card-image img{transform:scale(1.018)!important}
+
+/* Custom-card actions stay on the image and consume no body space. */
+.zpc-media{overflow:hidden!important}
+.zpc-hover-actions{
+  left:50%!important;
+  bottom:9px!important;
+  gap:7px!important;
+  transform:translate(-50%,7px) scale(.97)!important;
+}
+.zod-product-card:hover .zpc-hover-actions,
+.zod-product-card:focus-within .zpc-hover-actions{
+  transform:translate(-50%,0) scale(1)!important;
+}
+.zpc-action{width:34px!important;height:34px!important;font-size:15px!important}
+
+/* Orkida-like compact content rhythm with equal card heights. */
+.zpc-body,
+salla-product-card.s-product-card-vertical .s-product-card-content{
+  flex:1 1 auto!important;
+  min-height:216px!important;
+  height:auto!important;
+  padding:8px 10px 10px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  text-align:center!important;
+  background:#fff!important;
+}
+.zpc-category{
+  min-height:22px!important;
+  max-width:96%!important;
+  margin:0 auto 5px!important;
+  padding:3px 7px!important;
+  font-size:9.5px!important;
+  line-height:1.25!important;
+}
+.zpc-body h3,
+salla-product-card.s-product-card-vertical .s-product-card-content-title{
+  width:100%!important;
+  min-height:40px!important;
+  max-height:40px!important;
+  margin:0 0 4px!important;
+  overflow:hidden!important;
+  font-size:14px!important;
+  line-height:20px!important;
+  font-weight:800!important;
+  text-align:center!important;
+  display:-webkit-box!important;
+  -webkit-line-clamp:2!important;
+  -webkit-box-orient:vertical!important;
+}
+salla-product-card.s-product-card-vertical .s-product-card-content-sub,
+salla-product-card.s-product-card-vertical .s-product-card-content-description{
+  width:100%!important;
+  margin:0 0 4px!important;
+  overflow:hidden!important;
+  color:#8a9098!important;
+  font-size:9px!important;
+  line-height:14px!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+  text-overflow:ellipsis!important;
+}
+.zpc-tax{font-size:9px!important;line-height:13px!important;margin:2px 0 0!important}
+.zpc-meta{height:18px!important;margin:2px 0 0!important}
+.zpc-bottom{width:100%!important;margin:5px 0 0!important;padding:0!important}
+.zpc-price,
+salla-product-card.s-product-card-vertical .s-product-card-content h4,
+salla-product-card.s-product-card-vertical .s-product-card-price{
+  justify-content:center!important;
+  text-align:center!important;
+}
+.zpc-price strong{font-size:17px!important;line-height:22px!important}
+.zpc-price del{font-size:10px!important}
+salla-product-card.s-product-card-vertical .s-product-card-price{width:100%!important;font-size:15px!important;line-height:21px!important;margin:0!important}
+
+/* Full-width, low-profile pill purchase action shared by both components. */
+.zpc-add,
+salla-product-card.s-product-card-vertical salla-add-product-button{
+  display:block!important;
+  width:100%!important;
+  margin-top:auto!important;
+  padding:7px 0 0!important;
+}
+.zpc-add::part(button),
+salla-product-card.s-product-card-vertical salla-add-product-button::part(button),
+salla-product-card.s-product-card-vertical salla-add-product-button .s-button-element{
+  width:100%!important;
+  min-height:32px!important;
+  height:32px!important;
+  padding:4px 12px!important;
+  border:1px solid var(--zod-card-accent)!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  color:var(--zod-card-accent)!important;
+  font-size:12px!important;
+  line-height:20px!important;
+  font-weight:800!important;
+  box-shadow:none!important;
+}
+.zpc-add::part(button):hover,
+salla-product-card.s-product-card-vertical salla-add-product-button .s-button-element:hover{
+  background:color-mix(in srgb,var(--color-primary) 8%,#fff)!important;
+}
+
+/* Keep the requested stamp, but retain enough image contrast underneath it. */
+.zpc-stock-stamp,
+salla-product-card.zod-native-out-of-stock::after{
+  min-height:44px!important;
+  padding:8px 13px!important;
+  border:3px solid rgba(202,58,63,.68)!important;
+  border-radius:11px!important;
+  background:rgba(255,250,250,.88)!important;
+  color:#bd3439!important;
+  box-shadow:0 8px 22px rgba(105,17,20,.10)!important;
+  font-size:16px!important;
+  line-height:1.1!important;
+  backdrop-filter:blur(1.5px)!important;
+}
+.zpc-stock-stamp{top:50%!important;min-width:58%!important;max-width:86%!important;width:auto!important}
+salla-product-card.zod-native-out-of-stock::after{top:25.5%!important;width:calc(100% - 28px)!important}
+.zpc-media.is-out img,
+salla-product-card.zod-native-out-of-stock .s-product-card-image img{
+  opacity:.72!important;
+  filter:grayscale(.14) saturate(.86)!important;
+}
+
+/* Reference-width slides: six desktop, five compact desktop, two mobile. */
+@media(min-width:1440px){
+  .zod-product-shelf salla-products-slider,
+  .zod-section salla-products-slider,
+  .zod-product-switcher__panel salla-products-slider{--slider-gap:12px!important;--slide-width:calc((100% - 60px)/6)!important}
+  .zod-product-shelf salla-products-slider .swiper-slide,
+  .zod-section salla-products-slider .swiper-slide,
+  .zod-product-switcher__panel salla-products-slider .swiper-slide,
+  .zod-density-carousel .swiper-slide{width:calc((100% - 60px)/6)!important;max-width:none!important;min-width:0!important}
+}
+@media(min-width:1200px) and (max-width:1439px){
+  .zod-product-shelf salla-products-slider,
+  .zod-section salla-products-slider,
+  .zod-product-switcher__panel salla-products-slider{--slider-gap:12px!important;--slide-width:calc((100% - 48px)/5)!important}
+  .zod-product-shelf salla-products-slider .swiper-slide,
+  .zod-section salla-products-slider .swiper-slide,
+  .zod-product-switcher__panel salla-products-slider .swiper-slide,
+  .zod-density-carousel .swiper-slide{width:calc((100% - 48px)/5)!important;max-width:none!important}
+}
+@media(max-width:767px){
+  .zpc-media img,
+  salla-product-card.s-product-card-vertical .s-product-card-image img{padding:9px!important}
+  .zpc-body,
+  salla-product-card.s-product-card-vertical .s-product-card-content{min-height:170px!important;padding:7px 7px 8px!important}
+  .zpc-body h3,
+  salla-product-card.s-product-card-vertical .s-product-card-content-title{min-height:34px!important;max-height:34px!important;font-size:11.5px!important;line-height:17px!important;margin-bottom:3px!important}
+  .zpc-category{min-height:19px!important;margin-bottom:4px!important;padding:2px 5px!important;font-size:8px!important}
+  .zpc-price strong{font-size:14.5px!important}
+  salla-product-card.s-product-card-vertical .s-product-card-price{font-size:13px!important;line-height:18px!important}
+  .zpc-add::part(button),
+  salla-product-card.s-product-card-vertical salla-add-product-button::part(button),
+  salla-product-card.s-product-card-vertical salla-add-product-button .s-button-element{min-height:30px!important;height:30px!important;padding:3px 8px!important;font-size:10px!important}
+  .zpc-hover-actions{bottom:7px!important;gap:6px!important;opacity:1!important;pointer-events:auto!important;transform:translate(-50%,0) scale(1)!important}
+  .zpc-action{width:30px!important;height:30px!important;font-size:13px!important}
+  .zpc-stock-stamp,
+  salla-product-card.zod-native-out-of-stock::after{min-height:38px!important;padding:7px 8px!important;border-width:2.5px!important;font-size:13px!important}
+  salla-product-card.zod-native-out-of-stock::after{top:25%!important;width:calc(100% - 18px)!important}
+  .zod-density-carousel .swiper-slide{width:calc((100% - 10px)/2)!important;max-width:none!important}
+}

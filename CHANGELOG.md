@@ -1,3 +1,12 @@
+## 1.6.40 — Unified reference product cards
+
+- Unified Salla-native and ZOD custom product cards so hydration timing no longer changes the storefront design.
+- Added consistent square `contain` image framing with internal breathing room for mixed merchant image dimensions.
+- Matched the reference card rhythm with compact centered typography, equal content heights and full-width low-profile pill purchase buttons.
+- Widened product-led desktop sections and standardized six/five/two-card responsive density.
+- Preserved the prominent out-of-stock stamp while improving its proportions and keeping the underlying product visible.
+- Moved Quick View and wishlist controls fully onto the image so they no longer create empty space above card content.
+
 ## 1.6.39 — Catalog and purchase-state fixes
 
 - Quick View now respects Salla's explicit availability and unlimited-quantity flags instead of treating a placeholder zero quantity as out of stock.
