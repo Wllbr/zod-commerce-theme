@@ -33,6 +33,7 @@ class ZodTheme {
     this.initLiveShowcasePrices();
     this.initProductCardReveal();
     this.initNativeStockBadges();
+    this.initNativeCardActions();
     this.initFooterDisclosures();
     this.initDisclosureToggles();
     this.initProfileAvatarUpload();
@@ -483,6 +484,66 @@ class ZodTheme {
     scan();
     const observer = new MutationObserver(() => requestAnimationFrame(scan));
     observer.observe(document.documentElement, {childList:true, subtree:true, attributes:true, attributeFilter:['product-status','status','disabled']});
+    setTimeout(scan, 450);
+    setTimeout(scan, 1400);
+    setTimeout(scan, 3000);
+  }
+
+  initNativeCardActions() {
+    const isArabic = document.documentElement.lang?.toLowerCase().startsWith('ar');
+    const quickLabel = isArabic ? 'عرض سريع' : 'Quick view';
+    const outStatuses = new Set(['out','out-of-stock','out_of_stock','sold-out','sold_out','out-and-notify']);
+
+    const decorate = card => {
+      if (!card || card.matches('custom-salla-product-card') || card.dataset.zodNativeActions === '1') return;
+      const media = card.querySelector('.s-product-card-image');
+      const wishlist = card.querySelector('salla-button.s-product-card-wishlist-btn');
+      const add = card.querySelector('salla-add-product-button');
+      const link = card.querySelector('.s-product-card-image > a, .s-product-card-content-title a');
+      if (!media || !wishlist || !add || !link) return;
+
+      const id = String(add.getAttribute('product-id') || card.id?.replace(/^product-/, '') || '');
+      if (!id) return;
+
+      const actions = document.createElement('div');
+      actions.className = 'zod-native-card-actions';
+      actions.setAttribute('aria-label', quickLabel);
+
+      const quick = document.createElement('button');
+      quick.type = 'button';
+      quick.className = 'zpc-action zod-native-quick-view';
+      quick.setAttribute('aria-label', quickLabel);
+      quick.setAttribute('title', quickLabel);
+      quick.innerHTML = '<i class="sicon-eye"></i>';
+
+      actions.append(quick, wishlist);
+      media.appendChild(actions);
+      card.dataset.zodNativeActions = '1';
+
+      quick.addEventListener('click', event => {
+        event.preventDefault();
+        event.stopPropagation();
+        const status = String(add.getAttribute('product-status') || '');
+        const disabled = Boolean(add.querySelector('button')?.disabled);
+        const isOut = outStatuses.has(status.toLowerCase()) || card.classList.contains('zod-native-out-of-stock') || disabled;
+        window.zodOpenQuickView?.({
+          id,
+          name: (card.querySelector('.s-product-card-content-title')?.textContent || link.getAttribute('title') || '').trim(),
+          url: link.href,
+          image: card.querySelector('.s-product-card-image img')?.src || '',
+          price: card.querySelector('.s-product-card-price')?.textContent || '',
+          status,
+          type: add.getAttribute('product-type') || 'product',
+          is_available: !isOut,
+          is_out_of_stock: isOut
+        });
+      });
+    };
+
+    const scan = () => document.querySelectorAll('salla-product-card').forEach(decorate);
+    scan();
+    const observer = new MutationObserver(() => requestAnimationFrame(scan));
+    observer.observe(document.documentElement, { childList:true, subtree:true });
     setTimeout(scan, 450);
     setTimeout(scan, 1400);
     setTimeout(scan, 3000);

@@ -1,3 +1,12 @@
+## 1.6.41 — Unified card actions and purchase controls
+
+- Added Quick View to Salla-native product cards and moved their native wishlist control into the same centered image action cluster used by ZOD cards.
+- Kept Eye + Heart hover-only on desktop and permanently visible on touch/mobile layouts.
+- Removed Salla's smaller duplicate out-of-stock image badge while preserving the approved ZOD stamp.
+- Fixed native and custom Add to Cart controls so both fill the card width and use the same compact pill shape.
+- Corrected custom out-of-stock buttons to show the stock label instead of a disabled Add to Cart label.
+- Reverified the product-page quantity, Add to Cart and Buy Now controls in both their normal and sticky desktop/mobile states.
+
 ## 1.6.40 — Unified reference product cards
 
 - Unified Salla-native and ZOD custom product cards so hydration timing no longer changes the storefront design.

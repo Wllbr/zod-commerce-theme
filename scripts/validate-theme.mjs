@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.40','package.json: expected v1.6.40');
+assert(pkg.version==='1.6.41','package.json: expected v1.6.41');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -168,11 +168,16 @@ assert(appCss.includes('.zod-products-list>.s-products-list-wrapper'),'Catalog d
 assert(appCss.includes('ZOD v1.6.40 — unified Orkida-density product cards'),'Unified native/custom product-card release styles are required');
 assert(appCss.includes('salla-product-card.s-product-card-vertical .s-product-card-image img'),'Native Salla cards must share ZOD image framing');
 assert(appCss.includes('salla-product-card.s-product-card-vertical salla-add-product-button .s-button-element'),'Native Salla cards must share the compact purchase button');
+assert(appCss.includes('ZOD v1.6.41 — card actions and purchase controls'),'Product-card control repair styles are required');
+assert(appCss.includes('.zod-native-card-actions'),'Native Salla cards must receive the unified Eye + Heart action cluster');
+assert(appCss.includes('.s-product-card-out-badge{display:none!important}'),'The native duplicate stock badge must be hidden when the ZOD stamp is active');
 
 const productPageJs=read('src/assets/js/product.js');
 const productCardJs=read('src/assets/js/partials/product-card.js');
 assert(productPageJs.includes('anchorRect.bottom <= headerBottom'),'Product purchase dock must activate from the in-flow anchor position');
 assert(productCardJs.includes('product.is_available === true || product.unlimited_quantity === true'),'Quick View stock must respect explicit Salla availability');
+assert(productCardJs.includes('window.zodOpenQuickView'),'Native and custom cards must share the Quick View controller');
+assert(read('src/assets/js/app.js').includes('initNativeCardActions()'),'Native cards must be decorated with unified Eye + Heart actions');
 
 const jsFiles=walk('src/assets/js',['.js']);
 for(const f of jsFiles){

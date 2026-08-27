@@ -292,7 +292,7 @@ class ZodProductCard extends HTMLElement {
         ${taxLabel ? `<p class="zpc-tax">${this.esc(taxLabel)}</p>` : ''}
         ${p.rating?.stars ? `<div class="zpc-meta"><span class="zpc-rating"><i class="sicon-star2"></i>${this.esc(p.rating.stars)}${p.rating.count ? ` <small>(${this.esc(p.rating.count)})</small>` : ''}</span></div>` : ''}
         <div class="zpc-bottom">${this.price()}</div>
-        <salla-add-product-button class="zpc-add" width="wide" fill="outline" product-id="${p.id}" product-status="${this.esc(status || '')}" product-type="${this.esc(p.type || 'product')}">${this.esc(addLabel)}</salla-add-product-button>
+        <salla-add-product-button class="zpc-add" width="wide" fill="outline" product-id="${p.id}" product-status="${this.esc(status || '')}" product-type="${this.esc(p.type || 'product')}">${this.esc(isOut ? outLabel : addLabel)}</salla-add-product-button>
       </div>`;
 
     this.querySelector('.zpc-quick-view')?.addEventListener('click', event => {
@@ -310,3 +310,10 @@ class ZodProductCard extends HTMLElement {
 }
 
 if (!customElements.get('custom-salla-product-card')) customElements.define('custom-salla-product-card', ZodProductCard);
+
+// Native Salla cards do not expose Quick View. Keep one shared controller so
+// native and custom cards open the exact same live-data modal.
+window.zodOpenQuickView = product => {
+  const controller = document.createElement('custom-salla-product-card');
+  return controller.openQuickView(product || {});
+};

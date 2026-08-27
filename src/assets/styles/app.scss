@@ -2952,3 +2952,105 @@ salla-product-card.zod-native-out-of-stock .s-product-card-image img{
   salla-product-card.zod-native-out-of-stock::after{top:25%!important;width:calc(100% - 18px)!important}
   .zod-density-carousel .swiper-slide{width:calc((100% - 10px)/2)!important;max-width:none!important}
 }
+
+/* =========================================================
+   ZOD v1.6.41 — card actions and purchase controls
+   Native Salla cards now receive the same Eye + Heart cluster as custom
+   cards, while their original wishlist element keeps Salla's behavior.
+   ========================================================= */
+.zod-native-card-actions{
+  position:absolute!important;
+  left:50%!important;
+  bottom:9px!important;
+  z-index:7!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:7px!important;
+  opacity:0!important;
+  pointer-events:none!important;
+  transform:translate(-50%,7px) scale(.97)!important;
+  transition:opacity .2s ease,transform .2s ease!important;
+}
+salla-product-card.s-product-card-vertical:hover .zod-native-card-actions,
+salla-product-card.s-product-card-vertical:focus-within .zod-native-card-actions{
+  opacity:1!important;
+  pointer-events:auto!important;
+  transform:translate(-50%,0) scale(1)!important;
+}
+.zod-native-card-actions>.s-product-card-wishlist-btn,
+.zod-native-card-actions .s-product-card-wishlist-btn.s-button-element,
+.zod-native-quick-view{
+  position:static!important;
+  inset:auto!important;
+  width:34px!important;
+  min-width:34px!important;
+  height:34px!important;
+  min-height:34px!important;
+  margin:0!important;
+  padding:0!important;
+  display:grid!important;
+  place-items:center!important;
+  border:1px solid rgba(222,226,229,.96)!important;
+  border-radius:50%!important;
+  background:rgba(255,255,255,.96)!important;
+  color:#4f565e!important;
+  opacity:1!important;
+  box-shadow:0 5px 16px rgba(16,24,40,.10)!important;
+}
+.zod-native-card-actions>.s-product-card-wishlist-btn{display:block!important}
+.zod-native-card-actions .s-product-card-wishlist-btn.s-button-element:hover,
+.zod-native-card-actions .s-product-card-wishlist-btn.s-button-element:focus-visible,
+.zod-native-quick-view:hover,
+.zod-native-quick-view:focus-visible{border-color:var(--zod-card-accent)!important;color:var(--zod-card-accent)!important}
+
+/* The approved diagonal stamp replaces Salla's smaller duplicate image badge. */
+salla-product-card.zod-native-out-of-stock .s-product-card-out-badge{display:none!important}
+
+/* Salla renders these controls in light DOM, so style every internal layer
+   explicitly instead of relying on ::part support. */
+.zpc-add .s-add-product-button-main,
+.zpc-add .w-full,
+.zpc-add salla-button,
+.zpc-add .s-button-element,
+salla-product-card.s-product-card-vertical .s-product-card-content-footer,
+salla-product-card.s-product-card-vertical .s-product-card-content-footer>salla-add-product-button,
+salla-product-card.s-product-card-vertical .s-product-card-content-footer .w-full,
+salla-product-card.s-product-card-vertical .s-product-card-content-footer salla-button,
+salla-product-card.s-product-card-vertical .s-product-card-content-footer .s-button-element{
+  width:100%!important;
+  max-width:none!important;
+}
+.zpc-add .s-button-element,
+salla-product-card.s-product-card-vertical .s-product-card-content-footer .s-button-element{
+  min-height:32px!important;
+  height:32px!important;
+  padding:4px 12px!important;
+  border:1px solid var(--zod-card-accent)!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  color:var(--zod-card-accent)!important;
+  font-size:12px!important;
+  line-height:20px!important;
+  font-weight:800!important;
+  box-shadow:none!important;
+}
+
+@media(max-width:767px){
+  .zod-native-card-actions{
+    bottom:7px!important;
+    gap:6px!important;
+    opacity:1!important;
+    pointer-events:auto!important;
+    transform:translate(-50%,0) scale(1)!important;
+  }
+  .zod-native-card-actions>.s-product-card-wishlist-btn,
+  .zod-native-card-actions .s-product-card-wishlist-btn.s-button-element,
+  .zod-native-quick-view{width:30px!important;min-width:30px!important;height:30px!important;min-height:30px!important;font-size:13px!important}
+  .zpc-add .s-button-element,
+  salla-product-card.s-product-card-vertical .s-product-card-content-footer .s-button-element{
+    min-height:30px!important;
+    height:30px!important;
+    padding:3px 8px!important;
+    font-size:10px!important;
+  }
+}

@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.40",
-  "description": "ZOD Commerce — v1.6.40 unifies native and custom product cards with reference-inspired image framing, density, typography, purchase buttons and stock stamps.",
+  "version": "1.6.41",
+  "description": "ZOD Commerce — v1.6.41 unifies native and custom card actions, purchase buttons and out-of-stock presentation while preserving the responsive product dock.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
