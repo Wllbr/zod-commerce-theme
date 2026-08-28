@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.41','package.json: expected v1.6.41');
+assert(pkg.version==='1.6.42','package.json: expected v1.6.42');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -144,6 +144,7 @@ assert(brandsIndex.includes('group is iterable') && brandsIndex.includes('for br
 assert(!brandsIndex.includes('group.name is defined'),'Brand directory must not mistake a grouped collection for a brand');
 assert(read('src/views/pages/brands/single.twig').includes('product-card-component="custom-salla-product-card"'),'Brand products must use the ZOD product card');
 assert(read('src/views/pages/page-single.twig').includes("information_page.information_page"),'Customized information pages must expose the Salla information-page hook');
+assert(read('src/views/pages/page-single.twig').includes('zod-info-page__card'),'Information pages must use the redesigned readable content card');
 assert(single.includes('zod-product-brand-card'),'Product page must render the single brand exploration card');
 assert(!single.includes('zod-brand-explore-card'),'Product page must not render the old duplicate brand card');
 assert(single.includes("product.can_quick_buy and product_available ? 'quick-buy' : ''"),'Product page must enable native quick-buy on the single purchase component when supported');
@@ -158,6 +159,8 @@ for(const token of ['store.description','<salla-menu','store.contacts','<salla-s
 assert(headerTwig.includes('zod-search-overlay'),'Header must include the ZOD fluid search overlay');
 assert(headerTwig.includes('zod-catalog-drawer'),'Header must include the universal catalog drawer');
 assert(!footerTwig.toLowerCase().includes('newsletter'),'Footer must not include a newsletter section');
+assert(footerTwig.includes('zod-footer-connect-row'),'Footer must include the redesigned connection strip');
+assert(footerTwig.includes('zod-footer-back-top'),'Footer must include the back-to-top control');
 
 const appCss=read('src/assets/styles/app.scss');
 for(const selector of ['.zod-header','.zod-hero','.zod-product-card','.zod-product-main','.zod-catalog-layout','.zod-footer','.zod-mobile-dock','.zod-option-support']){
@@ -171,10 +174,16 @@ assert(appCss.includes('salla-product-card.s-product-card-vertical salla-add-pro
 assert(appCss.includes('ZOD v1.6.41 — card actions and purchase controls'),'Product-card control repair styles are required');
 assert(appCss.includes('.zod-native-card-actions'),'Native Salla cards must receive the unified Eye + Heart action cluster');
 assert(appCss.includes('.s-product-card-out-badge{display:none!important}'),'The native duplicate stock badge must be hidden when the ZOD stamp is active');
+assert(appCss.includes('ZOD v1.6.42 — permanent purchase dock + floating storefront chrome'),'The v1.6.42 responsive storefront polish styles are required');
+assert(appCss.includes('margin:10px clamp(10px,1.8vw,28px) 0!important'),'Desktop header must use the floating rounded treatment');
+assert(appCss.includes('.zod-footer-connect-row'),'Footer connection strip styles are required');
+assert(appCss.includes('.zod-info-page__card'),'Information-page content card styles are required');
 
 const productPageJs=read('src/assets/js/product.js');
 const productCardJs=read('src/assets/js/partials/product-card.js');
-assert(productPageJs.includes('anchorRect.bottom <= headerBottom'),'Product purchase dock must activate from the in-flow anchor position');
+assert(productPageJs.includes('activateDock();'),'Product purchase dock must activate immediately');
+assert(!productPageJs.includes('anchorRect.bottom <= headerBottom'),'Product purchase dock must not depend on scrolling past its anchor');
+assert(single.includes('sticky-product-bar is-docked is-ready'),'Product purchase controls must render docked without an initial flash');
 assert(productCardJs.includes('product.is_available === true || product.unlimited_quantity === true'),'Quick View stock must respect explicit Salla availability');
 assert(productCardJs.includes('window.zodOpenQuickView'),'Native and custom cards must share the Quick View controller');
 assert(read('src/assets/js/app.js').includes('initNativeCardActions()'),'Native cards must be decorated with unified Eye + Heart actions');

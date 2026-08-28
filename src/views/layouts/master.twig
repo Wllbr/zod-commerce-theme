@@ -31,7 +31,7 @@
   </style>
   {% hook 'head:end' %}
 </head>
-<body id="app" class="zod-commerce overflow-x-hidden {% hook 'body:classes' %} {{ theme.settings.get('sticky_add_to_cart') ? 'is-sticky-product-bar' : '' }} {{ theme.settings.get('show_mobile_bottom_nav', true) ? 'has-mobile-bottom-nav' : '' }} {{ is_page('product.single') ? 'product-single' : '' }} {{ is_page('cart') ? 'cart-page' : '' }}">
+<body id="app" class="zod-commerce overflow-x-hidden {% hook 'body:classes' %} {{ theme.settings.get('sticky_add_to_cart') ? 'is-sticky-product-bar' : '' }} {{ theme.settings.get('show_mobile_bottom_nav', true) ? 'has-mobile-bottom-nav' : '' }} {{ is_page('product.single') ? 'product-single zod-product-dock-visible' : '' }} {{ is_page('cart') ? 'cart-page' : '' }}">
 <noscript><div class="zod-noscript">{{ trans('zod.common.javascript_required') }}</div></noscript>
 <div class="app-inner min-h-screen flex flex-col">
   {% hook 'body:start' %}

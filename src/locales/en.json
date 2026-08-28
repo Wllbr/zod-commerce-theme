@@ -119,7 +119,16 @@
       "view_certificate": "View tax certificate",
       "email": "Email",
       "phone": "Call",
-      "whatsapp": "WhatsApp"
+      "whatsapp": "WhatsApp",
+      "connect_eyebrow": "Stay connected",
+      "connect_title": "Everything you need in one place",
+      "connect_text": "Follow the store and use the service and information links to quickly find what you need.",
+      "contact_hint": "The store team is ready to help through the available contact channels.",
+      "store_hint": "Store verification, trust details and supported payment methods."
+    },
+    "pages": {
+      "information": "Store information and policies",
+      "information_hint": "Clear details to help you understand store policies and services before ordering."
     },
     "mobile": {
       "home": "Home",

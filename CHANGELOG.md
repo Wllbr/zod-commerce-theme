@@ -1,3 +1,11 @@
+## 1.6.42 — Floating storefront chrome and permanent purchase dock
+
+- Changed the product purchase dock to remain active from initial page load on desktop and mobile instead of waiting for the original controls to scroll away.
+- Reworked the compact header into a rounded floating glass surface with translucent color, blur, border and adaptive shadow.
+- Expanded the light footer into a reference-inspired connect strip, four-column information area, contact actions, trust/tax details and a structured payment/copyright bar.
+- Added store-data fallbacks so the footer remains intentionally designed while Salla contact and menu data are still being configured.
+- Redesigned normal information and policy pages with a spacious hero, readable content card and responsive mobile typography.
+
 ## 1.6.41 — Unified card actions and purchase controls
 
 - Added Quick View to Salla-native product cards and moved their native wishlist control into the same centered image action cluster used by ZOD cards.

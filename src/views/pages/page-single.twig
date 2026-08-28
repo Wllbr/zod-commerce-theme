@@ -5,13 +5,19 @@
 {% if customised %}
   <div class="s-blocks-wrapper s-information-page !mt-0">{% hook 'information_page.information_page' %}</div>
 {% else %}
-  <div class="container">
-    <nav class="zod-breadcrumb"><salla-breadcrumb></salla-breadcrumb></nav>
-    <article class="zod-content-page">
-      <header><h1>{{ info_page.title|default('') }}</h1></header>
-      <div class="zod-rich-text">{{ info_page.content|default('')|raw }}</div>
-      {% if info_page.id %}<salla-comments data-testid="store-page-comments" item-id="{{ info_page.id }}" type="page"></salla-comments>{% endif %}
-    </article>
-  </div>
+  <main class="zod-info-page">
+    <div class="container">
+      <nav class="zod-breadcrumb zod-info-page__breadcrumb"><salla-breadcrumb></salla-breadcrumb></nav>
+      <header class="zod-info-page__hero">
+        <span class="zod-info-page__eyebrow">{{ trans('zod.pages.information') }}</span>
+        <h1>{{ info_page.title|default('') }}</h1>
+        <p>{{ trans('zod.pages.information_hint') }}</p>
+      </header>
+      <article class="zod-content-page zod-info-page__card">
+        <div class="zod-rich-text">{{ info_page.content|default('')|raw }}</div>
+      </article>
+      {% if info_page.id %}<div class="zod-info-page__comments"><salla-comments data-testid="store-page-comments" item-id="{{ info_page.id }}" type="page"></salla-comments></div>{% endif %}
+    </div>
+  </main>
 {% endif %}
 {% endblock %}

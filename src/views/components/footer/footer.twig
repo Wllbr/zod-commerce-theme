@@ -1,8 +1,15 @@
 <footer data-testid="store-footer" class="zod-footer zod-footer--light">
   <div class="zod-footer-main">
     <div class="container">
-      <div class="zod-footer-social-row">
-        <salla-social data-testid="store-footer-social"></salla-social>
+      <div class="zod-footer-connect-row">
+        <div class="zod-footer-connect-copy">
+          <span>{{ trans('zod.footer.connect_eyebrow') }}</span>
+          <h2>{{ trans('zod.footer.connect_title') }}</h2>
+          <p>{{ trans('zod.footer.connect_text') }}</p>
+        </div>
+        <div class="zod-footer-social-row">
+          <salla-social data-testid="store-footer-social"></salla-social>
+        </div>
       </div>
 
       <div class="zod-footer-divider"></div>
@@ -11,7 +18,7 @@
         <div class="zod-footer-brand">
           <a href="{{ link('/') }}" class="zod-footer-logo"><img src="{{ store.logo|cdn(220) }}" alt="{{ store.name }}"></a>
           {% if store.slogan %}<strong class="zod-footer-slogan">{{ store.slogan }}</strong>{% endif %}
-          {% if store.description %}<div class="zod-footer-description">{{ store.description|raw }}</div>{% endif %}
+          <div class="zod-footer-description">{{ store.description ? store.description|raw : trans('zod.footer.about') }}</div>
         </div>
 
         <details class="zod-footer-column zod-footer-disclosure" data-footer-disclosure open>
@@ -23,6 +30,7 @@
 
         <div class="zod-footer-column zod-footer-contact-column">
           <h3>{{ trans('zod.footer.contact') }}</h3>
+          <p class="zod-footer-column-copy">{{ trans('zod.footer.contact_hint') }}</p>
           <div class="zod-footer-contact-icons" data-testid="store-footer-contacts">
             {% if store.contacts.email %}
               <a class="zod-footer-contact-icon" href="mailto:{{ store.contacts.email }}" aria-label="{{ trans('zod.footer.email') }}" title="{{ trans('zod.footer.email') }}"><i class="sicon-mail"></i></a>
@@ -40,6 +48,7 @@
 
         <div class="zod-footer-column zod-footer-business">
           <h3>{{ trans('zod.footer.store_info') }}</h3>
+          <p class="zod-footer-column-copy">{{ trans('zod.footer.store_hint') }}</p>
           <salla-trust-badges data-testid="store-footer-trust-badges"></salla-trust-badges>
           {% if store.settings.tax.number %}
             <div class="zod-footer-tax">
@@ -64,6 +73,7 @@
     <div class="container zod-footer-bottom__inner">
       <span class="zod-footer-copyright">{% hook copyright %}</span>
       <salla-payments data-testid="store-footer-payments"></salla-payments>
+      <button class="zod-footer-back-top" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="sicon-keyboard_arrow_up"></i>{{ trans('zod.footer.back_top') }}</button>
     </div>
   </div>
 </footer>

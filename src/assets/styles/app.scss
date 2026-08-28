@@ -1244,6 +1244,147 @@ body.zod-product-dock-visible.product-single{padding-bottom:84px}
   }
 }
 
+/* =========================================================
+   ZOD v1.6.42 — permanent purchase dock + floating storefront chrome
+   ========================================================= */
+
+/* Floating translucent header. The native advertisement remains outside the
+   glass panel so Salla can continue to manage its own height and content. */
+.zod-header{
+  background:transparent!important;
+  box-shadow:none!important;
+  padding-bottom:10px;
+}
+.zod-header-main--compact{
+  width:auto!important;
+  margin:10px clamp(10px,1.8vw,28px) 0!important;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.72)!important;
+  border-radius:20px!important;
+  background:rgba(255,255,255,.80)!important;
+  box-shadow:0 10px 30px rgba(20,32,40,.09)!important;
+  backdrop-filter:blur(18px) saturate(1.18);
+  -webkit-backdrop-filter:blur(18px) saturate(1.18);
+  transition:background .22s ease,box-shadow .22s ease,border-color .22s ease,transform .22s ease;
+}
+.zod-header.is-scrolled .zod-header-main--compact{
+  border-color:rgba(224,230,234,.88)!important;
+  background:rgba(255,255,255,.92)!important;
+  box-shadow:0 14px 36px rgba(20,32,40,.14)!important;
+}
+.zod-header-main--compact .zod-header-icon-button,
+.zod-header-main--compact .zod-cart-link,
+.zod-header-main--compact .zod-localization-trigger{
+  background:rgba(255,255,255,.68)!important;
+  backdrop-filter:blur(8px);
+}
+
+/* The one native Salla purchase control is permanently docked. */
+.product-single .zod-buy-controls-anchor{min-height:0!important}
+.product-single .zod-buy-controls.is-docked{
+  visibility:visible!important;
+  pointer-events:auto!important;
+}
+.product-single .zod-buy-controls.is-docked.is-ready{opacity:1!important;transform:translateY(0)!important}
+
+/* Reference-inspired light footer with a strong information hierarchy. */
+.zod-footer.zod-footer--light{
+  margin-top:72px;
+  overflow:hidden;
+  border-top:1px solid #e5e9ec!important;
+  background:linear-gradient(180deg,#f8fafb 0%,#f3f6f8 100%)!important;
+  color:#171b20;
+}
+.zod-footer--light .zod-footer-main{padding:34px 0 42px!important}
+.zod-footer-connect-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:32px;
+  min-height:128px;
+  padding:24px 30px;
+  border:1px solid #e3e8eb;
+  border-radius:22px;
+  background:rgba(255,255,255,.76);
+  box-shadow:0 12px 30px rgba(24,38,47,.055);
+}
+.zod-footer-connect-copy{max-width:690px}
+.zod-footer-connect-copy>span{display:block;margin-bottom:5px;color:var(--color-primary);font-size:10px;font-weight:900;letter-spacing:.04em}
+.zod-footer-connect-copy h2{margin:0;color:#15191d;font-size:clamp(22px,2.2vw,31px);font-weight:950;line-height:1.3}
+.zod-footer-connect-copy p{max-width:640px;margin:7px 0 0;color:#68717a;font-size:13px;line-height:1.8}
+.zod-footer-connect-row .zod-footer-social-row{min-height:0!important;justify-content:flex-end;padding:0}
+.zod-footer-connect-row salla-social{padding:10px 12px;border-radius:16px;background:#f4f7f8}
+.zod-footer--light .zod-footer-divider{margin:34px 0 36px!important;background:#dfe5e8!important}
+.zod-footer--light .zod-footer-grid{
+  grid-template-columns:minmax(240px,1.35fr) minmax(180px,1fr) minmax(180px,.8fr) minmax(210px,1.05fr)!important;
+  gap:clamp(28px,4vw,64px)!important;
+}
+.zod-footer--light .zod-footer-brand{padding-inline-end:10px}
+.zod-footer--light .zod-footer-logo img{max-width:185px!important;max-height:68px!important}
+.zod-footer--light .zod-footer-slogan{font-size:14px!important;font-weight:850;color:#2f363d!important}
+.zod-footer--light .zod-footer-description{font-size:13px!important;line-height:1.95!important;color:#515b64!important}
+.zod-footer--light .zod-footer-column h3,
+.zod-footer--light .zod-footer-disclosure>summary{margin-bottom:12px!important;font-size:16px!important;color:var(--color-primary)!important}
+.zod-footer-column-copy{max-width:260px;margin:0 0 16px;color:#6d7680;font-size:11px;line-height:1.75}
+.zod-footer--light .zod-footer-disclosure__body{margin-top:10px!important;font-size:13px!important;line-height:2!important}
+.zod-footer--light .zod-footer-contact-icons{gap:10px!important;margin-top:12px!important}
+.zod-footer--light .zod-footer-contact-icon{width:54px!important;height:54px!important;border-radius:14px!important;background:rgba(255,255,255,.9)!important}
+.zod-footer--light .zod-footer-business salla-trust-badges{min-height:44px;margin-bottom:16px!important}
+.zod-footer--light .zod-footer-bottom{padding:14px 0!important;background:rgba(255,255,255,.82)!important}
+.zod-footer--light .zod-footer-bottom__inner{display:grid!important;grid-template-columns:minmax(0,1fr) auto auto;gap:24px!important}
+.zod-footer-back-top{display:inline-flex;align-items:center;gap:7px;border:1px solid #dfe5e8;border-radius:999px;background:#f7f9fa;color:#3f4850;padding:8px 13px;font-size:10px;font-weight:850;cursor:pointer;transition:transform .2s ease,border-color .2s ease,color .2s ease}
+.zod-footer-back-top:hover{transform:translateY(-2px);border-color:var(--color-primary);color:var(--color-primary)}
+
+/* Information and policy pages inherit one clean, readable layout. */
+.zod-info-page{padding:18px 0 76px;background:linear-gradient(180deg,#f7fafb 0,#fff 310px)}
+.zod-info-page__breadcrumb{margin-bottom:18px}
+.zod-info-page__hero{max-width:920px;margin:0 auto 22px;padding:46px 34px;text-align:center;border:1px solid #e3e8eb;border-radius:24px;background:rgba(255,255,255,.86);box-shadow:0 16px 42px rgba(24,38,47,.065)}
+.zod-info-page__eyebrow{display:inline-flex;margin-bottom:10px;padding:6px 11px;border-radius:999px;background:color-mix(in srgb,var(--color-primary) 10%,#fff);color:var(--color-primary);font-size:10px;font-weight:900}
+.zod-info-page__hero h1{margin:0;font-size:clamp(30px,4vw,48px);font-weight:950;line-height:1.25;color:#171b20}
+.zod-info-page__hero p{max-width:680px;margin:12px auto 0;color:#68717a;font-size:13px;line-height:1.8}
+.zod-info-page__card{max-width:920px;margin:0 auto!important;padding:clamp(26px,4vw,52px)!important;border:1px solid #e3e8eb!important;border-radius:24px!important;background:#fff!important;box-shadow:0 12px 36px rgba(24,38,47,.05)!important}
+.zod-info-page__card .zod-rich-text{color:#343b42;font-size:15px;line-height:2}
+.zod-info-page__card .zod-rich-text h2,.zod-info-page__card .zod-rich-text h3{margin:1.7em 0 .65em;color:#171b20;font-weight:900;line-height:1.4}
+.zod-info-page__card .zod-rich-text a{color:var(--color-primary);text-decoration:underline;text-underline-offset:3px}
+.zod-info-page__comments{max-width:920px;margin:26px auto 0}
+
+@media(max-width:1023px){
+  .zod-footer--light .zod-footer-grid{grid-template-columns:1.2fr 1fr 1fr!important;gap:30px!important}
+  .zod-footer--light .zod-footer-business{grid-column:2/4}
+}
+@media(max-width:767px){
+  .zod-header{padding-bottom:8px}
+  .zod-header-main--compact{margin:8px 8px 0!important;border-radius:17px!important;background:rgba(255,255,255,.84)!important;box-shadow:0 9px 24px rgba(20,32,40,.10)!important}
+  .zod-header-main--compact .zod-compact-header{height:62px!important;padding-inline:11px!important}
+  .zod-footer.zod-footer--light{margin-top:46px}
+  .zod-footer--light .zod-footer-main{padding:22px 0 28px!important}
+  .zod-footer-connect-row{grid-template-columns:1fr;gap:18px;min-height:0;padding:21px 18px;border-radius:18px;text-align:center}
+  .zod-footer-connect-copy h2{font-size:23px}
+  .zod-footer-connect-copy p{font-size:11.5px}
+  .zod-footer-connect-row .zod-footer-social-row{justify-content:center}
+  .zod-footer--light .zod-footer-divider{margin:24px 0 10px!important}
+  .zod-footer--light .zod-footer-grid{grid-template-columns:1fr!important;gap:0!important}
+  .zod-footer--light .zod-footer-brand{padding:22px 2px!important;text-align:center}
+  .zod-footer--light .zod-footer-description{margin-inline:auto}
+  .zod-footer--light .zod-footer-column-copy{max-width:none;text-align:center}
+  .zod-footer--light .zod-footer-contact-icons{justify-content:center}
+  .zod-footer--light .zod-footer-business{grid-column:auto!important;text-align:center}
+  .zod-footer--light .zod-footer-business salla-trust-badges{display:flex;justify-content:center}
+  .zod-footer--light .zod-footer-tax{align-items:center}
+  .zod-footer--light .zod-footer-bottom__inner{display:flex!important;align-items:center!important;text-align:center;gap:13px!important}
+  .zod-footer-back-top{order:-1}
+  .zod-info-page{padding:10px 0 52px}
+  .zod-info-page__hero{padding:30px 18px;border-radius:19px}
+  .zod-info-page__hero h1{font-size:29px}
+  .zod-info-page__hero p{font-size:11.5px}
+  .zod-info-page__card{padding:24px 18px!important;border-radius:19px!important}
+  .zod-info-page__card .zod-rich-text{font-size:13.5px;line-height:1.95}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .zod-header-main--compact,.zod-footer-back-top{transition:none!important}
+}
+
 @media(prefers-reduced-motion:reduce){
   .product-single .zod-floating-thumb.is-active{animation:none!important}
 }

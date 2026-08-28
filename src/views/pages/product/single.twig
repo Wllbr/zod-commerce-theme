@@ -182,7 +182,7 @@
         {% if product.discount_ends and has_valid_sale %}<div class="zod-sale-countdown"><salla-count-down date="{{ product.discount_ends }}" color="primary" size="sm" labeled></salla-count-down></div>{% endif %}
 
         <div class="zod-buy-controls-anchor" data-zod-buy-anchor>
-          <div class="zod-buy-controls sticky-product-bar {{ product.is_hidden_quantity or product.type == 'booking' ? 'zod-buy-controls--no-qty' : '' }} {{ product.can_quick_buy ? 'zod-buy-controls--quick' : '' }}" data-zod-sticky-buy>
+          <div class="zod-buy-controls sticky-product-bar is-docked is-ready {{ product.is_hidden_quantity or product.type == 'booking' ? 'zod-buy-controls--no-qty' : '' }} {{ product.can_quick_buy ? 'zod-buy-controls--quick' : '' }}" data-zod-sticky-buy>
             <div class="zod-sticky-product-summary">
               <div class="zod-sticky-product-summary__image">
                 {% if sticky_image %}<img src="{{ sticky_image.url }}" alt="{{ sticky_image.alt|default(product.name) }}">{% else %}<img src="{{ 'images/placeholder.svg'|asset }}" alt="{{ product.name }}">{% endif %}

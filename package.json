@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.41",
-  "description": "ZOD Commerce — v1.6.41 unifies native and custom card actions, purchase buttons and out-of-stock presentation while preserving the responsive product dock.",
+  "version": "1.6.42",
+  "description": "ZOD Commerce — v1.6.42 adds an always-active purchase dock, floating glass header, reference-inspired footer and polished information pages.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
