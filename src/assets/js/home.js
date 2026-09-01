@@ -166,6 +166,25 @@ const initProductSwitcher = (section) => {
     autoplayResumeTimer = window.setTimeout(startAutoplay, 6500);
   };
 
+  const classifyBannerVideo = video => {
+    const showcase = video.closest('[data-zod-product-switcher-showcase]');
+    if (!showcase) return;
+    const applyFit = () => {
+      const width = Number(video.videoWidth) || 0;
+      const height = Number(video.videoHeight) || 0;
+      if (!width || !height) return;
+      const ratio = width / height;
+      showcase.dataset.zodVideoFit = ratio >= 2.4 ? 'wide' : ratio >= 1.2 ? 'landscape' : 'portrait';
+    };
+    if (video.readyState >= 1) applyFit();
+    else video.addEventListener('loadedmetadata', applyFit, { once: true });
+  };
+
+  panels.forEach(panel => {
+    const video = panel.querySelector('[data-zod-product-switcher-video]');
+    if (video) classifyBannerVideo(video);
+  });
+
   const syncBannerVideos = (activePanel = panels[activeIndex]) => {
     panels.forEach(panel => {
       const video = panel.querySelector('[data-zod-product-switcher-video]');

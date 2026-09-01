@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.42",
-  "description": "ZOD Commerce — v1.6.42 adds an always-active purchase dock, floating glass header, reference-inspired footer and polished information pages.",
+  "version": "1.6.43",
+  "description": "ZOD Commerce — v1.6.43 adds adaptive video fitting and a polished responsive product-type banner.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

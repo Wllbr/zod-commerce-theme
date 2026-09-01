@@ -1,3 +1,11 @@
+## 1.6.43 — Adaptive product-type video banners
+
+- Detects each banner video's intrinsic aspect ratio and applies a suitable wide, landscape or portrait presentation automatically.
+- Keeps normal landscape, square and portrait videos fully visible instead of forcing every source through an aggressive full-width crop.
+- Preserves full-bleed treatment for genuinely ultra-wide banner videos.
+- Replaces the hard half-white division with a softer responsive wash and a translucent copy surface.
+- Removes the unrelated decorative star and increases the Browse All button size on desktop and mobile.
+
 ## 1.6.42 — Floating storefront chrome and permanent purchase dock
 
 - Changed the product purchase dock to remain active from initial page load on desktop and mobile instead of waiting for the original controls to scroll away.

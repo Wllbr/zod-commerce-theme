@@ -95,7 +95,7 @@
               data-zod-product-switcher-panel-index="{{ loop.index0 }}"
               {{ not loop.first ? 'hidden' : '' }}
             >
-              <div class="zod-product-switcher__showcase" data-zod-product-switcher-showcase>
+              <div class="zod-product-switcher__showcase {{ banner_video ? 'has-video' : '' }}" data-zod-product-switcher-showcase>
                 {% if background_desktop or background_mobile %}
                   <picture class="zod-product-switcher__showcase-bg" aria-hidden="true">
                     {% if background_mobile %}<source media="(max-width: 767px)" srcset="{{ background_mobile }}">{% endif %}
@@ -122,7 +122,6 @@
                 <span class="zod-product-switcher__showcase-glow" aria-hidden="true"></span>
 
                 <div class="zod-product-switcher__showcase-copy">
-                  <span class="zod-product-switcher__showcase-kicker" aria-hidden="true"><i class="sicon-star2"></i></span>
                   {% if banner_title %}<h3>{{ banner_title }}</h3>{% endif %}
                   {% if banner_text %}<p>{{ banner_text }}</p>{% endif %}
                   {% if type_url %}
