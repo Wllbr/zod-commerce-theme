@@ -16,6 +16,7 @@
         <div class="zod-product-switcher__nav" data-zod-product-switcher-nav>
           <div
             class="zod-product-switcher__tabs"
+            style="--zod-product-type-count: {{ product_types|length }}"
             role="tablist"
             aria-label="{{ title|default(trans('zod.home.product_types')) }}"
             data-zod-product-switcher-tabs

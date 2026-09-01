@@ -1,3 +1,10 @@
+## 1.6.44 — Ratio-matched video fitting and responsive banner balance
+
+- Compares each video's intrinsic ratio with the rendered banner ratio before allowing full-bleed cover, preventing false wide-video classification and excessive cropping.
+- Reclassifies video fitting automatically whenever the banner changes size between desktop, tablet and mobile layouts.
+- Limits the mobile glass copy panel to 62–64% of the banner so the product video remains visible.
+- Keeps all configured product-type tabs in one desktop/tablet row while preserving the swipeable mobile rail.
+
 ## 1.6.43 — Adaptive product-type video banners
 
 - Detects each banner video's intrinsic aspect ratio and applies a suitable wide, landscape or portrait presentation automatically.

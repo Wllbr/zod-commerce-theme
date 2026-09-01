@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.43",
-  "description": "ZOD Commerce — v1.6.43 adds adaptive video fitting and a polished responsive product-type banner.",
+  "version": "1.6.44",
+  "description": "ZOD Commerce — v1.6.44 refines ratio-aware video fitting, mobile copy sizing and single-row desktop product-type tabs.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

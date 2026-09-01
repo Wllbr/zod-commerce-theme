@@ -172,12 +172,20 @@ const initProductSwitcher = (section) => {
     const applyFit = () => {
       const width = Number(video.videoWidth) || 0;
       const height = Number(video.videoHeight) || 0;
-      if (!width || !height) return;
-      const ratio = width / height;
-      showcase.dataset.zodVideoFit = ratio >= 2.4 ? 'wide' : ratio >= 1.2 ? 'landscape' : 'portrait';
+      const showcaseWidth = showcase.clientWidth || 0;
+      const showcaseHeight = showcase.clientHeight || 0;
+      if (!width || !height || !showcaseWidth || !showcaseHeight) return;
+      const videoRatio = width / height;
+      const showcaseRatio = showcaseWidth / showcaseHeight;
+      const ratioDifference = Math.abs(videoRatio - showcaseRatio) / showcaseRatio;
+      showcase.dataset.zodVideoFit = ratioDifference <= 0.08
+        ? 'cover'
+        : videoRatio >= 1.2 ? 'landscape' : 'portrait';
     };
     if (video.readyState >= 1) applyFit();
     else video.addEventListener('loadedmetadata', applyFit, { once: true });
+    if ('ResizeObserver' in window) new ResizeObserver(applyFit).observe(showcase);
+    else window.addEventListener('resize', applyFit, { passive: true });
   };
 
   panels.forEach(panel => {
