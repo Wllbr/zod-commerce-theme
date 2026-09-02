@@ -1,3 +1,10 @@
+## 1.6.45 — Natural video banners without covered mobile media
+
+- Sizes video banners from each video's intrinsic aspect ratio so desktop media is no longer forced into an excessively wide, empty strip.
+- Keeps the complete video frame visible with natural proportions instead of splitting the banner into artificial media and blank halves.
+- Keeps the mobile overlay concept but shrinks its glass blur to a compact text-sized card so most of the video remains visible.
+- Preserves the single-row desktop tabs and swipeable mobile type navigation.
+
 ## 1.6.44 — Ratio-matched video fitting and responsive banner balance
 
 - Compares each video's intrinsic ratio with the rendered banner ratio before allowing full-bleed cover, preventing false wide-video classification and excessive cropping.

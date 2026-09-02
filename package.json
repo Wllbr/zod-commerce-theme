@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.44",
-  "description": "ZOD Commerce — v1.6.44 refines ratio-aware video fitting, mobile copy sizing and single-row desktop product-type tabs.",
+  "version": "1.6.45",
+  "description": "ZOD Commerce — v1.6.45 gives product-type videos a natural media-first desktop and mobile presentation.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
