@@ -1,0 +1,61 @@
+{% set desktop_image = component.desktop_image|default(null) %}
+{% set mobile_image = component.mobile_image|default(null) %}
+{% if desktop_image or mobile_image %}
+  {% set image_alt = component.image_alt is iterable ? component.image_alt[language.code]|default(component.image_alt|first) : component.image_alt %}
+  {% set ad_url = component.url.url|default(component.url)|default(null) %}
+
+  {% set duration_raw = component.duration|default(5) %}
+  {% if duration_raw is iterable %}
+    {% set duration_choice = duration_raw|first %}
+    {% set duration = duration_raw.value|default(duration_choice.value)|default(duration_choice)|default(5) %}
+  {% else %}
+    {% set duration = duration_raw %}
+  {% endif %}
+
+  {% set delay_raw = component.delay|default(1) %}
+  {% if delay_raw is iterable %}
+    {% set delay_choice = delay_raw|first %}
+    {% set delay = delay_raw.value|default(delay_choice.value)|default(delay_choice)|default(1) %}
+  {% else %}
+    {% set delay = delay_raw %}
+  {% endif %}
+
+  {% set frequency_raw = component.frequency|default('session') %}
+  {% if frequency_raw is iterable %}
+    {% set frequency_choice = frequency_raw|first %}
+    {% set frequency = frequency_raw.value|default(frequency_choice.value)|default(frequency_choice)|default('session') %}
+  {% else %}
+    {% set frequency = frequency_raw %}
+  {% endif %}
+
+  <div
+    class="zod-screen-ad"
+    data-zod-screen-ad
+    data-zod-ad-key="{{ position|default('home') }}"
+    data-zod-ad-duration="{{ duration }}"
+    data-zod-ad-delay="{{ delay }}"
+    data-zod-ad-frequency="{{ frequency }}"
+    data-zod-ad-auto-close="{{ component.auto_close ? '1' : '0' }}"
+    data-zod-ad-backdrop-close="{{ component.backdrop_close ? '1' : '0' }}"
+    aria-hidden="true"
+    hidden
+  >
+    <button class="zod-screen-ad__backdrop" type="button" data-zod-ad-backdrop tabindex="-1" aria-label="{{ trans('zod.screen_ad.close') }}"></button>
+    <div class="zod-screen-ad__dialog" role="dialog" aria-modal="true" aria-label="{{ image_alt|default(trans('zod.screen_ad.title')) }}">
+      <button class="zod-screen-ad__close" type="button" data-zod-ad-close aria-label="{{ trans('zod.screen_ad.close') }}"><i class="sicon-cancel"></i></button>
+      {% if ad_url %}<a class="zod-screen-ad__media" href="{{ ad_url }}" {{ component.open_new_tab ? 'target="_blank" rel="noopener"' : '' }}>{% else %}<div class="zod-screen-ad__media">{% endif %}
+        <picture>
+          {% if mobile_image %}<source media="(max-width: 767px)" srcset="{{ mobile_image }}">{% endif %}
+          <img src="{{ desktop_image|default(mobile_image) }}" alt="{{ image_alt|default('') }}" decoding="async">
+        </picture>
+      {% if ad_url %}</a>{% else %}</div>{% endif %}
+      <div class="zod-screen-ad__controls">
+        <span class="zod-screen-ad__progress" aria-hidden="true"><span data-zod-ad-progress></span></span>
+        <button class="zod-screen-ad__skip" type="button" data-zod-ad-skip>
+          <span>{{ trans('zod.screen_ad.skip') }}</span>
+          <span data-zod-ad-count-wrap>(<b data-zod-ad-count>{{ duration }}</b>)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+{% endif %}

@@ -172,8 +172,20 @@
       "thank_you_hint": "Your order has been submitted successfully. Review the details below.",
       "removed": "Product removed from cart"
     },
+    "locations": {
+      "navigation": "Browse store locations",
+      "slide": "Show location"
+    },
+    "screen_ad": {
+      "title": "Store advertisement",
+      "skip": "Skip ad",
+      "close": "Close advertisement"
+    },
     "whatsapp": {
-      "aria": "Contact ZOD on WhatsApp"
+      "aria": "Contact ZOD on WhatsApp",
+      "toggle": "Show WhatsApp contact options",
+      "prompt": "How can we help?",
+      "open_option": "Contact us on WhatsApp"
     }
   }
 }

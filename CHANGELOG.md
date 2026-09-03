@@ -1,3 +1,11 @@
+## 1.6.46 — Screen ads, floating WhatsApp options and mobile branch carousel
+
+- Adds a configurable homepage image advertisement with desktop/mobile artwork, countdown, skip/close controls, optional auto-close, link, delay and visit-frequency controls.
+- Replaces the non-floating WhatsApp section with a fixed flat green pill that moves from the left in Arabic to the right in English and expands into animated circular contact choices.
+- Keeps the WhatsApp control above Salla's mobile navigation and permanent product purchase dock.
+- Converts the mobile Locations & Contact grid into a right-to-left swipe rail with scroll snapping and active progress dots while preserving the desktop grid.
+- Respects keyboard controls, session memory and reduced-motion preferences across the new interactions.
+
 ## 1.6.45 — Natural video banners without covered mobile media
 
 - Sizes video banners from each video's intrinsic aspect ratio so desktop media is no longer forced into an excessively wide, empty strip.

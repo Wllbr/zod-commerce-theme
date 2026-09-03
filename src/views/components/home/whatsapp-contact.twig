@@ -1,20 +1,58 @@
-{% if store.contacts.whatsapp %}
-  {% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
-  {% set text = component.text is iterable ? component.text[language.code]|default(component.text|first) : component.text %}
-  {% set button = component.button is iterable ? component.button[language.code]|default(component.button|first) : component.button %}
-  {% set zod_whatsapp = store.contacts.whatsapp|replace({'+':'',' ':'','-':'','(':'',')':''}) %}
-  <section class="zod-section zod-whatsapp-section">
-    <div class="container">
-      <a class="zod-whatsapp-card" href="https://wa.me/{{ zod_whatsapp }}" target="_blank" rel="noopener" aria-label="{{ trans('zod.whatsapp.aria') }}">
-        <span class="zod-whatsapp-card__icon" aria-hidden="true"><i class="sicon-whatsapp"></i></span>
-        {% if title or text %}
-          <span class="zod-whatsapp-card__copy">
-            {% if title %}<strong>{{ title }}</strong>{% endif %}
-            {% if text %}<small>{{ text }}</small>{% endif %}
-          </span>
+{% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
+{% set text = component.text is iterable ? component.text[language.code]|default(component.text|first) : component.text %}
+{% set button = component.button is iterable ? component.button[language.code]|default(component.button|first) : component.button %}
+{% set contacts = component.contacts|default([]) %}
+{% set fallback_phone = component.fallback_phone|default(store.contacts.whatsapp)|default(null) %}
+
+{% if contacts|length or fallback_phone %}
+  <aside class="zod-whatsapp-float" data-zod-whatsapp-float>
+    <div class="zod-whatsapp-float__options" id="zod-whatsapp-options-{{ position|default('home') }}" data-zod-whatsapp-options hidden>
+      {% for item in contacts %}
+        {% set item_label = item.label is iterable ? item.label[language.code]|default(item.label|first) : item.label %}
+        {% set item_message = item.message is iterable ? item.message[language.code]|default(item.message|first) : item.message %}
+        {% set item_phone = item.phone|default(null) %}
+        {% set icon_raw = item.icon|default('whatsapp') %}
+        {% if icon_raw is iterable %}
+          {% set icon_choice = icon_raw|first %}
+          {% set icon_name = icon_raw.value|default(icon_choice.value)|default(icon_choice)|default('whatsapp') %}
+        {% else %}
+          {% set icon_name = icon_raw %}
         {% endif %}
-        {% if button %}<span class="zod-whatsapp-card__button">{{ button }} <i class="sicon-arrow-left rtl:rotate-180"></i></span>{% endif %}
-      </a>
+        {% set icon_class = 'sicon-whatsapp' %}
+        {% if icon_name == 'sales' %}{% set icon_class = 'sicon-shopping-bag' %}{% endif %}
+        {% if icon_name == 'support' %}{% set icon_class = 'sicon-headphones' %}{% endif %}
+        {% if icon_name == 'wholesale' %}{% set icon_class = 'sicon-briefcase' %}{% endif %}
+        {% if icon_name == 'location' %}{% set icon_class = 'sicon-location' %}{% endif %}
+        {% if item_phone %}
+          {% set clean_phone = item_phone|replace({'+':'',' ':'','-':'','(':'',')':''}) %}
+          <a class="zod-whatsapp-float__option" href="https://wa.me/{{ clean_phone }}{{ item_message ? '?text=' ~ item_message|url_encode : '' }}" target="_blank" rel="noopener" aria-label="{{ item_label|default(trans('zod.whatsapp.open_option')) }}">
+            <i class="{{ icon_class }}" aria-hidden="true"></i>
+            {% if item_label %}<span>{{ item_label }}</span>{% endif %}
+          </a>
+        {% endif %}
+      {% endfor %}
+
+      {% if not contacts|length and fallback_phone %}
+        {% set clean_fallback_phone = fallback_phone|replace({'+':'',' ':'','-':'','(':'',')':''}) %}
+        <a class="zod-whatsapp-float__option" href="https://wa.me/{{ clean_fallback_phone }}" target="_blank" rel="noopener" aria-label="{{ trans('zod.whatsapp.aria') }}">
+          <i class="sicon-whatsapp" aria-hidden="true"></i>
+          <span>{{ title|default(trans('zod.whatsapp.open_option')) }}</span>
+        </a>
+      {% endif %}
     </div>
-  </section>
+
+    <button
+      class="zod-whatsapp-float__trigger"
+      type="button"
+      data-zod-whatsapp-toggle
+      aria-expanded="false"
+      aria-controls="zod-whatsapp-options-{{ position|default('home') }}"
+      aria-label="{{ trans('zod.whatsapp.toggle') }}"
+    >
+      <span class="zod-whatsapp-float__wave" aria-hidden="true">👋</span>
+      <span class="zod-whatsapp-float__label">{{ button|default(title)|default(trans('zod.whatsapp.prompt')) }}</span>
+      <span class="zod-whatsapp-float__icon" aria-hidden="true"><i class="sicon-whatsapp"></i></span>
+    </button>
+    {% if text %}<span class="sr-only">{{ text }}</span>{% endif %}
+  </aside>
 {% endif %}

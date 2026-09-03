@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.45','package.json: expected v1.6.45');
+assert(pkg.version==='1.6.46','package.json: expected v1.6.46');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -102,6 +102,8 @@ const single=read('src/views/pages/product/single.twig');
 const cartTwig=read('src/views/pages/cart.twig');
 const productSwitcher=read('src/views/components/home/product-type-switcher.twig');
 const productSwitcherConfig=(config.components||[]).find(component=>component.path==='home.product-type-switcher');
+const screenAdConfig=(config.components||[]).find(component=>component.path==='home.screen-ad');
+const whatsappConfig=(config.components||[]).find(component=>component.path==='home.whatsapp-contact');
 assert(productSwitcherConfig?.fields?.some(field=>field.id==='groups'),'Product type switcher must preserve the existing groups collection');
 assert(productSwitcher.includes("component['groups']"),'Product type switcher must use explicit bracket access for the groups field');
 assert(!productSwitcher.includes('component.groups'),'Product type switcher must not use ambiguous dot access for the groups field');
@@ -128,6 +130,12 @@ const productSwitcherVideo=productSwitcherGroups?.fields?.find(field=>field.id==
 assert(productSwitcherVideo?.format==='url','Product type switcher must provide a direct banner video URL field');
 assert(productSwitcher.includes('data-zod-product-switcher-video'),'Product type switcher must render banner video support');
 assert(productSwitcher.includes('zod-product-switcher__tab-icon'),'Product type switcher must render custom type icons');
+assert(screenAdConfig,'Timed screen advertisement component is required');
+for(const id of ['desktop_image','mobile_image','duration','delay','frequency','auto_close','backdrop_close']){
+  assert(screenAdConfig?.fields?.some(field=>field.id===id),`Screen advertisement missing field ${id}`);
+}
+assert(whatsappConfig?.fields?.some(field=>field.id==='contacts'),'WhatsApp component must provide multiple contact choices');
+assert(whatsappConfig?.fields?.find(field=>field.id==='contacts')?.maxLength===4,'WhatsApp component must allow up to four contact choices');
 
 assert(cartTwig.includes('data-zod-cart-grand-total'),'Cart must expose the grand total for mobile and desktop');
 assert(cartTwig.includes('cart.total|money'),'Cart must render Salla cart.total');
@@ -187,6 +195,11 @@ assert(single.includes('sticky-product-bar is-docked is-ready'),'Product purchas
 assert(productCardJs.includes('product.is_available === true || product.unlimited_quantity === true'),'Quick View stock must respect explicit Salla availability');
 assert(productCardJs.includes('window.zodOpenQuickView'),'Native and custom cards must share the Quick View controller');
 assert(read('src/assets/js/app.js').includes('initNativeCardActions()'),'Native cards must be decorated with unified Eye + Heart actions');
+assert(read('src/assets/js/app.js').includes('initScreenAds()'),'App must initialize timed screen advertisements');
+assert(read('src/assets/js/app.js').includes('initWhatsAppFloat()'),'App must initialize the floating WhatsApp options');
+assert(read('src/assets/js/app.js').includes('initLocationsCarousel()'),'App must initialize the mobile locations carousel');
+assert(read('src/views/components/home/locations.twig').includes('data-zod-locations-rail'),'Locations component must expose its mobile carousel rail');
+assert(read('src/views/components/home/whatsapp-contact.twig').includes('data-zod-whatsapp-float'),'WhatsApp component must render as a floating control');
 
 const jsFiles=walk('src/assets/js',['.js']);
 for(const f of jsFiles){

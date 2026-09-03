@@ -1829,6 +1829,79 @@ html[dir="ltr"] .zod-product-switcher__tabs{direction:ltr}
   .zod-product-switcher__tab{transition:none}
 }
 
+/* ZOD v1.6.46 — screen ad, floating WhatsApp wheel and mobile branch rail */
+html.zod-screen-ad-open{overflow:hidden}
+.zod-screen-ad{position:fixed;inset:0;z-index:1200;display:grid;place-items:center;padding:clamp(14px,3vw,34px);opacity:0;visibility:hidden;transition:opacity .2s ease,visibility .2s ease}
+.zod-screen-ad[hidden]{display:none!important}
+.zod-screen-ad.is-visible{opacity:1;visibility:visible}
+.zod-screen-ad__backdrop{position:absolute;inset:0;width:100%;height:100%;border:0;background:rgba(12,16,20,.68);backdrop-filter:blur(5px);cursor:pointer}
+.zod-screen-ad__dialog{position:relative;width:min(760px,94vw);max-height:90vh;overflow:hidden;border:1px solid rgba(255,255,255,.42);border-radius:22px;background:#fff;box-shadow:0 28px 90px rgba(0,0,0,.3);transform:translateY(18px) scale(.975);transition:transform .24s cubic-bezier(.2,.75,.25,1)}
+.zod-screen-ad.is-visible .zod-screen-ad__dialog{transform:none}
+.zod-screen-ad__close{position:absolute;top:12px;inset-inline-end:12px;z-index:3;display:grid;place-items:center;width:38px;height:38px;padding:0;border:1px solid rgba(0,0,0,.08);border-radius:50%;background:rgba(255,255,255,.92);color:#202428;box-shadow:0 5px 16px rgba(0,0,0,.12);cursor:pointer}
+.zod-screen-ad__media,.zod-screen-ad__media picture{display:block;width:100%;min-width:0}
+.zod-screen-ad__media img{display:block;width:100%;max-height:calc(90vh - 66px);object-fit:contain;background:#f6f7f8}
+.zod-screen-ad__controls{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:62px;padding:10px 14px;background:#fff}
+.zod-screen-ad__progress{position:absolute;inset:0 0 auto;height:3px;background:#edf0f2;overflow:hidden}
+.zod-screen-ad__progress span{display:block;width:var(--zod-ad-progress,100%);height:100%;background:var(--color-primary);transition:width .9s linear}
+.zod-screen-ad__skip{margin-inline-start:auto;display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:40px;padding:0 17px;border:1px solid #dfe3e6;border-radius:999px;background:#fff;color:#24282d;font-size:12px;font-weight:900;cursor:pointer;transition:.18s ease}
+.zod-screen-ad__skip:hover{border-color:var(--color-primary);color:var(--color-primary);transform:translateY(-1px)}
+
+.zod-whatsapp-float{position:fixed;z-index:430;left:clamp(12px,2vw,28px);right:auto;bottom:118px;display:flex;align-items:flex-start;flex-direction:column}
+html[dir="ltr"] .zod-whatsapp-float{left:auto;right:clamp(12px,2vw,28px);align-items:flex-end}
+.zod-whatsapp-float__trigger{position:relative;display:flex;align-items:center;gap:9px;min-height:48px;padding:7px 10px 7px 15px;border:0;border-radius:999px;background:#8fd136;color:#fff;box-shadow:0 7px 18px rgba(50,112,22,.2);font-size:15px;font-weight:900;line-height:1;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+html[dir="ltr"] .zod-whatsapp-float__trigger{padding:7px 15px 7px 10px}
+.zod-whatsapp-float__trigger:hover,.zod-whatsapp-float.is-open .zod-whatsapp-float__trigger{background:#83c62c;box-shadow:0 10px 24px rgba(50,112,22,.25);transform:translateY(-2px)}
+.zod-whatsapp-float__wave{display:inline-block;font-size:17px;transform-origin:70% 75%}
+.zod-whatsapp-float__label{white-space:nowrap}
+.zod-whatsapp-float__icon{display:grid;place-items:center;width:34px;height:34px;border:2px solid #fff;border-radius:50%;font-size:21px;flex:none}
+.zod-whatsapp-float__options{position:absolute;left:0;right:auto;bottom:calc(100% + 12px);display:flex;flex-direction:column-reverse;gap:10px;align-items:flex-start;padding-bottom:2px}
+html[dir="ltr"] .zod-whatsapp-float__options{left:auto;right:0;align-items:flex-end}
+.zod-whatsapp-float__options[hidden]{display:flex!important;visibility:hidden;pointer-events:none}
+.zod-whatsapp-float__option{position:relative;display:grid;place-items:center;width:50px;height:50px;border:1px solid rgba(255,255,255,.8);border-radius:50%;background:#25d366;color:#fff;box-shadow:0 8px 22px rgba(18,98,48,.22);font-size:20px;opacity:0;transform:translateY(12px) scale(.75);transition:opacity .2s ease,transform .24s cubic-bezier(.2,.75,.25,1),background .18s ease}
+.zod-whatsapp-float.is-open .zod-whatsapp-float__option{opacity:1;transform:none}
+.zod-whatsapp-float.is-open .zod-whatsapp-float__option:nth-child(2){transition-delay:.04s}
+.zod-whatsapp-float.is-open .zod-whatsapp-float__option:nth-child(3){transition-delay:.08s}
+.zod-whatsapp-float.is-open .zod-whatsapp-float__option:nth-child(4){transition-delay:.12s}
+.zod-whatsapp-float__option:hover{background:#18b954;transform:scale(1.06)!important}
+.zod-whatsapp-float__option span{position:absolute;left:calc(100% + 9px);right:auto;top:50%;width:max-content;max-width:180px;transform:translateY(-50%);padding:6px 9px;border-radius:8px;background:#202428;color:#fff;box-shadow:0 5px 14px rgba(0,0,0,.16);font-size:10px;font-weight:800;line-height:1.3;white-space:nowrap}
+html[dir="ltr"] .zod-whatsapp-float__option span{left:auto;right:calc(100% + 9px)}
+.zod-whatsapp-float.is-intro .zod-whatsapp-float__trigger{animation:zodWhatsAppArrive .7s cubic-bezier(.2,.8,.25,1) both}
+.zod-whatsapp-float.is-intro .zod-whatsapp-float__wave{animation:zodWhatsAppWave .42s ease-in-out 2 .55s}
+.zod-whatsapp-float.is-intro .zod-whatsapp-float__icon{animation:zodWhatsAppPulse .75s ease-out 1 .72s}
+@keyframes zodWhatsAppArrive{from{opacity:0;transform:translateX(-24px) scale(.94)}to{opacity:1;transform:none}}
+html[dir="ltr"] .zod-whatsapp-float.is-intro .zod-whatsapp-float__trigger{animation-name:zodWhatsAppArriveLtr}
+@keyframes zodWhatsAppArriveLtr{from{opacity:0;transform:translateX(24px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes zodWhatsAppWave{0%,100%{transform:rotate(0)}50%{transform:rotate(22deg)}}
+@keyframes zodWhatsAppPulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.65)}100%{box-shadow:0 0 0 10px rgba(255,255,255,0)}}
+
+.zod-locations-dots{display:none}
+@media(max-width:600px){
+  .zod-locations-grid{display:flex;grid-template-columns:none;gap:12px;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;scroll-padding-inline:12px;padding:2px 12px 12px;margin-inline:-12px;scrollbar-width:none}
+  .zod-locations-grid::-webkit-scrollbar{display:none}
+  html[dir="rtl"] .zod-locations-grid{direction:rtl}
+  .zod-location-card{flex:0 0 86%;scroll-snap-align:center}
+  .zod-location-card__media{aspect-ratio:16/9}
+  .zod-locations-dots{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:7px}
+  .zod-locations-dots button{width:7px;height:7px;padding:0;border:0;border-radius:999px;background:#d4d9dd;cursor:pointer;transition:width .2s ease,background .2s ease}
+  .zod-locations-dots button.is-active{width:22px;background:var(--color-primary)}
+  .zod-whatsapp-float{bottom:88px;left:10px}
+  html[dir="ltr"] .zod-whatsapp-float{right:10px}
+  body.zod-product-dock-visible .zod-whatsapp-float{bottom:calc(var(--zod-product-dock-height,92px) + 84px)}
+  .zod-whatsapp-float__trigger{min-height:44px;padding:6px 8px 6px 12px;font-size:12.5px;gap:7px}
+  html[dir="ltr"] .zod-whatsapp-float__trigger{padding:6px 12px 6px 8px}
+  .zod-whatsapp-float__icon{width:31px;height:31px;font-size:18px}
+  .zod-whatsapp-float__wave{font-size:15px}
+  .zod-whatsapp-float__option{width:46px;height:46px;font-size:18px}
+  .zod-screen-ad__dialog{width:min(430px,94vw);border-radius:18px}
+  .zod-screen-ad__close{top:9px;inset-inline-end:9px;width:34px;height:34px}
+  .zod-screen-ad__media img{max-height:calc(88vh - 58px)}
+  .zod-screen-ad__controls{min-height:56px;padding:8px 11px}
+  .zod-screen-ad__skip{min-height:38px;padding-inline:14px;font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+  .zod-screen-ad,.zod-screen-ad__dialog,.zod-screen-ad__progress span,.zod-whatsapp-float__trigger,.zod-whatsapp-float__option,.zod-whatsapp-float__wave,.zod-whatsapp-float__icon{animation:none!important;transition:none!important}
+}
+
 /* v1.6.30 — strong stock/promo visibility */
 salla-product-card.zod-native-out-of-stock{position:relative;display:block}
 salla-product-card.zod-native-out-of-stock::after{content:attr(data-zod-stock-label);position:absolute;left:50%;top:32%;z-index:50;display:flex;align-items:center;justify-content:center;width:calc(100% - 14px);min-height:58px;transform:translate(-50%,-50%) rotate(-9deg);padding:12px 10px;border:4px solid rgba(190,46,46,.58);border-radius:14px;background:rgba(255,250,250,.8);color:rgba(170,28,28,.92);box-shadow:0 10px 28px rgba(80,0,0,.12);font-size:22px;font-weight:1000;line-height:1.05;text-align:center;white-space:nowrap;pointer-events:none}

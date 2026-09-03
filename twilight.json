@@ -1753,6 +1753,134 @@
       ]
     },
     {
+      "key": "8c643f58-d9ae-4c9c-a699-146e9644d111",
+      "title": {
+        "en": "Timed screen advertisement",
+        "ar": "إعلان منبثق مؤقت"
+      },
+      "icon": "sicon-megaphone",
+      "path": "home.screen-ad",
+      "fields": [
+        {
+          "type": "string",
+          "icon": "sicon-image",
+          "label": "صورة الإعلان للكمبيوتر — موصى بها 1200×800",
+          "id": "desktop_image",
+          "value": null,
+          "format": "image",
+          "required": true,
+          "description": "استخدم صورة واضحة بنسبة قريبة من 3:2، مع إبقاء النص داخل الصورة بعيداً عن الحواف.",
+          "settings": { "width": 1200, "height": 800 },
+          "placeholder": null
+        },
+        {
+          "type": "string",
+          "icon": "sicon-image",
+          "label": "صورة الإعلان للجوال — اختيارية 900×1200",
+          "id": "mobile_image",
+          "value": null,
+          "format": "image",
+          "required": false,
+          "description": "إن تُركت فارغة ستُستخدم صورة الكمبيوتر تلقائياً.",
+          "settings": { "width": 900, "height": 1200 },
+          "placeholder": null
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "وصف الصورة",
+          "multilanguage": true,
+          "id": "image_alt",
+          "value": null,
+          "required": false,
+          "format": "text",
+          "maxLength": 160
+        },
+        {
+          "type": "string",
+          "icon": "sicon-link",
+          "label": "رابط الإعلان عند الضغط على الصورة",
+          "id": "url",
+          "value": null,
+          "required": false,
+          "format": "url",
+          "maxLength": 500
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-new-window",
+          "label": "فتح الرابط في نافذة جديدة",
+          "id": "open_new_tab",
+          "format": "switch",
+          "required": false,
+          "value": false,
+          "selected": false
+        },
+        {
+          "id": "duration",
+          "type": "items",
+          "format": "dropdown-list",
+          "label": "مدة عرض الإعلان",
+          "selected": [{ "label": "5 ثوانٍ", "value": "5", "key": "2e7d3bfd-20b8-46de-bbd4-83d6a83e3540" }],
+          "options": [
+            { "label": "5 ثوانٍ", "value": "5", "key": "2e7d3bfd-20b8-46de-bbd4-83d6a83e3540" },
+            { "label": "8 ثوانٍ", "value": "8", "key": "fe9d7db4-e18d-44e3-8cff-c542d10bc980" },
+            { "label": "10 ثوانٍ", "value": "10", "key": "f49cbeb7-6d8b-49cb-ab4a-3ce719fb1c3c" }
+          ],
+          "source": "Manual",
+          "required": true
+        },
+        {
+          "id": "delay",
+          "type": "items",
+          "format": "dropdown-list",
+          "label": "التأخير قبل الظهور",
+          "selected": [{ "label": "ثانية واحدة", "value": "1", "key": "f1a2b45b-d16e-4bbc-8d1c-f3f41340a2d5" }],
+          "options": [
+            { "label": "بدون تأخير", "value": "0", "key": "12e5e5d6-bc98-402b-b9da-0fe480729ef8" },
+            { "label": "ثانية واحدة", "value": "1", "key": "f1a2b45b-d16e-4bbc-8d1c-f3f41340a2d5" },
+            { "label": "ثانيتان", "value": "2", "key": "91502960-3cc2-439c-9d99-50d7f0d89f57" }
+          ],
+          "source": "Manual",
+          "required": true
+        },
+        {
+          "id": "frequency",
+          "type": "items",
+          "format": "dropdown-list",
+          "label": "تكرار ظهور الإعلان",
+          "selected": [{ "label": "مرة في جلسة التصفح", "value": "session", "key": "55f767e9-735d-453e-b6e4-8afe84c2b808" }],
+          "options": [
+            { "label": "مرة في جلسة التصفح", "value": "session", "key": "55f767e9-735d-453e-b6e4-8afe84c2b808" },
+            { "label": "مرة يومياً", "value": "daily", "key": "76e0063d-7ea6-479d-9d64-b920f17f46d1" },
+            { "label": "في كل زيارة", "value": "visit", "key": "1cabd858-126a-44ac-b307-379a5883e87b" }
+          ],
+          "source": "Manual",
+          "required": true
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-clock",
+          "label": "إغلاق الإعلان تلقائياً عند انتهاء العداد",
+          "id": "auto_close",
+          "format": "switch",
+          "required": false,
+          "value": true,
+          "selected": true
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-cancel",
+          "label": "السماح بالإغلاق عند الضغط خارج الإعلان",
+          "id": "backdrop_close",
+          "format": "switch",
+          "required": false,
+          "value": true,
+          "selected": true
+        }
+      ]
+    },
+    {
       "key": "27902d73-6fe3-4775-ab2c-43f17c44b8fa",
       "title": {
         "en": "WhatsApp contact",
@@ -1793,6 +1921,78 @@
           "required": false,
           "format": "text",
           "maxLength": 50
+        },
+        {
+          "type": "string",
+          "icon": "sicon-whatsapp",
+          "label": "رقم واتساب احتياطي",
+          "description": "يُستخدم فقط إذا لم تُضف خيارات تواصل ولم يكن رقم واتساب المتجر متاحاً.",
+          "id": "fallback_phone",
+          "value": null,
+          "required": false,
+          "format": "text",
+          "maxLength": 40
+        },
+        {
+          "id": "contacts",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 4,
+          "label": "خيارات التواصل الدائرية",
+          "item_label": "خيار واتساب",
+          "value": [],
+          "fields": [
+            {
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "label": "اسم الخيار",
+              "multilanguage": true,
+              "id": "contacts.label",
+              "value": null,
+              "required": true,
+              "format": "text",
+              "maxLength": 60
+            },
+            {
+              "type": "string",
+              "icon": "sicon-whatsapp",
+              "label": "رقم واتساب مع رمز الدولة",
+              "id": "contacts.phone",
+              "value": null,
+              "required": true,
+              "format": "text",
+              "maxLength": 40
+            },
+            {
+              "type": "string",
+              "icon": "sicon-chat",
+              "label": "الرسالة الجاهزة",
+              "multilanguage": true,
+              "id": "contacts.message",
+              "value": null,
+              "required": false,
+              "format": "textarea",
+              "maxLength": 240
+            },
+            {
+              "id": "contacts.icon",
+              "type": "items",
+              "format": "dropdown-list",
+              "label": "أيقونة الخيار",
+              "selected": [{ "label": "واتساب", "value": "whatsapp", "key": "c96206dd-3f97-48e4-9791-05ea6ef13485" }],
+              "options": [
+                { "label": "واتساب", "value": "whatsapp", "key": "c96206dd-3f97-48e4-9791-05ea6ef13485" },
+                { "label": "المبيعات", "value": "sales", "key": "2d21bb8e-8b34-4072-87cf-fb484a29c37e" },
+                { "label": "خدمة العملاء", "value": "support", "key": "691a2fe8-3d84-424e-89c3-f6f5fb712dd8" },
+                { "label": "الجملة والمشاريع", "value": "wholesale", "key": "0e8384ea-7cf4-4bdd-a14b-10f5fbd25de9" },
+                { "label": "الفروع", "value": "location", "key": "d028d6b4-1f42-4c2a-af97-9553ffb14129" }
+              ],
+              "source": "Manual",
+              "required": true
+            }
+          ]
         }
       ]
     },

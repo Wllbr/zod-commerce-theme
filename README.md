@@ -86,6 +86,8 @@ See `DESIGN_SYSTEM.md` for the visual and responsive rules.
 13. Real Salla Reviews / Testimonials component
 14. Trust & Service
 
+The timed Screen Advertisement is a fixed overlay, so its editor position does not affect the visual order. Add only one WhatsApp Contact component; it now renders as a fixed language-aware contact control rather than an in-page section.
+
 Only the product shelf is enabled as a safe default so a new store can render without fake banners, fake category imagery, fake trust claims, or placeholder reviews. Configure the remaining sections in the Salla theme editor with real store content.
 
 ## Repository recommendation
@@ -116,7 +118,7 @@ Version 1.4 uses a count-only header cart badge (hidden at zero), bottom-dock se
 - Blocking add-to-cart success alerts are intercepted and replaced by a non-blocking ZOD cart confirmation pill.
 - Interactive showcase price refreshes from Salla's live storefront product APIs.
 - Interactive showcase no longer renders an eyebrow / featured-offer line.
-- `WhatsApp contact` is a custom homepage component that reads the WhatsApp number from Salla store contacts.
+- `WhatsApp contact` is a floating homepage control with up to four configurable WhatsApp destinations and a Salla contact-number fallback.
 - Footer customer-service contacts are icon-only, sourced from Salla, with hover/focus glow interactions.
 
 ## v1.5.2 cart / checkout handoff

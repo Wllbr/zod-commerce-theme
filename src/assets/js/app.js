@@ -34,6 +34,9 @@ class ZodTheme {
     this.initProductCardReveal();
     this.initNativeStockBadges();
     this.initNativeCardActions();
+    this.initScreenAds();
+    this.initWhatsAppFloat();
+    this.initLocationsCarousel();
     this.initFooterDisclosures();
     this.initDisclosureToggles();
     this.initProfileAvatarUpload();
@@ -547,6 +550,156 @@ class ZodTheme {
     setTimeout(scan, 450);
     setTimeout(scan, 1400);
     setTimeout(scan, 3000);
+  }
+
+  initScreenAds() {
+    document.querySelectorAll('[data-zod-screen-ad]').forEach(ad => {
+      if (ad.dataset.zodReady === '1') return;
+      ad.dataset.zodReady = '1';
+
+      const duration = Math.max(1, Number(ad.dataset.zodAdDuration) || 5);
+      const delay = Math.max(0, Number(ad.dataset.zodAdDelay) || 0) * 1000;
+      const frequency = ad.dataset.zodAdFrequency || 'session';
+      const autoClose = ad.dataset.zodAdAutoClose !== '0';
+      const backdropClose = ad.dataset.zodAdBackdropClose !== '0';
+      const storageKey = `zod-screen-ad:${ad.dataset.zodAdKey || 'home'}`;
+      const skip = ad.querySelector('[data-zod-ad-skip]');
+      const closeButton = ad.querySelector('[data-zod-ad-close]');
+      const backdrop = ad.querySelector('[data-zod-ad-backdrop]');
+      const count = ad.querySelector('[data-zod-ad-count]');
+      const countWrap = ad.querySelector('[data-zod-ad-count-wrap]');
+      const progress = ad.querySelector('[data-zod-ad-progress]');
+      let interval = 0;
+      let remaining = duration;
+      let lastFocus = null;
+
+      const wasSeen = () => {
+        try {
+          if (frequency === 'visit') return false;
+          if (frequency === 'daily') return localStorage.getItem(storageKey) === new Date().toISOString().slice(0, 10);
+          return sessionStorage.getItem(storageKey) === '1';
+        } catch (_) { return false; }
+      };
+
+      const remember = () => {
+        try {
+          if (frequency === 'daily') localStorage.setItem(storageKey, new Date().toISOString().slice(0, 10));
+          else if (frequency !== 'visit') sessionStorage.setItem(storageKey, '1');
+        } catch (_) {}
+      };
+
+      const updateTimer = () => {
+        if (count) count.textContent = String(Math.max(0, remaining));
+        if (progress) progress.style.setProperty('--zod-ad-progress', `${Math.max(0, remaining / duration) * 100}%`);
+      };
+
+      const hide = () => {
+        if (ad.hidden) return;
+        window.clearInterval(interval);
+        remember();
+        ad.classList.remove('is-visible');
+        ad.setAttribute('aria-hidden', 'true');
+        document.documentElement.classList.remove('zod-screen-ad-open');
+        window.setTimeout(() => { ad.hidden = true; }, 220);
+        lastFocus?.focus?.();
+      };
+
+      const onKeydown = event => {
+        if (event.key === 'Escape' && !ad.hidden) hide();
+      };
+      document.addEventListener('keydown', onKeydown);
+      skip?.addEventListener('click', hide);
+      closeButton?.addEventListener('click', hide);
+      if (backdropClose) backdrop?.addEventListener('click', hide);
+
+      if (wasSeen()) return;
+      window.setTimeout(() => {
+        if (!ad.isConnected || document.hidden) return;
+        lastFocus = document.activeElement;
+        remaining = duration;
+        updateTimer();
+        ad.hidden = false;
+        ad.setAttribute('aria-hidden', 'false');
+        document.documentElement.classList.add('zod-screen-ad-open');
+        requestAnimationFrame(() => ad.classList.add('is-visible'));
+        skip?.focus?.({ preventScroll: true });
+        interval = window.setInterval(() => {
+          remaining -= 1;
+          updateTimer();
+          if (remaining > 0) return;
+          window.clearInterval(interval);
+          if (countWrap) countWrap.hidden = true;
+          if (autoClose) hide();
+        }, 1000);
+      }, delay);
+    });
+  }
+
+  initWhatsAppFloat() {
+    document.querySelectorAll('[data-zod-whatsapp-float]').forEach(widget => {
+      if (widget.dataset.zodReady === '1') return;
+      widget.dataset.zodReady = '1';
+      const toggle = widget.querySelector('[data-zod-whatsapp-toggle]');
+      const options = widget.querySelector('[data-zod-whatsapp-options]');
+      if (!toggle || !options) return;
+
+      const close = () => {
+        widget.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        window.setTimeout(() => { if (!widget.classList.contains('is-open')) options.hidden = true; }, 180);
+      };
+      const open = () => {
+        options.hidden = false;
+        requestAnimationFrame(() => widget.classList.add('is-open'));
+        toggle.setAttribute('aria-expanded', 'true');
+      };
+
+      toggle.addEventListener('click', event => {
+        event.stopPropagation();
+        widget.classList.contains('is-open') ? close() : open();
+      });
+      document.addEventListener('click', event => { if (!widget.contains(event.target)) close(); });
+      document.addEventListener('keydown', event => { if (event.key === 'Escape') close(); });
+      widget.querySelectorAll('.zod-whatsapp-float__option').forEach(link => link.addEventListener('click', close));
+
+      requestAnimationFrame(() => widget.classList.add('is-intro'));
+      window.setTimeout(() => widget.classList.remove('is-intro'), 1800);
+    });
+  }
+
+  initLocationsCarousel() {
+    document.querySelectorAll('[data-zod-locations-rail]').forEach(rail => {
+      if (rail.dataset.zodReady === '1') return;
+      rail.dataset.zodReady = '1';
+      const cards = [...rail.querySelectorAll('.zod-location-card')];
+      const dotsWrap = rail.parentElement?.querySelector('[data-zod-locations-dots]');
+      const dots = [...(dotsWrap?.querySelectorAll('[data-zod-location-dot]') || [])];
+      if (cards.length < 2 || !dots.length) return;
+
+      const setActive = index => dots.forEach((dot, dotIndex) => {
+        dot.classList.toggle('is-active', dotIndex === index);
+        dot.setAttribute('aria-current', dotIndex === index ? 'true' : 'false');
+      });
+      const update = () => {
+        const railRect = rail.getBoundingClientRect();
+        const center = railRect.left + railRect.width / 2;
+        let active = 0;
+        let distance = Infinity;
+        cards.forEach((card, index) => {
+          const rect = card.getBoundingClientRect();
+          const nextDistance = Math.abs(rect.left + rect.width / 2 - center);
+          if (nextDistance < distance) { distance = nextDistance; active = index; }
+        });
+        setActive(active);
+      };
+      let frame = 0;
+      rail.addEventListener('scroll', () => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(update);
+      }, { passive: true });
+      dots.forEach((dot, index) => dot.addEventListener('click', () => cards[index]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })));
+      setActive(0);
+    });
   }
 
   initProfileAvatarUpload() {

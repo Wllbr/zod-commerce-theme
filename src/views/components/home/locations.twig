@@ -4,7 +4,7 @@
 <section class="zod-section zod-locations-section">
   <div class="container">
     {% if title or subtitle %}<div class="zod-section-head"><div>{% if title %}<h2>{{ title }}</h2>{% endif %}{% if subtitle %}<p>{{ subtitle }}</p>{% endif %}</div></div>{% endif %}
-    <div class="zod-locations-grid">
+    <div class="zod-locations-grid" data-zod-locations-rail>
       {% for item in component.items %}
         {% set item_name = item.name is iterable ? item.name[language.code]|default(item.name|first) : item.name %}
         {% set item_address = item.address is iterable ? item.address[language.code]|default(item.address|first) : item.address %}
@@ -23,6 +23,11 @@
         </article>
       {% endfor %}
     </div>
+    {% if component.items|length > 1 %}
+      <div class="zod-locations-dots" data-zod-locations-dots aria-label="{{ trans('zod.locations.navigation') }}">
+        {% for item in component.items %}<button type="button" class="{{ loop.first ? 'is-active' : '' }}" data-zod-location-dot="{{ loop.index0 }}" aria-label="{{ trans('zod.locations.slide') }} {{ loop.index }}"></button>{% endfor %}
+      </div>
+    {% endif %}
   </div>
 </section>
 {% endif %}
