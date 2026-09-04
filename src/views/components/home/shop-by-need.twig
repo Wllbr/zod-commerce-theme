@@ -4,7 +4,7 @@
 <section class="zod-section zod-need-section">
   <div class="container">
     {% if title or subtitle %}<div class="zod-section-head"><div>{% if title %}<h2>{{ title }}</h2>{% endif %}{% if subtitle %}<p>{{ subtitle }}</p>{% endif %}</div></div>{% endif %}
-    <div class="zod-need-grid">
+    <div class="zod-need-grid" style="--zod-need-columns: {{ min(4, component.items|length) }}">
       {% for item in component.items %}
         {% set item_url = item.url.url|default(item.url) %}
         {% set item_title = item.title is iterable ? item.title[language.code]|default(item.title|first) : item.title %}
