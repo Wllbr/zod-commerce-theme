@@ -68,10 +68,10 @@
         <span>{{ trans('zod.cart.total') }}</span>
         <strong data-zod-cart-grand-total>{{ cart.total|money }}</strong>
       </div>
-      <a data-testid="store-cart-checkout-mobile" href="{{ link('checkout') }}" class="zod-cart-mobile-checkout__button">
+      <button type="button" data-testid="store-cart-checkout-mobile" class="zod-cart-mobile-checkout__button">
         <span class="zod-cart-mobile-checkout__button-copy"><strong>{{ trans('zod.cart.checkout') }}</strong><small>{{ trans('zod.cart.checkout_step') }}</small></span>
         <span class="zod-cart-mobile-checkout__lock"><i class="sicon-lock"></i></span>
-      </a>
+      </button>
       <p class="zod-cart-mobile-checkout__reassurance"><i class="sicon-shield-check"></i>{{ trans('zod.cart.checkout_reassurance') }}</p>
     </div>
     {% else %}

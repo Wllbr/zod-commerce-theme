@@ -67,7 +67,9 @@ class ZodTheme {
     });
 
     document.addEventListener('keydown', event => {
-      if (event.key === 'Escape' && this.searchOverlay?.classList.contains('is-open')) this.closeSearch();
+      if (!this.searchOverlay?.classList.contains('is-open')) return;
+      if (event.key === 'Escape') this.closeSearch();
+      else containDialogFocus(event, this.searchOverlay);
     });
   }
 
@@ -75,12 +77,24 @@ class ZodTheme {
     if (!this.searchOverlay) return;
     window.zodMenu?.close?.(false);
     this.searchLastFocus = trigger || document.activeElement;
+    // Some Salla versions render a modal trigger even when inline is requested.
+    // Let that native dialog own the screen instead of covering its results.
+    const searchComponent = this.searchOverlay.querySelector('salla-search');
+    const nativeTrigger = searchComponent?.querySelector('input[readonly], .s-search-placeholder-trigger')
+      || searchComponent?.shadowRoot?.querySelector('input[readonly], .s-search-placeholder-trigger');
+    if (nativeTrigger && typeof searchComponent.open === 'function') {
+      this.closeSearch(false);
+      searchComponent.open();
+      return;
+    }
     this.searchOverlay.classList.add('is-open');
     this.searchOverlay.setAttribute('aria-hidden', 'false');
     this.syncOverlayLock();
     requestAnimationFrame(() => {
+      if (!this.searchOverlay.classList.contains('is-open')) return;
       const search = this.searchOverlay.querySelector('salla-search');
-      search?.focus?.();
+      const input = search?.querySelector('input[type="search"]') || search?.shadowRoot?.querySelector('input[type="search"]');
+      (input || this.searchOverlay.querySelector('.zod-search-overlay__close'))?.focus();
     });
   }
 

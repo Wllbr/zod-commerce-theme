@@ -67,9 +67,16 @@ const cartTimers = new Map();
 const pending = [];
 let cartTimerId=0;
 const totalNode = {innerHTML:'100',classList:classes(),closest:()=>null};
+let checkoutClick;
+let checkoutSubmissions=0;
+const cartLineTotal={innerHTML:'707.40'};
 const cartDocument = {
+  getElementById:id=>id==='item-42'?{querySelector:()=>cartLineTotal}:null,
   addEventListener:(name,fn)=>{handlers[name]=fn;},
-  querySelector:()=>({}),
+  querySelector:selector=>selector==='[data-testid="store-cart-checkout-mobile"]'
+    ? {addEventListener:(_name,fn)=>{checkoutClick=fn;}}
+    : selector==='salla-cart-summary-card'
+      ? {querySelector:()=>({click:()=>{checkoutSubmissions++;}})} : {},
   querySelectorAll:selector=>selector==='[data-zod-cart-grand-total]'?[totalNode]:[]
 };
 const sdk={money:String, storage:{get:()=>({total:999})}, cart:{
@@ -82,6 +89,8 @@ vm.runInNewContext(read('src/assets/js/pages.js'),{
   clearTimeout:id=>cartTimers.delete(id)
 });
 handlers.DOMContentLoaded();
+checkoutClick();
+assert.equal(checkoutSubmissions,1,'mobile checkout must use native validation and submission');
 assert.equal(totalNode.innerHTML,'100');
 const flushRefresh=async()=>{
   const entry=[...cartTimers].find(([,task])=>task.delay===260);
@@ -98,6 +107,43 @@ assert.equal(totalNode.innerHTML,'120','late details must not undo a successful 
 const newRefresh=flushRefresh();
 pending[1]({data:{cart:{total:120}}});
 await newRefresh;
+cartHandlers.onItemUpdated({data:{cart:{total:6003.2,items:[{id:42,total:943.2}]}}});
+assert.equal(cartLineTotal.innerHTML,'943.2','line total must follow confirmed server pricing');
 cartHandlers.onItemDeleted({data:{cart:{total:0}}});
 assert.equal(totalNode.innerHTML,'0','zero is a valid total');
 console.log('PASS: stock snapshots, unlimited inventory, Quick View ordering/offline fallback, and cart stale-cache/request races.');
+
+// A temporary menu API failure must allow a fresh request on retry.
+let MenuSource;
+let menuAttempts = 0;
+const menuBox = {innerHTML:'', querySelector:()=>null, querySelectorAll:()=>[]};
+const menuSdk = {onReady:()=>Promise.resolve(),api:{component:{getMenus:async()=>{
+  if (++menuAttempts === 1) throw new Error('offline');
+  return {data:[{title:'Fans',url:'/fans'}]};
+}}}};
+const menuWindow = {salla:menuSdk};
+vm.runInNewContext(read('src/assets/js/partials/zod-menu.js').replace(/^import .*;\r?\n/gm,''),{
+  HTMLElement:class {},customElements:{get:()=>null,define:(_name,klass)=>{MenuSource=klass;}},
+  window:menuWindow,salla:menuSdk,document:{addEventListener(){},documentElement:{lang:'en'},getElementById:()=>menuBox},
+  setTimeout,containDialogFocus(){}
+});
+menuWindow.zodMenuSource = new MenuSource();
+await menuWindow.zodMenu.load();
+assert.match(menuBox.innerHTML,/Could not load categories/);
+assert.match(menuBox.innerHTML,/data-zod-menu-retry/);
+await menuWindow.zodMenu.load();
+assert.equal(menuAttempts,2);
+assert.match(menuBox.innerHTML,/Fans/);
+menuWindow.zodMenu.setMenus([]);
+assert.match(menuBox.innerHTML,/No categories are available/);
+
+// Legacy Salla modal search must not be covered by our inline overlay.
+let nativeSearchOpened=0;
+let overlayShown=false;
+const searchComponent={querySelector:()=>({}),open:()=>{nativeSearchOpened++;}};
+const searchTheme={searchOverlay:{querySelector:()=>searchComponent,classList:{add:()=>{overlayShown=true;}}},
+  closeSearch:restore=>assert.equal(restore,false)};
+nativeContext.window.Theme.prototype.openSearch.call(searchTheme,trigger);
+assert.equal(nativeSearchOpened,1);
+assert.equal(overlayShown,false);
+console.log('PASS: menu failure recovery, empty menus, and native search modal handoff.');

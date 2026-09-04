@@ -3288,6 +3288,9 @@ salla-product-card.s-product-card-vertical .s-product-card-content-footer .s-but
   border-color: #52727d !important;
 }
 #zod-notifications { position: fixed; z-index: 100000; top: 18px; inset-inline-end: 18px; width: min(390px, calc(100vw - 36px)); display: grid; gap: 10px; }
+.zod-menu-message { padding: 24px; color: var(--zod-ink); line-height: 1.6; }
+.zod-menu-message button { margin-top: 16px; min-height: 44px; padding: 10px 20px; background: var(--zod-ink); color: #fff; border-radius: 10px; }
+.zod-menu-message button:focus-visible { outline: 2px solid var(--zod-ink); outline-offset: 3px; }
 .zod-notice { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: #17313b; color: #fff; border-radius: 12px; box-shadow: 0 6px 28px #0003; }
 .zod-notice.is-error { background: #8c2222; }
 .zod-notice span { flex: 1; }

@@ -4,6 +4,16 @@ document.addEventListener('DOMContentLoaded',()=>{
   const cartPage=document.querySelector('[data-zod-cart-page]');
   if(!cartPage) return;
 
+  // Reuse Salla's form validation and checkout submission from the mobile dock.
+  document.querySelector('[data-testid="store-cart-checkout-mobile"]')?.addEventListener('click',()=>{
+    const summary=document.querySelector('salla-cart-summary-card');
+    const submit=summary?.querySelector('#s-cart-summary-card-submit')
+      || summary?.shadowRoot?.querySelector('#s-cart-summary-card-submit');
+    if(submit) { submit.click(); return; }
+    const ar=(document.documentElement.lang||'').toLowerCase().startsWith('ar');
+    window.salla?.notify?.error?.(ar?'جارٍ تجهيز إتمام الطلب. حاول مرة أخرى بعد لحظات.':'Checkout is still loading. Please try again in a moment.');
+  });
+
   const totalNodes=[...document.querySelectorAll('[data-zod-cart-grand-total]')];
   let activeCartItem=null;
   let mutationFallbackTimer=null;
@@ -71,6 +81,18 @@ document.addEventListener('DOMContentLoaded',()=>{
       }
     });
   };
+  const paintItemTotals=payload=>{
+    const roots=[payload?.data?.data,payload?.data,payload,payload?.cart,payload?.data?.cart].filter(Boolean);
+    const items=roots.find(root=>Array.isArray(root.items))?.items;
+    if(!items) return;
+    items.forEach(item=>{
+      const amount=moneyNumber(item.total);
+      if(item.id==null || amount===null || item.is_available===false) return;
+      const form=document.getElementById(`item-${item.id}`);
+      const node=form?.querySelector('[data-testid="store-cart-item-total"]');
+      if(node) { try{node.innerHTML=salla.money(amount);}catch(_){node.textContent=String(amount);} }
+    });
+  };
   let timer;
   let revision=0;
   const refresh=()=>{
@@ -80,7 +102,10 @@ document.addEventListener('DOMContentLoaded',()=>{
       try{
         const details=await salla.cart.details();
         const total=extractTotal(details);
-        if(request===revision && total!==null) paintTotal(total);
+        if(request===revision) {
+          if(total!==null) paintTotal(total);
+          paintItemTotals(details);
+        }
       }catch(_){}
     },260);
   };
@@ -91,6 +116,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       finishItemUpdate();
       const total=extractTotal(response);
       if(total!==null) paintTotal(total);
+      paintItemTotals(response);
       refresh();
     };
     salla.cart?.event?.onItemAdded?.(afterMutation);

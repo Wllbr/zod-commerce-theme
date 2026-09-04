@@ -1,3 +1,5 @@
+import { containDialogFocus } from './dialog-focus';
+
 class ZodMainMenu extends HTMLElement {
   connectedCallback() {
     window.zodMenuSource = this;
@@ -9,7 +11,7 @@ class ZodMainMenu extends HTMLElement {
       const started = Date.now();
       const check = () => {
         if (window.salla?.onReady && window.salla?.api?.component) return resolve(window.salla);
-        if (Date.now() - started >= timeout) return reject(new Error('Salla SDK unavailable'));
+        if (Date.now() - started >= timeout) { this.readyPromise = null; return reject(new Error('Salla SDK unavailable')); }
         setTimeout(check, 80);
       };
       check();
@@ -23,7 +25,7 @@ class ZodMainMenu extends HTMLElement {
       .then(() => salla.onReady())
       .then(() => salla.api.component.getMenus())
       .then(({ data }) => Array.isArray(data) ? data : [])
-      .catch(() => []);
+      .catch(error => { this.menuPromise = null; throw error; });
     return this.menuPromise;
   }
 }
@@ -42,6 +44,23 @@ window.zodMenu = {
   stack: [],
   lastFocus: null,
 
+  text(ar, en) {
+    return (document.documentElement.lang || '').toLowerCase().startsWith('ar') ? ar : en;
+  },
+
+  async load() {
+    const box = document.getElementById('zod-mobile-menu-content');
+    if (!box) return;
+    box.innerHTML = `<div class="zod-menu-loading" role="status" aria-label="${this.text('جارٍ تحميل الأقسام', 'Loading categories')}"><span></span><span></span><span></span></div>`;
+    try {
+      if (!window.zodMenuSource) throw new Error('Menu unavailable');
+      this.setMenus(await window.zodMenuSource.loadMenus());
+    } catch (_) {
+      box.innerHTML = `<div class="zod-menu-message" role="status"><p>${this.text('تعذر تحميل الأقسام. حاول مرة أخرى.', 'Could not load categories. Please try again.')}</p><button type="button" data-zod-menu-retry>${this.text('إعادة المحاولة', 'Try again')}</button></div>`;
+      box.querySelector('[data-zod-menu-retry]')?.addEventListener('click', () => this.load());
+    }
+  },
+
   setMenus(menus) {
     this.menus = menus || [];
     this.stack = [];
@@ -55,11 +74,7 @@ window.zodMenu = {
     this.lastFocus = trigger || document.activeElement;
     this.stack = [];
     if (this.menus.length) this.renderLevel(this.menus, null);
-    else {
-      const box = document.getElementById('zod-mobile-menu-content');
-      if (box) box.innerHTML = '<div class="zod-menu-loading" aria-busy="true"><span></span><span></span><span></span></div>';
-      window.zodMenuSource?.loadMenus?.().then(menus => this.setMenus(menus));
-    }
+    else this.load();
     el.classList.add('is-open');
     el.setAttribute('aria-hidden', 'false');
     trigger?.setAttribute?.('aria-expanded', 'true');
@@ -90,6 +105,10 @@ window.zodMenu = {
   renderLevel(items, title) {
     const box = document.getElementById('zod-mobile-menu-content');
     if (!box) return;
+    if (!items.length) {
+      box.innerHTML = `<p class="zod-menu-message" role="status">${this.text('لا توجد أقسام لعرضها حالياً. استخدم البحث للعثور على المنتجات.', 'No categories are available yet. Use search to find products.')}</p>`;
+      return;
+    }
 
     const back = this.stack.length
       ? `<button type="button" class="zod-mobile-back" data-zod-back><i class="sicon-keyboard_arrow_right rtl:rotate-180"></i><span>${this.esc(title || '')}</span></button>`
@@ -107,14 +126,18 @@ window.zodMenu = {
       button.addEventListener('click', () => {
         const menu = (items || [])[Number(button.dataset.zodNext)];
         if (!menu) return;
-        this.stack.push({ items, title });
+        this.stack.push({ items, title, index: Number(button.dataset.zodNext) });
         this.renderLevel(menu.children || [], menu.title || '');
+        box.querySelector('[data-zod-back]')?.focus();
       });
     });
 
     box.querySelector('[data-zod-back]')?.addEventListener('click', () => {
       const previous = this.stack.pop();
-      if (previous) this.renderLevel(previous.items, previous.title);
+      if (previous) {
+        this.renderLevel(previous.items, previous.title);
+        box.querySelector(`[data-zod-next="${previous.index}"]`)?.focus();
+      }
     });
   }
 };
@@ -126,8 +149,9 @@ document.addEventListener('click', event => {
 });
 
 document.addEventListener('keydown', event => {
-  if (event.key !== 'Escape') return;
-  if (document.getElementById('zod-catalog-drawer')?.classList.contains('is-open')) {
-    window.zodMenu?.close();
+  const drawer = document.getElementById('zod-catalog-drawer');
+  if (drawer?.classList.contains('is-open')) {
+    if (event.key === 'Escape') window.zodMenu?.close();
+    else containDialogFocus(event, drawer);
   }
 });

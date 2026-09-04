@@ -1,3 +1,13 @@
+## 1.6.48 — Search, checkout and navigation readiness
+
+- Prevents the theme search overlay from covering Salla's native modal results.
+- Uses native checkout validation/submission from the custom mobile purchase action.
+- Refreshes cart line totals from server snapshots without calculating discounts locally.
+- Adds recoverable category loading failures and explicit empty-menu copy in Arabic and English.
+- Improves category drill-down focus and contains keyboard navigation in menu/search dialogs.
+- Adds regression coverage for retry, empty states, native search handoff, line totals and mobile checkout forwarding.
+- Prepared locally; not published or verified as deployed while the existing Salla submission remains under review.
+
 ## 1.6.47 — Stock, cart and accessibility fixes
 
 - Unifies stock detection and makes fresh Quick View stock override older cards.

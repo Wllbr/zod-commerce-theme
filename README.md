@@ -1,6 +1,14 @@
 # ZOD Commerce Theme
 
-**Version 1.6.47** — Salla Twilight storefront for ZOD.
+**Version 1.6.48** — Salla Twilight storefront for ZOD.
+
+## v1.6.48 consumer-readiness fixes
+
+- Opens native modal search without covering the results on Salla versions that ignore inline mode.
+- Routes mobile checkout through Salla's native form validation and submission control.
+- Refreshes cart line totals from confirmed server data as well as the grand total.
+- Adds category-menu retry and empty states, keyboard containment, and focus restoration when navigating subcategories.
+- Passed local regression checks and production compilation; live verification of this release remains pending while Salla holds the previous submission under review.
 
 ## v1.6.47 storefront fixes
 
