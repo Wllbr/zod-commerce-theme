@@ -53,10 +53,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       }
       const n=moneyNumber(root?.summary?.total); if(n!==null) return n;
     }
-    try{
-      const summary=salla.storage.get('cart.summery')||salla.storage.get('cart.summary')||{};
-      return moneyNumber(summary.total);
-    }catch(_){return null;}
+    return null;
   };
   const paintTotal=value=>{
     if(!totalNodes.length) return;
@@ -75,32 +72,40 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
   };
   let timer;
+  let revision=0;
   const refresh=()=>{
+    const request=++revision;
     clearTimeout(timer);
     timer=setTimeout(async()=>{
       try{
         const details=await salla.cart.details();
         const total=extractTotal(details);
-        if(total!==null) paintTotal(total);
-      }catch(_){
-        const total=extractTotal(null);
-        if(total!==null) paintTotal(total);
-      }
+        if(request===revision && total!==null) paintTotal(total);
+      }catch(_){}
     },260);
   };
   const boot=()=>{
-    const stored=extractTotal(null); if(stored!==null) paintTotal(stored);
     refresh();
-    salla.cart?.event?.onItemAdded?.(refresh);
-    salla.cart?.event?.onItemDeleted?.(()=>{finishItemUpdate();refresh();});
-    salla.cart?.event?.onDetailsFetched?.(response=>{const total=extractTotal(response);if(total!==null)paintTotal(total);});
+    const afterMutation=response=>{
+      ++revision;
+      finishItemUpdate();
+      const total=extractTotal(response);
+      if(total!==null) paintTotal(total);
+      refresh();
+    };
+    salla.cart?.event?.onItemAdded?.(afterMutation);
+    salla.cart?.event?.onItemDeleted?.(afterMutation);
+    salla.cart?.event?.onItemUpdated?.(afterMutation);
+    salla.cart?.event?.onItemUpdatedFailed?.(()=>{finishItemUpdate();refresh();});
+    salla.cart?.event?.onCouponAdded?.(afterMutation);
+    salla.cart?.event?.onCouponDeleted?.(afterMutation);
   };
   if(window.salla?.onReady) window.salla.onReady().then(boot).catch(()=>{}); else boot();
 
   document.addEventListener('change',event=>{
     const path=typeof event.composedPath==='function'?event.composedPath():[];
     const isCartChange=path.some(node=>node?.matches?.('.zod-cart-item, salla-quantity-input, form[id^="item-"]')) || event.target?.closest?.('.zod-cart-item, form[id^="item-"]');
-    if(isCartChange){beginItemUpdate(findCartItem(event));refresh();}
+    if(isCartChange){beginItemUpdate(findCartItem(event));++revision;clearTimeout(timer);}
   },true);
   document.addEventListener('zod:cart-update-success',()=>{finishItemUpdate();refresh();});
   document.addEventListener('zod:cart-delete-success',refresh);

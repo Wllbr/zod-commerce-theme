@@ -43,6 +43,8 @@
       "product_switcher_empty": "Choose a category or selected products for this product type."
     },
     "product": {
+      "previous_image": "Previous image",
+      "next_image": "Next image",
       "in_stock": "In stock",
       "low_stock": "Low stock",
       "out_stock": "Out of stock",

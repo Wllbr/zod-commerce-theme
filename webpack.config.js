@@ -14,7 +14,7 @@ module.exports = {
     pages: asset('js/pages.js'),
     'zod-menu': asset('js/partials/zod-menu.js')
   },
-  output: { path: publicDir(), clean: true, chunkFilename: '[name].[contenthash].js' },
+  output: { path: publicDir(), clean: { keep: /^videos[\\/]/ }, chunkFilename: '[name].[contenthash].js' },
   stats: { modules: false, assetsSort: 'size', assetsSpace: 50 },
   module: { rules: [
     { test: /\.js$/, exclude: /(node_modules)/, use: { loader: 'babel-loader', options: { presets: ['@babel/preset-env'], plugins: ['@babel/plugin-transform-runtime'] } } },

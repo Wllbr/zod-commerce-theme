@@ -61,8 +61,8 @@
         </salla-slider>
 
         {% if many %}
-          <button type="button" class="zod-gallery-arrow zod-gallery-arrow--prev" data-zod-gallery-prev aria-label="{{ trans('common.elements.previous')|default('Previous') }}"><i class="sicon-keyboard_arrow_left"></i></button>
-          <button type="button" class="zod-gallery-arrow zod-gallery-arrow--next" data-zod-gallery-next aria-label="{{ trans('common.elements.next')|default('Next') }}"><i class="sicon-keyboard_arrow_right"></i></button>
+          <button type="button" class="zod-gallery-arrow zod-gallery-arrow--prev" data-zod-gallery-prev aria-label="{{ trans('zod.product.previous_image') }}"><i class="sicon-keyboard_arrow_left"></i></button>
+          <button type="button" class="zod-gallery-arrow zod-gallery-arrow--next" data-zod-gallery-next aria-label="{{ trans('zod.product.next_image') }}"><i class="sicon-keyboard_arrow_right"></i></button>
 
           <div class="zod-floating-thumbs" data-zod-gallery-thumbs aria-label="{{ product.name }}">
             {% for image in product.images %}

@@ -43,6 +43,8 @@
       "product_switcher_empty": "اختر تصنيفاً أو منتجات محددة لهذا النوع."
     },
     "product": {
+      "previous_image": "الصورة السابقة",
+      "next_image": "الصورة التالية",
       "in_stock": "متوفر",
       "low_stock": "كمية محدودة",
       "out_stock": "غير متوفر",

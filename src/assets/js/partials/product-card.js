@@ -1,3 +1,6 @@
+import { isOutOfStock, mergeProductDetails } from './stock';
+import { containDialogFocus } from './dialog-focus';
+
 class ZodProductCard extends HTMLElement {
   connectedCallback() {
     try {
@@ -103,17 +106,7 @@ class ZodProductCard extends HTMLElement {
   }
 
   isOutOfStock(product = this.product) {
-    const rawStatus = String(product.status || '').toLowerCase();
-    const explicitQuantity = (product.quantity !== undefined && product.quantity !== null && product.quantity !== '') ? Number(product.quantity) : null;
-    // Salla can return quantity=0 for unlimited products in product details.
-    // Explicit availability is more authoritative than that placeholder value.
-    if (product.is_available === true || product.unlimited_quantity === true) return false;
-    if (product.is_available === false) return true;
-    return Boolean(
-      product.is_out_of_stock ||
-      ['out', 'out-of-stock', 'out_of_stock', 'sold-out', 'sold_out', 'out-and-notify'].includes(rawStatus) ||
-      (Number.isFinite(explicitQuantity) && explicitQuantity <= 0 && !['donating', 'financial_support'].includes(product.type))
-    );
+    return isOutOfStock(product);
   }
 
   initialWishlistState(product = this.product) {
@@ -169,19 +162,22 @@ class ZodProductCard extends HTMLElement {
     modal.innerHTML = `
       <div class="zod-qv__backdrop" data-zod-qv-close></div>
       <section class="zod-qv__dialog" role="dialog" aria-modal="true" aria-labelledby="zod-qv-title">
-        <button type="button" class="zod-qv__close" data-zod-qv-close aria-label="Close"><i class="sicon-cancel"></i></button>
+        <button type="button" class="zod-qv__close" data-zod-qv-close aria-label="${this.isArabic() ? 'إغلاق' : 'Close'}"><i class="sicon-cancel"></i></button>
         <div class="zod-qv__content"></div>
       </section>`;
     document.body.appendChild(modal);
 
     const close = () => {
+      modal.__zodRequest = (modal.__zodRequest || 0) + 1;
       modal.classList.remove('is-open');
       document.body.classList.remove('zod-qv-open');
-      setTimeout(() => { modal.hidden = true; }, 180);
+      modal.__zodCloseTimer = setTimeout(() => { modal.hidden = true; }, 180);
+      modal.__zodLastFocus?.focus?.({ preventScroll: true });
     };
     modal.querySelectorAll('[data-zod-qv-close]').forEach(el => el.addEventListener('click', close));
     document.addEventListener('keydown', event => {
       if (event.key === 'Escape' && !modal.hidden) close();
+      if (modal.classList.contains('is-open')) containDialogFocus(event, modal);
     });
     modal.__zodClose = close;
     return modal;
@@ -196,25 +192,22 @@ class ZodProductCard extends HTMLElement {
     const full = candidates.find(value => value && typeof value === 'object' && (value.id || value.name));
     if (!full) return fallback;
 
-    const merged = { ...fallback, ...full };
-    const fallbackIsAvailable = fallback?.is_available === true || fallback?.unlimited_quantity === true;
-    if (fallbackIsAvailable && fallback?.is_out_of_stock !== true) {
-      merged.is_available = true;
-      merged.is_out_of_stock = false;
-      merged.unlimited_quantity = fallback?.unlimited_quantity === true || full?.unlimited_quantity === true;
-      if (this.isOutOfStock(full)) merged.status = fallback.status || 'sale';
-    }
-    return merged;
+    return mergeProductDetails(fallback, full);
   }
 
   async openQuickView(product = this.product) {
     const modal = this.ensureQuickView();
+    clearTimeout(modal.__zodCloseTimer);
+    const request = modal.__zodRequest = (modal.__zodRequest || 0) + 1;
+    if (!modal.contains(document.activeElement)) modal.__zodLastFocus = document.activeElement;
     const content = modal.querySelector('.zod-qv__content');
     modal.hidden = false;
-    content.innerHTML = `<div class="zod-qv__loading" role="status"><span class="zod-qv__spinner"></span><span>${this.esc(this.isArabic() ? 'جارٍ تحميل المنتج…' : 'Loading product…')}</span></div>`;
+    content.innerHTML = `<div class="zod-qv__loading" role="status"><span class="zod-qv__spinner"></span><span id="zod-qv-title">${this.esc(this.isArabic() ? 'جارٍ تحميل المنتج…' : 'Loading product…')}</span></div>`;
     requestAnimationFrame(() => {
+      if (request !== modal.__zodRequest) return;
       modal.classList.add('is-open');
       document.body.classList.add('zod-qv-open');
+      modal.querySelector('.zod-qv__close')?.focus({ preventScroll: true });
     });
 
     let details = product;
@@ -224,7 +217,7 @@ class ZodProductCard extends HTMLElement {
         details = this.unwrapProductDetails(response, product);
       }
     } catch (_) {}
-    if (modal.hidden) return;
+    if (modal.hidden || request !== modal.__zodRequest) return;
 
     const image = this.imageUrl(details?.image) || details.thumbnail || this.imageUrl(product?.image) || product.thumbnail || '';
     const category = this.getCategory(details) || this.getCategory(product);
@@ -234,7 +227,7 @@ class ZodProductCard extends HTMLElement {
     const detailsLabel = this.isArabic() ? 'عرض التفاصيل كاملة' : 'View full details';
     const optionLabel = this.isArabic() ? 'اختر الخيارات من صفحة المنتج' : 'Choose options on the product page';
     const description = this.stripHtml(details.short_description || details.subtitle || details.description || '').slice(0, 220);
-    const status = isOut && window.notify_when_available_in_card !== false && !['donating', 'financial_support'].includes(details.type) ? 'out-and-notify' : details.status;
+    const status = isOut ? (window.notify_when_available_in_card !== false && !['donating', 'financial_support'].includes(details.type) ? 'out-and-notify' : 'out') : details.status;
     const hasOptions = Boolean(details.has_options || (Array.isArray(details.options) && details.options.length));
     const quickBuy = details.can_quick_buy && !hasOptions && !isOut ? ' quick-buy' : '';
 
@@ -262,7 +255,7 @@ class ZodProductCard extends HTMLElement {
     const image = this.imageUrl(p?.image) || p.thumbnail || '';
     const imageAlt = this.esc(p?.image?.alt || p.name || '');
     const isOut = this.isOutOfStock(p);
-    const status = (isOut && window.notify_when_available_in_card !== false && !['donating', 'financial_support'].includes(p.type)) ? 'out-and-notify' : p.status;
+    const status = isOut ? (window.notify_when_available_in_card !== false && !['donating', 'financial_support'].includes(p.type) ? 'out-and-notify' : 'out') : p.status;
     const addLabel = p.add_to_cart_label || this.t(p.type === 'booking' ? 'pages.cart.book_now' : 'pages.cart.add_to_cart', this.isArabic() ? 'أضف إلى السلة' : 'Add to cart');
     const outLabel = this.t('pages.products.out_of_stock', this.isArabic() ? 'نفدت الكمية' : 'Out of stock');
     const wishlistLabel = this.esc(this.t('zod.header.wishlist', this.isArabic() ? 'المفضلة' : 'Wishlist'));

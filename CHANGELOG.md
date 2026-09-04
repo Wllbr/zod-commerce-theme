@@ -1,3 +1,13 @@
+## 1.6.47 — Stock, cart and accessibility fixes
+
+- Unifies stock detection and makes fresh Quick View stock override older cards.
+- Prevents older detail requests and delayed closing from replacing a newer Quick View.
+- Contains keyboard focus in Quick View and screen ads and restores Quick View focus.
+- Replaces Salla's default blocking alerts through its supported notifier; errors stay dismissible and visible.
+- Updates cart totals from confirmed changes, rejects late responses and avoids stale cached totals/counts.
+- Makes certificate links functional, translates gallery labels, improves purchase-button contrast and fixes WhatsApp fallback precedence.
+- Preserves source videos during production builds and adds regression checks for the reproduced issues.
+
 ## 1.6.46 — Screen ads, floating WhatsApp options and mobile branch carousel
 
 - Adds a configurable homepage image advertisement with desktop/mobile artwork, countdown, skip/close controls, optional auto-close, link, delay and visit-frequency controls.

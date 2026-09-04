@@ -1,6 +1,17 @@
 # ZOD Commerce Theme
 
-**Version 1.0.0** — fresh Salla Twilight storefront for ZOD.
+**Version 1.6.47** — Salla Twilight storefront for ZOD.
+
+## v1.6.47 storefront fixes
+
+- Fresh product details take precedence over cached stock; unlimited stock is handled consistently.
+- Quick View ignores superseded requests, contains keyboard focus, restores its trigger, and labels controls in the active language.
+- Cart totals use successful mutations and fresh responses, with no stale storage fallback. Salla notifications use a dismissible, nonblocking interface.
+- Certificate links open the actual certificate; gallery controls are translated, and purchase buttons retain readable contrast with pale accents.
+- WhatsApp uses the store contact before its fallback and ignores blank contact entries. Branch navigation respects reduced motion.
+- Production builds preserve the original videos. Run `npm test` for validation and regression checks.
+
+This local version does not replace an existing Salla review submission automatically.
 
 This repository is an independent, clean-start Salla theme project.
 

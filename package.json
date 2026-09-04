@@ -1,11 +1,11 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.46",
-  "description": "ZOD Commerce — v1.6.46 adds timed screen ads, an animated WhatsApp contact wheel and a mobile branch carousel.",
+  "version": "1.6.47",
+  "description": "ZOD Commerce — stock correctness, reliable cart feedback, accessible Quick View and storefront polish.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "test": "node scripts/validate-theme.mjs",
+    "test": "node scripts/validate-theme.mjs && node scripts/test-regressions.mjs",
     "production": "webpack --mode production",
     "prod": "webpack --mode production",
     "development": "webpack --mode development",

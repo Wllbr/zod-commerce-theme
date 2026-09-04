@@ -1,4 +1,6 @@
 import './partials/product-card';
+import { isOutOfStock, isOutStatus } from './partials/stock';
+import { containDialogFocus } from './partials/dialog-focus';
 
 class ZodTheme {
   constructor() {
@@ -20,10 +22,12 @@ class ZodTheme {
     document.addEventListener('click', event => {
       const link = event.target.closest('a[href^="#"]');
       if (link && link.hash?.length > 1) {
-        const target = document.querySelector(link.hash);
+        let id;
+        try { id = decodeURIComponent(link.hash.slice(1)); } catch (_) { return; }
+        const target = document.getElementById(id);
         if (target) {
           event.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          target.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
         }
       }
     });
@@ -375,17 +379,17 @@ class ZodTheme {
   }
 
   async refreshCartBadge({ recoverCartPage = false, animate = false } = {}) {
+    const request = this.cartBadgeRequest = (this.cartBadgeRequest || 0) + 1;
     try {
       const response = await salla.cart.details();
+      if (request !== this.cartBadgeRequest) return null;
       const liveCount = this.extractCartCount(response, false);
       if (liveCount === null) throw new Error('Cart count missing from Salla response');
       this.updateCartBadge(liveCount, animate);
       if (recoverCartPage) this.recoverEmptyCartPage(liveCount);
       return liveCount;
     } catch (_) {
-      const storedCount = this.getStoredCartCount();
-      this.updateCartBadge(storedCount, animate);
-      return storedCount;
+      return null;
     }
   }
 
@@ -420,6 +424,7 @@ class ZodTheme {
     card?.classList.add('is-removing');
     try {
       const response = await salla.cart.deleteItem(itemId);
+      document.dispatchEvent(new CustomEvent('zod:cart-delete-success', { detail: response }));
       card?.classList.remove('is-removing');
       card?.classList.add('is-removed');
       setTimeout(() => form?.remove(), 360);
@@ -436,18 +441,19 @@ class ZodTheme {
 
   initCartExperience() {
     const bind = () => {
+      // Salla's supported notifier replaces its default blocking alert UI.
+      salla.notify?.setNotifier?.((message, type) => this.showNotification(message, type));
       // Never paint a cached count as authoritative. The live Salla cart owns the badge.
       this.updateCartBadge(0);
       const cartEvents = salla?.cart?.event;
+      cartEvents?.onItemUpdated?.(() => this.refreshCartBadge());
       cartEvents?.onItemAdded?.((response, productId) => {
         this.animateProductToCart(productId);
-        this.showCartToast(this.uiText('cartAdded', 'Product added to cart'), 'added');
         const responseCount = this.extractCartCount(response, false);
         if (responseCount !== null) this.updateCartBadge(responseCount, true);
         setTimeout(() => this.refreshCartBadge({ animate: responseCount === null }), 100);
       });
       cartEvents?.onItemDeleted?.((response) => {
-        this.showCartToast(this.uiText('cartRemoved', 'Product removed from cart'), 'removed');
         const responseCount = this.extractCartCount(response, false);
         if (responseCount !== null) this.updateCartBadge(responseCount);
         setTimeout(() => this.refreshCartBadge(), 100);
@@ -459,24 +465,48 @@ class ZodTheme {
     else document.addEventListener('zod::ready', bind, {once:true});
   }
 
+  showNotification(message, type = 'info') {
+    let region = document.getElementById('zod-notifications');
+    if (!region) {
+      region = document.createElement('div');
+      region.id = 'zod-notifications';
+      document.body.appendChild(region);
+    }
+    const notice = document.createElement('div');
+    notice.className = `zod-notice ${type === 'error' ? 'is-error' : ''}`;
+    notice.setAttribute('role', type === 'error' ? 'alert' : 'status');
+    const copy = document.createElement('span');
+    // Notifications may contain markup; show its text without injecting HTML.
+    const parsed = new DOMParser().parseFromString(String(message || ''), 'text/html');
+    copy.textContent = parsed.body.textContent;
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.textContent = '×';
+    close.setAttribute('aria-label', document.documentElement.lang.startsWith('ar') ? 'إغلاق' : 'Close');
+    close.addEventListener('click', () => notice.remove());
+    notice.append(copy, close);
+    region.appendChild(notice);
+    if (type !== 'error') setTimeout(() => notice.remove(), 6500);
+  }
+
 
   initNativeStockBadges() {
     const outAr = 'نفدت الكمية';
     const outEn = 'Out of stock';
     const label = document.documentElement.lang?.toLowerCase().startsWith('ar') ? outAr : outEn;
-    const isOutStatus = value => ['out','out-of-stock','out_of_stock','sold-out','sold_out','out-and-notify'].includes(String(value || '').toLowerCase());
 
     const decorate = card => {
       if (!card || card.matches('custom-salla-product-card')) return;
       const p = card.product || card.productData || card.data?.product || {};
-      const qty = p.quantity !== undefined && p.quantity !== null && p.quantity !== '' ? Number(p.quantity) : null;
-      let isOut = Boolean(p.is_out_of_stock || isOutStatus(p.status) || isOutStatus(card.getAttribute('product-status')) || isOutStatus(card.getAttribute('status')) || (Number.isFinite(qty) && qty <= 0));
+      const hasStock = ['is_available', 'is_out_of_stock', 'unlimited_quantity', 'quantity', 'status'].some(key => p[key] != null);
+      let isOut = isOutOfStock(p);
+      if (!hasStock) isOut = isOutStatus(card.getAttribute('product-status')) || isOutStatus(card.getAttribute('status'));
       const roots = [card, card.shadowRoot].filter(Boolean);
       for (const root of roots) {
         const add = root.querySelector?.('salla-add-product-button,button[disabled],[product-status]');
         const status = add?.getAttribute?.('product-status') || add?.getAttribute?.('status');
         const text = root.textContent || '';
-        if (isOutStatus(status) || /نفدت\s*الكمية|out\s+of\s+stock/i.test(text)) isOut = true;
+        if (!hasStock && (isOutStatus(status) || /نفدت\s*الكمية|out\s+of\s+stock/i.test(text))) isOut = true;
       }
       card.classList.toggle('zod-native-out-of-stock', isOut);
       if (isOut) card.setAttribute('data-zod-stock-label', label);
@@ -606,6 +636,7 @@ class ZodTheme {
 
       const onKeydown = event => {
         if (event.key === 'Escape' && !ad.hidden) hide();
+        if (ad.classList.contains('is-visible')) containDialogFocus(event, ad);
       };
       document.addEventListener('keydown', onKeydown);
       skip?.addEventListener('click', hide);
@@ -697,7 +728,7 @@ class ZodTheme {
         cancelAnimationFrame(frame);
         frame = requestAnimationFrame(update);
       }, { passive: true });
-      dots.forEach((dot, index) => dot.addEventListener('click', () => cards[index]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })));
+      dots.forEach((dot, index) => dot.addEventListener('click', () => cards[index]?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest', inline: 'center' })));
       setActive(0);
     });
   }

@@ -3277,3 +3277,20 @@ salla-product-card.s-product-card-vertical .s-product-card-content-footer .s-but
     font-size:10px!important;
   }
 }
+
+/* Readable controls with light merchant accent colours. */
+.zpc-add::part(button),
+.zpc-add .s-button-element,
+salla-product-card.s-product-card-vertical salla-add-product-button::part(button),
+salla-product-card.s-product-card-vertical salla-add-product-button .s-button-element,
+salla-product-card.s-product-card-vertical .s-product-card-content-footer .s-button-element {
+  color: #17313b !important;
+  border-color: #52727d !important;
+}
+#zod-notifications { position: fixed; z-index: 100000; top: 18px; inset-inline-end: 18px; width: min(390px, calc(100vw - 36px)); display: grid; gap: 10px; }
+.zod-notice { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: #17313b; color: #fff; border-radius: 12px; box-shadow: 0 6px 28px #0003; }
+.zod-notice.is-error { background: #8c2222; }
+.zod-notice span { flex: 1; }
+.zod-notice button { color: inherit; background: transparent; border: 0; min-width: 32px; min-height: 32px; font-size: 26px; cursor: pointer; }
+.zod-notice button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

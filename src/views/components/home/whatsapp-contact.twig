@@ -2,15 +2,19 @@
 {% set text = component.text is iterable ? component.text[language.code]|default(component.text|first) : component.text %}
 {% set button = component.button is iterable ? component.button[language.code]|default(component.button|first) : component.button %}
 {% set contacts = component.contacts|default([]) %}
-{% set fallback_phone = component.fallback_phone|default(store.contacts.whatsapp)|default(null) %}
+{% set usable_contacts = 0 %}
+{% for item in contacts %}
+  {% if item.phone|default('')|trim %}{% set usable_contacts = usable_contacts + 1 %}{% endif %}
+{% endfor %}
+{% set fallback_phone = store.contacts.whatsapp|default(component.fallback_phone)|default(null) %}
 
-{% if contacts|length or fallback_phone %}
+{% if usable_contacts or fallback_phone %}
   <aside class="zod-whatsapp-float" data-zod-whatsapp-float>
     <div class="zod-whatsapp-float__options" id="zod-whatsapp-options-{{ position|default('home') }}" data-zod-whatsapp-options hidden>
       {% for item in contacts %}
         {% set item_label = item.label is iterable ? item.label[language.code]|default(item.label|first) : item.label %}
         {% set item_message = item.message is iterable ? item.message[language.code]|default(item.message|first) : item.message %}
-        {% set item_phone = item.phone|default(null) %}
+        {% set item_phone = item.phone|default('')|trim %}
         {% set icon_raw = item.icon|default('whatsapp') %}
         {% if icon_raw is iterable %}
           {% set icon_choice = icon_raw|first %}
@@ -32,7 +36,7 @@
         {% endif %}
       {% endfor %}
 
-      {% if not contacts|length and fallback_phone %}
+      {% if not usable_contacts and fallback_phone %}
         {% set clean_fallback_phone = fallback_phone|replace({'+':'',' ':'','-':'','(':'',')':''}) %}
         <a class="zod-whatsapp-float__option" href="https://wa.me/{{ clean_fallback_phone }}" target="_blank" rel="noopener" aria-label="{{ trans('zod.whatsapp.aria') }}">
           <i class="sicon-whatsapp" aria-hidden="true"></i>

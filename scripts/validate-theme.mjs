@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.46','package.json: expected v1.6.46');
+assert(pkg.version==='1.6.47','package.json: expected v1.6.47');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -192,7 +192,7 @@ const productCardJs=read('src/assets/js/partials/product-card.js');
 assert(productPageJs.includes('activateDock();'),'Product purchase dock must activate immediately');
 assert(!productPageJs.includes('anchorRect.bottom <= headerBottom'),'Product purchase dock must not depend on scrolling past its anchor');
 assert(single.includes('sticky-product-bar is-docked is-ready'),'Product purchase controls must render docked without an initial flash');
-assert(productCardJs.includes('product.is_available === true || product.unlimited_quantity === true'),'Quick View stock must respect explicit Salla availability');
+assert(productCardJs.includes('return isOutOfStock(product)') && read('src/assets/js/partials/stock.js').includes('product.is_available === true || product.unlimited_quantity === true'),'Quick View stock must respect explicit Salla availability through the shared stock helper');
 assert(productCardJs.includes('window.zodOpenQuickView'),'Native and custom cards must share the Quick View controller');
 assert(read('src/assets/js/app.js').includes('initNativeCardActions()'),'Native cards must be decorated with unified Eye + Heart actions');
 assert(read('src/assets/js/app.js').includes('initScreenAds()'),'App must initialize timed screen advertisements');
