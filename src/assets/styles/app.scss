@@ -229,9 +229,9 @@ custom-salla-product-card{display:block;height:100%}.zod-product-card{height:100
 .s-search-modal .s-search-input-row{position:relative;z-index:2;order:-1;width:100%;border:0;border-radius:8px;background:#fff;box-shadow:none}
 .s-search-modal .s-search-input-wrapper{width:100%}
 .s-search-modal .s-search-input{height:63px!important;padding-inline:48px 18px!important;border:0!important;border-radius:8px!important;background:#fff!important;color:#202124!important;font-size:20px!important;box-shadow:none!important}
-.s-search-modal .s-search-input:focus{outline:2px solid color-mix(in srgb,var(--color-primary) 36%,transparent)!important;outline-offset:2px}
+.s-search-modal .s-search-input:focus{outline:0!important;box-shadow:0 0 0 2px rgba(125,133,151,.28)!important}
 .s-search-modal .s-search-icon-wrap{inset-inline-start:17px!important;color:#7d8597!important}
-.s-search-modal .s-search-back-btn{position:fixed!important;top:18px!important;left:16px!important;right:auto!important;z-index:99999!important;width:36px!important;height:36px!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;color:transparent!important;font-size:0!important}
+.s-search-modal .s-search-back-btn{display:block!important;position:fixed!important;top:18px!important;left:16px!important;right:auto!important;z-index:99999!important;width:36px!important;height:36px!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;color:transparent!important;font-size:0!important}
 .s-search-modal .s-search-back-btn>*{display:none!important}
 .s-search-modal .s-search-back-btn::before,.s-search-modal .s-search-back-btn::after{content:"";position:absolute;top:17px;left:1px;width:36px;height:2px;border-radius:2px;background:#ff4b55}
 .s-search-modal .s-search-back-btn::before{transform:rotate(45deg)}

@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.53','package.json: expected v1.6.53');
+assert(pkg.version==='1.6.54','package.json: expected v1.6.54');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -193,6 +193,7 @@ assert(appCss.includes('.s-search-modal.s-modal-container{z-index:9999!important
 assert(appCss.includes('backdrop-filter:blur(35px)!important'),'Native search modal must preserve the full-screen blurred backdrop');
 assert(appCss.includes('content:var(--zod-search-question)'),'Native search modal must show the localized search prompt');
 assert(appCss.includes('.s-search-back-btn::before'),'Native search modal must render the reference close control');
+assert(appCss.includes('.s-search-modal .s-search-back-btn{display:block!important;position:fixed!important;'),'Native search close control must remain visible on desktop');
 
 const productPageJs=read('src/assets/js/product.js');
 const productCardJs=read('src/assets/js/partials/product-card.js');

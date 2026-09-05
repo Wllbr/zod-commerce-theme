@@ -27,7 +27,7 @@
       --zod-success: #147a4b;
       --zod-danger: #b4232a;
       --zod-radius: 16px;
-      --zod-search-question: {{ trans('zod.header.search_question') | json_encode | raw }};
+      --zod-search-question: '{{ trans('zod.header.search_question') }}';
     }
   </style>
   {% hook 'head:end' %}
