@@ -60,6 +60,13 @@ class ZodTheme {
     // composedPath() keeps clicks inside Salla's web component from being mistaken for backdrop clicks.
     this.searchOverlay.addEventListener('click', event => {
       const path = typeof event.composedPath === 'function' ? event.composedPath() : [];
+      const nativeTrigger = path.find(node => node?.matches?.('input[readonly], .s-search-placeholder-trigger'));
+      if (nativeTrigger) {
+        // Salla's modal search may be rendered outside this overlay. Hide our panel
+        // before its click handler runs so the native results remain visible.
+        this.closeSearch(false);
+        return;
+      }
       const insideSearch = path.some(node => node?.matches?.('[data-zod-search-box], [data-zod-search-box] *'))
         || event.target.closest?.('[data-zod-search-box]');
       if (insideSearch) return;
@@ -82,9 +89,9 @@ class ZodTheme {
     const searchComponent = this.searchOverlay.querySelector('salla-search');
     const nativeTrigger = searchComponent?.querySelector('input[readonly], .s-search-placeholder-trigger')
       || searchComponent?.shadowRoot?.querySelector('input[readonly], .s-search-placeholder-trigger');
-    if (nativeTrigger && typeof searchComponent.open === 'function') {
+    if (nativeTrigger) {
       this.closeSearch(false);
-      searchComponent.open();
+      nativeTrigger.click();
       return;
     }
     this.searchOverlay.classList.add('is-open');

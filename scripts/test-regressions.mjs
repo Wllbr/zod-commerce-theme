@@ -140,7 +140,8 @@ assert.match(menuBox.innerHTML,/No categories are available/);
 // Legacy Salla modal search must not be covered by our inline overlay.
 let nativeSearchOpened=0;
 let overlayShown=false;
-const searchComponent={querySelector:()=>({}),open:()=>{nativeSearchOpened++;}};
+const nativeSearchTrigger={click:()=>{nativeSearchOpened++;}};
+const searchComponent={querySelector:()=>nativeSearchTrigger,open:true};
 const searchTheme={searchOverlay:{querySelector:()=>searchComponent,classList:{add:()=>{overlayShown=true;}}},
   closeSearch:restore=>assert.equal(restore,false)};
 nativeContext.window.Theme.prototype.openSearch.call(searchTheme,trigger);
