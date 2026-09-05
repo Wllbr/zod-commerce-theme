@@ -218,6 +218,17 @@ custom-salla-product-card{display:block;height:100%}.zod-product-card{height:100
 .zod-mobile-menu-item i{font-size:15px;color:#98a2b3}
 .zod-mobile-back{width:100%;min-height:50px;border:0;border-bottom:1px solid var(--zod-line);background:#f8f9fa;padding:0 8px;display:flex;align-items:center;gap:8px;font-weight:800;color:#344054;cursor:pointer}
 
+/* Native Salla search, presented as the original full-screen ZOD search. */
+.s-search-modal.s-modal-container{z-index:1250!important}
+.s-search-modal .s-modal-overlay{background:rgba(20,27,35,.28)!important;backdrop-filter:blur(20px) saturate(.84);-webkit-backdrop-filter:blur(20px) saturate(.84)}
+.s-search-modal .s-modal-wrapper{padding:clamp(22px,7vh,72px) clamp(18px,4vw,48px)!important;overflow-y:auto}
+.s-search-modal .s-modal-spacer{display:none!important}
+.s-search-modal .s-modal-body{display:block!important;width:min(920px,100%)!important;max-width:920px!important;max-height:calc(100dvh - clamp(44px,14vh,144px))!important;margin:0 auto!important;padding:16px!important;border:1px solid rgba(255,255,255,.72)!important;border-radius:22px!important;background:rgba(255,255,255,.94)!important;box-shadow:0 24px 70px rgba(16,24,40,.18)!important;overflow:hidden!important}
+.s-search-modal .s-search-panel{max-height:calc(100dvh - clamp(78px,18vh,178px));overflow:hidden}
+.s-search-modal .s-search-input-row{position:relative;z-index:2;border-radius:14px;background:#f7f8fa}
+.s-search-modal .s-search-input{border:1px solid #e5e8ec!important;border-radius:14px!important;background:#f7f8fa!important}
+.s-search-modal .s-search-results-body{overscroll-behavior:contain}
+
 /* Footer — light retail layout, all business/store data comes from Salla. */
 .zod-footer.zod-footer--light{margin-top:auto;background:#f7f8f9;color:#191c20;border-top:1px solid #eceef1}
 .zod-footer--light .zod-footer-main{padding:34px 0 44px}
@@ -265,6 +276,11 @@ custom-salla-product-card{display:block;height:100%}.zod-product-card{height:100
   .zod-menu-trigger i{font-size:25px}
   .zod-catalog-drawer__panel{width:min(88vw,370px)}
   .zod-catalog-drawer__backdrop{background:rgba(21,25,31,.22)}
+  .s-search-modal .s-modal-wrapper{padding:14px 10px calc(14px + env(safe-area-inset-bottom))!important}
+  .s-search-modal .s-modal-body{width:100%!important;max-height:calc(100dvh - 28px)!important;padding:10px!important;border-radius:17px!important}
+  .s-search-modal .s-search-panel{max-height:calc(100dvh - 48px)}
+  .s-search-modal .s-search-input-row{border-radius:12px}
+  .s-search-modal .s-search-input{height:52px!important;border-radius:12px!important}
   .zod-footer--light .zod-footer-main{padding:28px 0 34px}
   .zod-footer-social-row{min-height:58px}
   .zod-footer-divider{margin-bottom:24px}
