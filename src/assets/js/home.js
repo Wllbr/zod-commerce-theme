@@ -11,6 +11,21 @@ const initFaq = (root = document) => {
   });
 };
 
+const initDualShowcase = (section) => {
+  if (!section || section.dataset.zodDualReady === 'true') return;
+  section.dataset.zodDualReady = 'true';
+  if (!('IntersectionObserver' in window)) {
+    section.classList.add('is-visible');
+    return;
+  }
+  const observer = new IntersectionObserver(entries => {
+    if (!entries.some(entry => entry.isIntersecting)) return;
+    section.classList.add('is-visible');
+    observer.disconnect();
+  }, { threshold: 0.18 });
+  observer.observe(section);
+};
+
 const initInteractiveShowcase = (section) => {
   if (!section || section.dataset.zodShowcaseReady === 'true') return;
   section.dataset.zodShowcaseReady = 'true';
@@ -281,6 +296,7 @@ const initProductSwitcher = (section) => {
 
 const initHome = (root = document) => {
   initFaq(root);
+  root.querySelectorAll('[data-zod-dual-showcase]').forEach(initDualShowcase);
   root.querySelectorAll('[data-zod-interactive-showcase]').forEach(initInteractiveShowcase);
   root.querySelectorAll('[data-zod-product-switcher]').forEach(initProductSwitcher);
 };
@@ -293,6 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
     queued = false;
     pending.forEach(node => {
       if (!node.isConnected) return;
+      if (node.matches?.('[data-zod-dual-showcase]')) initDualShowcase(node);
       if (node.matches?.('[data-zod-interactive-showcase]')) initInteractiveShowcase(node);
       if (node.matches?.('[data-zod-product-switcher]')) initProductSwitcher(node);
       initHome(node);

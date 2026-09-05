@@ -2149,6 +2149,131 @@
             ]
         },
         {
+            "key": "a40b44ca-a69e-4db6-8e82-c0ce5dc34cf2",
+            "title": {
+                "en": "Animated visual comparison",
+                "ar": "مقارنة بصرية متحركة"
+            },
+            "icon": "sicon-layout-grid",
+            "path": "home.dual-showcase",
+            "fields": [
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "العنوان",
+                    "multilanguage": true,
+                    "id": "title",
+                    "value": null,
+                    "required": false,
+                    "format": "text",
+                    "maxLength": 180
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "الوصف المختصر",
+                    "multilanguage": true,
+                    "id": "subtitle",
+                    "value": null,
+                    "required": false,
+                    "format": "textarea",
+                    "maxLength": 220
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "النص بين الصورتين",
+                    "multilanguage": true,
+                    "id": "center_label",
+                    "value": null,
+                    "required": false,
+                    "format": "text",
+                    "maxLength": 30
+                },
+                {
+                    "id": "items",
+                    "type": "collection",
+                    "format": "collection",
+                    "required": true,
+                    "minLength": 2,
+                    "maxLength": 2,
+                    "label": "جانبا المقارنة",
+                    "item_label": "بطاقة المقارنة",
+                    "value": [],
+                    "fields": [
+                        {
+                            "type": "string",
+                            "icon": "sicon-image",
+                            "label": "الصورة — 1000×1000 بكسل",
+                            "id": "items.image",
+                            "value": null,
+                            "format": "image",
+                            "required": true,
+                            "description": "استخدم صورتين بنفس المقاس وأسلوب التصوير للحصول على مقارنة متوازنة.",
+                            "settings": {
+                                "width": 1000,
+                                "height": 1000
+                            },
+                            "placeholder": null
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-format-text-alt",
+                            "label": "السطر الصغير",
+                            "multilanguage": true,
+                            "id": "items.eyebrow",
+                            "value": null,
+                            "required": false,
+                            "format": "text",
+                            "maxLength": 80
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-format-text-alt",
+                            "label": "عنوان البطاقة",
+                            "multilanguage": true,
+                            "id": "items.title",
+                            "value": null,
+                            "required": true,
+                            "format": "text",
+                            "maxLength": 100
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-format-text-alt",
+                            "label": "وصف البطاقة",
+                            "multilanguage": true,
+                            "id": "items.text",
+                            "value": null,
+                            "required": false,
+                            "format": "textarea",
+                            "maxLength": 220
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-format-text-alt",
+                            "label": "نص الزر",
+                            "multilanguage": true,
+                            "id": "items.button",
+                            "value": null,
+                            "required": false,
+                            "format": "text",
+                            "maxLength": 50
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-link",
+                            "label": "رابط البطاقة",
+                            "id": "items.url",
+                            "value": null,
+                            "required": false,
+                            "format": "url"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "key": "2ece801c-243f-4721-a003-abc0cbb67407",
             "title": {
                 "en": "Wholesale CTA",

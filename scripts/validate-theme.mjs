@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.60','package.json: expected v1.6.60');
+assert(pkg.version==='1.6.61','package.json: expected v1.6.61');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -104,6 +104,12 @@ const productSwitcher=read('src/views/components/home/product-type-switcher.twig
 const productSwitcherConfig=(config.components||[]).find(component=>component.path==='home.product-type-switcher');
 const screenAdConfig=(config.components||[]).find(component=>component.path==='home.screen-ad');
 const whatsappConfig=(config.components||[]).find(component=>component.path==='home.whatsapp-contact');
+const dualShowcaseConfig=(config.components||[]).find(component=>component.path==='home.dual-showcase');
+const dualShowcase=read('src/views/components/home/dual-showcase.twig');
+const dualShowcaseItems=dualShowcaseConfig?.fields?.find(field=>field.id==='items');
+assert(dualShowcaseConfig,'Animated visual comparison component is required');
+assert(dualShowcaseItems?.minLength===2&&dualShowcaseItems?.maxLength===2,'Visual comparison must use exactly two cards');
+assert(dualShowcase.includes('data-zod-dual-showcase'),'Visual comparison must expose its reveal-animation hook');
 assert(productSwitcherConfig?.fields?.some(field=>field.id==='groups'),'Product type switcher must preserve the existing groups collection');
 assert(productSwitcher.includes("component['groups']"),'Product type switcher must use explicit bracket access for the groups field');
 assert(!productSwitcher.includes('component.groups'),'Product type switcher must not use ambiguous dot access for the groups field');

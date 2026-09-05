@@ -1,0 +1,32 @@
+{% if component.items|length >= 2 %}
+{% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
+{% set subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
+{% set center_label = component.center_label is iterable ? component.center_label[language.code]|default(component.center_label|first) : component.center_label %}
+<section class="zod-section zod-dual-showcase" data-zod-dual-showcase>
+  <div class="container">
+    {% if title or subtitle %}
+      <div class="zod-section-head zod-dual-showcase__head"><div>{% if title %}<h2>{{ title }}</h2>{% endif %}{% if subtitle %}<p>{{ subtitle }}</p>{% endif %}</div></div>
+    {% endif %}
+    <div class="zod-dual-showcase__grid">
+      {% for item in component.items|slice(0, 2) %}
+        {% set item_title = item.title is iterable ? item.title[language.code]|default(item.title|first) : item.title %}
+        {% set item_eyebrow = item.eyebrow is iterable ? item.eyebrow[language.code]|default(item.eyebrow|first) : item.eyebrow %}
+        {% set item_text = item.text is iterable ? item.text[language.code]|default(item.text|first) : item.text %}
+        {% set item_button = item.button is iterable ? item.button[language.code]|default(item.button|first) : item.button %}
+        {% set item_url = item.url.url|default(item.url)|default('#') %}
+        <a class="zod-dual-card {{ loop.first ? 'is-first' : 'is-second' }}" href="{{ item_url }}">
+          <span class="zod-dual-card__media"><img src="{{ item.image }}" alt="{{ item_title|default(store.name) }}" loading="lazy"></span>
+          <span class="zod-dual-card__shade"></span>
+          <span class="zod-dual-card__content">
+            {% if item_eyebrow %}<small>{{ item_eyebrow }}</small>{% endif %}
+            <strong>{{ item_title }}</strong>
+            {% if item_text %}<span>{{ item_text }}</span>{% endif %}
+            {% if item_button %}<b>{{ item_button }} <i class="sicon-arrow-left rtl:rotate-180" aria-hidden="true"></i></b>{% endif %}
+          </span>
+        </a>
+      {% endfor %}
+      {% if center_label %}<span class="zod-dual-showcase__badge">{{ center_label }}</span>{% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
