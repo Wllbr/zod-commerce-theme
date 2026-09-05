@@ -2208,8 +2208,8 @@
                             "id": "items.image",
                             "value": null,
                             "format": "image",
-                            "required": true,
-                            "description": "استخدم صورتين بنفس المقاس وأسلوب التصوير للحصول على مقارنة متوازنة.",
+                            "required": false,
+                            "description": "اتركها فارغة لاستخدام صورة المصيدة الافتراضية، أو ارفع صورة 1000×1000 لتخصيص البطاقة.",
                             "settings": {
                                 "width": 1000,
                                 "height": 1000
