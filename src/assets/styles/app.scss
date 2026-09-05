@@ -24,8 +24,8 @@ a{color:inherit;text-decoration:none} button,input,select,textarea{font:inherit}
 .zod-announcement.is-closing,.zod-announcement.is-closed{max-height:0;opacity:0;pointer-events:none}
 .zod-announcement .s-advertisement{position:relative;min-height:42px!important;padding:0 clamp(14px,3vw,34px)!important;border:0!important;background:linear-gradient(105deg,var(--color-primary-dark),var(--color-primary))!important;color:var(--color-primary-reverse)!important;box-shadow:0 8px 22px rgba(32,38,44,.12);isolation:isolate}
 .zod-announcement .s-advertisement::before{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(115deg,transparent 20%,rgba(255,255,255,.13) 48%,transparent 76%);pointer-events:none}
-.zod-announcement .s-advertisement-content{width:100%;min-height:42px;margin:0 auto;display:flex;align-items:center;overflow:hidden;padding-inline:46px}
-.zod-announcement-track{display:flex;width:max-content;direction:ltr;will-change:transform;animation-duration:var(--zod-announcement-duration,18s);animation-timing-function:linear;animation-iteration-count:infinite}
+.zod-announcement .s-advertisement-content{width:100%;min-height:42px;margin:0 auto;display:flex;align-items:center;justify-content:flex-start!important;direction:ltr!important;overflow:hidden;padding-inline:46px}
+.zod-announcement-track{display:flex;flex:none;width:max-content;direction:ltr;will-change:transform;animation-duration:var(--zod-announcement-duration,18s);animation-timing-function:linear;animation-iteration-count:infinite}
 [dir="rtl"] .zod-announcement-track{animation-name:zodAnnouncementToRight}
 [dir="ltr"] .zod-announcement-track{animation-name:zodAnnouncementToLeft}
 .zod-announcement:hover .zod-announcement-track,.zod-announcement:focus-within .zod-announcement-track{animation-play-state:paused}
