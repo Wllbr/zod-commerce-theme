@@ -31,15 +31,15 @@ nativeContext.document.getElementById=()=>null;
 nativeContext.document.addEventListener=()=>{};
 nativeContext.document.documentElement.classList={add(){},toggle(){}};
 vm.runInContext(`
-  ['initSearchOverlay','initLiveShowcasePrices','initProductCardReveal','initNativeStockBadges',
+  ['initLiveShowcasePrices','initProductCardReveal','initNativeStockBadges',
    'initNativeCardActions','initScreenAds','initWhatsAppFloat','initLocationsCarousel',
    'initFooterDisclosures','initDisclosureToggles','initProfileAvatarUpload'].forEach(name => {
-    window.Theme.prototype[name] = function() { if (name === 'initSearchOverlay') this.searchReady = true; };
+    window.Theme.prototype[name] = function() { if (name === 'initLiveShowcasePrices') this.enhancementReady = true; };
   });
   window.Theme.prototype.initCartExperience = function() { throw new Error('optional feature failed'); };
   new window.Theme();
 `,nativeContext);
-assert.equal(nativeContext.window.zodTheme.searchReady,true,'core controller survives optional feature failure');
+assert.equal(nativeContext.window.zodTheme.enhancementReady,true,'core controller survives optional feature failure');
 
 // Exercise actual Quick View request ordering and failed detail fetches.
 let Card;
@@ -153,14 +153,4 @@ assert.match(menuBox.innerHTML,/Fans/);
 menuWindow.zodMenu.setMenus([]);
 assert.match(menuBox.innerHTML,/No categories are available/);
 
-// Legacy Salla modal search must not be covered by our inline overlay.
-let nativeSearchOpened=0;
-let overlayShown=false;
-const nativeSearchTrigger={click:()=>{nativeSearchOpened++;}};
-const searchComponent={querySelector:()=>nativeSearchTrigger,open:true};
-const searchTheme={searchOverlay:{querySelector:()=>searchComponent,classList:{add:()=>{overlayShown=true;}}},
-  closeSearch:restore=>assert.equal(restore,false)};
-nativeContext.window.Theme.prototype.openSearch.call(searchTheme,trigger);
-assert.equal(nativeSearchOpened,1);
-assert.equal(overlayShown,false);
-console.log('PASS: menu failure recovery, empty menus, and native search modal handoff.');
+console.log('PASS: menu failure recovery and empty menu handling.');

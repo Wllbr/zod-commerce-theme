@@ -13,7 +13,7 @@
           </a>
         </span>
         <salla-user-menu data-testid="store-header-user-menu" avatar-only show-header show-trigger></salla-user-menu>
-        <button class="zod-header-icon-button" type="button" aria-label="{{ trans('zod.mobile.search') }}" onclick="window.zodTheme?.openSearch(this)">
+        <button class="zod-header-icon-button" type="button" aria-label="{{ trans('zod.mobile.search') }}" onclick="salla.event.dispatch('search::open')">
           <i class="sicon-search"></i>
         </button>
         {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
@@ -57,14 +57,4 @@
     </aside>
   </div>
 
-  <div id="zod-search-overlay" class="zod-search-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="zod-search-title">
-    <button type="button" class="zod-search-overlay__close" aria-label="{{ trans('zod.header.close') }}" onclick="window.zodTheme?.closeSearch()"><i class="sicon-cancel"></i></button>
-    <div class="zod-search-overlay__content">
-      <img class="zod-search-overlay__logo" src="{{ store.logo|cdn(260) }}" alt="{{ store.name }}">
-      <h2 id="zod-search-title">{{ trans('zod.header.search_question') }}</h2>
-      <div class="zod-search-box" data-zod-search-box>
-        <salla-search data-testid="store-header-search" inline oval height="58"></salla-search>
-      </div>
-    </div>
-  </div>
 </header>

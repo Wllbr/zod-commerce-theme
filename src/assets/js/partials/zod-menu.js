@@ -35,8 +35,7 @@ if (!customElements.get('zod-main-menu')) customElements.define('zod-main-menu',
 
 const syncOverlayLock = () => {
   const drawerOpen = document.getElementById('zod-catalog-drawer')?.classList.contains('is-open');
-  const searchOpen = document.getElementById('zod-search-overlay')?.classList.contains('is-open');
-  document.documentElement.classList.toggle('zod-lock', Boolean(drawerOpen || searchOpen));
+  document.documentElement.classList.toggle('zod-lock', Boolean(drawerOpen));
 };
 
 window.zodMenu = {
@@ -70,7 +69,6 @@ window.zodMenu = {
   open(trigger) {
     const el = document.getElementById('zod-catalog-drawer');
     if (!el) return;
-    window.zodTheme?.closeSearch?.(false);
     this.lastFocus = trigger || document.activeElement;
     this.stack = [];
     if (this.menus.length) this.renderLevel(this.menus, null);

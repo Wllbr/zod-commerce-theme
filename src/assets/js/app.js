@@ -5,8 +5,6 @@ import { containDialogFocus } from './partials/dialog-focus';
 class ZodTheme {
   constructor() {
     this.header = document.querySelector('.zod-header');
-    this.searchOverlay = document.getElementById('zod-search-overlay');
-    this.searchLastFocus = null;
     // Expose the core controller before optional enhancements initialize. A
     // storefront-specific failure must never leave header controls inert.
     window.zodTheme = this;
@@ -36,7 +34,6 @@ class ZodTheme {
     });
 
     [
-      'initSearchOverlay',
       'initCartExperience',
       'initLiveShowcasePrices',
       'initProductCardReveal',
@@ -60,72 +57,8 @@ class ZodTheme {
 
   syncOverlayLock() {
     const drawerOpen = document.getElementById('zod-catalog-drawer')?.classList.contains('is-open');
-    const searchOpen = this.searchOverlay?.classList.contains('is-open');
-    document.documentElement.classList.toggle('zod-lock', Boolean(drawerOpen || searchOpen));
+    document.documentElement.classList.toggle('zod-lock', Boolean(drawerOpen));
   }
-
-  initSearchOverlay() {
-    if (!this.searchOverlay) return;
-
-    // Dismiss search from the X button, Escape, or anywhere outside the live search field/results.
-    // composedPath() keeps clicks inside Salla's web component from being mistaken for backdrop clicks.
-    this.searchOverlay.addEventListener('click', event => {
-      const path = typeof event.composedPath === 'function' ? event.composedPath() : [];
-      const nativeTrigger = path.find(node => node?.matches?.('input[readonly], .s-search-placeholder-trigger'));
-      if (nativeTrigger) {
-        // Salla's modal search may be rendered outside this overlay. Hide our panel
-        // before its click handler runs so the native results remain visible.
-        this.closeSearch(false);
-        return;
-      }
-      const insideSearch = path.some(node => node?.matches?.('[data-zod-search-box], [data-zod-search-box] *'))
-        || event.target.closest?.('[data-zod-search-box]');
-      if (insideSearch) return;
-      this.closeSearch();
-    });
-
-    document.addEventListener('keydown', event => {
-      if (!this.searchOverlay?.classList.contains('is-open')) return;
-      if (event.key === 'Escape') this.closeSearch();
-      else containDialogFocus(event, this.searchOverlay);
-    });
-  }
-
-  openSearch(trigger) {
-    if (!this.searchOverlay) return;
-    window.zodMenu?.close?.(false);
-    this.searchLastFocus = trigger || document.activeElement;
-    // Some Salla versions render a modal trigger even when inline is requested.
-    // Let that native dialog own the screen instead of covering its results.
-    const searchComponent = this.searchOverlay.querySelector('salla-search');
-    const nativeTrigger = searchComponent?.querySelector('input[readonly], .s-search-placeholder-trigger')
-      || searchComponent?.shadowRoot?.querySelector('input[readonly], .s-search-placeholder-trigger');
-    if (nativeTrigger) {
-      this.closeSearch(false);
-      nativeTrigger.click();
-      return;
-    }
-    this.searchOverlay.classList.add('is-open');
-    this.searchOverlay.setAttribute('aria-hidden', 'false');
-    this.syncOverlayLock();
-    requestAnimationFrame(() => {
-      if (!this.searchOverlay.classList.contains('is-open')) return;
-      const search = this.searchOverlay.querySelector('salla-search');
-      const input = search?.querySelector('input[type="search"]') || search?.shadowRoot?.querySelector('input[type="search"]');
-      (input || this.searchOverlay.querySelector('.zod-search-overlay__close'))?.focus();
-    });
-  }
-
-  closeSearch(restoreFocus = true) {
-    if (!this.searchOverlay) return;
-    this.searchOverlay.classList.remove('is-open');
-    this.searchOverlay.setAttribute('aria-hidden', 'true');
-    this.syncOverlayLock();
-    if (restoreFocus) this.searchLastFocus?.focus?.();
-  }
-
-  // Backward-compatible method used by any old internal trigger.
-  focusSearch() { this.openSearch(document.activeElement); }
 
 
   uiText(key, fallback = '') {
