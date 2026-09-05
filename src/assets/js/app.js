@@ -34,6 +34,7 @@ class ZodTheme {
     });
 
     [
+      'initAnnouncementBar',
       'initCartExperience',
       'initLiveShowcasePrices',
       'initProductCardReveal',
@@ -58,6 +59,31 @@ class ZodTheme {
   syncOverlayLock() {
     const drawerOpen = document.getElementById('zod-catalog-drawer')?.classList.contains('is-open');
     document.documentElement.classList.toggle('zod-lock', Boolean(drawerOpen));
+  }
+
+  initAnnouncementBar() {
+    const advertisement = document.querySelector('.app-inner > salla-advertisement');
+    if (!advertisement || !this.header || this.header.dataset.sticky !== '1') return;
+
+    const root = document.documentElement;
+    const syncHeight = () => {
+      const styles = window.getComputedStyle(advertisement);
+      const height = styles.display === 'none' || styles.visibility === 'hidden'
+        ? 0
+        : Math.ceil(advertisement.getBoundingClientRect().height);
+      root.style.setProperty('--zod-announcement-height', `${height}px`);
+      root.classList.toggle('zod-announcement-visible', height > 1);
+    };
+
+    syncHeight();
+    if ('ResizeObserver' in window) new ResizeObserver(syncHeight).observe(advertisement);
+    new MutationObserver(syncHeight).observe(advertisement, {
+      attributes: true,
+      attributeFilter: ['class', 'hidden', 'style'],
+      childList: true,
+      subtree: true,
+    });
+    window.addEventListener('resize', syncHeight, { passive: true });
   }
 
 
