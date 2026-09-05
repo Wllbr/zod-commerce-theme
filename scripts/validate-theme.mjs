@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.52','package.json: expected v1.6.52');
+assert(pkg.version==='1.6.53','package.json: expected v1.6.53');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -189,8 +189,10 @@ assert(appCss.includes('ZOD v1.6.42 — permanent purchase dock + floating store
 assert(appCss.includes('margin:10px clamp(10px,1.8vw,28px) 0!important'),'Desktop header must use the floating rounded treatment');
 assert(appCss.includes('.zod-footer-connect-row'),'Footer connection strip styles are required');
 assert(appCss.includes('.zod-info-page__card'),'Information-page content card styles are required');
-assert(appCss.includes('.s-search-modal.s-modal-container{z-index:1250!important}'),'Native search modal must remain above the floating header');
-assert(appCss.includes('backdrop-filter:blur(20px) saturate(.84)'),'Native search modal must preserve the blurred ZOD backdrop');
+assert(appCss.includes('.s-search-modal.s-modal-container{z-index:9999!important}'),'Native search modal must remain above the floating header');
+assert(appCss.includes('backdrop-filter:blur(35px)!important'),'Native search modal must preserve the full-screen blurred backdrop');
+assert(appCss.includes('content:var(--zod-search-question)'),'Native search modal must show the localized search prompt');
+assert(appCss.includes('.s-search-back-btn::before'),'Native search modal must render the reference close control');
 
 const productPageJs=read('src/assets/js/product.js');
 const productCardJs=read('src/assets/js/partials/product-card.js');

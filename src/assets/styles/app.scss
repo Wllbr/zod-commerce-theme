@@ -218,16 +218,26 @@ custom-salla-product-card{display:block;height:100%}.zod-product-card{height:100
 .zod-mobile-menu-item i{font-size:15px;color:#98a2b3}
 .zod-mobile-back{width:100%;min-height:50px;border:0;border-bottom:1px solid var(--zod-line);background:#f8f9fa;padding:0 8px;display:flex;align-items:center;gap:8px;font-weight:800;color:#344054;cursor:pointer}
 
-/* Native Salla search, presented as the original full-screen ZOD search. */
-.s-search-modal.s-modal-container{z-index:1250!important}
-.s-search-modal .s-modal-overlay{background:rgba(20,27,35,.28)!important;backdrop-filter:blur(20px) saturate(.84);-webkit-backdrop-filter:blur(20px) saturate(.84)}
-.s-search-modal .s-modal-wrapper{padding:clamp(22px,7vh,72px) clamp(18px,4vw,48px)!important;overflow-y:auto}
-.s-search-modal .s-modal-spacer{display:none!important}
-.s-search-modal .s-modal-body{display:block!important;width:min(920px,100%)!important;max-width:920px!important;max-height:calc(100dvh - clamp(44px,14vh,144px))!important;margin:0 auto!important;padding:16px!important;border:1px solid rgba(255,255,255,.72)!important;border-radius:22px!important;background:rgba(255,255,255,.94)!important;box-shadow:0 24px 70px rgba(16,24,40,.18)!important;overflow:hidden!important}
-.s-search-modal .s-search-panel{max-height:calc(100dvh - clamp(78px,18vh,178px));overflow:hidden}
-.s-search-modal .s-search-input-row{position:relative;z-index:2;border-radius:14px;background:#f7f8fa}
-.s-search-modal .s-search-input{border:1px solid #e5e8ec!important;border-radius:14px!important;background:#f7f8fa!important}
-.s-search-modal .s-search-results-body{overscroll-behavior:contain}
+/* Native Salla search with the full-screen blurred Orkida presentation. */
+.s-search-modal.s-modal-container{z-index:9999!important}
+.s-search-modal .s-modal-overlay{background:rgba(255,255,255,.3)!important;backdrop-filter:blur(35px)!important;-webkit-backdrop-filter:blur(35px)!important}
+.s-search-modal .s-modal-wrapper{display:block!important;padding:0!important;overflow-y:auto!important}
+.s-search-modal .s-modal-spacer,.s-search-modal .s-modal-header,.s-search-modal .s-search-divider{display:none!important}
+.s-search-modal .s-modal-body{display:block!important;width:100%!important;max-width:none!important;height:100dvh!important;max-height:none!important;margin:0!important;padding:64px clamp(24px,7vw,82px) 40px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;overflow-y:auto!important}
+.s-search-modal .s-search-panel{display:flex;flex-direction:column;width:min(1000px,100%);max-height:none;margin:0 auto;overflow:visible}
+.s-search-modal .s-search-panel::before{content:var(--zod-search-question);display:block;order:-2;margin:0 0 22px;color:#202124;font-size:clamp(25px,2.8vw,34px);font-weight:800;line-height:1.35;text-align:center}
+.s-search-modal .s-search-input-row{position:relative;z-index:2;order:-1;width:100%;border:0;border-radius:8px;background:#fff;box-shadow:none}
+.s-search-modal .s-search-input-wrapper{width:100%}
+.s-search-modal .s-search-input{height:63px!important;padding-inline:48px 18px!important;border:0!important;border-radius:8px!important;background:#fff!important;color:#202124!important;font-size:20px!important;box-shadow:none!important}
+.s-search-modal .s-search-input:focus{outline:2px solid color-mix(in srgb,var(--color-primary) 36%,transparent)!important;outline-offset:2px}
+.s-search-modal .s-search-icon-wrap{inset-inline-start:17px!important;color:#7d8597!important}
+.s-search-modal .s-search-back-btn{position:fixed!important;top:18px!important;left:16px!important;right:auto!important;z-index:99999!important;width:36px!important;height:36px!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;color:transparent!important;font-size:0!important}
+.s-search-modal .s-search-back-btn>*{display:none!important}
+.s-search-modal .s-search-back-btn::before,.s-search-modal .s-search-back-btn::after{content:"";position:absolute;top:17px;left:1px;width:36px;height:2px;border-radius:2px;background:#ff4b55}
+.s-search-modal .s-search-back-btn::before{transform:rotate(45deg)}
+.s-search-modal .s-search-back-btn::after{transform:rotate(-45deg)}
+.s-search-modal .s-search-idle-panel:empty{display:none!important}
+.s-search-modal .s-search-results-body{max-height:calc(100dvh - 210px);margin-top:18px;padding:14px;border-radius:12px;background:rgba(255,255,255,.94);box-shadow:0 14px 42px rgba(16,24,40,.12);overscroll-behavior:contain}
 
 /* Footer — light retail layout, all business/store data comes from Salla. */
 .zod-footer.zod-footer--light{margin-top:auto;background:#f7f8f9;color:#191c20;border-top:1px solid #eceef1}
@@ -276,11 +286,15 @@ custom-salla-product-card{display:block;height:100%}.zod-product-card{height:100
   .zod-menu-trigger i{font-size:25px}
   .zod-catalog-drawer__panel{width:min(88vw,370px)}
   .zod-catalog-drawer__backdrop{background:rgba(21,25,31,.22)}
-  .s-search-modal .s-modal-wrapper{padding:14px 10px calc(14px + env(safe-area-inset-bottom))!important}
-  .s-search-modal .s-modal-body{width:100%!important;max-height:calc(100dvh - 28px)!important;padding:10px!important;border-radius:17px!important}
-  .s-search-modal .s-search-panel{max-height:calc(100dvh - 48px)}
-  .s-search-modal .s-search-input-row{border-radius:12px}
-  .s-search-modal .s-search-input{height:52px!important;border-radius:12px!important}
+  .s-search-modal .s-modal-body{height:100dvh!important;padding:48px 24px calc(28px + env(safe-area-inset-bottom))!important}
+  .s-search-modal .s-search-panel{width:100%}
+  .s-search-modal .s-search-panel::before{margin-bottom:16px;font-size:24px}
+  .s-search-modal .s-search-input-row{border-radius:7px}
+  .s-search-modal .s-search-input{height:50px!important;padding-inline:40px 12px!important;border-radius:7px!important;font-size:16px!important}
+  .s-search-modal .s-search-icon-wrap{inset-inline-start:13px!important}
+  .s-search-modal .s-search-back-btn{top:16px!important;left:16px!important;width:32px!important;height:32px!important}
+  .s-search-modal .s-search-back-btn::before,.s-search-modal .s-search-back-btn::after{top:15px;left:0;width:32px}
+  .s-search-modal .s-search-results-body{max-height:calc(100dvh - 176px);margin-top:14px;padding:10px}
   .zod-footer--light .zod-footer-main{padding:28px 0 34px}
   .zod-footer-social-row{min-height:58px}
   .zod-footer-divider{margin-bottom:24px}
