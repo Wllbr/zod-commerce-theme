@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.55','package.json: expected v1.6.55');
+assert(pkg.version==='1.6.56','package.json: expected v1.6.56');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -159,7 +159,7 @@ assert(single.includes("product.can_quick_buy and product_available ? 'quick-buy
 
 const headerTwig=read('src/views/components/header/header.twig');
 const footerTwig=read('src/views/components/footer/footer.twig');
-assert(headerTwig.includes('<salla-advertisement'),'Header must use Salla native advertisement bar');
+assert(!headerTwig.includes('<salla-advertisement'),'Header must not duplicate Salla’s automatically injected advertisement bar');
 assert(headerTwig.includes('store.settings.is_multilingual'),'Header must respect Salla multilingual setting');
 assert(headerTwig.includes('<salla-localization-modal'),'Header must use Salla localization component');
 for(const token of ['store.logo','store.name','<salla-user-menu','<salla-cart-summary']) assert(headerTwig.includes(token),`Header missing native Salla source: ${token}`);
@@ -195,6 +195,7 @@ assert(appCss.includes('content:var(--zod-search-question)'),'Native search moda
 assert(appCss.includes('.s-search-back-btn::before'),'Native search modal must render the reference close control');
 assert(appCss.includes('.s-search-modal .s-search-back-btn{display:block!important;position:fixed!important;'),'Native search close control must remain visible on desktop');
 assert(appCss.includes('html[dir=rtl] .s-search-modal .s-search-input{padding-right:52px!important'),'RTL search text must not overlap its physical-right icon');
+assert(appCss.includes('.app-inner>salla-advertisement .s-advertisement'),'The single Salla announcement bar must use the ZOD presentation');
 
 const productPageJs=read('src/assets/js/product.js');
 const productCardJs=read('src/assets/js/partials/product-card.js');
