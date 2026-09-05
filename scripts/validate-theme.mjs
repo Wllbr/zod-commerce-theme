@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.58','package.json: expected v1.6.58');
+assert(pkg.version==='1.6.59','package.json: expected v1.6.59');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
@@ -197,7 +197,8 @@ assert(appCss.includes('.s-search-modal .s-search-back-btn{display:block!importa
 assert(appCss.includes('html[dir=rtl] .s-search-modal .s-search-input{padding-right:52px!important'),'RTL search text must not overlap its physical-right icon');
 assert(appCss.includes('.zod-announcement .s-advertisement'),'The single Salla announcement bar must use the ZOD presentation');
 assert(appCss.includes('.zod-sticky-chrome{position:sticky;top:0'),'The announcement and header must share one sticky container');
-assert(appCss.includes('@keyframes zodAnnouncementRtl')&&appCss.includes('@keyframes zodAnnouncementLtr'),'Announcement motion must follow the storefront direction');
+assert(appCss.includes('@keyframes zodAnnouncementToRight')&&appCss.includes('@keyframes zodAnnouncementToLeft'),'Announcement motion must follow the storefront direction');
+assert(appCss.includes('.zod-announcement.is-closing,.zod-announcement.is-closed{max-height:0'),'Closing the announcement must smoothly remove its space above the header');
 assert(read('src/assets/js/app.js').includes("'initAnnouncementBar'"),'App must connect the announcement and header into one sticky container');
 
 const productPageJs=read('src/assets/js/product.js');

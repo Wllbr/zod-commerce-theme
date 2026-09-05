@@ -72,11 +72,37 @@ class ZodTheme {
     parent.insertBefore(stickyChrome, advertisement);
     stickyChrome.append(advertisement, this.header);
 
-    const message = advertisement.querySelector('.s-advertisement-content-main');
-    if (message) {
-      const duration = Math.min(28, Math.max(14, message.textContent.trim().length * 0.32));
-      message.style.setProperty('--zod-announcement-duration', `${duration}s`);
+    const setupTicker = () => {
+      const content = advertisement.querySelector('.s-advertisement-content');
+      const message = advertisement.querySelector('.s-advertisement-content-main');
+      if (!content || !message || content.querySelector('.zod-announcement-track')) return false;
+
+      const track = document.createElement('div');
+      track.className = 'zod-announcement-track';
+      track.style.setProperty('--zod-announcement-duration', `${Math.min(28, Math.max(14, message.textContent.trim().length * 0.32))}s`);
+      content.insertBefore(track, message);
+      track.appendChild(message);
+      for (let index = 0; index < 5; index += 1) {
+        const copy = message.cloneNode(true);
+        copy.setAttribute('aria-hidden', 'true');
+        copy.querySelectorAll('a, button').forEach(control => control.setAttribute('tabindex', '-1'));
+        track.appendChild(copy);
+      }
+      return true;
+    };
+
+    if (!setupTicker()) {
+      const hydrationObserver = new MutationObserver(() => {
+        if (setupTicker()) hydrationObserver.disconnect();
+      });
+      hydrationObserver.observe(advertisement, { childList: true, subtree: true });
     }
+
+    advertisement.addEventListener('click', event => {
+      if (!event.target.closest('.s-advertisement-action')) return;
+      advertisement.classList.add('is-closing');
+      window.setTimeout(() => advertisement.classList.add('is-closed'), 320);
+    }, true);
   }
 
 

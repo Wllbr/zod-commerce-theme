@@ -20,21 +20,25 @@ a{color:inherit;text-decoration:none} button,input,select,textarea{font:inherit}
 .app-inner>salla-advertisement{position:relative;z-index:230;display:block;width:100%;height:auto!important;overflow:hidden}
 .zod-sticky-chrome{position:sticky;top:0;z-index:230;width:100%;background:transparent}
 .zod-sticky-chrome>.zod-header[data-sticky="1"]{position:relative;top:auto;z-index:1}
-.zod-announcement{position:relative;z-index:2;display:block;width:100%;height:auto!important;overflow:hidden}
+.zod-announcement{position:relative;z-index:2;display:block;width:100%;height:auto!important;max-height:80px;overflow:hidden;opacity:1;transition:max-height .3s cubic-bezier(.4,0,.2,1),opacity .2s ease}
+.zod-announcement.is-closing,.zod-announcement.is-closed{max-height:0;opacity:0;pointer-events:none}
 .zod-announcement .s-advertisement{position:relative;min-height:42px!important;padding:0 clamp(14px,3vw,34px)!important;border:0!important;background:linear-gradient(105deg,var(--color-primary-dark),var(--color-primary))!important;color:var(--color-primary-reverse)!important;box-shadow:0 8px 22px rgba(32,38,44,.12);isolation:isolate}
 .zod-announcement .s-advertisement::before{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(115deg,transparent 20%,rgba(255,255,255,.13) 48%,transparent 76%);pointer-events:none}
 .zod-announcement .s-advertisement-content{width:100%;min-height:42px;margin:0 auto;display:flex;align-items:center;overflow:hidden;padding-inline:46px}
-.zod-announcement .s-advertisement-content-main{display:flex;align-items:center;width:max-content;max-width:none;flex:none;gap:10px;font-size:13px;font-weight:800;line-height:1.45;text-align:center;white-space:nowrap;will-change:transform;animation-duration:var(--zod-announcement-duration,18s);animation-timing-function:linear;animation-iteration-count:infinite}
-[dir="rtl"] .zod-announcement .s-advertisement-content-main{animation-name:zodAnnouncementRtl}
-[dir="ltr"] .zod-announcement .s-advertisement-content-main{animation-name:zodAnnouncementLtr}
-.zod-announcement:hover .s-advertisement-content-main,.zod-announcement:focus-within .s-advertisement-content-main{animation-play-state:paused}
+.zod-announcement-track{display:flex;width:max-content;direction:ltr;will-change:transform;animation-duration:var(--zod-announcement-duration,18s);animation-timing-function:linear;animation-iteration-count:infinite}
+[dir="rtl"] .zod-announcement-track{animation-name:zodAnnouncementToRight}
+[dir="ltr"] .zod-announcement-track{animation-name:zodAnnouncementToLeft}
+.zod-announcement:hover .zod-announcement-track,.zod-announcement:focus-within .zod-announcement-track{animation-play-state:paused}
+.zod-announcement .s-advertisement-content-main{display:flex;align-items:center;width:max-content;max-width:none;flex:none;gap:10px;padding-inline:clamp(30px,4vw,64px);font-size:13px;font-weight:800;line-height:1.45;white-space:nowrap}
+[dir="rtl"] .zod-announcement .s-advertisement-content-main{direction:rtl;text-align:right}
+[dir="ltr"] .zod-announcement .s-advertisement-content-main{direction:ltr;text-align:left}
 .zod-announcement .s-advertisement-content-main a{color:inherit!important;text-decoration:none}
 .zod-announcement .s-advertisement-content-icon{display:grid;width:26px;height:26px;flex:0 0 26px;place-items:center;border-radius:50%;background:rgba(255,255,255,.16);font-size:13px}
 .zod-announcement .s-advertisement-action{position:absolute;z-index:3;top:50%;inset-inline-end:clamp(10px,2vw,24px);width:30px;height:30px;margin:0!important;transform:translateY(-50%);display:grid;place-items:center;border:0;border-radius:50%;background:rgba(255,255,255,.16)!important;color:inherit!important;box-shadow:0 0 14px 10px var(--color-primary);transition:background .18s ease,transform .18s ease}
 .zod-announcement .s-advertisement-action:hover{background:rgba(255,255,255,.26)!important;transform:translateY(-50%) scale(1.05)}
 .zod-announcement .s-advertisement-action:focus-visible{outline:2px solid currentColor;outline-offset:2px}
-@keyframes zodAnnouncementRtl{from{transform:translateX(calc(50vw + 50%))}to{transform:translateX(calc(-50vw - 50%))}}
-@keyframes zodAnnouncementLtr{from{transform:translateX(calc(-50vw - 50%))}to{transform:translateX(calc(50vw + 50%))}}
+@keyframes zodAnnouncementToRight{from{transform:translateX(-16.666667%)}to{transform:translateX(0)}}
+@keyframes zodAnnouncementToLeft{from{transform:translateX(0)}to{transform:translateX(-16.666667%)}}
 zod-main-menu{display:block;flex:1;min-width:0;position:relative}.zod-main-nav{display:flex;height:100%;align-items:stretch;justify-content:flex-start;gap:2px}.zod-main-nav__item{display:flex;align-items:stretch}.zod-main-nav__item>a{display:flex;align-items:center;padding:0 11px;font-size:14px;font-weight:700;white-space:nowrap;position:relative}.zod-main-nav__item>a::after{content:"";position:absolute;inset-inline:11px;bottom:0;height:2px;background:var(--color-primary);transform:scaleX(0);transition:.2s}.zod-main-nav__item:hover>a{color:var(--color-primary)}.zod-main-nav__item:hover>a::after{transform:scaleX(1)}.zod-mega{position:absolute;top:100%;inset-inline:0;background:#fff;border:1px solid var(--zod-line);border-radius:0 0 18px 18px;box-shadow:0 20px 50px rgba(16,24,40,.14);padding:26px;visibility:hidden;opacity:0;transform:translateY(8px);transition:.18s;pointer-events:none}.zod-main-nav__item:hover .zod-mega{visibility:visible;opacity:1;transform:none;pointer-events:auto}.zod-mega-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) 220px;gap:28px}.zod-mega-column{display:flex;flex-direction:column;gap:9px}.zod-mega-column>a{font-size:13px;color:#4b5563}.zod-mega-column>a:hover{color:var(--color-primary)}.zod-mega-heading{font-size:15px!important;font-weight:800!important;color:var(--zod-ink)!important;margin-bottom:4px}.zod-mega-nested{display:flex;flex-direction:column;padding-inline-start:12px;border-inline-start:1px solid var(--zod-line);gap:6px}.zod-mega-nested a{font-size:12px;color:#858b95}.zod-mega-feature{background:var(--zod-canvas);border-radius:14px;overflow:hidden;padding:10px;align-self:start}.zod-mega-feature img{aspect-ratio:1.4;object-fit:cover;border-radius:10px}.zod-mega-feature b{display:block;margin-top:8px;font-size:13px}.zod-all-catalog-panel{position:absolute;top:100%;inset-inline:0;display:none;background:#fff;border:1px solid var(--zod-line);padding:28px;border-radius:0 0 18px 18px;box-shadow:0 20px 50px rgba(16,24,40,.14)}zod-main-menu.catalog-open .zod-all-catalog-panel{display:block}.zod-all-catalog-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:30px}.zod-menu-skeleton{height:100%;display:flex;align-items:center;gap:20px}.zod-menu-skeleton span{width:76px;height:12px;border-radius:8px;background:#eef0f2;animation:zodPulse 1.4s infinite}.zod-mobile-menu{display:none}
 
 /* Hero */
@@ -98,6 +102,7 @@ custom-salla-product-card{display:block;height:100%}.zod-product-card{height:100
 }
 
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+@media(prefers-reduced-motion:reduce){.zod-announcement-track [aria-hidden="true"]{display:none}.zod-announcement-track{transform:none!important}}
 .zod-specification-block{margin-top:32px;padding-top:28px;border-top:1px solid var(--zod-line)}.zod-specification-block>h2{margin-bottom:14px}
 .zod-account-page-title{font-size:28px;font-weight:900;margin:0 0 16px}
 
