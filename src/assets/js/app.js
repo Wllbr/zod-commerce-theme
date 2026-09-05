@@ -65,25 +65,18 @@ class ZodTheme {
     const advertisement = document.querySelector('.app-inner > salla-advertisement');
     if (!advertisement || !this.header || this.header.dataset.sticky !== '1') return;
 
-    const root = document.documentElement;
-    const syncHeight = () => {
-      const styles = window.getComputedStyle(advertisement);
-      const height = styles.display === 'none' || styles.visibility === 'hidden'
-        ? 0
-        : Math.ceil(advertisement.getBoundingClientRect().height);
-      root.style.setProperty('--zod-announcement-height', `${height}px`);
-      root.classList.toggle('zod-announcement-visible', height > 1);
-    };
+    const parent = advertisement.parentElement;
+    const stickyChrome = document.createElement('div');
+    stickyChrome.className = 'zod-sticky-chrome';
+    advertisement.classList.add('zod-announcement');
+    parent.insertBefore(stickyChrome, advertisement);
+    stickyChrome.append(advertisement, this.header);
 
-    syncHeight();
-    if ('ResizeObserver' in window) new ResizeObserver(syncHeight).observe(advertisement);
-    new MutationObserver(syncHeight).observe(advertisement, {
-      attributes: true,
-      attributeFilter: ['class', 'hidden', 'style'],
-      childList: true,
-      subtree: true,
-    });
-    window.addEventListener('resize', syncHeight, { passive: true });
+    const message = advertisement.querySelector('.s-advertisement-content-main');
+    if (message) {
+      const duration = Math.min(28, Math.max(14, message.textContent.trim().length * 0.32));
+      message.style.setProperty('--zod-announcement-duration', `${duration}s`);
+    }
   }
 
 
