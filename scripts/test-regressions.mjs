@@ -25,6 +25,22 @@ nativeCard.product={is_available:false,quantity:0};
 nativeContext.window.Theme.prototype.initNativeStockBadges();
 assert.equal(nativeCard.markedOut,true,'native unavailable cards keep the stock stamp');
 
+// A failure in an optional enhancement must not disable core header controls.
+nativeContext.document.querySelector=()=>null;
+nativeContext.document.getElementById=()=>null;
+nativeContext.document.addEventListener=()=>{};
+nativeContext.document.documentElement.classList={add(){},toggle(){}};
+vm.runInContext(`
+  ['initSearchOverlay','initLiveShowcasePrices','initProductCardReveal','initNativeStockBadges',
+   'initNativeCardActions','initScreenAds','initWhatsAppFloat','initLocationsCarousel',
+   'initFooterDisclosures','initDisclosureToggles','initProfileAvatarUpload'].forEach(name => {
+    window.Theme.prototype[name] = function() { if (name === 'initSearchOverlay') this.searchReady = true; };
+  });
+  window.Theme.prototype.initCartExperience = function() { throw new Error('optional feature failed'); };
+  new window.Theme();
+`,nativeContext);
+assert.equal(nativeContext.window.zodTheme.searchReady,true,'core controller survives optional feature failure');
+
 // Exercise actual Quick View request ordering and failed detail fetches.
 let Card;
 const requests = [];

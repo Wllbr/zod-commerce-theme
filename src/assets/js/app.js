@@ -7,6 +7,9 @@ class ZodTheme {
     this.header = document.querySelector('.zod-header');
     this.searchOverlay = document.getElementById('zod-search-overlay');
     this.searchLastFocus = null;
+    // Expose the core controller before optional enhancements initialize. A
+    // storefront-specific failure must never leave header controls inert.
+    window.zodTheme = this;
     this.init();
   }
 
@@ -32,18 +35,26 @@ class ZodTheme {
       }
     });
 
-    this.initSearchOverlay();
-    this.initCartExperience();
-    this.initLiveShowcasePrices();
-    this.initProductCardReveal();
-    this.initNativeStockBadges();
-    this.initNativeCardActions();
-    this.initScreenAds();
-    this.initWhatsAppFloat();
-    this.initLocationsCarousel();
-    this.initFooterDisclosures();
-    this.initDisclosureToggles();
-    this.initProfileAvatarUpload();
+    [
+      'initSearchOverlay',
+      'initCartExperience',
+      'initLiveShowcasePrices',
+      'initProductCardReveal',
+      'initNativeStockBadges',
+      'initNativeCardActions',
+      'initScreenAds',
+      'initWhatsAppFloat',
+      'initLocationsCarousel',
+      'initFooterDisclosures',
+      'initDisclosureToggles',
+      'initProfileAvatarUpload',
+    ].forEach(feature => {
+      try {
+        this[feature]();
+      } catch (error) {
+        console.error(`[ZodTheme] ${feature} failed`, error);
+      }
+    });
     window.salla?.onReady?.().then(() => document.dispatchEvent(new CustomEvent('zod::ready')));
   }
 
