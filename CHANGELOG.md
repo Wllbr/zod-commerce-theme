@@ -1,3 +1,10 @@
+## 1.6.68 — Cart clarity and checkout reliability
+
+- Collapses detailed product and cart offers into compact disclosures and replaces raw payment-method placeholders in asynchronous Salla offer content.
+- Reduces the mobile checkout dock height while keeping the total, checkout action, and bottom navigation visible.
+- Adds an early coupon shortcut, accessible removal controls, resilient native checkout triggering, and a richer empty-cart experience.
+- Removes the duplicate custom desktop total so Salla's native summary remains the single source of truth.
+
 ## 1.6.67 — Lighter mobile scale
 
 - Reduces the mobile type scale and product-page spacing by a small amount while preserving native browser zoom and accessibility.

@@ -173,7 +173,18 @@
       "order_complete": "Order complete",
       "journey_complete": "Your order is complete",
       "thank_you_hint": "Your order has been submitted successfully. Review the details below.",
-      "removed": "Product removed from cart"
+      "removed": "Product removed from cart",
+      "remove_item": "Remove product from cart",
+      "offer_applied": "Offer applied",
+      "offer_details": "View details",
+      "available_offers": "Offers available for your cart",
+      "available_offers_hint": "Open to view discount details",
+      "have_coupon": "Have a discount code?",
+      "empty_hint": "Add the products you need and they will appear here, ready for checkout.",
+      "discover_products": "Discover products",
+      "browse_categories": "Browse categories",
+      "popular_products": "Products you may like",
+      "selected_payment_method": "selected payment method"
     },
     "locations": {
       "navigation": "Browse store locations",

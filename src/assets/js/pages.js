@@ -4,15 +4,65 @@ document.addEventListener('DOMContentLoaded',()=>{
   const cartPage=document.querySelector('[data-zod-cart-page]');
   if(!cartPage) return;
 
-  // Reuse Salla's form validation and checkout submission from the mobile dock.
-  document.querySelector('[data-testid="store-cart-checkout-mobile"]')?.addEventListener('click',()=>{
+  const ar=(document.documentElement?.lang||'').toLowerCase().startsWith('ar');
+
+  // Keep offer copy customer-ready when a merchant offer contains Salla's raw
+  // payment-method placeholder. Components render asynchronously in shadow DOM.
+  const replaceOfferPlaceholders=root=>{
+    if(!root) return;
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+    const replacement=ar?'طريقة الدفع المختارة':'selected payment method';
+    let node;
+    while((node=walker.nextNode())){
+      if(node.nodeValue?.includes('{payment_method}')) node.nodeValue=node.nodeValue.replaceAll('{payment_method}',replacement);
+    }
+  };
+  const watchOfferComponent=async host=>{
+    try{await customElements.whenDefined(host.localName);}catch(_){return;}
+    const root=host.shadowRoot||host;
+    replaceOfferPlaceholders(root);
+    new MutationObserver(()=>replaceOfferPlaceholders(root)).observe(root,{subtree:true,childList:true,characterData:true});
+  };
+  document.querySelectorAll('salla-offer,salla-cart-item-offers').forEach(watchOfferComponent);
+
+  // Reuse Salla's native summary-card checkout validation. Wait for the web
+  // component and accept current and previous native submit selectors so a
+  // slow component render does not leave the mobile dock unresponsive.
+  const checkoutButton=document.querySelector('[data-testid="store-cart-checkout-mobile"]');
+  const findNativeCheckout=summary=>{
+    const roots=[summary,summary?.shadowRoot].filter(Boolean);
+    const selectors=['[data-testid="store-cart-submit"]','#s-cart-summary-card-submit','button[type="submit"]'];
+    for(const root of roots) for(const selector of selectors){const button=root.querySelector?.(selector);if(button) return button;}
+    return null;
+  };
+  checkoutButton?.addEventListener('click',()=>{
+    if(checkoutButton.getAttribute?.('aria-busy')==='true') return;
     const summary=document.querySelector('salla-cart-summary-card');
-    const submit=summary?.querySelector('#s-cart-summary-card-submit')
-      || summary?.shadowRoot?.querySelector('#s-cart-summary-card-submit');
-    if(submit) { submit.click(); return; }
-    const ar=(document.documentElement.lang||'').toLowerCase().startsWith('ar');
-    window.salla?.notify?.error?.(ar?'جارٍ تجهيز إتمام الطلب. حاول مرة أخرى بعد لحظات.':'Checkout is still loading. Please try again in a moment.');
+    const immediateSubmit=findNativeCheckout(summary);
+    if(immediateSubmit){immediateSubmit.click();return;}
+    checkoutButton.setAttribute?.('aria-busy','true');
+    const continueCheckout=async()=>{
+      try{
+        await customElements.whenDefined('salla-cart-summary-card');
+      let submit=findNativeCheckout(summary);
+      if(!submit){await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));submit=findNativeCheckout(summary);}
+      if(submit){submit.click();return;}
+      summary?.scrollIntoView?.({behavior:'smooth',block:'center'});
+      window.salla?.notify?.error?.(ar?'جارٍ تجهيز إتمام الطلب. حاول مرة أخرى بعد لحظات.':'Checkout is still loading. Please try again in a moment.');
+      }finally{setTimeout(()=>checkoutButton.removeAttribute?.('aria-busy'),900);}
+    };
+    continueCheckout();
   });
+
+  // Hide the optional cart-offers drawer when Salla returns no offer content.
+  const offersDrawer=document.querySelector('[data-zod-cart-offers-drawer]');
+  const offersHost=offersDrawer?.querySelector?.('salla-offer');
+  if(offersDrawer&&offersHost){
+    customElements.whenDefined('salla-offer').then(()=>setTimeout(()=>{
+      const text=(offersHost.shadowRoot?.textContent||offersHost.textContent||'').trim();
+      if(!text) offersDrawer.hidden=true;
+    },700)).catch(()=>{});
+  }
 
   const totalNodes=[...document.querySelectorAll('[data-zod-cart-grand-total]')];
   let activeCartItem=null;

@@ -16,6 +16,7 @@
       <span class="zod-cart-progress__line"><i></i><em></em></span>
       <span class="zod-cart-progress__step" data-zod-progress-checkout><i class="sicon-shipping-fast"></i><b>{{ trans('zod.cart.step_delivery_payment') }}</b></span>
     </div>
+    {% if store.settings.cart.apply_coupon_enabled %}<a class="zod-cart-coupon-jump" href="#zod-cart-coupon"><i class="sicon-tag"></i>{{ trans('zod.cart.have_coupon') }}</a>{% endif %}
     {% endif %}
     <salla-conditional-offer data-testid="store-cart-conditional-offer"></salla-conditional-offer>
     {% if cart.items|length %}
@@ -34,10 +35,14 @@
                   {% if item.weight_label %}<small>{{ trans('pages.products.weight') }}: {{ item.weight_label }}</small>{% endif %}
                   {% if item.is_on_sale %}<div class="zod-cart-item__unit-price"><del>{{ item.original_price|money }}</del><span>{{ item.price|money }}</span></div>{% endif %}
                 </div>
-                <salla-button data-testid="store-cart-delete-item" data-zod-cart-delete-item="{{ item.id }}" type="button" shape="icon" size="small" color="danger" class="zod-cart-delete"><i class="sicon-trash"></i></salla-button>
+                <salla-button data-testid="store-cart-delete-item" data-zod-cart-delete-item="{{ item.id }}" type="button" shape="icon" size="small" color="danger" class="zod-cart-delete" aria-label="{{ trans('zod.cart.remove_item') }}"><i class="sicon-trash"></i></salla-button>
               </div>
-              {% if item.offer %}<div class="zod-cart-offer"><i class="sicon-discount-calculator"></i>{{ item.offer.names }}</div>{% endif %}
-              <salla-cart-item-offers quantity="{{ item.quantity }}" item-id="{{ item.id }}" product-price="{{ item.product_price }}" offers="{{ item.detailed_offers|json_encode }}"></salla-cart-item-offers>
+              {% if item.offer or item.detailed_offers|length %}
+              <details class="zod-cart-item-offer-details">
+                <summary><i class="sicon-discount-calculator"></i><span>{{ trans('zod.cart.offer_applied') }}</span><small>{{ trans('zod.cart.offer_details') }}</small><i class="sicon-keyboard_arrow_down"></i></summary>
+                <salla-cart-item-offers quantity="{{ item.quantity }}" item-id="{{ item.id }}" product-price="{{ item.product_price }}" offers="{{ item.detailed_offers|json_encode }}"></salla-cart-item-offers>
+              </details>
+              {% endif %}
               {% include 'pages.partials.product.options' with {product:item} %}
               <div class="zod-cart-item__bottom">
                 <div class="zod-cart-quantity">{% if item.is_hidden_quantity %}<input type="hidden" name="quantity" value="{{ item.quantity }}"><span>{{ item.quantity }}</span>{% else %}<salla-quantity-input cart-item-id="{{ item.id }}" max="{{ item.max_quantity }}" value="{{ item.quantity }}" name="quantity"></salla-quantity-input>{% endif %}</div>
@@ -49,14 +54,16 @@
         {% endfor %}
         {% hook 'cart:items.end' %}
         {% if cart.options|length %}<div class="zod-cart-options">{% for product_option in cart.options %}<form onchange="salla.form.onChange('cart.updateItem', event)" id="option-{{ product_option.id }}"><input type="hidden" name="id" value="{{ product_option.id }}"><input type="hidden" name="quantity" value="{{ product_option.quantity }}">{% include 'pages.partials.product.options' with {product:product_option} %}</form>{% endfor %}</div>{% endif %}
-        <salla-offer data-testid="store-cart-offer"></salla-offer>
+        <details class="zod-cart-offers-drawer" data-zod-cart-offers-drawer>
+          <summary><span><i class="sicon-discount-calculator"></i><b>{{ trans('zod.cart.available_offers') }}</b></span><small>{{ trans('zod.cart.available_offers_hint') }}</small><i class="sicon-keyboard_arrow_down"></i></summary>
+          <salla-offer data-testid="store-cart-offer"></salla-offer>
+        </details>
       </div>
       {% hook 'cart:summary.start' %}
       <aside class="zod-cart-summary">
-        <div class="zod-cart-grand-total" aria-label="{{ trans('zod.cart.total') }}"><span>{{ trans('zod.cart.total') }}</span><strong data-zod-cart-grand-total>{{ cart.total|money }}</strong></div>
         {% hook 'cart:summary-card.start' %}<salla-cart-summary-card data-testid="store-cart-summary"></salla-cart-summary-card>{% hook 'cart:summary-card.end' %}
         {% if cart.free_shipping_bar %}<div class="zod-free-shipping"><div><i class="sicon-shipping-fast"></i><strong>{{ trans('pages.cart.free_shipping') }}</strong></div><p>{{ cart.free_shipping_bar.has_free_shipping ? trans('pages.cart.has_free_shipping') : trans('pages.cart.free_shipping_alert', {'amount':cart.free_shipping_bar.remaining|money})|raw }}</p><span><i style="width:{{ cart.free_shipping_bar.percent }}%"></i></span></div>{% endif %}
-        {% if store.settings.cart.apply_coupon_enabled %}{% hook 'cart:coupon.start' %}<div class="zod-cart-widget"><salla-cart-coupons data-testid="store-cart-coupons"></salla-cart-coupons></div>{% hook 'cart:coupon.end' %}{% endif %}
+        {% if store.settings.cart.apply_coupon_enabled %}{% hook 'cart:coupon.start' %}<div id="zod-cart-coupon" class="zod-cart-widget zod-cart-coupon-widget"><salla-cart-coupons data-testid="store-cart-coupons"></salla-cart-coupons></div>{% hook 'cart:coupon.end' %}{% endif %}
         {% if loyalty %}<div class="zod-cart-widget"><salla-loyalty-panel data-testid="store-cart-loyalty" prize-points="{{ loyalty.prize.points }}" prize-title="{{ loyalty.prize.title }}"></salla-loyalty-panel></div>{% endif %}
         {% if gift.enabled %}<div class="zod-cart-widget"><salla-gifting data-testid="store-cart-gifting" widget-title="{{ trans('pages.cart.gift_widget_title') }}" widget-subtitle="{{ gift.text }}" {{ gift.type }}-products vertical></salla-gifting></div>{% endif %}
         <salla-tiered-offer data-testid="store-cart-tiered-offer"></salla-tiered-offer>
@@ -75,7 +82,8 @@
       <p class="zod-cart-mobile-checkout__reassurance"><i class="sicon-shield-check"></i>{{ trans('zod.cart.checkout_reassurance') }}</p>
     </div>
     {% else %}
-      <div class="zod-empty-state" data-testid="store-cart-empty"><span><i class="sicon-shopping-bag"></i></span><h2>{{ trans('pages.cart.empty_cart') }}</h2><a href="{{ link('/') }}" class="zod-btn zod-btn--primary">{{ trans('common.elements.back_home') }}</a></div>
+      <div class="zod-empty-state zod-cart-empty" data-testid="store-cart-empty"><span><i class="sicon-shopping-bag"></i></span><h2>{{ trans('pages.cart.empty_cart') }}</h2><p>{{ trans('zod.cart.empty_hint') }}</p><div class="zod-cart-empty__actions"><a href="{{ link('/') }}" class="zod-btn zod-btn--primary">{{ trans('zod.cart.discover_products') }}</a><a href="{{ link('categories') }}" class="zod-btn zod-btn--secondary">{{ trans('zod.cart.browse_categories') }}</a></div></div>
+      <section class="zod-cart-empty-recommendations"><salla-products-slider source="latest" limit="6" block-title="{{ trans('zod.cart.popular_products') }}" slider-id="zod-empty-cart-products" product-card-component="custom-salla-product-card"></salla-products-slider></section>
     {% endif %}
   </div>
 </section>
