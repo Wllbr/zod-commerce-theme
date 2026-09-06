@@ -26,6 +26,33 @@ const initDualShowcase = (section) => {
   observer.observe(section);
 };
 
+const initHeroSlider = (slider) => {
+  if (!slider || slider.dataset.zodHeroReady === 'true') return;
+  slider.dataset.zodHeroReady = 'true';
+
+  let frame = 0;
+  const refresh = () => {
+    window.cancelAnimationFrame(frame);
+    frame = window.requestAnimationFrame(() => {
+      try { slider.update?.(); } catch (_) {}
+      try { slider.swiper?.update?.(); } catch (_) {}
+      try { slider.slider?.update?.(); } catch (_) {}
+      try { slider.swiper?.loopFix?.(); } catch (_) {}
+      try { slider.slider?.loopFix?.(); } catch (_) {}
+    });
+  };
+
+  if ('ResizeObserver' in window) {
+    const observer = new ResizeObserver(refresh);
+    observer.observe(slider);
+  }
+
+  window.addEventListener('resize', refresh, { passive: true });
+  window.addEventListener('orientationchange', refresh, { passive: true });
+  window.setTimeout(refresh, 120);
+  window.setTimeout(refresh, 500);
+};
+
 const initInteractiveShowcase = (section) => {
   if (!section || section.dataset.zodShowcaseReady === 'true') return;
   section.dataset.zodShowcaseReady = 'true';
@@ -296,6 +323,7 @@ const initProductSwitcher = (section) => {
 
 const initHome = (root = document) => {
   initFaq(root);
+  root.querySelectorAll('.zod-hero-slider').forEach(initHeroSlider);
   root.querySelectorAll('[data-zod-dual-showcase]').forEach(initDualShowcase);
   root.querySelectorAll('[data-zod-interactive-showcase]').forEach(initInteractiveShowcase);
   root.querySelectorAll('[data-zod-product-switcher]').forEach(initProductSwitcher);

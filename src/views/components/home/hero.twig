@@ -8,7 +8,7 @@
     loop
     pagination
     show-controls="false"
-    slider-config='{"autoplay":{"delay":6000,"disableOnInteraction":false,"pauseOnMouseEnter":true},"speed":700}'
+    slider-config='{"autoplay":{"delay":6000,"disableOnInteraction":false,"pauseOnMouseEnter":true},"speed":700,"observer":true,"observeParents":true,"resizeObserver":true}'
   >
     <div slot="items">
       {% for slide in component.slides %}
