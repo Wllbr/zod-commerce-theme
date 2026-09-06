@@ -3352,25 +3352,26 @@ salla-product-card.s-product-card-vertical .s-product-card-content-footer .s-but
 
 /* Mobile product-page breathing room and contextual purchase dock. */
 @media(max-width:767px){
-  .product-single .zod-product-page--v16{padding-top:8px!important;padding-bottom:30px!important}
-  .product-single .zod-product-main{padding-inline:14px!important;gap:22px!important}
+  html{font-size:15px}
+  .product-single .zod-product-page--v16{padding-top:6px!important;padding-bottom:26px!important}
+  .product-single .zod-product-main{padding-inline:12px!important;gap:18px!important}
   .product-single .zod-product-gallery{margin-inline:-2px}
   .product-single .zod-product-slider{border-radius:18px!important}
   .product-single .zod-gallery-slide{
-    height:clamp(300px,50svh,410px)!important;
-    max-height:410px!important;
-    min-height:300px!important;
+    height:clamp(285px,46svh,380px)!important;
+    max-height:380px!important;
+    min-height:285px!important;
     aspect-ratio:auto!important;
   }
-  .product-single .zod-product-image{padding:14px!important}
-  .product-single .zod-mobile-gallery-tools{padding:12px 0 0!important}
+  .product-single .zod-product-image{padding:12px!important}
+  .product-single .zod-mobile-gallery-tools{padding:10px 0 0!important}
   .product-single .zod-product-buybox{padding:0 2px!important}
-  .product-single .zod-product-title{font-size:22px!important;line-height:1.45!important;margin:8px 0 7px!important}
+  .product-single .zod-product-title{font-size:21px!important;line-height:1.42!important;margin:7px 0 6px!important}
   .product-single .zod-product-price{padding-top:5px!important}
-  .product-single .zod-stock-cluster{margin:11px 0 16px!important}
-  .product-single .zod-buybox-description{padding:16px 0 13px!important}
-  .product-single .zod-buybox-description__body{font-size:13px!important;line-height:1.82!important}
-  .product-single .zod-purchase-form{margin-top:15px!important}
+  .product-single .zod-stock-cluster{margin:9px 0 13px!important}
+  .product-single .zod-buybox-description{padding:13px 0 11px!important}
+  .product-single .zod-buybox-description__body{font-size:12.5px!important;line-height:1.75!important}
+  .product-single .zod-purchase-form{margin-top:12px!important}
 
   .product-single .zod-buy-controls:not(.is-docked){
     position:relative!important;
@@ -3450,9 +3451,9 @@ salla-product-card.s-product-card-vertical .s-product-card-content-footer .s-but
 }
 
 @media(max-width:390px){
-  .product-single .zod-gallery-slide{height:clamp(285px,48svh,360px)!important;min-height:285px!important}
-  .product-single .zod-product-main{padding-inline:12px!important}
-  .product-single .zod-product-title{font-size:20px!important}
+  .product-single .zod-gallery-slide{height:clamp(270px,44svh,340px)!important;min-height:270px!important}
+  .product-single .zod-product-main{padding-inline:10px!important}
+  .product-single .zod-product-title{font-size:19.5px!important}
   .product-single .zod-buy-controls.is-docked .zod-purchase-stack{grid-template-columns:96px minmax(0,1fr)!important}
   .product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity,
   .product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity salla-quantity-input{width:96px!important;max-width:96px!important}

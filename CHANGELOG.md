@@ -1,3 +1,8 @@
+## 1.6.67 — Lighter mobile scale
+
+- Reduces the mobile type scale and product-page spacing by a small amount while preserving native browser zoom and accessibility.
+- Shortens the mobile product gallery so product information enters view sooner.
+
 ## 1.6.66 — Balanced mobile purchase controls
 
 - Gives the quantity selector more room and slightly reduces the purchase button sizing so every control remains readable on narrow phones.
