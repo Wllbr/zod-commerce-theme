@@ -468,6 +468,20 @@ class ZodTheme {
         if (responseCount !== null) this.updateCartBadge(responseCount);
         setTimeout(() => this.refreshCartBadge(), 100);
       });
+      if (!this.cartDeleteBound) {
+        this.cartDeleteBound = true;
+        document.addEventListener('click', event => {
+          const button = event.target.closest?.('[data-zod-cart-delete-item]');
+          if (!button || button.dataset.zodBusy === '1') return;
+          const itemId = button.dataset.zodCartDeleteItem;
+          if (!itemId) return;
+          event.preventDefault();
+          button.dataset.zodBusy = '1';
+          this.deleteCartItem(itemId, `#item-${CSS.escape(itemId)}`)
+            .catch(() => {})
+            .finally(() => { delete button.dataset.zodBusy; });
+        });
+      }
       this.refreshCartBadge({ recoverCartPage: true });
       document.addEventListener('visibilitychange', () => { if (!document.hidden) this.refreshCartBadge(); });
     };

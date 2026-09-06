@@ -4,7 +4,7 @@
 <div class="container">
   <nav class="zod-breadcrumb"><salla-breadcrumb></salla-breadcrumb></nav>
   <section class="zod-brands-page">
-    <header class="zod-page-hero"><span class="zod-eyebrow">ZOD</span><h1>{{ trans('zod.brands.title') }}</h1><p>{{ trans('zod.brands.subtitle') }}</p></header>
+    <header class="zod-page-hero"><span class="zod-eyebrow">{{ trans('zod.common.brand_name') }}</span><h1>{{ trans('zod.brands.title') }}</h1><p>{{ trans('zod.brands.subtitle') }}</p></header>
     {% hook 'brands:index.items.start' %}
     <div class="zod-brands-directory">
       {% for group_key, group in brand_groups %}

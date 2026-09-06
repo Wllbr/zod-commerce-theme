@@ -1,4 +1,6 @@
 $ErrorActionPreference = 'Stop'
+Add-Type -AssemblyName System.IO.Compression
+Add-Type -AssemblyName System.IO.Compression.FileSystem
 $projectRoot = Split-Path $PSScriptRoot -Parent
 $version = (Get-Content -Raw -LiteralPath (Join-Path $projectRoot 'package.json') | ConvertFrom-Json).version
 $releaseRoot = Join-Path $projectRoot 'release'
@@ -12,8 +14,8 @@ foreach ($kind in @('Salla-Upload', 'Source')) {
   $archive = [IO.Compression.ZipArchive]::new($stream, [IO.Compression.ZipArchiveMode]::Create)
   try {
     foreach ($file in ($files | Sort-Object FullName)) {
-      $relative = [IO.Path]::GetRelativePath($projectRoot, $file.FullName).Replace('\', '/')
-      if ($kind -eq 'Salla-Upload' -and $relative.StartsWith('public/videos/')) { continue }
+      $relative = $file.FullName.Substring($projectRoot.Length).TrimStart([char[]]@('\', '/')).Replace('\', '/')
+      if ($relative.StartsWith('public/videos/')) { continue }
       [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $file.FullName, $relative, [IO.Compression.CompressionLevel]::Optimal) | Out-Null
     }
   } finally { $archive.Dispose(); $stream.Dispose() }
@@ -21,6 +23,8 @@ foreach ($kind in @('Salla-Upload', 'Source')) {
   try {
     if ($check.Entries.FullName -contains 'RECOVERED_CONVERSATION.md') { throw 'Private conversation must not be packaged' }
     if (-not ($check.Entries.FullName -contains 'public/app.js')) { throw 'Build missing from archive' }
+    if ($check.Entries.FullName | Where-Object { $_ -match '^(node_modules|\.pnpm-store|output|release|\.git|zod-commerce-theme)/' }) { throw 'Archive contains a forbidden build or nested-project directory' }
+    if ($kind -eq 'Salla-Upload' -and (Get-Item -LiteralPath $destination).Length -gt 1MB) { throw 'Salla upload archive exceeds the 1 MB public-theme limit' }
     Write-Output "$kind : $($check.Entries.Count) files, $((Get-Item -LiteralPath $destination).Length) bytes"
   } finally { $check.Dispose() }
 }

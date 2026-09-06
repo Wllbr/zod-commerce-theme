@@ -1,1 +1,9 @@
-{% extends "layouts.customer" %}{% block inner_content %}<div class="zod-account-card"><h2>{{ page.title }}</h2><salla-user-profile></salla-user-profile></div>{% endblock %}
+{% extends "layouts.customer" %}
+{% block inner_content %}
+  <div class="zod-account-card">
+    <h2>{{ page.title }}</h2>
+    <salla-user-profile></salla-user-profile>
+    <salla-verify data-testid="store-profile-verify"></salla-verify>
+    <salla-user-settings data-testid="store-profile-settings" {{ user.is_notifiable ? 'is-notifiable' : '' }} class="mt-10 block"></salla-user-settings>
+  </div>
+{% endblock %}

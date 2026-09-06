@@ -1,4 +1,9 @@
 node_modules/
+.pnpm-store/
+output/
+release/
+public/videos/
+.tmp-theme-raed/
 .DS_Store
 .env
 *.log

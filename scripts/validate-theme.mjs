@@ -25,8 +25,12 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.62','package.json: expected v1.6.62');
+assert(pkg.version==='1.6.63','package.json: expected v1.6.63');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
+for(const dependency of ['@salla.sa/twilight','@salla.sa/twilight-components']){
+  const version=pkg.devDependencies?.[dependency]||'';
+  assert(/2\.14\.572$/.test(version),`package.json: ${dependency} must use 2.14.572`);
+}
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');
 assert(Array.isArray(config.components)&&config.components.length>=8,'twilight.json: expected commerce components');
@@ -100,6 +104,10 @@ for(const f of requiredTemplates) assert(fs.existsSync(path.join(root,f)),`Requi
 
 const single=read('src/views/pages/product/single.twig');
 const cartTwig=read('src/views/pages/cart.twig');
+const masterTwig=read('src/views/layouts/master.twig');
+const orderSingle=read('src/views/pages/customer/orders/single.twig');
+const thankYou=read('src/views/pages/thank-you.twig');
+const profile=read('src/views/pages/customer/profile.twig');
 const productSwitcher=read('src/views/components/home/product-type-switcher.twig');
 const productSwitcherConfig=(config.components||[]).find(component=>component.path==='home.product-type-switcher');
 const screenAdConfig=(config.components||[]).find(component=>component.path==='home.screen-ad');
@@ -146,6 +154,19 @@ assert(whatsappConfig?.fields?.find(field=>field.id==='contacts')?.maxLength===4
 assert(cartTwig.includes('data-zod-cart-grand-total'),'Cart must expose the grand total for mobile and desktop');
 assert(cartTwig.includes('cart.total|money'),'Cart must render Salla cart.total');
 assert(cartTwig.includes('store-cart-checkout-mobile'),'Cart must keep a mobile checkout action');
+assert(!cartTwig.includes("document.querySelector('#item-"),'Cart delete control must not expose inline JavaScript as interface text');
+assert(read('src/assets/js/app.js').includes('[data-zod-cart-delete-item]'),'Cart delete control must be handled from the compiled application script');
+
+assert(masterTwig.includes('<salla-search data-testid="store-search-modal"></salla-search>'),'Master layout must include Salla search for Webview pages');
+for(const component of ['salla-order-totals-card','salla-order-branch','salla-edit-order-button','salla-review-factors-tags']){
+  assert(orderSingle.includes(`<${component}`),`Order details page missing ${component}`);
+}
+for(const component of ['salla-order-shipments','salla-next-order-coupon']){
+  assert(thankYou.includes(`<${component}`),`Thank-you page missing ${component}`);
+}
+for(const component of ['salla-user-settings','salla-verify']){
+  assert(profile.includes(`<${component}`),`Profile page missing ${component}`);
+}
 
 assert(single.includes('<salla-reviews-summary item-id="{{ product.id }}">'), 'product page: Salla reviews summary is required');
 assert(single.includes('<salla-payments>'), 'product page: Salla-native payment methods are required');
@@ -171,8 +192,7 @@ assert(headerTwig.includes('<salla-localization-modal'),'Header must use Salla l
 for(const token of ['store.logo','store.name','<salla-user-menu','<salla-cart-summary']) assert(headerTwig.includes(token),`Header missing native Salla source: ${token}`);
 for(const token of ['store.description','<salla-menu','store.contacts','<salla-social','<salla-trust-badges','store.settings.tax.number','<salla-payments']) assert(footerTwig.includes(token),`Footer missing native Salla source: ${token}`);
 assert(headerTwig.includes("salla.event.dispatch('search::open')"),'Header search must dispatch Salla’s native search event');
-assert(read('src/views/layouts/master.twig').includes('<salla-search data-testid="store-search-modal"></salla-search>'),'Layout must include Salla’s global search modal');
-assert((read('src/views/layouts/master.twig').match(/search::open/g)||[]).length===1,'Mobile dock search must dispatch Salla’s native search event');
+assert((masterTwig.match(/search::open/g)||[]).length===1,'Mobile dock search must dispatch Salla’s native search event');
 assert(!headerTwig.includes('zod-search-overlay') && !read('src/assets/js/app.js').includes('openSearch('),'Search must not depend on the retired custom overlay controller');
 assert(headerTwig.includes('zod-catalog-drawer'),'Header must include the universal catalog drawer');
 assert(!footerTwig.toLowerCase().includes('newsletter'),'Footer must not include a newsletter section');
@@ -235,6 +255,7 @@ for(const dep of ['@parcel/watcher','bufferutil','es5-ext','utf-8-validate']){
 assert(!/set this to true or false/i.test(approval),'pnpm-workspace.yaml contains unfinished approval placeholders');
 
 const projectText=[...twig,...jsFiles,'README.md','CHANGELOG.md','twilight.json'].map(read).join('\n').toLowerCase();
+assert(!twig.some(f=>/>\s*ZOD\s*</.test(read(f))), 'Twig templates must translate the ZOD interface label');
 for(const oldTerm of ['zod-twilight-theme','professional v1.1','commerce edition v1.3','neon gaming']){
   assert(!projectText.includes(oldTerm),`Old theme reference found: ${oldTerm}`);
 }

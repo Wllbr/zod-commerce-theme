@@ -1,3 +1,11 @@
+## 1.6.63 — Salla public-theme compliance
+
+- Updates `@salla.sa/twilight` and `@salla.sa/twilight-components` to 2.14.572.
+- Keeps the global `salla-search` component in `layouts/master.twig` for Webview pages.
+- Adds the required order totals, pickup branch, split shipments, order editing, profile settings, verification, next-order coupon and review-factor components in their official Salla locations.
+- Moves cart deletion behavior out of inline Twig markup and translates the ZOD labels used on index pages.
+- Adds a deterministic Salla upload packager that excludes caches, videos, release archives and nested projects, then rejects any upload larger than 1 MB.
+
 ## 1.6.48 — Search, checkout and navigation readiness
 
 - Prevents the theme search overlay from covering Salla's native modal results.

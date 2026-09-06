@@ -1,1 +1,36 @@
-{% extends "layouts.customer" %}{% block inner_content %}<div class="zod-account-card"><h2>{{ page.title }}</h2><salla-order-details order-id="{{ order.id }}"></salla-order-details></div>{% endblock %}
+{% extends "layouts.customer" %}
+
+{% block inner_title %}
+  <div class="flex items-center justify-between gap-3">
+    <h1 class="font-bold text-lg">{{ page.title }}</h1>
+    <salla-edit-order-button data-testid="store-order-edit-btn"></salla-edit-order-button>
+  </div>
+{% endblock %}
+
+{% block inner_content %}
+  <div class="zod-account-card space-y-4">
+    {% hook 'customer:orders.single.details.start' %}
+
+    {% if order.is_pickable %}
+      <salla-order-branch data-testid="store-order-branch" stack-cards></salla-order-branch>
+    {% endif %}
+
+    <salla-order-details order-id="{{ order.id }}"></salla-order-details>
+    <salla-order-totals-card data-testid="store-order-totals" order="{{ order }}"></salla-order-totals-card>
+
+    {% for package in order.packages|default([]) %}
+      {% for item in package.items|default([]) %}
+        {% if item.rating and item.rating.id %}
+          <salla-review-factors-tags
+            order-id="{{ order.id }}"
+            rating-id="{{ item.rating.id }}"
+            item-id="{{ item.id }}"
+            {% if item.product %}product-id="{{ item.product.id }}"{% endif %}
+          ></salla-review-factors-tags>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+
+    {% hook 'customer:orders.single.details.end' %}
+  </div>
+{% endblock %}

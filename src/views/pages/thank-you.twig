@@ -18,6 +18,11 @@
       {% if order %}<div class="zod-order-complete-card__details"><salla-order-details order-id="{{ order.id }}"></salla-order-details></div>{% endif %}
       <a href="{{ link('/') }}" class="zod-btn zod-btn--primary">{{ trans('common.elements.back_home') }}</a>
     </div>
+    {% if order %}
+      <salla-order-shipments class="block mb-6 md:mb-8 empty:hidden"></salla-order-shipments>
+      <salla-next-order-coupon data-testid="store-thankyou-coupon"></salla-next-order-coupon>
+      {% if order.is_pickable %}<salla-order-branch data-testid="store-thankyou-branch"></salla-order-branch>{% endif %}
+    {% endif %}
   </div>
 </section>
 {% endblock %}
