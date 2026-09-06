@@ -1,3 +1,8 @@
+## 1.6.65 — Mobile purchase dock alignment
+
+- Keeps the mobile navigation and its search action visible, with the persistent purchase dock attached directly above it.
+- Restores a compact quantity selector beside the purchase actions without increasing the dock height.
+
 ## 1.6.64 — Mobile product-page breathing room
 
 - Keeps the purchase dock visible while reducing it to a compact mobile action row and temporarily moving the mobile navigation out of the way.
