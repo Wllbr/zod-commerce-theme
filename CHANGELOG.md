@@ -1,3 +1,10 @@
+## 1.6.69 — Product-page conversion and clarity
+
+- Balances the desktop gallery and product information columns, increases key copy sizes, and keeps the purchase dock visible in a compact centered card.
+- Removes an exact duplicate product-title paragraph from the displayed description and repairs unmatched warranty parentheses without changing merchant data.
+- Makes VAT status explicit, surfaces ratings when product rating data exists, and increases trust-card readability.
+- Collapses product offers into a compact disclosure and places available related products before out-of-stock recommendations.
+
 ## 1.6.68 — Cart clarity and checkout reliability
 
 - Collapses detailed product and cart offers into compact disclosures and replaces raw payment-method placeholders in asynchronous Salla offer content.

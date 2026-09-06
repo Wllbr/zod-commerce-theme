@@ -29,6 +29,7 @@ class ZodProductPage {
 
   init() {
     this.initGallery();
+    this.normalizeProductCopy();
     this.initDescription();
     this.initStockStatus();
     this.initPriceMirror();
@@ -36,6 +37,90 @@ class ZodProductPage {
     this.initShareActions();
     this.initStickyPurchase();
     this.initOptionPanels();
+    this.initProductOffers();
+    this.initRelatedProducts();
+  }
+
+  normalizeProductCopy() {
+    const body = this.page.querySelector('[data-zod-description-body]');
+    const title = this.page.querySelector('[data-testid="store-product-title"]')?.textContent;
+    if (!body) return;
+
+    const normalize = value => String(value || '').replace(/\u00a0/g, ' ').replace(/\s+/g, ' ').trim();
+    const normalizedTitle = normalize(title);
+    const firstContent = [...body.children].find(element => normalize(element.textContent));
+    if (firstContent && normalizedTitle && normalize(firstContent.textContent) === normalizedTitle) {
+      firstContent.remove();
+    }
+
+    const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT);
+    const warrantyPattern = /(?:الضمان|warranty)/i;
+    let node;
+    while ((node = walker.nextNode())) {
+      const value = node.nodeValue || '';
+      if (!warrantyPattern.test(value)) continue;
+      const openCount = (value.match(/\(/g) || []).length;
+      const closeCount = (value.match(/\)/g) || []).length;
+      if (openCount > closeCount) node.nodeValue = `${value}${')'.repeat(openCount - closeCount)}`;
+    }
+  }
+
+  initProductOffers() {
+    const drawer = this.page.querySelector('[data-zod-product-offers]');
+    const offer = drawer?.querySelector('salla-offer');
+    if (!drawer || !offer) return;
+
+    const revealWhenReady = () => {
+      const visibleContent = offer.getBoundingClientRect().height > 8
+        || Boolean(offer.shadowRoot?.textContent?.trim())
+        || Boolean(offer.textContent?.trim());
+      drawer.open = false;
+      drawer.hidden = !visibleContent;
+      drawer.classList.remove('is-loading');
+      drawer.classList.add('is-ready');
+    };
+
+    drawer.classList.add('is-loading');
+    drawer.open = true;
+    window.customElements?.whenDefined?.('salla-offer')
+      .then(() => window.setTimeout(revealWhenReady, 500))
+      .catch(() => {});
+    window.setTimeout(revealWhenReady, 1600);
+  }
+
+  initRelatedProducts() {
+    const section = document.querySelector('[data-zod-related-products]');
+    if (!section) return;
+
+    let attempts = 0;
+    const prioritizeAvailable = () => {
+      const wrapper = section.querySelector('.swiper-wrapper');
+      const slides = wrapper ? [...wrapper.children].filter(slide => slide.matches('.swiper-slide')) : [];
+      if (!wrapper || !slides.length) {
+        if (attempts++ < 12) window.setTimeout(prioritizeAvailable, 250);
+        return;
+      }
+
+      const available = [];
+      const unavailable = [];
+      slides.forEach(slide => {
+        const isUnavailable = Boolean(slide.querySelector('.zpc-media.is-out, salla-add-product-button[disabled], salla-add-product-button[product-status="out-and-notify"]'));
+        slide.classList.toggle('zod-related-slide--out', isUnavailable);
+        slide.classList.toggle('zod-related-slide--available', !isUnavailable);
+        (isUnavailable ? unavailable : available).push(slide);
+      });
+
+      if (!available.length || !unavailable.length) return;
+      [...available, ...unavailable].forEach(slide => wrapper.appendChild(slide));
+      section.classList.add('has-prioritized-availability');
+
+      const slider = section.querySelector('salla-slider');
+      const swiper = slider?.swiper || slider?.querySelector?.('.swiper')?.swiper;
+      swiper?.update?.();
+      swiper?.slideTo?.(0, 0);
+    };
+
+    prioritizeAvailable();
   }
 
   initGallery() {

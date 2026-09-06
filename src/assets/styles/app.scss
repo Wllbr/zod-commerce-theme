@@ -3582,3 +3582,45 @@ body.product-single.zod-product-dock-visible #zod-notifications{bottom:calc(var(
   @keyframes zodNoticeFade{from{opacity:0}to{opacity:1}}
   @keyframes zodNoticeFadeOut{from{opacity:1}to{opacity:0}}
 }
+
+/* Product-page readiness pass: balanced desktop layout, compact offers and
+   clear purchase information. The native Salla purchase control stays fixed. */
+.product-single .zod-native-tax-label{display:inline-flex!important;align-items:center;gap:6px;width:max-content;max-width:100%;margin:2px 0 5px!important;padding:5px 9px;border-radius:999px;background:#f1f8f4;color:#287a4e!important;font-size:10.5px!important;font-weight:800}
+.product-single .zod-native-tax-label.is-excluded{background:#fff7e8;color:#9a6517!important}
+.product-single .zod-product-offers-drawer{max-width:860px;margin:20px auto 0;border:1px solid var(--zod-line);border-radius:16px;background:#fff;overflow:hidden}
+.product-single .zod-product-offers-drawer.is-loading{visibility:hidden}
+.product-single .zod-product-offers-drawer>summary{min-height:64px;padding:12px 16px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:3px 12px;list-style:none;cursor:pointer}
+.product-single .zod-product-offers-drawer>summary::-webkit-details-marker{display:none}
+.product-single .zod-product-offers-drawer>summary>span{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:900}
+.product-single .zod-product-offers-drawer>summary>span i{color:var(--color-primary)}
+.product-single .zod-product-offers-drawer>summary>small{grid-column:1;color:var(--zod-muted);font-size:10px}
+.product-single .zod-product-offers-drawer>summary>i:last-child{grid-column:2;grid-row:1/3;color:#98a2b3;transition:transform .2s ease}
+.product-single .zod-product-offers-drawer[open]>summary>i:last-child{transform:rotate(180deg)}
+.product-single .zod-product-offers-drawer>salla-offer{display:block;padding:0 12px 12px}
+.zod-related-products .zod-related-slide--out{opacity:.78}
+
+@media(min-width:1024px){
+  .product-single .zod-product-main{width:min(100% - 40px,1240px)!important;grid-template-columns:minmax(0,590px) minmax(480px,610px)!important;gap:34px!important}
+  .product-single .zod-product-gallery,.product-single .zod-product-slider{max-width:590px!important}
+  .product-single .zod-gallery-slide{max-height:565px!important}
+  .product-single .zod-product-buybox{max-width:610px!important}
+  .product-single .zod-product-title{font-size:clamp(27px,1.75vw,32px)!important;line-height:1.3!important}
+  .product-single .zod-buybox-description__body{font-size:14px!important;line-height:1.82!important}
+  .product-single .zod-product-fact{font-size:12px!important;padding:11px 13px!important}
+  .product-single .zod-product-trust b{font-size:12.5px!important}
+  .product-single .zod-product-trust small{font-size:10.5px!important;line-height:1.55!important}
+  .product-single .zod-trust-card{padding:14px!important;min-height:78px}
+  body.product-single .zod-buy-controls.is-docked,body.product-single .zod-buy-controls.is-docked.is-ready{left:50%!important;right:auto!important;bottom:14px!important;width:min(1120px,calc(100vw - 48px))!important;min-height:62px!important;padding:7px 10px!important;grid-template-columns:minmax(230px,1fr) minmax(500px,650px)!important;border:1px solid rgba(16,24,40,.1)!important;border-radius:16px!important;box-shadow:0 14px 42px rgba(16,24,40,.18)!important;transform:translateX(-50%)!important}
+  body.zod-product-dock-visible.product-single{padding-bottom:calc(var(--zod-product-dock-height,62px) + 34px)!important}
+}
+
+@media(max-width:767px){
+  .product-single .zod-product-trust b{font-size:11.5px!important}
+  .product-single .zod-product-trust small{font-size:9.5px!important;line-height:1.5!important}
+  .product-single .zod-product-offers-drawer{margin-top:14px;border-radius:13px}
+  .product-single .zod-product-offers-drawer>summary{min-height:54px;padding:9px 11px}
+  .product-single .zod-product-offers-drawer>summary>span{font-size:11px}
+  .product-single .zod-product-offers-drawer>summary>small{font-size:9px}
+}
+
+@media(prefers-reduced-motion:reduce){.product-single .zod-product-offers-drawer>summary>i:last-child{transition:none!important}}

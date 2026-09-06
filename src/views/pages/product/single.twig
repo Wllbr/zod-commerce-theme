@@ -7,7 +7,7 @@
 {% set has_valid_sale = product.is_on_sale and product.sale_price and product.sale_price > 0 %}
 {% set display_price_value = has_valid_sale ? product.sale_price : (product.starting_price and product.starting_price > 0 ? product.starting_price : product.price) %}
 {% set sticky_price_value = display_price_value %}
-{% set show_product_reviews = store.settings.rating.show_on_product %}
+{% set show_product_reviews = store.settings.rating.show_on_product or product.rating %}
 {% set brand_logo = product.brand and product.brand.logo ? product.brand.logo.url|default(product.brand.logo) : null %}
 
 {% if theme.settings.get('product_show_breadcrumbs', true) %}
@@ -103,7 +103,10 @@
       {% if product.subtitle %}<p class="zod-product-subtitle">{{ product.subtitle }}</p>{% endif %}
       {% if product.rating %}<a href="#reviews" class="zod-product-rating"><salla-rating-stars data-testid="store-product-rating" value="{{ product.rating.stars }}" reviews="{{ product.rating.count }}"></salla-rating-stars></a>{% endif %}
 
-      {% if product.is_taxable %}<small class="zod-native-tax-label">{{ trans('pages.products.tax_included') }}</small>{% endif %}
+      <small class="zod-native-tax-label {{ product.is_taxable ? 'is-included' : 'is-excluded' }}">
+        <i class="sicon-check-circle" aria-hidden="true"></i>
+        {{ product.is_taxable ? trans('pages.products.tax_included') : trans('zod.product.tax_not_included') }}
+      </small>
       <div data-testid="store-product-price" class="zod-product-price price-wrapper" data-zod-main-price>
         <div class="price_is_on_sale {{ has_valid_sale ? '' : 'hidden' }}">
           <strong class="total-price">{{ product.sale_price|money }}</strong>
@@ -265,7 +268,14 @@
 
 
 
-    <salla-offer data-testid="store-product-offer"></salla-offer>
+    <details class="zod-product-offers-drawer" data-zod-product-offers>
+      <summary>
+        <span><i class="sicon-tag"></i>{{ trans('zod.product.available_offers') }}</span>
+        <small>{{ trans('zod.product.available_offers_hint') }}</small>
+        <i class="sicon-keyboard_arrow_down" aria-hidden="true"></i>
+      </summary>
+      <salla-offer data-testid="store-product-offer"></salla-offer>
+    </details>
   </div>
 </section>
 
@@ -289,7 +299,7 @@
 {% endif %}
 
 <div class="s-blocks-wrapper s-before-related">{% hook 'product.single.before_product_recommendations' %}</div>
-<section class="zod-section zod-related-products"><div class="container"><salla-products-slider data-testid="store-product-related" source="related" source-value="{{ product.id }}" block-title="{{ trans('zod.product.related') }}" display-all-url autoplay product-card-component="custom-salla-product-card"></salla-products-slider></div></section>
+<section class="zod-section zod-related-products" data-zod-related-products><div class="container"><salla-products-slider data-testid="store-product-related" source="related" source-value="{{ product.id }}" block-title="{{ trans('zod.product.related') }}" block-subtitle="{{ trans('zod.product.related_available_first') }}" display-all-url product-card-component="custom-salla-product-card"></salla-products-slider></div></section>
 <div class="s-blocks-wrapper s-after-related">{% hook 'product.single.after_product_recommendations' %}</div>
 {% endblock %}
 
