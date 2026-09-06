@@ -1,3 +1,7 @@
+## 1.6.66 — Balanced mobile purchase controls
+
+- Gives the quantity selector more room and slightly reduces the purchase button sizing so every control remains readable on narrow phones.
+
 ## 1.6.65 — Mobile purchase dock alignment
 
 - Keeps the mobile navigation and its search action visible, with the persistent purchase dock attached directly above it.
