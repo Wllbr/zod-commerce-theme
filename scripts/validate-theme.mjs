@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.63','package.json: expected v1.6.63');
+assert(pkg.version==='1.6.64','package.json: expected v1.6.64');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 for(const dependency of ['@salla.sa/twilight','@salla.sa/twilight-components']){
   const version=pkg.devDependencies?.[dependency]||'';

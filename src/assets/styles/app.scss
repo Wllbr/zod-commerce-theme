@@ -3349,3 +3349,149 @@ salla-product-card.s-product-card-vertical .s-product-card-content-footer .s-but
 .zod-notice button { color: inherit; background: transparent; border: 0; min-width: 32px; min-height: 32px; font-size: 26px; cursor: pointer; }
 .zod-notice button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* Mobile product-page breathing room and contextual purchase dock. */
+@media(max-width:767px){
+  .product-single .zod-product-page--v16{padding-top:8px!important;padding-bottom:30px!important}
+  .product-single .zod-product-main{padding-inline:14px!important;gap:22px!important}
+  .product-single .zod-product-gallery{margin-inline:-2px}
+  .product-single .zod-product-slider{border-radius:18px!important}
+  .product-single .zod-gallery-slide{
+    height:clamp(300px,50svh,410px)!important;
+    max-height:410px!important;
+    min-height:300px!important;
+    aspect-ratio:auto!important;
+  }
+  .product-single .zod-product-image{padding:14px!important}
+  .product-single .zod-mobile-gallery-tools{padding:12px 0 0!important}
+  .product-single .zod-product-buybox{padding:0 2px!important}
+  .product-single .zod-product-title{font-size:22px!important;line-height:1.45!important;margin:8px 0 7px!important}
+  .product-single .zod-product-price{padding-top:5px!important}
+  .product-single .zod-stock-cluster{margin:11px 0 16px!important}
+  .product-single .zod-buybox-description{padding:16px 0 13px!important}
+  .product-single .zod-buybox-description__body{font-size:13px!important;line-height:1.82!important}
+  .product-single .zod-purchase-form{margin-top:15px!important}
+
+  .product-single .zod-buy-controls:not(.is-docked){
+    position:relative!important;
+    opacity:1!important;
+    transform:none!important;
+    margin-top:14px!important;
+  }
+  .product-single .zod-buy-controls.is-docked{
+    left:8px!important;
+    right:8px!important;
+    bottom:calc(8px + env(safe-area-inset-bottom))!important;
+    width:auto!important;
+    min-height:54px!important;
+    padding:6px!important;
+    grid-template-columns:1fr!important;
+    gap:0!important;
+    border:1px solid rgba(225,228,232,.95)!important;
+    border-radius:14px!important;
+    box-shadow:0 -8px 28px rgba(16,24,40,.13)!important;
+  }
+  .product-single .zod-buy-controls.is-docked .zod-sticky-product-summary,
+  .product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity{display:none!important}
+  .product-single .zod-buy-controls.is-docked .zod-purchase-stack{
+    display:block!important;
+    grid-template-columns:1fr!important;
+    width:100%!important;
+  }
+  .product-single .zod-buy-controls.is-docked .zod-purchase-actions{
+    display:block!important;
+    width:100%!important;
+    grid-column:1!important;
+    grid-row:1!important;
+  }
+  .product-single .zod-buy-controls.is-docked .zod-main-add{
+    width:100%!important;
+    --salla-fast-checkout-button-height:42px;
+    --salla-fast-checkout-button-width:100%;
+    --salla-fast-checkout-button-border-radius:10px;
+  }
+  .product-single .zod-buy-controls.is-docked .zod-main-add::part(button){min-height:42px!important;font-size:11.5px!important;border-radius:10px!important}
+  body.zod-product-dock-visible.product-single{padding-bottom:78px!important}
+  body.has-mobile-bottom-nav.zod-product-dock-visible.product-single{padding-bottom:78px!important}
+  .product-single .zod-mobile-dock{transition:transform .28s cubic-bezier(.2,.8,.25,1),opacity .2s ease}
+  body.zod-product-dock-visible.product-single .zod-mobile-dock{transform:translateY(110%);opacity:0;pointer-events:none}
+}
+
+@media(max-width:390px){
+  .product-single .zod-gallery-slide{height:clamp(285px,48svh,360px)!important;min-height:285px!important}
+  .product-single .zod-product-main{padding-inline:12px!important}
+  .product-single .zod-product-title{font-size:20px!important}
+}
+
+/* Compact centered notification with a readable pause, shine, and inward exit. */
+#zod-notifications{
+  position:fixed;
+  z-index:100000;
+  top:auto;
+  right:auto;
+  inset-inline:auto;
+  left:50%;
+  bottom:24px;
+  width:min(320px,calc(100vw - 32px));
+  transform:translateX(-50%);
+  display:grid;
+  justify-items:center;
+  gap:8px;
+  pointer-events:none;
+}
+.zod-notice{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  width:max-content;
+  max-width:100%;
+  min-height:50px;
+  padding:10px 15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+  background:#152b34;
+  color:#fff;
+  box-shadow:0 14px 38px rgba(4,15,20,.28);
+  font-size:12.5px;
+  line-height:1.35;
+  font-weight:850;
+  text-align:center;
+  pointer-events:auto;
+  cursor:pointer;
+  transform-origin:center;
+  animation:zodNoticeArrive .32s cubic-bezier(.16,.86,.28,1) both;
+}
+.zod-notice>i{position:relative;z-index:2;flex:none;font-size:17px;color:#fff}
+.zod-notice>span{position:relative;z-index:2;flex:0 1 auto}
+.zod-notice::before{
+  content:"";
+  position:absolute;
+  z-index:1;
+  inset:-45% auto -45% -40%;
+  width:34%;
+  transform:skewX(-18deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.36),transparent);
+  animation:zodNoticeShine .62s ease .62s both;
+  pointer-events:none;
+}
+.zod-notice.is-error{background:#8c2222;cursor:default}
+.zod-notice.is-error button{position:relative;z-index:2;width:28px;height:28px;min-width:28px;min-height:28px;font-size:20px;line-height:1}
+.zod-notice.is-collapsing{animation:zodNoticeCollapse .48s cubic-bezier(.72,-.08,.86,.38) forwards}
+@keyframes zodNoticeArrive{from{opacity:0;transform:translateY(16px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes zodNoticeShine{from{left:-42%;opacity:0}20%{opacity:1}to{left:112%;opacity:0}}
+@keyframes zodNoticeCollapse{0%{opacity:1;transform:scale(1) rotate(0);filter:blur(0)}58%{opacity:.92;transform:scale(.62,.38) rotate(2deg);filter:blur(1px);border-radius:50%}100%{opacity:0;transform:scale(.02) rotate(10deg);filter:blur(7px);border-radius:50%}}
+
+body.has-mobile-bottom-nav:not(.zod-product-dock-visible) #zod-notifications{bottom:84px}
+body.product-single.zod-product-dock-visible #zod-notifications{bottom:calc(var(--zod-product-dock-height,54px) + 18px + env(safe-area-inset-bottom))}
+
+@media(prefers-reduced-motion:reduce){
+  .zod-notice{animation:zodNoticeFade .16s ease both!important}
+  .zod-notice::before{display:none!important}
+  .zod-notice.is-collapsing{animation:zodNoticeFadeOut .16s ease forwards!important}
+  @keyframes zodNoticeFade{from{opacity:0}to{opacity:1}}
+  @keyframes zodNoticeFadeOut{from{opacity:1}to{opacity:0}}
+}

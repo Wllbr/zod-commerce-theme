@@ -496,21 +496,48 @@ class ZodTheme {
       region.id = 'zod-notifications';
       document.body.appendChild(region);
     }
+    if (type !== 'error') region.querySelectorAll('.zod-notice:not(.is-error)').forEach(item => item.remove());
+
     const notice = document.createElement('div');
-    notice.className = `zod-notice ${type === 'error' ? 'is-error' : ''}`;
+    notice.className = `zod-notice ${type === 'error' ? 'is-error' : 'is-success'}`;
     notice.setAttribute('role', type === 'error' ? 'alert' : 'status');
+    const icon = document.createElement('i');
+    icon.className = type === 'error' ? 'sicon-cancel' : 'sicon-check-circle';
+    icon.setAttribute('aria-hidden', 'true');
     const copy = document.createElement('span');
     // Notifications may contain markup; show its text without injecting HTML.
     const parsed = new DOMParser().parseFromString(String(message || ''), 'text/html');
     copy.textContent = parsed.body.textContent;
-    const close = document.createElement('button');
-    close.type = 'button';
-    close.textContent = '×';
-    close.setAttribute('aria-label', document.documentElement.lang.startsWith('ar') ? 'إغلاق' : 'Close');
-    close.addEventListener('click', () => notice.remove());
-    notice.append(copy, close);
+    let removed = false;
+    const dismiss = () => {
+      if (removed) return;
+      removed = true;
+      notice.classList.add('is-collapsing');
+      notice.addEventListener('animationend', () => notice.remove(), { once: true });
+      setTimeout(() => notice.remove(), 650);
+    };
+
+    notice.append(icon, copy);
+    if (type === 'error') {
+      const close = document.createElement('button');
+      close.type = 'button';
+      close.textContent = '×';
+      close.setAttribute('aria-label', document.documentElement.lang.startsWith('ar') ? 'إغلاق' : 'Close');
+      close.addEventListener('click', event => {
+        event.stopPropagation();
+        dismiss();
+      });
+      notice.append(close);
+    } else {
+      notice.tabIndex = 0;
+      notice.setAttribute('aria-label', `${copy.textContent}. ${document.documentElement.lang.startsWith('ar') ? 'اضغط للإغلاق' : 'Press to dismiss'}`);
+      notice.addEventListener('click', dismiss);
+      notice.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') dismiss();
+      });
+    }
     region.appendChild(notice);
-    if (type !== 'error') setTimeout(() => notice.remove(), 6500);
+    if (type !== 'error') setTimeout(dismiss, 2600);
   }
 
 

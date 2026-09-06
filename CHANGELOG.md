@@ -1,3 +1,10 @@
+## 1.6.64 — Mobile product-page breathing room
+
+- Keeps the purchase dock visible while reducing it to a compact mobile action row and temporarily moving the mobile navigation out of the way.
+- Caps the mobile product gallery height so the product title and price enter view sooner.
+- Improves spacing and type sizing through the mobile product details.
+- Replaces the oversized cart notification with a centered compact toast featuring a brief shine and inward-collapse exit, with a reduced-motion fallback.
+
 ## 1.6.63 — Salla public-theme compliance
 
 - Updates `@salla.sa/twilight` and `@salla.sa/twilight-components` to 2.14.572.
