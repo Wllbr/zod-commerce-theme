@@ -1,3 +1,9 @@
+## 1.6.70 — VAT and Riyal display consistency
+
+- Marks product prices as VAT included, matching the store's pricing policy.
+- Preserves Salla's official Riyal currency symbol when the live price is mirrored into the persistent purchase dock.
+- Stops decorative trust-card motion and hydrated hidden skeleton animations to reduce needless browser rendering work.
+
 ## 1.6.69 — Product-page conversion and clarity
 
 - Balances the desktop gallery and product information columns, increases key copy sizes, and keeps the purchase dock visible in a compact centered card.

@@ -103,9 +103,9 @@
       {% if product.subtitle %}<p class="zod-product-subtitle">{{ product.subtitle }}</p>{% endif %}
       {% if product.rating %}<a href="#reviews" class="zod-product-rating"><salla-rating-stars data-testid="store-product-rating" value="{{ product.rating.stars }}" reviews="{{ product.rating.count }}"></salla-rating-stars></a>{% endif %}
 
-      <small class="zod-native-tax-label {{ product.is_taxable ? 'is-included' : 'is-excluded' }}">
+      <small class="zod-native-tax-label is-included">
         <i class="sicon-check-circle" aria-hidden="true"></i>
-        {{ product.is_taxable ? trans('pages.products.tax_included') : trans('zod.product.tax_not_included') }}
+        {{ trans('pages.products.tax_included') }}
       </small>
       <div data-testid="store-product-price" class="zod-product-price price-wrapper" data-zod-main-price>
         <div class="price_is_on_sale {{ has_valid_sale ? '' : 'hidden' }}">

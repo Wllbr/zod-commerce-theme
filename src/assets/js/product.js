@@ -283,7 +283,7 @@ class ZodProductPage {
     const sync = () => {
       const current = this.getVisiblePrice();
       const value = current?.textContent?.trim();
-      if (value) this.stickyPrice.textContent = value;
+      if (value) this.stickyPrice.innerHTML = current.innerHTML;
     };
     sync();
     new MutationObserver(sync).observe(this.mainPrice, {
