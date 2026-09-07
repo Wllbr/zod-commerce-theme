@@ -1,3 +1,10 @@
+## 1.6.72 — Final storefront spacing and direction polish
+
+- Reduces the desktop floating header height while preserving accessible controls and the existing glass treatment.
+- Tightens product-led section spacing on desktop and mobile so long homepages scan more naturally.
+- Keeps the WhatsApp control close to the viewport edge while clearing mobile navigation, cart checkout and product purchase docks.
+- Corrects forward arrow direction for English calls to action without changing Arabic presentation.
+
 ## 1.6.71 — Consumer readiness and Salla content integrity
 
 - Stops theme JavaScript from altering product descriptions or titles, leaving merchant content and translations fully controlled by Salla.

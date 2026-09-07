@@ -3689,3 +3689,46 @@ body.product-single.zod-product-dock-visible #zod-notifications{bottom:calc(var(
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+/* ZOD v1.6.72 — final storefront spacing and direction polish. */
+@media(min-width:1024px){
+  .zod-header-main--compact .zod-compact-header{
+    height:80px!important;
+  }
+  .zod-product-shelf,
+  .zod-product-switcher{
+    padding-block:38px!important;
+  }
+  .zod-product-shelf .zod-section-head,
+  .zod-product-switcher .zod-section-head{
+    margin-bottom:18px!important;
+  }
+  .zod-whatsapp-float{
+    bottom:24px!important;
+  }
+}
+
+/* Arrow icons are drawn pointing left; consumer actions advance right in LTR. */
+html[dir="ltr"] main a .sicon-arrow-left{
+  transform:rotate(180deg)!important;
+}
+
+@media(max-width:767px){
+  .zod-product-shelf,
+  .zod-product-switcher{
+    padding-block:28px!important;
+  }
+  .zod-product-shelf .zod-section-head,
+  .zod-product-switcher .zod-section-head{
+    margin-bottom:14px!important;
+  }
+  .zod-whatsapp-float{
+    bottom:82px!important;
+  }
+  body.cart-page .zod-whatsapp-float{
+    bottom:144px!important;
+  }
+  body.product-single.zod-product-dock-visible .zod-whatsapp-float{
+    bottom:calc(var(--zod-product-dock-height,92px) + 82px)!important;
+  }
+}

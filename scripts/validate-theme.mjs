@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.71','package.json: expected v1.6.71');
+assert(pkg.version==='1.6.72','package.json: expected v1.6.72');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 for(const dependency of ['@salla.sa/twilight','@salla.sa/twilight-components']){
   const version=pkg.devDependencies?.[dependency]||'';
@@ -208,6 +208,9 @@ for(const selector of ['.zod-header','.zod-hero','.zod-product-card','.zod-produ
 assert(/@media\(max-width:767px\)[\s\S]*?\.zod-header-cart-wrap\{display:none!important\}/.test(appCss),'Mobile must use the bottom dock as its single cart entry');
 assert(appCss.includes('.zod-products-list>.s-products-list-wrapper'),'Catalog density must target Salla product lists rendered in light DOM');
 assert(appCss.includes('ZOD v1.6.71 — consumer readiness'),'Consumer-readiness style overrides are required');
+assert(appCss.includes('ZOD v1.6.72 — final storefront spacing and direction polish'),'Final storefront polish styles are required');
+assert(appCss.includes('html[dir="ltr"] main a .sicon-arrow-left'),'LTR consumer action arrows must point forward');
+assert(appCss.includes('body.cart-page .zod-whatsapp-float'),'The mobile WhatsApp control must clear the cart checkout dock');
 assert(appCss.includes('min-height:44px!important'),'Mobile interactive controls must retain accessible touch targets');
 assert(!read('src/assets/js/product.js').includes('normalizeProductCopy'),'Theme scripts must not rewrite Salla-managed product descriptions');
 assert(!read('src/assets/js/partials/product-card.js').includes('const taxLabel = p.is_taxable'),'Store-wide VAT messaging must not disappear because of inconsistent product flags');
