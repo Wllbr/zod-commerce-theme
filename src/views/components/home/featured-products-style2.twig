@@ -1,6 +1,6 @@
 <section data-testid="store-home-featured-products" class="zod-section zod-native-featured-carousel-section">
   <div class="container">
-    <salla-slider class="zod-native-product-carousel" type="carousel" auto-play loop show-controls="false" slider-config='{"autoplay":{"delay":4200,"disableOnInteraction":false,"pauseOnMouseEnter":true},"speed":650,"spaceBetween":14}'>
+    <salla-slider class="zod-native-product-carousel" type="carousel" show-controls="false" slider-config='{"speed":650,"spaceBetween":14}'>
       <div slot="items">
         {% if main_product %}
           <div class="swiper-slide zod-native-product-slide"><custom-salla-product-card product="{{ main_product.product }}"></custom-salla-product-card></div>

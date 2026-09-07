@@ -1,3 +1,10 @@
+## 1.6.74 — Mobile density and WhatsApp edge panel
+
+- Replaces the wide floating WhatsApp pill with a compact left-edge tab that expands inward into a readable contact panel on mobile and desktop.
+- Tightens mobile category introductions, subcategory cards and product galleries so products, prices and buying information appear sooner.
+- Stops automatic movement in repeated product rails while retaining motion in the hero, category and brand discovery sections.
+- Preserves the mobile navigation and persistent product purchase dock with collision-safe WhatsApp positioning.
+
 ## 1.6.73 — Salla repository size compliance
 
 - Removes historical release archives and unused preview videos from the Git-tracked theme delivered to Salla while retaining local copies for development.

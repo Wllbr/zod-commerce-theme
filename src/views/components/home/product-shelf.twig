@@ -9,13 +9,13 @@
       </div>
     {% endif %}
     {% if component.products|length %}
-      <salla-slider class="zod-native-product-carousel zod-density-carousel" type="carousel" auto-play loop show-controls="false" slider-config='{"autoplay":{"delay":3600,"disableOnInteraction":false,"pauseOnMouseEnter":true},"speed":600,"spaceBetween":10}'>
+      <salla-slider class="zod-native-product-carousel zod-density-carousel" type="carousel" show-controls="false" slider-config='{"speed":600,"spaceBetween":10}'>
         <div slot="items">
           {% for product in component.products|slice(0,12) %}<div class="swiper-slide zod-native-product-slide"><custom-salla-product-card product="{{ product }}"></custom-salla-product-card></div>{% endfor %}
         </div>
       </salla-slider>
     {% else %}
-      <salla-products-slider autoplay source="latest" limit="12" slider-id="zod-shelf-{{ position }}" product-card-component="custom-salla-product-card"></salla-products-slider>
+      <salla-products-slider source="latest" limit="12" slider-id="zod-shelf-{{ position }}" product-card-component="custom-salla-product-card"></salla-products-slider>
     {% endif %}
   </div>
 </section>
