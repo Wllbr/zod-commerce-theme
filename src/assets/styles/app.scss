@@ -3451,6 +3451,7 @@ salla-product-card.s-product-card-vertical .s-product-card-content-footer .s-but
 }
 
 /* ZOD v1.6.74 — mobile storefront density and edge-mounted WhatsApp contact. */
+.zod-logo--centered img{height:46px!important;width:auto!important;max-width:min(210px,30vw)!important}
 .zod-whatsapp-float{
   left:0!important;
   right:auto!important;
@@ -3544,6 +3545,7 @@ html[dir="ltr"] .zod-whatsapp-float__option span{
 }
 
 @media(max-width:767px){
+  .zod-logo--centered img{height:35px!important;max-width:112px!important}
   .zod-whatsapp-float{bottom:78px!important}
   body.cart-page .zod-whatsapp-float{bottom:136px!important}
   body.product-single.zod-product-dock-visible .zod-whatsapp-float{bottom:calc(var(--zod-product-dock-height,54px) + 76px)!important}
