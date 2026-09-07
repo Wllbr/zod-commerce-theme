@@ -1,3 +1,9 @@
+## 1.6.73 — Salla repository size compliance
+
+- Removes historical release archives and unused preview videos from the Git-tracked theme delivered to Salla while retaining local copies for development.
+- Adds automated checks that reject development/output directories or individual files larger than 1 MB if they are accidentally tracked again.
+- Keeps compiled production assets in the standard `public/` directory used by Salla Twilight themes.
+
 ## 1.6.72 — Final storefront spacing and direction polish
 
 - Reduces the desktop floating header height while preserving accessible controls and the existing glass treatment.

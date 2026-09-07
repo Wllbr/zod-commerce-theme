@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.72",
-  "description": "ZOD Commerce — balanced storefront spacing, responsive floating actions and correct bilingual direction.",
+  "version": "1.6.73",
+  "description": "ZOD Commerce — Salla-ready repository packaging with oversized development artifacts excluded.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

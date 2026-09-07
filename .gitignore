@@ -3,6 +3,8 @@ node_modules/
 output/
 release/
 public/videos/
+video-repository/
+zod-commerce-theme
 .tmp-theme-raed/
 .DS_Store
 .env
