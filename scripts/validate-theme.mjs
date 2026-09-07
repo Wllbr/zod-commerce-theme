@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.70','package.json: expected v1.6.70');
+assert(pkg.version==='1.6.71','package.json: expected v1.6.71');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 for(const dependency of ['@salla.sa/twilight','@salla.sa/twilight-components']){
   const version=pkg.devDependencies?.[dependency]||'';
@@ -174,6 +174,8 @@ assert(single.includes("show_product_reviews_summary"), 'product page: review su
 
 assert(read('src/views/pages/product/index.twig').includes('zod-catalog-layout--full'),'Category listing must support a full-width no-filter layout');
 assert(read('src/views/pages/product/index.twig').includes('product-card-component="custom-salla-product-card"'),'Category listing must use the ZOD product card');
+assert(read('src/views/pages/product/index.twig').includes('data-zod-catalog-recovery'),'Category listing must include a translated recoverable loading-error state');
+assert(read('src/assets/js/products.js').includes('data-zod-catalog-retry'),'Category loading errors must provide a working retry action');
 const brandsIndex=read('src/views/pages/brands/index.twig');
 assert(brandsIndex.includes('group is iterable') && brandsIndex.includes('for brand in group'),'Brand directory must iterate Salla grouped brand collections');
 assert(!brandsIndex.includes('group.name is defined'),'Brand directory must not mistake a grouped collection for a brand');
@@ -205,6 +207,10 @@ for(const selector of ['.zod-header','.zod-hero','.zod-product-card','.zod-produ
 }
 assert(/@media\(max-width:767px\)[\s\S]*?\.zod-header-cart-wrap\{display:none!important\}/.test(appCss),'Mobile must use the bottom dock as its single cart entry');
 assert(appCss.includes('.zod-products-list>.s-products-list-wrapper'),'Catalog density must target Salla product lists rendered in light DOM');
+assert(appCss.includes('ZOD v1.6.71 — consumer readiness'),'Consumer-readiness style overrides are required');
+assert(appCss.includes('min-height:44px!important'),'Mobile interactive controls must retain accessible touch targets');
+assert(!read('src/assets/js/product.js').includes('normalizeProductCopy'),'Theme scripts must not rewrite Salla-managed product descriptions');
+assert(!read('src/assets/js/partials/product-card.js').includes('const taxLabel = p.is_taxable'),'Store-wide VAT messaging must not disappear because of inconsistent product flags');
 assert(appCss.includes('ZOD v1.6.40 — unified Orkida-density product cards'),'Unified native/custom product-card release styles are required');
 assert(appCss.includes('salla-product-card.s-product-card-vertical .s-product-card-image img'),'Native Salla cards must share ZOD image framing');
 assert(appCss.includes('salla-product-card.s-product-card-vertical salla-add-product-button .s-button-element'),'Native Salla cards must share the compact purchase button');

@@ -1,3 +1,12 @@
+## 1.6.71 — Consumer readiness and Salla content integrity
+
+- Stops theme JavaScript from altering product descriptions or titles, leaving merchant content and translations fully controlled by Salla.
+- Restores readable two-line mobile product titles and 44 px touch targets for card, filter, menu and header actions.
+- Reduces oversized hero height on desktop and mobile while retaining separate mobile artwork configured in Salla.
+- Shows VAT-included messaging consistently on product cards and Quick View, matching the store pricing policy.
+- Adds a translated, accessible retry panel when Salla reports that a category product list failed to load.
+- Adds consistent keyboard focus treatment, correct Quick View arrow direction and a reduced-motion fallback.
+
 ## 1.6.70 — VAT and Riyal display consistency
 
 - Marks product prices as VAT included, matching the store's pricing policy.

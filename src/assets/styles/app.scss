@@ -3625,3 +3625,67 @@ body.product-single.zod-product-dock-visible #zod-notifications{bottom:calc(var(
 }
 
 @media(prefers-reduced-motion:reduce){.product-single .zod-product-offers-drawer>summary>i:last-child{transition:none!important}}
+
+/* ZOD v1.6.71 — consumer readiness, accessible controls and resilient catalog. */
+:where(a,button,input,select,textarea,summary,[tabindex]):focus-visible{
+  outline:3px solid color-mix(in srgb,var(--color-primary) 58%,#fff)!important;
+  outline-offset:3px!important;
+}
+.zod-hero-slide{min-height:clamp(260px,22vw,340px)!important}
+.zod-hero-copy h2{font-size:clamp(30px,3.6vw,52px)!important}
+.zod-catalog-recovery{
+  width:min(620px,100%);
+  min-height:112px;
+  margin:22px auto;
+  padding:18px;
+  display:grid;
+  grid-template-columns:44px minmax(0,1fr) auto;
+  align-items:center;
+  gap:14px;
+  border:1px solid #f1d6d6;
+  border-radius:16px;
+  background:#fffafa;
+  color:var(--zod-ink);
+}
+.zod-catalog-recovery[hidden]{display:none!important}
+.zod-catalog-recovery>i{width:44px;height:44px;display:grid;place-items:center;border-radius:50%;background:#fff0f0;color:var(--zod-danger);font-size:20px}
+.zod-catalog-recovery strong{display:block;font-size:14px}
+.zod-catalog-recovery p{margin:4px 0 0;color:var(--zod-muted);font-size:12px;line-height:1.6}
+.zod-catalog-recovery button{min-height:44px;padding:0 16px;border:1px solid var(--color-primary);border-radius:999px;background:#fff;color:var(--color-primary);font-size:12px;font-weight:850;cursor:pointer}
+[dir=rtl] .zod-qv__details i{transform:rotate(0)}
+[dir=ltr] .zod-qv__details i{transform:rotate(180deg)}
+
+@media(max-width:767px){
+  .zod-hero-slide{min-height:clamp(280px,76vw,340px)!important;padding-bottom:34px!important}
+  .zod-hero-copy h2{font-size:clamp(27px,8vw,34px)!important;line-height:1.15!important}
+  .zod-hero-copy p{font-size:13px!important;line-height:1.65!important;margin-bottom:18px!important}
+  .zod-mobile-menu-btn,.zod-mobile-search,.zod-header-cart-wrap,
+  .zod-catalog-drawer__close,.zod-announcement .s-advertisement-action{min-width:44px!important;min-height:44px!important}
+  .zod-filter-trigger,.zod-sort select{min-height:44px!important}
+  .zpc-body,
+  salla-product-card.s-product-card-vertical .s-product-card-content{min-height:190px!important;padding:9px 9px 10px!important}
+  .zpc-body h3,
+  salla-product-card.s-product-card-vertical .s-product-card-content-title{min-height:38px!important;max-height:38px!important;font-size:13px!important;line-height:19px!important;margin-bottom:3px!important}
+  .zpc-tax{font-size:9.5px!important;line-height:1.35!important}
+  .zpc-action,
+  .zod-native-card-actions>.s-product-card-wishlist-btn,
+  .zod-native-card-actions .s-product-card-wishlist-btn.s-button-element,
+  .zod-native-quick-view{width:44px!important;min-width:44px!important;height:44px!important;min-height:44px!important;font-size:17px!important}
+  .zpc-add::part(button),
+  .zpc-add .s-button-element,
+  salla-product-card.s-product-card-vertical salla-add-product-button::part(button),
+  salla-product-card.s-product-card-vertical salla-add-product-button .s-button-element,
+  salla-product-card.s-product-card-vertical .s-product-card-content-footer .s-button-element{
+    min-height:44px!important;
+    height:44px!important;
+    padding:7px 10px!important;
+    font-size:11px!important;
+  }
+  .zod-catalog-recovery{grid-template-columns:40px minmax(0,1fr);padding:14px;gap:10px}
+  .zod-catalog-recovery>i{width:40px;height:40px}
+  .zod-catalog-recovery button{grid-column:1/-1;width:100%}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}

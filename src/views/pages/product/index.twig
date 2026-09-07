@@ -64,6 +64,14 @@
       {{ has_filters ? 'filters-Results' : '' }}
       product-card-component="custom-salla-product-card">
     </salla-products-list>
+    <div class="zod-catalog-recovery" data-zod-catalog-recovery hidden role="alert" aria-live="polite">
+      <i class="sicon-refresh" aria-hidden="true"></i>
+      <div>
+        <strong>{{ trans('zod.catalog.load_error') }}</strong>
+        <p>{{ trans('zod.catalog.load_error_text') }}</p>
+      </div>
+      <button type="button" data-zod-catalog-retry>{{ trans('zod.catalog.retry') }}</button>
+    </div>
     {% hook 'product:index.items.end' %}
   </div>
 </div></section>

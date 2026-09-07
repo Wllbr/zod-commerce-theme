@@ -95,7 +95,10 @@
       "results": "results",
       "subcategories": "Browse subcategories",
       "empty_title": "No products found",
-      "empty_text": "Try another category or adjust the filters."
+      "empty_text": "Try another category or adjust the filters.",
+      "load_error": "Products could not be loaded",
+      "load_error_text": "Check your connection and try again.",
+      "retry": "Try again"
     },
     "brands": {
       "title": "Brands",

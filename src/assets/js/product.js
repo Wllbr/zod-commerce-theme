@@ -29,7 +29,6 @@ class ZodProductPage {
 
   init() {
     this.initGallery();
-    this.normalizeProductCopy();
     this.initDescription();
     this.initStockStatus();
     this.initPriceMirror();
@@ -39,30 +38,6 @@ class ZodProductPage {
     this.initOptionPanels();
     this.initProductOffers();
     this.initRelatedProducts();
-  }
-
-  normalizeProductCopy() {
-    const body = this.page.querySelector('[data-zod-description-body]');
-    const title = this.page.querySelector('[data-testid="store-product-title"]')?.textContent;
-    if (!body) return;
-
-    const normalize = value => String(value || '').replace(/\u00a0/g, ' ').replace(/\s+/g, ' ').trim();
-    const normalizedTitle = normalize(title);
-    const firstContent = [...body.children].find(element => normalize(element.textContent));
-    if (firstContent && normalizedTitle && normalize(firstContent.textContent) === normalizedTitle) {
-      firstContent.remove();
-    }
-
-    const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT);
-    const warrantyPattern = /(?:الضمان|warranty)/i;
-    let node;
-    while ((node = walker.nextNode())) {
-      const value = node.nodeValue || '';
-      if (!warrantyPattern.test(value)) continue;
-      const openCount = (value.match(/\(/g) || []).length;
-      const closeCount = (value.match(/\)/g) || []).length;
-      if (openCount > closeCount) node.nodeValue = `${value}${')'.repeat(openCount - closeCount)}`;
-    }
   }
 
   initProductOffers() {

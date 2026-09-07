@@ -237,7 +237,7 @@ class ZodProductCard extends HTMLElement {
         ${category ? `<span class="zod-qv__category">${this.esc(category.name)}</span>` : ''}
         <h2 id="zod-qv-title">${this.esc(details.name || '')}</h2>
         <div class="zod-qv__price">${this.price(details)}</div>
-        ${details.is_taxable ? `<small class="zod-qv__tax">${this.esc(this.t('pages.products.tax_included', this.isArabic() ? 'شامل ضريبة القيمة المضافة' : 'VAT included'))}</small>` : ''}
+        <small class="zod-qv__tax">${this.esc(this.t('pages.products.tax_included', this.isArabic() ? 'شامل ضريبة القيمة المضافة' : 'VAT included'))}</small>
         <div class="zod-qv__stock ${isOut ? 'is-out' : 'is-in'}"><i></i>${this.esc(stockLabel)}</div>
         ${description ? `<p>${this.esc(description)}</p>` : ''}
         ${hasOptions ? `<div class="zod-qv__options-note"><i class="sicon-list"></i>${this.esc(optionLabel)}</div>` : `
@@ -264,7 +264,7 @@ class ZodProductCard extends HTMLElement {
     const discount = this.discountPercent();
     const inWishlist = this.initialWishlistState(p);
     const promo = p.promotion_title || p.promotion?.title || '';
-    const taxLabel = p.is_taxable ? this.t('pages.products.tax_included', this.isArabic() ? 'شامل ضريبة القيمة المضافة' : 'VAT included') : '';
+    const taxLabel = this.t('pages.products.tax_included', this.isArabic() ? 'شامل ضريبة القيمة المضافة' : 'VAT included');
 
     this.classList.add('zod-product-card');
     this.setAttribute('data-product-id', p.id);
@@ -282,7 +282,7 @@ class ZodProductCard extends HTMLElement {
       <div class="zpc-body">
         ${category ? `${category.url ? `<a class="zpc-category" href="${this.esc(category.url)}">${this.esc(category.name)}</a>` : `<span class="zpc-category">${this.esc(category.name)}</span>`}` : ''}
         <h3><a href="${this.esc(p.url || '#')}">${this.esc(p.name)}</a></h3>
-        ${taxLabel ? `<p class="zpc-tax">${this.esc(taxLabel)}</p>` : ''}
+        <p class="zpc-tax">${this.esc(taxLabel)}</p>
         ${p.rating?.stars ? `<div class="zpc-meta"><span class="zpc-rating"><i class="sicon-star2"></i>${this.esc(p.rating.stars)}${p.rating.count ? ` <small>(${this.esc(p.rating.count)})</small>` : ''}</span></div>` : ''}
         <div class="zpc-bottom">${this.price()}</div>
         <salla-add-product-button class="zpc-add" width="wide" fill="outline" product-id="${p.id}" product-status="${this.esc(status || '')}" product-type="${this.esc(p.type || 'product')}">${this.esc(isOut ? outLabel : addLabel)}</salla-add-product-button>

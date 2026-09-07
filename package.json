@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.70",
-  "description": "ZOD Commerce — stock correctness, reliable cart feedback, accessible Quick View and storefront polish.",
+  "version": "1.6.71",
+  "description": "ZOD Commerce — consumer-ready mobile controls, resilient catalog loading and Salla-managed content integrity.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
