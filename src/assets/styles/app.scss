@@ -4097,3 +4097,43 @@ html.zod-lock .zod-announcement{
 @media(prefers-reduced-motion:reduce){
   .s-search-modal .s-search-grid-item{transition:none!important}
 }
+
+/* ZOD v1.6.81 — phase-one purchase-dock critique refinements. */
+.product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity salla-quantity-input{
+  color:var(--zod-ink)!important;
+  --color-grey:#667085;
+}
+.product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity{
+  border-color:#d7dce2!important;
+}
+
+@media(min-width:1024px){
+  body.product-single .zod-buy-controls.is-docked.zod-buy-controls--unavailable,
+  body.product-single .zod-buy-controls.is-docked.is-ready.zod-buy-controls--unavailable{
+    width:min(780px,calc(100vw - 48px))!important;
+    grid-template-columns:minmax(280px,1fr) minmax(260px,330px)!important;
+  }
+  .product-single .zod-buy-controls.is-docked.zod-buy-controls--unavailable .zod-purchase-stack{
+    grid-template-columns:1fr!important;
+  }
+  .product-single .zod-buy-controls.is-docked.zod-buy-controls--unavailable .zod-purchase-actions{
+    grid-column:1!important;
+  }
+}
+
+@media(max-width:767px){
+  .product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity{
+    border-color:#cfd5dc!important;
+    box-shadow:0 8px 20px rgba(16,24,40,.16)!important;
+  }
+  .product-single .zod-buy-controls.is-docked .zod-main-add.s-add-product-button-with-apple-pay{
+    grid-template-columns:1fr!important;
+  }
+  .product-single .zod-buy-controls.is-docked .zod-main-add.s-add-product-button-with-apple-pay>salla-quick-buy{
+    grid-column:1;
+    margin-top:5px!important;
+  }
+  .product-single .zod-buy-controls.is-docked .zod-main-add.s-add-product-button-with-apple-pay apple-pay-button{
+    width:100%!important;
+  }
+}

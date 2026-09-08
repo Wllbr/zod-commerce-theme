@@ -1,3 +1,8 @@
+## 1.6.81 — Purchase-dock critique phase one
+
+- Compresses the desktop dock when a product is unavailable so its disabled action and product summary remain visually connected.
+- Improves quantity-control contrast and gives Apple Pay a clear full-width row on mobile when it is available.
+
 ## 1.6.80 — Purchase choices and complete search cards
 
 - Rebalances the persistent purchase dock for quantity, Add to cart, Buy Now and Apple Pay on mobile and desktop.
