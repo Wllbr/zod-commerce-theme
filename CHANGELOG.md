@@ -1,3 +1,8 @@
+## 1.6.79 — Balanced desktop product offers
+
+- Restores the Heart, Share and brand controls to the full-width product header on desktop.
+- Places available offers in a compact horizontal panel above the product-description divider so expanded Salla offer content remains readable without squeezing the title and price.
+
 ## 1.6.78 — Visible product offers
 
 - Moves available product offers beside the price and stock summary on desktop, using the previously empty outer space without separating the offer from the buying decision.
