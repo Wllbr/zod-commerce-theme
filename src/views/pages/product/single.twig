@@ -83,6 +83,9 @@
     <div class="zod-product-buybox">
       {% hook 'product:single.description.start' %}
 
+      <div class="zod-product-topline">
+      <div class="zod-product-overview">
+
       <div class="zod-product-brand-row {{ brand_logo and product.brand.url ? 'has-brand-logo' : 'no-brand-logo' }}">
         {% if brand_logo and product.brand.url %}
           <a class="zod-product-brand-card" href="{{ product.brand.url }}" title="{{ product.brand.name }}" aria-label="{{ trans('zod.product.explore_brand') }}">
@@ -127,6 +130,17 @@
         </div>
         {% if product.can_show_remained_quantity and product.quantity is not null %}<span class="zod-stock-remaining"><i class="sicon-box-bankers"></i>{{ trans('zod.product.remaining') }}: <b>{{ product.quantity }}</b></span>{% endif %}
         {% if product.sold_quantity and product.can_show_sold and theme.settings.get('show_product_sold_count', true) %}<span class="zod-product-sold-chip"><i class="sicon-fire"></i>{{ trans('zod.product.sold') }}: <b>{{ product.sold_quantity }}</b></span>{% endif %}
+      </div>
+      </div>
+
+      <details class="zod-product-offers-drawer" data-zod-product-offers>
+        <summary>
+          <span><i class="sicon-tag"></i>{{ trans('zod.product.available_offers') }}</span>
+          <small>{{ trans('zod.product.available_offers_hint') }}</small>
+          <i class="sicon-keyboard_arrow_down" aria-hidden="true"></i>
+        </summary>
+        <salla-offer data-testid="store-product-offer"></salla-offer>
+      </details>
       </div>
 
       {% if product.description %}
@@ -266,16 +280,6 @@
     </section>
     {% endif %}
 
-
-
-    <details class="zod-product-offers-drawer" data-zod-product-offers>
-      <summary>
-        <span><i class="sicon-tag"></i>{{ trans('zod.product.available_offers') }}</span>
-        <small>{{ trans('zod.product.available_offers_hint') }}</small>
-        <i class="sicon-keyboard_arrow_down" aria-hidden="true"></i>
-      </summary>
-      <salla-offer data-testid="store-product-offer"></salla-offer>
-    </details>
   </div>
 </section>
 

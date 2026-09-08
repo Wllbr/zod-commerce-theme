@@ -1,3 +1,8 @@
+## 1.6.78 — Visible product offers
+
+- Moves available product offers beside the price and stock summary on desktop, using the previously empty outer space without separating the offer from the buying decision.
+- Places the same compact offer card immediately below price and availability on mobile, while hiding it automatically when Salla provides no offer content.
+
 ## 1.6.77 — Product-card controls and draft routing
 
 - Reduces the Eye and Heart controls, gives them a translucent glass treatment, and seats them lower on product images on mobile and desktop.

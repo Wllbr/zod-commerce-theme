@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.77','package.json: expected v1.6.77');
+assert(pkg.version==='1.6.78','package.json: expected v1.6.78');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 const trackedResult=spawnSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8'});
 assert(trackedResult.status===0,'Git tracked-file inventory must be available');
@@ -195,6 +195,8 @@ assert(read('src/views/pages/page-single.twig').includes('zod-info-page__card'),
 assert(single.includes('zod-product-brand-card'),'Product page must render the single brand exploration card');
 assert(!single.includes('zod-brand-explore-card'),'Product page must not render the old duplicate brand card');
 assert(single.includes("product.can_quick_buy and product_available ? 'quick-buy' : ''"),'Product page must enable native quick-buy on the single purchase component when supported');
+assert((single.match(/data-zod-product-offers/g)||[]).length===1,'Product page must render one available-offers panel');
+assert(single.indexOf('data-zod-product-offers') < single.indexOf('data-zod-buybox-description'),'Product offers must stay beside the price summary and before the description');
 
 const headerTwig=read('src/views/components/header/header.twig');
 const footerTwig=read('src/views/components/footer/footer.twig');
