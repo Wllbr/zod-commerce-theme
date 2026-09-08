@@ -1,3 +1,8 @@
+## 1.6.82 — Purchase-dock critique phase two
+
+- Tightens the available-product dock on desktop while retaining room for all three purchase methods.
+- Removes quantity controls from unavailable products and improves mobile action-label legibility.
+
 ## 1.6.81 — Purchase-dock critique phase one
 
 - Compresses the desktop dock when a product is unavailable so its disabled action and product summary remain visually connected.

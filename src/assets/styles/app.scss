@@ -4137,3 +4137,29 @@ html.zod-lock .zod-announcement{
     width:100%!important;
   }
 }
+
+/* ZOD v1.6.82 — phase-two dock proportions and unavailable state. */
+.product-single .zod-buy-controls.is-docked.zod-buy-controls--unavailable .sticky-product-bar__quantity{
+  display:none!important;
+}
+.product-single .zod-buy-controls.is-docked.zod-buy-controls--unavailable .zod-purchase-actions{
+  width:100%!important;
+}
+
+@media(min-width:1024px){
+  body.product-single .zod-buy-controls.is-docked:not(.zod-buy-controls--unavailable),
+  body.product-single .zod-buy-controls.is-docked.is-ready:not(.zod-buy-controls--unavailable){
+    width:min(1120px,calc(100vw - 48px))!important;
+    grid-template-columns:minmax(220px,.78fr) minmax(620px,2fr)!important;
+  }
+}
+
+@media(max-width:767px){
+  .product-single .zod-buy-controls.is-docked .zod-main-add .s-button-element{
+    font-size:10.5px!important;
+    font-weight:900!important;
+  }
+  .product-single .zod-buy-controls.is-docked.zod-buy-controls--unavailable .zod-purchase-stack{
+    display:block!important;
+  }
+}
