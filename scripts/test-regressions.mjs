@@ -154,3 +154,16 @@ menuWindow.zodMenu.setMenus([]);
 assert.match(menuBox.innerHTML,/No categories are available/);
 
 console.log('PASS: menu failure recovery and empty menu handling.');
+
+// High-risk responsive fixes must remain present in the compiled source.
+const menuSource = read('src/assets/js/partials/zod-menu.js');
+const styles = read('src/assets/styles/app.scss');
+const dualShowcase = read('src/views/components/home/dual-showcase.twig');
+const cartTemplate = read('src/views/pages/cart.twig');
+assert.match(menuSource,/document\.body\.appendChild\(drawer\)/,'catalog drawer escapes the sticky header stacking context');
+assert.match(styles,/html\.zod-lock \.zod-announcement/,'announcement is suppressed while the catalog dialog is open');
+assert.match(styles,/\.zod-cart-summary-card\{display:none!important\}/,'native mobile cart dock cannot overlap the theme checkout dock');
+assert.match(dualShowcase,/replace\(\{'\/ar\/':'\/en\/'\}\)/,'English showcase links use the English storefront');
+assert.match(cartTemplate,/class="zod-cart-summary-card"/,'cart summary exposes the responsive target class');
+
+console.log('PASS: mobile dialog layering, cart dock isolation, and bilingual showcase routing.');

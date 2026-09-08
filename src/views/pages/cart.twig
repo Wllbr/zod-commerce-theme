@@ -61,7 +61,7 @@
       </div>
       {% hook 'cart:summary.start' %}
       <aside class="zod-cart-summary">
-        {% hook 'cart:summary-card.start' %}<salla-cart-summary-card data-testid="store-cart-summary"></salla-cart-summary-card>{% hook 'cart:summary-card.end' %}
+        {% hook 'cart:summary-card.start' %}<salla-cart-summary-card class="zod-cart-summary-card" data-testid="store-cart-summary"></salla-cart-summary-card>{% hook 'cart:summary-card.end' %}
         {% if cart.free_shipping_bar %}<div class="zod-free-shipping"><div><i class="sicon-shipping-fast"></i><strong>{{ trans('pages.cart.free_shipping') }}</strong></div><p>{{ cart.free_shipping_bar.has_free_shipping ? trans('pages.cart.has_free_shipping') : trans('pages.cart.free_shipping_alert', {'amount':cart.free_shipping_bar.remaining|money})|raw }}</p><span><i style="width:{{ cart.free_shipping_bar.percent }}%"></i></span></div>{% endif %}
         {% if store.settings.cart.apply_coupon_enabled %}{% hook 'cart:coupon.start' %}<div id="zod-cart-coupon" class="zod-cart-widget zod-cart-coupon-widget"><salla-cart-coupons data-testid="store-cart-coupons"></salla-cart-coupons></div>{% hook 'cart:coupon.end' %}{% endif %}
         {% if loyalty %}<div class="zod-cart-widget"><salla-loyalty-panel data-testid="store-cart-loyalty" prize-points="{{ loyalty.prize.points }}" prize-title="{{ loyalty.prize.title }}"></salla-loyalty-panel></div>{% endif %}

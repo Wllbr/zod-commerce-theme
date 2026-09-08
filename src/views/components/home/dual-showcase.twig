@@ -14,6 +14,8 @@
         {% set item_text = item.text is iterable ? item.text[language.code]|default(item.text|first) : item.text %}
         {% set item_button = item.button is iterable ? item.button[language.code]|default(item.button|first) : item.button %}
         {% set item_url = item.url.url|default(item.url)|default('#') %}
+        {% if language.code == 'en' %}{% set item_url = item_url|replace({'/ar/':'/en/'}) %}{% endif %}
+        {% if language.code == 'ar' %}{% set item_url = item_url|replace({'/en/':'/ar/'}) %}{% endif %}
         {% set default_image = loop.first ? 'images/generated/insect-traps/afc-glue-trap-lifestyle.webp'|asset : 'images/generated/insect-traps/geepas-electric-trap-lifestyle.webp'|asset %}
         <a class="zod-dual-card {{ loop.first ? 'is-first' : 'is-second' }}" href="{{ item_url }}">
           <span class="zod-dual-card__media"><img src="{{ item.image|default(default_image) }}" alt="{{ item_title|default(store.name) }}" loading="lazy"></span>

@@ -38,6 +38,14 @@ const syncOverlayLock = () => {
   document.documentElement.classList.toggle('zod-lock', Boolean(drawerOpen));
 };
 
+const ensureDrawerLayer = () => {
+  const drawer = document.getElementById('zod-catalog-drawer');
+  // The header lives inside the sticky announcement stack. Keeping the dialog
+  // there traps its fixed z-index below that stack on mobile browsers.
+  if (drawer && drawer.parentElement !== document.body) document.body.appendChild(drawer);
+  return drawer;
+};
+
 window.zodMenu = {
   menus: [],
   stack: [],
@@ -67,7 +75,7 @@ window.zodMenu = {
   },
 
   open(trigger) {
-    const el = document.getElementById('zod-catalog-drawer');
+    const el = ensureDrawerLayer();
     if (!el) return;
     this.lastFocus = trigger || document.activeElement;
     this.stack = [];

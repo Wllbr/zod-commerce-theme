@@ -3868,3 +3868,44 @@ html[dir="ltr"] main a .sicon-arrow-left{
     bottom:calc(var(--zod-product-dock-height,92px) + 82px)!important;
   }
 }
+
+/* ZOD v1.6.75 — final mobile layering, spacing and rendering pass. */
+.zod-catalog-drawer{
+  z-index:10000!important;
+  height:100dvh;
+}
+html.zod-lock .zod-announcement{
+  opacity:0!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+.zod-section:not(.zod-hero):not(.zod-category-section){
+  content-visibility:auto;
+  contain-intrinsic-size:auto 620px;
+}
+
+@media(min-width:1024px){
+  .zod-header-main--compact .zod-compact-header{height:76px!important}
+  .zod-logo--centered img{height:44px!important;max-width:200px!important}
+}
+
+@media(max-width:767px){
+  .zod-sticky-chrome{z-index:230!important}
+  .zod-header-main--compact .zod-compact-header{height:68px!important}
+  .zod-logo--centered img{height:38px!important;max-width:126px!important}
+  .zod-category-slider,.zod-brand-slider{
+    margin-inline:-12px!important;
+    padding-inline:12px!important;
+    scroll-padding-inline:12px;
+  }
+  .zod-category-slider .swiper-wrapper,.zod-brand-slider .swiper-wrapper{align-items:stretch}
+  .zod-category-slider .zod-category-card{width:42vw!important;min-width:148px!important;max-width:176px!important}
+  .zod-brand-slider .zod-brand-card{width:44vw!important;min-width:156px!important;max-width:190px!important;height:118px!important}
+  .zod-cart-summary-card{display:none!important}
+  .zod-cart-mobile-checkout{
+    bottom:calc(68px + env(safe-area-inset-bottom))!important;
+    z-index:120!important;
+  }
+  body.cart-page{padding-bottom:calc(146px + env(safe-area-inset-bottom))!important}
+  body.cart-page .zod-cart-page{padding-bottom:calc(174px + env(safe-area-inset-bottom))!important}
+}

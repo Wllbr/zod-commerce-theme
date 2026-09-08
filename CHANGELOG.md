@@ -1,3 +1,11 @@
+## 1.6.75 — Mobile layering and product-led imagery
+
+- Moves the category drawer into the top page layer so the sticky announcement can never cover it on mobile.
+- Prevents Salla's native mobile cart summary from overlapping the theme checkout dock while retaining coupons, offers and loyalty tools.
+- Keeps Arabic and English showcase links inside the visitor's active storefront language.
+- Unifies compact header, category and brand carousel spacing across mobile and desktop.
+- Adds a responsive KDK ventilation visual derived from the store's real KDK product photo.
+
 ## 1.6.74 — Mobile density and WhatsApp edge panel
 
 - Replaces the wide floating WhatsApp pill with a compact left-edge tab that expands inward into a readable contact panel on mobile and desktop.
