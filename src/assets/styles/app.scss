@@ -4217,3 +4217,38 @@ html.zod-lock .zod-announcement{
     width:100%!important;
   }
 }
+
+/* ZOD v1.6.84 — connect the product dock to mobile navigation. */
+@media(max-width:767px){
+  body.has-mobile-bottom-nav.product-single .zod-buy-controls.is-docked,
+  body.has-mobile-bottom-nav.product-single .zod-buy-controls.is-docked.is-ready{
+    left:0!important;
+    right:0!important;
+    bottom:calc(68px + env(safe-area-inset-bottom))!important;
+    width:auto!important;
+    padding:7px 8px!important;
+    border:1px solid #e4e7eb!important;
+    border-bottom:0!important;
+    border-radius:16px 16px 0 0!important;
+    background:rgba(255,255,255,.98)!important;
+    box-shadow:0 -9px 26px rgba(16,24,40,.12)!important;
+    backdrop-filter:blur(16px);
+  }
+  body.has-mobile-bottom-nav.product-single .zod-mobile-dock{
+    z-index:126!important;
+    border-top:1px solid #eef0f2!important;
+    background:rgba(255,255,255,.99)!important;
+    box-shadow:none!important;
+  }
+  body.has-mobile-bottom-nav.product-single .zod-mobile-dock>button:nth-child(3){
+    position:relative;
+    z-index:3;
+  }
+  body.has-mobile-bottom-nav.product-single .zod-dock-search{
+    width:44px!important;
+    height:44px!important;
+    margin-top:-18px!important;
+    border:4px solid #fff;
+    box-shadow:0 7px 18px rgba(225,29,45,.24)!important;
+  }
+}

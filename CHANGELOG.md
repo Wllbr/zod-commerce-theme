@@ -1,3 +1,8 @@
+## 1.6.84 — Connected mobile purchase surface
+
+- Joins the persistent purchase dock directly to the mobile navigation with shared edges, background and elevation.
+- Seats the search control on the shared boundary so navigation and purchasing read as one intentional mobile surface.
+
 ## 1.6.83 — Corrected mobile purchase dock
 
 - Moves quantity fully inside the mobile dock so it no longer covers the Add to Cart and Buy Now actions.
