@@ -1,3 +1,8 @@
+## 1.6.77 — Product-card controls and draft routing
+
+- Reduces the Eye and Heart controls, gives them a translucent glass treatment, and seats them lower on product images on mobile and desktop.
+- Keeps product and category links inside the Salla draft preview so opening a product continues to use the current ZOD product page instead of the demo store's active theme.
+
 ## 1.6.76 — Resilient category drawer
 
 - Keeps category navigation available when Salla's main-menu request is temporarily unavailable by using the categories API, a short session cache, and server-rendered homepage categories as fallbacks.

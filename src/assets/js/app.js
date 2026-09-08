@@ -1,6 +1,7 @@
 import './partials/product-card';
 import { isOutOfStock, isOutStatus } from './partials/stock';
 import { containDialogFocus } from './partials/dialog-focus';
+import { installPreviewLinkRouting } from './partials/preview-links';
 
 class ZodTheme {
   constructor() {
@@ -35,6 +36,7 @@ class ZodTheme {
 
     [
       'initAnnouncementBar',
+      'initPreviewLinkRouting',
       'initCartExperience',
       'initLiveShowcasePrices',
       'initProductCardReveal',
@@ -59,6 +61,10 @@ class ZodTheme {
   syncOverlayLock() {
     const drawerOpen = document.getElementById('zod-catalog-drawer')?.classList.contains('is-open');
     document.documentElement.classList.toggle('zod-lock', Boolean(drawerOpen));
+  }
+
+  initPreviewLinkRouting() {
+    installPreviewLinkRouting(document, window);
   }
 
   initAnnouncementBar() {

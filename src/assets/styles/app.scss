@@ -3586,6 +3586,43 @@ html[dir="ltr"] .zod-whatsapp-float__option span{
   .zod-whatsapp-float__options{transition:none!important}
 }
 
+/* ZOD v1.6.77 — quieter product-card actions. */
+.zpc-hover-actions,
+.zod-native-card-actions{
+  bottom:5px!important;
+  gap:6px!important;
+}
+.zpc-action,
+.zod-native-card-actions>.s-product-card-wishlist-btn,
+.zod-native-card-actions .s-product-card-wishlist-btn.s-button-element,
+.zod-native-quick-view{
+  width:34px!important;
+  min-width:34px!important;
+  height:34px!important;
+  min-height:34px!important;
+  border-color:rgba(255,255,255,.72)!important;
+  background:rgba(255,255,255,.68)!important;
+  color:#343a42!important;
+  font-size:14px!important;
+  -webkit-backdrop-filter:blur(8px)!important;
+  backdrop-filter:blur(8px)!important;
+  box-shadow:0 4px 12px rgba(16,24,40,.09)!important;
+}
+@media(max-width:767px){
+  .zpc-hover-actions,
+  .zod-native-card-actions{bottom:4px!important}
+  .zpc-action,
+  .zod-native-card-actions>.s-product-card-wishlist-btn,
+  .zod-native-card-actions .s-product-card-wishlist-btn.s-button-element,
+  .zod-native-quick-view{
+    width:32px!important;
+    min-width:32px!important;
+    height:32px!important;
+    min-height:32px!important;
+    font-size:13px!important;
+  }
+}
+
 @media(max-width:390px){
   .product-single .zod-gallery-slide{height:clamp(270px,44svh,340px)!important;min-height:270px!important}
   .product-single .zod-product-main{padding-inline:10px!important}

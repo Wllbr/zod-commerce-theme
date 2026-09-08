@@ -4,6 +4,26 @@ import vm from 'node:vm';
 const read = file => fs.readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
 const stock = await import(`data:text/javascript;base64,${Buffer.from(read('src/assets/js/partials/stock.js')).toString('base64')}`);
 const {isOutOfStock, mergeProductDetails} = stock;
+const previewLinks = await import(`data:text/javascript;base64,${Buffer.from(read('src/assets/js/partials/preview-links.js')).toString('base64')}`);
+const previewLocation = {
+  href: 'https://salla.design/ar/dev-zod?expires=1&version_id=2',
+  hostname: 'salla.design',
+  search: '?expires=1&version_id=2'
+};
+assert.equal(
+  previewLinks.normalizePreviewStoreUrl('https://demostore.salla.sa/ar/dev-zod/product/p1', previewLocation),
+  'https://salla.design/ar/dev-zod/product/p1?expires=1&version_id=2'
+);
+assert.equal(
+  previewLinks.normalizePreviewStoreUrl('https://demostore.salla.sa/ar/store/product/p1', previewLocation),
+  'https://demostore.salla.sa/ar/store/product/p1'
+);
+assert.equal(
+  previewLinks.normalizePreviewStoreUrl('https://demostore.salla.sa/ar/dev-zod/product/p1', {
+    href:'https://shop.example/ar', hostname:'shop.example', search:''
+  }),
+  'https://demostore.salla.sa/ar/dev-zod/product/p1'
+);
 const available = {id: 1, is_available: true, unlimited_quantity: true, quantity: 0};
 assert.equal(isOutOfStock(available), false);
 assert.equal(isOutOfStock({quantity: 0}), true);
