@@ -1,3 +1,8 @@
+## 1.6.85 — Complete desktop quantity control
+
+- Reserves enough space for the minus, value and plus controls in the persistent desktop purchase dock.
+- Keeps the desktop purchase actions flexible without changing the connected mobile dock.
+
 ## 1.6.84 — Connected mobile purchase surface
 
 - Joins the persistent purchase dock directly to the mobile navigation with shared edges, background and elevation.
