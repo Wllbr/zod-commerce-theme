@@ -5,12 +5,67 @@ class ZodMainMenu extends HTMLElement {
     window.zodMenuSource = this;
   }
 
+  text(ar, en) {
+    return (document.documentElement.lang || '').toLowerCase().startsWith('ar') ? ar : en;
+  }
+
+  normalizeMenus(items = []) {
+    return (Array.isArray(items) ? items : []).map(item => ({
+      title: item?.title || item?.name || '',
+      url: item?.url || '#',
+      image: item?.image?.url || (typeof item?.image === 'string' ? item.image : ''),
+      children: this.normalizeMenus(item?.children || item?.sub_categories || [])
+    })).filter(item => item.title);
+  }
+
+  readCache() {
+    try {
+      const value = JSON.parse(sessionStorage.getItem(`zod-menu:${document.documentElement.lang || 'ar'}`) || '[]');
+      return Array.isArray(value) ? value : [];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  writeCache(items) {
+    try {
+      if (items.length) sessionStorage.setItem(`zod-menu:${document.documentElement.lang || 'ar'}`, JSON.stringify(items));
+    } catch (_) {}
+    return items;
+  }
+
+  fromDocument(root = document) {
+    if (!root?.querySelectorAll) return [];
+    const links = [...root.querySelectorAll('.zod-category-section .zod-category-card[href]')];
+    return links.map(link => ({
+      title: link.querySelector('.zod-category-card__name')?.textContent?.trim() || link.getAttribute('aria-label') || '',
+      url: link.href || link.getAttribute('href') || '#',
+      image: link.querySelector('img')?.currentSrc || link.querySelector('img')?.src || '',
+      children: []
+    })).filter(item => item.title);
+  }
+
+  async fromHomepage() {
+    if (typeof fetch !== 'function' || typeof DOMParser === 'undefined') return [];
+    const homeUrl = this.dataset?.homeUrl || document.querySelector?.('[data-testid="store-header-logo"]')?.href || '/';
+    const response = await fetch(homeUrl, { credentials: 'same-origin', headers: { Accept: 'text/html' } });
+    if (!response.ok) throw new Error(`Homepage categories unavailable (${response.status})`);
+    return this.fromDocument(new DOMParser().parseFromString(await response.text(), 'text/html'));
+  }
+
+  withTimeout(promise, timeout = 4500) {
+    return Promise.race([
+      promise,
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Menu request timed out')), timeout))
+    ]);
+  }
+
   waitForSalla(timeout = 8000) {
     if (this.readyPromise) return this.readyPromise;
     this.readyPromise = new Promise((resolve, reject) => {
       const started = Date.now();
       const check = () => {
-        if (window.salla?.onReady && window.salla?.api?.component) return resolve(window.salla);
+        if (window.salla?.onReady && (window.salla?.api?.component || window.salla?.product?.categories)) return resolve(window.salla);
         if (Date.now() - started >= timeout) { this.readyPromise = null; return reject(new Error('Salla SDK unavailable')); }
         setTimeout(check, 80);
       };
@@ -23,8 +78,36 @@ class ZodMainMenu extends HTMLElement {
     if (this.menuPromise) return this.menuPromise;
     this.menuPromise = this.waitForSalla()
       .then(() => salla.onReady())
-      .then(() => salla.api.component.getMenus())
-      .then(({ data }) => Array.isArray(data) ? data : [])
+      .then(async () => {
+        const cached = this.readCache();
+        if (cached.length) return cached;
+
+        const currentPageCategories = this.fromDocument();
+        const requests = [];
+        if (typeof salla.api?.component?.getMenus === 'function') {
+          requests.push(this.withTimeout(salla.api.component.getMenus()).then(({ data }) => {
+            const menus = this.normalizeMenus(data);
+            if (!menus.length) throw new Error('Main menu is empty');
+            return menus;
+          }));
+        }
+        if (typeof salla.product?.categories === 'function') {
+          requests.push(this.withTimeout(salla.product.categories()).then(({ data }) => {
+            const menus = this.normalizeMenus(data);
+            if (!menus.length) throw new Error('Category list is empty');
+            return menus;
+          }));
+        }
+
+        try {
+          if (requests.length) return this.writeCache(await Promise.any(requests));
+        } catch (_) {}
+        if (currentPageCategories.length) return this.writeCache(currentPageCategories);
+
+        const homepageCategories = await this.fromHomepage();
+        if (homepageCategories.length) return this.writeCache(homepageCategories);
+        throw new Error(this.text('تعذر تحميل الأقسام', 'Could not load categories'));
+      })
       .catch(error => { this.menuPromise = null; throw error; });
     return this.menuPromise;
   }

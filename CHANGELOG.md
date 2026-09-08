@@ -1,3 +1,8 @@
+## 1.6.76 — Resilient category drawer
+
+- Keeps category navigation available when Salla's main-menu request is temporarily unavailable by using the categories API, a short session cache, and server-rendered homepage categories as fallbacks.
+- Adds request timeouts so the drawer never remains on an endless loading indicator.
+
 ## 1.6.75 — Mobile layering and product-led imagery
 
 - Moves the category drawer into the top page layer so the sticky announcement can never cover it on mobile.

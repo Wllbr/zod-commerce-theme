@@ -138,11 +138,12 @@ const menuSdk = {onReady:()=>Promise.resolve(),api:{component:{getMenus:async()=
   return {data:[{title:'Fans',url:'/fans'}]};
 }}}};
 const menuWindow = {salla:menuSdk};
-vm.runInNewContext(read('src/assets/js/partials/zod-menu.js').replace(/^import .*;\r?\n/gm,''),{
+const menuContext = {
   HTMLElement:class {},customElements:{get:()=>null,define:(_name,klass)=>{MenuSource=klass;}},
   window:menuWindow,salla:menuSdk,document:{addEventListener(){},documentElement:{lang:'en'},getElementById:()=>menuBox},
   setTimeout,containDialogFocus(){}
-});
+};
+vm.runInNewContext(read('src/assets/js/partials/zod-menu.js').replace(/^import .*;\r?\n/gm,''),menuContext);
 menuWindow.zodMenuSource = new MenuSource();
 await menuWindow.zodMenu.load();
 assert.match(menuBox.innerHTML,/Could not load categories/);
@@ -152,6 +153,20 @@ assert.equal(menuAttempts,2);
 assert.match(menuBox.innerHTML,/Fans/);
 menuWindow.zodMenu.setMenus([]);
 assert.match(menuBox.innerHTML,/No categories are available/);
+
+// An independent categories request keeps the drawer useful if main menus fail.
+const categoryFallbackSdk = {
+  onReady:()=>Promise.resolve(),
+  api:{component:{getMenus:async()=>{ throw new Error('main menu offline'); }}},
+  product:{categories:async()=>({data:[{name:'Ventilation',url:'/ventilation',sub_categories:[{name:'Wall fans',url:'/wall-fans'}]}]})}
+};
+menuContext.salla = categoryFallbackSdk;
+menuWindow.salla = categoryFallbackSdk;
+menuWindow.zodMenuSource = new MenuSource();
+menuWindow.zodMenu.menus = [];
+await menuWindow.zodMenu.load();
+assert.match(menuBox.innerHTML,/Ventilation/);
+assert.match(menuBox.innerHTML,/data-zod-next/);
 
 console.log('PASS: menu failure recovery and empty menu handling.');
 
