@@ -4163,3 +4163,57 @@ html.zod-lock .zod-announcement{
     display:block!important;
   }
 }
+
+/* ZOD v1.6.83 — keep mobile quantity inside the dock instead of overlapping actions. */
+@media(max-width:767px){
+  .product-single .zod-buy-controls.is-docked .zod-purchase-stack,
+  .product-single .zod-buy-controls.is-docked.has-pending-options .zod-purchase-stack{
+    position:relative;
+    display:grid!important;
+    grid-template-columns:clamp(84px,24vw,96px) minmax(0,1fr)!important;
+    align-items:stretch!important;
+    gap:6px!important;
+  }
+  .product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity,
+  .product-single .zod-buy-controls.is-docked.has-pending-options .sticky-product-bar__quantity{
+    position:static!important;
+    grid-column:1!important;
+    grid-row:auto!important;
+    left:auto!important;
+    top:auto!important;
+    width:100%!important;
+    min-width:0!important;
+    min-height:46px!important;
+    margin:0!important;
+    padding:3px!important;
+    transform:none!important;
+    border:1px solid #cfd5dc!important;
+    border-radius:10px!important;
+    background:#fff!important;
+    box-shadow:none!important;
+  }
+  .product-single .zod-buy-controls.is-docked .sticky-product-bar__quantity salla-quantity-input{
+    width:100%!important;
+    max-width:100%!important;
+  }
+  .product-single .zod-buy-controls.is-docked .zod-purchase-actions,
+  .product-single .zod-buy-controls.is-docked.has-pending-options .zod-purchase-actions{
+    grid-column:2!important;
+    grid-row:auto!important;
+    align-self:stretch;
+  }
+  .product-single .zod-buy-controls.is-docked .zod-dock-option-jump,
+  .product-single .zod-buy-controls.is-docked.has-pending-options .zod-dock-option-jump{
+    grid-column:1/-1!important;
+    grid-row:auto!important;
+    min-height:34px;
+  }
+  .product-single .zod-buy-controls.is-docked.zod-buy-controls--no-qty .zod-purchase-stack,
+  .product-single .zod-buy-controls.is-docked.zod-buy-controls--unavailable .zod-purchase-stack{
+    display:block!important;
+  }
+  .product-single .zod-buy-controls.is-docked.zod-buy-controls--no-qty .zod-purchase-actions,
+  .product-single .zod-buy-controls.is-docked.zod-buy-controls--unavailable .zod-purchase-actions{
+    width:100%!important;
+  }
+}

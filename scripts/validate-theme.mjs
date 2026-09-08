@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.82','package.json: expected v1.6.82');
+assert(pkg.version==='1.6.83','package.json: expected v1.6.83');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 const trackedResult=spawnSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8'});
 assert(trackedResult.status===0,'Git tracked-file inventory must be available');

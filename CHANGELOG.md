@@ -1,3 +1,8 @@
+## 1.6.83 — Corrected mobile purchase dock
+
+- Moves quantity fully inside the mobile dock so it no longer covers the Add to Cart and Buy Now actions.
+- Gives required-option prompts their own row while preserving the persistent navigation and Apple Pay layout.
+
 ## 1.6.82 — Purchase-dock critique phase two
 
 - Tightens the available-product dock on desktop while retaining room for all three purchase methods.
