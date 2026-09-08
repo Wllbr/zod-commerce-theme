@@ -5,6 +5,12 @@ const read = file => fs.readFileSync(new URL(`../${file}`, import.meta.url), 'ut
 const stock = await import(`data:text/javascript;base64,${Buffer.from(read('src/assets/js/partials/stock.js')).toString('base64')}`);
 const {isOutOfStock, mergeProductDetails} = stock;
 const previewLinks = await import(`data:text/javascript;base64,${Buffer.from(read('src/assets/js/partials/preview-links.js')).toString('base64')}`);
+const searchCards = await import(`data:text/javascript;base64,${Buffer.from(read('src/assets/js/partials/search-card-navigation.js')).toString('base64')}`);
+const searchLink = {href:'/product/p1',textContent:'Product one',getAttribute:()=>null,matches:selector=>selector.startsWith('a')};
+const searchCard = {querySelector:()=>searchLink};
+assert.equal(searchCards.getSearchCardLink(searchCard),searchLink,'search card resolves its product link');
+assert.equal(searchCards.shouldOpenSearchCard([{},searchCard],searchCard),true,'empty card area opens the product');
+assert.equal(searchCards.shouldOpenSearchCard([searchLink,searchCard],searchCard),false,'native product links remain in control');
 const previewLocation = {
   href: 'https://salla.design/ar/dev-zod?expires=1&version_id=2',
   hostname: 'salla.design',

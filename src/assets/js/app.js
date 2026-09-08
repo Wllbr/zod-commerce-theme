@@ -2,6 +2,7 @@ import './partials/product-card';
 import { isOutOfStock, isOutStatus } from './partials/stock';
 import { containDialogFocus } from './partials/dialog-focus';
 import { installPreviewLinkRouting } from './partials/preview-links';
+import { installSearchCardNavigation } from './partials/search-card-navigation';
 
 class ZodTheme {
   constructor() {
@@ -37,6 +38,7 @@ class ZodTheme {
     [
       'initAnnouncementBar',
       'initPreviewLinkRouting',
+      'initSearchCardNavigation',
       'initCartExperience',
       'initLiveShowcasePrices',
       'initProductCardReveal',
@@ -65,6 +67,10 @@ class ZodTheme {
 
   initPreviewLinkRouting() {
     installPreviewLinkRouting(document, window);
+  }
+
+  initSearchCardNavigation() {
+    installSearchCardNavigation(document, window);
   }
 
   initAnnouncementBar() {

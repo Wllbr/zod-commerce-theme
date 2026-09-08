@@ -211,6 +211,11 @@
             </div>
 
             <div class="zod-purchase-stack">
+              <button type="button" class="zod-dock-option-jump" data-zod-dock-options hidden>
+                <i class="sicon-list"></i>
+                <span>{{ trans('zod.product.choose_options') }}</span>
+                <i class="sicon-keyboard_arrow_up"></i>
+              </button>
               {% if product.is_hidden_quantity or product.type == 'booking' %}
                 <input type="hidden" name="quantity" value="1" aria-label="{{ trans('zod.product.quantity') }}">
               {% else %}

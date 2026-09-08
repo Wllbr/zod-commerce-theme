@@ -35,6 +35,7 @@ class ZodProductPage {
     this.initWishlist();
     this.initShareActions();
     this.initStickyPurchase();
+    this.initDockOptions();
     this.initOptionPanels();
     this.initProductOffers();
     this.initRelatedProducts();
@@ -387,6 +388,41 @@ class ZodProductPage {
         window.customElements.whenDefined('salla-quantity-input')
       ]).then(() => requestAnimationFrame(measureDock));
     }
+  }
+
+  initDockOptions() {
+    const jump = this.buyBar?.querySelector('[data-zod-dock-options]');
+    if (!jump || !this.options) return;
+
+    const requiredFields = () => [...this.options.querySelectorAll('[required]')]
+      .filter(field => !field.disabled && field.type !== 'hidden');
+
+    const fieldComplete = field => {
+      if (field.type === 'radio' || field.type === 'checkbox') {
+        const name = field.name;
+        if (!name) return field.checked;
+        return [...this.options.querySelectorAll(`[name="${CSS.escape(name)}"]`)].some(item => item.checked);
+      }
+      return Boolean(String(field.value ?? '').trim()) && (field.checkValidity?.() ?? true);
+    };
+
+    const sync = () => {
+      const fields = requiredFields();
+      const pending = fields.length > 0 && fields.some(field => !fieldComplete(field));
+      jump.hidden = !pending;
+      this.buyBar.classList.toggle('has-pending-options', pending);
+    };
+
+    jump.addEventListener('click', () => {
+      this.options.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+      window.setTimeout(() => this.options.validateAndScroll?.(), 260);
+    });
+
+    this.options.addEventListener('changed', () => requestAnimationFrame(sync));
+    this.options.addEventListener('input', sync);
+    new MutationObserver(sync).observe(this.options, { childList: true, subtree: true, attributes: true, attributeFilter: ['value', 'checked', 'disabled'] });
+    window.customElements?.whenDefined?.('salla-product-options').then(() => requestAnimationFrame(sync));
+    sync();
   }
 }
 

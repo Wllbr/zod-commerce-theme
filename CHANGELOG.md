@@ -1,3 +1,9 @@
+## 1.6.80 — Purchase choices and complete search cards
+
+- Rebalances the persistent purchase dock for quantity, Add to cart, Buy Now and Apple Pay on mobile and desktop.
+- Shows a compact prompt when required product options are missing and takes shoppers directly to the product choices.
+- Makes the full visible search-result card open its product while preserving the card's native links and controls.
+
 ## 1.6.79 — Balanced desktop product offers
 
 - Restores the Heart, Share and brand controls to the full-width product header on desktop.
