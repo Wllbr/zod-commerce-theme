@@ -607,3 +607,8 @@
 - Refined immediate purchase dock with product image, title, mirrored live price, quantity, Add to Cart and native Salla Quick Buy.
 - Sticky dock now accounts for whether the ZOD mobile bottom navigation is enabled.
 - Removed duplicate weight display from the option support area.
+# 1.6.91
+
+- Redesigned the footer around Salla-native customer-service channels so mobile, phone, email, WhatsApp, and Telegram can all appear when configured.
+- Added marketplace-specific social hover and keyboard-focus motion for Instagram, X, Snapchat, TikTok, YouTube, Facebook, Pinterest, and WhatsApp.
+- Separated the Saudi Business Center certificate from payment methods visually and improved trust, tax, payment, mobile, tablet, RTL, and LTR layouts.

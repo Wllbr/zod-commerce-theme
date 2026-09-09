@@ -3974,6 +3974,26 @@ body.product-single.zod-product-dock-visible #zod-notifications{bottom:calc(var(
 @media(max-width:767px){.zod-footer-payments{width:100%;grid-template-columns:1fr;grid-template-areas:"label" "icons" "certificate"}.zod-footer-payments .s-payments-list{justify-content:flex-start}.zod-footer-sbc-label{justify-content:flex-start}}
 @media(prefers-reduced-motion:reduce){.zod-footer-payments .s-payments-list-item{transition:none!important}}
 
+/* ZOD v1.6.91 — final footer density and responsive polish. */
+.zod-footer--light .zod-footer-description{max-width:420px;font-size:13.5px!important}
+.zod-footer--light .zod-footer-disclosure__body{font-size:13.5px!important}
+.zod-footer-column-copy{font-size:11.5px}
+.zod-footer-contact-column .s-contacts-item .unicode{font-size:11.5px}
+.zod-footer-confidence p{font-size:11px}
+.zod-footer-payments__label{font-size:10.5px}
+.zod-footer-copyright{color:#7b858e}
+@media(max-width:480px){
+  .zod-footer-social-row .s-social-list{gap:6px;flex-wrap:nowrap}
+  .zod-footer-social-row .s-social-link>a{width:40px;height:40px;border-radius:12px}
+  .zod-footer-social-row .s-social-icon,.zod-footer-social-row .s-social-icon svg{width:18px;height:18px}
+  .zod-footer--light .zod-footer-connect-row{padding-inline:15px}
+  .zod-footer--light .zod-footer-description{font-size:12.5px!important;line-height:1.85!important}
+  .zod-footer--light .zod-footer-disclosure__body{font-size:13px!important}
+  .zod-footer-column-copy{font-size:11.5px;line-height:1.7}
+  .zod-footer-confidence{padding:17px 15px}
+  .zod-footer-confidence p{font-size:10.5px}
+}
+
 /* Arrow icons are drawn pointing left; consumer actions advance right in LTR. */
 html[dir="ltr"] main a .sicon-arrow-left{
   transform:rotate(180deg)!important;
