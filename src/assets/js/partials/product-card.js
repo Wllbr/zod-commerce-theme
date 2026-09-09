@@ -265,6 +265,10 @@ class ZodProductCard extends HTMLElement {
     const inWishlist = this.initialWishlistState(p);
     const promo = p.promotion_title || p.promotion?.title || '';
     const taxLabel = this.t('pages.products.tax_included', this.isArabic() ? 'شامل ضريبة القيمة المضافة' : 'VAT included');
+    const optionCount = Array.isArray(p.options) ? p.options.length : 0;
+    const hasOptions = Boolean(p.has_options || optionCount);
+    const optionsLabel = this.t('zod.product.options_available', this.isArabic() ? 'خيارات متاحة' : 'Options available');
+    const chooseOptionsLabel = this.t('zod.product.choose_options_card', this.isArabic() ? 'اختر الخيارات' : 'Choose options');
 
     this.classList.add('zod-product-card');
     this.setAttribute('data-product-id', p.id);
@@ -283,9 +287,12 @@ class ZodProductCard extends HTMLElement {
         ${category ? `${category.url ? `<a class="zpc-category" href="${this.esc(category.url)}">${this.esc(category.name)}</a>` : `<span class="zpc-category">${this.esc(category.name)}</span>`}` : ''}
         <h3><a href="${this.esc(p.url || '#')}">${this.esc(p.name)}</a></h3>
         <p class="zpc-tax">${this.esc(taxLabel)}</p>
+        ${hasOptions ? `<a class="zpc-options" href="${this.esc(p.url || '#')}"><i class="sicon-list"></i><span>${this.esc(optionsLabel)}</span>${optionCount ? `<b>${this.esc(optionCount)}</b>` : ''}</a>` : ''}
         ${p.rating?.stars ? `<div class="zpc-meta"><span class="zpc-rating"><i class="sicon-star2"></i>${this.esc(p.rating.stars)}${p.rating.count ? ` <small>(${this.esc(p.rating.count)})</small>` : ''}</span></div>` : ''}
         <div class="zpc-bottom">${this.price()}</div>
-        <salla-add-product-button class="zpc-add" width="wide" fill="outline" product-id="${p.id}" product-status="${this.esc(status || '')}" product-type="${this.esc(p.type || 'product')}">${this.esc(isOut ? outLabel : addLabel)}</salla-add-product-button>
+        ${hasOptions && !isOut
+          ? `<a class="zpc-add zpc-add--options" href="${this.esc(p.url || '#')}">${this.esc(chooseOptionsLabel)} <i class="sicon-keyboard_arrow_left"></i></a>`
+          : `<salla-add-product-button class="zpc-add" width="wide" fill="outline" product-id="${p.id}" product-status="${this.esc(status || '')}" product-type="${this.esc(p.type || 'product')}">${this.esc(isOut ? outLabel : addLabel)}</salla-add-product-button>`}
       </div>`;
 
     this.querySelector('.zpc-quick-view')?.addEventListener('click', event => {

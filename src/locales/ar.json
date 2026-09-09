@@ -52,6 +52,8 @@
       "tax_included": "شامل ضريبة القيمة المضافة",
       "quantity": "الكمية",
       "choose_options": "اختر خيارات المنتج أولاً",
+      "options_available": "خيارات متاحة",
+      "choose_options_card": "اختر الخيارات",
       "delivery": "شحن سريع",
       "delivery_text": "خيارات الشحن والتوصيل تظهر حسب المنتج والعنوان عند إتمام الطلب.",
       "warranty": "الضمان",

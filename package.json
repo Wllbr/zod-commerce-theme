@@ -1,11 +1,12 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.85",
+  "version": "1.6.86",
   "description": "ZOD Commerce — Salla-ready repository packaging with oversized development artifacts excluded.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "test": "node scripts/validate-theme.mjs && node scripts/test-regressions.mjs",
+    "test": "node scripts/validate-theme.mjs && node scripts/test-regressions.mjs && node scripts/check-css-budget.mjs",
+    "css:budget": "node scripts/check-css-budget.mjs",
     "production": "webpack --mode production",
     "prod": "webpack --mode production",
     "development": "webpack --mode development",

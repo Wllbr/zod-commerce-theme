@@ -52,6 +52,8 @@
       "tax_included": "VAT included",
       "quantity": "Quantity",
       "choose_options": "Choose product options first",
+      "options_available": "Options available",
+      "choose_options_card": "Choose options",
       "delivery": "Fast delivery",
       "delivery_text": "Shipping and delivery options are shown based on the product and address at checkout.",
       "warranty": "Warranty",
