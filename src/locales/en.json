@@ -137,6 +137,11 @@
       "contact_hint": "The store team is ready to help through the available contact channels.",
       "store_hint": "Store verification, trust details and supported payment methods."
       ,"business_certificate": "Business Platform certificate"
+      ,"support_title": "We are here to help"
+      ,"support_text": "Reach us through any available customer-service channel."
+      ,"categories": "Shop categories"
+      ,"all_categories": "All categories"
+      ,"loading_categories": "Loading categories"
     },
     "pages": {
       "information": "Store information and policies",

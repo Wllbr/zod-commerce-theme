@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.91','package.json: expected v1.6.91');
+assert(pkg.version==='1.6.92','package.json: expected v1.6.92');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 const trackedResult=spawnSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8'});
 assert(trackedResult.status===0,'Git tracked-file inventory must be available');
@@ -210,7 +210,8 @@ assert((masterTwig.match(/search::open/g)||[]).length===1,'Mobile dock search mu
 assert(!headerTwig.includes('zod-search-overlay') && !read('src/assets/js/app.js').includes('openSearch('),'Search must not depend on the retired custom overlay controller');
 assert(headerTwig.includes('zod-catalog-drawer'),'Header must include the universal catalog drawer');
 assert(!footerTwig.toLowerCase().includes('newsletter'),'Footer must not include a newsletter section');
-assert(footerTwig.includes('zod-footer-connect-row'),'Footer must include the redesigned connection strip');
+assert(footerTwig.includes('zod-footer-market-nav'),'Footer must include the marketplace navigation layout');
+assert(footerTwig.includes('data-zod-footer-categories'),'Footer must include dynamic category navigation');
 assert(footerTwig.includes('zod-footer-back-top'),'Footer must include the back-to-top control');
 assert(footerTwig.includes('<salla-contacts'),'Footer must use Salla native contacts so every configured service channel can render');
 assert(footerTwig.includes('zod-footer-sbc-label'),'Footer must label the Saudi Business Center certificate');
@@ -236,7 +237,7 @@ assert(appCss.includes('.zod-native-card-actions'),'Native Salla cards must rece
 assert(appCss.includes('.s-product-card-out-badge{display:none!important}'),'The native duplicate stock badge must be hidden when the ZOD stamp is active');
 assert(appCss.includes('ZOD v1.6.42 — permanent purchase dock + floating storefront chrome'),'The v1.6.42 responsive storefront polish styles are required');
 assert(appCss.includes('margin:10px clamp(10px,1.8vw,28px) 0!important'),'Desktop header must use the floating rounded treatment');
-assert(appCss.includes('.zod-footer-connect-row'),'Footer connection strip styles are required');
+assert(appCss.includes('.zod-footer--market'),'Marketplace footer styles are required');
 for(const network of ['instagram','twitter','snapchat','tiktok','youtube','facebook']) assert(appCss.includes(`a[title="${network}"]`),`Footer missing branded ${network} interaction`);
 assert(appCss.includes('.zod-info-page__card'),'Information-page content card styles are required');
 assert(appCss.includes('.s-search-modal.s-modal-container{z-index:9999!important}'),'Native search modal must remain above the floating header');

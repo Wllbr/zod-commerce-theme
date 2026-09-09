@@ -3,6 +3,12 @@ import { containDialogFocus } from './dialog-focus';
 class ZodMainMenu extends HTMLElement {
   connectedCallback() {
     window.zodMenuSource = this;
+    const hydrateFooter = () => {
+      if (!document.querySelector('[data-zod-footer-categories]')) return;
+      this.loadFooterCategories().then(items => this.renderFooterCategories(items)).catch(() => this.renderFooterCategories([]));
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', hydrateFooter, { once: true });
+    else requestAnimationFrame(hydrateFooter);
   }
 
   text(ar, en) {
@@ -43,6 +49,65 @@ class ZodMainMenu extends HTMLElement {
       image: link.querySelector('img')?.currentSrc || link.querySelector('img')?.src || '',
       children: []
     })).filter(item => item.title);
+  }
+
+  escape(value = '') {
+    return String(value).replace(/[&<>'"]/g, char => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+    }[char]));
+  }
+
+  async loadFooterCategories() {
+    const cacheKey = `zod-footer-categories:${document.documentElement.lang || 'ar'}`;
+    try {
+      const cached = JSON.parse(sessionStorage.getItem(cacheKey) || '[]');
+      if (Array.isArray(cached) && cached.length) return cached;
+    } catch (_) {}
+
+    try {
+      await this.waitForSalla();
+      await salla.onReady();
+      if (typeof salla.product?.categories === 'function') {
+        const { data } = await this.withTimeout(salla.product.categories());
+        const categories = this.normalizeMenus(data);
+        if (categories.length) {
+          try { sessionStorage.setItem(cacheKey, JSON.stringify(categories)); } catch (_) {}
+          return categories;
+        }
+      }
+    } catch (_) {}
+
+    return this.loadMenus();
+  }
+
+  renderFooterCategories(items = []) {
+    const box = document.querySelector('[data-zod-footer-categories]');
+    if (!box) return;
+    const categories = (Array.isArray(items) ? items : []).slice(0, 8);
+    if (!categories.length) {
+      box.innerHTML = `<p class="zod-footer-category-empty">${this.text('تصفح جميع الأقسام للوصول إلى المنتجات.', 'Browse all categories to find products.')}</p>`;
+      return;
+    }
+
+    box.innerHTML = categories.map((category, index) => {
+      const children = (category.children || []).slice(0, 6);
+      const childLinks = children.map(child => `<a href="${this.escape(child.url || '#')}">${this.escape(child.title)}</a>`).join('');
+      return `<details class="zod-footer-category-group" data-zod-footer-category open>
+        <summary><span>${this.escape(category.title)}</span><i class="sicon-keyboard_arrow_down"></i></summary>
+        <div class="zod-footer-category-group__links">
+          <a class="zod-footer-category-group__all" href="${this.escape(category.url || '#')}">${this.text('عرض القسم', 'View category')}</a>
+          ${childLinks}
+        </div>
+      </details>`;
+    }).join('');
+
+    const media = window.matchMedia('(max-width: 767px)');
+    const sync = () => box.querySelectorAll('[data-zod-footer-category]').forEach((group, index) => { group.open = !media.matches || index === 0; });
+    sync();
+    if (!this.footerMediaBound) {
+      media.addEventListener?.('change', sync);
+      this.footerMediaBound = true;
+    }
   }
 
   async fromHomepage() {
