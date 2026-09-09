@@ -83,6 +83,7 @@ class ZodMainMenu extends HTMLElement {
   renderFooterCategories(items = []) {
     const box = document.querySelector('[data-zod-footer-categories]');
     if (!box) return;
+    box.setAttribute('aria-busy', 'false');
     const categories = (Array.isArray(items) ? items : []).slice(0, 8);
     if (!categories.length) {
       box.innerHTML = `<p class="zod-footer-category-empty">${this.text('تصفح جميع الأقسام للوصول إلى المنتجات.', 'Browse all categories to find products.')}</p>`;
@@ -93,7 +94,7 @@ class ZodMainMenu extends HTMLElement {
       const children = (category.children || []).slice(0, 6);
       const childLinks = children.map(child => `<a href="${this.escape(child.url || '#')}">${this.escape(child.title)}</a>`).join('');
       return `<details class="zod-footer-category-group" data-zod-footer-category open>
-        <summary><span>${this.escape(category.title)}</span><i class="sicon-keyboard_arrow_down"></i></summary>
+        <summary><span>${this.escape(category.title)}</span><i class="zod-footer-category-toggle" aria-hidden="true">+</i></summary>
         <div class="zod-footer-category-group__links">
           <a class="zod-footer-category-group__all" href="${this.escape(category.url || '#')}">${this.text('عرض القسم', 'View category')}</a>
           ${childLinks}

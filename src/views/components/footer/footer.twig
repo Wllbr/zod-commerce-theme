@@ -18,14 +18,14 @@
         </div>
         <nav class="zod-footer-categories" aria-label="{{ trans('zod.footer.categories') }}">
           <div class="zod-footer-categories__head"><h2>{{ trans('zod.footer.categories') }}</h2><a href="{{ link('categories') }}">{{ trans('zod.home.view_all') }}</a></div>
-          <div class="zod-footer-category-grid" data-zod-footer-categories data-loading-label="{{ trans('zod.footer.loading_categories') }}">
+          <div class="zod-footer-category-grid" data-zod-footer-categories data-loading-label="{{ trans('zod.footer.loading_categories') }}" role="status" aria-live="polite" aria-busy="true">
             <span class="zod-footer-category-skeleton"></span><span class="zod-footer-category-skeleton"></span><span class="zod-footer-category-skeleton"></span><span class="zod-footer-category-skeleton"></span>
           </div>
         </nav>
       </div>
 
       <details class="zod-footer-links" data-footer-disclosure open>
-        <summary><span>{{ trans('blocks.footer.pages_links') }}</span><i class="sicon-keyboard_arrow_down"></i></summary>
+        <summary><span>{{ trans('blocks.footer.pages_links') }}</span><i class="zod-footer-category-toggle" aria-hidden="true">+</i></summary>
         <div class="zod-footer-links__body"><salla-menu data-testid="store-footer-menu" source="footer" with-cookie-preferences></salla-menu></div>
       </details>
 
