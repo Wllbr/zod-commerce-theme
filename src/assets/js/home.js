@@ -26,6 +26,30 @@ const initDualShowcase = (section) => {
   observer.observe(section);
 };
 
+const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+const motionObserver = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add('is-inview');
+    motionObserver.unobserve(entry.target);
+  });
+}, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }) : null;
+
+const initSectionMotion = (root = document) => {
+  const selector = '.zod-section:not(.zod-hero):not(.zod-dual-showcase), .zod-trust-strip';
+  const sections = [];
+  if (root instanceof Element && root.matches(selector)) sections.push(root);
+  root.querySelectorAll?.(selector).forEach(section => sections.push(section));
+
+  sections.forEach(section => {
+    if (section.dataset.zodMotionReady === 'true') return;
+    section.dataset.zodMotionReady = 'true';
+    section.classList.add('zod-motion-ready');
+    if (reducedMotionQuery.matches || !motionObserver) section.classList.add('is-inview');
+    else motionObserver.observe(section);
+  });
+};
+
 const initHeroSlider = (slider) => {
   if (!slider || slider.dataset.zodHeroReady === 'true') return;
   slider.dataset.zodHeroReady = 'true';
@@ -323,6 +347,7 @@ const initProductSwitcher = (section) => {
 
 const initHome = (root = document) => {
   initFaq(root);
+  initSectionMotion(root);
   root.querySelectorAll('.zod-hero-slider').forEach(initHeroSlider);
   root.querySelectorAll('[data-zod-dual-showcase]').forEach(initDualShowcase);
   root.querySelectorAll('[data-zod-interactive-showcase]').forEach(initInteractiveShowcase);
