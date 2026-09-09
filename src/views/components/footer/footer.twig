@@ -7,7 +7,7 @@
           <h2>{{ trans('zod.footer.connect_title') }}</h2>
           <p>{{ trans('zod.footer.connect_text') }}</p>
         </div>
-        <div class="zod-footer-social-row">
+        <div class="zod-footer-social-row" aria-label="{{ trans('zod.footer.follow') }}">
           <salla-social data-testid="store-footer-social"></salla-social>
         </div>
       </div>
@@ -31,44 +31,48 @@
         <div class="zod-footer-column zod-footer-contact-column">
           <h3>{{ trans('zod.footer.contact') }}</h3>
           <p class="zod-footer-column-copy">{{ trans('zod.footer.contact_hint') }}</p>
-          <div class="zod-footer-contact-icons" data-testid="store-footer-contacts">
-            {% if store.contacts.email %}
-              <a class="zod-footer-contact-icon" href="mailto:{{ store.contacts.email }}" aria-label="{{ trans('zod.footer.email') }}" title="{{ trans('zod.footer.email') }}"><i class="sicon-mail"></i></a>
-            {% endif %}
-            {% set zod_phone = store.contacts.mobile|default(store.contacts.phone) %}
-            {% if zod_phone %}
-              <a class="zod-footer-contact-icon" href="tel:{{ zod_phone }}" aria-label="{{ trans('zod.footer.phone') }}" title="{{ trans('zod.footer.phone') }}"><i class="sicon-phone"></i></a>
-            {% endif %}
-            {% if store.contacts.whatsapp %}
-              {% set zod_whatsapp = store.contacts.whatsapp|replace({'+':'',' ':'','-':'','(':'',')':''}) %}
-              <a class="zod-footer-contact-icon zod-footer-contact-icon--whatsapp" href="https://wa.me/{{ zod_whatsapp }}" target="_blank" rel="noopener" aria-label="{{ trans('zod.footer.whatsapp') }}" title="{{ trans('zod.footer.whatsapp') }}"><i class="sicon-whatsapp"></i></a>
-            {% endif %}
-          </div>
-        </div>
-
-        <div class="zod-footer-column zod-footer-business">
-          <h3>{{ trans('zod.footer.store_info') }}</h3>
-          <p class="zod-footer-column-copy">{{ trans('zod.footer.store_hint') }}</p>
-          <salla-trust-badges data-testid="store-footer-trust-badges"></salla-trust-badges>
-          {% if store.settings.tax.number %}
-            <div class="zod-footer-tax">
-              <span>{{ trans('common.elements.tax_number') }}</span>
-              <b>{{ store.settings.tax.number }}</b>
-              {% if store.settings.tax.certificate %}
-                <a href="{{ store.settings.tax.certificate }}" target="_blank" rel="noopener">{{ trans('zod.footer.view_certificate') }}</a>
-              {% endif %}
-            </div>
-          {% endif %}
+          <salla-contacts data-testid="store-footer-contacts" hide-title horizontal></salla-contacts>
         </div>
       </div>
 
+      <div class="zod-footer-confidence">
+        <div class="zod-footer-confidence__intro">
+          <span class="zod-footer-confidence__icon"><i class="sicon-shield-check"></i></span>
+          <div>
+            <h3>{{ trans('zod.footer.store_info') }}</h3>
+            <p>{{ trans('zod.footer.store_hint') }}</p>
+          </div>
+        </div>
+
+        {% set zod_has_legal = store.settings.commercial_number or store.settings.freelance_number or store.settings.tax.number %}
+        {% if zod_has_legal %}
+          <div class="zod-footer-legal">
+            <salla-trust-badges data-testid="store-footer-trust-badges"></salla-trust-badges>
+            {% if store.settings.tax.number %}
+              <div class="zod-footer-tax">
+                <span>{{ trans('common.elements.tax_number') }}</span>
+                <b>{{ store.settings.tax.number }}</b>
+                {% if store.settings.tax.certificate %}
+                  <a href="{{ store.settings.tax.certificate }}" target="_blank" rel="noopener">{{ trans('zod.footer.view_certificate') }}</a>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        {% else %}
+          <salla-trust-badges data-testid="store-footer-trust-badges" class="zod-footer-native-trust"></salla-trust-badges>
+        {% endif %}
+
+        <div class="zod-footer-payments">
+          <span>{{ trans('zod.footer.payments') }}</span>
+          <salla-payments data-testid="store-footer-payments"></salla-payments>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="zod-footer-bottom">
     <div class="container zod-footer-bottom__inner">
       <span class="zod-footer-copyright">{% hook copyright %}</span>
-      <salla-payments data-testid="store-footer-payments"></salla-payments>
       <button class="zod-footer-back-top" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="sicon-keyboard_arrow_up"></i>{{ trans('zod.footer.back_top') }}</button>
     </div>
   </div>

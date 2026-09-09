@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.88','package.json: expected v1.6.88');
+assert(pkg.version==='1.6.89','package.json: expected v1.6.89');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 const trackedResult=spawnSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8'});
 assert(trackedResult.status===0,'Git tracked-file inventory must be available');
@@ -204,7 +204,7 @@ assert(!headerTwig.includes('<salla-advertisement'),'Header must not duplicate S
 assert(headerTwig.includes('store.settings.is_multilingual'),'Header must respect Salla multilingual setting');
 assert(headerTwig.includes('<salla-localization-modal'),'Header must use Salla localization component');
 for(const token of ['store.logo','store.name','<salla-user-menu','<salla-cart-summary']) assert(headerTwig.includes(token),`Header missing native Salla source: ${token}`);
-for(const token of ['store.description','<salla-menu','store.contacts','<salla-social','<salla-trust-badges','store.settings.tax.number','<salla-payments']) assert(footerTwig.includes(token),`Footer missing native Salla source: ${token}`);
+for(const token of ['store.description','<salla-menu','<salla-contacts','<salla-social','<salla-trust-badges','store.settings.tax.number','<salla-payments']) assert(footerTwig.includes(token),`Footer missing native Salla source: ${token}`);
 assert(headerTwig.includes("salla.event.dispatch('search::open')"),'Header search must dispatch Salla’s native search event');
 assert((masterTwig.match(/search::open/g)||[]).length===1,'Mobile dock search must dispatch Salla’s native search event');
 assert(!headerTwig.includes('zod-search-overlay') && !read('src/assets/js/app.js').includes('openSearch('),'Search must not depend on the retired custom overlay controller');
