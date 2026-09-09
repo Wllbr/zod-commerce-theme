@@ -63,8 +63,9 @@
         {% endif %}
 
         <div class="zod-footer-payments">
-          <span>{{ trans('zod.footer.payments') }}</span>
+          <span class="zod-footer-payments__label">{{ trans('zod.footer.payments') }}</span>
           <salla-payments data-testid="store-footer-payments"></salla-payments>
+          <span class="zod-footer-sbc-label"><i class="sicon-shield-check"></i>{{ trans('zod.footer.business_certificate') }}</span>
         </div>
       </div>
     </div>

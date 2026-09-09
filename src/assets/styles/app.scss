@@ -3958,6 +3958,22 @@ body.product-single.zod-product-dock-visible #zod-notifications{bottom:calc(var(
 @media(max-width:767px){.zod-footer.zod-footer--light{margin-top:34px}.zod-footer--light .zod-footer-main{padding:16px 0 22px!important}.zod-footer--light .zod-footer-connect-row{gap:19px;padding:24px 18px;border-radius:20px}.zod-footer--light .zod-footer-connect-copy h2{font-size:22px}.zod-footer-social-row .s-social-list{gap:7px}.zod-footer-social-row .s-social-link>a{width:44px;height:44px;border-radius:14px}.zod-footer--light .zod-footer-divider{margin:24px 0 0!important}.zod-footer--light .zod-footer-grid{grid-template-columns:1fr!important;gap:0!important}.zod-footer--light .zod-footer-brand{padding:22px 2px!important}.zod-footer-contact-column{grid-column:auto;padding:22px 0 8px!important}.zod-footer-contact-column .s-contacts-list{grid-template-columns:1fr!important;gap:8px!important}.zod-footer-contact-column .s-contacts-item{min-height:50px;padding-inline:13px}.zod-footer-confidence{grid-template-columns:1fr;gap:16px;margin-top:20px;padding:18px;border-radius:16px;text-align:start}.zod-footer-confidence__intro{align-items:flex-start}.zod-footer-legal{justify-content:flex-start;flex-wrap:wrap;padding-top:14px;border-top:1px solid #e2e7e9}.zod-footer-payments{grid-column:auto;align-items:flex-start;justify-content:flex-start;flex-direction:column;padding-top:14px}.zod-footer--light .zod-footer-bottom__inner{display:flex!important;flex-direction:column!important;align-items:center!important}}
 @media(prefers-reduced-motion:reduce){.zod-footer-connect-row::before,.zod-footer-social-row .s-social-link>a{animation:none!important;transition:none!important}.zod-footer-contact-column .s-contacts-item{transition:none!important}}
 
+/* ZOD v1.6.90 — distinguish official verification from payment methods. */
+.zod-footer-payments{position:relative;display:grid;grid-template-columns:auto minmax(150px,1fr);grid-template-areas:"label icons" "certificate certificate";column-gap:13px;row-gap:7px}
+.zod-footer-payments__label{grid-area:label;align-self:center;white-space:nowrap}
+.zod-footer-payments salla-payments{grid-area:icons;min-width:0}
+.zod-footer-payments .s-payments-list{display:flex!important;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap}
+.zod-footer-payments .s-payments-list-item{display:grid;place-items:center;width:46px;height:34px;padding:4px 6px;border:1px solid #e1e6e9;border-radius:9px;background:#fff;box-shadow:0 3px 10px rgba(19,29,36,.035);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+.zod-footer-payments .s-payments-list-item:hover{transform:translateY(-2px);border-color:#cbd3d8;box-shadow:0 7px 16px rgba(19,29,36,.08)}
+.zod-footer-payments .s-payments-list-item:has(.s-payments-sbc-image){width:58px;border-color:color-mix(in srgb,var(--color-primary) 22%,#e1e6e9);background:color-mix(in srgb,var(--color-primary) 4%,#fff)}
+.zod-footer-payments .s-payments-list-item img{max-width:100%;max-height:100%;object-fit:contain}
+.zod-footer-sbc-label{grid-area:certificate;display:none;align-items:center;justify-content:flex-end;gap:6px;color:#59636c;font-size:9.5px;font-weight:800}
+.zod-footer-payments:has(.s-payments-sbc-image) .zod-footer-sbc-label{display:flex}
+.zod-footer-sbc-label i{color:var(--color-primary)}
+.zod-footer-payments .s-payments-list-item:has(.s-payments-sbc-image) a:focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:4px}
+@media(max-width:767px){.zod-footer-payments{width:100%;grid-template-columns:1fr;grid-template-areas:"label" "icons" "certificate"}.zod-footer-payments .s-payments-list{justify-content:flex-start}.zod-footer-sbc-label{justify-content:flex-start}}
+@media(prefers-reduced-motion:reduce){.zod-footer-payments .s-payments-list-item{transition:none!important}}
+
 /* Arrow icons are drawn pointing left; consumer actions advance right in LTR. */
 html[dir="ltr"] main a .sicon-arrow-left{
   transform:rotate(180deg)!important;
