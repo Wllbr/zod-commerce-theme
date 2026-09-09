@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.93','package.json: expected v1.6.93');
+assert(pkg.version==='1.6.94','package.json: expected v1.6.94');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 const trackedResult=spawnSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8'});
 assert(trackedResult.status===0,'Git tracked-file inventory must be available');
@@ -212,6 +212,7 @@ assert(headerTwig.includes('zod-catalog-drawer'),'Header must include the univer
 assert(!footerTwig.toLowerCase().includes('newsletter'),'Footer must not include a newsletter section');
 assert(footerTwig.includes('zod-footer-market-nav'),'Footer must include the marketplace navigation layout');
 assert(footerTwig.includes('data-zod-footer-categories'),'Footer must include dynamic category navigation');
+assert(footerTwig.includes('aria-busy="true"'),'Footer category navigation must expose its loading state');
 assert(footerTwig.includes('zod-footer-back-top'),'Footer must include the back-to-top control');
 assert(footerTwig.includes('<salla-contacts'),'Footer must use Salla native contacts so every configured service channel can render');
 assert(footerTwig.includes('zod-footer-sbc-label'),'Footer must label the Saudi Business Center certificate');
@@ -238,6 +239,7 @@ assert(appCss.includes('.s-product-card-out-badge{display:none!important}'),'The
 assert(appCss.includes('ZOD v1.6.42 — permanent purchase dock + floating storefront chrome'),'The v1.6.42 responsive storefront polish styles are required');
 assert(appCss.includes('margin:10px clamp(10px,1.8vw,28px) 0!important'),'Desktop header must use the floating rounded treatment');
 assert(appCss.includes('.zod-footer--market'),'Marketplace footer styles are required');
+assert(read('src/assets/js/partials/zod-menu.js').includes('loadFooterCategories'),'Footer categories must load from Salla dynamically');
 for(const network of ['instagram','twitter','snapchat','tiktok','youtube','facebook']) assert(appCss.includes(`a[title="${network}"]`),`Footer missing branded ${network} interaction`);
 assert(appCss.includes('.zod-info-page__card'),'Information-page content card styles are required');
 assert(appCss.includes('.s-search-modal.s-modal-container{z-index:9999!important}'),'Native search modal must remain above the floating header');

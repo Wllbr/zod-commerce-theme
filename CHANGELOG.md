@@ -1,3 +1,8 @@
+## 1.6.94 — Final marketplace footer reliability
+
+- Keeps cached Salla categories visible immediately while refreshing them in the background, so returning shoppers never see an empty footer.
+- Reserves the complete desktop category grid during first load to prevent layout movement.
+- Adds restrained social-icon entrance motion with platform colors on touch screens and a reduced-motion fallback.
 ## 1.6.85 — Complete desktop quantity control
 
 - Reserves enough space for the minus, value and plus controls in the persistent desktop purchase dock.

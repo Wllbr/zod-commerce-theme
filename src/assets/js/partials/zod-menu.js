@@ -59,9 +59,11 @@ class ZodMainMenu extends HTMLElement {
 
   async loadFooterCategories() {
     const cacheKey = `zod-footer-categories:${document.documentElement.lang || 'ar'}`;
+    let cached = [];
     try {
-      const cached = JSON.parse(sessionStorage.getItem(cacheKey) || '[]');
-      if (Array.isArray(cached) && cached.length) return cached;
+      const stored = JSON.parse(sessionStorage.getItem(cacheKey) || '[]');
+      cached = Array.isArray(stored) ? stored : [];
+      if (cached.length) this.renderFooterCategories(cached);
     } catch (_) {}
 
     try {
@@ -75,9 +77,11 @@ class ZodMainMenu extends HTMLElement {
           return categories;
         }
       }
-    } catch (_) {}
+    } catch (_) {
+      if (cached.length) return cached;
+    }
 
-    return this.loadMenus();
+    return cached.length ? cached : this.loadMenus();
   }
 
   renderFooterCategories(items = []) {
