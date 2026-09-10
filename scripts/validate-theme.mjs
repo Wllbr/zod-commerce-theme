@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.6.94','package.json: expected v1.6.94');
+assert(pkg.version==='1.6.95','package.json: expected v1.6.95');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 const trackedResult=spawnSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8'});
 assert(trackedResult.status===0,'Git tracked-file inventory must be available');
@@ -39,7 +39,7 @@ for(const file of trackedFiles){
 }
 for(const dependency of ['@salla.sa/twilight','@salla.sa/twilight-components']){
   const version=pkg.devDependencies?.[dependency]||'';
-  assert(/2\.14\.572$/.test(version),`package.json: ${dependency} must use 2.14.572`);
+  assert(/2\.14\.580$/.test(version),`package.json: ${dependency} must use 2.14.580`);
 }
 assert(config.name?.ar&&config.name?.en,'twilight.json: bilingual name required');
 assert(config.name?.ar==='زود للتجارة','twilight.json: Arabic theme name is incorrect');

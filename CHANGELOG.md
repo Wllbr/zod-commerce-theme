@@ -1,3 +1,8 @@
+## 1.6.95 — Latest Salla Twilight compatibility
+
+- Updates `@salla.sa/twilight` and `@salla.sa/twilight-components` from 2.14.572 to 2.14.580.
+- Refreshes the complete Salla dependency graph and locks the verified versions for reproducible builds.
+
 ## 1.6.94 — Final marketplace footer reliability
 
 - Keeps cached Salla categories visible immediately while refreshing them in the background, so returning shoppers never see an empty footer.

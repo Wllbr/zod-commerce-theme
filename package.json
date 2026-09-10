@@ -1,6 +1,6 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.6.94",
+  "version": "1.6.95",
   "description": "ZOD Commerce — Salla-ready repository packaging with oversized development artifacts excluded.",
   "license": "UNLICENSED",
   "scripts": {
@@ -22,8 +22,8 @@
     "@babel/core": "^8.0.1",
     "@babel/plugin-transform-runtime": "^8.0.1",
     "@babel/preset-env": "^8.0.2",
-    "@salla.sa/twilight": "2.14.572",
-    "@salla.sa/twilight-components": "2.14.572",
+    "@salla.sa/twilight": "2.14.580",
+    "@salla.sa/twilight-components": "2.14.580",
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
     "autoprefixer": "^10.5.2",

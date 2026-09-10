@@ -3,3 +3,10 @@ allowBuilds:
   bufferutil: true
   es5-ext: true
   utf-8-validate: true
+minimumReleaseAgeExclude:
+  - '@salla.sa/analytics@2.14.580'
+  - '@salla.sa/applepay@2.14.580'
+  - '@salla.sa/base@2.14.580'
+  - '@salla.sa/twilight-components@2.14.580'
+  - '@salla.sa/twilight-tailwind-theme@2.14.580'
+  - '@salla.sa/twilight@2.14.580'
