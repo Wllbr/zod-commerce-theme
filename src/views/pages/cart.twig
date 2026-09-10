@@ -82,7 +82,7 @@
       <p class="zod-cart-mobile-checkout__reassurance"><i class="sicon-shield-check"></i>{{ trans('zod.cart.checkout_reassurance') }}</p>
     </div>
     {% else %}
-      <div class="zod-empty-state zod-cart-empty" data-testid="store-cart-empty"><span><i class="sicon-shopping-bag"></i></span><h2>{{ trans('pages.cart.empty_cart') }}</h2><p>{{ trans('zod.cart.empty_hint') }}</p><div class="zod-cart-empty__actions"><a href="{{ link('/') }}" class="zod-btn zod-btn--primary">{{ trans('zod.cart.discover_products') }}</a><a href="{{ link('categories') }}" class="zod-btn zod-btn--secondary">{{ trans('zod.cart.browse_categories') }}</a></div></div>
+      <div class="zod-empty-state zod-cart-empty" data-testid="store-cart-empty"><span><i class="sicon-shopping-bag"></i></span><h2>{{ trans('pages.cart.empty_cart') }}</h2><p>{{ trans('zod.cart.empty_hint') }}</p><div class="zod-cart-empty__actions"><a href="{{ link('/') }}" class="zod-btn zod-btn--primary">{{ trans('zod.cart.discover_products') }}</a><button type="button" class="zod-btn zod-btn--secondary" aria-controls="zod-catalog-drawer" aria-expanded="false" onclick="window.zodMenu?.open(this)">{{ trans('zod.cart.browse_categories') }}</button></div></div>
       <section class="zod-cart-empty-recommendations"><salla-products-slider source="latest" limit="6" block-title="{{ trans('zod.cart.popular_products') }}" slider-id="zod-empty-cart-products" product-card-component="custom-salla-product-card"></salla-products-slider></section>
     {% endif %}
   </div>

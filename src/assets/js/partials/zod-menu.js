@@ -246,7 +246,7 @@ window.zodMenu = {
     if (!el) return;
     el.classList.remove('is-open');
     el.setAttribute('aria-hidden', 'true');
-    document.querySelectorAll('.zod-menu-trigger[aria-expanded="true"]').forEach(button => button.setAttribute('aria-expanded', 'false'));
+    document.querySelectorAll('[aria-controls="zod-catalog-drawer"][aria-expanded="true"]').forEach(button => button.setAttribute('aria-expanded', 'false'));
     syncOverlayLock();
     if (restoreFocus) this.lastFocus?.focus?.();
   },
