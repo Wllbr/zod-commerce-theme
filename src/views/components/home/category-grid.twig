@@ -6,7 +6,7 @@
     {% if title or subtitle or component.show_all %}
       <div class="zod-section-head">
         {% if title or subtitle %}<div>{% if title %}<h2>{{ title }}</h2>{% endif %}{% if subtitle %}<p>{{ subtitle }}</p>{% endif %}</div>{% endif %}
-        {% if component.show_all %}<button type="button" class="zod-text-link" aria-controls="zod-catalog-drawer" aria-expanded="false" onclick="window.zodMenu?.open(this)">{{ trans('zod.home.view_all') }} <i class="sicon-arrow-left rtl:rotate-180"></i></button>{% endif %}
+        {% if component.show_all %}<button type="button" class="zod-text-link" aria-controls="zod-catalog-drawer" aria-expanded="false" onclick="window.zodMenu?.open(this)">{{ trans('zod.home.view_all') }} <i class="sicon-arrow-right rtl:rotate-180"></i></button>{% endif %}
       </div>
     {% endif %}
     <salla-slider

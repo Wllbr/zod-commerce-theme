@@ -203,6 +203,7 @@ const dualShowcase = read('src/views/components/home/dual-showcase.twig');
 const cartTemplate = read('src/views/pages/cart.twig');
 const categoryGridTemplate = read('src/views/components/home/category-grid.twig');
 const footerTemplate = read('src/views/components/footer/footer.twig');
+const heroTemplate = read('src/views/components/home/hero.twig');
 assert.match(menuSource,/document\.body\.appendChild\(drawer\)/,'catalog drawer escapes the sticky header stacking context');
 assert.match(styles,/html\.zod-lock \.zod-announcement/,'announcement is suppressed while the catalog dialog is open');
 assert.match(styles,/\.zod-cart-summary-card\{display:none!important\}/,'native mobile cart dock cannot overlap the theme checkout dock');
@@ -210,6 +211,8 @@ assert.match(dualShowcase,/replace\(\{'\/ar\/':'\/en\/'\}\)/,'English showcase l
 assert.match(cartTemplate,/class="zod-cart-summary-card"/,'cart summary exposes the responsive target class');
 assert.doesNotMatch(`${categoryGridTemplate}\n${footerTemplate}\n${cartTemplate}`,/link\(['"]categories['"]\)/,'category calls to action never target Salla’s unavailable categories route');
 assert.match(categoryGridTemplate,/aria-controls="zod-catalog-drawer"/,'homepage View all opens the category drawer');
-assert.equal((footerTemplate.match(/aria-controls="zod-catalog-drawer"/g)||[]).length,2,'both footer category calls to action open the category drawer');
+assert.equal((footerTemplate.match(/aria-controls="zod-catalog-drawer"/g)||[]).length,1,'footer exposes one category drawer call to action');
+assert.match(styles,/\.zod-hero-slider \.swiper-slide\{width:100%!important;max-width:100%!important;flex:0 0 100%!important\}/,'hero slides fill the frame without exposing an adjacent slide');
+assert.match(heroTemplate,/sicon-arrow-right rtl:rotate-180/,'hero CTA arrow follows the storefront direction');
 
 console.log('PASS: mobile dialog layering, cart dock isolation, bilingual showcase routing, and category drawer calls to action.');

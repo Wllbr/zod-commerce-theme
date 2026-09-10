@@ -14,7 +14,6 @@
           <a href="{{ link('/') }}" class="zod-footer-logo"><img src="{{ store.logo|cdn(220) }}" alt="{{ store.name }}"></a>
           {% if store.slogan %}<strong class="zod-footer-slogan">{{ store.slogan }}</strong>{% endif %}
           <div class="zod-footer-description">{{ store.description ? store.description|raw : trans('zod.footer.about') }}</div>
-          <button class="zod-footer-all-categories" type="button" aria-controls="zod-catalog-drawer" aria-expanded="false" onclick="window.zodMenu?.open(this)">{{ trans('zod.footer.all_categories') }} <i class="sicon-arrow-right rtl:rotate-180"></i></button>
         </div>
         <nav class="zod-footer-categories" aria-label="{{ trans('zod.footer.categories') }}">
           <div class="zod-footer-categories__head"><h2>{{ trans('zod.footer.categories') }}</h2><button type="button" aria-controls="zod-catalog-drawer" aria-expanded="false" onclick="window.zodMenu?.open(this)">{{ trans('zod.home.view_all') }}</button></div>
