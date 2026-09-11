@@ -168,10 +168,10 @@ const initLaserShowcase = (section) => {
       if (panel.dataset.productId !== String(productId)) return;
       const trigger = triggers[index];
       panel.querySelector('[data-zod-laser-name]').textContent = name;
-      panel.querySelector('[data-zod-laser-price]').textContent = money(current);
+      panel.querySelector('[data-zod-laser-price]').innerHTML = money(current);
       const regularNode = panel.querySelector('[data-zod-laser-regular]');
       regularNode.hidden = !(regular > current && current > 0);
-      regularNode.textContent = regularNode.hidden ? '' : money(regular);
+      regularNode.innerHTML = regularNode.hidden ? '' : money(regular);
       const stock = panel.querySelector('[data-zod-laser-stock]');
       stock.classList.toggle('is-available', !isOut);
       stock.querySelector('[data-zod-laser-stock-label]').textContent = isOut ? section.dataset.labelUnavailable : section.dataset.labelAvailable;
@@ -189,7 +189,7 @@ const initLaserShowcase = (section) => {
         if (thumb && !thumb.src) { thumb.src = image; thumb.hidden = false; }
       }
       trigger.querySelector('[data-zod-laser-trigger-name]').textContent = name;
-      trigger.querySelector('[data-zod-laser-trigger-price]').textContent = money(current);
+      trigger.querySelector('[data-zod-laser-trigger-price]').innerHTML = money(current);
 
       const host = panel.querySelector('[data-zod-laser-add]');
       const button = document.createElement('salla-add-product-button');

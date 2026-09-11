@@ -1,3 +1,7 @@
+## 1.6.98 — Correct laser showcase currency rendering
+
+- Renders Salla's formatted Riyal currency output correctly in the active product panel and product selector.
+
 ## 1.6.97 — Laser product data and mobile layout
 
 - Loads complete product details from Salla for nested component selections, restoring real names, prices, availability, images, links and add-to-cart actions.
