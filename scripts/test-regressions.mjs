@@ -213,6 +213,7 @@ assert.doesNotMatch(`${categoryGridTemplate}\n${footerTemplate}\n${cartTemplate}
 assert.match(categoryGridTemplate,/aria-controls="zod-catalog-drawer"/,'homepage View all opens the category drawer');
 assert.equal((footerTemplate.match(/aria-controls="zod-catalog-drawer"/g)||[]).length,1,'footer exposes one category drawer call to action');
 assert.match(styles,/\.zod-hero-slider \.swiper-slide\{width:100%!important;max-width:100%!important;flex:0 0 100%!important\}/,'hero slides fill the frame without exposing an adjacent slide');
+assert.match(heroTemplate,/type="fullwidth"[\s\S]*slides-per-view="1"[\s\S]*direction="\{\{ language\.dir \}\}"/,'hero uses one full-width slide with the active storefront direction');
 assert.match(heroTemplate,/sicon-arrow-right rtl:rotate-180/,'hero CTA arrow follows the storefront direction');
 
 console.log('PASS: mobile dialog layering, cart dock isolation, bilingual showcase routing, and category drawer calls to action.');
