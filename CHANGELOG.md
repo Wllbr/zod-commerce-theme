@@ -1,3 +1,9 @@
+## 1.6.97 — Laser product data and mobile layout
+
+- Loads complete product details from Salla for nested component selections, restoring real names, prices, availability, images, links and add-to-cart actions.
+- Uses a wider mobile video frame so the showcase stays compact and keeps product information visible.
+- Supports repeated product selections safely and keeps loading or unavailable states clear in Arabic and English.
+
 ## 1.6.96 — Laser experience component
 
 - Adds a bilingual, responsive laser showcase for up to 12 merchant-selected Salla products.

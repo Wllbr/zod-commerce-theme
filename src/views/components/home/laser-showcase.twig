@@ -1,7 +1,7 @@
 {% if component.items|length %}
   {% set section_title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
   {% set section_subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
-  <section class="zod-section zod-laser-showcase" data-zod-laser-showcase>
+  <section class="zod-section zod-laser-showcase" data-zod-laser-showcase data-label-available="{{ trans('zod.laser.available') }}" data-label-unavailable="{{ trans('pages.products.out_of_stock') }}" data-label-error="{{ trans('zod.laser.unavailable_product') }}" data-label-add="{{ trans('pages.cart.add_to_cart') }}">
     <div class="container">
       <header class="zod-laser-showcase__head">
         <span class="zod-laser-showcase__beam" aria-hidden="true"></span>
@@ -14,30 +14,34 @@
 
       <div class="zod-laser-stage">
         {% for item in component.items %}
-          {% set product = item.products|first %}
-          {% if product %}
+          {% set product_ids = [] %}
+          {% for selected_product in item.products|default([]) %}
+            {% set product_raw = selected_product.product|default(selected_product) %}
+            {% set selected_id = product_raw.id|default(product_raw.value)|default(product_raw.key)|default(product_raw) %}
+            {% if selected_id %}{% set product_ids = product_ids|merge([selected_id]) %}{% endif %}
+          {% endfor %}
+          {% set product_id = product_ids|first %}
+          {% if product_id %}
             {% set item_eyebrow = item.eyebrow is iterable ? item.eyebrow[language.code]|default(item.eyebrow|first) : item.eyebrow %}
             {% set item_text = item.text is iterable ? item.text[language.code]|default(item.text|first) : item.text %}
             {% set feature_one = item.feature_one is iterable ? item.feature_one[language.code]|default(item.feature_one|first) : item.feature_one %}
             {% set feature_two = item.feature_two is iterable ? item.feature_two[language.code]|default(item.feature_two|first) : item.feature_two %}
             {% set feature_three = item.feature_three is iterable ? item.feature_three[language.code]|default(item.feature_three|first) : item.feature_three %}
-            {% set poster = item.poster|default(product.image.url|default(product.thumbnail)) %}
+            {% set poster = item.poster|default(null) %}
             {% set video_url = item.video_url.url|default(item.video_url)|default(null) %}
-            {% set product_url = product.url|default(link('product/' ~ product.id)) %}
-            {% set sale_price = product.is_on_sale and product.sale_price and product.sale_price > 0 ? product.sale_price : null %}
-            <article id="zod-laser-panel-{{ loop.index0 }}" class="zod-laser-panel {{ loop.first ? 'is-active' : '' }}" data-zod-laser-panel="{{ loop.index0 }}" {% if not loop.first %}hidden{% endif %}>
+            <article id="zod-laser-panel-{{ loop.index0 }}" class="zod-laser-panel is-loading {{ loop.first ? 'is-active' : '' }}" data-zod-laser-panel="{{ loop.index0 }}" data-product-id="{{ product_id }}" {% if not loop.first %}hidden{% endif %}>
               <div class="zod-laser-panel__media">
                 {% if video_url %}
-                  <video class="zod-laser-panel__video" muted loop playsinline preload="none" {% if poster %}poster="{{ poster }}"{% endif %} data-zod-laser-video data-video-src="{{ video_url }}" aria-label="{{ product.name }}"></video>
-                {% elseif poster %}
-                  <img src="{{ poster }}" alt="{{ product.name }}" loading="lazy">
+                  <video class="zod-laser-panel__video" muted loop playsinline preload="none" {% if poster %}poster="{{ poster }}"{% endif %} data-zod-laser-video data-video-src="{{ video_url }}" aria-label="{{ section_title|default(trans('zod.laser.title')) }}"></video>
+                {% else %}
+                  <img {% if poster %}src="{{ poster }}"{% else %}hidden{% endif %} alt="" loading="lazy" data-zod-laser-image>
                 {% endif %}
                 <span class="zod-laser-panel__glow" aria-hidden="true"></span>
                 {% if video_url %}<span class="zod-laser-panel__live"><i></i>{{ trans('zod.laser.motion_preview') }}</span>{% endif %}
               </div>
               <div class="zod-laser-panel__content">
                 <small class="zod-laser-panel__eyebrow">{{ item_eyebrow|default(trans('zod.laser.featured')) }}</small>
-                <h3>{{ product.name }}</h3>
+                <h3 data-zod-laser-name>{{ trans('zod.laser.loading_product') }}</h3>
                 {% if item_text %}<p>{{ item_text }}</p>{% endif %}
                 {% if feature_one or feature_two or feature_three %}
                   <ul class="zod-laser-panel__features" aria-label="{{ trans('zod.laser.features') }}">
@@ -49,14 +53,14 @@
                 <div class="zod-laser-panel__buy">
                   <div class="zod-laser-panel__price">
                     <small>{{ trans('zod.laser.price') }}</small>
-                    <strong>{{ (sale_price ?: product.price)|money }}</strong>
-                    {% if sale_price %}<del>{{ product.regular_price|money }}</del>{% endif %}
+                    <strong data-zod-laser-price>…</strong>
+                    <del data-zod-laser-regular hidden></del>
                   </div>
-                  <span class="zod-laser-panel__stock {{ product.status == 'sale' ? 'is-available' : '' }}"><i></i>{{ product.status == 'sale' ? trans('zod.laser.available') : trans('pages.products.out_of_stock') }}</span>
+                  <span class="zod-laser-panel__stock" data-zod-laser-stock><i></i><span data-zod-laser-stock-label>{{ trans('zod.laser.loading_product') }}</span></span>
                 </div>
                 <div class="zod-laser-panel__actions">
-                  <a href="{{ product_url }}" class="zod-laser-panel__view">{{ trans('zod.laser.view_product') }} <i class="sicon-arrow-left rtl:rotate-180"></i></a>
-                  <salla-add-product-button fill="solid" product-id="{{ product.id }}" product-status="{{ product.status }}" product-type="{{ product.type }}">{{ product.add_to_cart_label|default(trans('pages.cart.add_to_cart')) }}</salla-add-product-button>
+                  <a href="#" class="zod-laser-panel__view" data-zod-laser-link aria-disabled="true">{{ trans('zod.laser.view_product') }} <i class="sicon-arrow-left rtl:rotate-180"></i></a>
+                  <span class="zod-laser-panel__add" data-zod-laser-add></span>
                 </div>
               </div>
             </article>
@@ -66,12 +70,18 @@
 
       <div class="zod-laser-selector" role="tablist" aria-label="{{ trans('zod.laser.choose_product') }}">
         {% for item in component.items %}
-          {% set product = item.products|first %}
-          {% if product %}
-            {% set thumb = item.poster|default(product.image.url|default(product.thumbnail)) %}
-            <button type="button" class="zod-laser-selector__item {{ loop.first ? 'is-active' : '' }}" data-zod-laser-trigger="{{ loop.index0 }}" role="tab" aria-selected="{{ loop.first ? 'true' : 'false' }}" aria-controls="zod-laser-panel-{{ loop.index0 }}">
-              {% if thumb %}<img src="{{ thumb }}" alt="" loading="lazy">{% endif %}
-              <span><strong>{{ product.name }}</strong><small>{{ product.price|money }}</small></span>
+          {% set product_ids = [] %}
+          {% for selected_product in item.products|default([]) %}
+            {% set product_raw = selected_product.product|default(selected_product) %}
+            {% set selected_id = product_raw.id|default(product_raw.value)|default(product_raw.key)|default(product_raw) %}
+            {% if selected_id %}{% set product_ids = product_ids|merge([selected_id]) %}{% endif %}
+          {% endfor %}
+          {% set product_id = product_ids|first %}
+          {% if product_id %}
+            {% set thumb = item.poster|default(null) %}
+            <button type="button" class="zod-laser-selector__item {{ loop.first ? 'is-active' : '' }}" data-zod-laser-trigger="{{ loop.index0 }}" data-product-id="{{ product_id }}" role="tab" aria-selected="{{ loop.first ? 'true' : 'false' }}" aria-controls="zod-laser-panel-{{ loop.index0 }}">
+              <img {% if thumb %}src="{{ thumb }}"{% else %}hidden{% endif %} alt="" loading="lazy" data-zod-laser-thumb>
+              <span><strong data-zod-laser-trigger-name>{{ trans('zod.laser.loading_product') }}</strong><small data-zod-laser-trigger-price>…</small></span>
               <i class="sicon-play" aria-hidden="true"></i>
             </button>
           {% endif %}

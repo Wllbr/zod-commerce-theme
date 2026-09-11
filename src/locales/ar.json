@@ -173,6 +173,8 @@
       "motion_preview": "عرض حي",
       "price": "السعر شامل الضريبة",
       "available": "متوفر",
+      "loading_product": "جارٍ تحميل المنتج",
+      "unavailable_product": "تعذر تحميل بيانات المنتج",
       "view_product": "عرض المنتج",
       "choose_product": "اختر جهاز الليزر"
     },

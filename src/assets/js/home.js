@@ -138,6 +138,84 @@ const initLaserShowcase = (section) => {
   let isVisible = true;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  const number = value => {
+    if (typeof value === 'number') return Number.isFinite(value) ? value : 0;
+    if (typeof value === 'string') return Number(value.replace(/[^0-9.\-]/g, '')) || 0;
+    if (value && typeof value === 'object') return number(value.amount ?? value.value ?? value.price);
+    return 0;
+  };
+  const imageUrl = value => typeof value === 'string' ? value : (value?.url || value?.original || value?.medium || value?.small || value?.thumbnail || '');
+  const money = value => {
+    try { return salla.money(value); } catch (_) { return String(value || ''); }
+  };
+  const unwrap = response => {
+    const candidates = [response?.data?.product, response?.data, response?.product, response];
+    return candidates.find(value => value && typeof value === 'object' && (value.id || value.name)) || null;
+  };
+
+  const applyProduct = (productId, product) => {
+    if (!product) return;
+
+    const name = product.name || section.dataset.labelError;
+    const sale = number(product.sale_price);
+    const regular = number(product.regular_price);
+    const base = number(product.price);
+    const current = sale > 0 ? sale : base;
+    const image = imageUrl(product.image) || product.thumbnail || imageUrl(product.images?.[0]);
+    const isOut = product.status === 'out' || product.status === 'out-and-notify' || product.is_available === false;
+
+    panels.forEach((panel, index) => {
+      if (panel.dataset.productId !== String(productId)) return;
+      const trigger = triggers[index];
+      panel.querySelector('[data-zod-laser-name]').textContent = name;
+      panel.querySelector('[data-zod-laser-price]').textContent = money(current);
+      const regularNode = panel.querySelector('[data-zod-laser-regular]');
+      regularNode.hidden = !(regular > current && current > 0);
+      regularNode.textContent = regularNode.hidden ? '' : money(regular);
+      const stock = panel.querySelector('[data-zod-laser-stock]');
+      stock.classList.toggle('is-available', !isOut);
+      stock.querySelector('[data-zod-laser-stock-label]').textContent = isOut ? section.dataset.labelUnavailable : section.dataset.labelAvailable;
+
+      const link = panel.querySelector('[data-zod-laser-link]');
+      const productUrl = typeof product.url === 'string' ? product.url : (product.url?.url || product.link);
+      link.href = productUrl || `/product/${productId}`;
+      link.removeAttribute('aria-disabled');
+      const mediaImage = panel.querySelector('[data-zod-laser-image]');
+      const video = panel.querySelector('[data-zod-laser-video]');
+      if (image) {
+        if (mediaImage && !mediaImage.src) { mediaImage.src = image; mediaImage.hidden = false; mediaImage.alt = name; }
+        if (video && !video.poster) video.poster = image;
+        const thumb = trigger.querySelector('[data-zod-laser-thumb]');
+        if (thumb && !thumb.src) { thumb.src = image; thumb.hidden = false; }
+      }
+      trigger.querySelector('[data-zod-laser-trigger-name]').textContent = name;
+      trigger.querySelector('[data-zod-laser-trigger-price]').textContent = money(current);
+
+      const host = panel.querySelector('[data-zod-laser-add]');
+      const button = document.createElement('salla-add-product-button');
+      button.setAttribute('fill', 'solid');
+      button.setAttribute('product-id', productId);
+      button.setAttribute('product-status', product.status || (isOut ? 'out' : 'sale'));
+      button.setAttribute('product-type', product.type || 'product');
+      button.textContent = product.add_to_cart_label || section.dataset.labelAdd;
+      host.replaceChildren(button);
+      panel.classList.remove('is-loading');
+    });
+  };
+
+  const loadProducts = async () => {
+    if (!window.salla?.product?.getDetails) return;
+    const ids = [...new Set(panels.map(panel => panel.dataset.productId).filter(Boolean))];
+    await Promise.all(ids.map(async productId => {
+      try { applyProduct(productId, unwrap(await salla.product.getDetails(productId))); }
+      catch (_) {
+        panels.filter(panel => panel.dataset.productId === productId).forEach(panel => {
+          panel.querySelector('[data-zod-laser-name]').textContent = section.dataset.labelError;
+        });
+      }
+    }));
+  };
+
   const syncVideo = () => {
     panels.forEach((panel, index) => {
       const video = panel.querySelector('[data-zod-laser-video]');
@@ -193,6 +271,8 @@ const initLaserShowcase = (section) => {
   document.addEventListener('visibilitychange', syncVideo);
   reducedMotion.addEventListener?.('change', syncVideo);
   activate(0);
+  if (window.salla?.onReady) window.salla.onReady().then(loadProducts).catch(() => {});
+  else document.addEventListener('zod::ready', loadProducts, { once: true });
 };
 
 const initProductSwitcher = (section) => {

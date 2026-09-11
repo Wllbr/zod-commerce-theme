@@ -173,6 +173,8 @@
       "motion_preview": "Live preview",
       "price": "VAT-inclusive price",
       "available": "In stock",
+      "loading_product": "Loading product",
+      "unavailable_product": "Product details are unavailable",
       "view_product": "View product",
       "choose_product": "Choose a laser product"
     },
