@@ -1,3 +1,9 @@
+## 1.6.96 — Laser experience component
+
+- Adds a bilingual, responsive laser showcase for up to 12 merchant-selected Salla products.
+- Uses live Salla product images, prices, availability and links with optional externally hosted MP4/WebM previews.
+- Plays only the visible product video, pauses media offscreen, supports keyboard navigation and respects reduced-motion preferences.
+
 ## 1.6.95 — Latest Salla Twilight compatibility
 
 - Updates `@salla.sa/twilight` and `@salla.sa/twilight-components` from 2.14.572 to 2.14.580.

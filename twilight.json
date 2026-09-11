@@ -1287,6 +1287,149 @@
             ]
         },
         {
+            "key": "6c33e4d7-9bb3-4d9f-9151-1f3442097574",
+            "title": {
+                "en": "Laser experience",
+                "ar": "عالم الليزر"
+            },
+            "icon": "sicon-list-play",
+            "path": "home.laser-showcase",
+            "fields": [
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "عنوان القسم",
+                    "multilanguage": true,
+                    "id": "title",
+                    "value": null,
+                    "required": false,
+                    "format": "text",
+                    "maxLength": 120
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "وصف القسم",
+                    "multilanguage": true,
+                    "id": "subtitle",
+                    "value": null,
+                    "required": false,
+                    "format": "textarea",
+                    "maxLength": 260
+                },
+                {
+                    "id": "items",
+                    "type": "collection",
+                    "format": "collection",
+                    "required": true,
+                    "minLength": 1,
+                    "maxLength": 12,
+                    "label": "منتجات الليزر — حتى 12 منتجاً",
+                    "item_label": "منتج ليزر",
+                    "value": [],
+                    "fields": [
+                        {
+                            "type": "items",
+                            "icon": "sicon-shopping-bag",
+                            "label": "اختر المنتج",
+                            "description": "تُستخدم صورة المنتج واسمه وسعره وحالته ورابطه مباشرة من سلة.",
+                            "id": "items.products",
+                            "format": "dropdown-list",
+                            "selected": [],
+                            "options": [],
+                            "required": true,
+                            "multichoice": true,
+                            "searchable": true,
+                            "source": "products",
+                            "maxLength": 1,
+                            "value": []
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-play",
+                            "label": "رابط فيديو مباشر MP4 / WebM (اختياري)",
+                            "description": "استخدم رابط HTTPS مباشر من استضافة خارجية. مدة مقترحة 5–12 ثانية، بدون صوت، وأقل من 4MB. لا ترفع الفيديو داخل ملفات الثيم.",
+                            "id": "items.video_url",
+                            "value": null,
+                            "required": false,
+                            "format": "text",
+                            "maxLength": 500
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-image",
+                            "label": "صورة غلاف الفيديو (اختياري) — 1600×1000",
+                            "description": "اتركها فارغة لاستخدام صورة المنتج الفعلية من سلة.",
+                            "id": "items.poster",
+                            "value": null,
+                            "format": "image",
+                            "required": false,
+                            "settings": {
+                                "width": 1600,
+                                "height": 1000
+                            },
+                            "placeholder": null
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-format-text-alt",
+                            "label": "سطر تعريفي قصير",
+                            "multilanguage": true,
+                            "id": "items.eyebrow",
+                            "value": null,
+                            "required": false,
+                            "format": "text",
+                            "maxLength": 70
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-format-text-alt",
+                            "label": "وصف مختصر للعرض",
+                            "multilanguage": true,
+                            "id": "items.text",
+                            "value": null,
+                            "required": false,
+                            "format": "textarea",
+                            "maxLength": 240
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-format-text-alt",
+                            "label": "الميزة الأولى",
+                            "multilanguage": true,
+                            "id": "items.feature_one",
+                            "value": null,
+                            "required": false,
+                            "format": "text",
+                            "maxLength": 55
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-format-text-alt",
+                            "label": "الميزة الثانية",
+                            "multilanguage": true,
+                            "id": "items.feature_two",
+                            "value": null,
+                            "required": false,
+                            "format": "text",
+                            "maxLength": 55
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-format-text-alt",
+                            "label": "الميزة الثالثة",
+                            "multilanguage": true,
+                            "id": "items.feature_three",
+                            "value": null,
+                            "required": false,
+                            "format": "text",
+                            "maxLength": 55
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "key": "62e387d2-dcfa-41b2-82ed-4a603ad781b9",
             "title": {
                 "en": "Promotional banners",

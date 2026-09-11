@@ -126,6 +126,75 @@ const initInteractiveShowcase = (section) => {
   start();
 };
 
+const initLaserShowcase = (section) => {
+  if (!section || section.dataset.zodLaserReady === 'true') return;
+  section.dataset.zodLaserReady = 'true';
+
+  const triggers = [...section.querySelectorAll('[data-zod-laser-trigger]')];
+  const panels = [...section.querySelectorAll('[data-zod-laser-panel]')];
+  if (!triggers.length || triggers.length !== panels.length) return;
+
+  let activeIndex = 0;
+  let isVisible = true;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const syncVideo = () => {
+    panels.forEach((panel, index) => {
+      const video = panel.querySelector('[data-zod-laser-video]');
+      if (!video) return;
+      const shouldPlay = index === activeIndex && isVisible && !document.hidden && !reducedMotion.matches;
+      if (shouldPlay) {
+        if (!video.src && video.dataset.videoSrc) video.src = video.dataset.videoSrc;
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  };
+
+  const activate = (index, { focus = false, scroll = false } = {}) => {
+    activeIndex = (index + triggers.length) % triggers.length;
+    panels.forEach((panel, panelIndex) => {
+      const active = panelIndex === activeIndex;
+      panel.hidden = !active;
+      panel.classList.toggle('is-active', active);
+    });
+    triggers.forEach((trigger, triggerIndex) => {
+      const active = triggerIndex === activeIndex;
+      trigger.classList.toggle('is-active', active);
+      trigger.setAttribute('aria-selected', active ? 'true' : 'false');
+      trigger.tabIndex = active ? 0 : -1;
+    });
+    if (focus) triggers[activeIndex].focus({ preventScroll: true });
+    if (scroll) triggers[activeIndex].scrollIntoView({ behavior: reducedMotion.matches ? 'auto' : 'smooth', block: 'nearest', inline: 'center' });
+    syncVideo();
+  };
+
+  triggers.forEach((trigger, index) => {
+    trigger.addEventListener('click', () => activate(index, { scroll: true }));
+    trigger.addEventListener('keydown', event => {
+      const rtl = document.documentElement.dir === 'rtl';
+      let nextIndex = null;
+      if (event.key === 'Home') nextIndex = 0;
+      if (event.key === 'End') nextIndex = triggers.length - 1;
+      if (event.key === 'ArrowRight') nextIndex = index + (rtl ? -1 : 1);
+      if (event.key === 'ArrowLeft') nextIndex = index + (rtl ? 1 : -1);
+      if (nextIndex === null) return;
+      event.preventDefault();
+      activate(nextIndex, { focus: true, scroll: true });
+    });
+  });
+
+  const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+    isVisible = entries.some(entry => entry.isIntersecting);
+    syncVideo();
+  }, { threshold: 0.18 }) : null;
+  observer?.observe(section);
+  document.addEventListener('visibilitychange', syncVideo);
+  reducedMotion.addEventListener?.('change', syncVideo);
+  activate(0);
+};
+
 const initProductSwitcher = (section) => {
   if (!section || section.dataset.zodProductSwitcherReady === 'true') return;
   section.dataset.zodProductSwitcherReady = 'true';
@@ -351,6 +420,7 @@ const initHome = (root = document) => {
   root.querySelectorAll('.zod-hero-slider').forEach(initHeroSlider);
   root.querySelectorAll('[data-zod-dual-showcase]').forEach(initDualShowcase);
   root.querySelectorAll('[data-zod-interactive-showcase]').forEach(initInteractiveShowcase);
+  root.querySelectorAll('[data-zod-laser-showcase]').forEach(initLaserShowcase);
   root.querySelectorAll('[data-zod-product-switcher]').forEach(initProductSwitcher);
 };
 
@@ -364,6 +434,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!node.isConnected) return;
       if (node.matches?.('[data-zod-dual-showcase]')) initDualShowcase(node);
       if (node.matches?.('[data-zod-interactive-showcase]')) initInteractiveShowcase(node);
+      if (node.matches?.('[data-zod-laser-showcase]')) initLaserShowcase(node);
       if (node.matches?.('[data-zod-product-switcher]')) initProductSwitcher(node);
       initHome(node);
     });

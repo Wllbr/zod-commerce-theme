@@ -164,6 +164,18 @@
       "offer_ends": "Offer ends in:",
       "features": "Product features"
     },
+    "laser": {
+      "eyebrow": "Complete lighting experience",
+      "title": "Laser World",
+      "subtitle": "Explore laser effects and find the right unit for events, stages, and projects.",
+      "featured": "Featured selection",
+      "features": "Product features",
+      "motion_preview": "Live preview",
+      "price": "VAT-inclusive price",
+      "available": "In stock",
+      "view_product": "View product",
+      "choose_product": "Choose a laser product"
+    },
     "cart": {
       "added": "Product added to cart",
       "checkout": "Checkout",
