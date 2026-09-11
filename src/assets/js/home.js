@@ -146,7 +146,8 @@ const initLaserShowcase = (section) => {
   };
   const imageUrl = value => typeof value === 'string' ? value : (value?.url || value?.original || value?.medium || value?.small || value?.thumbnail || '');
   const money = value => {
-    try { return salla.money(value); } catch (_) { return String(value || ''); }
+    const formatted = new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(number(value));
+    return `${formatted} <i class="sicon-sar" aria-hidden="true"></i>`;
   };
   const unwrap = response => {
     const candidates = [response?.data?.product, response?.data, response?.product, response];

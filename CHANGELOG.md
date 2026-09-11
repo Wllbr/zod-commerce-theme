@@ -1,3 +1,7 @@
+## 1.6.99 — Reliable Riyal symbol in laser prices
+
+- Formats laser showcase prices locally and uses the theme's native Riyal icon, avoiding escaped Salla currency markup in preview builds.
+
 ## 1.6.98 — Correct laser showcase currency rendering
 
 - Renders Salla's formatted Riyal currency output correctly in the active product panel and product selector.
