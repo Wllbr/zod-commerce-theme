@@ -1,3 +1,8 @@
+## 1.7.5 — Laser showcase desktop balance and mobile media fit
+- Widened the desktop laser showcase and enlarged the product selector cards.
+- Changed the active selector animation to expand inward without clipping.
+- Preserved the complete mobile video frame with centered contain sizing.
+
 ## 1.7.4 — Laser selector finishing pass
 
 - Hides the native mobile rail scrollbar and lets the selected product image reach its intended larger size.
