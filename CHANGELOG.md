@@ -1,3 +1,9 @@
+## 1.7.2 — Laser selector and atmosphere polish
+
+- Enlarges and reshapes the Laser World product selectors for clearer product recognition.
+- Expands the selected card with a stronger switch animation on desktop and mobile.
+- Adds animated ultraviolet side waves and purpose-built laser, coverage, and control icons.
+
 ## 1.7.1 — Laser navigation and product-card polish
 
 - Moves laser product selectors into a compact animated desktop side rail while preserving the mobile bottom rail.
