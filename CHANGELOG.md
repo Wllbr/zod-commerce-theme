@@ -1,3 +1,7 @@
+## 1.7.6 — Laser selector and video balance
+- Narrowed and shortened the desktop laser selector cards, with a larger readable price.
+- Expanded the video area and removed the selected-card scale that caused clipping.
+
 ## 1.7.5 — Laser showcase desktop balance and mobile media fit
 - Widened the desktop laser showcase and enlarged the product selector cards.
 - Changed the active selector animation to expand inward without clipping.
