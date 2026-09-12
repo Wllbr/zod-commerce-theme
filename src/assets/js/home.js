@@ -267,12 +267,18 @@ const initLaserShowcase = (section) => {
   };
 
   const keepTriggerInRail = (trigger, smooth = true) => {
-    if (!selector || !trigger || selector.scrollWidth <= selector.clientWidth + 4) return;
+    if (!selector || !trigger) return;
     const railRect = selector.getBoundingClientRect();
     const triggerRect = trigger.getBoundingClientRect();
-    const delta = triggerRect.left + (triggerRect.width / 2) - (railRect.left + (railRect.width / 2));
-    if (Math.abs(delta) < 4) return;
-    selector.scrollBy({ left: delta, behavior: smooth && !reducedMotion.matches ? 'smooth' : 'auto' });
+    const behavior = smooth && !reducedMotion.matches ? 'smooth' : 'auto';
+    if (selector.scrollHeight > selector.clientHeight + 4) {
+      const top = triggerRect.top + (triggerRect.height / 2) - (railRect.top + (railRect.height / 2));
+      if (Math.abs(top) >= 4) selector.scrollBy({ top, behavior });
+      return;
+    }
+    if (selector.scrollWidth <= selector.clientWidth + 4) return;
+    const left = triggerRect.left + (triggerRect.width / 2) - (railRect.left + (railRect.width / 2));
+    if (Math.abs(left) >= 4) selector.scrollBy({ left, behavior });
   };
 
   const activate = (index, { focus = false, scroll = false } = {}) => {

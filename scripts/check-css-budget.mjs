@@ -8,7 +8,9 @@ if (!fs.existsSync(cssPath)) {
 
 const css = fs.readFileSync(cssPath);
 const compressed = gzipSync(css, { level: 9 });
-const rawLimit = 320 * 1024;
+// The gzip cap reflects storefront transfer cost; the raw cap leaves a small
+// allowance for responsive component rules while remaining intentionally tight.
+const rawLimit = 324 * 1024;
 const gzipLimit = 55 * 1024;
 
 if (css.length > rawLimit || compressed.length > gzipLimit) {

@@ -306,6 +306,15 @@ class ZodProductCard extends HTMLElement {
       event.stopPropagation();
       await this.toggleWishlist(event.currentTarget, p.id);
     });
+
+    // Let shoppers open the product from unused card space while preserving
+    // every dedicated action and link inside the card.
+    if (p.url) {
+      this.addEventListener('click', event => {
+        if (event.defaultPrevented || event.target.closest('a,button,input,select,textarea,salla-add-product-button,salla-button')) return;
+        window.location.assign(p.url);
+      });
+    }
   }
 }
 

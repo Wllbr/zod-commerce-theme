@@ -1318,6 +1318,26 @@
                     "maxLength": 260
                 },
                 {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "نص زر تصفح جميع أجهزة الليزر",
+                    "multilanguage": true,
+                    "id": "browse_label",
+                    "value": null,
+                    "required": false,
+                    "format": "text",
+                    "maxLength": 50
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-link",
+                    "label": "رابط جميع أجهزة الليزر",
+                    "id": "browse_url",
+                    "value": [],
+                    "required": false,
+                    "format": "variable-list"
+                },
+                {
                     "id": "items",
                     "type": "collection",
                     "format": "collection",

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
 const read = file => fs.readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
+const productCardSource = read('src/assets/js/partials/product-card.js');
 const stock = await import(`data:text/javascript;base64,${Buffer.from(read('src/assets/js/partials/stock.js')).toString('base64')}`);
 const {isOutOfStock, mergeProductDetails} = stock;
 const previewLinks = await import(`data:text/javascript;base64,${Buffer.from(read('src/assets/js/partials/preview-links.js')).toString('base64')}`);
@@ -218,10 +219,13 @@ assert.match(styles,/\.zod-hero-slider \.swiper-slide\{width:100%!important;max-
 assert.match(heroTemplate,/type="fullwidth"[\s\S]*slides-per-view="1"[\s\S]*direction="\{\{ language\.dir \}\}"/,'hero uses one full-width slide with the active storefront direction');
 assert.match(heroTemplate,/sicon-arrow-right rtl:rotate-180/,'hero CTA arrow follows the storefront direction');
 assert.doesNotMatch(homeSource,/triggers\[activeIndex\]\.scrollIntoView/,'laser selection never moves the entire storefront viewport');
-assert.match(homeSource,/selector\.scrollBy\(\{ left: delta/,'laser selection is contained inside its own horizontal rail');
+assert.match(homeSource,/selector\.scrollBy\(\{ top, behavior \}\)[\s\S]*selector\.scrollBy\(\{ left, behavior \}\)/,'laser selection stays inside its desktop vertical or mobile horizontal rail');
 assert.match(homeSource,/video\.muted = !\(index === activeIndex && soundEnabled\)/,'laser videos stay muted until sound is explicitly enabled');
 assert.match(laserTemplate,/data-zod-laser-sound[\s\S]*aria-pressed="false"/,'laser video exposes an accessible muted-by-default sound control');
 assert.doesNotMatch(laserTemplate,/sicon-play/,'laser selector does not show decorative play icons');
+assert.doesNotMatch(laserTemplate,/motion_preview|zod-laser-panel__live/,'laser media does not show a redundant live-preview badge');
+assert.match(laserTemplate,/zod-laser-panel__feature-icon[\s\S]*zod-laser-showcase__browse/,'laser showcase uses icon benefits and a browse-all action');
 assert.match(styles,/\.zod-laser-showcase\.is-sound-cue[\s\S]*zodLaserSoundCue/,'laser sound control provides a limited arrival cue');
+assert.match(productCardSource,/event\.target\.closest\('a,button,input,select,textarea,salla-add-product-button,salla-button'\)[\s\S]*window\.location\.assign\(p\.url\)/,'unused custom-card space opens the product without hijacking dedicated actions');
 
 console.log('PASS: mobile dialog layering, cart dock isolation, bilingual showcase routing, and category drawer calls to action.');

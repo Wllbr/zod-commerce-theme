@@ -1,3 +1,10 @@
+## 1.7.1 — Laser navigation and product-card polish
+
+- Moves laser product selectors into a compact animated desktop side rail while preserving the mobile bottom rail.
+- Removes the live-preview badge, adds icon-led benefits, and supports a configurable browse-all-lasers action.
+- Makes unused product-card space clickable and keeps a compact wishlist action visible on touch devices.
+- Keeps selector scrolling inside its own horizontal or vertical rail without moving the page.
+
 ## 1.7.0 — Compact laser showcase and explicit sound control
 
 - Reduces the laser experience height and spacing on desktop and mobile while preserving a cinematic product-focused layout.
