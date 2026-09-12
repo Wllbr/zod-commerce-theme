@@ -1,3 +1,7 @@
+## 1.7.3 — Mobile laser selector correction
+
+- Keeps enlarged mobile laser cards in a horizontal rail and gives the selected product a larger image and clearer type.
+
 ## 1.7.2 — Laser selector and atmosphere polish
 
 - Enlarges and reshapes the Laser World product selectors for clearer product recognition.
