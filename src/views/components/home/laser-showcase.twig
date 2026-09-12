@@ -1,7 +1,7 @@
 {% if component.items|length %}
   {% set section_title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
   {% set section_subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
-  <section class="zod-section zod-laser-showcase" data-zod-laser-showcase data-label-available="{{ trans('zod.laser.available') }}" data-label-unavailable="{{ trans('pages.products.out_of_stock') }}" data-label-error="{{ trans('zod.laser.unavailable_product') }}" data-label-add="{{ trans('pages.cart.add_to_cart') }}">
+  <section class="zod-section zod-laser-showcase" data-zod-laser-showcase data-label-available="{{ trans('zod.laser.available') }}" data-label-unavailable="{{ trans('pages.products.out_of_stock') }}" data-label-error="{{ trans('zod.laser.unavailable_product') }}" data-label-add="{{ trans('pages.cart.add_to_cart') }}" data-label-unmute="{{ trans('zod.laser.unmute') }}" data-label-mute="{{ trans('zod.laser.mute') }}">
     <div class="container">
       <header class="zod-laser-showcase__head">
         <span class="zod-laser-showcase__beam" aria-hidden="true"></span>
@@ -38,6 +38,18 @@
                 {% endif %}
                 <span class="zod-laser-panel__glow" aria-hidden="true"></span>
                 {% if video_url %}<span class="zod-laser-panel__live"><i></i>{{ trans('zod.laser.motion_preview') }}</span>{% endif %}
+                {% if video_url %}
+                  <button type="button" class="zod-laser-panel__sound" data-zod-laser-sound aria-pressed="false" aria-label="{{ trans('zod.laser.unmute') }}">
+                    <span class="zod-laser-panel__sound-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false">
+                        <path class="zod-laser-panel__speaker" d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+                        <path class="zod-laser-panel__sound-wave" d="M16 8.5c1 .9 1.5 2 1.5 3.5S17 14.6 16 15.5M18.5 6c1.7 1.6 2.5 3.6 2.5 6s-.8 4.4-2.5 6"></path>
+                        <path class="zod-laser-panel__mute-mark" d="m16.5 9 4 6m0-6-4 6"></path>
+                      </svg>
+                    </span>
+                    <span data-zod-laser-sound-label>{{ trans('zod.laser.unmute') }}</span>
+                  </button>
+                {% endif %}
               </div>
               <div class="zod-laser-panel__content">
                 <small class="zod-laser-panel__eyebrow">{{ item_eyebrow|default(trans('zod.laser.featured')) }}</small>
@@ -82,7 +94,6 @@
             <button type="button" class="zod-laser-selector__item {{ loop.first ? 'is-active' : '' }}" data-zod-laser-trigger="{{ loop.index0 }}" data-product-id="{{ product_id }}" role="tab" aria-selected="{{ loop.first ? 'true' : 'false' }}" aria-controls="zod-laser-panel-{{ loop.index0 }}">
               <img {% if thumb %}src="{{ thumb }}"{% else %}hidden{% endif %} alt="" loading="lazy" data-zod-laser-thumb>
               <span><strong data-zod-laser-trigger-name>{{ trans('zod.laser.loading_product') }}</strong><small data-zod-laser-trigger-price>…</small></span>
-              <i class="sicon-play" aria-hidden="true"></i>
             </button>
           {% endif %}
         {% endfor %}

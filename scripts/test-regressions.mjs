@@ -204,6 +204,8 @@ const cartTemplate = read('src/views/pages/cart.twig');
 const categoryGridTemplate = read('src/views/components/home/category-grid.twig');
 const footerTemplate = read('src/views/components/footer/footer.twig');
 const heroTemplate = read('src/views/components/home/hero.twig');
+const homeSource = read('src/assets/js/home.js');
+const laserTemplate = read('src/views/components/home/laser-showcase.twig');
 assert.match(menuSource,/document\.body\.appendChild\(drawer\)/,'catalog drawer escapes the sticky header stacking context');
 assert.match(styles,/html\.zod-lock \.zod-announcement/,'announcement is suppressed while the catalog dialog is open');
 assert.match(styles,/\.zod-cart-summary-card\{display:none!important\}/,'native mobile cart dock cannot overlap the theme checkout dock');
@@ -215,5 +217,11 @@ assert.equal((footerTemplate.match(/aria-controls="zod-catalog-drawer"/g)||[]).l
 assert.match(styles,/\.zod-hero-slider \.swiper-slide\{width:100%!important;max-width:100%!important;flex:0 0 100%!important\}/,'hero slides fill the frame without exposing an adjacent slide');
 assert.match(heroTemplate,/type="fullwidth"[\s\S]*slides-per-view="1"[\s\S]*direction="\{\{ language\.dir \}\}"/,'hero uses one full-width slide with the active storefront direction');
 assert.match(heroTemplate,/sicon-arrow-right rtl:rotate-180/,'hero CTA arrow follows the storefront direction');
+assert.doesNotMatch(homeSource,/triggers\[activeIndex\]\.scrollIntoView/,'laser selection never moves the entire storefront viewport');
+assert.match(homeSource,/selector\.scrollBy\(\{ left: delta/,'laser selection is contained inside its own horizontal rail');
+assert.match(homeSource,/video\.muted = !\(index === activeIndex && soundEnabled\)/,'laser videos stay muted until sound is explicitly enabled');
+assert.match(laserTemplate,/data-zod-laser-sound[\s\S]*aria-pressed="false"/,'laser video exposes an accessible muted-by-default sound control');
+assert.doesNotMatch(laserTemplate,/sicon-play/,'laser selector does not show decorative play icons');
+assert.match(styles,/\.zod-laser-showcase\.is-sound-cue[\s\S]*zodLaserSoundCue/,'laser sound control provides a limited arrival cue');
 
 console.log('PASS: mobile dialog layering, cart dock isolation, bilingual showcase routing, and category drawer calls to action.');

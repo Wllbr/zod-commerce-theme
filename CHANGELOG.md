@@ -1,3 +1,9 @@
+## 1.7.0 — Compact laser showcase and explicit sound control
+
+- Reduces the laser experience height and spacing on desktop and mobile while preserving a cinematic product-focused layout.
+- Keeps product switching inside its selector rail so choosing another laser no longer shifts the storefront horizontally.
+- Replaces decorative play icons with a clear animated sound control; videos remain muted until the shopper explicitly enables audio.
+
 ## 1.6.99 — Reliable Riyal symbol in laser prices
 
 - Formats laser showcase prices locally and uses the theme's native Riyal icon, avoiding escaped Salla currency markup in preview builds.

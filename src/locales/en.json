@@ -176,7 +176,9 @@
       "loading_product": "Loading product",
       "unavailable_product": "Product details are unavailable",
       "view_product": "View product",
-      "choose_product": "Choose a laser product"
+      "choose_product": "Choose a laser product",
+      "unmute": "Turn sound on",
+      "mute": "Mute video"
     },
     "cart": {
       "added": "Product added to cart",

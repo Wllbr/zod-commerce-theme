@@ -132,10 +132,14 @@ const initLaserShowcase = (section) => {
 
   const triggers = [...section.querySelectorAll('[data-zod-laser-trigger]')];
   const panels = [...section.querySelectorAll('[data-zod-laser-panel]')];
+  const selector = section.querySelector('.zod-laser-selector');
   if (!triggers.length || triggers.length !== panels.length) return;
 
   let activeIndex = 0;
   let isVisible = true;
+  let soundEnabled = false;
+  let soundCueShown = false;
+  let soundCueTimer = 0;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   const number = value => {
@@ -217,18 +221,58 @@ const initLaserShowcase = (section) => {
     }));
   };
 
+  const updateSoundControls = () => {
+    panels.forEach((panel, index) => {
+      const control = panel.querySelector('[data-zod-laser-sound]');
+      if (!control) return;
+      const enabled = index === activeIndex && soundEnabled;
+      const label = enabled ? section.dataset.labelMute : section.dataset.labelUnmute;
+      control.classList.toggle('is-unmuted', enabled);
+      control.setAttribute('aria-pressed', enabled ? 'true' : 'false');
+      control.setAttribute('aria-label', label);
+      control.querySelector('[data-zod-laser-sound-label]').textContent = label;
+    });
+  };
+
+  const stopSoundCue = () => {
+    window.clearTimeout(soundCueTimer);
+    section.classList.remove('is-sound-cue');
+  };
+
   const syncVideo = () => {
     panels.forEach((panel, index) => {
       const video = panel.querySelector('[data-zod-laser-video]');
       if (!video) return;
-      const shouldPlay = index === activeIndex && isVisible && !document.hidden && !reducedMotion.matches;
+      const shouldPlay = index === activeIndex && isVisible && !document.hidden && (!reducedMotion.matches || soundEnabled);
+      video.defaultMuted = true;
+      video.muted = !(index === activeIndex && soundEnabled);
       if (shouldPlay) {
         if (!video.src && video.dataset.videoSrc) video.src = video.dataset.videoSrc;
-        video.play().catch(() => {});
+        try {
+          const playback = video.play?.();
+          if (playback?.then) playback.then(() => panel.classList.remove('is-playback-blocked')).catch(() => {
+            panel.classList.add('is-playback-blocked');
+            if (!soundEnabled) video.muted = true;
+          });
+          else panel.classList.remove('is-playback-blocked');
+        } catch (_) {
+          panel.classList.add('is-playback-blocked');
+          if (!soundEnabled) video.muted = true;
+        }
       } else {
         video.pause();
       }
     });
+    updateSoundControls();
+  };
+
+  const keepTriggerInRail = (trigger, smooth = true) => {
+    if (!selector || !trigger || selector.scrollWidth <= selector.clientWidth + 4) return;
+    const railRect = selector.getBoundingClientRect();
+    const triggerRect = trigger.getBoundingClientRect();
+    const delta = triggerRect.left + (triggerRect.width / 2) - (railRect.left + (railRect.width / 2));
+    if (Math.abs(delta) < 4) return;
+    selector.scrollBy({ left: delta, behavior: smooth && !reducedMotion.matches ? 'smooth' : 'auto' });
   };
 
   const activate = (index, { focus = false, scroll = false } = {}) => {
@@ -245,12 +289,15 @@ const initLaserShowcase = (section) => {
       trigger.tabIndex = active ? 0 : -1;
     });
     if (focus) triggers[activeIndex].focus({ preventScroll: true });
-    if (scroll) triggers[activeIndex].scrollIntoView({ behavior: reducedMotion.matches ? 'auto' : 'smooth', block: 'nearest', inline: 'center' });
+    if (scroll) keepTriggerInRail(triggers[activeIndex]);
     syncVideo();
   };
 
   triggers.forEach((trigger, index) => {
-    trigger.addEventListener('click', () => activate(index, { scroll: true }));
+    trigger.addEventListener('click', () => {
+      stopSoundCue();
+      activate(index, { scroll: true });
+    });
     trigger.addEventListener('keydown', event => {
       const rtl = document.documentElement.dir === 'rtl';
       let nextIndex = null;
@@ -264,8 +311,31 @@ const initLaserShowcase = (section) => {
     });
   });
 
+  panels.forEach((panel, index) => {
+    const control = panel.querySelector('[data-zod-laser-sound]');
+    const video = panel.querySelector('[data-zod-laser-video]');
+    if (!control || !video) return;
+    video.defaultMuted = true;
+    video.muted = true;
+    control.addEventListener('click', () => {
+      stopSoundCue();
+      if (index !== activeIndex) activate(index);
+      soundEnabled = !soundEnabled;
+      syncVideo();
+    });
+    video.addEventListener('error', () => {
+      control.hidden = true;
+      panel.classList.add('is-video-error');
+    });
+  });
+
   const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
     isVisible = entries.some(entry => entry.isIntersecting);
+    if (isVisible && !soundCueShown && !reducedMotion.matches) {
+      soundCueShown = true;
+      section.classList.add('is-sound-cue');
+      soundCueTimer = window.setTimeout(stopSoundCue, 6500);
+    }
     syncVideo();
   }, { threshold: 0.18 }) : null;
   observer?.observe(section);

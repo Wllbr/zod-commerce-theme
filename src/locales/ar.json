@@ -176,7 +176,9 @@
       "loading_product": "جارٍ تحميل المنتج",
       "unavailable_product": "تعذر تحميل بيانات المنتج",
       "view_product": "عرض المنتج",
-      "choose_product": "اختر جهاز الليزر"
+      "choose_product": "اختر جهاز الليزر",
+      "unmute": "تشغيل الصوت",
+      "mute": "كتم الصوت"
     },
     "cart": {
       "added": "تمت إضافة المنتج إلى السلة",
