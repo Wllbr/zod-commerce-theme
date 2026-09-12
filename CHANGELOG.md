@@ -1,3 +1,7 @@
+## 1.7.4 — Laser selector finishing pass
+
+- Hides the native mobile rail scrollbar and lets the selected product image reach its intended larger size.
+
 ## 1.7.3 — Mobile laser selector correction
 
 - Keeps enlarged mobile laser cards in a horizontal rail and gives the selected product a larger image and clearer type.
