@@ -1,3 +1,7 @@
+## 1.7.8 — Full-bleed laser video and category-link selector
+- Makes every laser video cover its complete media frame on phone, tablet and desktop without empty side bands.
+- Uses Salla's supported variable-link field restricted to store categories for the browse-all action.
+
 ## 1.7.7 — Reliable laser editing, category link and media fit
 - Normalized saved Salla product and category values so editing text does not remove the laser component.
 - Converted the browse-all destination into a searchable single-category selector.

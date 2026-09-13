@@ -1330,19 +1330,22 @@
                 },
                 {
                     "type": "items",
-                    "icon": "sicon-folder",
+                    "icon": "sicon-link",
                     "label": "رابط جميع أجهزة الليزر",
                     "description": "اختر تصنيف الليزر الذي يفتح عند الضغط على زر تصفح جميع أجهزة الليزر.",
                     "id": "browse_url",
-                    "value": [],
+                    "value": null,
                     "required": false,
-                    "format": "dropdown-list",
-                    "selected": [],
-                    "options": [],
-                    "multichoice": false,
+                    "format": "variable-list",
                     "searchable": true,
-                    "source": "categories",
-                    "maxLength": 1
+                    "source": "custom",
+                    "sources": [
+                        {
+                            "label": "تصنيف",
+                            "key": "categories",
+                            "value": "categories"
+                        }
+                    ]
                 },
                 {
                     "id": "items",
