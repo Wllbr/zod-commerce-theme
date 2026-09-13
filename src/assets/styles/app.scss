@@ -4335,7 +4335,7 @@ html[dir="ltr"] main a .sicon-arrow-left{transform:rotate(180deg)}
 @media(max-width:767px){.zod-footer--market .zod-footer-category-toggle{display:block!important;width:22px;color:#87919a;font-family:Arial,sans-serif;font-size:18px;font-style:normal;font-weight:400;line-height:1;text-align:center;transition:transform .2s ease}.zod-footer--market details[open]>summary>.zod-footer-category-toggle{transform:rotate(45deg)}.zod-footer-support .s-contacts-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}.zod-footer-support .s-contacts-item{overflow:hidden}.zod-footer-support .unicode{max-width:none;min-width:0}.zod-footer-category-grid[aria-busy="false"] .zod-footer-category-skeleton{display:none}}
 @media(max-width:340px){.zod-footer-support .s-contacts-list{grid-template-columns:1fr!important}}
 
-/* ZOD v1.7.6 — balanced desktop laser selector and generous video frame. */
+/* ZOD v1.7.7 — robust laser media fit across phone, tablet and desktop. */
 @media(min-width:1024px){
   .zod-laser-showcase>.container{width:min(1480px,calc(100% - clamp(40px,5vw,96px)));max-width:1480px;padding-inline:0}
   .zod-laser-layout{grid-template-columns:300px minmax(0,1fr);gap:clamp(20px,2vw,30px)}
@@ -4354,14 +4354,25 @@ html[dir="ltr"] main a .sicon-arrow-left{transform:rotate(180deg)}
   .zod-laser-selector__item.is-active img{width:72px;height:72px}
   .zod-laser-selector__item.is-active strong{font-size:13px}
   .zod-laser-stage,.zod-laser-panel{min-height:430px}
-  .zod-laser-panel{grid-template-columns:minmax(0,1.65fr) minmax(270px,.55fr)}
+  .zod-laser-panel{grid-template-columns:minmax(0,1.8fr) minmax(280px,.52fr)}
   .zod-laser-panel__media,
   .zod-laser-panel__media img,.zod-laser-panel__video{min-height:430px;max-height:490px}
   .zod-laser-panel__content{padding:clamp(22px,2.1vw,32px)}
   .zod-laser-panel__content h3{font-size:clamp(23px,1.75vw,30px)}
 }
 
+.zod-laser-panel__media{display:grid;place-items:center;background:#05060a}
+.zod-laser-panel__video{width:100%;height:100%;object-fit:contain;object-position:center}
+
+@media(min-width:768px) and (max-width:1023px){
+  .zod-laser-layout{grid-template-columns:220px minmax(0,1fr);gap:14px}
+  .zod-laser-selector{max-height:520px}
+  .zod-laser-panel{display:flex;min-height:0;flex-direction:column}
+  .zod-laser-panel__media,.zod-laser-panel__video{width:100%;min-height:0;max-height:none;aspect-ratio:16/9}
+  .zod-laser-panel__content{padding:20px 22px 22px}
+}
+
 @media(max-width:767px){
   .zod-laser-panel__media{background:#05060a}
-  .zod-laser-panel__media>img,.zod-laser-panel__video{height:auto;max-height:none;object-fit:contain;object-position:center}
+  .zod-laser-panel__media,.zod-laser-panel__media>img,.zod-laser-panel__video{width:100%;height:auto;min-height:0;max-height:none;aspect-ratio:16/9;object-fit:contain;object-position:center}
 }

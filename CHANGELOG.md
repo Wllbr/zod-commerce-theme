@@ -1,3 +1,8 @@
+## 1.7.7 — Reliable laser editing, category link and media fit
+- Normalized saved Salla product and category values so editing text does not remove the laser component.
+- Converted the browse-all destination into a searchable single-category selector.
+- Preserved the full video frame across mobile, tablet and desktop while expanding the desktop media area.
+
 ## 1.7.6 — Laser selector and video balance
 - Narrowed and shortened the desktop laser selector cards, with a larger readable price.
 - Expanded the video area and removed the selected-card scale that caused clipping.

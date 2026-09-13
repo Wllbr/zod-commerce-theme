@@ -2,7 +2,9 @@
   {% set section_title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
   {% set section_subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
   {% set browse_label = component.browse_label is iterable ? component.browse_label[language.code]|default(component.browse_label|first) : component.browse_label %}
-  {% set browse_url = component.browse_url.url|default(component.browse_url)|default(null) %}
+  {% set browse_selection = component.browse_url|default(null) %}
+  {% set browse_raw = browse_selection.url|default(browse_selection is iterable ? browse_selection|first : browse_selection) %}
+  {% set browse_url = browse_raw.url|default(browse_raw.link)|default(browse_raw.value)|default(browse_raw)|default(null) %}
   <section class="zod-section zod-laser-showcase" data-zod-laser-showcase data-label-available="{{ trans('zod.laser.available') }}" data-label-unavailable="{{ trans('pages.products.out_of_stock') }}" data-label-error="{{ trans('zod.laser.unavailable_product') }}" data-label-add="{{ trans('pages.cart.add_to_cart') }}" data-label-unmute="{{ trans('zod.laser.unmute') }}" data-label-mute="{{ trans('zod.laser.mute') }}">
     <div class="container">
       <header class="zod-laser-showcase__head">
@@ -18,13 +20,10 @@
       <div class="zod-laser-layout">
         <div class="zod-laser-selector" role="tablist" aria-label="{{ trans('zod.laser.choose_product') }}">
           {% for item in component.items %}
-            {% set product_ids = [] %}
-            {% for selected_product in item.products|default([]) %}
-              {% set product_raw = selected_product.product|default(selected_product) %}
-              {% set selected_id = product_raw.id|default(product_raw.value)|default(product_raw.key)|default(product_raw) %}
-              {% if selected_id %}{% set product_ids = product_ids|merge([selected_id]) %}{% endif %}
-            {% endfor %}
-            {% set product_id = product_ids|first %}
+            {% set product_selection = item.products|default([]) %}
+            {% set selected_product = product_selection.id|default(product_selection.product.id|default(null)) ? product_selection : (product_selection is iterable ? product_selection|first : product_selection) %}
+            {% set product_raw = selected_product.product|default(selected_product) %}
+            {% set product_id = product_raw.id|default(product_raw.value)|default(product_raw.key)|default(product_raw)|default(null) %}
             {% if product_id %}
               {% set thumb = item.poster|default(null) %}
               <button type="button" class="zod-laser-selector__item {{ loop.first ? 'is-active' : '' }}" data-zod-laser-trigger="{{ loop.index0 }}" data-product-id="{{ product_id }}" role="tab" aria-selected="{{ loop.first ? 'true' : 'false' }}" aria-controls="zod-laser-panel-{{ loop.index0 }}">
@@ -37,13 +36,10 @@
 
         <div class="zod-laser-stage">
           {% for item in component.items %}
-            {% set product_ids = [] %}
-            {% for selected_product in item.products|default([]) %}
-              {% set product_raw = selected_product.product|default(selected_product) %}
-              {% set selected_id = product_raw.id|default(product_raw.value)|default(product_raw.key)|default(product_raw) %}
-              {% if selected_id %}{% set product_ids = product_ids|merge([selected_id]) %}{% endif %}
-            {% endfor %}
-            {% set product_id = product_ids|first %}
+            {% set product_selection = item.products|default([]) %}
+            {% set selected_product = product_selection.id|default(product_selection.product.id|default(null)) ? product_selection : (product_selection is iterable ? product_selection|first : product_selection) %}
+            {% set product_raw = selected_product.product|default(selected_product) %}
+            {% set product_id = product_raw.id|default(product_raw.value)|default(product_raw.key)|default(product_raw)|default(null) %}
             {% if product_id %}
               {% set item_eyebrow = item.eyebrow is iterable ? item.eyebrow[language.code]|default(item.eyebrow|first) : item.eyebrow %}
               {% set item_text = item.text is iterable ? item.text[language.code]|default(item.text|first) : item.text %}
