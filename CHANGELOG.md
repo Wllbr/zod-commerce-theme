@@ -1,3 +1,6 @@
+## 1.7.9 — Restore saved laser product compatibility
+- Restores the proven Salla product-selection parser so existing laser component data renders in fresh previews.
+
 ## 1.7.8 — Full-bleed laser video and category-link selector
 - Makes every laser video cover its complete media frame on phone, tablet and desktop without empty side bands.
 - Uses Salla's supported variable-link field restricted to store categories for the browse-all action.
