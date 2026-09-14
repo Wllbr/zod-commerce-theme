@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.7.10','package.json: expected v1.7.10');
+assert(pkg.version==='1.7.11','package.json: expected v1.7.11');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 const trackedResult=spawnSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8'});
 assert(trackedResult.status===0,'Git tracked-file inventory must be available');
@@ -196,6 +196,7 @@ assert(single.includes('zod-product-brand-card'),'Product page must render the s
 assert(!single.includes('zod-brand-explore-card'),'Product page must not render the old duplicate brand card');
 assert(single.includes("product.can_quick_buy and product_available ? 'quick-buy' : ''"),'Product page must enable native quick-buy on the single purchase component when supported');
 assert(single.includes('class="form product-form zod-purchase-form"'),'Product page must expose form.product-form for Salla native fast checkout');
+assert(single.includes('support-sticky-bar'),'Product purchase component must declare support for the persistent Salla purchase dock');
 assert((single.match(/data-zod-product-offers/g)||[]).length===1,'Product page must render one available-offers panel');
 assert(single.indexOf('data-zod-product-offers') < single.indexOf('data-zod-buybox-description'),'Product offers must stay beside the price summary and before the description');
 

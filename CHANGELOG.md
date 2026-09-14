@@ -1,3 +1,6 @@
+## 1.7.11 — Complete sticky Buy Now integration
+- Declared native sticky-bar support on the product purchase component so Salla can keep Add to Cart, Buy Now and eligible wallet actions synchronized with ZOD's persistent purchase dock.
+
 ## 1.7.10 — Restore native Buy Now checkout
 - Restored Salla's required `form.product-form` hook on product pages so the native Buy Now / fast-checkout widget can find the product form and proceed to checkout.
 
