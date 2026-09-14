@@ -3977,7 +3977,6 @@ html[dir="ltr"] main a .sicon-arrow-left{transform:rotate(180deg)}
 .zod-laser-showcase:before{inset:-35% -12%;background:radial-gradient(ellipse at 4% 45%,rgba(112,55,255,.25),transparent 28%),radial-gradient(ellipse at 96% 55%,rgba(0,180,255,.16),transparent 27%),radial-gradient(circle at 52% 120%,rgba(237,28,46,.12),transparent 34%);filter:blur(18px);animation:zodLaserAmbient 8s ease-in-out infinite alternate}
 .zod-laser-showcase:after{content:"";position:absolute;z-index:0;inset:-15% 0;pointer-events:none;opacity:.55;background:radial-gradient(ellipse 115px 48% at -35px 38%,transparent 56%,rgba(103,54,255,.30) 58%,transparent 68%),radial-gradient(ellipse 130px 46% at calc(100% + 40px) 62%,transparent 55%,rgba(0,190,255,.20) 58%,transparent 69%);filter:blur(7px);animation:zodLaserSideWave 6.5s ease-in-out infinite alternate}
 .zod-laser-showcase>.container{z-index:1}
-.zod-laser-layout{grid-template-columns:minmax(240px,270px) minmax(0,1fr);gap:18px}
 .zod-laser-selector{max-height:370px;gap:10px;padding:4px 9px 4px 3px}
 .zod-laser-selector__item{grid-template-columns:68px minmax(0,1fr);min-height:86px;padding:9px;border-radius:16px;background:linear-gradient(135deg,rgba(25,27,36,.96),rgba(13,14,20,.96));transition:min-height .28s cubic-bezier(.2,.8,.2,1),transform .28s cubic-bezier(.2,.8,.2,1),border-color .2s ease,background .2s ease,box-shadow .2s ease}
 .zod-laser-selector__item img{width:68px;height:68px;border-radius:12px}
@@ -4003,31 +4002,13 @@ html[dir="ltr"] main a .sicon-arrow-left{transform:rotate(180deg)}
 /* ZOD v1.7.8 — full-bleed laser video across every viewport. */
 @media(min-width:1024px){
   .zod-laser-showcase>.container{width:min(1480px,calc(100% - clamp(40px,5vw,96px)));max-width:1480px;padding-inline:0}
-  .zod-laser-layout{grid-template-columns:300px minmax(0,1fr);gap:clamp(20px,2vw,30px)}
-  .zod-laser-selector{max-height:430px;gap:10px;padding:5px 7px 5px 2px;overflow-x:visible}
-  .zod-laser-selector__item{grid-template-columns:66px minmax(0,1fr);min-height:86px;padding:9px;transform-origin:left center}
-  .zod-laser-selector__item img{width:66px;height:66px}
-  .zod-laser-selector__item strong{font-size:12px;-webkit-line-clamp:2}
-  .zod-laser-selector__item small{font-size:13px;color:#fff}
-  .zod-laser-selector__item.is-active,
-  [dir=rtl] .zod-laser-selector__item.is-active{
-    grid-template-columns:72px minmax(0,1fr);
-    min-height:102px;
-    transform:translateX(4px);
-    animation:none;
-  }
-  .zod-laser-selector__item.is-active img{width:72px;height:72px}
-  .zod-laser-selector__item.is-active strong{font-size:13px}
-  .zod-laser-stage,.zod-laser-panel{min-height:430px}
-  .zod-laser-panel{grid-template-columns:minmax(0,1.8fr) minmax(280px,.52fr)}
-  .zod-laser-panel__media,
-  .zod-laser-panel__media img,.zod-laser-panel__video{min-height:430px;max-height:490px}
+  .zod-laser-stage{min-height:430px}
   .zod-laser-panel__content{padding:clamp(22px,2.1vw,32px)}
   .zod-laser-panel__content h3{font-size:clamp(23px,1.75vw,30px)}
 }
 
 .zod-laser-panel__media{display:grid;place-items:center;background:#05060a}
-.zod-laser-panel__video{width:100%;height:100%;object-fit:cover;object-position:center}
+.zod-laser-panel__video{object-position:center}
 
 @media(min-width:768px) and (max-width:1023px){
   .zod-laser-layout{grid-template-columns:220px minmax(0,1fr);gap:14px}
@@ -4172,6 +4153,7 @@ salla-product-card.s-product-card-vertical .s-product-card-content-title{
   font-weight:650!important;
   text-align:start!important;
 }
+.zpc-subtitle{display:-webkit-box;overflow:hidden;margin:-2px 0 5px;color:#626d78;font-size:10px;line-height:15px;-webkit-box-orient:vertical;-webkit-line-clamp:1}
 .zpc-meta{height:auto!important;margin:0 0 5px!important;text-align:start!important}
 .zpc-rating{display:inline-flex!important;align-items:center!important;gap:4px!important;color:#15202b!important;font-size:12px!important;font-weight:800!important}
 .zpc-rating i{color:#078b31!important}
@@ -4212,9 +4194,16 @@ salla-product-card.s-product-card-vertical .s-product-card-content-title{
 }
 .zod-laser-sidebar .zod-laser-selector{grid-column:auto;flex:1;max-height:386px}
 @media(min-width:1024px){
-  .zod-laser-layout{grid-template-columns:minmax(270px,310px) minmax(0,1fr)!important}
-  .zod-laser-panel{grid-template-columns:minmax(0,1.55fr) minmax(340px,.72fr)!important;min-height:470px!important}
+  .zod-laser-layout{grid-template-columns:minmax(175px,205px) minmax(0,1fr)!important}
+  .zod-laser-sidebar .zod-laser-selector{max-height:470px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;gap:9px;padding:2px;overflow-x:hidden}
+  .zod-laser-selector__item,.zod-laser-selector__item.is-active,[dir=rtl] .zod-laser-selector__item.is-active{display:flex;min-width:0;min-height:142px;padding:8px;flex-direction:column;gap:7px;transform:none;transform-origin:center;animation:none;text-align:center}
+  .zod-laser-selector__item img,.zod-laser-selector__item.is-active img{width:100%;height:78px;border-radius:10px}
+  .zod-laser-selector__item span{width:100%;padding:0}
+  .zod-laser-selector__item strong,.zod-laser-selector__item.is-active strong{font-size:10px;line-height:1.35;-webkit-line-clamp:2}
+  .zod-laser-selector__item small{margin-top:3px;font-size:11px}
+  .zod-laser-panel{grid-template-columns:minmax(0,1.8fr) minmax(330px,.65fr)!important;min-height:470px!important}
   .zod-laser-panel__media,.zod-laser-panel__media img,.zod-laser-panel__video{min-height:470px!important;max-height:540px!important}
+  .zod-laser-panel__video{object-fit:contain!important}
   .zod-laser-panel__content{padding:28px 30px!important}
   .zod-laser-panel__features{grid-template-columns:1fr!important;gap:8px!important}
   .zod-laser-panel__features li{min-height:43px!important;padding:8px 10px!important;font-size:11px!important}

@@ -63,6 +63,13 @@ class ZodProductCard extends HTMLElement {
     return (document.documentElement.lang || '').toLowerCase().startsWith('ar');
   }
 
+  localized(value) {
+    if (value === undefined || value === null) return '';
+    if (typeof value !== 'object') return String(value).trim();
+    const language = this.isArabic() ? 'ar' : 'en';
+    return String(value[language] ?? value.value ?? value.name ?? value.title ?? '').trim();
+  }
+
   imageUrl(value) {
     if (!value) return '';
     if (typeof value === 'string') return value;
@@ -166,29 +173,64 @@ class ZodProductCard extends HTMLElement {
     return { name, url: raw.url || raw.link || '' };
   }
 
+  getBrand(product = this.product) {
+    const raw = product?.brand || product?.brand_info || product?.manufacturer || null;
+    if (!raw) {
+      const name = this.localized(product?.brand_name);
+      return name ? { name, url: '' } : null;
+    }
+    if (typeof raw === 'string') return { name: raw, url: '' };
+    const name = this.localized(raw.name ?? raw.title ?? raw.label);
+    if (!name) return null;
+    return { name, url: raw.url || raw.link || '' };
+  }
+
+  priceValues(product = this.product) {
+    const p = product || {};
+    const listed = this.number(p.price);
+    const sale = this.number(p.sale_price ?? p.offer_price ?? p.discounted_price);
+    const regular = this.number(p.regular_price ?? p.original_price ?? p.old_price ?? p.price_before_discount);
+    const original = regular > sale ? regular : (sale > 0 && listed > sale ? listed : regular);
+    const onSale = sale > 0 && original > sale;
+    return { current: onSale ? sale : (listed || sale || regular), original: onSale ? original : 0, onSale };
+  }
+
   discountPercent(product = this.product) {
     const p = product;
     const raw = p.discount_percentage ?? p.discountPercent ?? p.discount;
     const parsed = this.number(raw);
     if (parsed > 0) return Math.round(parsed);
-    const sale = this.number(p.sale_price);
-    const regular = this.number(p.regular_price);
-    if (sale > 0 && regular > sale) return Math.max(1, Math.round(((regular - sale) / regular) * 100));
+    const { current, original, onSale } = this.priceValues(p);
+    if (onSale) return Math.max(1, Math.round(((original - current) / original) * 100));
     return 0;
+  }
+
+  templateText(value, product = this.product) {
+    let text = this.localized(value);
+    if (!text) return '';
+    const { current, original, onSale } = this.priceValues(product);
+    const replacements = {
+      percent: onSale ? `${this.discountPercent(product)}%` : '',
+      discount: onSale ? this.money(original - current) : '',
+      brand: this.getBrand(product)?.name || ''
+    };
+    Object.entries(replacements).forEach(([key, replacement]) => {
+      text = text.replace(new RegExp(`\\{${key}\\}`, 'gi'), replacement);
+    });
+    return text.replace(/\{(?:percent|discount|brand)\}/gi, '').replace(/\s+/g, ' ').trim();
   }
 
   price(product = this.product) {
     const p = product;
-    const sale = this.number(p.sale_price);
-    const regular = this.number(p.regular_price);
+    const { current, original, onSale } = this.priceValues(p);
     const discount = this.discountPercent(p);
-    if (p.is_on_sale && sale > 0 && (!regular || regular > sale)) {
-      return `<div class="zpc-price is-sale"><strong>${this.money(p.sale_price)}</strong>${regular ? `<del>${this.money(p.regular_price)}</del>` : ''}${discount ? `<span class="zpc-price-discount">${this.esc(discount)}%</span>` : ''}</div>`;
+    if (onSale) {
+      return `<div class="zpc-price is-sale"><strong>${this.money(current)}</strong><del>${this.money(original)}</del>${discount ? `<span class="zpc-price-discount">${this.esc(discount)}%</span>` : ''}</div>`;
     }
     if (this.number(p.starting_price) > 0) {
       return `<div class="zpc-price"><small>${this.t('pages.products.starting_price', this.isArabic() ? 'يبدأ من' : 'From')}</small><strong>${this.money(p.starting_price)}</strong></div>`;
     }
-    return `<div class="zpc-price"><strong>${this.money(p.price)}</strong></div>`;
+    return `<div class="zpc-price"><strong>${this.money(current)}</strong></div>`;
   }
 
   isOutOfStock(product = this.product) {
@@ -347,8 +389,10 @@ class ZodProductCard extends HTMLElement {
     const outLabel = this.t('pages.products.out_of_stock', this.isArabic() ? 'نفدت الكمية' : 'Out of stock');
     const wishlistLabel = this.esc(this.t('zod.header.wishlist', this.isArabic() ? 'المفضلة' : 'Wishlist'));
     const category = this.getCategory(p);
+    const brand = this.getBrand(p);
     const inWishlist = this.initialWishlistState(p);
-    const promo = p.promotion_title || p.promotion?.title || '';
+    const promo = this.templateText(p.promotion_title ?? p.promotional_title ?? p.promo_title ?? p.promotion?.title, p);
+    const subtitle = this.templateText(p.subtitle ?? p.sub_title, p);
     const taxLabel = this.t('pages.products.tax_included', this.isArabic() ? 'شامل ضريبة القيمة المضافة' : 'VAT included');
     const optionCount = Array.isArray(p.options) ? p.options.length : 0;
     const hasOptions = Boolean(p.has_options || optionCount);
@@ -372,6 +416,8 @@ class ZodProductCard extends HTMLElement {
       <div class="zpc-body">
         ${category ? `${category.url ? `<a class="zpc-category" href="${this.esc(category.url)}">${this.esc(category.name)}</a>` : `<span class="zpc-category">${this.esc(category.name)}</span>`}` : ''}
         <h3><a href="${this.esc(p.url || '#')}">${this.esc(p.name)}</a></h3>
+        ${subtitle ? `<p class="zpc-subtitle">${this.esc(subtitle)}</p>` : ''}
+        ${brand ? `${brand.url ? `<a class="zpc-brand" href="${this.esc(brand.url)}">${this.esc(brand.name)}</a>` : `<span class="zpc-brand">${this.esc(brand.name)}</span>`}` : ''}
         ${p.rating?.stars ? `<div class="zpc-meta"><span class="zpc-rating"><i class="sicon-star2"></i>${this.esc(p.rating.stars)}${p.rating.count ? ` <small>(${this.esc(p.rating.count)})</small>` : ''}</span></div>` : ''}
         <div class="zpc-bottom">${this.price()}</div>
         <p class="zpc-tax">${this.esc(taxLabel)}</p>

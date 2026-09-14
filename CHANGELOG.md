@@ -1,3 +1,8 @@
+## 1.7.13 — Merchant product data and desktop Laser World
+- Render Salla subtitle and brand data on custom product cards, including resolved discount, percentage, and brand placeholders.
+- Detect valid sale prices from the product payload even when the sale flag is delayed or omitted.
+- Give desktop Laser World more video space with compact vertical selectors while preserving its mobile layout.
+
 ## 1.7.12 — Marketplace product cards and Laser World layout
 - Rebuilt the shared product card for brand, category, homepage, wishlist and recommendation surfaces with a language-aware favorite corner, compact image add action, inline discount pricing, live rating treatment and hover-loaded product galleries with synchronized image dots.
 - Removed the Quick View eye action from both custom and fallback native product cards.
