@@ -189,7 +189,7 @@
 
       {% if product.digital_files_settings %}<digital-files-settings settings='{{ product.digital_files_settings|json_encode }}'></digital-files-settings>{% endif %}
 
-      <form data-testid="store-product-form" class="zod-purchase-form" enctype="multipart/form-data" method="post" onsubmit="return salla.form.onSubmit('cart.addItem', event)">
+      <form data-testid="store-product-form" class="form product-form zod-purchase-form" enctype="multipart/form-data" method="post" onsubmit="return salla.form.onSubmit('cart.addItem', event)">
         <input type="hidden" name="id" value="{{ product.id }}">
         {% hook 'product:single.form.start' %}
         {% include 'pages.partials.product.options' %}

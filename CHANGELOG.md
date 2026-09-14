@@ -1,3 +1,6 @@
+## 1.7.10 — Restore native Buy Now checkout
+- Restored Salla's required `form.product-form` hook on product pages so the native Buy Now / fast-checkout widget can find the product form and proceed to checkout.
+
 ## 1.7.9 — Restore saved laser product compatibility
 - Restores the proven Salla product-selection parser so existing laser component data renders in fresh previews.
 
