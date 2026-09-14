@@ -2038,216 +2038,6 @@ salla-product-card.zod-native-out-of-stock::after{content:attr(data-zod-stock-la
    ZOD v1.6.35 — compact reference product card + intelligent sticky purchase dock
    ========================================================= */
 
-/* Reference-inspired global product card. */
-.zod-product-card{
-  border-radius:17px;
-  overflow:hidden;
-  background:#fff;
-  box-shadow:none;
-}
-.zod-product-card:hover{
-  transform:translateY(-2px);
-  border-color:#d9dde1;
-  box-shadow:0 10px 28px rgba(16,24,40,.07);
-}
-.zpc-media{
-  aspect-ratio:1/1;
-  background:#fff;
-  overflow:hidden;
-}
-.zpc-media img{
-  padding:12px;
-  object-fit:contain;
-  transition:transform .28s ease,opacity .24s ease,filter .24s ease;
-}
-.zod-product-card:hover .zpc-media img{transform:scale(1.018)}
-
-.zpc-discount-badge,
-.zpc-offer-badge{
-  position:absolute;
-  top:10px;
-  z-index:8;
-  min-height:27px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:0;
-  padding:5px 8px;
-  font-size:11px;
-  line-height:1;
-  font-weight:950;
-  box-shadow:0 3px 10px rgba(16,24,40,.06);
-}
-.zpc-discount-badge{
-  inset-inline-start:10px;
-  background:#ff6369;
-  color:#fff;
-}
-.zpc-offer-badge{
-  inset-inline-end:10px;
-  max-width:55%;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-  background:#82c949;
-  color:#fff;
-  border-radius:0 0 0 10px;
-}
-[dir="ltr"] .zpc-offer-badge{border-radius:0 0 10px 0}
-
-.zpc-hover-actions{
-  position:absolute;
-  z-index:10;
-  left:50%;
-  bottom:11px;
-  transform:translate(-50%,10px) scale(.96);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:9px;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .18s ease,transform .2s ease;
-}
-.zod-product-card:hover .zpc-hover-actions,
-.zod-product-card:focus-within .zpc-hover-actions{
-  opacity:1;
-  transform:translate(-50%,0) scale(1);
-  pointer-events:auto;
-}
-.zpc-action{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  border:1px solid #e5e7ea;
-  background:rgba(255,255,255,.96);
-  color:#454a52;
-  display:grid;
-  place-items:center;
-  font-size:18px;
-  box-shadow:0 8px 22px rgba(16,24,40,.10);
-  cursor:pointer;
-  transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;
-}
-.zpc-action:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(16,24,40,.14)}
-.zpc-wishlist.is-active{
-  background:#ff6268!important;
-  color:#fff!important;
-  border-color:#ff6268!important;
-}
-.zpc-wishlist.is-active i{color:#fff!important}
-.zpc-wishlist.is-pulsing{animation:zodWishlistPulse .4s ease}
-@keyframes zodWishlistPulse{50%{transform:scale(1.14)}100%{transform:scale(1)}}
-
-.zpc-stock-stamp{
-  top:50%;
-  width:auto;
-  min-width:62%;
-  max-width:88%;
-  min-height:48px;
-  padding:10px 17px;
-  border:3px solid rgba(208,63,63,.72);
-  border-radius:12px;
-  background:rgba(255,250,250,.9);
-  color:#c73939;
-  box-shadow:0 8px 24px rgba(110,12,12,.11);
-  font-size:18px;
-  font-weight:1000;
-  letter-spacing:.01em;
-  backdrop-filter:blur(2px);
-}
-.zpc-media.is-out img{opacity:.48;filter:grayscale(.23) saturate(.7)}
-
-.zpc-body{
-  padding:12px 14px 14px;
-  min-height:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-}
-.zpc-category{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  max-width:92%;
-  min-height:24px;
-  margin:0 auto 7px;
-  padding:4px 8px;
-  border-radius:3px;
-  background:#eceeef;
-  color:#666d76;
-  font-size:9.5px;
-  font-weight:800;
-  line-height:1.25;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-.zpc-brand-logo{
-  min-height:22px;
-  max-width:78px;
-  margin:0 auto 5px;
-}
-.zpc-brand-logo img{max-width:78px;max-height:20px}
-.zpc-body h3{
-  width:100%;
-  margin:0;
-  min-height:40px;
-  font-size:13.5px;
-  line-height:1.48;
-  font-weight:850;
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-  text-align:center;
-}
-.zpc-body h3 a{display:block;width:100%;text-align:center}
-.zpc-tax{
-  margin:4px 0 0!important;
-  color:#91969d!important;
-  font-size:9.5px!important;
-  line-height:1.4!important;
-  text-align:center!important;
-  white-space:normal!important;
-}
-.zpc-meta{
-  width:100%;
-  min-height:0;
-  height:auto;
-  margin:5px 0 0;
-  justify-content:center;
-}
-.zpc-rating{font-size:10px}
-.zpc-bottom{
-  width:100%;
-  margin:8px 0 0;
-  padding:0;
-  text-align:center;
-}
-.zpc-price{
-  width:100%;
-  justify-content:center;
-  align-items:baseline;
-  gap:7px;
-}
-.zpc-price strong{font-size:18px;font-weight:950;color:#17191c}
-.zpc-price del{font-size:11px;color:#8e949d}
-.zpc-price small{font-size:9.5px;color:#858c96}
-.zpc-add{
-  width:100%;
-  align-self:stretch;
-  margin-top:auto;
-  padding-top:11px;
-}
-.zpc-add::part(button){
-  min-height:42px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:850;
-}
-
 /* Sticky purchase bar now appears only after the in-flow purchase controls
    have actually been passed. JS toggles is-docked/is-ready as needed. */
 .product-single .zod-buy-controls:not(.is-docked){
@@ -3062,81 +2852,6 @@ salla-product-card.s-product-card-vertical .s-product-card-image img{
 .zod-product-card:hover .zpc-media img,
 salla-product-card.s-product-card-vertical:hover .s-product-card-image img{transform:scale(1.018)!important}
 
-/* Custom-card actions stay on the image and consume no body space. */
-.zpc-media{overflow:hidden!important}
-.zpc-hover-actions{
-  left:50%!important;
-  bottom:9px!important;
-  gap:7px!important;
-  transform:translate(-50%,7px) scale(.97)!important;
-}
-.zod-product-card:hover .zpc-hover-actions,
-.zod-product-card:focus-within .zpc-hover-actions{
-  transform:translate(-50%,0) scale(1)!important;
-}
-.zpc-action{width:34px!important;height:34px!important;font-size:15px!important}
-
-/* Orkida-like compact content rhythm with equal card heights. */
-.zpc-body,
-salla-product-card.s-product-card-vertical .s-product-card-content{
-  flex:1 1 auto!important;
-  min-height:216px!important;
-  height:auto!important;
-  padding:8px 10px 10px!important;
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:center!important;
-  text-align:center!important;
-  background:#fff!important;
-}
-.zpc-category{
-  min-height:22px!important;
-  max-width:96%!important;
-  margin:0 auto 5px!important;
-  padding:3px 7px!important;
-  font-size:9.5px!important;
-  line-height:1.25!important;
-}
-.zpc-body h3,
-salla-product-card.s-product-card-vertical .s-product-card-content-title{
-  width:100%!important;
-  min-height:40px!important;
-  max-height:40px!important;
-  margin:0 0 4px!important;
-  overflow:hidden!important;
-  font-size:14px!important;
-  line-height:20px!important;
-  font-weight:800!important;
-  text-align:center!important;
-  display:-webkit-box!important;
-  -webkit-line-clamp:2!important;
-  -webkit-box-orient:vertical!important;
-}
-salla-product-card.s-product-card-vertical .s-product-card-content-sub,
-salla-product-card.s-product-card-vertical .s-product-card-content-description{
-  width:100%!important;
-  margin:0 0 4px!important;
-  overflow:hidden!important;
-  color:#8a9098!important;
-  font-size:9px!important;
-  line-height:14px!important;
-  text-align:center!important;
-  white-space:nowrap!important;
-  text-overflow:ellipsis!important;
-}
-.zpc-tax{font-size:9px!important;line-height:13px!important;margin:2px 0 0!important}
-.zpc-meta{height:18px!important;margin:2px 0 0!important}
-.zpc-bottom{width:100%!important;margin:5px 0 0!important;padding:0!important}
-.zpc-price,
-salla-product-card.s-product-card-vertical .s-product-card-content h4,
-salla-product-card.s-product-card-vertical .s-product-card-price{
-  justify-content:center!important;
-  text-align:center!important;
-}
-.zpc-price strong{font-size:17px!important;line-height:22px!important}
-.zpc-price del{font-size:10px!important}
-salla-product-card.s-product-card-vertical .s-product-card-price{width:100%!important;font-size:15px!important;line-height:21px!important;margin:0!important}
-
 /* Full-width, low-profile pill purchase action shared by both components. */
 .zpc-add,
 salla-product-card.s-product-card-vertical salla-add-product-button{
@@ -3227,56 +2942,6 @@ salla-product-card.zod-native-out-of-stock .s-product-card-image img{
   salla-product-card.zod-native-out-of-stock::after{top:25%!important;width:calc(100% - 18px)!important}
   .zod-density-carousel .swiper-slide{width:calc((100% - 10px)/2)!important;max-width:none!important}
 }
-
-/* =========================================================
-   ZOD v1.6.41 — card actions and purchase controls
-   Native Salla cards now receive the same Eye + Heart cluster as custom
-   cards, while their original wishlist element keeps Salla's behavior.
-   ========================================================= */
-.zod-native-card-actions{
-  position:absolute!important;
-  left:50%!important;
-  bottom:9px!important;
-  z-index:7!important;
-  display:flex!important;
-  align-items:center!important;
-  gap:7px!important;
-  opacity:0!important;
-  pointer-events:none!important;
-  transform:translate(-50%,7px) scale(.97)!important;
-  transition:opacity .2s ease,transform .2s ease!important;
-}
-salla-product-card.s-product-card-vertical:hover .zod-native-card-actions,
-salla-product-card.s-product-card-vertical:focus-within .zod-native-card-actions{
-  opacity:1!important;
-  pointer-events:auto!important;
-  transform:translate(-50%,0) scale(1)!important;
-}
-.zod-native-card-actions>.s-product-card-wishlist-btn,
-.zod-native-card-actions .s-product-card-wishlist-btn.s-button-element,
-.zod-native-quick-view{
-  position:static!important;
-  inset:auto!important;
-  width:34px!important;
-  min-width:34px!important;
-  height:34px!important;
-  min-height:34px!important;
-  margin:0!important;
-  padding:0!important;
-  display:grid!important;
-  place-items:center!important;
-  border:1px solid rgba(222,226,229,.96)!important;
-  border-radius:50%!important;
-  background:rgba(255,255,255,.96)!important;
-  color:#4f565e!important;
-  opacity:1!important;
-  box-shadow:0 5px 16px rgba(16,24,40,.10)!important;
-}
-.zod-native-card-actions>.s-product-card-wishlist-btn{display:block!important}
-.zod-native-card-actions .s-product-card-wishlist-btn.s-button-element:hover,
-.zod-native-card-actions .s-product-card-wishlist-btn.s-button-element:focus-visible,
-.zod-native-quick-view:hover,
-.zod-native-quick-view:focus-visible{border-color:var(--zod-card-accent)!important;color:var(--zod-card-accent)!important}
 
 /* The approved diagonal stamp replaces Salla's smaller duplicate image badge. */
 salla-product-card.zod-native-out-of-stock .s-product-card-out-badge{display:none!important}
@@ -4375,4 +4040,195 @@ html[dir="ltr"] main a .sicon-arrow-left{transform:rotate(180deg)}
 @media(max-width:767px){
   .zod-laser-panel__media{background:#05060a}
   .zod-laser-panel__media,.zod-laser-panel__media>img,.zod-laser-panel__video{width:100%;height:auto;min-height:0;max-height:none;aspect-ratio:16/9;object-position:center}
+}
+
+/* ZOD v1.7.12 — storefront-wide marketplace product cards. */
+.zod-product-card{
+  border:1px solid #e5e7eb!important;
+  border-radius:14px!important;
+  background:#fff!important;
+  overflow:hidden!important;
+}
+.zpc-media{isolation:isolate;aspect-ratio:1/1!important;background:#f8f8f6!important}
+.zpc-media img{padding:10px!important;transform:none!important;transition:opacity .16s ease,transform .34s ease!important}
+.zpc-media img.is-changing{opacity:.18;transform:translateX(-4%) scale(.985)!important}
+[dir=rtl] .zpc-media img.is-changing{transform:translateX(4%) scale(.985)!important}
+.zod-product-card:hover .zpc-media img{transform:scale(1.025)!important}
+.zpc-offer-badge{
+  top:0!important;
+  inset-inline-start:0!important;
+  inset-inline-end:auto!important;
+  max-width:66%!important;
+  min-height:30px!important;
+  padding:6px 10px!important;
+  border-radius:0 0 9px 0!important;
+  background:#07584f!important;
+  color:#fff!important;
+  font-size:12px!important;
+  box-shadow:none!important;
+}
+[dir=rtl] .zpc-offer-badge{border-radius:0 0 0 9px!important}
+.zpc-wishlist{
+  position:absolute!important;
+  z-index:12!important;
+  top:10px!important;
+  bottom:auto!important;
+  width:38px!important;
+  height:38px!important;
+  border:1px solid #d5d9de!important;
+  background:rgba(255,255,255,.94)!important;
+  color:#52606d!important;
+  box-shadow:0 4px 12px rgba(16,24,40,.12)!important;
+  backdrop-filter:blur(7px);
+}
+[dir=ltr] .zpc-wishlist{right:10px!important;left:auto!important}
+[dir=rtl] .zpc-wishlist{left:10px!important;right:auto!important}
+.zpc-wishlist:hover{color:#df2638!important;border-color:#ef8791!important;transform:scale(1.06)!important}
+.zpc-wishlist.is-active{background:#fff!important;color:#ed1c2e!important;border-color:#ed1c2e!important}
+.zpc-wishlist.is-active i{color:#ed1c2e!important}
+.zpc-media-add{
+  position:absolute!important;
+  z-index:12!important;
+  inset-inline-end:11px!important;
+  bottom:11px!important;
+  display:grid!important;
+  place-items:center!important;
+  width:44px!important;
+  min-width:44px!important;
+  height:44px!important;
+  min-height:44px!important;
+  margin:0!important;
+  padding:0!important;
+  border:1px solid #e2e5e8!important;
+  border-radius:11px!important;
+  background:rgba(255,255,255,.96)!important;
+  color:#111827!important;
+  box-shadow:0 5px 16px rgba(16,24,40,.12)!important;
+  font-size:31px!important;
+  font-weight:300!important;
+  line-height:1!important;
+  text-decoration:none!important;
+  overflow:hidden!important;
+}
+.zpc-media-add::part(button),
+.zpc-media-add .s-button-element{
+  width:44px!important;
+  min-width:44px!important;
+  height:44px!important;
+  min-height:44px!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:11px!important;
+  background:transparent!important;
+  color:#111827!important;
+  font-size:31px!important;
+  box-shadow:none!important;
+}
+.zpc-media-add:hover{transform:translateY(-2px)!important;border-color:#aeb5bd!important;box-shadow:0 8px 20px rgba(16,24,40,.16)!important}
+.zpc-media-dots{
+  position:absolute;
+  z-index:11;
+  left:50%;
+  bottom:13px;
+  display:flex;
+  align-items:center;
+  gap:5px;
+  transform:translateX(-50%);
+  padding:4px 6px;
+  border-radius:999px;
+  background:rgba(255,255,255,.78);
+  backdrop-filter:blur(7px);
+}
+.zpc-media-dots[hidden]{display:none!important}
+.zpc-media-dots button{width:6px;height:6px;padding:0;border:0;border-radius:50%;background:#8d949b;transition:width .2s ease,background .2s ease}
+.zpc-media-dots button.is-active{width:14px;border-radius:999px;background:#15191e}
+.zpc-body,
+salla-product-card.s-product-card-vertical .s-product-card-content{
+  align-items:stretch!important;
+  min-height:176px!important;
+  padding:11px 12px 13px!important;
+  text-align:start!important;
+}
+.zpc-category{
+  align-self:flex-start!important;
+  min-height:0!important;
+  max-width:100%!important;
+  margin:0 0 6px!important;
+  padding:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  color:#7a838e!important;
+  font-size:10px!important;
+  font-weight:700!important;
+}
+.zpc-body h3,
+salla-product-card.s-product-card-vertical .s-product-card-content-title{
+  min-height:42px!important;
+  max-height:42px!important;
+  margin:0 0 6px!important;
+  font-size:14px!important;
+  line-height:21px!important;
+  font-weight:650!important;
+  text-align:start!important;
+}
+.zpc-meta{height:auto!important;margin:0 0 5px!important;text-align:start!important}
+.zpc-rating{display:inline-flex!important;align-items:center!important;gap:4px!important;color:#15202b!important;font-size:12px!important;font-weight:800!important}
+.zpc-rating i{color:#078b31!important}
+.zpc-rating small{color:#7c8794!important;font-weight:500!important}
+.zpc-bottom{margin:0!important;text-align:start!important}
+.zpc-price{display:flex!important;align-items:baseline!important;justify-content:flex-start!important;gap:6px!important;text-align:start!important;flex-wrap:wrap!important}
+.zpc-price strong{color:#111827!important;font-size:18px!important;line-height:24px!important;font-weight:950!important}
+.zpc-price del{color:#98a0aa!important;font-size:11px!important}
+.zpc-price-discount{color:#08a22a;font-size:12px;font-weight:900}
+.zpc-tax{margin:1px 0 0!important;color:#8a929c!important;font-size:9px!important;line-height:13px!important;text-align:start!important}
+.zpc-options{align-self:flex-start!important;margin-top:6px!important}
+
+/* Native fallback cards keep only the favorite action in the same logical corner. */
+.zod-native-card-actions{
+  top:10px!important;
+  bottom:auto!important;
+  left:auto!important;
+  right:10px!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+  transform:none!important;
+}
+[dir=rtl] .zod-native-card-actions{right:auto!important;left:10px!important}
+.zod-native-card-actions>.s-product-card-wishlist-btn,
+.zod-native-card-actions .s-product-card-wishlist-btn.s-button-element{width:38px!important;min-width:38px!important;height:38px!important;min-height:38px!important}
+.zod-native-quick-view,.zpc-quick-view{display:none!important}
+
+/* Laser World: a real sidebar with the catalog link above the products. */
+.zod-laser-sidebar{grid-column:1;display:flex;min-width:0;flex-direction:column;gap:11px}
+.zod-laser-sidebar .zod-laser-showcase__browse--desktop{
+  display:flex;
+  width:100%;
+  min-height:46px;
+  justify-content:space-between;
+  padding:10px 14px;
+  border-color:#ffffff2e;
+  background:linear-gradient(135deg,#ffffff12,#ffffff08);
+}
+.zod-laser-sidebar .zod-laser-selector{grid-column:auto;flex:1;max-height:386px}
+@media(min-width:1024px){
+  .zod-laser-layout{grid-template-columns:minmax(270px,310px) minmax(0,1fr)!important}
+  .zod-laser-panel{grid-template-columns:minmax(0,1.55fr) minmax(340px,.72fr)!important;min-height:470px!important}
+  .zod-laser-panel__media,.zod-laser-panel__media img,.zod-laser-panel__video{min-height:470px!important;max-height:540px!important}
+  .zod-laser-panel__content{padding:28px 30px!important}
+  .zod-laser-panel__features{grid-template-columns:1fr!important;gap:8px!important}
+  .zod-laser-panel__features li{min-height:43px!important;padding:8px 10px!important;font-size:11px!important}
+  .zod-laser-panel__feature-icon{width:30px!important;height:30px!important;flex-basis:30px!important}
+}
+@media(max-width:1023px){.zod-laser-sidebar{display:contents}.zod-laser-sidebar .zod-laser-showcase__browse--desktop{display:none!important}}
+@media(max-width:767px){
+  .zpc-wishlist{top:7px!important;width:34px!important;height:34px!important}
+  [dir=ltr] .zpc-wishlist{right:7px!important}[dir=rtl] .zpc-wishlist{left:7px!important}
+  .zpc-media-add,.zpc-media-add::part(button),.zpc-media-add .s-button-element{width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important}
+  .zpc-media-add{inset-inline-end:7px!important;bottom:7px!important}
+  .zpc-media-dots{bottom:9px;gap:4px}
+  .zpc-body,salla-product-card.s-product-card-vertical .s-product-card-content{min-height:151px!important;padding:8px 9px 10px!important}
+  .zpc-body h3,salla-product-card.s-product-card-vertical .s-product-card-content-title{min-height:38px!important;max-height:38px!important;font-size:12px!important;line-height:19px!important}
+  .zpc-price strong{font-size:16px!important;line-height:21px!important}
+  .zpc-price-discount{font-size:11px}
 }

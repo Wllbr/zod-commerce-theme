@@ -1,3 +1,8 @@
+## 1.7.12 — Marketplace product cards and Laser World layout
+- Rebuilt the shared product card for brand, category, homepage, wishlist and recommendation surfaces with a language-aware favorite corner, compact image add action, inline discount pricing, live rating treatment and hover-loaded product galleries with synchronized image dots.
+- Removed the Quick View eye action from both custom and fallback native product cards.
+- Moved the Laser World catalog link above its desktop product selector and expanded its information column and feature icons for a more balanced presentation.
+
 ## 1.7.11 — Complete sticky Buy Now integration
 - Declared native sticky-bar support on the product purchase component so Salla can keep Add to Cart, Buy Now and eligible wallet actions synchronized with ZOD's persistent purchase dock.
 

@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.7.11','package.json: expected v1.7.11');
+assert(pkg.version==='1.7.12','package.json: expected v1.7.12');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 const trackedResult=spawnSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8'});
 assert(trackedResult.status===0,'Git tracked-file inventory must be available');
@@ -235,8 +235,11 @@ assert(!read('src/assets/js/partials/product-card.js').includes('const taxLabel 
 assert(appCss.includes('ZOD v1.6.40 — unified Orkida-density product cards'),'Unified native/custom product-card release styles are required');
 assert(appCss.includes('salla-product-card.s-product-card-vertical .s-product-card-image img'),'Native Salla cards must share ZOD image framing');
 assert(appCss.includes('salla-product-card.s-product-card-vertical salla-add-product-button .s-button-element'),'Native Salla cards must share the compact purchase button');
-assert(appCss.includes('ZOD v1.6.41 — card actions and purchase controls'),'Product-card control repair styles are required');
-assert(appCss.includes('.zod-native-card-actions'),'Native Salla cards must receive the unified Eye + Heart action cluster');
+assert(appCss.includes('ZOD v1.7.12 — storefront-wide marketplace product cards'),'Marketplace product-card styles are required');
+assert(appCss.includes('.zpc-media-dots'),'Product cards must expose synchronized image gallery dots');
+assert(appCss.includes('[dir=ltr] .zpc-wishlist') && appCss.includes('[dir=rtl] .zpc-wishlist'),'Product-card favorites must follow the storefront language direction');
+assert(appCss.includes('.zod-native-card-actions'),'Native Salla fallback cards must retain the favorite action');
+assert(!read('src/assets/js/app.js').includes('zod-native-quick-view'),'Native product cards must not reintroduce the removed Quick View eye action');
 assert(appCss.includes('.s-product-card-out-badge{display:none!important}'),'The native duplicate stock badge must be hidden when the ZOD stamp is active');
 assert(appCss.includes('ZOD v1.6.42 — permanent purchase dock + floating storefront chrome'),'The v1.6.42 responsive storefront polish styles are required');
 assert(appCss.includes('margin:10px clamp(10px,1.8vw,28px) 0!important'),'Desktop header must use the floating rounded treatment');

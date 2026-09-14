@@ -12,11 +12,12 @@
           <h2>{{ section_title|default(trans('zod.laser.title')) }}</h2>
           <p>{{ section_subtitle|default(trans('zod.laser.subtitle')) }}</p>
         </div>
-        {% if browse_url %}<a class="zod-laser-showcase__browse zod-laser-showcase__browse--desktop" href="{{ browse_url }}">{{ browse_label|default(trans('zod.laser.browse_all')) }} <i class="sicon-arrow-left rtl:rotate-180" aria-hidden="true"></i></a>{% endif %}
       </header>
 
       <div class="zod-laser-layout">
-        <div class="zod-laser-selector" role="tablist" aria-label="{{ trans('zod.laser.choose_product') }}">
+        <aside class="zod-laser-sidebar">
+          {% if browse_url %}<a class="zod-laser-showcase__browse zod-laser-showcase__browse--desktop" href="{{ browse_url }}"><span>{{ browse_label|default(trans('zod.laser.browse_all')) }}</span><i class="sicon-arrow-left rtl:rotate-180" aria-hidden="true"></i></a>{% endif %}
+          <div class="zod-laser-selector" role="tablist" aria-label="{{ trans('zod.laser.choose_product') }}">
           {% for item in component.items %}
             {% set product_ids = [] %}
             {% for selected_product in item.products|default([]) %}
@@ -33,7 +34,8 @@
               </button>
             {% endif %}
           {% endfor %}
-        </div>
+          </div>
+        </aside>
 
         <div class="zod-laser-stage">
           {% for item in component.items %}

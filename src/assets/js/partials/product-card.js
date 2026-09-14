@@ -72,6 +72,91 @@ class ZodProductCard extends HTMLElement {
     return '';
   }
 
+  productImages(product = this.product) {
+    const candidates = [
+      product?.image,
+      product?.thumbnail,
+      ...(Array.isArray(product?.images) ? product.images : []),
+      ...(Array.isArray(product?.gallery) ? product.gallery : []),
+      ...(Array.isArray(product?.media) ? product.media : [])
+    ];
+    return [...new Set(candidates.map(item => this.imageUrl(item?.image || item)).filter(Boolean))];
+  }
+
+  setMediaIndex(index, animate = true) {
+    const image = this.querySelector('[data-zpc-image]');
+    if (!image || !this.mediaImages?.length) return;
+    const next = ((index % this.mediaImages.length) + this.mediaImages.length) % this.mediaImages.length;
+    const apply = () => {
+      image.src = this.mediaImages[next];
+      image.dataset.index = String(next);
+      this.querySelectorAll('[data-zpc-dot]').forEach((dot, dotIndex) => {
+        dot.classList.toggle('is-active', dotIndex === next);
+        dot.setAttribute('aria-current', dotIndex === next ? 'true' : 'false');
+      });
+      image.classList.remove('is-changing');
+    };
+    if (animate && image.src && image.src !== this.mediaImages[next]) {
+      image.classList.add('is-changing');
+      window.setTimeout(apply, 130);
+    } else apply();
+  }
+
+  renderMediaDots() {
+    const dots = this.querySelector('[data-zpc-dots]');
+    if (!dots) return;
+    if ((this.mediaImages?.length || 0) < 2) {
+      dots.hidden = true;
+      dots.innerHTML = '';
+      return;
+    }
+    dots.hidden = false;
+    dots.innerHTML = this.mediaImages.map((_, index) => `<button type="button" data-zpc-dot="${index}" class="${index === 0 ? 'is-active' : ''}" aria-current="${index === 0 ? 'true' : 'false'}" aria-label="${this.esc(this.isArabic() ? `الصورة ${index + 1}` : `Image ${index + 1}`)}"></button>`).join('');
+    dots.querySelectorAll('[data-zpc-dot]').forEach(dot => dot.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+      this.stopMediaCycle(false);
+      this.setMediaIndex(Number(event.currentTarget.dataset.zpcDot));
+    }));
+  }
+
+  async loadMediaImages() {
+    if (this.mediaHydrated || this.mediaLoading) return;
+    this.mediaLoading = true;
+    try {
+      if (this.mediaImages.length < 2 && typeof salla.product?.getDetails === 'function') {
+        const response = await salla.product.getDetails(String(this.product.id));
+        const details = this.unwrapProductDetails(response, this.product);
+        const images = this.productImages(details);
+        if (images.length) this.mediaImages = images;
+      }
+    } catch (_) {}
+    this.mediaHydrated = true;
+    this.mediaLoading = false;
+    this.renderMediaDots();
+  }
+
+  async startMediaCycle() {
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    await this.loadMediaImages();
+    if (this.mediaImages.length < 2 || this.mediaTimer) return;
+    let index = Number(this.querySelector('[data-zpc-image]')?.dataset.index || 0);
+    this.mediaTimer = window.setInterval(() => {
+      index = (index + 1) % this.mediaImages.length;
+      this.setMediaIndex(index);
+    }, 1150);
+  }
+
+  stopMediaCycle(reset = true) {
+    if (this.mediaTimer) window.clearInterval(this.mediaTimer);
+    this.mediaTimer = 0;
+    if (reset) this.setMediaIndex(0);
+  }
+
+  disconnectedCallback() {
+    this.stopMediaCycle(false);
+  }
+
   getCategory(product = this.product) {
     const raw = product?.category || product?.main_category || product?.categories?.[0] || null;
     if (!raw) return null;
@@ -81,8 +166,8 @@ class ZodProductCard extends HTMLElement {
     return { name, url: raw.url || raw.link || '' };
   }
 
-  discountPercent() {
-    const p = this.product;
+  discountPercent(product = this.product) {
+    const p = product;
     const raw = p.discount_percentage ?? p.discountPercent ?? p.discount;
     const parsed = this.number(raw);
     if (parsed > 0) return Math.round(parsed);
@@ -96,8 +181,9 @@ class ZodProductCard extends HTMLElement {
     const p = product;
     const sale = this.number(p.sale_price);
     const regular = this.number(p.regular_price);
+    const discount = this.discountPercent(p);
     if (p.is_on_sale && sale > 0 && (!regular || regular > sale)) {
-      return `<div class="zpc-price is-sale"><strong>${this.money(p.sale_price)}</strong>${regular ? `<del>${this.money(p.regular_price)}</del>` : ''}</div>`;
+      return `<div class="zpc-price is-sale"><strong>${this.money(p.sale_price)}</strong>${regular ? `<del>${this.money(p.regular_price)}</del>` : ''}${discount ? `<span class="zpc-price-discount">${this.esc(discount)}%</span>` : ''}</div>`;
     }
     if (this.number(p.starting_price) > 0) {
       return `<div class="zpc-price"><small>${this.t('pages.products.starting_price', this.isArabic() ? 'يبدأ من' : 'From')}</small><strong>${this.money(p.starting_price)}</strong></div>`;
@@ -252,16 +338,15 @@ class ZodProductCard extends HTMLElement {
 
   render() {
     const p = this.product;
-    const image = this.imageUrl(p?.image) || p.thumbnail || '';
+    this.mediaImages = this.productImages(p);
+    const image = this.mediaImages[0] || '';
     const imageAlt = this.esc(p?.image?.alt || p.name || '');
     const isOut = this.isOutOfStock(p);
     const status = isOut ? (window.notify_when_available_in_card !== false && !['donating', 'financial_support'].includes(p.type) ? 'out-and-notify' : 'out') : p.status;
     const addLabel = p.add_to_cart_label || this.t(p.type === 'booking' ? 'pages.cart.book_now' : 'pages.cart.add_to_cart', this.isArabic() ? 'أضف إلى السلة' : 'Add to cart');
     const outLabel = this.t('pages.products.out_of_stock', this.isArabic() ? 'نفدت الكمية' : 'Out of stock');
     const wishlistLabel = this.esc(this.t('zod.header.wishlist', this.isArabic() ? 'المفضلة' : 'Wishlist'));
-    const viewLabel = this.esc(this.isArabic() ? 'عرض سريع' : 'Quick view');
     const category = this.getCategory(p);
-    const discount = this.discountPercent();
     const inWishlist = this.initialWishlistState(p);
     const promo = p.promotion_title || p.promotion?.title || '';
     const taxLabel = this.t('pages.products.tax_included', this.isArabic() ? 'شامل ضريبة القيمة المضافة' : 'VAT included');
@@ -274,31 +359,32 @@ class ZodProductCard extends HTMLElement {
     this.setAttribute('data-product-id', p.id);
     this.innerHTML = `
       <div class="zpc-media ${isOut ? 'is-out' : ''}">
-        <a class="zpc-product-link" href="${this.esc(p.url || '#')}" aria-label="${imageAlt}"><img src="${this.esc(image)}" alt="${imageAlt}" loading="lazy"></a>
-        ${discount ? `<span class="zpc-discount-badge">${this.esc(discount)}%</span>` : ''}
+        <a class="zpc-product-link" href="${this.esc(p.url || '#')}" aria-label="${imageAlt}"><img src="${this.esc(image)}" alt="${imageAlt}" loading="lazy" data-zpc-image data-index="0"></a>
         ${promo ? `<span class="zpc-offer-badge" title="${this.esc(promo)}">${this.esc(promo)}</span>` : ''}
         ${isOut ? `<span class="zpc-stock-stamp">${this.esc(outLabel)}</span>` : ''}
-        <div class="zpc-hover-actions" aria-label="${viewLabel}">
-          <button type="button" class="zpc-action zpc-quick-view" aria-label="${viewLabel}" title="${viewLabel}"><i class="sicon-eye"></i></button>
-          <button type="button" class="zpc-action zpc-wishlist ${inWishlist ? 'is-active' : ''}" data-id="${p.id}" aria-label="${wishlistLabel}" aria-pressed="${inWishlist ? 'true' : 'false'}"><i class="sicon-heart"></i></button>
-        </div>
+        <button type="button" class="zpc-action zpc-wishlist ${inWishlist ? 'is-active' : ''}" data-id="${p.id}" aria-label="${wishlistLabel}" aria-pressed="${inWishlist ? 'true' : 'false'}"><i class="sicon-heart"></i></button>
+        <div class="zpc-media-dots" data-zpc-dots ${this.mediaImages.length < 2 ? 'hidden' : ''}></div>
+        ${!isOut ? (hasOptions
+          ? `<a class="zpc-media-add zpc-media-add--options" href="${this.esc(p.url || '#')}" aria-label="${this.esc(chooseOptionsLabel)}"><span aria-hidden="true">+</span></a>`
+          : `<salla-add-product-button class="zpc-media-add" fill="outline" product-id="${p.id}" product-status="${this.esc(status || '')}" product-type="${this.esc(p.type || 'product')}" aria-label="${this.esc(addLabel)}"><span aria-hidden="true">+</span></salla-add-product-button>`)
+          : ''}
       </div>
       <div class="zpc-body">
         ${category ? `${category.url ? `<a class="zpc-category" href="${this.esc(category.url)}">${this.esc(category.name)}</a>` : `<span class="zpc-category">${this.esc(category.name)}</span>`}` : ''}
         <h3><a href="${this.esc(p.url || '#')}">${this.esc(p.name)}</a></h3>
-        <p class="zpc-tax">${this.esc(taxLabel)}</p>
-        ${hasOptions ? `<a class="zpc-options" href="${this.esc(p.url || '#')}"><i class="sicon-list"></i><span>${this.esc(optionsLabel)}</span>${optionCount ? `<b>${this.esc(optionCount)}</b>` : ''}</a>` : ''}
         ${p.rating?.stars ? `<div class="zpc-meta"><span class="zpc-rating"><i class="sicon-star2"></i>${this.esc(p.rating.stars)}${p.rating.count ? ` <small>(${this.esc(p.rating.count)})</small>` : ''}</span></div>` : ''}
         <div class="zpc-bottom">${this.price()}</div>
-        ${hasOptions && !isOut
-          ? `<a class="zpc-add zpc-add--options" href="${this.esc(p.url || '#')}">${this.esc(chooseOptionsLabel)} <i class="sicon-keyboard_arrow_left"></i></a>`
-          : `<salla-add-product-button class="zpc-add" width="wide" fill="outline" product-id="${p.id}" product-status="${this.esc(status || '')}" product-type="${this.esc(p.type || 'product')}">${this.esc(isOut ? outLabel : addLabel)}</salla-add-product-button>`}
+        <p class="zpc-tax">${this.esc(taxLabel)}</p>
+        ${hasOptions ? `<a class="zpc-options" href="${this.esc(p.url || '#')}"><i class="sicon-list"></i><span>${this.esc(optionsLabel)}</span>${optionCount ? `<b>${this.esc(optionCount)}</b>` : ''}</a>` : ''}
       </div>`;
 
-    this.querySelector('.zpc-quick-view')?.addEventListener('click', event => {
-      event.preventDefault();
-      event.stopPropagation();
-      this.openQuickView(p);
+    this.renderMediaDots();
+    const media = this.querySelector('.zpc-media');
+    media?.addEventListener('mouseenter', () => this.startMediaCycle());
+    media?.addEventListener('mouseleave', () => this.stopMediaCycle());
+    media?.addEventListener('focusin', () => this.startMediaCycle());
+    media?.addEventListener('focusout', event => {
+      if (!media.contains(event.relatedTarget)) this.stopMediaCycle();
     });
 
     this.querySelector('.zpc-wishlist')?.addEventListener('click', async event => {
