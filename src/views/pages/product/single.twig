@@ -5,6 +5,9 @@
 {% set sticky_image = product.image.url ? product.image : (product.images|first) %}
 {# Some Salla product snapshots may flag is_on_sale while sale_price is zero. Never render 0 as a real discount. #}
 {% set has_valid_sale = product.is_on_sale and product.sale_price and product.sale_price > 0 %}
+{# Some product payloads omit regular_price during an active campaign. #}
+{% set compare_price_value = product.regular_price and product.regular_price > product.sale_price ? product.regular_price : product.price %}
+{% set show_compare_price = has_valid_sale and compare_price_value and compare_price_value > product.sale_price %}
 {% set display_price_value = has_valid_sale ? product.sale_price : (product.starting_price and product.starting_price > 0 ? product.starting_price : product.price) %}
 {% set sticky_price_value = display_price_value %}
 {% set show_product_reviews = store.settings.rating.show_on_product or product.rating %}
@@ -113,8 +116,8 @@
       <div data-testid="store-product-price" class="zod-product-price price-wrapper" data-zod-main-price>
         <div class="price_is_on_sale {{ has_valid_sale ? '' : 'hidden' }}">
           <strong class="total-price">{{ product.sale_price|money }}</strong>
-          <del class="before-price">{{ product.regular_price|money }}</del>
-          {% if has_valid_sale and product.discount_percentage %}<span class="zod-discount">-{{ product.discount_percentage }}</span>{% endif %}
+          {% if show_compare_price %}<del class="before-price">{{ compare_price_value|money }}</del>{% endif %}
+          {% if has_valid_sale and product.discount_percentage %}<span class="zod-discount">{{ product.discount_percentage }}</span>{% endif %}
         </div>
         <div class="starting-or-normal-price {{ has_valid_sale ? 'hidden' : '' }}">
           {% if product.starting_price and product.starting_price > 0 %}<small class="starting-price-title">{{ trans('pages.products.starting_price') }}</small>{% endif %}

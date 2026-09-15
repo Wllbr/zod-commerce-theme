@@ -4221,3 +4221,38 @@ salla-product-card.s-product-card-vertical .s-product-card-content-title{
   .zpc-price strong{font-size:16px!important;line-height:21px!important}
   .zpc-price-discount{font-size:11px}
 }
+
+/* Product-card actions and copy mirror the storefront language. */
+.zod-product-card .zpc-body{align-items:stretch!important;text-align:start!important}
+.zod-product-card .zpc-body h3,
+.zod-product-card .zpc-body h3 a,
+.zod-product-card .zpc-body .zpc-subtitle,
+.zod-product-card .zpc-body .zpc-brand,
+.zod-product-card .zpc-bottom,
+.zod-product-card .zpc-price,
+.zod-product-card .zpc-tax{width:100%;text-align:start!important}
+.zod-product-card .zpc-category,
+.zod-product-card .zpc-options{margin-inline:0!important;align-self:flex-start!important}
+.zod-product-card .zpc-meta{justify-content:flex-start!important}
+.zod-product-card .zpc-price{justify-content:flex-start!important}
+.zod-product-card .zpc-wishlist{inset-inline-start:10px!important;inset-inline-end:auto!important}
+.zod-product-card .zpc-media-add{inset-inline-end:10px!important;inset-inline-start:auto!important}
+.zod-product-card .zpc-offer-badge{inset-inline-end:0!important;inset-inline-start:auto!important}
+html[dir=rtl] .zod-product-card .zpc-wishlist{right:10px!important;left:auto!important}
+html[dir=rtl] .zod-product-card .zpc-media-add{left:10px!important;right:auto!important}
+html[dir=rtl] .zod-product-card .zpc-offer-badge{left:0!important;right:auto!important;border-radius:0 0 0 9px!important}
+html[dir=ltr] .zod-product-card .zpc-wishlist{left:10px!important;right:auto!important}
+html[dir=ltr] .zod-product-card .zpc-media-add{right:10px!important;left:auto!important}
+html[dir=ltr] .zod-product-card .zpc-offer-badge{right:0!important;left:auto!important;border-radius:0 0 9px 0!important}
+html[dir=rtl] .zod-product-card .zpc-body{text-align:right!important}
+html[dir=ltr] .zod-product-card .zpc-body{text-align:left!important}
+html[dir=rtl] .zod-native-card-actions{right:10px!important;left:auto!important}
+html[dir=ltr] .zod-native-card-actions{left:10px!important;right:auto!important}
+@media(max-width:767px){
+  html[dir=rtl] .zod-product-card .zpc-wishlist,
+  html[dir=rtl] .zod-native-card-actions{right:7px!important}
+  html[dir=ltr] .zod-product-card .zpc-wishlist,
+  html[dir=ltr] .zod-native-card-actions{left:7px!important}
+  html[dir=rtl] .zod-product-card .zpc-media-add{left:7px!important}
+  html[dir=ltr] .zod-product-card .zpc-media-add{right:7px!important}
+}
