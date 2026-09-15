@@ -231,7 +231,8 @@ assert(appCss.includes('html[dir="ltr"] main a .sicon-arrow-left'),'LTR consumer
 assert(appCss.includes('body.cart-page .zod-whatsapp-float'),'The mobile WhatsApp control must clear the cart checkout dock');
 assert(appCss.includes('min-height:44px!important'),'Mobile interactive controls must retain accessible touch targets');
 assert(!read('src/assets/js/product.js').includes('normalizeProductCopy'),'Theme scripts must not rewrite Salla-managed product descriptions');
-assert(!read('src/assets/js/partials/product-card.js').includes('const taxLabel = p.is_taxable'),'Store-wide VAT messaging must not disappear because of inconsistent product flags');
+assert(read('src/assets/js/partials/product-card.js').includes('p.is_taxable === false ? \'\' :'),
+  'Product cards must suppress VAT wording only for an explicit non-taxable flag');
 assert(appCss.includes('ZOD v1.6.40 — unified Orkida-density product cards'),'Unified native/custom product-card release styles are required');
 assert(appCss.includes('salla-product-card.s-product-card-vertical .s-product-card-image img'),'Native Salla cards must share ZOD image framing');
 assert(appCss.includes('salla-product-card.s-product-card-vertical salla-add-product-button .s-button-element'),'Native Salla cards must share the compact purchase button');

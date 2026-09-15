@@ -191,7 +191,9 @@ class ZodProductCard extends HTMLElement {
     const sale = this.number(p.sale_price ?? p.offer_price ?? p.discounted_price);
     const regular = this.number(p.regular_price ?? p.original_price ?? p.old_price ?? p.price_before_discount);
     const original = regular > sale ? regular : (sale > 0 && listed > sale ? listed : regular);
-    const onSale = sale > 0 && original > sale;
+    // Salla applies sale dates before exposing is_on_sale. A scheduled or
+    // expired sale_price must not become a live discount on the card.
+    const onSale = p.is_on_sale === false ? false : sale > 0 && original > sale;
     return { current: onSale ? sale : (listed || sale || regular), original: onSale ? original : 0, onSale };
   }
 
@@ -357,7 +359,8 @@ class ZodProductCard extends HTMLElement {
     const description = this.stripHtml(details.short_description || details.subtitle || details.description || '').slice(0, 220);
     const status = isOut ? (window.notify_when_available_in_card !== false && !['donating', 'financial_support'].includes(details.type) ? 'out-and-notify' : 'out') : details.status;
     const hasOptions = Boolean(details.has_options || (Array.isArray(details.options) && details.options.length));
-    const quickBuy = details.can_quick_buy && !hasOptions && !isOut ? ' quick-buy' : '';
+    const needsProductForm = Boolean(hasOptions || details.can_add_note || details.can_upload_file || details.has_custom_form || details.has_bundle_products);
+    const quickBuy = details.can_quick_buy && !needsProductForm && !isOut ? ' quick-buy' : '';
 
     content.innerHTML = `
       <div class="zod-qv__media"><img src="${this.esc(image)}" alt="${this.esc(details.name || '')}"></div>
@@ -365,13 +368,13 @@ class ZodProductCard extends HTMLElement {
         ${category ? `<span class="zod-qv__category">${this.esc(category.name)}</span>` : ''}
         <h2 id="zod-qv-title">${this.esc(details.name || '')}</h2>
         <div class="zod-qv__price">${this.price(details)}</div>
-        <small class="zod-qv__tax">${this.esc(this.t('pages.products.tax_included', this.isArabic() ? 'شامل ضريبة القيمة المضافة' : 'VAT included'))}</small>
+        ${details.is_taxable === false ? '' : `<small class="zod-qv__tax">${this.esc(this.t('pages.products.tax_included', this.isArabic() ? 'شامل ضريبة القيمة المضافة' : 'VAT included'))}</small>`}
         <div class="zod-qv__stock ${isOut ? 'is-out' : 'is-in'}"><i></i>${this.esc(stockLabel)}</div>
         ${description ? `<p>${this.esc(description)}</p>` : ''}
-        ${hasOptions ? `<div class="zod-qv__options-note"><i class="sicon-list"></i>${this.esc(optionLabel)}</div>` : `
+        ${needsProductForm ? `<div class="zod-qv__options-note"><i class="sicon-list"></i>${this.esc(hasOptions ? optionLabel : detailsLabel)}</div>` : `
         <div class="zod-qv__purchase">
           ${!details.is_hidden_quantity && details.type !== 'booking' ? `<salla-quantity-input value="1" name="quantity" max="${this.esc(details.max_quantity || '')}"></salla-quantity-input>` : '<input type="hidden" name="quantity" value="1">'}
-          <salla-add-product-button${quickBuy} width="wide" fill="outline" product-id="${this.esc(details.id)}" product-status="${this.esc(status || '')}" product-type="${this.esc(details.type || 'product')}">${this.esc(addLabel)}</salla-add-product-button>
+          <salla-add-product-button${quickBuy}${details.is_require_shipping ? ' required-shipping' : ''}${details.has_preorder_campaign ? ' has-pre-order' : ''} width="wide" fill="outline" product-id="${this.esc(details.id)}" product-status="${this.esc(status || '')}" product-type="${this.esc(details.type || 'product')}"${details.base_currency_price != null ? ` amount="${this.esc(details.base_currency_price)}"` : ''}>${this.esc(addLabel)}</salla-add-product-button>
         </div>`}
         <a class="zod-qv__details" href="${this.esc(details.url || product.url || '#')}">${this.esc(detailsLabel)} <i class="sicon-arrow-left"></i></a>
       </div>`;
@@ -393,9 +396,10 @@ class ZodProductCard extends HTMLElement {
     const inWishlist = this.initialWishlistState(p);
     const promo = this.templateText(p.promotion_title ?? p.promotional_title ?? p.promo_title ?? p.promotion?.title, p);
     const subtitle = this.templateText(p.subtitle ?? p.sub_title, p);
-    const taxLabel = this.t('pages.products.tax_included', this.isArabic() ? 'شامل ضريبة القيمة المضافة' : 'VAT included');
+    const taxLabel = p.is_taxable === false ? '' : this.t('pages.products.tax_included', this.isArabic() ? 'شامل ضريبة القيمة المضافة' : 'VAT included');
     const optionCount = Array.isArray(p.options) ? p.options.length : 0;
     const hasOptions = Boolean(p.has_options || optionCount);
+    const needsProductForm = Boolean(hasOptions || p.can_add_note || p.can_upload_file || p.has_custom_form || p.has_bundle_products);
     const optionsLabel = this.t('zod.product.options_available', this.isArabic() ? 'خيارات متاحة' : 'Options available');
     const chooseOptionsLabel = this.t('zod.product.choose_options_card', this.isArabic() ? 'اختر الخيارات' : 'Choose options');
 
@@ -408,9 +412,9 @@ class ZodProductCard extends HTMLElement {
         ${isOut ? `<span class="zpc-stock-stamp">${this.esc(outLabel)}</span>` : ''}
         <button type="button" class="zpc-action zpc-wishlist ${inWishlist ? 'is-active' : ''}" data-id="${p.id}" aria-label="${wishlistLabel}" aria-pressed="${inWishlist ? 'true' : 'false'}"><i class="sicon-heart"></i></button>
         <div class="zpc-media-dots" data-zpc-dots ${this.mediaImages.length < 2 ? 'hidden' : ''}></div>
-        ${!isOut ? (hasOptions
-          ? `<a class="zpc-media-add zpc-media-add--options" href="${this.esc(p.url || '#')}" aria-label="${this.esc(chooseOptionsLabel)}"><span aria-hidden="true">+</span></a>`
-          : `<salla-add-product-button class="zpc-media-add" fill="outline" product-id="${p.id}" product-status="${this.esc(status || '')}" product-type="${this.esc(p.type || 'product')}" aria-label="${this.esc(addLabel)}"><span aria-hidden="true">+</span></salla-add-product-button>`)
+        ${!isOut ? (needsProductForm
+          ? `<a class="zpc-media-add zpc-media-add--options" href="${this.esc(p.url || '#')}" aria-label="${this.esc(hasOptions ? chooseOptionsLabel : (this.isArabic() ? 'عرض المنتج' : 'View product'))}"><span aria-hidden="true">+</span></a>`
+          : `<salla-add-product-button class="zpc-media-add" fill="outline" product-id="${p.id}" product-status="${this.esc(status || '')}" product-type="${this.esc(p.type || 'product')}"${p.is_require_shipping ? ' required-shipping' : ''}${p.has_preorder_campaign ? ' has-pre-order' : ''}${p.base_currency_price != null ? ` amount="${this.esc(p.base_currency_price)}"` : ''} aria-label="${this.esc(addLabel)}"><span aria-hidden="true">+</span></salla-add-product-button>`)
           : ''}
       </div>
       <div class="zpc-body">
@@ -420,8 +424,8 @@ class ZodProductCard extends HTMLElement {
         ${brand ? `${brand.url ? `<a class="zpc-brand" href="${this.esc(brand.url)}">${this.esc(brand.name)}</a>` : `<span class="zpc-brand">${this.esc(brand.name)}</span>`}` : ''}
         ${p.rating?.stars ? `<div class="zpc-meta"><span class="zpc-rating"><i class="sicon-star2"></i>${this.esc(p.rating.stars)}${p.rating.count ? ` <small>(${this.esc(p.rating.count)})</small>` : ''}</span></div>` : ''}
         <div class="zpc-bottom">${this.price()}</div>
-        <p class="zpc-tax">${this.esc(taxLabel)}</p>
-        ${hasOptions ? `<a class="zpc-options" href="${this.esc(p.url || '#')}"><i class="sicon-list"></i><span>${this.esc(optionsLabel)}</span>${optionCount ? `<b>${this.esc(optionCount)}</b>` : ''}</a>` : ''}
+        ${taxLabel ? `<p class="zpc-tax">${this.esc(taxLabel)}</p>` : ''}
+        ${needsProductForm ? `<a class="zpc-options" href="${this.esc(p.url || '#')}"><i class="sicon-list"></i><span>${this.esc(hasOptions ? optionsLabel : (this.isArabic() ? 'عرض تفاصيل المنتج' : 'View product details'))}</span>${hasOptions && optionCount ? `<b>${this.esc(optionCount)}</b>` : ''}</a>` : ''}
       </div>`;
 
     this.renderMediaDots();

@@ -89,6 +89,13 @@ const context = vm.createContext({HTMLElement:class {}, customElements:{get:()=>
 vm.runInContext(read('src/assets/js/partials/product-card.js').replace(/^import .*;\r?\n/gm,''),context);
 const card = new Card();
 card.stripHtml = value => value;
+assert.equal(card.priceValues({price:115,regular_price:115,sale_price:80,is_on_sale:false}).onSale,false,
+  'scheduled discounts do not appear as active card offers');
+assert.equal(card.priceValues({price:115,regular_price:115,sale_price:80,is_on_sale:true}).current,80,
+  'active Salla discounts appear at the sale price');
+assert.match(read('src/views/pages/product/single.twig'),
+  /store-product-installment" price="\{\{ has_valid_sale \? product.sale_price : product.price \}\}"/,
+  'installments use the sale price only when Salla marks the sale active');
 const first = card.openQuickView({id:1, name:'First', url:'/first'});
 const second = card.openQuickView({id:2, name:'Second', url:'/second'});
 requests[1].resolve({data:{id:2,name:'Newest',url:'/second',is_available:true}});
@@ -102,6 +109,17 @@ requests[2].reject(new Error('offline'));
 await failed;
 assert.match(content.innerHTML,/Fallback/);
 assert.equal(modal.__zodLastFocus,trigger);
+const noteProduct = card.openQuickView({id:4,name:'Needs a note',url:'/notes',is_available:true});
+requests[3].resolve({data:{id:4,name:'Needs a note',url:'/notes',is_available:true,can_add_note:true}});
+await noteProduct;
+assert.match(content.innerHTML,/View full details/);
+assert.doesNotMatch(content.innerHTML,/<salla-add-product-button/,
+  'quick view must not bypass Salla product notes or attachment fields');
+const nonTaxable = card.openQuickView({id:5,name:'Non-taxable',url:'/non-taxable',is_available:true});
+requests[4].resolve({data:{id:5,name:'Non-taxable',url:'/non-taxable',is_available:true,is_taxable:false}});
+await nonTaxable;
+assert.doesNotMatch(content.innerHTML,/zod-qv__tax/,
+  'non-taxable Salla products must not claim VAT is included');
 
 // The server-rendered total must survive stale cache and late pre-mutation responses.
 const handlers = {};
