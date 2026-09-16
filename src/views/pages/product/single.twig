@@ -1,21 +1,22 @@
 {% extends "layouts.master" %}
 
+{#
+  Product contract parity note — synced against Theme Raed master (2026-09-16).
+  Important upstream behaviors preserved here:
+  - product.price may be the string "-"; never perform numeric Twig comparisons on it.
+  - product.brand.logo is a URL string in the current Raed contract.
+  - product IDs passed into JS calls stay quoted as strings.
+  - digital file settings, metadata, gifting, quick order and product hooks remain native.
+#}
+
 {% block content %}
 {% set product_available = product.is_available or product.status == 'sale' %}
-{% set sticky_image = product.image.url ? product.image : (product.images|first) %}
-{# Some Salla product snapshots may flag is_on_sale while sale_price is zero. Never render 0 as a real discount. #}
-{% set sale_price_value = product.sale_price|default(0)|float %}
-{% set regular_price_value = product.regular_price|default(product.price)|float %}
-{% set base_price_value = product.price|default(0)|float %}
-{% set has_valid_sale = product.is_on_sale and sale_price_value > 0 and ((regular_price_value > sale_price_value) or (base_price_value > sale_price_value)) %}
-{# Some product payloads omit regular_price during an active campaign. #}
-{% set compare_price_value = regular_price_value > sale_price_value ? regular_price_value : base_price_value %}
-{% set show_compare_price = has_valid_sale and compare_price_value > sale_price_value %}
-{% set starting_price_value = product.starting_price|default(0)|float %}
-{% set display_price_value = has_valid_sale ? sale_price_value : (starting_price_value > 0 ? starting_price_value : product.price) %}
-{% set sticky_price_value = display_price_value %}
+{# Keep product rendering tolerant of the full Salla product contract. Raed documents that
+   product.price may be the string "-"; numeric Twig comparisons here can abort rendering. #}
+{% set sticky_image = product.image ? product.image : (product.images|first) %}
+{% set sticky_price_value = product.is_on_sale ? product.sale_price : (product.starting_price ? product.starting_price : product.price) %}
 {% set show_product_reviews = store.settings.rating.show_on_product or product.rating %}
-{% set brand_logo = product.brand and product.brand.logo ? product.brand.logo.url|default(product.brand.logo) : null %}
+{% set brand_logo = product.brand and product.brand.logo ? product.brand.logo : null %}
 
 {% if theme.settings.get('product_show_breadcrumbs', true) %}
 <div class="container zod-product-breadcrumb-wrap">
@@ -35,9 +36,11 @@
           data-zod-gallery-slider
           id="details-slider-{{ product.id }}"
           class="zod-product-slider"
+          data-images='{{ product.images|json_encode }}'
           type="default"
           loop="false"
           auto-height
+          listen-to-thumbnails-option
           show-controls="false">
 
           {% if product.promotion_title %}<div class="zod-product-badge">{{ product.promotion_title }}</div>{% endif %}
@@ -54,6 +57,8 @@
                    data-slid-index="{{ loop.index0 }}"
                    data-zod-slide-index="{{ loop.index0 }}"
                    data-type="{{ image.video_type|default('image') }}"
+                   data-caption="{{ image.alt|default(product.name) }}"
+                   data-infinite="false"
                    {% if image.video_url %}data-video-src="{{ image.video_url }}"{% endif %}
                    href="{{ (image.video_url is iterable ? image.video_url|first : image.video_url)|default(image.url) }}"
                    aria-label="{{ product.name }}">
@@ -117,17 +122,21 @@
         <i class="sicon-check-circle" aria-hidden="true"></i>
         {{ trans('pages.products.tax_included') }}
       </small>{% endif %}
-      <div data-testid="store-product-price" class="zod-product-price price-wrapper" data-zod-main-price>
-        <div class="price_is_on_sale {{ has_valid_sale ? '' : 'hidden' }}">
-          <strong class="total-price">{{ sale_price_value|money }}</strong>
-          {% if show_compare_price %}<del class="before-price">{{ compare_price_value|money }}</del>{% endif %}
-          {% if has_valid_sale and product.discount_percentage %}<span class="zod-discount">{{ product.discount_percentage }}</span>{% endif %}
+      <div data-testid="store-product-price"
+           class="zod-product-price price-wrapper"
+           data-zod-main-price
+           data-zod-is-on-sale="{{ product.is_on_sale ? '1' : '0' }}"
+           data-zod-sale-price="{{ product.sale_price|default('') }}">
+        <div class="price_is_on_sale {{ product.is_on_sale ? '' : 'hidden' }}">
+          <strong class="total-price">{{ product.sale_price|money }}</strong>
+          <del class="before-price">{{ product.regular_price|money }}</del>
+          {% if product.discount_percentage %}<span class="zod-discount">{{ product.discount_percentage }}</span>{% endif %}
         </div>
-        <div class="starting-or-normal-price {{ has_valid_sale ? 'hidden' : '' }}">
-          {% if product.starting_price and product.starting_price > 0 %}<small class="starting-price-title">{{ trans('pages.products.starting_price') }}</small>{% endif %}
-          <strong class="total-price">{{ display_price_value|money }}</strong>
+        <div class="starting-or-normal-price {{ product.is_on_sale ? 'hidden' : '' }}">
+          {% if product.starting_price %}<small class="starting-price-title">{{ trans('pages.products.starting_price') }}</small>{% endif %}
+          <strong class="total-price">{{ product.starting_price ? product.starting_price|money : product.price|money }}</strong>
         </div>
-        <div data-testid="store-product-out-of-stock" class="out-of-stock zod-native-out-stock-state hidden" aria-hidden="true"></div>
+        <div data-testid="store-product-out-of-stock" class="out-of-stock zod-native-out-stock-state hidden" aria-hidden="true">{{ trans('pages.products.out_of_stock') }}</div>
       </div>
 
       <div class="zod-stock-cluster">
@@ -159,15 +168,16 @@
       </section>
       {% endif %}
 
-      {% if product.category or product.weight or product.sku %}
+      {% if product.category or product.weight or product.sku or product.barcode %}
       <div class="zod-product-facts" aria-label="{{ trans('zod.product.details') }}">
         {% if product.category %}<a class="zod-product-fact" href="{{ product.category.url }}"><span><i class="sicon-folder"></i>{{ trans('zod.product.category') }}</span><strong>{{ product.category.name }}</strong></a>{% endif %}
         {% if product.sku and theme.settings.get('show_product_sku', true) %}<div class="zod-product-fact"><span><i class="sicon-barcode"></i>{{ trans('zod.product.model') }}</span><strong class="product-sku">{{ product.sku }}</strong></div>{% endif %}
+        {% if product.barcode %}<div class="zod-product-fact"><span><i class="sicon-barcode"></i>{{ trans('pages.products.barcode') }}</span><strong class="product-barcode">{{ product.barcode }}</strong></div>{% endif %}
         {% if product.weight %}<div class="zod-product-fact"><span><i class="sicon-luggage-cart"></i>{{ trans('pages.products.weight') }}</span><strong class="product-weight">{{ product.weight }}</strong></div>{% endif %}
       </div>
       {% endif %}
 
-      {% if product.tags|length and theme.settings.get('show_tags', false) %}<div class="zod-tags">{% for tag in product.tags %}<a href="{{ tag.url }}">{{ tag.name }}</a>{% endfor %}</div>{% endif %}
+      {% if product.tags|length and theme.settings.get('show_tags', true) %}<div class="zod-tags">{% for tag in product.tags %}<a href="{{ tag.url }}">{{ tag.name }}</a>{% endfor %}</div>{% endif %}
 
       {% hook 'product:single.description' %}
 
@@ -185,7 +195,7 @@
       {% endif %}
 
       <div class="zod-installment-zone">
-        <salla-installment data-testid="store-product-installment" price="{{ has_valid_sale ? sale_price_value : product.price }}"></salla-installment>
+        <salla-installment data-testid="store-product-installment" price="{{ product.price }}"></salla-installment>
       </div>
 
       {% if product.show_availability %}
@@ -203,13 +213,13 @@
         {% hook 'product:single.form.end' %}
 
         {% if product.has_preorder_campaign %}<div class="zod-preorder"><salla-count-down data-testid="store-product-preorder-countdown" pre-order='{{ product.preorder|json_encode }}' boxed labeled></salla-count-down></div>{% endif %}
-        {% if product.discount_ends and has_valid_sale %}<div class="zod-sale-countdown"><salla-count-down date="{{ product.discount_ends }}" color="primary" size="sm" labeled></salla-count-down></div>{% endif %}
+        {% if product.discount_ends and product.is_on_sale %}<div class="zod-sale-countdown"><salla-count-down date="{{ product.discount_ends }}" color="primary" size="sm" labeled></salla-count-down></div>{% endif %}
 
         <div class="zod-buy-controls-anchor" data-zod-buy-anchor>
           <div class="zod-buy-controls sticky-product-bar is-docked is-ready {{ product.is_hidden_quantity or product.type == 'booking' ? 'zod-buy-controls--no-qty' : '' }} {{ product.can_quick_buy ? 'zod-buy-controls--quick' : '' }} {{ not product_available ? 'zod-buy-controls--unavailable' : '' }}" data-zod-sticky-buy>
             <div class="zod-sticky-product-summary">
               <div class="zod-sticky-product-summary__image">
-                {% if sticky_image %}<img src="{{ sticky_image.url }}" alt="{{ sticky_image.alt|default(product.name) }}">{% else %}<img src="{{ 'images/placeholder.svg'|asset }}" alt="{{ product.name }}">{% endif %}
+                {% if sticky_image and sticky_image.url %}<img src="{{ sticky_image.url }}" alt="{{ sticky_image.alt|default(product.name) }}">{% else %}<img src="{{ 'images/placeholder.svg'|asset }}" alt="{{ product.name }}">{% endif %}
               </div>
               <div class="zod-sticky-product-summary__copy">
                 <div class="zod-sticky-product-summary__name">{{ product.name }}</div>
@@ -238,8 +248,8 @@
                    component, preventing the duplicate Buy Now buttons we had before. #}
                 <salla-add-product-button
                   data-testid="store-product-add-to-cart"
-                  {{ product.can_quick_buy and product_available ? 'quick-buy' : '' }}
-                  support-sticky-bar
+                  {{ product.can_quick_buy ? 'quick-buy' : '' }}
+                  {{ theme.settings.get('sticky_add_to_cart') ? 'support-sticky-bar' : '' }}
                   {{ product.is_require_shipping ? 'required-shipping' : '' }}
                   {{ product.has_preorder_campaign ? 'has-pre-order' : '' }}
                   amount="{{ product.base_currency_price }}"
@@ -260,6 +270,8 @@
             </div>
           </div>
         </div>
+
+        {% if product.is_giftable %}<salla-gifting data-testid="store-product-gifting" class="zod-gifting" widget-subtitle="{{ gifting_intro }}" product-id="{{ product.id }}" {{ product.is_require_shipping ? 'physical-products' : '' }}></salla-gifting>{% endif %}
       </form>
 
       {% if theme.settings.get('show_product_trust', true) %}
@@ -278,7 +290,6 @@
       </section>
       {% endif %}
 
-      {% if product.is_giftable %}<salla-gifting data-testid="store-product-gifting" class="zod-gifting" product-id="{{ product.id }}" {{ product.is_require_shipping ? 'physical-products' : '' }}></salla-gifting>{% endif %}
       <salla-quick-order data-testid="store-product-quick-order" class="zod-quick-order"></salla-quick-order>
 
       {% hook 'product:single.description.end' %}
@@ -297,7 +308,7 @@
 </section>
 
 <div class="s-blocks-wrapper s-before-reviews">{% hook 'product.single.before_customer_reviews' %}</div>
-{% if show_product_reviews %}
+{% if store.settings.rating.show_on_product %}
 <section id="reviews" class="zod-section zod-product-reviews">
   <div class="container">
     <div class="zod-review-header">
@@ -322,5 +333,7 @@
 
 {% block scripts %}
 <script defer src="{{ 'product.js'|asset }}"></script>
+<script defer src="{{ 'product-runtime-compat.js'|asset }}"></script>
 {% if product.has_3d_image %}<script type="module" defer src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>{% endif %}
+{% if product.digital_files_settings %}<script type="module" defer src="{{ 'digital-files.js'|asset }}"></script>{% endif %}
 {% endblock %}

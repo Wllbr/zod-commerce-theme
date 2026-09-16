@@ -89,13 +89,34 @@ const context = vm.createContext({HTMLElement:class {}, customElements:{get:()=>
 vm.runInContext(read('src/assets/js/partials/product-card.js').replace(/^import .*;\r?\n/gm,''),context);
 const card = new Card();
 card.stripHtml = value => value;
+assert.equal(card.productUrl({urls:{customer:'/customer-product'}}),'/customer-product','product links accept Salla urls.customer payloads');
+assert.equal(card.productUrl({url:{url:'/object-url'}}),'/object-url','product links accept object URL payloads');
+assert.ok(card.bestSellerTag({tags:[{name:'Best Seller'}]}),'Best Seller tags drive the green marketplace badge');
+assert.equal(card.bestSellerTag({tags:[{name:'Clearance'}]}),null,'unrelated tags do not create a Best Seller badge');
 assert.equal(card.priceValues({price:115,regular_price:115,sale_price:80,is_on_sale:false}).onSale,false,
   'scheduled discounts do not appear as active card offers');
 assert.equal(card.priceValues({price:115,regular_price:115,sale_price:80,is_on_sale:true}).current,80,
   'active Salla discounts appear at the sale price');
-assert.match(read('src/views/pages/product/single.twig'),
-  /store-product-installment" price="\{\{ has_valid_sale \? (?:product\.sale_price|sale_price_value) : product\.price \}\}"/,
-  'installments use the sale price only when Salla marks the sale active');
+const productTemplate = read('src/views/pages/product/single.twig');
+const productPageSource = read('src/assets/js/product.js');
+assert.match(productTemplate,
+  /store-product-installment" price="\{\{ product\.price \}\}"/,
+  'installments keep Theme Raed/Salla native product pricing');
+assert.doesNotMatch(productTemplate,
+  /sale_price_value|regular_price_value|base_price_value|compare_price_value|starting_price_value|display_price_value|has_valid_sale/,
+  'product rendering must not use numeric Twig price-normalization variables');
+assert.match(productTemplate,/data-images='\{\{ product\.images\|json_encode \}\}'/,
+  'product slider exposes Salla image data for option-linked thumbnails');
+assert.match(productTemplate,/listen-to-thumbnails-option/,
+  'product slider listens to Salla thumbnail options');
+assert.match(productTemplate,/digital-files\.js/,
+  'digital products load the Theme Raed-compatible digital-files component');
+assert.match(productPageSource,/product::price\.updated\.failed/,
+  'product page reacts to Salla price failures');
+assert.match(productPageSource,/onPriceUpdated/,
+  'product page reacts to Salla native option-price updates');
+assert.match(productPageSource,/salla\.product\.getPrice|window\.salla\.product\.getPrice/,
+  'valid option changes request a fresh native Salla price');
 const first = card.openQuickView({id:1, name:'First', url:'/first'});
 const second = card.openQuickView({id:2, name:'Second', url:'/second'});
 requests[1].resolve({data:{id:2,name:'Newest',url:'/second',is_available:true}});
@@ -244,6 +265,6 @@ assert.doesNotMatch(laserTemplate,/sicon-play/,'laser selector does not show dec
 assert.doesNotMatch(laserTemplate,/motion_preview|zod-laser-panel__live/,'laser media does not show a redundant live-preview badge');
 assert.match(laserTemplate,/zod-laser-panel__feature-icon[\s\S]*zod-laser-showcase__browse/,'laser showcase uses icon benefits and a browse-all action');
 assert.match(styles,/\.zod-laser-showcase\.is-sound-cue[\s\S]*zodLaserSoundCue/,'laser sound control provides a limited arrival cue');
-assert.match(productCardSource,/event\.target\.closest\('a,button,input,select,textarea,salla-add-product-button,salla-button'\)[\s\S]*window\.location\.assign\(p\.url\)/,'unused custom-card space opens the product without hijacking dedicated actions');
+assert.match(productCardSource,/resolveProductUrl\(this\.product\)[\s\S]*window\.location\.assign\(url\)/,'unused custom-card space resolves URL-less Salla payloads before navigation');
 
 console.log('PASS: mobile dialog layering, cart dock isolation, bilingual showcase routing, and category drawer calls to action.');

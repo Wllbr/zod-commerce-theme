@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.7.13','package.json: expected v1.7.13');
+assert(pkg.version==='1.7.16','package.json: expected v1.7.16');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 const trackedResult=spawnSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8'});
 assert(trackedResult.status===0,'Git tracked-file inventory must be available');
@@ -194,7 +194,7 @@ assert(read('src/views/pages/page-single.twig').includes("information_page.infor
 assert(read('src/views/pages/page-single.twig').includes('zod-info-page__card'),'Information pages must use the redesigned readable content card');
 assert(single.includes('zod-product-brand-card'),'Product page must render the single brand exploration card');
 assert(!single.includes('zod-brand-explore-card'),'Product page must not render the old duplicate brand card');
-assert(single.includes("product.can_quick_buy and product_available ? 'quick-buy' : ''"),'Product page must enable native quick-buy on the single purchase component when supported');
+assert(single.includes("product.can_quick_buy ? 'quick-buy' : ''"),'Product page must enable native quick-buy on the single purchase component when supported');
 assert(single.includes('class="form product-form zod-purchase-form"'),'Product page must expose form.product-form for Salla native fast checkout');
 assert(single.includes('support-sticky-bar'),'Product purchase component must declare support for the persistent Salla purchase dock');
 assert((single.match(/data-zod-product-offers/g)||[]).length===1,'Product page must render one available-offers panel');
@@ -231,13 +231,13 @@ assert(appCss.includes('html[dir="ltr"] main a .sicon-arrow-left'),'LTR consumer
 assert(appCss.includes('body.cart-page .zod-whatsapp-float'),'The mobile WhatsApp control must clear the cart checkout dock');
 assert(appCss.includes('min-height:44px!important'),'Mobile interactive controls must retain accessible touch targets');
 assert(!read('src/assets/js/product.js').includes('normalizeProductCopy'),'Theme scripts must not rewrite Salla-managed product descriptions');
-assert(read('src/assets/js/partials/product-card.js').includes('p.is_taxable === false ? \'\' :'),
-  'Product cards must suppress VAT wording only for an explicit non-taxable flag');
+assert(!read('src/assets/js/partials/product-card.js').includes('class=\"zpc-tax\"'),
+  'Marketplace product cards keep VAT copy off the compact card surface');
 assert(appCss.includes('ZOD v1.6.40 — unified Orkida-density product cards'),'Unified native/custom product-card release styles are required');
 assert(appCss.includes('salla-product-card.s-product-card-vertical .s-product-card-image img'),'Native Salla cards must share ZOD image framing');
 assert(appCss.includes('salla-product-card.s-product-card-vertical salla-add-product-button .s-button-element'),'Native Salla cards must share the compact purchase button');
-assert(appCss.includes('ZOD v1.7.12 — storefront-wide marketplace product cards'),'Marketplace product-card styles are required');
-assert(appCss.includes('.zpc-media-dots'),'Product cards must expose synchronized image gallery dots');
+assert(appCss.includes('ZOD v1.7.14 — Noon-inspired marketplace cards, bilingual and data-driven.'),'Marketplace product-card v1.7.14 styles are required');
+assert(appCss.includes('.zpc-bestseller-badge') && appCss.includes('.zpc-deal-strip'),'Marketplace cards must expose Best Seller and deal-strip treatments');
 assert(appCss.includes('[dir=ltr] .zpc-wishlist') && appCss.includes('[dir=rtl] .zpc-wishlist'),'Product-card favorites must follow the storefront language direction');
 assert(appCss.includes('.zod-native-card-actions'),'Native Salla fallback cards must retain the favorite action');
 assert(!read('src/assets/js/app.js').includes('zod-native-quick-view'),'Native product cards must not reintroduce the removed Quick View eye action');

@@ -1,3 +1,35 @@
+## 1.7.16 — Theme Raed product Twig parity refresh
+
+- Reviewed `src/views/pages/product/single.twig` against the current Theme Raed `master` product template (checked 2026-09-16).
+- Preserved the custom ZOD product-page design while aligning native Salla/Twilight behaviors.
+- Treats `product.brand.logo` as the current Raed URL-string contract instead of probing `.url`.
+- Added product barcode support to the ZOD facts area.
+- Restored Raed's default `show_tags=true` fallback while still respecting the merchant setting.
+- Added gallery `data-caption` and `data-infinite` attributes used by Raed's current lightbox markup.
+- Restored native conditional `support-sticky-bar` behavior from the theme setting.
+- Restored native `quick-buy` attribute behavior and keeps product status handling on the Salla component.
+- Moved `salla-gifting` inside the product form and restored `widget-subtitle="{{ gifting_intro }}"`, matching current Raed placement.
+- Customer comments now obey `store.settings.rating.show_on_product`, matching current Raed.
+- Keeps the v1.7.15 price/runtime guards, digital-files loader, native hooks, metadata, quick order, related-products hooks and ZOD styling.
+
+## 1.7.15 — Product page runtime compatibility hotfix
+
+- Removed server-side numeric price comparisons from the product template. Theme Raed documents that `product.price` can be the string `-`, so those comparisons could abort Twig rendering for specific products.
+- Restored Theme Raed-style direct price rendering and native Salla installment pricing.
+- Added Salla native option-price success/failure handling and fresh price requests after valid option changes.
+- Added `data-images` and `listen-to-thumbnails-option` to keep variant images synchronized with Salla product options.
+- Made the sticky product image null-safe for products without a primary image.
+- Restored Theme Raed's digital-files web component and conditional asset loading for digital products.
+
+## 1.7.14 — Marketplace product cards and product-link recovery
+
+- Rebuilt the custom Salla product card to match the approved bilingual marketplace reference: larger product media, plain wishlist heart, corner `+`, compact rating and stronger price hierarchy.
+- Best Seller is driven by matching Salla product tags and respects the theme `show_tags` setting.
+- Promotion titles render as a ZOD red deal strip (not pink).
+- Removed category, brand, subtitle, VAT copy and gallery dots from the compact card surface.
+- Added robust product URL resolution for list payloads that omit `product.url`; links can use `urls.customer` and fall back to `salla.product.getDetails()` before navigation.
+- Added a standalone marketplace-card compatibility entry so packaged public assets receive the fix even before the next production rebuild.
+
 ## 1.7.13 — Merchant product data and desktop Laser World
 - Render Salla subtitle and brand data on custom product cards, including resolved discount, percentage, and brand placeholders.
 - Detect valid sale prices from the product payload even when the sale flag is delayed or omitted.

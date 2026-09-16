@@ -28,6 +28,8 @@ class ZodProductPage {
   }
 
   init() {
+    this.normalizeInitialPriceState();
+    this.initNativePriceUpdates();
     this.initGallery();
     this.initDescription();
     this.initStockStatus();
@@ -39,6 +41,93 @@ class ZodProductPage {
     this.initOptionPanels();
     this.initProductOffers();
     this.initRelatedProducts();
+  }
+
+  normalizeInitialPriceState() {
+    if (!this.mainPrice || this.mainPrice.dataset.zodIsOnSale !== '1') return;
+    const salePrice = Number(this.mainPrice.dataset.zodSalePrice);
+    if (Number.isFinite(salePrice) && salePrice > 0) return;
+
+    // Salla can occasionally expose an on-sale flag while the sale value is empty/zero.
+    // Correct that in the browser instead of doing numeric arithmetic in Twig, where
+    // product.price is allowed to be the string "-" for some product configurations.
+    this.mainPrice.querySelector('.price_is_on_sale')?.classList.add('hidden');
+    this.mainPrice.querySelector('.starting-or-normal-price')?.classList.remove('hidden');
+  }
+
+  initNativePriceUpdates() {
+    const bind = () => {
+      if (this.nativePriceEventsBound || !window.salla) return;
+      if (window.__zodProductNativePriceCompatBound) {
+        this.nativePriceEventsBound = true;
+        return;
+      }
+      this.nativePriceEventsBound = true;
+      window.__zodProductNativePriceCompatBound = true;
+
+      const outOfStock = this.page.querySelector('[data-testid="store-product-out-of-stock"]');
+      const saleBranch = this.mainPrice?.querySelector('.price_is_on_sale');
+      const normalBranch = this.mainPrice?.querySelector('.starting-or-normal-price');
+      const startingTitle = this.mainPrice?.querySelector('.starting-price-title');
+
+      window.salla.event?.on?.('product::price.updated.failed', () => {
+        this.mainPrice?.classList.add('hidden');
+        outOfStock?.classList.remove('hidden');
+        outOfStock?.setAttribute('aria-hidden', 'false');
+        this.setStock(false);
+      });
+
+      window.salla.product?.event?.onPriceUpdated?.(response => {
+        const data = response?.data || response;
+        if (!data) return;
+
+        this.mainPrice?.classList.remove('hidden');
+        outOfStock?.classList.add('hidden');
+        outOfStock?.setAttribute('aria-hidden', 'true');
+        startingTitle?.classList.add('hidden');
+
+        const price = Number(data.price);
+        const regularPrice = Number(data.regular_price);
+        const isOnSale = Boolean(data.has_sale_price)
+          && Number.isFinite(price)
+          && Number.isFinite(regularPrice)
+          && regularPrice > price;
+
+        const money = value => typeof window.salla.money === 'function' ? window.salla.money(value) : String(value ?? '');
+        this.page.querySelectorAll('.total-price').forEach(element => {
+          element.innerHTML = money(data.price);
+        });
+        this.page.querySelectorAll('.before-price').forEach(element => {
+          element.innerHTML = money(data.regular_price);
+        });
+        this.page.querySelectorAll('.product-weight').forEach(element => {
+          element.textContent = data.weight ?? '';
+        });
+        this.page.querySelectorAll('.product-sku').forEach(element => {
+          element.textContent = data.sku ?? '';
+        });
+
+        saleBranch?.classList.toggle('hidden', !isOnSale);
+        normalBranch?.classList.toggle('hidden', isOnSale);
+        requestAnimationFrame(() => this.setStock(this.inferButtonAvailability()));
+      });
+
+      const form = this.page.querySelector('.product-form');
+      form?.addEventListener('change', () => {
+        const elements = [...(form.elements || [])];
+        const isComplete = elements.every(element => !element.willValidate || element.validity?.valid !== false);
+        if (!isComplete || typeof window.salla.product?.getPrice !== 'function') return;
+        Promise.resolve(window.salla.product.getPrice(new FormData(form))).catch(() => {});
+      });
+    };
+
+    if (window.salla?.onReady) {
+      Promise.resolve(window.salla.onReady()).then(bind).catch(() => bind());
+    } else {
+      bind();
+      document.addEventListener('zod::ready', bind, { once: true });
+      document.addEventListener('theme::ready', bind, { once: true });
+    }
   }
 
   initProductOffers() {

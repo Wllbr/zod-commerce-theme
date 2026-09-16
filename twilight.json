@@ -163,8 +163,8 @@
             "id": "show_tags",
             "format": "switch",
             "required": false,
-            "value": false,
-            "selected": false
+            "value": true,
+            "selected": true
         },
         {
             "id": "product_image_fit",

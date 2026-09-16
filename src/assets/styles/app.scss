@@ -4176,7 +4176,7 @@ salla-product-card.s-product-card-vertical .s-product-card-content-title{
   pointer-events:auto!important;
   transform:none!important;
 }
-[dir=rtl] .zod-native-card-actions{right:10px!important;left:auto!important}
+[dir=rtl] .zod-native-card-actions{left:10px!important;right:auto!important}
 .zod-native-card-actions>.s-product-card-wishlist-btn,
 .zod-native-card-actions .s-product-card-wishlist-btn.s-button-element{width:38px!important;min-width:38px!important;height:38px!important;min-height:38px!important}
 .zod-native-quick-view,.zpc-quick-view{display:none!important}
@@ -4220,4 +4220,67 @@ salla-product-card.s-product-card-vertical .s-product-card-content-title{
   .zpc-body h3,salla-product-card.s-product-card-vertical .s-product-card-content-title{min-height:38px!important;max-height:38px!important;font-size:12px!important;line-height:19px!important}
   .zpc-price strong{font-size:16px!important;line-height:21px!important}
   .zpc-price-discount{font-size:11px}
+}
+
+/* ZOD v1.7.14 — Noon-inspired marketplace cards, bilingual and data-driven. */
+.zod-product-card--marketplace{
+  border:1px solid #e6e8eb!important;
+  border-radius:11px!important;
+  background:#fff!important;
+  box-shadow:none!important;
+  transform:none!important;
+  overflow:hidden!important;
+}
+.zod-product-card--marketplace:hover{border-color:#d9dde2!important;box-shadow:0 5px 18px rgba(16,24,40,.06)!important;transform:none!important}
+.zod-product-card--marketplace .zpc-media{aspect-ratio:1/1.2!important;background:#fafafa!important;overflow:hidden!important}
+.zod-product-card--marketplace .zpc-media img{padding:5px!important;object-fit:contain!important;transform:none!important;transition:transform .25s ease,opacity .16s ease!important}
+.zod-product-card--marketplace:hover .zpc-media img{transform:scale(1.012)!important}
+.zpc-bestseller-badge{
+  position:absolute;z-index:13;top:0;inset-inline-start:0;display:inline-flex;align-items:center;min-height:26px;max-width:72%;
+  padding:5px 8px;border-radius:0 0 7px 0;background:#07584f;color:#fff;font-size:11px;font-weight:900;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+[dir=rtl] .zpc-bestseller-badge{border-radius:0 0 0 7px}
+.zod-product-card--marketplace .zpc-wishlist{
+  top:7px!important;inset-inline-end:7px!important;inset-inline-start:auto!important;width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;
+  border:0!important;border-radius:50%!important;background:transparent!important;color:#43536a!important;box-shadow:none!important;backdrop-filter:none!important;font-size:23px!important
+}
+.zod-product-card--marketplace .zpc-wishlist:hover{border:0!important;background:rgba(255,255,255,.75)!important;color:#ed1c2e!important;transform:scale(1.06)!important}
+.zod-product-card--marketplace .zpc-wishlist.is-active{border:0!important;background:rgba(255,255,255,.78)!important;color:#ed1c2e!important}
+.zod-product-card--marketplace .zpc-media-add{
+  inset-inline-end:8px!important;bottom:9px!important;width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important;
+  border:1px solid #e1e4e8!important;border-radius:9px!important;background:#fff!important;color:#25324a!important;box-shadow:0 2px 7px rgba(16,24,40,.06)!important;font-size:30px!important;font-weight:300!important
+}
+.zod-product-card--marketplace .zpc-media-add::part(button),
+.zod-product-card--marketplace .zpc-media-add .s-button-element{width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important;border-radius:9px!important;font-size:30px!important}
+.zod-product-card--marketplace .zpc-media-add:hover{transform:none!important;border-color:#bac1c9!important;box-shadow:0 3px 10px rgba(16,24,40,.1)!important}
+.zpc-deal-strip{
+  display:flex;align-items:center;gap:5px;width:100%;min-height:25px;padding:4px 8px;background:#ed1c2e;color:#fff;font-size:10.5px;font-weight:750;line-height:1.2;text-align:start
+}
+.zpc-deal-strip span{font-size:8px;opacity:.9}.zpc-deal-strip b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:850}
+.zod-product-card--marketplace .zpc-body{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;align-items:stretch!important;min-height:157px!important;padding:9px 9px 10px!important;text-align:start!important}
+.zod-product-card--marketplace .zpc-body h3{display:-webkit-box!important;min-height:54px!important;max-height:54px!important;margin:0 0 6px!important;overflow:hidden!important;color:#111827!important;font-size:13px!important;font-weight:600!important;line-height:18px!important;text-align:start!important;-webkit-box-orient:vertical!important;-webkit-line-clamp:3!important}
+.zod-product-card--marketplace .zpc-body h3 a{color:inherit!important;text-decoration:none!important}
+.zod-product-card--marketplace .zpc-meta{height:18px!important;margin:0 0 5px!important;text-align:start!important}
+.zod-product-card--marketplace .zpc-rating{display:inline-flex!important;align-items:center!important;gap:3px!important;color:#1d2939!important;font-size:11px!important;font-weight:750!important;direction:ltr}
+[dir=rtl] .zod-product-card--marketplace .zpc-rating{direction:rtl}
+.zod-product-card--marketplace .zpc-rating i{color:#068a36!important;font-size:11px!important}
+.zod-product-card--marketplace .zpc-rating small{color:#98a1ad!important;font-size:10px!important;font-weight:500!important}
+.zod-product-card--marketplace .zpc-bottom{margin-top:auto!important;text-align:start!important}
+.zod-product-card--marketplace .zpc-price{display:flex!important;align-items:baseline!important;justify-content:flex-start!important;gap:5px!important;min-height:27px!important;flex-wrap:wrap!important;text-align:start!important}
+.zod-product-card--marketplace .zpc-price strong{color:#111827!important;font-size:17px!important;font-weight:950!important;line-height:22px!important}
+.zod-product-card--marketplace .zpc-price del{color:#98a1ad!important;font-size:10px!important;font-weight:500!important}
+.zod-product-card--marketplace .zpc-price-discount{color:#08a22a!important;font-size:10.5px!important;font-weight:900!important;white-space:nowrap!important}
+.zod-product-card--marketplace .zpc-stock-stamp{z-index:14!important}
+.zod-product-card--marketplace .zpc-category,.zod-product-card--marketplace .zpc-subtitle,.zod-product-card--marketplace .zpc-brand,.zod-product-card--marketplace .zpc-tax,.zod-product-card--marketplace .zpc-options,.zod-product-card--marketplace .zpc-media-dots{display:none!important}
+@media(max-width:767px){
+  .zod-product-card--marketplace .zpc-media{aspect-ratio:1/1.18!important}
+  .zpc-bestseller-badge{min-height:24px;padding:4px 7px;font-size:10px}
+  .zod-product-card--marketplace .zpc-wishlist{top:6px!important;inset-inline-end:5px!important;width:31px!important;height:31px!important;min-width:31px!important;min-height:31px!important;font-size:21px!important}
+  .zod-product-card--marketplace .zpc-media-add,.zod-product-card--marketplace .zpc-media-add::part(button),.zod-product-card--marketplace .zpc-media-add .s-button-element{width:36px!important;min-width:36px!important;height:36px!important;min-height:36px!important}
+  .zod-product-card--marketplace .zpc-media-add{inset-inline-end:6px!important;bottom:7px!important;font-size:27px!important}
+  .zpc-deal-strip{min-height:23px;padding:4px 6px;font-size:9.5px}
+  .zod-product-card--marketplace .zpc-body{min-height:143px!important;padding:8px 7px 9px!important}
+  .zod-product-card--marketplace .zpc-body h3{min-height:51px!important;max-height:51px!important;font-size:11.5px!important;line-height:17px!important}
+  .zod-product-card--marketplace .zpc-price strong{font-size:15px!important;line-height:20px!important}
+  .zod-product-card--marketplace .zpc-price-discount{font-size:9.5px!important}
 }

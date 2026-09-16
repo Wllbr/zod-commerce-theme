@@ -89,7 +89,8 @@
       "reviews_text": "Real ratings, reviews and questions linked to this product.",
       "reviews_summary": "Ratings summary",
       "customer_comments": "Reviews & questions",
-      "explore_brand": "Explore more from this brand"
+      "explore_brand": "Explore more from this brand",
+      "best_seller": "Best Seller"
     },
     "catalog": {
       "products": "Products",
@@ -135,13 +136,13 @@
       "connect_title": "Everything you need in one place",
       "connect_text": "Follow the store and use the service and information links to quickly find what you need.",
       "contact_hint": "The store team is ready to help through the available contact channels.",
-      "store_hint": "Store verification, trust details and supported payment methods."
-      ,"business_certificate": "Business Platform certificate"
-      ,"support_title": "We are here to help"
-      ,"support_text": "Reach us through any available customer-service channel."
-      ,"categories": "Shop categories"
-      ,"all_categories": "All categories"
-      ,"loading_categories": "Loading categories"
+      "store_hint": "Store verification, trust details and supported payment methods.",
+      "business_certificate": "Business Platform certificate",
+      "support_title": "We are here to help",
+      "support_text": "Reach us through any available customer-service channel.",
+      "categories": "Shop categories",
+      "all_categories": "All categories",
+      "loading_categories": "Loading categories"
     },
     "pages": {
       "information": "Store information and policies",
