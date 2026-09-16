@@ -80,14 +80,20 @@ class ZodProductCard extends HTMLElement {
   }
 
   productImages(product = this.product) {
-    const candidates = [
-      product?.image,
-      product?.thumbnail,
-      ...(Array.isArray(product?.images) ? product.images : []),
-      ...(Array.isArray(product?.gallery) ? product.gallery : []),
-      ...(Array.isArray(product?.media) ? product.media : [])
-    ];
-    return [...new Set(candidates.map(item => this.imageUrl(item?.image || item)).filter(Boolean))];
+    // Salla often repeats the primary image in both `image`/`thumbnail` and
+    // `images`. Prefer the gallery when it exists so hover never starts with
+    // the same image twice.
+    const gallery = Array.isArray(product?.images) && product.images.length
+      ? product.images
+      : [product?.image, product?.thumbnail, ...(Array.isArray(product?.gallery) ? product.gallery : []), ...(Array.isArray(product?.media) ? product.media : [])];
+    const seen = new Set();
+    return gallery.map(item => this.imageUrl(item?.image || item)).filter(url => {
+      if (!url) return false;
+      const key = url.split('?')[0].replace(/-(?:small|medium|large|thumbnail)(?=\.[a-z]+$)/i, '');
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
   }
 
   setMediaIndex(index, animate = true) {

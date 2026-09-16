@@ -4,11 +4,15 @@
 {% set product_available = product.is_available or product.status == 'sale' %}
 {% set sticky_image = product.image.url ? product.image : (product.images|first) %}
 {# Some Salla product snapshots may flag is_on_sale while sale_price is zero. Never render 0 as a real discount. #}
-{% set has_valid_sale = product.is_on_sale and product.sale_price and product.sale_price > 0 %}
+{% set sale_price_value = product.sale_price|default(0)|float %}
+{% set regular_price_value = product.regular_price|default(product.price)|float %}
+{% set base_price_value = product.price|default(0)|float %}
+{% set has_valid_sale = product.is_on_sale and sale_price_value > 0 and ((regular_price_value > sale_price_value) or (base_price_value > sale_price_value)) %}
 {# Some product payloads omit regular_price during an active campaign. #}
-{% set compare_price_value = product.regular_price and product.regular_price > product.sale_price ? product.regular_price : product.price %}
-{% set show_compare_price = has_valid_sale and compare_price_value and compare_price_value > product.sale_price %}
-{% set display_price_value = has_valid_sale ? product.sale_price : (product.starting_price and product.starting_price > 0 ? product.starting_price : product.price) %}
+{% set compare_price_value = regular_price_value > sale_price_value ? regular_price_value : base_price_value %}
+{% set show_compare_price = has_valid_sale and compare_price_value > sale_price_value %}
+{% set starting_price_value = product.starting_price|default(0)|float %}
+{% set display_price_value = has_valid_sale ? sale_price_value : (starting_price_value > 0 ? starting_price_value : product.price) %}
 {% set sticky_price_value = display_price_value %}
 {% set show_product_reviews = store.settings.rating.show_on_product or product.rating %}
 {% set brand_logo = product.brand and product.brand.logo ? product.brand.logo.url|default(product.brand.logo) : null %}
@@ -115,7 +119,7 @@
       </small>{% endif %}
       <div data-testid="store-product-price" class="zod-product-price price-wrapper" data-zod-main-price>
         <div class="price_is_on_sale {{ has_valid_sale ? '' : 'hidden' }}">
-          <strong class="total-price">{{ product.sale_price|money }}</strong>
+          <strong class="total-price">{{ sale_price_value|money }}</strong>
           {% if show_compare_price %}<del class="before-price">{{ compare_price_value|money }}</del>{% endif %}
           {% if has_valid_sale and product.discount_percentage %}<span class="zod-discount">{{ product.discount_percentage }}</span>{% endif %}
         </div>
@@ -181,7 +185,7 @@
       {% endif %}
 
       <div class="zod-installment-zone">
-        <salla-installment data-testid="store-product-installment" price="{{ has_valid_sale ? product.sale_price : product.price }}"></salla-installment>
+        <salla-installment data-testid="store-product-installment" price="{{ has_valid_sale ? sale_price_value : product.price }}"></salla-installment>
       </div>
 
       {% if product.show_availability %}

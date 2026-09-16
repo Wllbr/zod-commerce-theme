@@ -94,7 +94,7 @@ assert.equal(card.priceValues({price:115,regular_price:115,sale_price:80,is_on_s
 assert.equal(card.priceValues({price:115,regular_price:115,sale_price:80,is_on_sale:true}).current,80,
   'active Salla discounts appear at the sale price');
 assert.match(read('src/views/pages/product/single.twig'),
-  /store-product-installment" price="\{\{ has_valid_sale \? product.sale_price : product.price \}\}"/,
+  /store-product-installment" price="\{\{ has_valid_sale \? (?:product\.sale_price|sale_price_value) : product\.price \}\}"/,
   'installments use the sale price only when Salla marks the sale active');
 const first = card.openQuickView({id:1, name:'First', url:'/first'});
 const second = card.openQuickView({id:2, name:'Second', url:'/second'});
