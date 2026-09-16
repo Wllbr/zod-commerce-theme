@@ -6,9 +6,9 @@
 (() => {
   const patch = () => {
     const Card = customElements.get('custom-salla-product-card');
-    if (!Card || Card.prototype.__zodMarketplaceV1714) return;
+    if (!Card || Card.prototype.__zodMarketplaceV1717) return;
     const proto = Card.prototype;
-    proto.__zodMarketplaceV1714 = true;
+    proto.__zodMarketplaceV1717 = true;
 
     proto.productUrl = function(product = this.product) {
       const p = product || {};
@@ -95,17 +95,25 @@
       return { stars, count };
     };
 
-    proto.price = function(product = this.product) {
+    proto.price = function(product = this.product, options = {}) {
       const { current, original, onSale } = this.priceValues(product);
       const discount = this.discountPercent(product);
       if (onSale) {
         const discountLabel = this.isArabic() ? `خصم ${discount}%` : `${discount}% OFF`;
-        return `<div class="zpc-price is-sale"><strong>${this.money(current)}</strong><del>${this.money(original)}</del>${discount ? `<span class="zpc-price-discount">${this.esc(discountLabel)}</span>` : ''}</div>`;
+        const showDiscountLabel = discount > 0 && !options.hideDiscountLabel;
+        return `<div class="zpc-price is-sale"><strong>${this.money(current)}</strong><del>${this.money(original)}</del>${showDiscountLabel ? `<span class="zpc-price-discount">${this.esc(discountLabel)}</span>` : ''}</div>`;
       }
       if (this.number(product?.starting_price) > 0) {
         return `<div class="zpc-price"><small>${this.t('pages.products.starting_price', this.isArabic() ? 'يبدأ من' : 'From')}</small><strong>${this.money(product.starting_price)}</strong></div>`;
       }
       return `<div class="zpc-price"><strong>${this.money(current)}</strong></div>`;
+    };
+
+    proto.promotionRepeatsDiscount = function(product = this.product, promotion = '') {
+      const discount = this.discountPercent(product);
+      if (!discount || !promotion) return false;
+      const normalized = String(promotion).replace(/\s+/g, ' ').trim();
+      return new RegExp(`(^|[^0-9])${discount}\\s*%(?:[^0-9]|$)`).test(normalized);
     };
 
     proto.render = function() {
@@ -121,6 +129,7 @@
       const wishlistLabel = this.esc(this.t('zod.header.wishlist', this.isArabic() ? 'المفضلة' : 'Wishlist'));
       const inWishlist = this.initialWishlistState(p);
       const promo = this.templateText(p.promotion_title ?? p.promotional_title ?? p.promo_title ?? p.promotion?.title, p);
+      const promoRepeatsDiscount = this.promotionRepeatsDiscount(p, promo);
       const bestSeller = this.bestSellerTag(p);
       const bestSellerLabel = this.t('zod.product.best_seller', this.isArabic() ? 'أفضل المنتجات' : 'Best Seller');
       const { stars, count } = this.ratingValues(p);
@@ -147,8 +156,8 @@
         ${promo ? `<div class="zpc-deal-strip" title="${this.esc(promo)}"><span aria-hidden="true">◆</span><b>${this.esc(promo)}</b></div>` : ''}
         <div class="zpc-body">
           <h3><a data-zpc-product-link href="${this.esc(linkHref)}">${this.esc(p.name || '')}</a></h3>
-          ${stars > 0 || count > 0 ? `<div class="zpc-meta"><span class="zpc-rating"><i class="sicon-star2"></i>${stars > 0 ? this.esc(stars.toFixed(stars % 1 ? 1 : 0)) : ''}${count ? ` <small>(${this.esc(count)})</small>` : ''}</span></div>` : ''}
-          <div class="zpc-bottom">${this.price()}</div>
+          <div class="zpc-meta">${stars > 0 || count > 0 ? `<span class="zpc-rating"><i class="sicon-star2"></i>${stars > 0 ? this.esc(stars.toFixed(stars % 1 ? 1 : 0)) : ''}${count ? ` <small>(${this.esc(count)})</small>` : ''}</span>` : ''}</div>
+          <div class="zpc-bottom">${this.price(p, { hideDiscountLabel: promoRepeatsDiscount })}</div>
         </div>`;
 
       this.querySelector('.zpc-wishlist')?.addEventListener('click', async event => {

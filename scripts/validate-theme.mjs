@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.7.16','package.json: expected v1.7.16');
+assert(pkg.version==='1.7.17','package.json: expected v1.7.17');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 const trackedResult=spawnSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8'});
 assert(trackedResult.status===0,'Git tracked-file inventory must be available');
@@ -236,7 +236,7 @@ assert(!read('src/assets/js/partials/product-card.js').includes('class=\"zpc-tax
 assert(appCss.includes('ZOD v1.6.40 — unified Orkida-density product cards'),'Unified native/custom product-card release styles are required');
 assert(appCss.includes('salla-product-card.s-product-card-vertical .s-product-card-image img'),'Native Salla cards must share ZOD image framing');
 assert(appCss.includes('salla-product-card.s-product-card-vertical salla-add-product-button .s-button-element'),'Native Salla cards must share the compact purchase button');
-assert(appCss.includes('ZOD v1.7.14 — Noon-inspired marketplace cards, bilingual and data-driven.'),'Marketplace product-card v1.7.14 styles are required');
+assert(appCss.includes('ZOD v1.7.17 — compact bilingual marketplace cards.'),'Marketplace product-card v1.7.17 styles are required');
 assert(appCss.includes('.zpc-bestseller-badge') && appCss.includes('.zpc-deal-strip'),'Marketplace cards must expose Best Seller and deal-strip treatments');
 assert(appCss.includes('[dir=ltr] .zpc-wishlist') && appCss.includes('[dir=rtl] .zpc-wishlist'),'Product-card favorites must follow the storefront language direction');
 assert(appCss.includes('.zod-native-card-actions'),'Native Salla fallback cards must retain the favorite action');

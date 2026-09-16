@@ -1,1 +1,99 @@
-(()=>{const e=()=>{const e=document.querySelector("[data-zod-product-page]");if(!e||window.__zodProductNativePriceCompatBound)return;const t=e.querySelector("[data-zod-main-price]"),o=t?.querySelector(".price_is_on_sale"),a=t?.querySelector(".starting-or-normal-price"),r=e.querySelector('[data-testid="store-product-out-of-stock"]'),d=e.querySelector("[data-zod-stock-status]");if("1"===t?.dataset.zodIsOnSale){const e=Number(t.dataset.zodSalePrice);(!Number.isFinite(e)||e<=0)&&(o?.classList.add("hidden"),a?.classList.remove("hidden"))}const i=()=>{if(window.__zodProductNativePriceCompatBound||!window.salla)return;window.__zodProductNativePriceCompatBound=!0,window.salla.event?.on?.("product::price.updated.failed",()=>{t?.classList.add("hidden"),r?.classList.remove("hidden"),r?.setAttribute("aria-hidden","false"),(e=>{if(!d)return;const t=d.querySelector(".zod-live-stock__pulse"),o=d.querySelector("[data-zod-stock-text]");t?.classList.toggle("is-available",e),t?.classList.toggle("is-out",!0),o&&(o.textContent=d.dataset.outLabel),d.dataset.status="out"})(!1)}),window.salla.product?.event?.onPriceUpdated?.(d=>{const i=d?.data||d;if(!i)return;t?.classList.remove("hidden"),r?.classList.add("hidden"),r?.setAttribute("aria-hidden","true"),t?.querySelector(".starting-price-title")?.classList.add("hidden");const n=Number(i.price),s=Number(i.regular_price),c=Boolean(i.has_sale_price)&&Number.isFinite(n)&&Number.isFinite(s)&&s>n,l=e=>"function"==typeof window.salla.money?window.salla.money(e):String(e??"");e.querySelectorAll(".total-price").forEach(e=>{e.innerHTML=l(i.price)}),e.querySelectorAll(".before-price").forEach(e=>{e.innerHTML=l(i.regular_price)}),e.querySelectorAll(".product-weight").forEach(e=>{e.textContent=i.weight??""}),e.querySelectorAll(".product-sku").forEach(e=>{e.textContent=i.sku??""}),o?.classList.toggle("hidden",!c),a?.classList.toggle("hidden",c)});const i=e.querySelector(".product-form");i?.addEventListener("change",()=>{[...i.elements||[]].every(e=>!e.willValidate||!1!==e.validity?.valid)&&"function"==typeof window.salla.product?.getPrice&&Promise.resolve(window.salla.product.getPrice(new FormData(i))).catch(()=>{})})};window.salla?.onReady?Promise.resolve(window.salla.onReady()).then(i).catch(()=>i()):(i(),document.addEventListener("theme::ready",i,{once:!0}),document.addEventListener("zod::ready",i,{once:!0}))};"loading"===document.readyState?document.addEventListener("DOMContentLoaded",e,{once:!0}):e()})();
+(() => {
+  const start = () => {
+    const page = document.querySelector('[data-zod-product-page]');
+    if (!page || window.__zodProductNativePriceCompatBound) return;
+
+    const mainPrice = page.querySelector('[data-zod-main-price]');
+    const saleBranch = mainPrice?.querySelector('.price_is_on_sale');
+    const normalBranch = mainPrice?.querySelector('.starting-or-normal-price');
+    const outOfStock = page.querySelector('[data-testid="store-product-out-of-stock"]');
+    const stock = page.querySelector('[data-zod-stock-status]');
+
+    // Keep invalid/empty sale payloads out of the UI without performing any numeric
+    // comparisons in Twig. Salla allows product.price to be the string "-".
+    if (mainPrice?.dataset.zodIsOnSale === '1') {
+      const salePrice = Number(mainPrice.dataset.zodSalePrice);
+      if (!Number.isFinite(salePrice) || salePrice <= 0) {
+        saleBranch?.classList.add('hidden');
+        normalBranch?.classList.remove('hidden');
+      }
+    }
+
+    const bind = () => {
+      if (window.__zodProductNativePriceCompatBound || !window.salla) return;
+      window.__zodProductNativePriceCompatBound = true;
+
+      const setStock = available => {
+        if (!stock) return;
+        const pulse = stock.querySelector('.zod-live-stock__pulse');
+        const label = stock.querySelector('[data-zod-stock-text]');
+        pulse?.classList.toggle('is-available', available);
+        pulse?.classList.toggle('is-out', !available);
+        if (label) label.textContent = available ? stock.dataset.inLabel : stock.dataset.outLabel;
+        stock.dataset.status = available ? 'sale' : 'out';
+      };
+
+      window.salla.event?.on?.('product::price.updated.failed', () => {
+        mainPrice?.classList.add('hidden');
+        outOfStock?.classList.remove('hidden');
+        outOfStock?.setAttribute('aria-hidden', 'false');
+        setStock(false);
+      });
+
+      window.salla.product?.event?.onPriceUpdated?.(response => {
+        const data = response?.data || response;
+        if (!data) return;
+
+        mainPrice?.classList.remove('hidden');
+        outOfStock?.classList.add('hidden');
+        outOfStock?.setAttribute('aria-hidden', 'true');
+        mainPrice?.querySelector('.starting-price-title')?.classList.add('hidden');
+
+        const price = Number(data.price);
+        const regularPrice = Number(data.regular_price);
+        const isOnSale = Boolean(data.has_sale_price)
+          && Number.isFinite(price)
+          && Number.isFinite(regularPrice)
+          && regularPrice > price;
+        const money = value => typeof window.salla.money === 'function'
+          ? window.salla.money(value)
+          : String(value ?? '');
+
+        page.querySelectorAll('.total-price').forEach(element => {
+          element.innerHTML = money(data.price);
+        });
+        page.querySelectorAll('.before-price').forEach(element => {
+          element.innerHTML = money(data.regular_price);
+        });
+        page.querySelectorAll('.product-weight').forEach(element => {
+          element.textContent = data.weight ?? '';
+        });
+        page.querySelectorAll('.product-sku').forEach(element => {
+          element.textContent = data.sku ?? '';
+        });
+
+        saleBranch?.classList.toggle('hidden', !isOnSale);
+        normalBranch?.classList.toggle('hidden', isOnSale);
+      });
+
+      const form = page.querySelector('.product-form');
+      form?.addEventListener('change', () => {
+        const elements = [...(form.elements || [])];
+        const isComplete = elements.every(element => !element.willValidate || element.validity?.valid !== false);
+        if (!isComplete || typeof window.salla.product?.getPrice !== 'function') return;
+        Promise.resolve(window.salla.product.getPrice(new FormData(form))).catch(() => {});
+      });
+    };
+
+    if (window.salla?.onReady) {
+      Promise.resolve(window.salla.onReady()).then(bind).catch(() => bind());
+    } else {
+      bind();
+      document.addEventListener('theme::ready', bind, { once: true });
+      document.addEventListener('zod::ready', bind, { once: true });
+    }
+  };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
+  else start();
+})();

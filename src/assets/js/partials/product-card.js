@@ -318,13 +318,14 @@ class ZodProductCard extends HTMLElement {
     return { stars, count };
   }
 
-  price(product = this.product) {
+  price(product = this.product, options = {}) {
     const p = product;
     const { current, original, onSale } = this.priceValues(p);
     const discount = this.discountPercent(p);
     if (onSale) {
       const discountLabel = this.isArabic() ? `خصم ${discount}%` : `${discount}% OFF`;
-      return `<div class="zpc-price is-sale"><strong>${this.money(current)}</strong><del>${this.money(original)}</del>${discount ? `<span class="zpc-price-discount">${this.esc(discountLabel)}</span>` : ''}</div>`;
+      const showDiscountLabel = discount > 0 && !options.hideDiscountLabel;
+      return `<div class="zpc-price is-sale"><strong>${this.money(current)}</strong><del>${this.money(original)}</del>${showDiscountLabel ? `<span class="zpc-price-discount">${this.esc(discountLabel)}</span>` : ''}</div>`;
     }
     if (this.number(p.starting_price) > 0) {
       return `<div class="zpc-price"><small>${this.t('pages.products.starting_price', this.isArabic() ? 'يبدأ من' : 'From')}</small><strong>${this.money(p.starting_price)}</strong></div>`;
@@ -478,6 +479,13 @@ class ZodProductCard extends HTMLElement {
     modal.querySelector('.zod-qv__close')?.focus({ preventScroll: true });
   }
 
+  promotionRepeatsDiscount(product = this.product, promotion = '') {
+    const discount = this.discountPercent(product);
+    if (!discount || !promotion) return false;
+    const normalized = String(promotion).replace(/\s+/g, ' ').trim();
+    return new RegExp(`(^|[^0-9])${discount}\\s*%(?:[^0-9]|$)`).test(normalized);
+  }
+
   render() {
     const p = this.product;
     this.mediaImages = this.productImages(p);
@@ -490,6 +498,7 @@ class ZodProductCard extends HTMLElement {
     const wishlistLabel = this.esc(this.t('zod.header.wishlist', this.isArabic() ? 'المفضلة' : 'Wishlist'));
     const inWishlist = this.initialWishlistState(p);
     const promo = this.templateText(p.promotion_title ?? p.promotional_title ?? p.promo_title ?? p.promotion?.title, p);
+    const promoRepeatsDiscount = this.promotionRepeatsDiscount(p, promo);
     const bestSeller = this.bestSellerTag(p);
     const bestSellerLabel = this.t('zod.product.best_seller', this.isArabic() ? 'أفضل المنتجات' : 'Best Seller');
     const { stars, count } = this.ratingValues(p);
@@ -516,8 +525,8 @@ class ZodProductCard extends HTMLElement {
       ${promo ? `<div class="zpc-deal-strip" title="${this.esc(promo)}"><span aria-hidden="true">◆</span><b>${this.esc(promo)}</b></div>` : ''}
       <div class="zpc-body">
         <h3><a data-zpc-product-link href="${this.esc(linkHref)}">${this.esc(p.name)}</a></h3>
-        ${stars > 0 || count > 0 ? `<div class="zpc-meta"><span class="zpc-rating"><i class="sicon-star2"></i>${stars > 0 ? this.esc(stars.toFixed(stars % 1 ? 1 : 0)) : ''}${count ? ` <small>(${this.esc(count)})</small>` : ''}</span></div>` : ''}
-        <div class="zpc-bottom">${this.price()}</div>
+        <div class="zpc-meta">${stars > 0 || count > 0 ? `<span class="zpc-rating"><i class="sicon-star2"></i>${stars > 0 ? this.esc(stars.toFixed(stars % 1 ? 1 : 0)) : ''}${count ? ` <small>(${this.esc(count)})</small>` : ''}</span>` : ''}</div>
+        <div class="zpc-bottom">${this.price(p, { hideDiscountLabel: promoRepeatsDiscount })}</div>
       </div>`;
 
     this.querySelector('.zpc-wishlist')?.addEventListener('click', async event => {

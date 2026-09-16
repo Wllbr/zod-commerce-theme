@@ -1,6 +1,6 @@
 # ZOD Commerce Theme
 
-**Version 1.6.48** — Salla Twilight storefront for ZOD.
+**Version 1.7.17** — Salla Twilight storefront for ZOD.
 
 ## v1.6.48 consumer-readiness fixes
 

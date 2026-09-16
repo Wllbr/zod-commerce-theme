@@ -1,3 +1,15 @@
+## 1.7.17 — Compact bilingual cards and storefront density fix
+
+- Enforces Arabic card actions on the left and English card actions on the right, including both wishlist and quick-add controls.
+- Enforces Arabic titles/commerce text as right-aligned and English as left-aligned.
+- Removes the large empty lower half of product cards by using a fixed compact title/rating/price rhythm and preventing Swiper from stretching cards.
+- Shortens the media stage and trims mobile/desktop section spacing so substantially more storefront content is visible at normal 100% browser zoom.
+- Shrinks the sold-out stamp so product imagery remains readable.
+- Keeps the promotion strip ZOD red, but makes it slimmer.
+- Suppresses the duplicate green percentage when the red promotion title already contains the same percentage.
+- Removes the custom Salla notifier override so the native add-product toast is the single cart-feedback surface.
+- Adds edge breathing room and denser responsive carousel widths to reduce clipping and improve visible-card count.
+
 ## 1.7.16 — Theme Raed product Twig parity refresh
 
 - Reviewed `src/views/pages/product/single.twig` against the current Theme Raed `master` product template (checked 2026-09-16).

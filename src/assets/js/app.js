@@ -463,8 +463,9 @@ class ZodTheme {
 
   initCartExperience() {
     const bind = () => {
-      // Salla's supported notifier replaces its default blocking alert UI.
-      salla.notify?.setNotifier?.((message, type) => this.showNotification(message, type));
+      // Keep Salla's native notifier and <salla-add-product-toast> as the single
+      // source of cart feedback. Overriding the notifier here caused duplicate
+      // 'already added' / add-to-cart notices on product cards.
       // Never paint a cached count as authoritative. The live Salla cart owns the badge.
       this.updateCartBadge(0);
       const cartEvents = salla?.cart?.event;
