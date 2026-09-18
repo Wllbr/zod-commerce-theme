@@ -992,7 +992,7 @@ body.zod-product-dock-visible.product-single{padding-bottom:96px}
 .product-single salla-installment{display:block;margin:10px 0}
 .product-single .zod-availability{min-height:48px;margin:10px 0 13px;border-radius:12px;background:#fbfbfc}.product-single .zod-availability>i:first-child{width:29px;height:29px;border-radius:9px;background:#fff0f1;color:var(--color-primary);display:grid;place-items:center}.product-single .zod-availability span{font-size:12px}
 
-.product-single .zod-purchase-form{margin-top:11px;border:0;padding:0}.product-single .zod-product-options-wrap{margin:10px 0 13px}.product-single .zod-bundle-options{margin:10px 0}.product-single .zod-option-support{border:1px solid #e9ebee;border-radius:13px;padding:12px;margin:10px 0;background:#fff}.product-single .zod-option-support__heading{display:flex;align-items:center;gap:8px;margin-bottom:9px;font-size:11px}.product-single .zod-option-support__heading i{color:var(--color-primary)}.product-single .zod-option-support__row{display:flex;align-items:center;justify-content:space-between;gap:15px;font-size:11px}.product-single .zod-option-support__row>span{display:flex;align-items:center;gap:6px;color:var(--zod-muted)}.product-single .zod-inline-action{border:0;background:transparent;color:var(--color-primary);font-weight:800;display:flex;align-items:center;gap:4px}.product-single .zod-option-actions{display:flex;gap:8px;flex-wrap:wrap}.product-single .zod-option-toggle{border:1px solid #e7e9ec;background:#fafbfb;border-radius:9px;padding:8px 10px;font-size:10px;display:flex;align-items:center;gap:6px}.product-single .zod-option-toggle.is-active{border-color:color-mix(in srgb,var(--color-primary) 35%,#e7e9ec);background:color-mix(in srgb,var(--color-primary) 6%,#fff);color:var(--color-primary)}.product-single .zod-option-collapse{display:none;padding-top:10px}.product-single .zod-option-collapse.is-open{display:block}.product-single .zod-form-textarea{width:100%;border:1px solid #e4e7eb;border-radius:10px;font-size:12px}.product-single .zod-preorder,.product-single .zod-sale-countdown{margin:11px 0}
+.product-single .zod-purchase-form{margin-top:11px;border:0;padding:0}.product-single .zod-product-options-wrap{margin:10px 0 13px}.product-single .zod-bundle-options{margin:10px 0}.product-single .zod-option-support{border:1px solid #e9ebee;border-radius:13px;padding:12px;margin:10px 0;background:#fff}.product-single .zod-option-support__heading{display:flex;align-items:center;gap:8px;margin-bottom:9px;font-size:11px}.product-single .zod-option-support__heading i{color:var(--color-primary)}.product-single .zod-option-support__row{display:flex;align-items:center;justify-content:space-between;gap:15px;font-size:11px}.product-single .zod-option-support__row>span{display:flex;align-items:center;gap:6px;color:var(--zod-muted)}.product-single .zod-inline-action{border:0;background:transparent;color:var(--color-primary);font-weight:800;display:flex;align-items:center;gap:4px}.product-single .zod-option-actions{display:flex;gap:8px;flex-wrap:wrap}.product-single .zod-option-toggle{border:1px solid #e7e9ec;background:#fafbfb;border-radius:9px;padding:8px 10px;font-size:10px;display:flex;align-items:center;gap:6px}.product-single .zod-option-toggle.is-active{border-color:color-mix(in srgb,var(--color-primary) 35%,#e7e9ec);background:color-mix(in srgb,var(--color-primary) 6%,#fff);color:var(--color-primary)}.product-single .zod-option-collapse{display:none;padding-top:10px}.product-single .zod-option-collapse.is-open{display:block}.product-single .zod-form-textarea{width:100%;border:1px solid #e4e7eb;border-radius:10px;font-size:12px}.product-single .zod-preorder{margin:11px 0}
 
 /* In-flow purchase card when sticky purchase is disabled. */
 .product-single .zod-buy-controls{margin-top:12px;border:1px solid #e5e8eb;border-radius:15px;background:#fff;padding:13px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 12px;align-items:center}.product-single .zod-buy-controls:not(.is-docked) .zod-sticky-product-summary{display:none}.product-single .zod-buy-controls:not(.is-docked) .sticky-product-bar__quantity{grid-column:1}.product-single .zod-buy-controls:not(.is-docked) .sticky-product-bar__btn{grid-column:2}.product-single .zod-buy-controls:not(.is-docked) .zod-sticky-quick-buy{grid-column:1/-1}.product-single .zod-buy-controls:not(.is-docked).zod-buy-controls--no-qty .sticky-product-bar__btn{grid-column:1/-1}
@@ -4625,36 +4625,6 @@ custom-salla-product-card.zod-product-card--legacy .zpc-wishlist.is-pulsing .zpc
 }
 
 /* --- Product page density and hierarchy --- */
-.product-single .zod-sale-countdown{
-  margin:9px 0 10px!important;
-  padding:9px 11px!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:space-between!important;
-  gap:12px!important;
-  border:1px solid #f4d8dc!important;
-  border-radius:12px!important;
-  background:#fff8f9!important;
-}
-.product-single .zod-sale-countdown__label{
-  display:inline-flex!important;
-  align-items:center!important;
-  gap:6px!important;
-  flex:0 0 auto!important;
-  color:#a92c37!important;
-  font-size:10.5px!important;
-  font-weight:900!important;
-  white-space:nowrap!important;
-}
-.product-single .zod-sale-countdown__label i{
-  color:var(--color-primary)!important;
-  font-size:13px!important;
-}
-.product-single .zod-sale-countdown salla-count-down{
-  min-width:0!important;
-  margin:0!important;
-}
-
 /* Smaller, quieter gallery progress dots. */
 .product-single .zod-floating-thumbs{
   bottom:9px!important;
@@ -4794,15 +4764,6 @@ custom-salla-product-card.zod-product-card--legacy .zpc-wishlist.is-pulsing .zpc
 }
 
 @media(max-width:767px){
-  .product-single .zod-sale-countdown{
-    align-items:flex-start!important;
-    flex-direction:column!important;
-    gap:7px!important;
-    padding:8px 9px!important;
-  }
-  .product-single .zod-sale-countdown__label{
-    font-size:9.5px!important;
-  }
   .product-single .zod-buybox-description__body{
     font-size:12px!important;
     line-height:1.62!important;
@@ -4811,3 +4772,185 @@ custom-salla-product-card.zod-product-card--legacy .zpc-wishlist.is-pulsing .zpc
     padding:7px 9px!important;
   }
 }
+
+
+/* ==========================================================================
+   v1.7.26 — Orkida-inspired persistent purchase dock + Salla discount tiers
+   Uses ZOD red branding while keeping Salla's native cart / fast-checkout flow.
+   ========================================================================== */
+.product-single .zod-volume-offers{
+  margin:16px 0 18px;
+  padding:0;
+  border:0;
+  background:transparent;
+}
+.product-single .zod-volume-offers[hidden]{display:none!important}
+.product-single .zod-volume-offers__head{text-align:center;margin-bottom:13px}
+.product-single .zod-volume-offers__eyebrow{
+  display:inline-flex;align-items:center;gap:6px;margin-bottom:5px;
+  color:var(--color-primary);font-size:10.5px;font-weight:900
+}
+.product-single .zod-volume-offers__head h3{
+  margin:0;color:#17191d;font-size:20px;line-height:1.35;font-weight:950
+}
+.product-single .zod-volume-offers__head p{
+  margin:6px auto 0;max-width:560px;color:#7b8492;font-size:11.5px;line-height:1.7
+}
+.product-single .zod-volume-offers__label{
+  margin:0 0 8px;color:#333a45;font-size:11px;font-weight:900
+}
+.product-single .zod-volume-offers__source{
+  position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;
+  clip:rect(0 0 0 0)!important;clip-path:inset(50%)!important;white-space:nowrap!important
+}
+.product-single .zod-volume-tier-list{display:grid;gap:8px}
+.product-single .zod-volume-tier{
+  position:relative;width:100%;min-height:78px;padding:12px 16px;
+  display:grid;grid-template-columns:24px minmax(0,1fr) auto;align-items:center;gap:11px;
+  border:1px solid #e5e9ef;border-radius:12px;background:#fff;color:#1b222c;text-align:start;
+  box-shadow:0 2px 8px rgba(15,23,42,.035);cursor:pointer;transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease
+}
+.product-single .zod-volume-tier:hover{border-color:color-mix(in srgb,var(--color-primary) 42%,#d8dde5);box-shadow:0 7px 18px rgba(15,23,42,.07)}
+.product-single .zod-volume-tier.is-selected{border:1.5px solid #16202b;box-shadow:0 0 0 1px rgba(22,32,43,.04)}
+.product-single .zod-volume-tier__radio{
+  width:20px;height:20px;border:2px solid #d4dae2;border-radius:50%;display:grid;place-items:center;background:#fff
+}
+.product-single .zod-volume-tier.is-selected .zod-volume-tier__radio{border-color:#14202c}
+.product-single .zod-volume-tier.is-selected .zod-volume-tier__radio:after{content:"";width:10px;height:10px;border-radius:50%;background:#14202c}
+.product-single .zod-volume-tier__copy{min-width:0;display:flex;flex-wrap:wrap;align-items:center;gap:4px 7px}
+.product-single .zod-volume-tier__copy strong{width:100%;font-size:13px;line-height:1.35;font-weight:950;color:#1b222c}
+.product-single .zod-volume-tier__copy small{width:100%;font-size:10.5px;line-height:1.45;color:#7b8492}
+.product-single .zod-volume-tier__saving{
+  display:inline-flex;padding:3px 7px;border-radius:999px;background:#eafbf0;color:#22a35a;font-size:9.5px;font-weight:900
+}
+.product-single .zod-volume-tier__price{display:grid;grid-template-columns:auto auto;align-items:baseline;justify-content:end;gap:2px 4px;white-space:nowrap}
+.product-single .zod-volume-tier__price b{font-size:13px;font-weight:950;color:#232a34}
+.product-single .zod-volume-tier__price small{font-size:9.5px;color:#5d6570}
+.product-single .zod-volume-tier__price del{grid-column:1/-1;font-size:9.5px;color:#a4abb5;text-decoration-thickness:1px}
+.product-single .zod-volume-tier__ribbon{
+  position:absolute;left:-1px;right:auto;top:9px;bottom:9px;width:28px;padding:5px 3px;
+  display:flex;align-items:center;justify-content:center;border-radius:7px 0 0 7px;
+  background:#ffab00;color:#17120a;font-size:8.5px;font-weight:950;writing-mode:vertical-rl;transform:rotate(180deg)
+}
+[dir="ltr"] .product-single .zod-volume-tier__ribbon{left:auto;right:-1px;border-radius:0 7px 7px 0}
+[dir="rtl"] .product-single .zod-volume-tier.has-discount{padding-left:42px}
+[dir="ltr"] .product-single .zod-volume-tier.has-discount{padding-right:42px}
+
+/* Persistent dock: always visible from first paint on product pages. */
+body.zod-product-dock-always .zod-product-page{
+  padding-bottom:calc(var(--zod-product-dock-height,88px) + 20px)!important
+}
+body.product-single .zod-buy-controls.zod-dock-persistent-v1726,
+body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked,
+body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-ready{
+  position:fixed!important;z-index:1004!important;left:0!important;right:0!important;bottom:0!important;
+  width:100%!important;max-width:none!important;min-height:72px!important;margin:0!important;padding:7px 28px!important;
+  display:grid!important;grid-template-columns:minmax(260px,.9fr) minmax(620px,1.7fr)!important;align-items:center!important;gap:18px!important;
+  border:0!important;border-top:1px solid #e7e9ee!important;border-radius:0!important;background:rgba(255,255,255,.98)!important;
+  box-shadow:0 -8px 28px rgba(15,23,42,.11)!important;backdrop-filter:blur(12px)!important;transform:none!important;opacity:1!important;visibility:visible!important
+}
+.product-single .zod-dock-persistent-v1726 .zod-sticky-product-summary{
+  display:grid!important;grid-template-columns:52px minmax(0,1fr)!important;gap:10px!important;align-items:center!important;min-width:0!important
+}
+.product-single .zod-dock-persistent-v1726 .zod-sticky-product-summary__image{width:50px!important;height:50px!important;border-radius:9px!important;overflow:hidden!important;background:#f7f8fa!important;border:1px solid #eceff3!important}
+.product-single .zod-dock-persistent-v1726 .zod-sticky-product-summary__image img{width:100%!important;height:100%!important;object-fit:contain!important}
+.product-single .zod-dock-persistent-v1726 .zod-sticky-product-summary__copy{min-width:0!important;display:flex!important;flex-direction:column!important;gap:1px!important}
+.product-single .zod-dock-persistent-v1726 .zod-sticky-product-summary__tax{font-size:9px!important;color:#7f8792!important;line-height:1.25!important}
+.product-single .zod-dock-persistent-v1726 .zod-sticky-product-summary__name{font-size:11px!important;line-height:1.35!important;font-weight:900!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;color:#20252d!important}
+.product-single .zod-dock-persistent-v1726 .zod-sticky-product-summary__price{font-size:15px!important;line-height:1.25!important;font-weight:950!important;color:#161a20!important}
+.product-single .zod-dock-persistent-v1726 .zod-purchase-stack{
+  width:100%!important;display:grid!important;grid-template-columns:170px minmax(0,1fr)!important;align-items:center!important;gap:12px!important
+}
+.product-single .zod-dock-persistent-v1726 .zod-dock-option-jump{grid-column:1/-1!important;margin:0!important;min-height:34px!important}
+.product-single .zod-dock-persistent-v1726 .sticky-product-bar__quantity{
+  width:100%!important;margin:0!important;display:block!important
+}
+.product-single .zod-dock-persistent-v1726 .sticky-product-bar__quantity>label{display:none!important}
+.product-single .zod-dock-persistent-v1726 .sticky-product-bar__quantity salla-quantity-input{width:100%!important;min-width:0!important;margin:0!important}
+.product-single .zod-dock-persistent-v1726 .zod-purchase-actions{width:100%!important;min-width:0!important;margin:0!important}
+.product-single .zod-dock-persistent-v1726 .zod-main-add.s-add-product-button-with-quick-buy{
+  width:100%!important;display:grid!important;grid-template-columns:1fr!important;align-items:stretch!important;gap:7px!important;margin:0!important
+}
+.product-single .zod-dock-persistent-v1726 .zod-main-add.s-add-product-button-with-quick-buy:not(.s-add-product-button-with-apple-pay){grid-template-columns:1fr!important}
+.product-single .zod-dock-persistent-v1726 .zod-main-add.s-add-product-button-with-apple-pay>salla-quick-buy{grid-column:1/-1!important}
+.product-single .zod-dock-persistent-v1726 .zod-main-add .s-add-product-button-main{
+  width:100%!important;display:grid!important;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr)!important;gap:8px!important;margin:0!important
+}
+.product-single .zod-dock-persistent-v1726 .zod-main-add.s-add-product-button-with-quick-buy:not(.s-add-product-button-with-apple-pay) .s-add-product-button-main{grid-column:1/-1!important}
+.product-single .zod-dock-persistent-v1726 .zod-main-add .s-add-product-button-main>salla-button,
+.product-single .zod-dock-persistent-v1726 .zod-main-add .s-add-product-button-mini-checkout,
+.product-single .zod-dock-persistent-v1726 .zod-main-add>salla-quick-buy{width:100%!important;min-width:0!important;margin:0!important}
+.product-single .zod-dock-persistent-v1726 .zod-main-add .s-button-element,
+.product-single .zod-dock-persistent-v1726 .zod-main-add apple-pay-button{
+  min-height:44px!important;height:44px!important;border-radius:6px!important
+}
+.product-single .zod-dock-persistent-v1726 salla-mini-checkout-widget{
+  --salla-fast-checkout-button-height:44px;--salla-fast-checkout-button-width:100%;--salla-fast-checkout-button-border-radius:6px
+}
+
+@media(max-width:767px){
+  .product-single .zod-volume-offers{margin:12px 0 14px}
+  .product-single .zod-volume-offers__head h3{font-size:17px}
+  .product-single .zod-volume-offers__head p{font-size:10.5px;margin-top:4px}
+  .product-single .zod-volume-tier{min-height:70px;padding:10px 11px;grid-template-columns:22px minmax(0,1fr) auto;gap:8px;border-radius:10px}
+  [dir="rtl"] .product-single .zod-volume-tier.has-discount{padding-left:38px}
+  [dir="ltr"] .product-single .zod-volume-tier.has-discount{padding-right:38px}
+  .product-single .zod-volume-tier__ribbon{width:25px;top:7px;bottom:7px;font-size:8px}
+  .product-single .zod-volume-tier__copy strong,.product-single .zod-volume-tier__price b{font-size:11.5px}
+  .product-single .zod-volume-tier__copy small{font-size:9.5px}
+
+  body.product-single .zod-buy-controls.zod-dock-persistent-v1726,
+  body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked,
+  body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-ready{
+    left:0!important;right:0!important;bottom:var(--zod-mobile-nav-height,0px)!important;width:100%!important;min-height:106px!important;
+    padding:6px 8px 7px!important;display:block!important;border-radius:0!important;box-shadow:0 -6px 22px rgba(15,23,42,.13)!important
+  }
+  .product-single .zod-dock-persistent-v1726 .zod-sticky-product-summary{display:none!important}
+  .product-single .zod-dock-persistent-v1726 .zod-purchase-stack{display:grid!important;grid-template-columns:1fr!important;gap:6px!important}
+  .product-single .zod-dock-persistent-v1726 .sticky-product-bar__quantity{grid-column:1/-1!important;width:100%!important}
+  .product-single .zod-dock-persistent-v1726 .sticky-product-bar__quantity salla-quantity-input{width:100%!important}
+  .product-single .zod-dock-persistent-v1726 .zod-main-add.s-add-product-button-with-quick-buy{
+    grid-template-columns:minmax(0,2fr) minmax(88px,.9fr)!important;gap:6px!important
+  }
+  .product-single .zod-dock-persistent-v1726 .zod-main-add.s-add-product-button-with-apple-pay>salla-quick-buy{grid-column:auto!important}
+  .product-single .zod-dock-persistent-v1726 .zod-main-add .s-add-product-button-main{grid-template-columns:1.15fr 1fr!important;gap:6px!important}
+  .product-single .zod-dock-persistent-v1726 .zod-main-add .s-button-element,
+  .product-single .zod-dock-persistent-v1726 .zod-main-add apple-pay-button{min-height:36px!important;height:36px!important;border-radius:5px!important;font-size:10px!important}
+  .product-single .zod-dock-persistent-v1726 salla-mini-checkout-widget{
+    --salla-fast-checkout-button-height:36px;--salla-fast-checkout-button-width:100%;--salla-fast-checkout-button-border-radius:5px
+  }
+  body.zod-product-dock-always .zod-product-page{padding-bottom:calc(var(--zod-product-dock-height,112px) + var(--zod-mobile-nav-height,0px) + 12px)!important}
+}
+/* v1.7.26 authoritative purchase-dock layout. Kept last on purpose so older dock iterations cannot override it. */
+body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked .zod-sticky-product-summary{
+  display:grid!important;grid-template-columns:52px minmax(0,1fr)!important;grid-column:auto!important;gap:10px!important;align-items:center!important;padding:0!important;border:0!important;min-width:0!important
+}
+body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked .zod-purchase-stack{
+  display:grid!important;grid-template-columns:170px minmax(0,1fr)!important;grid-column:auto!important;gap:12px!important;align-items:center!important;width:100%!important;min-width:0!important
+}
+body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked .sticky-product-bar__quantity{
+  display:block!important;grid-column:1!important;margin:0!important;padding:0!important;border:0!important;box-shadow:none!important;width:100%!important
+}
+body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked .sticky-product-bar__quantity>label{display:none!important}
+body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked .zod-purchase-actions{grid-column:2!important;width:100%!important;min-width:0!important}
+body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked .zod-main-add.s-add-product-button-with-quick-buy{
+  display:grid!important;grid-template-columns:1fr!important;gap:7px!important;width:100%!important;margin:0!important
+}
+body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked .zod-main-add .s-add-product-button-main{
+  display:grid!important;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr)!important;gap:8px!important;width:100%!important;margin:0!important
+}
+body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked .zod-main-add.s-add-product-button-with-apple-pay>salla-quick-buy{
+  grid-column:1/-1!important;width:100%!important;margin:0!important
+}
+@media(max-width:767px){
+  body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked .zod-sticky-product-summary{display:none!important}
+  body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked .zod-purchase-stack{grid-template-columns:1fr!important;gap:6px!important}
+  body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked .sticky-product-bar__quantity{grid-column:1!important}
+  body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked .zod-purchase-actions{grid-column:1!important}
+  body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked .zod-main-add.s-add-product-button-with-apple-pay{grid-template-columns:minmax(0,2fr) minmax(88px,.9fr)!important;gap:6px!important}
+  body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked .zod-main-add .s-add-product-button-main{grid-template-columns:1.15fr 1fr!important;gap:6px!important}
+  body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked .zod-main-add.s-add-product-button-with-apple-pay>salla-quick-buy{grid-column:auto!important;margin:0!important}
+  body.has-mobile-bottom-nav.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked{bottom:68px!important}
+  body.has-mobile-bottom-nav.zod-product-dock-always .zod-product-page{padding-bottom:calc(var(--zod-product-dock-height,112px) + 80px)!important}
+}
+body.product-single .zod-buy-controls.zod-dock-persistent-v1726 apple-pay-button{background:#000!important;color:#fff!important;-apple-pay-button-style:black}

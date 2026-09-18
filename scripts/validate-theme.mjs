@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.7.25','package.json: expected v1.7.25');
+assert(pkg.version==='1.7.26','package.json: expected v1.7.26');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 const trackedResult=spawnSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8'});
 const trackedFiles=trackedResult.status===0 ? (trackedResult.stdout||'').split('\0').filter(Boolean) : [];
@@ -197,7 +197,7 @@ assert(!single.includes('zod-brand-explore-card'),'Product page must not render 
 assert(single.includes("product.can_quick_buy ? 'quick-buy' : ''"),'Product page must enable native quick-buy on the single purchase component when supported');
 assert(single.includes('class="form product-form zod-purchase-form"'),'Product page must expose form.product-form for Salla native fast checkout');
 assert(single.includes('support-sticky-bar'),'Product purchase component must declare support for the persistent Salla purchase dock');
-assert((single.match(/data-zod-product-offers/g)||[]).length===1,'Product page must render one available-offers panel');
+assert((single.match(/data-zod-volume-offers/g)||[]).length===1,'Product page must render one Salla-backed volume-offer panel');
 assert(single.indexOf('data-zod-product-offers') < single.indexOf('data-zod-buybox-description'),'Product offers must stay beside the price summary and before the description');
 
 const headerTwig=read('src/views/components/header/header.twig');
@@ -267,7 +267,7 @@ const productCardJs=read('src/assets/js/partials/product-card.js');
 assert(productPageJs.includes('if (rect.bottom < 0) activateDock();'),'Product purchase dock must activate only after the inline purchase controls have been passed');
 assert(productPageJs.includes("dataset.zodStickyEnabled !== '0'"),'Product purchase dock must respect the merchant sticky-cart setting');
 assert(!single.includes('sticky-product-bar is-docked is-ready'),'Product purchase controls must render inline first instead of covering content on initial load');
-assert(single.includes(`data-zod-sticky-enabled="{{ theme.settings.get('sticky_add_to_cart') ? '1' : '0' }}"`),'Product purchase controls must expose the Salla sticky setting to the runtime');
+assert(single.includes('data-zod-sticky-enabled="1"'),'Product purchase controls must keep the requested always-visible dock enabled');
 assert(productCardJs.includes('return isOutOfStock(product)') && read('src/assets/js/partials/stock.js').includes('product.is_available === true || product.unlimited_quantity === true'),'Quick View stock must respect explicit Salla availability through the shared stock helper');
 assert(productCardJs.includes('window.zodOpenQuickView'),'Native and custom cards must share the Quick View controller');
 assert(read('src/assets/js/app.js').includes('initNativeCardActions()'),'Native cards must be decorated with unified Eye + Heart actions');

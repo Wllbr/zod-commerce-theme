@@ -9,9 +9,9 @@ if (!fs.existsSync(cssPath)) {
 const css = fs.readFileSync(cssPath);
 const compressed = gzipSync(css, { level: 9 });
 // The gzip cap reflects storefront transfer cost; the raw cap leaves a small
-// allowance for the bilingual marketplace-card and density layers while remaining intentionally tight.
-const rawLimit = 350 * 1024;
-const gzipLimit = 58 * 1024;
+// allowance for the bilingual product-card, persistent purchase dock, and Salla-backed volume-offer layers while remaining intentionally tight.
+const rawLimit = 376 * 1024;
+const gzipLimit = 62 * 1024;
 
 if (css.length > rawLimit || compressed.length > gzipLimit) {
   throw new Error(`CSS budget exceeded: ${css.length} bytes raw, ${compressed.length} bytes gzip.`);

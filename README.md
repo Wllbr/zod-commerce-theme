@@ -1,8 +1,15 @@
-> Current release: **v1.7.25** — refines the restored pre-marketplace cards and product page without changing the chosen card design.
+## v1.7.26 — Persistent purchase dock + quantity-offer selector
+
+- Persistent product purchase dock from first paint.
+- Salla-backed Discount Table tiers rendered in a buy-more/save-more selector.
+- Sale countdown removed; preorder countdown remains.
+- Native Salla add-to-cart / fast-checkout / Apple Pay flows preserved.
+
+> Current release: **v1.7.26** — persistent Orkida-inspired purchase dock plus Salla-backed quantity discount tiers.
 
 # ZOD Commerce Theme
 
-**Version 1.7.25** — Salla Twilight storefront for ZOD.
+**Version 1.7.26** — Salla Twilight storefront for ZOD.
 
 ## v1.6.48 consumer-readiness fixes
 

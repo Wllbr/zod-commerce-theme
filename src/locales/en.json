@@ -91,7 +91,19 @@
       "customer_comments": "Reviews & questions",
       "explore_brand": "Explore more from this brand",
       "best_seller": "Best Seller",
-      "discount_badge": ":percent% OFF"
+      "discount_badge": ":percent% OFF",
+      "volume_offer_eyebrow": "Quantity offer",
+      "buy_more_save_more": "Buy more, save more",
+      "buy_more_save_more_text": "Every extra item can mean real savings — choose the best available tier.",
+      "choose_offer": "Choose an offer",
+      "one_piece": "One piece",
+      "try_now": "Try it now",
+      "pieces_count": ":count pieces",
+      "save_per_piece": "Save :percent% / item",
+      "save_more": "Save more",
+      "best_saving": "Best saving",
+      "tier_description": "Buy :count and save :percent% on each item",
+      "per_piece": "/ item"
     },
     "catalog": {
       "products": "Products",

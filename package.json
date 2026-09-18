@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.7.25",
-  "description": "ZOD Commerce v1.7.25 — non-blocking Salla notifications plus the v1.7.24 card and product-page refinements.",
+  "version": "1.7.26",
+  "description": "ZOD Commerce v1.7.26 — persistent Orkida-inspired purchase dock, Salla-backed quantity tiers, and non-blocking notifications.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

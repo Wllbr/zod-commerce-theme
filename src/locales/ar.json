@@ -91,7 +91,19 @@
       "customer_comments": "الآراء والأسئلة",
       "explore_brand": "استكشف المزيد من هذه العلامة التجارية",
       "best_seller": "أفضل المنتجات",
-      "discount_badge": "خصم :percent%"
+      "discount_badge": "خصم :percent%",
+      "volume_offer_eyebrow": "عرض الكمية",
+      "buy_more_save_more": "اشترِ أكثر، وفّر أكثر",
+      "buy_more_save_more_text": "كل قطعة إضافية تعني توفيراً حقيقياً — اختر الباقة الأوفر لك",
+      "choose_offer": "اختر العرض",
+      "one_piece": "قطعة واحدة",
+      "try_now": "جرّبها الآن",
+      "pieces_count": ":count قطع",
+      "save_per_piece": "توفير :percent% / قطعة",
+      "save_more": "وفر أكثر",
+      "best_saving": "الأوفر",
+      "tier_description": "اشترِ :count ووفّر :percent% على كل قطعة",
+      "per_piece": "/ قطعة"
     },
     "catalog": {
       "products": "المنتجات",

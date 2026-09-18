@@ -315,7 +315,7 @@ assert.match(productRuntimeCompat, /const renderDiscount = percent =>/, 'runtime
 assert.match(productRuntimeCompat, /calculatePercent\([\s\S]*?dataset\.zodDiscountRaw/, 'runtime safely initializes discount from Salla data');
 assert.match(productSingleTemplate, /product-runtime-compat\.js[\s\S]*product\.js/, 'product runtime compatibility loads before the main product bundle');
 
-console.log('PASS: v1.7.24 refined legacy-card routing plus current Raed/Twilight product-page hardening.');
+console.log('PASS: legacy-card routing plus current Raed/Twilight product-page hardening.');
 const spotlightTemplate = read('src/views/components/home/product-spotlight.twig');
 const interactiveShowcaseTemplate = read('src/views/components/home/interactive-product-showcase.twig');
 assert.doesNotMatch(`${spotlightTemplate}\n${interactiveShowcaseTemplate}`, /sale_price\s*>\s*0/, 'custom homepage showcases do not perform unsafe numeric Twig comparisons on Salla sale prices');
@@ -359,9 +359,10 @@ console.log('PASS: v1.7.20 uploaded product video media-type support.');
   assert.match(read('src/assets/styles/app.scss'), /@media\(max-width:1023px\), \(hover:none\)[\s\S]*?zpc-quick-view[\s\S]*?display:none!important/, 'quick-view eye is hidden outside desktop hover layouts');
   assert.match(read('src/assets/js/product.js'), /if \(rect\.bottom < 0\) activateDock\(\);/, 'sticky purchase bar waits until the inline purchase controls are passed');
   assert.doesNotMatch(productTwig, /sticky-product-bar is-docked is-ready/, 'product Twig does not start with an always-on dock');
-  assert.match(productTwig, /data-zod-sale-countdown[\s\S]*zod-sale-countdown__label/, 'sale countdown has the compact labeled presentation');
+  assert.doesNotMatch(productTwig, /data-zod-sale-countdown/, 'sale countdown is removed from the product page');
+  assert.match(productTwig, /data-zod-volume-offers[\s\S]*data-zod-volume-tier-list[\s\S]*salla-offer/, 'Salla-backed buy-more/save-more selector replaces the sale countdown');
 }
-console.log('PASS: v1.7.24 refined pre-marketplace cards, countdown, and on-scroll purchase dock.');
+console.log('PASS: v1.7.26 persistent purchase dock, Salla-backed volume tiers, and no sale countdown.');
 
 
 // v1.7.25 notifier regression guard

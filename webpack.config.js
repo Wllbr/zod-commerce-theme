@@ -15,6 +15,7 @@ module.exports = {
     'zod-menu': asset('js/partials/zod-menu.js'),
     'legacy-product-card': asset('js/legacy-product-card.js'),
     'product-runtime-compat': asset('js/product-runtime-compat.js'),
+    'product-purchase-v1726': asset('js/product-purchase-v1726.js'),
     'digital-files': asset('js/partials/digital-files.js')
   },
   output: { path: publicDir(), clean: { keep: /^videos[\\/]/ }, chunkFilename: '[name].[contenthash].js' },

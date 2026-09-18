@@ -1,3 +1,12 @@
+# v1.7.26
+
+- Restored an always-visible product purchase dock on desktop and mobile.
+- Added an Orkida-inspired purchase hierarchy while retaining ZOD red branding.
+- Removed the sale countdown from product pages.
+- Added a buy-more/save-more quantity selector powered only by Salla Discount Table offer data.
+- Selecting a tier updates the native `salla-quantity-input`; Salla remains the source of truth for discounts.
+- Preserved native quick buy / fast checkout / Apple Pay and v1.7.25 non-blocking notifications.
+
 ## 1.7.25 — Non-blocking cart notifications
 - Replaces Twilight's default blocking JavaScript `alert()` notifier with ZOD's existing non-blocking toast notification UI using the supported `salla.notify.setNotifier()` hook.
 - Removes the simultaneous `<salla-add-product-toast>` renderer so add-to-cart feedback is not duplicated.
