@@ -1,3 +1,7 @@
+## v1.7.27 — Salla-backed quantity offers + live mobile savings summary
+
+> Current release: **v1.7.27**. This remains a custom Twilight theme; native Salla components/data are used as the pricing authority while ZOD controls the presentation.
+
 ## v1.7.26 — Persistent purchase dock + quantity-offer selector
 
 - Persistent product purchase dock from first paint.

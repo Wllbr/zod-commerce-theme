@@ -233,7 +233,11 @@
       "discover_products": "اكتشف المنتجات",
       "browse_categories": "تصفح التصنيفات",
       "popular_products": "منتجات قد تعجبك",
-      "selected_payment_method": "طريقة الدفع المختارة"
+      "selected_payment_method": "طريقة الدفع المختارة",
+      "subtotal_before_tax": "مجموع المنتجات (قبل الضريبة)",
+      "vat": "ضريبة القيمة المضافة",
+      "discount": "الخصم",
+      "you_saved": "وفرت"
     },
     "locations": {
       "navigation": "التنقل بين الفروع",

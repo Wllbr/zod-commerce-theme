@@ -376,3 +376,15 @@ console.log('PASS: v1.7.26 persistent purchase dock, Salla-backed volume tiers, 
   assert.doesNotMatch(srcApp, /window\.alert\s*=/, 'must not monkey-patch window.alert globally');
   assert.doesNotMatch(master, /<salla-add-product-toast\b/, 'native add-product toast must not render alongside the custom notifier');
 }
+
+// v1.7.27 custom-theme Salla offer + mobile summary hardening.
+{
+  const productPurchase = await read('src/assets/js/product-purchase-v1726.js');
+  const cartTwig = await read('src/views/pages/cart.twig');
+  const pagesJs = await read('src/assets/js/pages.js');
+  assert(productPurchase.includes('condition_threshold') && productPurchase.includes('offer?.tiers') && productPurchase.includes('details?.discounts'), 'v1.7.27 must support current, legacy, and tiered Salla offer payloads');
+  assert(productPurchase.includes("setQuantity(quantityInput, quantity)"), 'v1.7.27 offer cards must update the native Salla quantity input');
+  assert(cartTwig.includes('data-zod-cart-subtotal') && cartTwig.includes('data-zod-cart-discount') && cartTwig.includes('data-zod-cart-saved'), 'v1.7.27 mobile cart summary hooks missing');
+  assert(pagesJs.includes('paintMobileSummary') && pagesJs.includes('salla.cart.details()'), 'v1.7.27 mobile cart summary must refresh from live Salla cart details');
+}
+console.log('PASS: v1.7.27 Salla offer payload compatibility and live mobile savings summary.');

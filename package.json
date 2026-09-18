@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.7.26",
-  "description": "ZOD Commerce v1.7.26 — persistent Orkida-inspired purchase dock, Salla-backed quantity tiers, and non-blocking notifications.",
+  "version": "1.7.27",
+  "description": "ZOD Commerce v1.7.27 — custom Salla offer-tier selector and Orkida-style live mobile cart savings summary.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

@@ -70,10 +70,31 @@
       </aside>
       {% hook 'cart:summary.end' %}
     </div>
-    <div class="zod-cart-mobile-checkout" aria-label="{{ trans('zod.cart.checkout') }}">
-      <div class="zod-cart-mobile-checkout__meta">
-        <span>{{ trans('zod.cart.total') }}</span>
-        <strong data-zod-cart-grand-total>{{ cart.total|money }}</strong>
+    <div class="zod-cart-mobile-checkout zod-cart-mobile-checkout--orkida" aria-label="{{ trans('zod.cart.checkout') }}" data-zod-cart-mobile-summary>
+      <div class="zod-cart-mobile-summary">
+        <h3>{{ trans('zod.cart.order_summary') }}</h3>
+        <div class="zod-cart-mobile-summary__row">
+          <span>{{ trans('zod.cart.subtotal_before_tax') }}</span>
+          <strong data-zod-cart-subtotal>—</strong>
+        </div>
+        <div class="zod-cart-mobile-summary__row" data-zod-cart-tax-row>
+          <span>{{ trans('zod.cart.vat') }}</span>
+          <strong data-zod-cart-tax>—</strong>
+        </div>
+        <div class="zod-cart-mobile-summary__row zod-cart-mobile-summary__row--discount" data-zod-cart-discount-row hidden>
+          <span>{{ trans('zod.cart.discount') }}</span>
+          <strong data-zod-cart-discount>—</strong>
+        </div>
+        <div class="zod-cart-mobile-summary__row zod-cart-mobile-summary__row--total">
+          <span>{{ trans('zod.cart.total') }} <small>({{ cart.items|length }} {{ trans('zod.cart.items') }})</small></span>
+          <span class="zod-cart-mobile-summary__prices">
+            <del data-zod-cart-original-total hidden></del>
+            <strong data-zod-cart-grand-total>{{ cart.total|money }}</strong>
+          </span>
+        </div>
+        <div class="zod-cart-mobile-summary__saved" data-zod-cart-saved hidden>
+          <i class="sicon-gift"></i><span>{{ trans('zod.cart.you_saved') }}</span><strong data-zod-cart-saved-value></strong>
+        </div>
       </div>
       <button type="button" data-testid="store-cart-checkout-mobile" class="zod-cart-mobile-checkout__button">
         <span class="zod-cart-mobile-checkout__button-copy"><strong>{{ trans('zod.cart.checkout') }}</strong><small>{{ trans('zod.cart.checkout_step') }}</small></span>

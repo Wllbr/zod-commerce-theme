@@ -1,3 +1,11 @@
+# v1.7.27
+
+- Custom-theme offer selector now reads current Salla Discount Table / tiered-offer payload shapes (`options`, `details.discounts`, and `tiers`) instead of assuming one legacy structure.
+- The selector stays Salla-backed: choosing a tier changes the native quantity; Salla remains the pricing/checkout authority.
+- Added an Orkida-inspired mobile cart summary driven by live `salla.cart.details()` values: pre-tax subtotal, VAT, discount, crossed-out pre-discount total, final total, and savings badge.
+- Mobile summary refreshes after quantity, delete, add, and coupon events.
+- Preserved native Salla cart summary/checkout validation and all v1.7.26 purchase-dock behavior.
+
 # v1.7.26
 
 - Restored an always-visible product purchase dock on desktop and mobile.

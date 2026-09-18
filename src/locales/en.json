@@ -233,7 +233,11 @@
       "discover_products": "Discover products",
       "browse_categories": "Browse categories",
       "popular_products": "Products you may like",
-      "selected_payment_method": "selected payment method"
+      "selected_payment_method": "selected payment method",
+      "subtotal_before_tax": "Products subtotal (before VAT)",
+      "vat": "VAT",
+      "discount": "Discount",
+      "you_saved": "You saved"
     },
     "locations": {
       "navigation": "Browse store locations",

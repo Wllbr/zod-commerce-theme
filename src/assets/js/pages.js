@@ -65,6 +65,15 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 
   const totalNodes=[...document.querySelectorAll('[data-zod-cart-grand-total]')];
+  const mobileSummary=document.querySelector('[data-zod-cart-mobile-summary]');
+  const subtotalNode=mobileSummary?.querySelector?.('[data-zod-cart-subtotal]');
+  const taxNode=mobileSummary?.querySelector?.('[data-zod-cart-tax]');
+  const taxRow=mobileSummary?.querySelector?.('[data-zod-cart-tax-row]');
+  const discountNode=mobileSummary?.querySelector?.('[data-zod-cart-discount]');
+  const discountRow=mobileSummary?.querySelector?.('[data-zod-cart-discount-row]');
+  const originalTotalNode=mobileSummary?.querySelector?.('[data-zod-cart-original-total]');
+  const savedBox=mobileSummary?.querySelector?.('[data-zod-cart-saved]');
+  const savedNode=mobileSummary?.querySelector?.('[data-zod-cart-saved-value]');
   let activeCartItem=null;
   let mutationFallbackTimer=null;
   const findCartItem=event=>{
@@ -115,6 +124,54 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
     return null;
   };
+  const payloadRoots=payload=>[payload?.data?.data,payload?.data,payload,payload?.cart,payload?.data?.cart].filter(Boolean);
+  const pickMoney=(payload,keys)=>{
+    const roots=payloadRoots(payload);
+    for(const root of roots){
+      for(const key of keys){
+        const direct=moneyNumber(root?.[key]); if(direct!==null) return direct;
+        const summary=moneyNumber(root?.summary?.[key]); if(summary!==null) return summary;
+        const totals=moneyNumber(root?.totals?.[key]); if(totals!==null) return totals;
+      }
+    }
+    return null;
+  };
+  const formatMoney=value=>{
+    let formatted=String(Number(value||0).toFixed(2));
+    try{formatted=salla.money(value);}catch(_){}
+    return formatted;
+  };
+  const extractCartSummary=payload=>{
+    const total=extractTotal(payload);
+    if(total===null) return null;
+    const discountRaw=pickMoney(payload,['discount','discount_amount','discount_total','total_discount','discounts_total']);
+    const discount=Math.max(0,Math.abs(discountRaw||0));
+    const taxRaw=pickMoney(payload,['tax_amount','vat_amount','tax','vat','total_tax']);
+    const tax=Math.max(0,Math.abs(taxRaw||0));
+    const serverSubtotal=pickMoney(payload,['sub_total_without_tax','subtotal_without_tax','products_subtotal','products_total','sub_total','subtotal']);
+    const originalTotal=total+discount;
+    const calculatedPreTax=Math.max(0,originalTotal-tax);
+    let subtotal=serverSubtotal;
+    if(subtotal===null) subtotal=calculatedPreTax;
+    else if(tax>0 && Math.abs(subtotal-originalTotal)<0.05) subtotal=calculatedPreTax;
+    return {subtotal, tax, discount, total, originalTotal};
+  };
+  const paintMobileSummary=payload=>{
+    if(!mobileSummary) return;
+    const summary=extractCartSummary(payload); if(!summary) return;
+    if(subtotalNode) subtotalNode.innerHTML=formatMoney(summary.subtotal);
+    if(taxNode) taxNode.innerHTML=formatMoney(summary.tax);
+    if(taxRow) taxRow.hidden=summary.tax<=0;
+    const hasDiscount=summary.discount>0.0001;
+    if(discountNode) discountNode.innerHTML=`− ${formatMoney(summary.discount)}`;
+    if(discountRow) discountRow.hidden=!hasDiscount;
+    if(originalTotalNode){
+      originalTotalNode.hidden=!hasDiscount;
+      originalTotalNode.innerHTML=hasDiscount?formatMoney(summary.originalTotal):'';
+    }
+    if(savedBox) savedBox.hidden=!hasDiscount;
+    if(savedNode) savedNode.innerHTML=hasDiscount?formatMoney(summary.discount):'';
+  };
   const paintTotal=value=>{
     if(!totalNodes.length) return;
     const amount=moneyNumber(value); if(amount===null) return;
@@ -154,6 +211,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         const total=extractTotal(details);
         if(request===revision) {
           if(total!==null) paintTotal(total);
+          paintMobileSummary(details);
           paintItemTotals(details);
         }
       }catch(_){}
@@ -166,6 +224,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       finishItemUpdate();
       const total=extractTotal(response);
       if(total!==null) paintTotal(total);
+      paintMobileSummary(response);
       paintItemTotals(response);
       refresh();
     };

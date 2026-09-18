@@ -4954,3 +4954,102 @@ body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked .zod-m
   body.has-mobile-bottom-nav.zod-product-dock-always .zod-product-page{padding-bottom:calc(var(--zod-product-dock-height,112px) + 80px)!important}
 }
 body.product-single .zod-buy-controls.zod-dock-persistent-v1726 apple-pay-button{background:#000!important;color:#fff!important;-apple-pay-button-style:black}
+
+/* v1.7.27 — Orkida-style mobile cart summary using Salla's real cart totals. */
+.zod-cart-mobile-checkout--orkida .zod-cart-mobile-summary{
+  display:none;
+}
+@media(max-width:767px){
+  .zod-cart-mobile-checkout--orkida{
+    padding:0!important;
+    background:#fff!important;
+    border-top:1px solid #e9edf2!important;
+    box-shadow:0 -8px 28px rgba(15,23,42,.10)!important;
+  }
+  .zod-cart-mobile-checkout--orkida .zod-cart-mobile-summary{
+    display:block;
+    padding:10px 14px 8px;
+    border-bottom:1px solid #eef1f4;
+  }
+  .zod-cart-mobile-summary h3{
+    margin:0 0 7px;
+    font-size:13px;
+    font-weight:900;
+    color:#222831;
+  }
+  .zod-cart-mobile-summary__row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:3px 0;
+    font-size:11px;
+    line-height:1.45;
+    color:#6f7782;
+  }
+  .zod-cart-mobile-summary__row strong{
+    color:#20252d;
+    font-size:11.5px;
+    font-weight:800;
+    white-space:nowrap;
+  }
+  .zod-cart-mobile-summary__row--discount,
+  .zod-cart-mobile-summary__row--discount strong{
+    color:#ef252d;
+  }
+  .zod-cart-mobile-summary__row--total{
+    margin-top:4px;
+    padding-top:7px;
+    border-top:1px solid #edf0f3;
+    color:#303640;
+  }
+  .zod-cart-mobile-summary__row--total>span:first-child{
+    font-weight:900;
+  }
+  .zod-cart-mobile-summary__row--total>span:first-child small{
+    color:#8a919c;
+    font-size:9px;
+    font-weight:600;
+  }
+  .zod-cart-mobile-summary__prices{
+    display:flex;
+    align-items:baseline;
+    gap:6px;
+  }
+  .zod-cart-mobile-summary__prices del{
+    color:#a5abb4;
+    font-size:10px;
+  }
+  .zod-cart-mobile-summary__prices strong{
+    color:#1b222b;
+    font-size:15px;
+    font-weight:950;
+  }
+  .zod-cart-mobile-summary__saved{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    margin-top:5px;
+    padding:4px 7px;
+    border-radius:4px;
+    background:#eaf9ef;
+    color:#159447;
+    font-size:9.5px;
+    font-weight:800;
+  }
+  .zod-cart-mobile-summary__saved[hidden],
+  .zod-cart-mobile-summary__row[hidden],
+  .zod-cart-mobile-summary__prices del[hidden]{display:none!important}
+  .zod-cart-mobile-checkout--orkida .zod-cart-mobile-checkout__button{
+    margin:8px 12px 6px!important;
+    width:calc(100% - 24px)!important;
+  }
+  .zod-cart-mobile-checkout--orkida .zod-cart-mobile-checkout__reassurance{
+    display:none!important;
+  }
+}
+@media(max-width:767px){
+  .zod-cart-mobile-checkout.zod-cart-mobile-checkout--orkida{display:block!important;grid-template-columns:none!important;gap:0!important}
+  body.cart-page{padding-bottom:calc(270px + env(safe-area-inset-bottom))!important}
+  body.cart-page .zod-cart-page{padding-bottom:calc(300px + env(safe-area-inset-bottom))!important}
+}
