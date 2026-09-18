@@ -90,7 +90,8 @@
       "reviews_summary": "ملخص التقييمات",
       "customer_comments": "الآراء والأسئلة",
       "explore_brand": "استكشف المزيد من هذه العلامة التجارية",
-      "best_seller": "أفضل المنتجات"
+      "best_seller": "أفضل المنتجات",
+      "discount_badge": "خصم :percent%"
     },
     "catalog": {
       "products": "المنتجات",

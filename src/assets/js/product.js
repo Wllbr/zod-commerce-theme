@@ -64,6 +64,7 @@ class ZodProductPage {
       }
       this.nativePriceEventsBound = true;
       window.__zodProductNativePriceCompatBound = true;
+      window.__zodProductDiscountCompatBound = true;
 
       const outOfStock = this.page.querySelector('[data-testid="store-product-out-of-stock"]');
       const saleBranch = this.mainPrice?.querySelector('.price_is_on_sale');
@@ -86,9 +87,11 @@ class ZodProductPage {
         outOfStock?.setAttribute('aria-hidden', 'true');
         startingTitle?.classList.add('hidden');
 
-        const price = Number(data.price);
-        const regularPrice = Number(data.regular_price);
-        const isOnSale = Boolean(data.has_sale_price)
+        const numeric = value => Number(value?.amount ?? value);
+        const price = numeric(data.price);
+        const regularPrice = numeric(data.regular_price);
+        const saleFlag = data.has_sale_price ?? data.is_on_sale;
+        const isOnSale = (saleFlag == null || Boolean(saleFlag))
           && Number.isFinite(price)
           && Number.isFinite(regularPrice)
           && regularPrice > price;
@@ -109,6 +112,16 @@ class ZodProductPage {
 
         saleBranch?.classList.toggle('hidden', !isOnSale);
         normalBranch?.classList.toggle('hidden', isOnSale);
+
+        const discountBadge = this.page.querySelector('[data-zod-discount]');
+        if (discountBadge) {
+          const percent = isOnSale ? Math.round(((regularPrice - price) / regularPrice) * 100) : 0;
+          discountBadge.classList.toggle('hidden', !(percent > 0));
+          discountBadge.textContent = percent > 0
+            ? (document.documentElement.lang?.toLowerCase().startsWith('ar') ? `خصم ${percent}%` : `${percent}% OFF`)
+            : '';
+        }
+
         requestAnimationFrame(() => this.setStock(this.inferButtonAvailability()));
       });
 

@@ -1,9 +1,10 @@
 (() => {
   const start = () => {
     const page = document.querySelector('[data-zod-product-page]');
-    if (!page || window.__zodProductNativePriceCompatBound) return;
+    if (!page) return;
 
     const mainPrice = page.querySelector('[data-zod-main-price]');
+    const discountBadge = page.querySelector('[data-zod-discount]');
     const saleBranch = mainPrice?.querySelector('.price_is_on_sale');
     const normalBranch = mainPrice?.querySelector('.starting-or-normal-price');
     const outOfStock = page.querySelector('[data-testid="store-product-out-of-stock"]');
@@ -49,9 +50,11 @@
         outOfStock?.setAttribute('aria-hidden', 'true');
         mainPrice?.querySelector('.starting-price-title')?.classList.add('hidden');
 
-        const price = Number(data.price);
-        const regularPrice = Number(data.regular_price);
-        const isOnSale = Boolean(data.has_sale_price)
+        const numeric = value => Number(value?.amount ?? value);
+        const price = numeric(data.price);
+        const regularPrice = numeric(data.regular_price);
+        const saleFlag = data.has_sale_price ?? data.is_on_sale;
+        const isOnSale = (saleFlag == null || Boolean(saleFlag))
           && Number.isFinite(price)
           && Number.isFinite(regularPrice)
           && regularPrice > price;
@@ -85,12 +88,36 @@
       });
     };
 
+    const bindDiscountOnly = () => {
+      if (window.__zodProductDiscountCompatBound || !window.salla || !discountBadge) return;
+      window.__zodProductDiscountCompatBound = true;
+      window.salla.product?.event?.onPriceUpdated?.(response => {
+        const data = response?.data || response;
+        if (!data) return;
+        const numeric = value => Number(value?.amount ?? value);
+        const price = numeric(data.price);
+        const regularPrice = numeric(data.regular_price);
+        const saleFlag = data.has_sale_price ?? data.is_on_sale;
+        const isOnSale = (saleFlag == null || Boolean(saleFlag))
+          && Number.isFinite(price)
+          && Number.isFinite(regularPrice)
+          && regularPrice > price;
+        const percent = isOnSale ? Math.round(((regularPrice - price) / regularPrice) * 100) : 0;
+        discountBadge.classList.toggle('hidden', !(percent > 0));
+        discountBadge.textContent = percent > 0
+          ? (document.documentElement.lang?.toLowerCase().startsWith('ar') ? `خصم ${percent}%` : `${percent}% OFF`)
+          : '';
+      });
+    };
+
+    const bindAll = () => { bindDiscountOnly(); bind(); };
+
     if (window.salla?.onReady) {
-      Promise.resolve(window.salla.onReady()).then(bind).catch(() => bind());
+      Promise.resolve(window.salla.onReady()).then(bindAll).catch(() => bindAll());
     } else {
-      bind();
-      document.addEventListener('theme::ready', bind, { once: true });
-      document.addEventListener('zod::ready', bind, { once: true });
+      bindAll();
+      document.addEventListener('theme::ready', bindAll, { once: true });
+      document.addEventListener('zod::ready', bindAll, { once: true });
     }
   };
 

@@ -7,6 +7,27 @@
   {{ theme.settings.set('placeholder', 'images/placeholder.svg') }}
   <script defer data-cfasync="false" src="{{ 'zod-menu.js'|asset }}"></script>
   {% block head_scripts %}{% endblock %}
+  <script data-cfasync="false">
+    {# Match current Theme Raed globals exactly while keeping typed ZOD settings below. #}
+    window.header_is_sticky = "{{ theme.settings.get('header_is_sticky', 'Default Value') }}";
+    window.imageZoom = "{{ theme.settings.get('imageZoom') }}";
+    window.can_access_wallet = {{ user.can_access_wallet | json_encode }};
+    window.enable_more_menu = "{{ theme.settings.get('enable_more_menu', true) }}";
+    window.enable_add_product_toast = "{{ theme.settings.get('enable_add_product_toast', true) }}";
+    window.notify_when_available_in_card = "{{ theme.settings.get('notify_when_available_in_card', true) }}";
+
+    window.zodSettings = {
+      stickyHeader: {{ theme.settings.get('header_is_sticky', true) | json_encode }},
+      mobileBottomNav: {{ theme.settings.get('show_mobile_bottom_nav', true) | json_encode }},
+      notifyWhenAvailable: {{ theme.settings.get('notify_when_available_in_card', true) | json_encode }},
+      showTags: {{ theme.settings.get('show_tags', true) | json_encode }},
+      i18n: {
+        cartAdded: {{ trans('zod.cart.added') | json_encode | raw }},
+        cartUpdated: {{ trans('zod.cart.updated') | json_encode | raw }},
+        cartRemoved: {{ trans('zod.cart.removed') | json_encode | raw }}
+      }
+    };
+  </script>
   {% hook 'head:start' %}
   {% hook head %}
   {% block styles %}{% endblock %}
@@ -44,19 +65,6 @@
 </div>
 {% hook 'body:end' %}
 {% if theme.settings.get('enable_add_product_toast', true) %}<salla-add-product-toast data-testid="store-add-product-toast"></salla-add-product-toast>{% endif %}
-<script>
-  window.zodSettings = {
-    stickyHeader: {{ theme.settings.get('header_is_sticky', true) | json_encode }},
-    mobileBottomNav: {{ theme.settings.get('show_mobile_bottom_nav', true) | json_encode }},
-    notifyWhenAvailable: {{ theme.settings.get('notify_when_available_in_card', true) | json_encode }},
-    showTags: {{ theme.settings.get('show_tags', true) | json_encode }},
-    i18n: {
-      cartAdded: {{ trans('zod.cart.added') | json_encode | raw }},
-      cartUpdated: {{ trans('zod.cart.updated') | json_encode | raw }},
-      cartRemoved: {{ trans('zod.cart.removed') | json_encode | raw }}
-    }
-  };
-</script>
 <script defer crossorigin="anonymous" src="{{ 'app.js' | asset }}"></script>
 <script defer crossorigin="anonymous" src="{{ 'product-card-marketplace.js' | asset }}"></script>
 <salla-offer-modal data-testid="store-offer-modal"></salla-offer-modal>

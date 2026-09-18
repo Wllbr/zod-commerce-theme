@@ -63,6 +63,12 @@ class ZodProductCard extends HTMLElement {
     return (document.documentElement.lang || '').toLowerCase().startsWith('ar');
   }
 
+  notifyWhenAvailableEnabled() {
+    const value = window.zodSettings?.notifyWhenAvailable ?? window.notify_when_available_in_card ?? true;
+    if (typeof value === 'string') return !['false', '0', 'off', 'no'].includes(value.trim().toLowerCase());
+    return value !== false && value !== 0;
+  }
+
   localized(value) {
     if (value === undefined || value === null) return '';
     if (typeof value !== 'object') return String(value).trim();
@@ -455,7 +461,7 @@ class ZodProductCard extends HTMLElement {
     const detailsLabel = this.isArabic() ? 'عرض التفاصيل كاملة' : 'View full details';
     const optionLabel = this.isArabic() ? 'اختر الخيارات من صفحة المنتج' : 'Choose options on the product page';
     const description = this.stripHtml(details.short_description || details.subtitle || details.description || '').slice(0, 220);
-    const status = isOut ? (window.notify_when_available_in_card !== false && !['donating', 'financial_support'].includes(details.type) ? 'out-and-notify' : 'out') : details.status;
+    const status = isOut ? (this.notifyWhenAvailableEnabled() && !['donating', 'financial_support'].includes(details.type) ? 'out-and-notify' : 'out') : details.status;
     const hasOptions = Boolean(details.has_options || (Array.isArray(details.options) && details.options.length));
     const needsProductForm = Boolean(hasOptions || details.can_add_note || details.can_upload_file || details.has_custom_form || details.has_bundle_products);
     const quickBuy = details.can_quick_buy && !needsProductForm && !isOut ? ' quick-buy' : '';
@@ -492,7 +498,7 @@ class ZodProductCard extends HTMLElement {
     const image = this.mediaImages[0] || '';
     const imageAlt = this.esc(p?.image?.alt || p.name || '');
     const isOut = this.isOutOfStock(p);
-    const status = isOut ? (window.notify_when_available_in_card !== false && !['donating', 'financial_support'].includes(p.type) ? 'out-and-notify' : 'out') : p.status;
+    const status = isOut ? (this.notifyWhenAvailableEnabled() && !['donating', 'financial_support'].includes(p.type) ? 'out-and-notify' : 'out') : p.status;
     const addLabel = p.add_to_cart_label || this.t(p.type === 'booking' ? 'pages.cart.book_now' : 'pages.cart.add_to_cart', this.isArabic() ? 'أضف إلى السلة' : 'Add to cart');
     const outLabel = this.t('pages.products.out_of_stock', this.isArabic() ? 'نفدت الكمية' : 'Out of stock');
     const wishlistLabel = this.esc(this.t('zod.header.wishlist', this.isArabic() ? 'المفضلة' : 'Wishlist'));
@@ -516,7 +522,7 @@ class ZodProductCard extends HTMLElement {
         <a class="zpc-product-link" data-zpc-product-link href="${this.esc(linkHref)}" aria-label="${imageAlt}"><img src="${this.esc(image)}" alt="${imageAlt}" loading="lazy" data-zpc-image data-index="0"></a>
         ${bestSeller ? `<span class="zpc-bestseller-badge">${this.esc(bestSellerLabel)}</span>` : ''}
         ${isOut ? `<span class="zpc-stock-stamp">${this.esc(outLabel)}</span>` : ''}
-        <button type="button" class="zpc-action zpc-wishlist ${inWishlist ? 'is-active' : ''}" data-id="${p.id}" aria-label="${wishlistLabel}" aria-pressed="${inWishlist ? 'true' : 'false'}"><i class="sicon-heart"></i></button>
+        <button type="button" class="zpc-action zpc-wishlist ${inWishlist ? 'is-active' : ''}" data-id="${p.id}" aria-label="${wishlistLabel}" aria-pressed="${inWishlist ? 'true' : 'false'}"><svg class="zpc-heart-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg></button>
         ${!isOut ? (needsProductForm
           ? `<a class="zpc-media-add zpc-media-add--options" data-zpc-product-link href="${this.esc(linkHref)}" aria-label="${this.esc(hasOptions ? chooseOptionsLabel : (this.isArabic() ? 'عرض المنتج' : 'View product'))}"><span aria-hidden="true">+</span></a>`
           : `<salla-add-product-button class="zpc-media-add" fill="outline" product-id="${p.id}" product-status="${this.esc(status || '')}" product-type="${this.esc(p.type || 'product')}"${p.is_require_shipping ? ' required-shipping' : ''}${p.has_preorder_campaign ? ' has-pre-order' : ''}${p.base_currency_price != null ? ` amount="${this.esc(p.base_currency_price)}"` : ''} aria-label="${this.esc(addLabel)}"><span aria-hidden="true">+</span></salla-add-product-button>`)

@@ -1,3 +1,32 @@
+## 1.7.20 — Salla uploaded product video support
+
+- Applied Salla's September 16, 2026 Twilight media update exactly on the product gallery.
+- Product gallery media type now reads `image.video_type ?? 'image'`, supporting both uploaded videos (`video`) and YouTube (`youtube`) without URL-based type inference.
+- Preserves the existing gallery lightbox, video URL source, thumbnails, 3D media, and option-aware image synchronization.
+- Audited all Twig media references; no other product-image media-type inference path requires this change.
+
+## 1.7.19 — Triple-audit hardening
+
+- Rechecked the product Twig and shared layout against Theme Raed master as updated on 2026-09-18.
+- Aligned the shared layout with current Raed/Twilight storefront globals for sticky header, image zoom, wallet access, more-menu, add-product toast and card stock notification behavior, and exposes them in the document head before theme initialization.
+- Hardened out-of-stock card notification handling so it prefers ZOD's typed setting, safely parses Raed string booleans, and no longer depends on later app initialization to expose the compatible value.
+- Added official Salla wishlist event synchronization so every copy of a product card and the product page immediately reflects add/remove state with the solid red heart.
+- Keeps the product discount badge rounded and updates it after option/variant price changes, preventing stale percentages.
+- Removed the last unsafe homepage Twig sale-price numeric comparisons from Product Spotlight and Interactive Product Showcase.
+- Added a permanent `data-zod-discount` hook so runtime price updates can safely show/hide the discount badge.
+- Expanded regression coverage for all standard card surfaces, RTL/LTR action placement, wishlist fill, pale-pink promotion strip, Raed globals and dynamic product discount behavior.
+
+## 1.7.18 — Direction, Density & Product Twig Pass
+
+- Locked marketplace card heart and quick-add placement to left in Arabic and right in English.
+- Added solid red filled wishlist heart state.
+- Switched promotion strip to pale pink with red text.
+- Audited all normal product-card component paths and kept Laser Showcase independent.
+- Increased desktop information density without CSS zoom/transform scaling.
+- Reduced header, section, card and product-page spacing for a Noon-like 100% zoom feel.
+- Rounded product-page discount percentages and localized the label.
+- Rechecked product Twig against current Theme Raed master on 2026-09-17.
+
 ## 1.7.17 — Compact bilingual cards and storefront density fix
 
 - Enforces Arabic card actions on the left and English card actions on the right, including both wishlist and quick-add controls.

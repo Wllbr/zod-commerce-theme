@@ -1,12 +1,13 @@
 {% extends "layouts.master" %}
 
 {#
-  Product contract parity note — synced against Theme Raed master (2026-09-16).
+  Product contract parity note — checked against current Salla/Twilight product contract (2026-09-18).
   Important upstream behaviors preserved here:
   - product.price may be the string "-"; never perform numeric Twig comparisons on it.
   - product.brand.logo is a URL string in the current Raed contract.
   - product IDs passed into JS calls stay quoted as strings.
   - digital file settings, metadata, gifting, quick order and product hooks remain native.
+  - product media uses image.video_type (video/youtube) with an image fallback for uploaded video support.
 #}
 
 {% block content %}
@@ -56,7 +57,7 @@
                    data-img-id="{{ image.id }}"
                    data-slid-index="{{ loop.index0 }}"
                    data-zod-slide-index="{{ loop.index0 }}"
-                   data-type="{{ image.video_type|default('image') }}"
+                   data-type="{{ image.video_type ?? 'image' }}"
                    data-caption="{{ image.alt|default(product.name) }}"
                    data-infinite="false"
                    {% if image.video_url %}data-video-src="{{ image.video_url }}"{% endif %}
@@ -130,7 +131,8 @@
         <div class="price_is_on_sale {{ product.is_on_sale ? '' : 'hidden' }}">
           <strong class="total-price">{{ product.sale_price|money }}</strong>
           <del class="before-price">{{ product.regular_price|money }}</del>
-          {% if product.discount_percentage %}<span class="zod-discount">{{ product.discount_percentage }}</span>{% endif %}
+          {% set discount_value = product.discount_percentage ? product.discount_percentage|replace({'%':''})|round : null %}
+          <span class="zod-discount {{ discount_value ? '' : 'hidden' }}" data-zod-discount>{{ discount_value ? trans('zod.product.discount_badge', {'percent': discount_value}) : '' }}</span>
         </div>
         <div class="starting-or-normal-price {{ product.is_on_sale ? 'hidden' : '' }}">
           {% if product.starting_price %}<small class="starting-price-title">{{ trans('pages.products.starting_price') }}</small>{% endif %}
@@ -332,8 +334,8 @@
 {% endblock %}
 
 {% block scripts %}
-<script defer src="{{ 'product.js'|asset }}"></script>
 <script defer src="{{ 'product-runtime-compat.js'|asset }}"></script>
+<script defer src="{{ 'product.js'|asset }}"></script>
 {% if product.has_3d_image %}<script type="module" defer src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>{% endif %}
 {% if product.digital_files_settings %}<script type="module" defer src="{{ 'digital-files.js'|asset }}"></script>{% endif %}
 {% endblock %}

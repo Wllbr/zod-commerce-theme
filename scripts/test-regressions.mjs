@@ -268,3 +268,69 @@ assert.match(styles,/\.zod-laser-showcase\.is-sound-cue[\s\S]*zodLaserSoundCue/,
 assert.match(productCardSource,/resolveProductUrl\(this\.product\)[\s\S]*window\.location\.assign\(url\)/,'unused custom-card space resolves URL-less Salla payloads before navigation');
 
 console.log('PASS: mobile dialog layering, cart dock isolation, bilingual showcase routing, and category drawer calls to action.');
+
+// v1.7.19 triple-audit hardening: keep marketplace cards and Raed/Twilight
+// storefront contracts consistent across every standard product surface.
+const masterTemplate = read('src/views/layouts/master.twig');
+const productSingleTemplate = read('src/views/pages/product/single.twig');
+const productRuntimeCompat = read('src/assets/js/product-runtime-compat.js');
+const marketplaceRuntime = read('src/assets/js/product-card-marketplace.js');
+const productTypeSwitcherTemplate = read('src/views/components/home/product-type-switcher.twig');
+const standardProductTemplates = [
+  'src/views/components/home/fixed-products.twig',
+  'src/views/components/home/product-shelf.twig',
+  'src/views/components/home/product-type-switcher.twig',
+  'src/views/components/home/products-slider.twig',
+  'src/views/pages/brands/single.twig',
+  'src/views/pages/cart.twig',
+  'src/views/pages/customer/wishlist.twig',
+  'src/views/pages/landing-page.twig',
+  'src/views/pages/product/index.twig',
+  'src/views/pages/product/single.twig'
+];
+for (const path of standardProductTemplates) {
+  const template = read(path);
+  for (const match of template.matchAll(/<salla-products-(?:slider|list)\b[^>]*>/g)) {
+    assert.match(match[0], /product-card-component="custom-salla-product-card"/, `${path} routes every native product collection through the ZOD marketplace card`);
+  }
+}
+assert.doesNotMatch(standardProductTemplates.map(read).join('\n'), /<salla-product-card\b/, 'standard Twig surfaces never fall back to the native Salla product card');
+assert.equal((productTypeSwitcherTemplate.match(/product-card-component="custom-salla-product-card"/g) || []).length, 2, 'product type switcher uses the marketplace card for selected and category feeds');
+assert.match(styles, /html\[dir="rtl"\][\s\S]*?\.zpc-wishlist[\s\S]*?left:\s*7px\s*!important;[\s\S]*?right:\s*auto\s*!important;/, 'RTL wishlist is physically locked to the left');
+assert.match(styles, /html\[dir="rtl"\][\s\S]*?\.zpc-media-add[\s\S]*?left:\s*8px\s*!important;[\s\S]*?right:\s*auto\s*!important;/, 'RTL quick-add is physically locked to the left');
+assert.match(styles, /html\[dir="ltr"\][\s\S]*?\.zpc-wishlist[\s\S]*?right:\s*7px\s*!important;[\s\S]*?left:\s*auto\s*!important;/, 'LTR wishlist is physically locked to the right');
+assert.match(styles, /html\[dir="ltr"\][\s\S]*?\.zpc-media-add[\s\S]*?right:\s*8px\s*!important;[\s\S]*?left:\s*auto\s*!important;/, 'LTR quick-add is physically locked to the right');
+assert.match(styles, /\.zpc-wishlist\.is-active \.zpc-heart-svg\s*\{[\s\S]*?fill:\s*#ed1c2e\s*!important;[\s\S]*?stroke:\s*#ed1c2e\s*!important;/, 'active wishlist heart is solid ZOD red');
+assert.match(styles, /\.zpc-deal-strip\s*\{[\s\S]*?background:\s*#fff0f2\s*!important;[\s\S]*?color:\s*#e31c2b\s*!important;/, 'promotion strip is pale pink with red text');
+assert.match(masterTemplate, /window\.header_is_sticky\s*=/, 'master exposes current Raed sticky-header global');
+assert.match(masterTemplate, /window\.imageZoom\s*=/, 'master exposes current Raed image-zoom global');
+assert.match(masterTemplate, /window\.can_access_wallet\s*=/, 'master exposes current Raed wallet global');
+assert.match(masterTemplate, /window\.enable_add_product_toast\s*=/, 'master exposes current Raed add-product-toast global');
+assert.match(masterTemplate, /window\.notify_when_available_in_card\s*=/, 'master exposes current Raed card notification global');
+assert.ok(masterTemplate.indexOf('window.header_is_sticky') < masterTemplate.indexOf("{% hook 'head:start' %}"), 'Raed-compatible storefront globals are emitted in the head before theme hooks initialize');
+assert.match(productCardSource, /notifyWhenAvailableEnabled\(\)[\s\S]*?\['false', '0', 'off', 'no'\]/, 'compiled-source card safely parses typed and string merchant notify settings');
+assert.match(marketplaceRuntime, /proto\.notifyWhenAvailableEnabled[\s\S]*?\['false', '0', 'off', 'no'\]/, 'runtime marketplace patch safely parses typed and string merchant notify settings');
+assert.match(marketplaceRuntime, /wishlistEvents\.onAdded\?\./, 'runtime marketplace card listens to the official wishlist-added event');
+assert.match(marketplaceRuntime, /wishlistEvents\.onRemoved\?\./, 'runtime marketplace card listens to the official wishlist-removed event');
+assert.match(productSingleTemplate, /data-zod-discount/, 'product Twig always exposes a stable discount badge hook');
+assert.match(productSingleTemplate, /discount_percentage\|replace\(\{'%':''\}\)\|round/, 'server-rendered product discount is rounded');
+assert.match(productRuntimeCompat, /Math\.round\(\(\(regularPrice - price\) \/ regularPrice\) \* 100\)/, 'runtime option-price changes recompute a rounded discount');
+assert.match(productRuntimeCompat, /__zodProductDiscountCompatBound/, 'runtime discount sync is independently guarded and survives the main price handler guard');
+assert.doesNotMatch(productRuntimeCompat, /if \(!page \|\| window\.__zodProductNativePriceCompatBound\) return;/, 'runtime discount sync is not blocked when another native price handler initializes first');
+assert.match(productSingleTemplate, /product-runtime-compat\.js[\s\S]*product\.js/, 'product runtime compatibility loads before the main product bundle');
+
+console.log('PASS: v1.7.19 card routing, RTL/LTR placement, wishlist sync, Raed globals, and dynamic discount hardening.');
+const spotlightTemplate = read('src/views/components/home/product-spotlight.twig');
+const interactiveShowcaseTemplate = read('src/views/components/home/interactive-product-showcase.twig');
+assert.doesNotMatch(`${spotlightTemplate}\n${interactiveShowcaseTemplate}`, /sale_price\s*>\s*0/, 'custom homepage showcases do not perform unsafe numeric Twig comparisons on Salla sale prices');
+assert.match(spotlightTemplate, /sale_price != '-'/, 'product spotlight handles Salla hidden-price sentinel without numeric arithmetic');
+assert.match(interactiveShowcaseTemplate, /sale_price != '-'/, 'interactive showcase handles Salla hidden-price sentinel without numeric arithmetic');
+console.log('PASS: v1.7.19 custom showcase Twig price-safety hardening.');
+
+// v1.7.20 Salla uploaded product video support.
+{
+  const twig = read('src/views/pages/product/single.twig');
+  assert(twig.includes(`data-type="{{ image.video_type ?? 'image' }}"`), 'product gallery must use Salla video_type with image fallback');
+  assert(!twig.includes(`image.video_type|default('image')`), 'legacy default-filter media-type lookup must not remain');
+}
+console.log('PASS: v1.7.20 uploaded product video media-type support.');

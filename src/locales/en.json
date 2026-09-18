@@ -90,7 +90,8 @@
       "reviews_summary": "Ratings summary",
       "customer_comments": "Reviews & questions",
       "explore_brand": "Explore more from this brand",
-      "best_seller": "Best Seller"
+      "best_seller": "Best Seller",
+      "discount_badge": ":percent% OFF"
     },
     "catalog": {
       "products": "Products",

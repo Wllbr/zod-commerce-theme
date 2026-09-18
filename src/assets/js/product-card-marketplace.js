@@ -6,9 +6,9 @@
 (() => {
   const patch = () => {
     const Card = customElements.get('custom-salla-product-card');
-    if (!Card || Card.prototype.__zodMarketplaceV1717) return;
+    if (!Card || Card.prototype.__zodMarketplaceV1719) return;
     const proto = Card.prototype;
-    proto.__zodMarketplaceV1717 = true;
+    proto.__zodMarketplaceV1719 = true;
 
     proto.productUrl = function(product = this.product) {
       const p = product || {};
@@ -88,6 +88,12 @@
       }) || null;
     };
 
+    proto.notifyWhenAvailableEnabled = function() {
+      const value = window.zodSettings?.notifyWhenAvailable ?? window.notify_when_available_in_card ?? true;
+      if (typeof value === 'string') return !['false', '0', 'off', 'no'].includes(value.trim().toLowerCase());
+      return value !== false && value !== 0;
+    };
+
     proto.ratingValues = function(product = this.product) {
       const rating = product?.rating || {};
       const stars = this.number?.(rating.stars ?? rating.rate ?? rating.average ?? rating.value) || 0;
@@ -123,7 +129,7 @@
       const image = this.mediaImages[0] || '';
       const imageAlt = this.esc(p?.image?.alt || p.name || '');
       const isOut = this.isOutOfStock(p);
-      const status = isOut ? (window.notify_when_available_in_card !== false && !['donating', 'financial_support'].includes(p.type) ? 'out-and-notify' : 'out') : p.status;
+      const status = isOut ? (this.notifyWhenAvailableEnabled() && !['donating', 'financial_support'].includes(p.type) ? 'out-and-notify' : 'out') : p.status;
       const addLabel = p.add_to_cart_label || this.t(p.type === 'booking' ? 'pages.cart.book_now' : 'pages.cart.add_to_cart', this.isArabic() ? 'أضف إلى السلة' : 'Add to cart');
       const outLabel = this.t('pages.products.out_of_stock', this.isArabic() ? 'نفدت الكمية' : 'Out of stock');
       const wishlistLabel = this.esc(this.t('zod.header.wishlist', this.isArabic() ? 'المفضلة' : 'Wishlist'));
@@ -147,7 +153,7 @@
           <a class="zpc-product-link" data-zpc-product-link href="${this.esc(linkHref)}" aria-label="${imageAlt}"><img src="${this.esc(image)}" alt="${imageAlt}" loading="lazy" data-zpc-image data-index="0"></a>
           ${bestSeller ? `<span class="zpc-bestseller-badge">${this.esc(bestSellerLabel)}</span>` : ''}
           ${isOut ? `<span class="zpc-stock-stamp">${this.esc(outLabel)}</span>` : ''}
-          <button type="button" class="zpc-action zpc-wishlist ${inWishlist ? 'is-active' : ''}" data-id="${p.id}" aria-label="${wishlistLabel}" aria-pressed="${inWishlist ? 'true' : 'false'}"><i class="sicon-heart"></i></button>
+          <button type="button" class="zpc-action zpc-wishlist ${inWishlist ? 'is-active' : ''}" data-id="${p.id}" aria-label="${wishlistLabel}" aria-pressed="${inWishlist ? 'true' : 'false'}"><svg class="zpc-heart-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg></button>
           ${!isOut ? (needsProductForm
             ? `<a class="zpc-media-add zpc-media-add--options" data-zpc-product-link href="${this.esc(linkHref)}" aria-label="${this.esc(hasOptions ? chooseOptionsLabel : (this.isArabic() ? 'عرض المنتج' : 'View product'))}"><span aria-hidden="true">+</span></a>`
             : `<salla-add-product-button class="zpc-media-add" fill="outline" product-id="${p.id}" product-status="${this.esc(status || '')}" product-type="${this.esc(p.type || 'product')}"${p.is_require_shipping ? ' required-shipping' : ''}${p.has_preorder_campaign ? ' has-pre-order' : ''}${p.base_currency_price != null ? ` amount="${this.esc(p.base_currency_price)}"` : ''} aria-label="${this.esc(addLabel)}"><span aria-hidden="true">+</span></salla-add-product-button>`)
@@ -183,6 +189,38 @@
     });
   };
 
-  if (customElements.get('custom-salla-product-card')) patch();
-  else customElements.whenDefined('custom-salla-product-card').then(patch).catch(() => {});
+  const bindWishlistSync = () => {
+    if (window.__zodWishlistEventSyncBound || !window.salla) return;
+    const wishlistEvents = window.salla.event?.wishlist;
+    if (!wishlistEvents) return;
+    window.__zodWishlistEventSyncBound = true;
+
+    const sync = (productId, active) => {
+      const id = String(productId ?? '');
+      if (!id) return;
+      const escaped = window.CSS?.escape ? CSS.escape(id) : id.replace(/[^a-zA-Z0-9_-]/g, '\\$&');
+      document.querySelectorAll(`custom-salla-product-card[data-product-id="${escaped}"] .zpc-wishlist, [data-zod-product-page][data-product-id="${escaped}"] [data-zod-wishlist]`)
+        .forEach(button => {
+          button.classList.toggle('is-active', active);
+          button.setAttribute('aria-pressed', String(active));
+        });
+    };
+
+    wishlistEvents.onAdded?.((_response, productId) => sync(productId, true));
+    wishlistEvents.onRemoved?.((_response, productId) => sync(productId, false));
+  };
+
+  const ready = () => {
+    if (customElements.get('custom-salla-product-card')) patch();
+    else customElements.whenDefined('custom-salla-product-card').then(patch).catch(() => {});
+    bindWishlistSync();
+  };
+
+  if (window.salla?.onReady) {
+    Promise.resolve(window.salla.onReady()).then(ready).catch(ready);
+  } else {
+    ready();
+    document.addEventListener('theme::ready', bindWishlistSync, { once: true });
+    document.addEventListener('zod::ready', bindWishlistSync, { once: true });
+  }
 })();
