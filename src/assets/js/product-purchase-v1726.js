@@ -59,14 +59,11 @@
     };
 
     enforce();
-    window.addEventListener('scroll', schedule, { passive: true });
+    // The dock is persistent, so scroll events must not rewrite its class list.
+    // Re-measure only when the viewport or the dock's own size changes.
     window.addEventListener('resize', schedule, { passive: true });
     window.addEventListener('orientationchange', schedule, { passive: true });
     if ('ResizeObserver' in window) new ResizeObserver(schedule).observe(dock);
-
-    // Older product.js builds may remove is-docked when the inline controls are visible.
-    // Keep this release's persistent dock authoritative without replacing Salla's form logic.
-    new MutationObserver(schedule).observe(dock, { attributes: true, attributeFilter: ['class'] });
   };
 
   const initVolumeOffers = page => {

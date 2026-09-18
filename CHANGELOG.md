@@ -1,3 +1,11 @@
+
+## v1.7.28 — Product scroll stability and smart mobile header
+
+- Fixed product-page scroll jumping caused by two sticky-dock controllers fighting over the same classes.
+- Persistent purchase dock is now centered on desktop/editor preview.
+- Mobile header hides while scrolling down and returns immediately on a small upward scroll.
+- Product page no longer uses `starting_price` as the primary visible/sticky price, preventing stray savings values such as `35 ر.س` from appearing below the title.
+
 # v1.7.27
 
 - Custom-theme offer selector now reads current Salla Discount Table / tiered-offer payload shapes (`options`, `details.discounts`, and `tiers`) instead of assuming one legacy structure.

@@ -454,6 +454,15 @@ class ZodProductPage {
   initStickyPurchase() {
     if (!this.buyBar) return;
 
+    // v1.7.28: the persistent purchase dock is authoritative. Older scroll-
+    // triggered sticky logic must not fight the always-visible dock on every
+    // scroll frame, which caused visible jumping/flicker in Salla preview.
+    if (this.buyBar.classList.contains('zod-dock-persistent-v1726')) {
+      document.body.classList.add('zod-product-dock-always');
+      document.body.classList.remove('is-sticky-product-bar', 'zod-product-dock-visible');
+      return;
+    }
+
     // Respect the merchant's sticky-cart setting and keep the native purchase
     // controls in normal document flow until the customer has actually passed
     // them. This avoids covering product content from the first paint.

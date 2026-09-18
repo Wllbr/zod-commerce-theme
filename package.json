@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.7.27",
-  "description": "ZOD Commerce v1.7.27 — custom Salla offer-tier selector and Orkida-style live mobile cart savings summary.",
+  "version": "1.7.28",
+  "description": "ZOD Commerce v1.7.28 — product-page scroll stability, centered desktop purchase dock, smart mobile header, and price cleanup.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

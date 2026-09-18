@@ -37,6 +37,7 @@ class ZodTheme {
 
     [
       'initAnnouncementBar',
+      'initMobileSmartHeader',
       'initPreviewLinkRouting',
       'initSearchCardNavigation',
       'initCartExperience',
@@ -63,6 +64,60 @@ class ZodTheme {
   syncOverlayLock() {
     const drawerOpen = document.getElementById('zod-catalog-drawer')?.classList.contains('is-open');
     document.documentElement.classList.toggle('zod-lock', Boolean(drawerOpen));
+  }
+
+  initMobileSmartHeader() {
+    if (!this.header) return;
+
+    const media = window.matchMedia('(max-width: 767px)');
+    let lastY = Math.max(0, window.scrollY || 0);
+    let hidden = false;
+    let frame = 0;
+
+    const target = () => this.header.closest('.zod-sticky-chrome') || this.header;
+
+    const apply = () => {
+      const node = target();
+      node.classList.toggle('zod-mobile-smart-header', media.matches);
+      node.classList.toggle('is-mobile-hidden', media.matches && hidden);
+    };
+
+    const update = () => {
+      frame = 0;
+      const y = Math.max(0, window.scrollY || 0);
+
+      if (!media.matches) {
+        hidden = false;
+        lastY = y;
+        apply();
+        return;
+      }
+
+      const delta = y - lastY;
+      if (y <= 12) {
+        hidden = false;
+      } else if (delta > 5 && y > 72) {
+        hidden = true;
+      } else if (delta < -1) {
+        // A small upward gesture should reveal the header immediately.
+        hidden = false;
+      }
+
+      lastY = y;
+      apply();
+    };
+
+    const schedule = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(update);
+    };
+
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
+    window.addEventListener('orientationchange', schedule, { passive: true });
+    media.addEventListener?.('change', schedule);
+    apply();
+    update();
   }
 
   initPreviewLinkRouting() {

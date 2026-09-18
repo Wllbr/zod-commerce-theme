@@ -5053,3 +5053,41 @@ body.product-single .zod-buy-controls.zod-dock-persistent-v1726 apple-pay-button
   body.cart-page{padding-bottom:calc(270px + env(safe-area-inset-bottom))!important}
   body.cart-page .zod-cart-page{padding-bottom:calc(300px + env(safe-area-inset-bottom))!important}
 }
+
+
+/* ==========================================================================
+   v1.7.28 — product-page scroll stability + centered dock + smart mobile header
+   ========================================================================== */
+@media(min-width:1024px){
+  body.product-single .zod-buy-controls.zod-dock-persistent-v1726,
+  body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-docked,
+  body.product-single .zod-buy-controls.zod-dock-persistent-v1726.is-ready{
+    left:50%!important;
+    right:auto!important;
+    bottom:14px!important;
+    width:min(1180px,calc(100vw - 48px))!important;
+    max-width:1180px!important;
+    min-height:68px!important;
+    padding:7px 14px!important;
+    grid-template-columns:minmax(250px,.85fr) minmax(650px,1.75fr)!important;
+    border:1px solid rgba(16,24,40,.10)!important;
+    border-radius:15px!important;
+    box-shadow:0 14px 40px rgba(16,24,40,.18)!important;
+    transform:translateX(-50%)!important;
+  }
+  body.zod-product-dock-always.product-single .zod-product-page{
+    padding-bottom:calc(var(--zod-product-dock-height,72px) + 34px)!important;
+  }
+}
+
+@media(max-width:767px){
+  .zod-sticky-chrome.zod-mobile-smart-header,
+  .zod-header.zod-mobile-smart-header{
+    transition:transform .22s cubic-bezier(.22,.7,.2,1)!important;
+    will-change:transform;
+  }
+  .zod-sticky-chrome.zod-mobile-smart-header.is-mobile-hidden,
+  .zod-header.zod-mobile-smart-header.is-mobile-hidden{
+    transform:translate3d(0,calc(-100% - 2px),0)!important;
+  }
+}

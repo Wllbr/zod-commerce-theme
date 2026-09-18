@@ -388,3 +388,19 @@ console.log('PASS: v1.7.26 persistent purchase dock, Salla-backed volume tiers, 
   assert(pagesJs.includes('paintMobileSummary') && pagesJs.includes('salla.cart.details()'), 'v1.7.27 mobile cart summary must refresh from live Salla cart details');
 }
 console.log('PASS: v1.7.27 Salla offer payload compatibility and live mobile savings summary.');
+
+// v1.7.28 product-page scroll stability + smart header hardening.
+{
+  const productTwig = read('src/views/pages/product/single.twig');
+  const productJs = read('src/assets/js/product.js');
+  const purchaseJs = read('src/assets/js/product-purchase-v1726.js');
+  const appJs = read('src/assets/js/app.js');
+  const appCss = read('src/assets/styles/app.scss');
+  assert(productTwig.includes("{% set sticky_price_value = product.is_on_sale ? product.sale_price : product.price %}"), 'v1.7.28 sticky price must not use starting_price');
+  assert(!productTwig.includes("product.starting_price ? product.starting_price|money : product.price|money"), 'v1.7.28 product page must not render starting_price as the main price');
+  assert(productJs.includes("this.buyBar.classList.contains('zod-dock-persistent-v1726')"), 'v1.7.28 old sticky controller must yield to the persistent dock');
+  assert(!purchaseJs.includes("window.addEventListener('scroll', schedule"), 'v1.7.28 persistent dock must not rewrite itself on scroll');
+  assert(appJs.includes('initMobileSmartHeader') && appJs.includes('delta < -1'), 'v1.7.28 smart mobile header behavior missing');
+  assert(appCss.includes('v1.7.28 — product-page scroll stability') && appCss.includes('left:50%!important'), 'v1.7.28 centered desktop dock CSS missing');
+}
+console.log('PASS: v1.7.28 scroll stability, centered dock, smart mobile header, and price cleanup.');
