@@ -127,12 +127,16 @@
            class="zod-product-price price-wrapper"
            data-zod-main-price
            data-zod-is-on-sale="{{ product.is_on_sale ? '1' : '0' }}"
-           data-zod-sale-price="{{ product.sale_price|default('') }}">
+           data-zod-sale-price="{{ product.sale_price|default('') }}"
+           data-zod-regular-price="{{ product.regular_price|default('') }}"
+           data-zod-discount-raw="{{ product.discount_percentage|default('') }}">
         <div class="price_is_on_sale {{ product.is_on_sale ? '' : 'hidden' }}">
           <strong class="total-price">{{ product.sale_price|money }}</strong>
           <del class="before-price">{{ product.regular_price|money }}</del>
-          {% set discount_value = product.discount_percentage ? product.discount_percentage|replace({'%':''})|round : null %}
-          <span class="zod-discount {{ discount_value ? '' : 'hidden' }}" data-zod-discount>{{ discount_value ? trans('zod.product.discount_badge', {'percent': discount_value}) : '' }}</span>
+          {# Do not format discount_percentage in Twig. Salla can expose it as either a
+             numeric value or a percentage string. Runtime normalization below avoids a
+             server-side type error and keeps discounted products render-safe. #}
+          <span class="zod-discount hidden" data-zod-discount aria-hidden="true"></span>
         </div>
         <div class="starting-or-normal-price {{ product.is_on_sale ? 'hidden' : '' }}">
           {% if product.starting_price %}<small class="starting-price-title">{{ trans('pages.products.starting_price') }}</small>{% endif %}

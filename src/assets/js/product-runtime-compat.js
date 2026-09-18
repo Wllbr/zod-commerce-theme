@@ -10,14 +10,57 @@
     const outOfStock = page.querySelector('[data-testid="store-product-out-of-stock"]');
     const stock = page.querySelector('[data-zod-stock-status]');
 
+    const normalizeDigits = value => String(value ?? '')
+      .replace(/[٠-٩]/g, digit => String('٠١٢٣٤٥٦٧٨٩'.indexOf(digit)))
+      .replace(/[۰-۹]/g, digit => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)));
+
+    const numeric = value => {
+      const raw = value?.amount ?? value;
+      if (typeof raw === 'number') return Number.isFinite(raw) ? raw : NaN;
+      const cleaned = normalizeDigits(raw).replace(/[^0-9.\-]/g, '');
+      if (!cleaned || cleaned === '-' || cleaned === '.') return NaN;
+      const parsed = Number(cleaned);
+      return Number.isFinite(parsed) ? parsed : NaN;
+    };
+
+    const renderDiscount = percent => {
+      if (!discountBadge) return;
+      const rounded = Number.isFinite(percent) && percent > 0 ? Math.round(percent) : 0;
+      discountBadge.classList.toggle('hidden', !rounded);
+      discountBadge.setAttribute('aria-hidden', rounded ? 'false' : 'true');
+      discountBadge.textContent = rounded
+        ? (document.documentElement.lang?.toLowerCase().startsWith('ar') ? `خصم ${rounded}%` : `${rounded}% OFF`)
+        : '';
+    };
+
+    const calculatePercent = (priceValue, regularValue, rawPercent = '') => {
+      const explicit = numeric(rawPercent);
+      if (Number.isFinite(explicit) && explicit > 0) return explicit;
+      const price = numeric(priceValue);
+      const regular = numeric(regularValue);
+      if (Number.isFinite(price) && Number.isFinite(regular) && regular > price && regular > 0) {
+        return ((regular - price) / regular) * 100;
+      }
+      return 0;
+    };
+
     // Keep invalid/empty sale payloads out of the UI without performing any numeric
     // comparisons in Twig. Salla allows product.price to be the string "-".
     if (mainPrice?.dataset.zodIsOnSale === '1') {
-      const salePrice = Number(mainPrice.dataset.zodSalePrice);
+      const salePrice = numeric(mainPrice.dataset.zodSalePrice);
       if (!Number.isFinite(salePrice) || salePrice <= 0) {
         saleBranch?.classList.add('hidden');
         normalBranch?.classList.remove('hidden');
+        renderDiscount(0);
+      } else {
+        renderDiscount(calculatePercent(
+          mainPrice.dataset.zodSalePrice,
+          mainPrice.dataset.zodRegularPrice,
+          mainPrice.dataset.zodDiscountRaw
+        ));
       }
+    } else {
+      renderDiscount(0);
     }
 
     const bind = () => {
@@ -38,6 +81,7 @@
         mainPrice?.classList.add('hidden');
         outOfStock?.classList.remove('hidden');
         outOfStock?.setAttribute('aria-hidden', 'false');
+        renderDiscount(0);
         setStock(false);
       });
 
@@ -50,7 +94,6 @@
         outOfStock?.setAttribute('aria-hidden', 'true');
         mainPrice?.querySelector('.starting-price-title')?.classList.add('hidden');
 
-        const numeric = value => Number(value?.amount ?? value);
         const price = numeric(data.price);
         const regularPrice = numeric(data.regular_price);
         const saleFlag = data.has_sale_price ?? data.is_on_sale;
@@ -77,6 +120,7 @@
 
         saleBranch?.classList.toggle('hidden', !isOnSale);
         normalBranch?.classList.toggle('hidden', isOnSale);
+        renderDiscount(isOnSale ? calculatePercent(price, regularPrice, data.discount_percentage) : 0);
       });
 
       const form = page.querySelector('.product-form');
@@ -88,29 +132,7 @@
       });
     };
 
-    const bindDiscountOnly = () => {
-      if (window.__zodProductDiscountCompatBound || !window.salla || !discountBadge) return;
-      window.__zodProductDiscountCompatBound = true;
-      window.salla.product?.event?.onPriceUpdated?.(response => {
-        const data = response?.data || response;
-        if (!data) return;
-        const numeric = value => Number(value?.amount ?? value);
-        const price = numeric(data.price);
-        const regularPrice = numeric(data.regular_price);
-        const saleFlag = data.has_sale_price ?? data.is_on_sale;
-        const isOnSale = (saleFlag == null || Boolean(saleFlag))
-          && Number.isFinite(price)
-          && Number.isFinite(regularPrice)
-          && regularPrice > price;
-        const percent = isOnSale ? Math.round(((regularPrice - price) / regularPrice) * 100) : 0;
-        discountBadge.classList.toggle('hidden', !(percent > 0));
-        discountBadge.textContent = percent > 0
-          ? (document.documentElement.lang?.toLowerCase().startsWith('ar') ? `خصم ${percent}%` : `${percent}% OFF`)
-          : '';
-      });
-    };
-
-    const bindAll = () => { bindDiscountOnly(); bind(); };
+    const bindAll = () => bind();
 
     if (window.salla?.onReady) {
       Promise.resolve(window.salla.onReady()).then(bindAll).catch(() => bindAll());

@@ -1,3 +1,20 @@
+## 1.7.22 — 2026-09-18
+
+- Restored the shared product-card design and behavior from ZOD Commerce v1.7.13, before the later Noon/marketplace card redesign experiments.
+- Removed the v1.7.14+ marketplace-card runtime override so the compiled v1.7.13 card is used again on every standard product surface.
+- Restored the earlier card structure: image gallery dots, category, subtitle, brand, rating, price, VAT label, option/details row, original promotion badge, original wishlist icon and original card spacing.
+- Kept all later non-card fixes, including current product-page Twig hardening, uploaded-product-video support, discount runtime safety and the wider storefront density/layout work.
+- Removed the obsolete marketplace-card webpack entry and runtime assets so future production builds cannot silently re-enable the rejected redesign.
+
+## 1.7.21 — 2026-09-18
+
+- Fixed the Arabic marketplace card controls after tracing the exact cause: old logical `inset-inline-*` resets were cancelling the physical `left/right` rules. The conflicting logical resets are removed; RTL heart/quick-add are physically left and LTR physically right.
+- Kept Arabic product-card copy right aligned and English copy left aligned independent of Salla editor/preview wrapper direction.
+- Removed type-sensitive Twig formatting from `product.discount_percentage`; discounted product pages now pass raw data to a defensive JavaScript formatter, preventing blank renders when Salla returns a numeric discount instead of a percent string.
+- Initial and option-updated product discounts are rounded to clean labels (`خصم 30%` / `30% OFF`) in the runtime layer.
+- Preserved Salla uploaded-video support through `image.video_type ?? 'image'`.
+- Added source/public parity checks, guards against reintroducing conflicting logical inset resets, Chromium layout verification, and discounted-product Twig render-safety checks.
+
 ## 1.7.20 — Salla uploaded product video support
 
 - Applied Salla's September 16, 2026 Twilight media update exactly on the product gallery.

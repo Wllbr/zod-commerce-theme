@@ -89,10 +89,16 @@ const context = vm.createContext({HTMLElement:class {}, customElements:{get:()=>
 vm.runInContext(read('src/assets/js/partials/product-card.js').replace(/^import .*;\r?\n/gm,''),context);
 const card = new Card();
 card.stripHtml = value => value;
-assert.equal(card.productUrl({urls:{customer:'/customer-product'}}),'/customer-product','product links accept Salla urls.customer payloads');
-assert.equal(card.productUrl({url:{url:'/object-url'}}),'/object-url','product links accept object URL payloads');
-assert.ok(card.bestSellerTag({tags:[{name:'Best Seller'}]}),'Best Seller tags drive the green marketplace badge');
-assert.equal(card.bestSellerTag({tags:[{name:'Clearance'}]}),null,'unrelated tags do not create a Best Seller badge');
+assert.match(productCardSource, /classList\.add\('zod-product-card'\)/, 'shared card keeps the v1.7.13 base class');
+assert.doesNotMatch(productCardSource, /zod-product-card--marketplace/, 'rejected marketplace card class is not rendered');
+assert.match(productCardSource, /zpc-offer-badge/, 'v1.7.13 promotion badge is restored');
+assert.match(productCardSource, /zpc-media-dots/, 'v1.7.13 gallery dots are restored');
+assert.match(productCardSource, /zpc-category/, 'v1.7.13 category row is restored');
+assert.match(productCardSource, /zpc-subtitle/, 'v1.7.13 subtitle is restored');
+assert.match(productCardSource, /zpc-brand/, 'v1.7.13 brand row is restored');
+assert.match(productCardSource, /zpc-tax/, 'v1.7.13 tax label is restored');
+assert.match(productCardSource, /sicon-heart/, 'v1.7.13 wishlist icon is restored');
+assert.doesNotMatch(productCardSource, /zpc-deal-strip|zpc-bestseller-badge|zpc-heart-svg/, 'later Noon-style card elements are absent');
 assert.equal(card.priceValues({price:115,regular_price:115,sale_price:80,is_on_sale:false}).onSale,false,
   'scheduled discounts do not appear as active card offers');
 assert.equal(card.priceValues({price:115,regular_price:115,sale_price:80,is_on_sale:true}).current,80,
@@ -265,16 +271,14 @@ assert.doesNotMatch(laserTemplate,/sicon-play/,'laser selector does not show dec
 assert.doesNotMatch(laserTemplate,/motion_preview|zod-laser-panel__live/,'laser media does not show a redundant live-preview badge');
 assert.match(laserTemplate,/zod-laser-panel__feature-icon[\s\S]*zod-laser-showcase__browse/,'laser showcase uses icon benefits and a browse-all action');
 assert.match(styles,/\.zod-laser-showcase\.is-sound-cue[\s\S]*zodLaserSoundCue/,'laser sound control provides a limited arrival cue');
-assert.match(productCardSource,/resolveProductUrl\(this\.product\)[\s\S]*window\.location\.assign\(url\)/,'unused custom-card space resolves URL-less Salla payloads before navigation');
 
 console.log('PASS: mobile dialog layering, cart dock isolation, bilingual showcase routing, and category drawer calls to action.');
 
-// v1.7.19 triple-audit hardening: keep marketplace cards and Raed/Twilight
-// storefront contracts consistent across every standard product surface.
+// v1.7.22 restoration audit: every standard product collection still uses the
+// shared ZOD card, but the card itself is the proven v1.7.13 implementation.
 const masterTemplate = read('src/views/layouts/master.twig');
 const productSingleTemplate = read('src/views/pages/product/single.twig');
 const productRuntimeCompat = read('src/assets/js/product-runtime-compat.js');
-const marketplaceRuntime = read('src/assets/js/product-card-marketplace.js');
 const productTypeSwitcherTemplate = read('src/views/components/home/product-type-switcher.twig');
 const standardProductTemplates = [
   'src/views/components/home/fixed-products.twig',
@@ -291,35 +295,26 @@ const standardProductTemplates = [
 for (const path of standardProductTemplates) {
   const template = read(path);
   for (const match of template.matchAll(/<salla-products-(?:slider|list)\b[^>]*>/g)) {
-    assert.match(match[0], /product-card-component="custom-salla-product-card"/, `${path} routes every native product collection through the ZOD marketplace card`);
+    assert.match(match[0], /product-card-component="custom-salla-product-card"/, `${path} routes every native product collection through the shared ZOD card`);
   }
 }
-assert.doesNotMatch(standardProductTemplates.map(read).join('\n'), /<salla-product-card\b/, 'standard Twig surfaces never fall back to the native Salla product card');
-assert.equal((productTypeSwitcherTemplate.match(/product-card-component="custom-salla-product-card"/g) || []).length, 2, 'product type switcher uses the marketplace card for selected and category feeds');
-assert.match(styles, /html\[dir="rtl"\][\s\S]*?\.zpc-wishlist[\s\S]*?left:\s*7px\s*!important;[\s\S]*?right:\s*auto\s*!important;/, 'RTL wishlist is physically locked to the left');
-assert.match(styles, /html\[dir="rtl"\][\s\S]*?\.zpc-media-add[\s\S]*?left:\s*8px\s*!important;[\s\S]*?right:\s*auto\s*!important;/, 'RTL quick-add is physically locked to the left');
-assert.match(styles, /html\[dir="ltr"\][\s\S]*?\.zpc-wishlist[\s\S]*?right:\s*7px\s*!important;[\s\S]*?left:\s*auto\s*!important;/, 'LTR wishlist is physically locked to the right');
-assert.match(styles, /html\[dir="ltr"\][\s\S]*?\.zpc-media-add[\s\S]*?right:\s*8px\s*!important;[\s\S]*?left:\s*auto\s*!important;/, 'LTR quick-add is physically locked to the right');
-assert.match(styles, /\.zpc-wishlist\.is-active \.zpc-heart-svg\s*\{[\s\S]*?fill:\s*#ed1c2e\s*!important;[\s\S]*?stroke:\s*#ed1c2e\s*!important;/, 'active wishlist heart is solid ZOD red');
-assert.match(styles, /\.zpc-deal-strip\s*\{[\s\S]*?background:\s*#fff0f2\s*!important;[\s\S]*?color:\s*#e31c2b\s*!important;/, 'promotion strip is pale pink with red text');
-assert.match(masterTemplate, /window\.header_is_sticky\s*=/, 'master exposes current Raed sticky-header global');
-assert.match(masterTemplate, /window\.imageZoom\s*=/, 'master exposes current Raed image-zoom global');
-assert.match(masterTemplate, /window\.can_access_wallet\s*=/, 'master exposes current Raed wallet global');
-assert.match(masterTemplate, /window\.enable_add_product_toast\s*=/, 'master exposes current Raed add-product-toast global');
-assert.match(masterTemplate, /window\.notify_when_available_in_card\s*=/, 'master exposes current Raed card notification global');
-assert.ok(masterTemplate.indexOf('window.header_is_sticky') < masterTemplate.indexOf("{% hook 'head:start' %}"), 'Raed-compatible storefront globals are emitted in the head before theme hooks initialize');
-assert.match(productCardSource, /notifyWhenAvailableEnabled\(\)[\s\S]*?\['false', '0', 'off', 'no'\]/, 'compiled-source card safely parses typed and string merchant notify settings');
-assert.match(marketplaceRuntime, /proto\.notifyWhenAvailableEnabled[\s\S]*?\['false', '0', 'off', 'no'\]/, 'runtime marketplace patch safely parses typed and string merchant notify settings');
-assert.match(marketplaceRuntime, /wishlistEvents\.onAdded\?\./, 'runtime marketplace card listens to the official wishlist-added event');
-assert.match(marketplaceRuntime, /wishlistEvents\.onRemoved\?\./, 'runtime marketplace card listens to the official wishlist-removed event');
-assert.match(productSingleTemplate, /data-zod-discount/, 'product Twig always exposes a stable discount badge hook');
-assert.match(productSingleTemplate, /discount_percentage\|replace\(\{'%':''\}\)\|round/, 'server-rendered product discount is rounded');
-assert.match(productRuntimeCompat, /Math\.round\(\(\(regularPrice - price\) \/ regularPrice\) \* 100\)/, 'runtime option-price changes recompute a rounded discount');
-assert.match(productRuntimeCompat, /__zodProductDiscountCompatBound/, 'runtime discount sync is independently guarded and survives the main price handler guard');
-assert.doesNotMatch(productRuntimeCompat, /if \(!page \|\| window\.__zodProductNativePriceCompatBound\) return;/, 'runtime discount sync is not blocked when another native price handler initializes first');
+assert.doesNotMatch(standardProductTemplates.map(read).join('\n'), /<salla-product-card\b/, 'standard Twig surfaces never fall back to a different native product card');
+assert.equal((productTypeSwitcherTemplate.match(/product-card-component="custom-salla-product-card"/g) || []).length, 2, 'product type switcher uses the shared card for selected and category feeds');
+assert.doesNotMatch(masterTemplate, /product-card-marketplace\.js/, 'layout no longer loads the rejected marketplace-card runtime override');
+assert.match(masterTemplate, /window\.header_is_sticky\s*=/, 'master keeps current Raed sticky-header global');
+assert.match(masterTemplate, /window\.imageZoom\s*=/, 'master keeps current Raed image-zoom global');
+assert.match(masterTemplate, /window\.can_access_wallet\s*=/, 'master keeps current Raed wallet global');
+assert.match(masterTemplate, /window\.enable_add_product_toast\s*=/, 'master keeps current Raed add-product-toast global');
+assert.match(masterTemplate, /window\.notify_when_available_in_card\s*=/, 'master keeps current Raed card notification global');
+assert.ok(masterTemplate.indexOf('window.header_is_sticky') < masterTemplate.indexOf("{% hook 'head:start' %}"), 'Raed-compatible storefront globals are emitted before theme hooks initialize');
+assert.match(productSingleTemplate, /data-zod-discount/, 'product Twig exposes a stable discount badge hook');
+assert.doesNotMatch(productSingleTemplate, /discount_percentage\s*\|\s*replace|discount_percentage[^\n]*\|\s*round/, 'product Twig never performs type-sensitive discount formatting');
+assert.ok(productSingleTemplate.includes(`data-zod-discount-raw="{{ product.discount_percentage|default('') }}"`), 'product Twig passes raw discount data to the safe runtime formatter');
+assert.match(productRuntimeCompat, /const renderDiscount = percent =>/, 'runtime owns discount formatting for initial and option prices');
+assert.match(productRuntimeCompat, /calculatePercent\([\s\S]*?dataset\.zodDiscountRaw/, 'runtime safely initializes discount from Salla data');
 assert.match(productSingleTemplate, /product-runtime-compat\.js[\s\S]*product\.js/, 'product runtime compatibility loads before the main product bundle');
 
-console.log('PASS: v1.7.19 card routing, RTL/LTR placement, wishlist sync, Raed globals, and dynamic discount hardening.');
+console.log('PASS: v1.7.22 legacy card routing plus current Raed/Twilight product-page hardening.');
 const spotlightTemplate = read('src/views/components/home/product-spotlight.twig');
 const interactiveShowcaseTemplate = read('src/views/components/home/interactive-product-showcase.twig');
 assert.doesNotMatch(`${spotlightTemplate}\n${interactiveShowcaseTemplate}`, /sale_price\s*>\s*0/, 'custom homepage showcases do not perform unsafe numeric Twig comparisons on Salla sale prices');
@@ -334,3 +329,26 @@ console.log('PASS: v1.7.19 custom showcase Twig price-safety hardening.');
   assert(!twig.includes(`image.video_type|default('image')`), 'legacy default-filter media-type lookup must not remain');
 }
 console.log('PASS: v1.7.20 uploaded product video media-type support.');
+// v1.7.22 exact product-card restoration + current product safety.
+{
+  const cardSource = read('src/assets/js/partials/product-card.js');
+  const publicApp = read('public/app.js');
+  const productTwig = read('src/views/pages/product/single.twig');
+  const runtime = read('src/assets/js/product-runtime-compat.js');
+  const publicRuntime = read('public/product-runtime-compat.js');
+  const webpack = read('webpack.config.js');
+  assert.match(cardSource, /this\.classList\.add\('zod-product-card'\)/, 'source renders the v1.7.13 product card class');
+  assert.doesNotMatch(cardSource, /zod-product-card--marketplace|zpc-deal-strip|zpc-bestseller-badge|zpc-heart-svg/, 'source contains none of the rejected marketplace card UI');
+  assert.match(cardSource, /zpc-offer-badge[\s\S]*zpc-media-dots[\s\S]*zpc-category[\s\S]*zpc-subtitle[\s\S]*zpc-brand/, 'source restores the complete v1.7.13 card content hierarchy');
+  assert.match(publicApp, /zpc-offer-badge/, 'packaged app bundle contains the legacy offer badge card renderer');
+  assert.match(publicApp, /zpc-media-dots/, 'packaged app bundle contains the legacy gallery-dot renderer');
+  assert.doesNotMatch(publicApp, /zod-product-card--marketplace/, 'packaged app bundle does not render the rejected marketplace card class');
+  assert.doesNotMatch(webpack, /product-card-marketplace/, 'future production builds cannot regenerate the rejected marketplace runtime entry');
+  assert.equal(publicRuntime, runtime, 'packaged product compatibility runtime exactly matches source runtime');
+  assert.doesNotMatch(productTwig, /discount_percentage[^\n]*\|\s*(?:replace|round)/, 'discounted product Twig cannot fail on numeric-vs-string discount types');
+  assert.doesNotMatch(productTwig, /(?:sale_price|regular_price|starting_price|discount_percentage)\s*[<>+*\/]/, 'product Twig performs no unsafe arithmetic/comparison on polymorphic Salla price fields');
+  assert.match(productTwig, /data-type="\{\{ image\.video_type \?\? 'image' \}\}"/, 'product Twig keeps current uploaded-video media type contract');
+  assert.match(runtime, /normalizeDigits/, 'discount runtime accepts localized numeric strings');
+  assert.match(runtime, /Math\.round\(percent\)/, 'discount badge is rounded only in JavaScript');
+}
+console.log('PASS: v1.7.22 exact v1.7.13 product-card restoration and current product-page safety.');

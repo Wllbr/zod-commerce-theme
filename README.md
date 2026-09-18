@@ -1,6 +1,8 @@
+> Current release: **v1.7.22** — restores the v1.7.13 shared product cards while preserving later product-page/Twilight fixes.
+
 # ZOD Commerce Theme
 
-**Version 1.7.20** — Salla Twilight storefront for ZOD.
+**Version 1.7.22** — Salla Twilight storefront for ZOD.
 
 ## v1.6.48 consumer-readiness fixes
 
