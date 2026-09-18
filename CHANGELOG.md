@@ -1,3 +1,9 @@
+## 1.7.23 — Restore pre-marketplace product cards
+- Corrected the rollback target: v1.7.12 was the actual marketplace-card rebuild, so v1.7.13 was already too new.
+- Restored the documented pre-v1.7.12 Orkida card structure: Eye + Heart image actions, category pill, compact title/rating/price, VAT note, discount/promotion corner badges, and a full-width purchase button.
+- Keeps all newer product-page/Twilight/video compatibility work and leaves Laser World untouched.
+- Adds a standalone legacy card runtime loaded after app.js so the Salla upload works without requiring a local rebuild.
+
 ## 1.7.22 — 2026-09-18
 
 - Restored the shared product-card design and behavior from ZOD Commerce v1.7.13, before the later Noon/marketplace card redesign experiments.

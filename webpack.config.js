@@ -13,6 +13,7 @@ module.exports = {
     products: asset('js/products.js'),
     pages: asset('js/pages.js'),
     'zod-menu': asset('js/partials/zod-menu.js'),
+    'legacy-product-card': asset('js/legacy-product-card.js'),
     'product-runtime-compat': asset('js/product-runtime-compat.js'),
     'digital-files': asset('js/partials/digital-files.js')
   },
