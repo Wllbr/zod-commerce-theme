@@ -64,7 +64,7 @@
   {% component 'footer.footer' %}
 </div>
 {% hook 'body:end' %}
-{% if theme.settings.get('enable_add_product_toast', true) %}<salla-add-product-toast data-testid="store-add-product-toast"></salla-add-product-toast>{% endif %}
+{# ZOD uses salla.notify.setNotifier() for a single non-blocking notification path. #}
 <script defer crossorigin="anonymous" src="{{ 'app.js' | asset }}"></script>
 <script defer crossorigin="anonymous" src="{{ 'legacy-product-card.js' | asset }}"></script>
 <salla-offer-modal data-testid="store-offer-modal"></salla-offer-modal>

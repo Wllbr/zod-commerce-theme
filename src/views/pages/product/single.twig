@@ -219,10 +219,15 @@
         {% hook 'product:single.form.end' %}
 
         {% if product.has_preorder_campaign %}<div class="zod-preorder"><salla-count-down data-testid="store-product-preorder-countdown" pre-order='{{ product.preorder|json_encode }}' boxed labeled></salla-count-down></div>{% endif %}
-        {% if product.discount_ends and product.is_on_sale %}<div class="zod-sale-countdown"><salla-count-down date="{{ product.discount_ends }}" color="primary" size="sm" labeled></salla-count-down></div>{% endif %}
+        {% if product.discount_ends and product.is_on_sale %}
+        <div class="zod-sale-countdown" data-zod-sale-countdown>
+          <span class="zod-sale-countdown__label"><i class="sicon-clock" aria-hidden="true"></i>{{ trans('zod.showcase.offer_ends') }}</span>
+          <salla-count-down date="{{ product.discount_ends }}" color="primary" size="sm" labeled></salla-count-down>
+        </div>
+        {% endif %}
 
         <div class="zod-buy-controls-anchor" data-zod-buy-anchor>
-          <div class="zod-buy-controls sticky-product-bar is-docked is-ready {{ product.is_hidden_quantity or product.type == 'booking' ? 'zod-buy-controls--no-qty' : '' }} {{ product.can_quick_buy ? 'zod-buy-controls--quick' : '' }} {{ not product_available ? 'zod-buy-controls--unavailable' : '' }}" data-zod-sticky-buy>
+          <div class="zod-buy-controls sticky-product-bar {{ product.is_hidden_quantity or product.type == 'booking' ? 'zod-buy-controls--no-qty' : '' }} {{ product.can_quick_buy ? 'zod-buy-controls--quick' : '' }} {{ not product_available ? 'zod-buy-controls--unavailable' : '' }}" data-zod-sticky-buy data-zod-sticky-enabled="{{ theme.settings.get('sticky_add_to_cart') ? '1' : '0' }}">
             <div class="zod-sticky-product-summary">
               <div class="zod-sticky-product-summary__image">
                 {% if sticky_image and sticky_image.url %}<img src="{{ sticky_image.url }}" alt="{{ sticky_image.alt|default(product.name) }}">{% else %}<img src="{{ 'images/placeholder.svg'|asset }}" alt="{{ product.name }}">{% endif %}

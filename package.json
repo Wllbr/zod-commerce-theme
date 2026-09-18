@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.7.23",
-  "description": "ZOD Commerce — Salla-ready repository packaging with oversized development artifacts excluded.",
+  "version": "1.7.25",
+  "description": "ZOD Commerce v1.7.25 — non-blocking Salla notifications plus the v1.7.24 card and product-page refinements.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

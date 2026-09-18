@@ -463,9 +463,11 @@ class ZodTheme {
 
   initCartExperience() {
     const bind = () => {
-      // Keep Salla's native notifier and <salla-add-product-toast> as the single
-      // source of cart feedback. Overriding the notifier here caused duplicate
-      // 'already added' / add-to-cart notices on product cards.
+      // Twilight uses the browser's blocking alert() as its default notifier.
+      // Replace it with ZOD's non-blocking toast UI. We intentionally do not
+      // render <salla-add-product-toast> at the same time, so add/update/delete
+      // actions have exactly one feedback path and cannot double-notify.
+      salla.notify?.setNotifier?.((message, type) => this.showNotification(message, type));
       // Never paint a cached count as authoritative. The live Salla cart owns the badge.
       this.updateCartBadge(0);
       const cartEvents = salla?.cart?.event;

@@ -315,7 +315,7 @@ assert.match(productRuntimeCompat, /const renderDiscount = percent =>/, 'runtime
 assert.match(productRuntimeCompat, /calculatePercent\([\s\S]*?dataset\.zodDiscountRaw/, 'runtime safely initializes discount from Salla data');
 assert.match(productSingleTemplate, /product-runtime-compat\.js[\s\S]*product\.js/, 'product runtime compatibility loads before the main product bundle');
 
-console.log('PASS: v1.7.23 pre-marketplace card routing plus current Raed/Twilight product-page hardening.');
+console.log('PASS: v1.7.24 refined legacy-card routing plus current Raed/Twilight product-page hardening.');
 const spotlightTemplate = read('src/views/components/home/product-spotlight.twig');
 const interactiveShowcaseTemplate = read('src/views/components/home/interactive-product-showcase.twig');
 assert.doesNotMatch(`${spotlightTemplate}\n${interactiveShowcaseTemplate}`, /sale_price\s*>\s*0/, 'custom homepage showcases do not perform unsafe numeric Twig comparisons on Salla sale prices');
@@ -330,7 +330,7 @@ console.log('PASS: v1.7.19 custom showcase Twig price-safety hardening.');
   assert(!twig.includes(`image.video_type|default('image')`), 'legacy default-filter media-type lookup must not remain');
 }
 console.log('PASS: v1.7.20 uploaded product video media-type support.');
-// v1.7.23 pre-marketplace product-card restore + current product safety.
+// v1.7.24 pre-marketplace card refinement + current product safety.
 {
   const cardSource = read('src/assets/js/partials/product-card.js');
   const legacySource = read('src/assets/js/legacy-product-card.js');
@@ -340,7 +340,9 @@ console.log('PASS: v1.7.20 uploaded product video media-type support.');
   const publicRuntime = read('public/product-runtime-compat.js');
   const webpack = read('webpack.config.js');
   assert.match(legacySource, /zod-product-card--legacy/, 'legacy runtime marks every restored card with the pre-marketplace class');
-  assert.match(legacySource, /zpc-hover-actions[\s\S]*zpc-quick-view[\s\S]*zpc-wishlist/, 'legacy runtime restores Eye + Heart image actions');
+  assert.match(legacySource, /zpc-hover-actions[\s\S]*zpc-quick-view[\s\S]*zpc-wishlist/, 'legacy runtime keeps desktop Eye + Heart image actions');
+  assert.match(legacySource, /zpc-heart-svg/, 'legacy wishlist uses a real SVG so active state can fill solid red');
+  assert.match(legacySource, /const offerLabel = promo \|\| \(discount/, 'legacy card resolves promotion/discount to one badge label');
   assert.match(legacySource, /class="zpc-add/, 'legacy runtime restores the full-width purchase action');
   assert.doesNotMatch(legacySource, /zpc-media-add|zpc-media-dots|zpc-brand/, 'legacy runtime does not render marketplace plus/dots/brand rows');
   assert.equal(publicLegacy, legacySource, 'packaged legacy product-card runtime exactly matches source');
@@ -354,5 +356,22 @@ console.log('PASS: v1.7.20 uploaded product video media-type support.');
   assert.match(runtime, /Math\.round\(percent\)/, 'discount badge is rounded only in JavaScript');
   // Base card source may retain newer helpers, but the loaded legacy patch owns the visible card markup.
   assert.match(cardSource, /customElements\.define\('custom-salla-product-card'/, 'base custom card remains registered for the patch to extend');
+  assert.match(read('src/assets/styles/app.scss'), /@media\(max-width:1023px\), \(hover:none\)[\s\S]*?zpc-quick-view[\s\S]*?display:none!important/, 'quick-view eye is hidden outside desktop hover layouts');
+  assert.match(read('src/assets/js/product.js'), /if \(rect\.bottom < 0\) activateDock\(\);/, 'sticky purchase bar waits until the inline purchase controls are passed');
+  assert.doesNotMatch(productTwig, /sticky-product-bar is-docked is-ready/, 'product Twig does not start with an always-on dock');
+  assert.match(productTwig, /data-zod-sale-countdown[\s\S]*zod-sale-countdown__label/, 'sale countdown has the compact labeled presentation');
 }
-console.log('PASS: v1.7.23 pre-marketplace product-card restore and current product-page safety.');
+console.log('PASS: v1.7.24 refined pre-marketplace cards, countdown, and on-scroll purchase dock.');
+
+
+// v1.7.25 notifier regression guard
+{
+  const fs = await import('node:fs');
+  const srcApp = fs.readFileSync(new URL('../src/assets/js/app.js', import.meta.url), 'utf8');
+  const publicApp = fs.readFileSync(new URL('../public/app.js', import.meta.url), 'utf8');
+  const master = fs.readFileSync(new URL('../src/views/layouts/master.twig', import.meta.url), 'utf8');
+  assert.match(srcApp, /salla\.notify\?\.setNotifier\?\./, 'source must register a custom Salla notifier');
+  assert.match(publicApp, /salla\.notify\?\.setNotifier\?\./, 'compiled runtime must register a custom Salla notifier');
+  assert.doesNotMatch(srcApp, /window\.alert\s*=/, 'must not monkey-patch window.alert globally');
+  assert.doesNotMatch(master, /<salla-add-product-toast\b/, 'native add-product toast must not render alongside the custom notifier');
+}

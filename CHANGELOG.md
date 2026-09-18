@@ -1,3 +1,20 @@
+## 1.7.25 — Non-blocking cart notifications
+- Replaces Twilight's default blocking JavaScript `alert()` notifier with ZOD's existing non-blocking toast notification UI using the supported `salla.notify.setNotifier()` hook.
+- Removes the simultaneous `<salla-add-product-toast>` renderer so add-to-cart feedback is not duplicated.
+- Cart add, quantity update, item delete, coupon, and related Salla success/error messages now use one notification path without interrupting the storefront.
+- Keeps all v1.7.24 product-card, countdown, header, gallery and sticky purchase-dock refinements unchanged.
+
+## 1.7.24 — Product-card and product-page refinement
+- Keeps the restored pre-marketplace Eye + Heart + full-width purchase card; no new card redesign.
+- Shows one pale-pink/red promotion/discount badge instead of two competing percentage badges.
+- Makes Quick View (eye) desktop-only while keeping wishlist available on touch/mobile layouts.
+- Uses a real SVG wishlist heart so active state fills solid red reliably.
+- Reduces card media height, category-pill weight and internal vertical gaps while preserving a fixed two-line title area.
+- Keeps long discount countdowns valid (for example 103 days) and adds a compact localized “Offer ends in” wrapper instead of treating a long campaign as an error.
+- Slims desktop announcement/header chrome, gallery progress dots, description/facts spacing and the active purchase dock.
+- Sticky purchase controls now remain inline initially and dock only after the customer scrolls past the original purchase controls; the merchant sticky-cart setting is respected.
+- Preserves current Salla uploaded-video media handling and all product Twig price/discount safety work.
+
 ## 1.7.23 — Restore pre-marketplace product cards
 - Corrected the rollback target: v1.7.12 was the actual marketplace-card rebuild, so v1.7.13 was already too new.
 - Restored the documented pre-v1.7.12 Orkida card structure: Eye + Heart image actions, category pill, compact title/rating/price, VAT note, discount/promotion corner badges, and a full-width purchase button.

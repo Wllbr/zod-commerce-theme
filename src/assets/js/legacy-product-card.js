@@ -1,4 +1,4 @@
-/* ZOD v1.7.23 — restore the pre-v1.7.12 Orkida-style product card.
+/* ZOD v1.7.24 — restore the pre-v1.7.12 Orkida-style product card.
  * This patches the shared custom card after app.js defines it, so we can keep
  * all newer product-page/Twilight fixes while returning the storefront card UI
  * to the older Eye + Heart + full-width purchase layout.
@@ -45,6 +45,9 @@
       const needsProductForm = Boolean(hasOptions || p.can_add_note || p.can_upload_file || p.has_custom_form || p.has_bundle_products);
       const chooseOptionsLabel = this.t?.('zod.product.choose_options_card', this.isArabic?.() ? 'اختر الخيارات' : 'Choose options') || (this.isArabic?.() ? 'اختر الخيارات' : 'Choose options');
       const discount = this.discountPercent?.(p) || 0;
+      // v1.7.24: one promotion treatment only. Prefer the merchant promotion
+      // title, otherwise show the calculated percentage in the same pale-pink badge.
+      const offerLabel = promo || (discount ? `${discount}%` : '');
 
       const values = this.priceValues?.(p) || { current: 0, original: 0, onSale: false };
       let priceHtml = '';
@@ -64,12 +67,11 @@
           <a class="zpc-product-link" href="${this.esc?.(url || '#') || '#'}" aria-label="${imageAlt}">
             <img src="${this.esc?.(image) || ''}" alt="${imageAlt}" loading="lazy">
           </a>
-          ${discount ? `<span class="zpc-discount-badge">${this.esc?.(discount) || discount}%</span>` : ''}
-          ${promo ? `<span class="zpc-offer-badge" title="${this.esc?.(promo) || promo}">${this.esc?.(promo) || promo}</span>` : ''}
+          ${offerLabel ? `<span class="zpc-offer-badge" title="${this.esc?.(offerLabel) || offerLabel}">${this.esc?.(offerLabel) || offerLabel}</span>` : ''}
           ${isOut ? `<span class="zpc-stock-stamp">${this.esc?.(outLabel) || outLabel}</span>` : ''}
           <div class="zpc-hover-actions" aria-label="${this.isArabic?.() ? 'إجراءات المنتج' : 'Product actions'}">
             <button type="button" class="zpc-action zpc-quick-view" aria-label="${quickViewLabel}"><i class="sicon-eye"></i></button>
-            <button type="button" class="zpc-action zpc-wishlist ${inWishlist ? 'is-active' : ''}" data-id="${this.esc?.(p.id) || p.id}" aria-label="${wishlistLabel}" aria-pressed="${inWishlist ? 'true' : 'false'}"><i class="sicon-heart"></i></button>
+            <button type="button" class="zpc-action zpc-wishlist ${inWishlist ? 'is-active' : ''}" data-id="${this.esc?.(p.id) || p.id}" aria-label="${wishlistLabel}" aria-pressed="${inWishlist ? 'true' : 'false'}"><svg class="zpc-heart-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg></button>
           </div>
         </div>
         <div class="zpc-body">
