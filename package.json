@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.7.29",
-  "description": "ZOD Commerce v1.7.29 — mobile card cleanup, promotional metadata direction, compact cart details, category-switcher card parity, and regrouped footer certificates/payments.",
+  "version": "1.7.30",
+  "description": "ZOD Commerce v1.7.30 — merge separate Salla quantity-discount offers per product into one custom tier selector, with strict product scoping.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

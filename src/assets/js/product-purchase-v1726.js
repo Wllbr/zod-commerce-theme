@@ -86,6 +86,20 @@
       return number == null ? null : Math.max(0, Math.min(100, number));
     };
     const normalizeType = offer => String(offer?.offer_type || offer?.type || offer?.offerType || '').toLowerCase();
+    const currentProductId = String(section.dataset.zodProductId || '').trim();
+    const productIdFrom = value => {
+      if (value == null) return null;
+      if (typeof value === 'object') return value.id ?? value.product_id ?? value.productId ?? null;
+      return value;
+    };
+    const listIds = value => {
+      if (!Array.isArray(value)) return [];
+      return value.map(productIdFrom).filter(id => id != null).map(id => String(id));
+    };
+    const listTargetsCurrentProduct = value => {
+      const ids = listIds(value);
+      return !ids.length || !currentProductId || ids.includes(currentProductId);
+    };
 
     const collectTiers = offer => {
       const found = new Map([[1, { quantity: 1, percentage: 0 }]]);
@@ -132,10 +146,10 @@
       const offerType = normalizeType(offer);
       if (offerType === 'buy_x_get_y' || offerType.includes('buy')) {
         const getType = String(offer?.get?.discount_type || '').toLowerCase();
-        if (getType.includes('percent')) {
+        const sameProductTarget = listTargetsCurrentProduct(offer?.buy?.products) && listTargetsCurrentProduct(offer?.get?.products);
+        if (getType.includes('percent') && sameProductTarget) {
           const buyQty = quantityFrom(offer?.buy?.quantity ?? offer?.buy?.min_items ?? offer?.min_items_count);
-          const getQty = quantityFrom(offer?.get?.quantity) || 0;
-          const threshold = buyQty ? Math.max(2, buyQty + (getQty && offer?.get?.products?.length ? 0 : 0)) : null;
+          const threshold = buyQty ? Math.max(2, buyQty) : null;
           put(threshold, offer?.get?.discount_amount);
         }
       }
@@ -226,17 +240,65 @@
       return candidates.find(Array.isArray) || [];
     };
 
+    const offerAppliesToCurrentProduct = offer => {
+      if (!offer || !currentProductId) return true;
+
+      const excluded = new Set([
+        ...listIds(offer.excluded_buy_products_ids),
+        ...listIds(offer.exclude_product_ids),
+        ...listIds(offer.excluded_products)
+      ]);
+      if (excluded.has(currentProductId)) return false;
+
+      const directTargets = [
+        offer.products,
+        offer.product_ids,
+        offer.include_product_ids
+      ].map(listIds).filter(ids => ids.length);
+      if (directTargets.length && !directTargets.some(ids => ids.includes(currentProductId))) return false;
+
+      const offerType = normalizeType(offer);
+      if (offerType === 'buy_x_get_y' || offerType.includes('buy')) {
+        // This selector promises a discount on the current item itself. Never show
+        // cross-product Buy-X/Get-Y offers where the rewarded product is different.
+        if (!listTargetsCurrentProduct(offer?.buy?.products)) return false;
+        if (!listTargetsCurrentProduct(offer?.get?.products)) return false;
+      }
+
+      // If Salla supplied explicit product ids, the checks above are authoritative.
+      // Otherwise trust the product-page <salla-offer>, which is already scoped to
+      // offers applicable in the current storefront/product context.
+      return true;
+    };
+
+    const mergeOfferTiers = offers => {
+      const merged = new Map([[1, { quantity: 1, percentage: 0 }]]);
+      offers
+        .filter(offerAppliesToCurrentProduct)
+        .forEach(offer => {
+          collectTiers(offer).forEach(tier => {
+            if (!tier || tier.quantity <= 1 || !tier.percentage) return;
+            const previous = merged.get(tier.quantity);
+            if (!previous || tier.percentage > previous.percentage) {
+              merged.set(tier.quantity, { quantity: tier.quantity, percentage: tier.percentage });
+            }
+          });
+        });
+      return [...merged.values()].sort((a, b) => a.quantity - b.quantity);
+    };
+
     const buildFromSalla = () => {
       const offers = offersFromSource();
       if (!offers.length) return false;
 
-      const supported = offers
-        .map(offer => ({ offer, tiers: collectTiers(offer) }))
-        .filter(entry => entry.tiers.length > 1)
-        .sort((a, b) => Math.max(...b.tiers.map(t => t.percentage)) - Math.max(...a.tiers.map(t => t.percentage)));
-      if (!supported.length) return false;
+      const mergedTiers = mergeOfferTiers(offers);
+      if (mergedTiers.length < 2) {
+        tiers = [];
+        section.hidden = true;
+        return false;
+      }
 
-      tiers = supported[0].tiers;
+      tiers = mergedTiers;
       render();
       return true;
     };

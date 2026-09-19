@@ -433,3 +433,16 @@ console.log('PASS: v1.7.28 scroll stability, centered dock, smart mobile header,
   assert.match(productTwig, /zod-product-subtitle/, 'product page still renders Salla subtitle metadata');
 }
 console.log('PASS: v1.7.29 mobile card metadata, compact cart details, shared category cards, and footer regrouping.');
+
+// v1.7.30 separate-offer merge + product scoping.
+{
+  const purchaseJs = read('src/assets/js/product-purchase-v1726.js');
+  const productTwig = read('src/views/pages/product/single.twig');
+  assert.match(productTwig, /data-zod-product-id="\{\{ product\.id \}\}"/, 'v1.7.30 selector must carry the current product id');
+  assert.match(purchaseJs, /const mergeOfferTiers = offers =>/, 'v1.7.30 must merge separate Salla quantity offers');
+  assert.match(purchaseJs, /\.filter\(offerAppliesToCurrentProduct\)/, 'v1.7.30 must scope merged offers to the current product');
+  assert.match(purchaseJs, /if \(!previous \|\| tier\.percentage > previous\.percentage\)/, 'v1.7.30 duplicate quantity thresholds must keep the higher discount');
+  assert.match(purchaseJs, /cross-product Buy-X\/Get-Y offers/, 'v1.7.30 must reject cross-product buy/get offers from the per-unit selector');
+  assert.match(purchaseJs, /section\.hidden = true;/, 'v1.7.30 selector must remain hidden without eligible tiers');
+}
+console.log('PASS: v1.7.30 separate Salla offer merge and product-only scoping.');

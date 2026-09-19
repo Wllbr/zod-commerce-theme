@@ -1,3 +1,11 @@
+## v1.7.30
+
+- Merged multiple applicable Salla percentage quantity offers into a single product-page tier selector.
+- Added current product ID to the offer selector and filters explicit product-targeted offers before rendering.
+- Prevented cross-product Buy-X/Get-Y promotions from appearing as per-unit quantity discounts.
+- Keeps the selector hidden when the current product has no applicable quantity-discount offer.
+- Duplicate quantity thresholds resolve to the highest advertised percentage.
+
 ## v1.7.29
 
 - Removed the floating wishlist/quick-view cluster from product cards on mobile; desktop keeps Eye + Wishlist.

@@ -1,3 +1,11 @@
+## v1.7.30 — merged Salla quantity offers per product
+
+- Separate Salla quantity offers (for example 2→2%, 3→5%, 4→10%) are merged into one ZOD “buy more, save more” selector.
+- The selector is product-scoped: explicit product IDs are checked and cross-product buy/get offers are excluded.
+- Products with no applicable quantity discount keep the selector hidden.
+- If duplicate thresholds exist, the highest percentage for that exact quantity is displayed.
+- Salla remains the checkout pricing authority; the theme only mirrors eligible offer tiers and changes the native quantity input.
+
 ## v1.7.29 — Salla-backed quantity offers + live mobile savings summary
 
 > Current release: **v1.7.28**. This remains a custom Twilight theme; native Salla components/data are used as the pricing authority while ZOD controls the presentation.
