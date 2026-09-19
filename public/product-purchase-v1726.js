@@ -1,1 +1,450 @@
-(()=>{const t=t=>{const e=Number(t?.amount??t);return Number.isFinite(e)?e:null},e=t=>"function"==typeof window.salla?.money?window.salla.money(t):String(t??""),n=(t,e)=>document.documentElement.lang?.toLowerCase().startsWith("ar")?t:e,o=o=>{const s=o.querySelector("[data-zod-volume-offers]"),a=s?.querySelector("salla-offer"),i=s?.querySelector("[data-zod-volume-tier-list]"),r=o.querySelector('salla-quantity-input[data-testid="store-product-quantity"]');if(!(s&&a&&i&&r))return;let c=t(s.dataset.zodUnitPrice),u=[],d=1;const l=e=>{const n=t(e);return null==n?null:Math.max(1,Math.round(n))},p=e=>{const n=t(e);return null==n?null:Math.max(0,Math.min(100,n))},y=t=>String(t?.offer_type||t?.type||t?.offerType||"").toLowerCase(),m=String(s.dataset.zodProductId||"").trim(),f=t=>null==t?null:"object"==typeof t?t.id??t.product_id??t.productId??null:t,_=t=>Array.isArray(t)?t.map(f).filter(t=>null!=t).map(t=>String(t)):[],g=t=>{const e=_(t);return!e.length||!m||e.includes(m)},h=()=>{if(i.replaceChildren(),u.length<2)return void(s.hidden=!0);const t=Math.max(...u.map(t=>t.percentage||0));u.forEach(o=>{const s=o.quantity,a=o.percentage,u=document.createElement("button");u.type="button",u.className="zod-volume-tier",u.classList.toggle("has-discount",a>0),u.dataset.quantity=String(s),u.setAttribute("aria-pressed",s===d?"true":"false"),u.classList.toggle("is-selected",s===d);const l=document.createElement("span");l.className="zod-volume-tier__radio",l.setAttribute("aria-hidden","true");const p=document.createElement("span");p.className="zod-volume-tier__copy";const y=document.createElement("strong");y.textContent=1===s?n("قطعة واحدة","One piece"):2===s?n("قطعتان","2 pieces"):n(`${s} قطع`,`${s} pieces`);const m=document.createElement("small");m.textContent=1===s?n("جرّبها الآن","Try it now"):n(`اشترِ ${s} ووفّر ${a}% على كل قطعة`,`Buy ${s} and save ${a}% on each item`),p.append(y,m);const f=document.createElement("span");if(f.className="zod-volume-tier__price",null!=c){const t=c*(1-a/100),o=document.createElement("b");o.innerHTML=e(t);const s=document.createElement("small");if(s.textContent=n("/ قطعة","/ item"),f.append(o,s),a>0){const t=document.createElement("del");t.innerHTML=e(c),f.append(t)}}if(a>0){const e=document.createElement("span");e.className="zod-volume-tier__saving",e.textContent=n(`توفير ${a}% / قطعة`,`Save ${a}% / item`),p.insertBefore(e,m);const o=document.createElement("span");o.className="zod-volume-tier__ribbon",o.textContent=a===t?n("الأوفر","Best saving"):n("وفر أكثر","Save more"),u.append(o)}u.append(l,p,f),u.addEventListener("click",async()=>{d=s,await(async(t,e)=>{if(t){try{"function"==typeof t.setValue?await t.setValue(e):t.value=e}catch(n){t.value=e}t.setAttribute("value",String(e)),t.dispatchEvent(new Event("change",{bubbles:!0}))}})(r,s),h()}),i.append(u)}),s.hidden=!1},w=t=>!(!t||"object"!=typeof t||Array.isArray(t))&&Boolean(t.offer_type||t.offerType||t.type||t.details||t.options||t.tiers||t.discounts||t.buy||t.get||t.min_items_count||t.min_items||t.discount_value||t.discount_percentage||t.percentage),v=t=>{if(!t||!m)return!0;if(new Set([..._(t.excluded_buy_products_ids),..._(t.exclude_product_ids),..._(t.excluded_products),..._(t.details?.excluded_products)]).has(m))return!1;const e=[t.products,t.product_ids,t.include_product_ids,t.targets,t.details?.products,t.details?.product_ids,t.details?.targets].map(_).filter(t=>t.length);if(e.length&&!e.some(t=>t.includes(m)))return!1;const n=y(t);if("buy_x_get_y"===n||n.includes("buy")){const e=t?.buy?.products??t?.details?.buy?.products??t?.details?.buy?.source_value,n=t?.get?.products??t?.details?.get?.products??t?.details?.get?.source_value;if(!g(Array.isArray(e)?e:null==e?[]:[e]))return!1;if(!g(Array.isArray(n)?n:null==n?[]:[n]))return!1}return!0},b=e=>{const n=new Map((e=>{const n=new Map([[1,{quantity:1,percentage:0}]]),o=(t,e)=>{const o=l(t),s=p(e);if(!o||o<=1||!s)return;const a=n.get(o);(!a||s>a.percentage)&&n.set(o,{quantity:o,percentage:s})};(Array.isArray(e?.options)?e.options:[]).forEach(t=>{const e=String(t?.discount_apply_type||t?.discount_type||"").toLowerCase();e&&!e.includes("percent")||o(t?.condition_threshold??t?.quantity??t?.min_items??t?.minimum_quantity,t?.discount_amount??t?.percentage??t?.discount_percentage)});const s=e?.details?.discounts||e?.discounts||e?.details?.options;(Array.isArray(s)?s:[]).forEach(t=>{const e=String(t?.discount_apply_type||t?.discount_type||"").toLowerCase();e&&!e.includes("percent")||o(t?.condition_threshold??t?.quantity??t?.min_items??t?.minimum_quantity,t?.discount_amount??t?.percentage??t?.discount_percentage)}),(Array.isArray(e?.tiers)?e.tiers:[]).forEach(e=>{const n=String(e?.discount_apply_type||e?.discount_type||e?.type||"").toLowerCase();n&&!n.includes("percent")&&null==t(e?.percentage)||o(e?.condition_threshold??e?.quantity??e?.min_items??e?.minimum_quantity??e?.from,e?.discount_amount??e?.percentage??e?.discount_percentage??e?.value)});const a=y(e);if("buy_x_get_y"===a||a.includes("buy")){const t=String(e?.get?.discount_type||"").toLowerCase(),n=g(e?.buy?.products)&&g(e?.get?.products);if(t.includes("percent")&&n){const t=l(e?.buy?.quantity??e?.buy?.min_items??e?.min_items_count),n=t?Math.max(2,t):null;o(n,e?.get?.discount_amount)}}return[...n.values()].sort((t,e)=>t.quantity-e.quantity)})(e).map(t=>[t.quantity,t]));return(t=>{const e=t?.details||{},o=t?.min_items_count??t?.min_items??t?.minimum_quantity??t?.condition_threshold??t?.quantity??e?.min_items_count??e?.min_items??e?.minimum_quantity??e?.condition_threshold??e?.quantity??t?.buy?.quantity??e?.buy?.quantity,s=t?.percentage??t?.discount_percentage??e?.percentage??e?.discount_percentage,a=[t?.discount_type,t?.discount_apply_type,t?.type,t?.offer_type,e?.discount_type,e?.discount_apply_type,e?.type].filter(Boolean).join(" ").toLowerCase();((t,e)=>{const o=l(t),s=p(e);if(!o||o<=1||!s)return;const a=n.get(o);(!a||s>a.percentage)&&n.set(o,{quantity:o,percentage:s})})(o,s??(/percent|percentage|نسب/.test(a)?t?.discount_value??t?.discount_amount??e?.discount_value??e?.discount_amount:null))})(e),[...n.values()].sort((t,e)=>t.quantity-e.quantity)};let q=[];const E=t=>{const e=(t=>{const e=[],n=new Set,o=(t,s=0)=>{if(!(null==t||s>5||"object"!=typeof t||n.has(t)))if(n.add(t),Array.isArray(t))t.forEach(t=>{w(t)?e.push(t):o(t,s+1)});else{w(t)&&e.push(t);for(const e of["offers","offer","items","results","data","payload","response","special_offers","specialOffers"])null!=t[e]&&o(t[e],s+1)}};return o(t),[...new Set(e)]})(t);if(!e.length)return!1;const n=(t=>{const e=new Map([[1,{quantity:1,percentage:0}]]);return t.filter(v).forEach(t=>{b(t).forEach(t=>{if(!t||t.quantity<=1||!t.percentage)return;const n=e.get(t.quantity);(!n||t.percentage>n.percentage)&&e.set(t.quantity,{quantity:t.quantity,percentage:t.percentage})})}),[...e.values()].sort((t,e)=>t.quantity-e.quantity)})(e);return!(n.length<2||(q=e,u=n,h(),0))};let z=0;const L=async()=>{u.length>1||(0===z&&await(async()=>{const t=[window.salla?.product?.offerDetails,window.salla?.product?.offers,window.salla?.product?.offer].filter(Boolean);for(const e of t){const t="function"==typeof e?.details?e.details.bind(e):"function"==typeof e?e:null;if(!t)continue;const n=[{product_id:Number(m)||m},{id:Number(m)||m},Number(m)||m];for(const e of n)try{const n=await t(e);if(E(n))return!0;if(null!=n)break}catch(t){}}return!1})(),u.length>1||(z++<25?window.setTimeout(L,240):s.hidden=!0))};r.addEventListener("change",e=>{const n=Math.max(1,Math.round(t(e.detail?.value??r.value??r.getAttribute("value"))||1));d=n,u.length&&h()});const S=()=>{window.salla?.product?.event?.onPriceUpdated?.(e=>{const n=e?.data||e,o=t(n?.price);null!=o&&o>0&&(c=o,u.length&&h())}),(()=>{const t=window.salla?.product?.event;try{t?.onOffersFetched?.(t=>E(t))}catch(t){}try{t?.onOfferExisted?.(t=>E(t))}catch(t){}try{t?.onFetchOffersFailed?.(()=>{q.length||(s.hidden=!0)})}catch(t){}})(),L()};window.customElements?.whenDefined?window.customElements.whenDefined("salla-offer").then(S).catch(S):window.salla?.onReady?Promise.resolve(window.salla.onReady()).then(S).catch(S):S()};var s;s=()=>{if(window.__zodPurchaseV1726Initialized)return;window.__zodPurchaseV1726Initialized=!0;const t=document.querySelector("[data-zod-product-page]");t&&((t=>{const e=t.querySelector("[data-zod-sticky-buy]");if(!e)return;e.dataset.zodStickyEnabled="1",e.classList.add("zod-dock-persistent-v1726","is-docked","is-ready"),document.body.classList.add("zod-product-dock-always");const n=()=>{e.classList.contains("zod-dock-persistent-v1726")&&e.classList.contains("is-docked")&&e.classList.contains("is-ready")||e.classList.add("zod-dock-persistent-v1726","is-docked","is-ready"),document.body.classList.contains("zod-product-dock-always")||document.body.classList.add("zod-product-dock-always"),(()=>{const t=Math.ceil(e.getBoundingClientRect().height||0);t>0&&document.documentElement.style.setProperty("--zod-product-dock-height",`${t}px`)})()};let o=0;const s=()=>{o||(o=requestAnimationFrame(()=>{o=0,n()}))};n(),window.addEventListener("resize",s,{passive:!0}),window.addEventListener("orientationchange",s,{passive:!0}),"ResizeObserver"in window&&new ResizeObserver(s).observe(e)})(t),o(t))},"loading"===document.readyState?document.addEventListener("DOMContentLoaded",s,{once:!0}):s()})();
+(() => {
+  const ready = callback => {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', callback, { once: true });
+    else callback();
+  };
+
+  const numeric = value => {
+    const number = Number(value?.amount ?? value);
+    return Number.isFinite(number) ? number : null;
+  };
+
+  const money = value => {
+    if (typeof window.salla?.money === 'function') return window.salla.money(value);
+    return String(value ?? '');
+  };
+
+  const localized = (ar, en) => document.documentElement.lang?.toLowerCase().startsWith('ar') ? ar : en;
+
+  const setQuantity = async (input, value) => {
+    if (!input) return;
+    try {
+      if (typeof input.setValue === 'function') await input.setValue(value);
+      else input.value = value;
+    } catch (_) {
+      input.value = value;
+    }
+    input.setAttribute('value', String(value));
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+  };
+
+  const initPersistentDock = page => {
+    const dock = page.querySelector('[data-zod-sticky-buy]');
+    if (!dock) return;
+
+    dock.dataset.zodStickyEnabled = '1';
+    dock.classList.add('zod-dock-persistent-v1726', 'is-docked', 'is-ready');
+    document.body.classList.add('zod-product-dock-always');
+
+    const measure = () => {
+      const height = Math.ceil(dock.getBoundingClientRect().height || 0);
+      if (height > 0) document.documentElement.style.setProperty('--zod-product-dock-height', `${height}px`);
+    };
+
+    const enforce = () => {
+      if (!dock.classList.contains('zod-dock-persistent-v1726') || !dock.classList.contains('is-docked') || !dock.classList.contains('is-ready')) {
+        dock.classList.add('zod-dock-persistent-v1726', 'is-docked', 'is-ready');
+      }
+      if (!document.body.classList.contains('zod-product-dock-always')) document.body.classList.add('zod-product-dock-always');
+      measure();
+    };
+
+    let frame = 0;
+    const schedule = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        enforce();
+      });
+    };
+
+    enforce();
+    // The dock is persistent, so scroll events must not rewrite its class list.
+    // Re-measure only when the viewport or the dock's own size changes.
+    window.addEventListener('resize', schedule, { passive: true });
+    window.addEventListener('orientationchange', schedule, { passive: true });
+    if ('ResizeObserver' in window) new ResizeObserver(schedule).observe(dock);
+  };
+
+  const initVolumeOffers = page => {
+    const section = page.querySelector('[data-zod-volume-offers]');
+    const source = section?.querySelector('salla-offer');
+    const list = section?.querySelector('[data-zod-volume-tier-list]');
+    const quantityInput = page.querySelector('salla-quantity-input[data-testid="store-product-quantity"]');
+    if (!section || !source || !list || !quantityInput) return;
+
+    let basePrice = numeric(section.dataset.zodUnitPrice);
+    let tiers = [];
+    let selectedQuantity = 1;
+
+    const quantityFrom = value => {
+      const number = numeric(value);
+      return number == null ? null : Math.max(1, Math.round(number));
+    };
+    const percentFrom = value => {
+      const number = numeric(value);
+      return number == null ? null : Math.max(0, Math.min(100, number));
+    };
+    const normalizeType = offer => String(offer?.offer_type || offer?.type || offer?.offerType || '').toLowerCase();
+    const currentProductId = String(section.dataset.zodProductId || '').trim();
+    const productIdFrom = value => {
+      if (value == null) return null;
+      if (typeof value === 'object') return value.id ?? value.product_id ?? value.productId ?? null;
+      return value;
+    };
+    const listIds = value => {
+      if (!Array.isArray(value)) return [];
+      return value.map(productIdFrom).filter(id => id != null).map(id => String(id));
+    };
+    const listTargetsCurrentProduct = value => {
+      const ids = listIds(value);
+      return !ids.length || !currentProductId || ids.includes(currentProductId);
+    };
+
+    const collectTiers = offer => {
+      const found = new Map([[1, { quantity: 1, percentage: 0 }]]);
+      const put = (quantityValue, percentValue) => {
+        const quantity = quantityFrom(quantityValue);
+        const percentage = percentFrom(percentValue);
+        if (!quantity || quantity <= 1 || !percentage) return;
+        const previous = found.get(quantity);
+        if (!previous || percentage > previous.percentage) found.set(quantity, { quantity, percentage });
+      };
+
+      // Current Merchant API Discount Table shape (2026): `options` + `based_on`.
+      (Array.isArray(offer?.options) ? offer.options : []).forEach(option => {
+        const applyType = String(option?.discount_apply_type || option?.discount_type || '').toLowerCase();
+        if (applyType && !applyType.includes('percent')) return;
+        put(
+          option?.condition_threshold ?? option?.quantity ?? option?.min_items ?? option?.minimum_quantity,
+          option?.discount_amount ?? option?.percentage ?? option?.discount_percentage
+        );
+      });
+
+      // Older/storefront Discount Table shape.
+      const discounts = offer?.details?.discounts || offer?.discounts || offer?.details?.options;
+      (Array.isArray(discounts) ? discounts : []).forEach(discount => {
+        const applyType = String(discount?.discount_apply_type || discount?.discount_type || '').toLowerCase();
+        if (applyType && !applyType.includes('percent')) return;
+        put(
+          discount?.condition_threshold ?? discount?.quantity ?? discount?.min_items ?? discount?.minimum_quantity,
+          discount?.discount_amount ?? discount?.percentage ?? discount?.discount_percentage
+        );
+      });
+
+      // Tiered-offer shape.
+      (Array.isArray(offer?.tiers) ? offer.tiers : []).forEach(tier => {
+        const applyType = String(tier?.discount_apply_type || tier?.discount_type || tier?.type || '').toLowerCase();
+        if (applyType && !applyType.includes('percent') && numeric(tier?.percentage) == null) return;
+        put(
+          tier?.condition_threshold ?? tier?.quantity ?? tier?.min_items ?? tier?.minimum_quantity ?? tier?.from,
+          tier?.discount_amount ?? tier?.percentage ?? tier?.discount_percentage ?? tier?.value
+        );
+      });
+
+      // Some Salla storefront builds expose a simple buy/get percentage offer.
+      const offerType = normalizeType(offer);
+      if (offerType === 'buy_x_get_y' || offerType.includes('buy')) {
+        const getType = String(offer?.get?.discount_type || '').toLowerCase();
+        const sameProductTarget = listTargetsCurrentProduct(offer?.buy?.products) && listTargetsCurrentProduct(offer?.get?.products);
+        if (getType.includes('percent') && sameProductTarget) {
+          const buyQty = quantityFrom(offer?.buy?.quantity ?? offer?.buy?.min_items ?? offer?.min_items_count);
+          const threshold = buyQty ? Math.max(2, buyQty) : null;
+          put(threshold, offer?.get?.discount_amount);
+        }
+      }
+
+      return [...found.values()].sort((a, b) => a.quantity - b.quantity);
+    };
+
+    const render = () => {
+      list.replaceChildren();
+      if (tiers.length < 2) {
+        section.hidden = true;
+        return;
+      }
+
+      const maxPercent = Math.max(...tiers.map(tier => tier.percentage || 0));
+      tiers.forEach(tier => {
+        const quantity = tier.quantity;
+        const percent = tier.percentage;
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'zod-volume-tier';
+        card.classList.toggle('has-discount', percent > 0);
+        card.dataset.quantity = String(quantity);
+        card.setAttribute('aria-pressed', quantity === selectedQuantity ? 'true' : 'false');
+        card.classList.toggle('is-selected', quantity === selectedQuantity);
+
+        const radio = document.createElement('span');
+        radio.className = 'zod-volume-tier__radio';
+        radio.setAttribute('aria-hidden', 'true');
+
+        const copy = document.createElement('span');
+        copy.className = 'zod-volume-tier__copy';
+        const title = document.createElement('strong');
+        title.textContent = quantity === 1
+          ? localized('قطعة واحدة', 'One piece')
+          : quantity === 2
+            ? localized('قطعتان', '2 pieces')
+            : localized(`${quantity} قطع`, `${quantity} pieces`);
+        const description = document.createElement('small');
+        description.textContent = quantity === 1
+          ? localized('جرّبها الآن', 'Try it now')
+          : localized(`اشترِ ${quantity} ووفّر ${percent}% على كل قطعة`, `Buy ${quantity} and save ${percent}% on each item`);
+        copy.append(title, description);
+
+        const price = document.createElement('span');
+        price.className = 'zod-volume-tier__price';
+        if (basePrice != null) {
+          const unitPrice = basePrice * (1 - percent / 100);
+          const current = document.createElement('b');
+          current.innerHTML = money(unitPrice);
+          const per = document.createElement('small');
+          per.textContent = localized('/ قطعة', '/ item');
+          price.append(current, per);
+          if (percent > 0) {
+            const before = document.createElement('del');
+            before.innerHTML = money(basePrice);
+            price.append(before);
+          }
+        }
+
+        if (percent > 0) {
+          const saving = document.createElement('span');
+          saving.className = 'zod-volume-tier__saving';
+          saving.textContent = localized(`توفير ${percent}% / قطعة`, `Save ${percent}% / item`);
+          copy.insertBefore(saving, description);
+
+          const ribbon = document.createElement('span');
+          ribbon.className = 'zod-volume-tier__ribbon';
+          ribbon.textContent = percent === maxPercent
+            ? localized('الأوفر', 'Best saving')
+            : localized('وفر أكثر', 'Save more');
+          card.append(ribbon);
+        }
+
+        card.append(radio, copy, price);
+        card.addEventListener('click', async () => {
+          selectedQuantity = quantity;
+          await setQuantity(quantityInput, quantity);
+          render();
+        });
+        list.append(card);
+      });
+      section.hidden = false;
+    };
+
+    const looksLikeOffer = value => {
+      if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+      return Boolean(
+        value.offer_type || value.offerType || value.type || value.details || value.options || value.tiers || value.discounts ||
+        value.buy || value.get || value.min_items_count || value.min_items || value.discount_value || value.discount_percentage || value.percentage
+      );
+    };
+
+    const offersFromPayload = payload => {
+      const collected = [];
+      const visited = new Set();
+      const walk = (value, depth = 0) => {
+        if (value == null || depth > 5) return;
+        if (typeof value !== 'object') return;
+        if (visited.has(value)) return;
+        visited.add(value);
+        if (Array.isArray(value)) {
+          value.forEach(entry => {
+            if (looksLikeOffer(entry)) collected.push(entry);
+            else walk(entry, depth + 1);
+          });
+          return;
+        }
+        if (looksLikeOffer(value)) collected.push(value);
+        for (const key of ['offers','offer','items','results','data','payload','response','special_offers','specialOffers']) {
+          if (value[key] != null) walk(value[key], depth + 1);
+        }
+      };
+      walk(payload);
+      return [...new Set(collected)];
+    };
+
+    const offerAppliesToCurrentProduct = offer => {
+      if (!offer || !currentProductId) return true;
+
+      const excluded = new Set([
+        ...listIds(offer.excluded_buy_products_ids),
+        ...listIds(offer.exclude_product_ids),
+        ...listIds(offer.excluded_products),
+        ...listIds(offer.details?.excluded_products)
+      ]);
+      if (excluded.has(currentProductId)) return false;
+
+      const directTargets = [
+        offer.products,
+        offer.product_ids,
+        offer.include_product_ids,
+        offer.targets,
+        offer.details?.products,
+        offer.details?.product_ids,
+        offer.details?.targets
+      ].map(listIds).filter(ids => ids.length);
+      if (directTargets.length && !directTargets.some(ids => ids.includes(currentProductId))) return false;
+
+      const offerType = normalizeType(offer);
+      if (offerType === 'buy_x_get_y' || offerType.includes('buy')) {
+        // This selector promises a discount on the current item itself. Never show
+        // cross-product Buy-X/Get-Y offers where the rewarded product is different.
+        const buyProducts = offer?.buy?.products ?? offer?.details?.buy?.products ?? offer?.details?.buy?.source_value;
+        const getProducts = offer?.get?.products ?? offer?.details?.get?.products ?? offer?.details?.get?.source_value;
+        if (!listTargetsCurrentProduct(Array.isArray(buyProducts) ? buyProducts : (buyProducts == null ? [] : [buyProducts]))) return false;
+        if (!listTargetsCurrentProduct(Array.isArray(getProducts) ? getProducts : (getProducts == null ? [] : [getProducts]))) return false;
+      }
+      return true;
+    };
+
+    const collectSimplePercentageTier = (offer, put) => {
+      const details = offer?.details || {};
+      const threshold =
+        offer?.min_items_count ?? offer?.min_items ?? offer?.minimum_quantity ?? offer?.condition_threshold ?? offer?.quantity ??
+        details?.min_items_count ?? details?.min_items ?? details?.minimum_quantity ?? details?.condition_threshold ?? details?.quantity ??
+        offer?.buy?.quantity ?? details?.buy?.quantity;
+      const explicitlyPercentage =
+        offer?.percentage ?? offer?.discount_percentage ?? details?.percentage ?? details?.discount_percentage;
+      const typeText = [
+        offer?.discount_type, offer?.discount_apply_type, offer?.type, offer?.offer_type,
+        details?.discount_type, details?.discount_apply_type, details?.type
+      ].filter(Boolean).join(' ').toLowerCase();
+      const percentValue = explicitlyPercentage ?? (
+        /percent|percentage|نسب/.test(typeText)
+          ? (offer?.discount_value ?? offer?.discount_amount ?? details?.discount_value ?? details?.discount_amount)
+          : null
+      );
+      put(threshold, percentValue);
+    };
+
+    const originalCollectTiers = collectTiers;
+    const collectAllTiers = offer => {
+      const found = new Map(originalCollectTiers(offer).map(tier => [tier.quantity, tier]));
+      const put = (quantityValue, percentValue) => {
+        const quantity = quantityFrom(quantityValue);
+        const percentage = percentFrom(percentValue);
+        if (!quantity || quantity <= 1 || !percentage) return;
+        const previous = found.get(quantity);
+        if (!previous || percentage > previous.percentage) found.set(quantity, { quantity, percentage });
+      };
+      collectSimplePercentageTier(offer, put);
+      return [...found.values()].sort((a,b) => a.quantity - b.quantity);
+    };
+
+    const mergeOfferTiers = offers => {
+      const merged = new Map([[1, { quantity: 1, percentage: 0 }]]);
+      offers
+        .filter(offerAppliesToCurrentProduct)
+        .forEach(offer => {
+          collectAllTiers(offer).forEach(tier => {
+            if (!tier || tier.quantity <= 1 || !tier.percentage) return;
+            const previous = merged.get(tier.quantity);
+            if (!previous || tier.percentage > previous.percentage) {
+              merged.set(tier.quantity, { quantity: tier.quantity, percentage: tier.percentage });
+            }
+          });
+        });
+      return [...merged.values()].sort((a, b) => a.quantity - b.quantity);
+    };
+
+    let lastOffers = [];
+    const consumeOffers = payload => {
+      const offers = offersFromPayload(payload);
+      if (!offers.length) return false;
+      const mergedTiers = mergeOfferTiers(offers);
+      if (mergedTiers.length < 2) return false;
+      lastOffers = offers;
+      tiers = mergedTiers;
+      render();
+      return true;
+    };
+
+    const subscribeOfferEvents = () => {
+      const events = window.salla?.product?.event;
+      try { events?.onOffersFetched?.(payload => consumeOffers(payload)); } catch (_) {}
+      try { events?.onOfferExisted?.(payload => consumeOffers(payload)); } catch (_) {}
+      try { events?.onFetchOffersFailed?.(() => { if (!lastOffers.length) section.hidden = true; }); } catch (_) {}
+    };
+
+    const requestOffers = async () => {
+      // Salla documents Product -> Offer details as `details()` and emits
+      // onOfferExisted/onOffersFetched. Twilight versions have exposed the
+      // namespace in slightly different shapes, so feature-detect them instead
+      // of reading private state from <salla-offer>.
+      const candidates = [
+        window.salla?.product?.offerDetails,
+        window.salla?.product?.offers,
+        window.salla?.product?.offer
+      ].filter(Boolean);
+      for (const api of candidates) {
+        const fn = typeof api?.details === 'function' ? api.details.bind(api) : (typeof api === 'function' ? api : null);
+        if (!fn) continue;
+        const payloads = [
+          { product_id: Number(currentProductId) || currentProductId },
+          { id: Number(currentProductId) || currentProductId },
+          Number(currentProductId) || currentProductId
+        ];
+        for (const payload of payloads) {
+          try {
+            const response = await fn(payload);
+            if (consumeOffers(response)) return true;
+            // A valid empty response means this product has no qualifying offers.
+            if (response != null) break;
+          } catch (_) {}
+        }
+      }
+      return false;
+    };
+
+    let attempts = 0;
+    const waitForOffers = async () => {
+      if (tiers.length > 1) return;
+      if (attempts === 0) await requestOffers();
+      if (tiers.length > 1) return;
+      if (attempts++ < 25) window.setTimeout(waitForOffers, 240);
+      else section.hidden = true;
+    };
+
+    quantityInput.addEventListener('change', event => {
+      const next = Math.max(1, Math.round(numeric(event.detail?.value ?? quantityInput.value ?? quantityInput.getAttribute('value')) || 1));
+      selectedQuantity = next;
+      if (tiers.length) render();
+    });
+
+    const bindPrice = () => {
+      window.salla?.product?.event?.onPriceUpdated?.(response => {
+        const data = response?.data || response;
+        const next = numeric(data?.price);
+        if (next != null && next > 0) {
+          basePrice = next;
+          if (tiers.length) render();
+        }
+      });
+    };
+
+    const start = () => {
+      bindPrice();
+      subscribeOfferEvents();
+      waitForOffers();
+    };
+
+    if (window.customElements?.whenDefined) {
+      window.customElements.whenDefined('salla-offer').then(start).catch(start);
+    } else if (window.salla?.onReady) {
+      Promise.resolve(window.salla.onReady()).then(start).catch(start);
+    } else start();
+  };
+
+  ready(() => {
+    if (window.__zodPurchaseV1726Initialized) return;
+    window.__zodPurchaseV1726Initialized = true;
+    const page = document.querySelector('[data-zod-product-page]');
+    if (!page) return;
+    initPersistentDock(page);
+    initVolumeOffers(page);
+  });
+})();

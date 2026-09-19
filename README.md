@@ -1,3 +1,9 @@
+## v1.7.32 — silent out-of-stock variant selection
+
+- Out-of-stock variant clicks no longer show quantity/service error notifications; stock state stays inline on the product page.
+- Removed ZOD's duplicate manual `salla.product.getPrice(new FormData(form))` request so `<salla-product-options>` remains the single variant-price authority.
+- Includes all v1.7.31 offer, card, cart, payment, and footer refinements.
+
 ## v1.7.31 — product-scoped Salla offers + card/cart/footer polish
 
 - Uses Salla Product Offer Details events/API instead of private `<salla-offer>` properties.

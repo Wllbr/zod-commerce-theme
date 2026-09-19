@@ -475,3 +475,13 @@ console.log('PASS: v1.7.30 separate Salla offer merge and product-only scoping.'
   assert.match(appJs, /querySelectorAll\('salla-payments'\)/, 'v1.7.31 removes the Business Platform certificate from every payment strip');
 }
 console.log('PASS: v1.7.31 supported offer details, dual product badges, compact mobile cart, product payment cleanup, and 3-column policy footer.');
+
+
+// v1.7.32 silent unavailable-variant selection.
+{
+  const appJs = read('src/assets/js/app.js');
+  assert.match(appJs, /variantNotificationSilenceUntil/, 'v1.7.32 tracks product-option interaction before filtering stock notifications');
+  assert(appJs.includes('الكمية\\s*غير\\s*متوفرة') && appJs.includes('product service error'), 'v1.7.32 filters Salla unavailable-variant notifier messages');
+  assert.match(appJs, /SALLA-PRODUCT-OPTIONS/, 'v1.7.32 scopes notification silencing to product option interaction');
+}
+console.log('PASS: v1.7.32 out-of-stock variant selections stay inline without notification toasts.');

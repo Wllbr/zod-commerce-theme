@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.7.31",
-  "description": "ZOD Commerce v1.7.31 — supported Salla offer-details integration, dual promo/discount card badges, compact mobile cart summary, payment certificate cleanup, and mobile policy grid.",
+  "version": "1.7.32",
+  "description": "ZOD Commerce v1.7.32 — silent out-of-stock variant selection, native Salla variant pricing, supported offer-details integration, and v1.7.31 storefront polish.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

@@ -1,1 +1,276 @@
-document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll("[data-accordion-trigger]").forEach(t=>t.addEventListener("click",()=>t.closest("[data-accordion]")?.classList.toggle("is-open")));const t=document.querySelector("[data-zod-cart-page]");if(!t)return;const e=(document.documentElement?.lang||"").toLowerCase().startsWith("ar"),a=t=>{if(!t)return;const a=document.createTreeWalker(t,NodeFilter.SHOW_TEXT),o=e?"طريقة الدفع المختارة":"selected payment method";let r;for(;r=a.nextNode();)r.nodeValue?.includes("{payment_method}")&&(r.nodeValue=r.nodeValue.replaceAll("{payment_method}",o))};document.querySelectorAll("salla-offer,salla-cart-item-offers").forEach(async t=>{try{await customElements.whenDefined(t.localName)}catch(t){return}const e=t.shadowRoot||t;a(e),new MutationObserver(()=>a(e)).observe(e,{subtree:!0,childList:!0,characterData:!0})});const o=document.querySelector('[data-testid="store-cart-checkout-mobile"]'),r=t=>{const e=[t,t?.shadowRoot].filter(Boolean),a=['[data-testid="store-cart-submit"]',"#s-cart-summary-card-submit",'button[type="submit"]'];for(const t of e)for(const e of a){const a=t.querySelector?.(e);if(a)return a}return null};o?.addEventListener("click",()=>{if("true"===o.getAttribute?.("aria-busy"))return;const t=document.querySelector("salla-cart-summary-card"),a=r(t);a?a.click():(o.setAttribute?.("aria-busy","true"),(async()=>{try{await customElements.whenDefined("salla-cart-summary-card");let a=r(t);if(a||(await new Promise(t=>requestAnimationFrame(()=>requestAnimationFrame(t))),a=r(t)),a)return void a.click();t?.scrollIntoView?.({behavior:"smooth",block:"center"}),window.salla?.notify?.error?.(e?"جارٍ تجهيز إتمام الطلب. حاول مرة أخرى بعد لحظات.":"Checkout is still loading. Please try again in a moment.")}finally{setTimeout(()=>o.removeAttribute?.("aria-busy"),900)}})())});const n=document.querySelector("[data-zod-cart-offers-drawer]"),l=n?.querySelector?.("salla-offer");n&&l&&customElements.whenDefined("salla-offer").then(()=>setTimeout(()=>{(l.shadowRoot?.textContent||l.textContent||"").trim()||(n.hidden=!0)},700)).catch(()=>{});const c=[...document.querySelectorAll("[data-zod-cart-grand-total]")],s=document.querySelector("[data-zod-cart-mobile-summary]"),d=s?.querySelector?.("[data-zod-cart-summary-toggle]"),i=s?.querySelector?.("[data-zod-cart-summary-shell]"),u=s?.querySelector?.("[data-zod-cart-summary-details]"),m=t=>{d&&u&&i&&(d.setAttribute("aria-expanded",String(t)),u.hidden=!t,i.classList.toggle("is-expanded",t),i.classList.toggle("is-collapsed",!t))};m(!1),d?.addEventListener("click",()=>m("true"!==d.getAttribute("aria-expanded")));const f="function"==typeof window.matchMedia?window.matchMedia("(max-width: 767px)"):{matches:!1,addEventListener:()=>{}},h=()=>{f.matches&&document.querySelectorAll(".zod-cart-item-offer-details").forEach(t=>t.removeAttribute("open"))};h(),f.addEventListener?.("change",h),"undefined"!=typeof MutationObserver&&new MutationObserver(t=>{f.matches&&t.forEach(t=>t.addedNodes?.forEach?.(t=>{t?.matches?.(".zod-cart-item-offer-details")&&t.removeAttribute("open"),t?.querySelectorAll?.(".zod-cart-item-offer-details").forEach(t=>t.removeAttribute("open"))}))}).observe(t,{childList:!0,subtree:!0});const y=s?.querySelector?.("[data-zod-cart-subtotal]"),p=s?.querySelector?.("[data-zod-cart-tax]"),b=s?.querySelector?.("[data-zod-cart-tax-row]"),v=s?.querySelector?.("[data-zod-cart-discount]"),g=s?.querySelector?.("[data-zod-cart-discount-row]"),L=[...s?.querySelectorAll?.("[data-zod-cart-original-total]")||[]],w=[...s?.querySelectorAll?.("[data-zod-cart-saved]")||[]],S=[...s?.querySelectorAll?.("[data-zod-cart-saved-value]")||[]];let q=null,z=null;const E=(t=q)=>{t&&(t.classList.remove("is-updating"),t.classList.add("is-updated"),setTimeout(()=>t.classList.remove("is-updated"),720),q===t&&(q=null))},_=t=>{if(null==t||""===t)return null;if("number"==typeof t)return Number.isFinite(t)?t:null;if("string"==typeof t){const e=t.replace(/[٠-٩]/g,t=>"٠١٢٣٤٥٦٧٨٩".indexOf(t)).replace(/[^0-9.\-]/g,""),a=Number(e);return Number.isFinite(a)?a:null}if("object"==typeof t)for(const e of["amount","value","total","total_price","grand_total"]){const a=_(t?.[e]);if(null!==a)return a}return null},x=t=>{const e=[t?.data?.data,t?.data,t,t?.cart,t?.data?.cart].filter(Boolean);for(const t of e){for(const e of["total","total_price","grand_total"]){const a=_(t?.[e]);if(null!==a)return a}const e=_(t?.summary?.total);if(null!==e)return e}return null},A=(t,e)=>{const a=(t=>[t?.data?.data,t?.data,t,t?.cart,t?.data?.cart].filter(Boolean))(t);for(const t of a)for(const a of e){const e=_(t?.[a]);if(null!==e)return e;const o=_(t?.summary?.[a]);if(null!==o)return o;const r=_(t?.totals?.[a]);if(null!==r)return r}return null},T=t=>{let e=String(Number(t||0).toFixed(2));try{e=salla.money(t)}catch(t){}return e},M=t=>{if(!s)return;const e=(t=>{const e=x(t);if(null===e)return null;const a=A(t,["discount","discount_amount","discount_total","total_discount","discounts_total"]),o=Math.max(0,Math.abs(a||0)),r=A(t,["tax_amount","vat_amount","tax","vat","total_tax"]),n=Math.max(0,Math.abs(r||0)),l=A(t,["sub_total_without_tax","subtotal_without_tax","products_subtotal","products_total","sub_total","subtotal"]),c=e+o,s=Math.max(0,c-n);let d=l;return(null===d||n>0&&Math.abs(d-c)<.05)&&(d=s),{subtotal:d,tax:n,discount:o,total:e,originalTotal:c}})(t);if(!e)return;y&&(y.innerHTML=T(e.subtotal)),p&&(p.innerHTML=T(e.tax)),b&&(b.hidden=e.tax<=0);const a=e.discount>1e-4;v&&(v.innerHTML=`− ${T(e.discount)}`),g&&(g.hidden=!a),L.forEach(t=>{t.hidden=!a,t.innerHTML=a?T(e.originalTotal):""}),w.forEach(t=>{t.hidden=!a}),S.forEach(t=>{t.innerHTML=a?T(e.discount):""})},k=t=>{if(!c.length)return;const e=_(t);if(null===e)return;let a=String(e);try{a=salla.money(e)}catch(t){}c.forEach(t=>{if(t.innerHTML!==a){t.innerHTML=a;const e=t.closest(".zod-cart-grand-total,.zod-cart-mobile-checkout__meta")||t;e.classList.remove("is-total-updated"),e.offsetWidth,e.classList.add("is-total-updated"),setTimeout(()=>e.classList.remove("is-total-updated"),620)}})},H=t=>{const e=[t?.data?.data,t?.data,t,t?.cart,t?.data?.cart].filter(Boolean),a=e.find(t=>Array.isArray(t.items))?.items;a&&a.forEach(t=>{const e=_(t.total);if(null==t.id||null===e||!1===t.is_available)return;const a=document.getElementById(`item-${t.id}`),o=a?.querySelector('[data-testid="store-cart-item-total"]');if(o)try{o.innerHTML=salla.money(e)}catch(t){o.textContent=String(e)}})};let C,N=0;const D=()=>{const t=++N;clearTimeout(C),C=setTimeout(async()=>{try{const e=await salla.cart.details(),a=x(e);t===N&&(null!==a&&k(a),M(e),H(e))}catch(t){}},260)},F=()=>{D();const t=t=>{++N,E();const e=x(t);null!==e&&k(e),M(t),H(t),D()};salla.cart?.event?.onItemAdded?.(t),salla.cart?.event?.onItemDeleted?.(t),salla.cart?.event?.onItemUpdated?.(t),salla.cart?.event?.onItemUpdatedFailed?.(()=>{E(),D()}),salla.cart?.event?.onCouponAdded?.(t),salla.cart?.event?.onCouponDeleted?.(t)};window.salla?.onReady?window.salla.onReady().then(F).catch(()=>{}):F(),document.addEventListener("change",t=>{var e;(("function"==typeof t.composedPath?t.composedPath():[]).some(t=>t?.matches?.('.zod-cart-item, salla-quantity-input, form[id^="item-"]'))||t.target?.closest?.('.zod-cart-item, form[id^="item-"]'))&&(e=(t=>{const e="function"==typeof t?.composedPath?t.composedPath():[];for(const t of e){if(t?.matches?.("[data-zod-cart-item]"))return t;const e=t?.closest?.("[data-zod-cart-item]");if(e)return e}return t?.target?.closest?.("[data-zod-cart-item]")||null})(t),e&&(q=e,e.classList.remove("is-updated"),e.classList.add("is-updating"),clearTimeout(z),z=setTimeout(()=>E(e),1800)),++N,clearTimeout(C))},!0),document.addEventListener("zod:cart-update-success",()=>{E(),D()}),document.addEventListener("zod:cart-delete-success",D)});
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('[data-accordion-trigger]').forEach(btn=>btn.addEventListener('click',()=>btn.closest('[data-accordion]')?.classList.toggle('is-open')));
+
+  const cartPage=document.querySelector('[data-zod-cart-page]');
+  if(!cartPage) return;
+
+  const ar=(document.documentElement?.lang||'').toLowerCase().startsWith('ar');
+
+  // Keep offer copy customer-ready when a merchant offer contains Salla's raw
+  // payment-method placeholder. Components render asynchronously in shadow DOM.
+  const replaceOfferPlaceholders=root=>{
+    if(!root) return;
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+    const replacement=ar?'طريقة الدفع المختارة':'selected payment method';
+    let node;
+    while((node=walker.nextNode())){
+      if(node.nodeValue?.includes('{payment_method}')) node.nodeValue=node.nodeValue.replaceAll('{payment_method}',replacement);
+    }
+  };
+  const watchOfferComponent=async host=>{
+    try{await customElements.whenDefined(host.localName);}catch(_){return;}
+    const root=host.shadowRoot||host;
+    replaceOfferPlaceholders(root);
+    new MutationObserver(()=>replaceOfferPlaceholders(root)).observe(root,{subtree:true,childList:true,characterData:true});
+  };
+  document.querySelectorAll('salla-offer,salla-cart-item-offers').forEach(watchOfferComponent);
+
+  // Reuse Salla's native summary-card checkout validation. Wait for the web
+  // component and accept current and previous native submit selectors so a
+  // slow component render does not leave the mobile dock unresponsive.
+  const checkoutButton=document.querySelector('[data-testid="store-cart-checkout-mobile"]');
+  const findNativeCheckout=summary=>{
+    const roots=[summary,summary?.shadowRoot].filter(Boolean);
+    const selectors=['[data-testid="store-cart-submit"]','#s-cart-summary-card-submit','button[type="submit"]'];
+    for(const root of roots) for(const selector of selectors){const button=root.querySelector?.(selector);if(button) return button;}
+    return null;
+  };
+  checkoutButton?.addEventListener('click',()=>{
+    if(checkoutButton.getAttribute?.('aria-busy')==='true') return;
+    const summary=document.querySelector('salla-cart-summary-card');
+    const immediateSubmit=findNativeCheckout(summary);
+    if(immediateSubmit){immediateSubmit.click();return;}
+    checkoutButton.setAttribute?.('aria-busy','true');
+    const continueCheckout=async()=>{
+      try{
+        await customElements.whenDefined('salla-cart-summary-card');
+      let submit=findNativeCheckout(summary);
+      if(!submit){await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));submit=findNativeCheckout(summary);}
+      if(submit){submit.click();return;}
+      summary?.scrollIntoView?.({behavior:'smooth',block:'center'});
+      window.salla?.notify?.error?.(ar?'جارٍ تجهيز إتمام الطلب. حاول مرة أخرى بعد لحظات.':'Checkout is still loading. Please try again in a moment.');
+      }finally{setTimeout(()=>checkoutButton.removeAttribute?.('aria-busy'),900);}
+    };
+    continueCheckout();
+  });
+
+  // Hide the optional cart-offers drawer when Salla returns no offer content.
+  const offersDrawer=document.querySelector('[data-zod-cart-offers-drawer]');
+  const offersHost=offersDrawer?.querySelector?.('salla-offer');
+  if(offersDrawer&&offersHost){
+    customElements.whenDefined('salla-offer').then(()=>setTimeout(()=>{
+      const text=(offersHost.shadowRoot?.textContent||offersHost.textContent||'').trim();
+      if(!text) offersDrawer.hidden=true;
+    },700)).catch(()=>{});
+  }
+
+  const totalNodes=[...document.querySelectorAll('[data-zod-cart-grand-total]')];
+  const mobileSummary=document.querySelector('[data-zod-cart-mobile-summary]');
+  const mobileSummaryToggle=mobileSummary?.querySelector?.('[data-zod-cart-summary-toggle]');
+  const mobileSummaryShell=mobileSummary?.querySelector?.('[data-zod-cart-summary-shell]');
+  const mobileSummaryDetails=mobileSummary?.querySelector?.('[data-zod-cart-summary-details]');
+  const setMobileSummaryExpanded=expanded=>{
+    if(!mobileSummaryToggle||!mobileSummaryDetails||!mobileSummaryShell)return;
+    mobileSummaryToggle.setAttribute('aria-expanded',String(expanded));
+    mobileSummaryDetails.hidden=!expanded;
+    mobileSummaryShell.classList.toggle('is-expanded',expanded);
+    mobileSummaryShell.classList.toggle('is-collapsed',!expanded);
+  };
+  setMobileSummaryExpanded(false);
+  mobileSummaryToggle?.addEventListener('click',()=>setMobileSummaryExpanded(mobileSummaryToggle.getAttribute('aria-expanded')!=='true'));
+
+  // On mobile, keep Salla's verbose per-item discount breakdown collapsed until
+  // the shopper explicitly asks for it. Desktop remains unchanged.
+  const mobileMq=typeof window.matchMedia==='function'?window.matchMedia('(max-width: 767px)'):{matches:false,addEventListener:()=>{}};
+  const collapseItemOfferDetails=()=>{
+    if(!mobileMq.matches)return;
+    document.querySelectorAll('.zod-cart-item-offer-details').forEach(details=>details.removeAttribute('open'));
+  };
+  collapseItemOfferDetails();
+  mobileMq.addEventListener?.('change',collapseItemOfferDetails);
+  if(typeof MutationObserver!=='undefined') new MutationObserver(records=>{
+    if(!mobileMq.matches)return;
+    records.forEach(record=>record.addedNodes?.forEach?.(node=>{
+      if(node?.matches?.('.zod-cart-item-offer-details')) node.removeAttribute('open');
+      node?.querySelectorAll?.('.zod-cart-item-offer-details').forEach(details=>details.removeAttribute('open'));
+    }));
+  }).observe(cartPage,{childList:true,subtree:true});
+  const subtotalNode=mobileSummary?.querySelector?.('[data-zod-cart-subtotal]');
+  const taxNode=mobileSummary?.querySelector?.('[data-zod-cart-tax]');
+  const taxRow=mobileSummary?.querySelector?.('[data-zod-cart-tax-row]');
+  const discountNode=mobileSummary?.querySelector?.('[data-zod-cart-discount]');
+  const discountRow=mobileSummary?.querySelector?.('[data-zod-cart-discount-row]');
+  const originalTotalNodes=[...(mobileSummary?.querySelectorAll?.('[data-zod-cart-original-total]')||[])];
+  const savedBoxes=[...(mobileSummary?.querySelectorAll?.('[data-zod-cart-saved]')||[])];
+  const savedNodes=[...(mobileSummary?.querySelectorAll?.('[data-zod-cart-saved-value]')||[])];
+  let activeCartItem=null;
+  let mutationFallbackTimer=null;
+  const findCartItem=event=>{
+    const path=typeof event?.composedPath==='function'?event.composedPath():[];
+    for(const node of path){
+      if(node?.matches?.('[data-zod-cart-item]')) return node;
+      const item=node?.closest?.('[data-zod-cart-item]'); if(item) return item;
+    }
+    return event?.target?.closest?.('[data-zod-cart-item]')||null;
+  };
+  const beginItemUpdate=item=>{
+    if(!item) return;
+    activeCartItem=item;
+    item.classList.remove('is-updated');
+    item.classList.add('is-updating');
+    clearTimeout(mutationFallbackTimer);
+    mutationFallbackTimer=setTimeout(()=>finishItemUpdate(item),1800);
+  };
+  const finishItemUpdate=(item=activeCartItem)=>{
+    if(!item) return;
+    item.classList.remove('is-updating');
+    item.classList.add('is-updated');
+    setTimeout(()=>item.classList.remove('is-updated'),720);
+    if(activeCartItem===item) activeCartItem=null;
+  };
+
+  const moneyNumber=value=>{
+    if(value===null||value===undefined||value==='') return null;
+    if(typeof value==='number') return Number.isFinite(value)?value:null;
+    if(typeof value==='string'){
+      const normalized=value.replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[^0-9.\-]/g,'');
+      const n=Number(normalized); return Number.isFinite(n)?n:null;
+    }
+    if(typeof value==='object'){
+      for(const key of ['amount','value','total','total_price','grand_total']){
+        const n=moneyNumber(value?.[key]); if(n!==null) return n;
+      }
+    }
+    return null;
+  };
+  const extractTotal=payload=>{
+    const roots=[payload?.data?.data,payload?.data,payload,payload?.cart,payload?.data?.cart].filter(Boolean);
+    for(const root of roots){
+      for(const key of ['total','total_price','grand_total']){
+        const n=moneyNumber(root?.[key]); if(n!==null) return n;
+      }
+      const n=moneyNumber(root?.summary?.total); if(n!==null) return n;
+    }
+    return null;
+  };
+  const payloadRoots=payload=>[payload?.data?.data,payload?.data,payload,payload?.cart,payload?.data?.cart].filter(Boolean);
+  const pickMoney=(payload,keys)=>{
+    const roots=payloadRoots(payload);
+    for(const root of roots){
+      for(const key of keys){
+        const direct=moneyNumber(root?.[key]); if(direct!==null) return direct;
+        const summary=moneyNumber(root?.summary?.[key]); if(summary!==null) return summary;
+        const totals=moneyNumber(root?.totals?.[key]); if(totals!==null) return totals;
+      }
+    }
+    return null;
+  };
+  const formatMoney=value=>{
+    let formatted=String(Number(value||0).toFixed(2));
+    try{formatted=salla.money(value);}catch(_){}
+    return formatted;
+  };
+  const extractCartSummary=payload=>{
+    const total=extractTotal(payload);
+    if(total===null) return null;
+    const discountRaw=pickMoney(payload,['discount','discount_amount','discount_total','total_discount','discounts_total']);
+    const discount=Math.max(0,Math.abs(discountRaw||0));
+    const taxRaw=pickMoney(payload,['tax_amount','vat_amount','tax','vat','total_tax']);
+    const tax=Math.max(0,Math.abs(taxRaw||0));
+    const serverSubtotal=pickMoney(payload,['sub_total_without_tax','subtotal_without_tax','products_subtotal','products_total','sub_total','subtotal']);
+    const originalTotal=total+discount;
+    const calculatedPreTax=Math.max(0,originalTotal-tax);
+    let subtotal=serverSubtotal;
+    if(subtotal===null) subtotal=calculatedPreTax;
+    else if(tax>0 && Math.abs(subtotal-originalTotal)<0.05) subtotal=calculatedPreTax;
+    return {subtotal, tax, discount, total, originalTotal};
+  };
+  const paintMobileSummary=payload=>{
+    if(!mobileSummary) return;
+    const summary=extractCartSummary(payload); if(!summary) return;
+    if(subtotalNode) subtotalNode.innerHTML=formatMoney(summary.subtotal);
+    if(taxNode) taxNode.innerHTML=formatMoney(summary.tax);
+    if(taxRow) taxRow.hidden=summary.tax<=0;
+    const hasDiscount=summary.discount>0.0001;
+    if(discountNode) discountNode.innerHTML=`− ${formatMoney(summary.discount)}`;
+    if(discountRow) discountRow.hidden=!hasDiscount;
+    originalTotalNodes.forEach(node=>{
+      node.hidden=!hasDiscount;
+      node.innerHTML=hasDiscount?formatMoney(summary.originalTotal):'';
+    });
+    savedBoxes.forEach(node=>{ node.hidden=!hasDiscount; });
+    savedNodes.forEach(node=>{ node.innerHTML=hasDiscount?formatMoney(summary.discount):''; });
+  };
+  const paintTotal=value=>{
+    if(!totalNodes.length) return;
+    const amount=moneyNumber(value); if(amount===null) return;
+    let formatted=String(amount);
+    try{formatted=salla.money(amount);}catch(_){}
+    totalNodes.forEach(node=>{
+      if(node.innerHTML!==formatted){
+        node.innerHTML=formatted;
+        const host=node.closest('.zod-cart-grand-total,.zod-cart-mobile-checkout__meta')||node;
+        host.classList.remove('is-total-updated');
+        void host.offsetWidth;
+        host.classList.add('is-total-updated');
+        setTimeout(()=>host.classList.remove('is-total-updated'),620);
+      }
+    });
+  };
+  const paintItemTotals=payload=>{
+    const roots=[payload?.data?.data,payload?.data,payload,payload?.cart,payload?.data?.cart].filter(Boolean);
+    const items=roots.find(root=>Array.isArray(root.items))?.items;
+    if(!items) return;
+    items.forEach(item=>{
+      const amount=moneyNumber(item.total);
+      if(item.id==null || amount===null || item.is_available===false) return;
+      const form=document.getElementById(`item-${item.id}`);
+      const node=form?.querySelector('[data-testid="store-cart-item-total"]');
+      if(node) { try{node.innerHTML=salla.money(amount);}catch(_){node.textContent=String(amount);} }
+    });
+  };
+  let timer;
+  let revision=0;
+  const refresh=()=>{
+    const request=++revision;
+    clearTimeout(timer);
+    timer=setTimeout(async()=>{
+      try{
+        const details=await salla.cart.details();
+        const total=extractTotal(details);
+        if(request===revision) {
+          if(total!==null) paintTotal(total);
+          paintMobileSummary(details);
+          paintItemTotals(details);
+        }
+      }catch(_){}
+    },260);
+  };
+  const boot=()=>{
+    refresh();
+    const afterMutation=response=>{
+      ++revision;
+      finishItemUpdate();
+      const total=extractTotal(response);
+      if(total!==null) paintTotal(total);
+      paintMobileSummary(response);
+      paintItemTotals(response);
+      refresh();
+    };
+    salla.cart?.event?.onItemAdded?.(afterMutation);
+    salla.cart?.event?.onItemDeleted?.(afterMutation);
+    salla.cart?.event?.onItemUpdated?.(afterMutation);
+    salla.cart?.event?.onItemUpdatedFailed?.(()=>{finishItemUpdate();refresh();});
+    salla.cart?.event?.onCouponAdded?.(afterMutation);
+    salla.cart?.event?.onCouponDeleted?.(afterMutation);
+  };
+  if(window.salla?.onReady) window.salla.onReady().then(boot).catch(()=>{}); else boot();
+
+  document.addEventListener('change',event=>{
+    const path=typeof event.composedPath==='function'?event.composedPath():[];
+    const isCartChange=path.some(node=>node?.matches?.('.zod-cart-item, salla-quantity-input, form[id^="item-"]')) || event.target?.closest?.('.zod-cart-item, form[id^="item-"]');
+    if(isCartChange){beginItemUpdate(findCartItem(event));++revision;clearTimeout(timer);}
+  },true);
+  document.addEventListener('zod:cart-update-success',()=>{finishItemUpdate();refresh();});
+  document.addEventListener('zod:cart-delete-success',refresh);
+});

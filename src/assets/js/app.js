@@ -522,7 +522,34 @@ class ZodTheme {
       // Replace it with ZOD's non-blocking toast UI. We intentionally do not
       // render <salla-add-product-toast> at the same time, so add/update/delete
       // actions have exactly one feedback path and cannot double-notify.
-      salla.notify?.setNotifier?.((message, type) => this.showNotification(message, type));
+      // Selecting an unavailable variant is an inline product-state change, not a
+      // storefront error. Salla may emit stock/service notifier messages while
+      // <salla-product-options> resolves that selection; keep those messages silent
+      // and let the product price/stock/button UI communicate the unavailable state.
+      if (!this.variantNotificationSilencerBound) {
+        this.variantNotificationSilencerBound = true;
+        const markVariantInteraction = event => {
+          const path = typeof event.composedPath === 'function' ? event.composedPath() : [];
+          const insideOptions = path.some(node => node?.tagName === 'SALLA-PRODUCT-OPTIONS')
+            || event.target?.closest?.('salla-product-options');
+          if (insideOptions) this.variantNotificationSilenceUntil = Date.now() + 2500;
+        };
+        document.addEventListener('pointerdown', markVariantInteraction, true);
+        document.addEventListener('click', markVariantInteraction, true);
+        document.addEventListener('change', markVariantInteraction, true);
+      }
+
+      const shouldSilenceVariantNotification = message => {
+        if ((this.variantNotificationSilenceUntil || 0) < Date.now()) return false;
+        if (!document.querySelector('salla-product-options')) return false;
+        const text = String(message || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
+        return /الكمية\s*غير\s*متوفرة|خطأ\s*في\s*خدمة\s*المنتج|quantity[^.]{0,40}(?:unavailable|not available)|(?:out of stock|product service error)/i.test(text);
+      };
+
+      salla.notify?.setNotifier?.((message, type) => {
+        if (shouldSilenceVariantNotification(message)) return;
+        this.showNotification(message, type);
+      });
       // Never paint a cached count as authoritative. The live Salla cart owns the badge.
       this.updateCartBadge(0);
       const cartEvents = salla?.cart?.event;

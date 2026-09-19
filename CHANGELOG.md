@@ -1,3 +1,9 @@
+## v1.7.32
+
+- Silenced the Salla `quantity unavailable` / `product service error` notifier messages only during product-option interaction.
+- Removed redundant theme-triggered variant price requests; native Salla product options now own variant resolution.
+- Out-of-stock selection still updates the inline out-of-stock state and purchase controls.
+
 ## v1.7.31
 - Replaced private `<salla-offer>` state inspection with Salla Product Offer Details event/API integration and resilient response normalization.
 - Added product-only scoping and merged separate quantity percentage offers.
