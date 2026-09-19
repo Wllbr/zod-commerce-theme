@@ -404,3 +404,32 @@ console.log('PASS: v1.7.27 Salla offer payload compatibility and live mobile sav
   assert(appCss.includes('v1.7.28 — product-page scroll stability') && appCss.includes('left:50%!important'), 'v1.7.28 centered desktop dock CSS missing');
 }
 console.log('PASS: v1.7.28 scroll stability, centered dock, smart mobile header, and price cleanup.');
+
+// v1.7.29 card metadata, compact mobile cart details, and footer regrouping.
+{
+  const legacySource = read('src/assets/js/legacy-product-card.js');
+  const productTwig = read('src/views/pages/product/single.twig');
+  const switcherTwig = read('src/views/components/home/product-type-switcher.twig');
+  const cartTwig = read('src/views/pages/cart.twig');
+  const pagesJs = read('src/assets/js/pages.js');
+  const footerTwig = read('src/views/components/footer/footer.twig');
+  const appJs = read('src/assets/js/app.js');
+  const appCss = read('src/assets/styles/app.scss');
+  assert.match(legacySource, /p\.subtitle \?\? p\.sub_title[\s\S]*p\.promotion\?\.sub_title/, 'v1.7.29 legacy card reads Salla subtitle/sub-title variants');
+  assert.match(legacySource, /class="zpc-subtitle"/, 'v1.7.29 legacy card renders subtitle under the product title');
+  assert.match(appCss, /@media\(max-width:767px\)[\s\S]*zod-product-card--legacy \.zpc-hover-actions[\s\S]*display:none!important/, 'v1.7.29 mobile cards hide floating eye/wishlist actions');
+  assert.match(appCss, /html\[dir="rtl"\][\s\S]*\.zpc-offer-badge[\s\S]*right:8px!important/, 'v1.7.29 Arabic card promo badge is physically right aligned');
+  assert.match(appCss, /html\[dir="ltr"\][\s\S]*\.zpc-offer-badge[\s\S]*left:8px!important/, 'v1.7.29 English card promo badge is physically left aligned');
+  assert.match(appCss, /body\.product-single \.zod-product-subtitle[\s\S]*text-align:right!important/, 'v1.7.29 Arabic product subtitle alignment missing');
+  assert.equal((switcherTwig.match(/class="zod-shared-product-slider"/g)||[]).length,2,'v1.7.29 category switcher marks both selected/category feeds as shared-card surfaces');
+  assert.equal((switcherTwig.match(/product-card-component="custom-salla-product-card"/g)||[]).length,2,'v1.7.29 category switcher keeps shared custom card for both feeds');
+  assert.match(cartTwig, /data-zod-cart-summary-toggle[\s\S]*data-zod-cart-summary-details/, 'v1.7.29 mobile order summary has an explicit expand/collapse control');
+  assert.match(pagesJs, /setMobileSummaryExpanded\(false\)/, 'v1.7.29 mobile cart details start collapsed');
+  assert.match(pagesJs, /collapseItemOfferDetails/, 'v1.7.29 per-item offer details collapse on mobile');
+  assert.match(footerTwig, /data-zod-business-certificate/, 'v1.7.29 footer has a dedicated Business Platform certificate host');
+  assert.match(footerTwig, /data-zod-footer-bottom-payments/, 'v1.7.29 payment methods moved to the footer bottom strip');
+  assert.match(appJs, /initFooterCertificatePlacement/, 'v1.7.29 runtime extracts the Business Platform certificate from payments');
+  assert.match(appCss, /grid-template-columns:max-content minmax\(0,1fr\) max-content/, 'v1.7.29 footer bottom reserves a non-overlapping middle cell for payments');
+  assert.match(productTwig, /zod-product-subtitle/, 'product page still renders Salla subtitle metadata');
+}
+console.log('PASS: v1.7.29 mobile card metadata, compact cart details, shared category cards, and footer regrouping.');

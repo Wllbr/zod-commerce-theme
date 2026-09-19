@@ -18,6 +18,7 @@
 {% set sticky_price_value = product.is_on_sale ? product.sale_price : product.price %}
 {% set show_product_reviews = store.settings.rating.show_on_product or product.rating %}
 {% set brand_logo = product.brand and product.brand.logo ? product.brand.logo : null %}
+{% set product_promotion_title = product.promotion_title|default(product.promotion.title|default(null)) %}
 
 {% if theme.settings.get('product_show_breadcrumbs', true) %}
 <div class="container zod-product-breadcrumb-wrap">
@@ -44,7 +45,7 @@
           listen-to-thumbnails-option
           show-controls="false">
 
-          {% if product.promotion_title %}<div class="zod-product-badge">{{ product.promotion_title }}</div>{% endif %}
+          {% if product_promotion_title %}<div class="zod-product-badge">{{ product_promotion_title }}</div>{% endif %}
           {% if product.calories %}<div class="zod-calories-badge"><strong>{{ product.calories }}</strong><span>{{ trans('pages.products.calories') }}</span></div>{% endif %}
 
           <div slot="items">

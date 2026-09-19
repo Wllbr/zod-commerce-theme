@@ -147,6 +147,8 @@
               <div class="zod-product-switcher__panel-content" data-zod-product-switcher-content>
                 {% if selected_product_ids|length %}
                   <salla-products-slider
+                    class="zod-shared-product-slider"
+                    data-zod-card-surface="category-switcher"
                     source="selected"
                     source-value="{{ selected_product_ids|json_encode }}"
                     limit="36"
@@ -155,6 +157,8 @@
                   ></salla-products-slider>
                 {% elseif category_id %}
                   <salla-products-slider
+                    class="zod-shared-product-slider"
+                    data-zod-card-surface="category-switcher"
                     source="categories"
                     source-value="{{ [category_id]|json_encode }}"
                     limit="36"

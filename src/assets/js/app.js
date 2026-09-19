@@ -863,3 +863,60 @@ class ZodTheme {
 
 window.notify_when_available_in_card = window.zodSettings?.notifyWhenAvailable !== false;
 window.zodTheme = new ZodTheme();
+
+/* ZOD v1.7.29 — move Salla's Business Platform certificate out of the
+ * payment-method strip and group it with the footer trust certificates. */
+(() => {
+  const initFooterCertificatePlacement = () => {
+    if (typeof document?.querySelector !== 'function') return;
+    const payments = document.querySelector('[data-zod-footer-bottom-payments] salla-payments');
+    const certificateHost = document.querySelector('[data-zod-business-certificate]');
+    if (!payments || !certificateHost) return;
+
+    let observer;
+    const sync = () => {
+      const root = payments.shadowRoot || payments;
+      const image = root.querySelector?.('.s-payments-sbc-image');
+      if (!image) return false;
+      const item = image.closest?.('.s-payments-list-item') || image.parentElement;
+      const src = image.getAttribute?.('src') || image.src || '';
+      if (!src) return false;
+
+      const current = certificateHost.querySelector('img');
+      if (!current || current.getAttribute('src') !== src) {
+        certificateHost.innerHTML = '';
+        const card = document.createElement('span');
+        card.className = 'zod-footer-business-certificate__card';
+        const cloned = image.cloneNode(true);
+        cloned.removeAttribute('class');
+        cloned.alt = document.documentElement.lang?.startsWith('ar') ? 'شهادة منصة الأعمال' : 'Business Platform certificate';
+        const label = document.createElement('span');
+        label.textContent = cloned.alt;
+        card.append(cloned, label);
+        certificateHost.appendChild(card);
+      }
+      certificateHost.hidden = false;
+      if (item) {
+        item.hidden = true;
+        item.setAttribute('aria-hidden', 'true');
+        item.style.setProperty('display', 'none', 'important');
+      }
+      return true;
+    };
+
+    customElements.whenDefined('salla-payments').then(() => {
+      const trySync = () => {
+        if (sync()) return;
+        window.setTimeout(sync, 300);
+        window.setTimeout(sync, 900);
+      };
+      trySync();
+      const root = payments.shadowRoot || payments;
+      observer = new MutationObserver(sync);
+      observer.observe(root, { childList: true, subtree: true, attributes: true, attributeFilter: ['src', 'class'] });
+    }).catch(() => {});
+  };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initFooterCertificatePlacement, { once: true });
+  else initFooterCertificatePlacement();
+})();

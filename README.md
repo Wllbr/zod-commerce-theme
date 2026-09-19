@@ -1,4 +1,4 @@
-## v1.7.28 — Salla-backed quantity offers + live mobile savings summary
+## v1.7.29 — Salla-backed quantity offers + live mobile savings summary
 
 > Current release: **v1.7.28**. This remains a custom Twilight theme; native Salla components/data are used as the pricing authority while ZOD controls the presentation.
 

@@ -25,7 +25,7 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.7.28','package.json: expected v1.7.28');
+assert(pkg.version==='1.7.29','package.json: expected v1.7.29');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 const trackedResult=spawnSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8'});
 const trackedFiles=trackedResult.status===0 ? (trackedResult.stdout||'').split('\0').filter(Boolean) : [];
@@ -217,7 +217,8 @@ assert(footerTwig.includes('data-zod-footer-categories'),'Footer must include dy
 assert(footerTwig.includes('aria-busy="true"'),'Footer category navigation must expose its loading state');
 assert(footerTwig.includes('zod-footer-back-top'),'Footer must include the back-to-top control');
 assert(footerTwig.includes('<salla-contacts'),'Footer must use Salla native contacts so every configured service channel can render');
-assert(footerTwig.includes('zod-footer-sbc-label'),'Footer must label the Saudi Business Center certificate');
+assert(footerTwig.includes('data-zod-business-certificate'),'Footer must provide a dedicated Business Platform certificate host');
+assert(footerTwig.includes('data-zod-footer-bottom-payments'),'Footer payments must live in the bottom strip');
 
 const appCss=read('src/assets/styles/app.scss');
 for(const selector of ['.zod-header','.zod-hero','.zod-product-card','.zod-product-main','.zod-catalog-layout','.zod-footer','.zod-mobile-dock','.zod-option-support']){

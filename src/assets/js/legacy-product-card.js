@@ -1,4 +1,4 @@
-/* ZOD v1.7.24 — restore the pre-v1.7.12 Orkida-style product card.
+/* ZOD v1.7.29 — shared pre-v1.7.12 Orkida-style product card.
  * This patches the shared custom card after app.js defines it, so we can keep
  * all newer product-page/Twilight fixes while returning the storefront card UI
  * to the older Eye + Heart + full-width purchase layout.
@@ -39,6 +39,7 @@
       const category = this.getCategory?.(p);
       const inWishlist = this.initialWishlistState?.(p) || false;
       const promo = this.templateText?.(p.promotion_title ?? p.promotional_title ?? p.promo_title ?? p.promotion?.title, p) || '';
+      const subtitle = this.templateText?.(p.subtitle ?? p.sub_title ?? p.promotional_subtitle ?? p.promotion_sub_title ?? p.promotion?.sub_title, p) || '';
       const taxLabel = p.is_taxable === false ? '' : (this.t?.('pages.products.tax_included', this.isArabic?.() ? 'شامل ضريبة القيمة المضافة' : 'VAT included') || '');
       const optionCount = Array.isArray(p.options) ? p.options.length : 0;
       const hasOptions = Boolean(p.has_options || optionCount);
@@ -79,6 +80,7 @@
             ? `<a class="zpc-category" href="${this.esc?.(category.url) || category.url}">${this.esc?.(category.name) || category.name}</a>`
             : `<span class="zpc-category">${this.esc?.(category.name) || category.name}</span>`) : ''}
           <h3><a href="${this.esc?.(url || '#') || '#'}">${this.esc?.(p.name) || p.name || ''}</a></h3>
+          ${subtitle ? `<p class="zpc-subtitle">${this.esc?.(subtitle) || subtitle}</p>` : ''}
           ${p.rating?.stars ? `<div class="zpc-meta"><span class="zpc-rating"><i class="sicon-star2"></i>${this.esc?.(p.rating.stars) || p.rating.stars}${p.rating.count ? ` <small>(${this.esc?.(p.rating.count) || p.rating.count})</small>` : ''}</span></div>` : '<div class="zpc-meta"></div>'}
           <div class="zpc-bottom">${priceHtml}</div>
           ${taxLabel ? `<p class="zpc-tax">${this.esc?.(taxLabel) || taxLabel}</p>` : ''}

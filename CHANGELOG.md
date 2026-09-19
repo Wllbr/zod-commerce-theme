@@ -1,3 +1,14 @@
+## v1.7.29
+
+- Removed the floating wishlist/quick-view cluster from product cards on mobile; desktop keeps Eye + Wishlist.
+- Product cards now surface Salla subtitle/sub-title metadata under the product title and continue to prefer the promotional title for the image badge.
+- Forced promotional badge/subtitle alignment to the physical right in Arabic and left in English on cards and product pages.
+- Audited `تسوق حسب التصنيف`: both selected-product and category feeds explicitly use the shared `custom-salla-product-card`.
+- Mobile cart order summary is compact by default with a View details toggle; VAT, discount, original total and savings expand on demand.
+- Per-item offer breakdowns remain collapsed by default on mobile.
+- Moved payment methods to the centered footer bottom strip with bounded horizontal overflow so they cannot overlap the copyright.
+- Grouped Business Platform certificate with the other trust/certificate badges, including VAT/company trust content.
+
 
 ## v1.7.28 — Product scroll stability and smart mobile header
 

@@ -66,6 +66,35 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   const totalNodes=[...document.querySelectorAll('[data-zod-cart-grand-total]')];
   const mobileSummary=document.querySelector('[data-zod-cart-mobile-summary]');
+  const mobileSummaryToggle=mobileSummary?.querySelector?.('[data-zod-cart-summary-toggle]');
+  const mobileSummaryShell=mobileSummary?.querySelector?.('[data-zod-cart-summary-shell]');
+  const mobileSummaryDetails=mobileSummary?.querySelector?.('[data-zod-cart-summary-details]');
+  const setMobileSummaryExpanded=expanded=>{
+    if(!mobileSummaryToggle||!mobileSummaryDetails||!mobileSummaryShell)return;
+    mobileSummaryToggle.setAttribute('aria-expanded',String(expanded));
+    mobileSummaryDetails.hidden=!expanded;
+    mobileSummaryShell.classList.toggle('is-expanded',expanded);
+    mobileSummaryShell.classList.toggle('is-collapsed',!expanded);
+  };
+  setMobileSummaryExpanded(false);
+  mobileSummaryToggle?.addEventListener('click',()=>setMobileSummaryExpanded(mobileSummaryToggle.getAttribute('aria-expanded')!=='true'));
+
+  // On mobile, keep Salla's verbose per-item discount breakdown collapsed until
+  // the shopper explicitly asks for it. Desktop remains unchanged.
+  const mobileMq=typeof window.matchMedia==='function'?window.matchMedia('(max-width: 767px)'):{matches:false,addEventListener:()=>{}};
+  const collapseItemOfferDetails=()=>{
+    if(!mobileMq.matches)return;
+    document.querySelectorAll('.zod-cart-item-offer-details').forEach(details=>details.removeAttribute('open'));
+  };
+  collapseItemOfferDetails();
+  mobileMq.addEventListener?.('change',collapseItemOfferDetails);
+  if(typeof MutationObserver!=='undefined') new MutationObserver(records=>{
+    if(!mobileMq.matches)return;
+    records.forEach(record=>record.addedNodes?.forEach?.(node=>{
+      if(node?.matches?.('.zod-cart-item-offer-details')) node.removeAttribute('open');
+      node?.querySelectorAll?.('.zod-cart-item-offer-details').forEach(details=>details.removeAttribute('open'));
+    }));
+  }).observe(cartPage,{childList:true,subtree:true});
   const subtotalNode=mobileSummary?.querySelector?.('[data-zod-cart-subtotal]');
   const taxNode=mobileSummary?.querySelector?.('[data-zod-cart-tax]');
   const taxRow=mobileSummary?.querySelector?.('[data-zod-cart-tax-row]');

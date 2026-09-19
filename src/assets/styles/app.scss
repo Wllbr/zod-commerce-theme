@@ -5091,3 +5091,246 @@ body.product-single .zod-buy-controls.zod-dock-persistent-v1726 apple-pay-button
     transform:translate3d(0,calc(-100% - 2px),0)!important;
   }
 }
+
+/* ==========================================================================
+   ZOD v1.7.29 — card metadata, compact mobile cart details, footer regrouping
+   ========================================================================== */
+
+/* Product promotional copy follows the actual language direction explicitly.
+   This avoids Salla editor preview direction inheritance putting Arabic labels
+   on the physical left. */
+html[dir="rtl"] body.product-single .zod-product-badge,
+html[lang^="ar"] body.product-single .zod-product-badge{
+  right:16px!important;
+  left:auto!important;
+  inset-inline-start:auto!important;
+  inset-inline-end:auto!important;
+  text-align:right!important;
+}
+html[dir="ltr"] body.product-single .zod-product-badge,
+html:not([lang^="ar"]) body.product-single .zod-product-badge{
+  left:16px!important;
+  right:auto!important;
+  inset-inline-start:auto!important;
+  inset-inline-end:auto!important;
+  text-align:left!important;
+}
+html[dir="rtl"] body.product-single .zod-product-subtitle,
+html[lang^="ar"] body.product-single .zod-product-subtitle{
+  direction:rtl!important;
+  text-align:right!important;
+}
+html[dir="ltr"] body.product-single .zod-product-subtitle,
+html:not([lang^="ar"]) body.product-single .zod-product-subtitle{
+  direction:ltr!important;
+  text-align:left!important;
+}
+
+/* The shared legacy card now renders Salla's subtitle beneath the title. */
+custom-salla-product-card.zod-product-card--legacy .zpc-subtitle{
+  display:-webkit-box!important;
+  width:100%!important;
+  min-height:0!important;
+  max-height:30px!important;
+  margin:4px 0 0!important;
+  overflow:hidden!important;
+  color:#727a84!important;
+  font-size:10px!important;
+  font-weight:650!important;
+  line-height:15px!important;
+  white-space:normal!important;
+  text-overflow:ellipsis!important;
+  -webkit-box-orient:vertical!important;
+  -webkit-line-clamp:2!important;
+}
+html[dir="rtl"] custom-salla-product-card.zod-product-card--legacy .zpc-subtitle,
+html[lang^="ar"] custom-salla-product-card.zod-product-card--legacy .zpc-subtitle{
+  direction:rtl!important;
+  text-align:right!important;
+}
+html[dir="ltr"] custom-salla-product-card.zod-product-card--legacy .zpc-subtitle,
+html:not([lang^="ar"]) custom-salla-product-card.zod-product-card--legacy .zpc-subtitle{
+  direction:ltr!important;
+  text-align:left!important;
+}
+html[dir="rtl"] custom-salla-product-card.zod-product-card--legacy .zpc-offer-badge,
+html[lang^="ar"] custom-salla-product-card.zod-product-card--legacy .zpc-offer-badge{
+  right:8px!important;
+  left:auto!important;
+  inset-inline-start:auto!important;
+  inset-inline-end:auto!important;
+  text-align:right!important;
+}
+html[dir="ltr"] custom-salla-product-card.zod-product-card--legacy .zpc-offer-badge,
+html:not([lang^="ar"]) custom-salla-product-card.zod-product-card--legacy .zpc-offer-badge{
+  left:8px!important;
+  right:auto!important;
+  inset-inline-start:auto!important;
+  inset-inline-end:auto!important;
+  text-align:left!important;
+}
+
+/* Mobile product cards intentionally have no floating actions. Quick view is
+   desktop-only and wishlist remains available on the product page itself. */
+@media(max-width:767px){
+  custom-salla-product-card.zod-product-card--legacy .zpc-hover-actions{
+    display:none!important;
+  }
+  custom-salla-product-card.zod-product-card--legacy .zpc-body{
+    min-height:150px!important;
+  }
+  custom-salla-product-card.zod-product-card--legacy .zpc-subtitle{
+    max-height:26px!important;
+    font-size:8.5px!important;
+    line-height:13px!important;
+  }
+}
+
+/* تسوق حسب التصنيف uses the exact shared card geometry instead of a local
+   card variant. */
+.zod-product-switcher__panel .zod-shared-product-slider custom-salla-product-card{
+  width:100%!important;
+}
+
+/* Mobile cart: compact total first, detailed VAT/discount/savings on demand. */
+@media(max-width:767px){
+  .zod-cart-mobile-checkout--orkida .zod-cart-mobile-summary{
+    padding:0!important;
+  }
+  .zod-cart-mobile-summary__toggle{
+    width:100%;
+    min-height:50px;
+    padding:8px 14px;
+    border:0;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    color:#20252d;
+    cursor:pointer;
+    text-align:start;
+  }
+  .zod-cart-mobile-summary__toggle-label{
+    display:flex;
+    flex-direction:column;
+    gap:1px;
+    min-width:0;
+  }
+  .zod-cart-mobile-summary__toggle-label b{font-size:12px;font-weight:900}
+  .zod-cart-mobile-summary__toggle-label small{font-size:8.5px;color:#8a919c;font-weight:700}
+  .zod-cart-mobile-summary__toggle-total{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    flex:none;
+  }
+  .zod-cart-mobile-summary__toggle-total strong{font-size:16px;font-weight:950;color:#1b222b;white-space:nowrap}
+  .zod-cart-mobile-summary__toggle-total i{font-size:13px;color:#8b939d;transition:transform .2s ease}
+  .zod-cart-mobile-summary.is-expanded .zod-cart-mobile-summary__toggle-total i{transform:rotate(180deg)}
+  .zod-cart-mobile-summary__details{
+    padding:2px 14px 9px;
+    border-top:1px solid #eef1f4;
+  }
+  .zod-cart-mobile-summary__details[hidden]{display:none!important}
+  .zod-cart-item-offer-details:not([open])>salla-cart-item-offers{display:none!important}
+  .zod-cart-item-offer-details>summary{
+    background:#fff!important;
+    border-radius:9px!important;
+  }
+  body.cart-page{padding-bottom:calc(176px + env(safe-area-inset-bottom))!important}
+  body.cart-page .zod-cart-page{padding-bottom:calc(205px + env(safe-area-inset-bottom))!important}
+}
+
+/* Footer: certificates occupy the former payment area; payment methods are
+   centered in the bottom strip and constrained to their own grid cell. */
+.zod-footer--market .zod-footer-utility{
+  grid-template-columns:minmax(0,1fr) minmax(280px,auto)!important;
+  align-items:end!important;
+}
+.zod-footer--market .zod-footer-certificates{
+  justify-self:end;
+  min-width:0;
+}
+.zod-footer--market .zod-footer-certificates .zod-footer-trust-compact{
+  justify-content:flex-end!important;
+  flex-wrap:wrap;
+}
+.zod-footer-business-certificate[hidden]{display:none!important}
+.zod-footer-business-certificate__card{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-height:42px;
+  padding:4px 8px;
+  border:1px solid #e1e5e8;
+  border-radius:8px;
+  background:#fff;
+  color:#667078;
+  font-size:8.5px;
+  font-weight:800;
+}
+.zod-footer-business-certificate__card img{
+  display:block;
+  width:auto;
+  max-width:48px;
+  height:34px;
+  object-fit:contain;
+}
+.zod-footer--market .zod-footer-bottom__inner{
+  display:grid!important;
+  grid-template-columns:max-content minmax(0,1fr) max-content!important;
+  align-items:center!important;
+  gap:16px!important;
+}
+.zod-footer-bottom-payments{
+  min-width:0;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:none;
+  overscroll-behavior-inline:contain;
+}
+.zod-footer-bottom-payments::-webkit-scrollbar{display:none}
+.zod-footer-bottom-payments salla-payments{display:block;min-width:0}
+.zod-footer-bottom-payments .s-payments-list{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:6px!important;
+  width:max-content!important;
+  min-width:100%!important;
+  margin:0 auto!important;
+  flex-wrap:nowrap!important;
+}
+.zod-footer-bottom-payments .s-payments-list-item{
+  flex:0 0 auto!important;
+  display:grid!important;
+  place-items:center!important;
+  width:43px!important;
+  height:30px!important;
+  padding:3px 5px!important;
+  border:1px solid #e2e6e9!important;
+  border-radius:7px!important;
+  background:#fff!important;
+}
+.zod-footer-bottom-payments .s-payments-list-item img{max-width:100%!important;max-height:100%!important;object-fit:contain!important}
+.zod-footer-bottom-payments .s-payments-list-item:has(.s-payments-sbc-image){display:none!important}
+.zod-footer--market .zod-footer-copyright{
+  max-width:320px;
+  white-space:normal;
+  line-height:1.5;
+}
+@media(max-width:767px){
+  .zod-footer--market .zod-footer-utility{grid-template-columns:1fr!important}
+  .zod-footer--market .zod-footer-certificates{justify-self:center}
+  .zod-footer--market .zod-footer-certificates .zod-footer-trust-compact{justify-content:center!important}
+  .zod-footer--market .zod-footer-bottom__inner{
+    grid-template-columns:1fr!important;
+    gap:9px!important;
+    text-align:center!important;
+  }
+  .zod-footer-bottom-payments{grid-row:2;max-width:100%}
+  .zod-footer-bottom-payments .s-payments-list{justify-content:flex-start!important;min-width:max-content!important;margin-inline:auto!important}
+  .zod-footer--market .zod-footer-copyright{grid-row:3;max-width:none}
+  .zod-footer--market .zod-footer-back-top{grid-row:1;justify-self:center}
+}

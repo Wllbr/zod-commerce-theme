@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.7.28",
-  "description": "ZOD Commerce v1.7.28 — product-page scroll stability, centered desktop purchase dock, smart mobile header, and price cleanup.",
+  "version": "1.7.29",
+  "description": "ZOD Commerce v1.7.29 — mobile card cleanup, promotional metadata direction, compact cart details, category-switcher card parity, and regrouped footer certificates/payments.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
