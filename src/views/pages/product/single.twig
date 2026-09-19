@@ -211,8 +211,8 @@
         {% hook 'product:single.form.end' %}
 
         {# Discount-table offers are sourced from Salla itself. The visual selector is
-           hydrated from <salla-offer>'s live offer data, so the displayed tiers are
-           never invented by the theme and the backend remains the pricing authority. #}
+           hydrated through Salla's Product Offer Details API/events for this product,
+           so tiers are never invented by the theme and Salla remains pricing authority. #}
         <section class="zod-volume-offers" data-zod-volume-offers data-zod-product-id="{{ product.id }}" data-zod-unit-price="{{ sticky_price_value }}" hidden>
           <div class="zod-volume-offers__head">
             <span class="zod-volume-offers__eyebrow"><i class="sicon-special-discount" aria-hidden="true"></i>{{ trans('zod.product.volume_offer_eyebrow') }}</span>

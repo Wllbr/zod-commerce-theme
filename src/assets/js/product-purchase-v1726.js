@@ -235,9 +235,36 @@
       section.hidden = false;
     };
 
-    const offersFromSource = () => {
-      const candidates = [source.offersList, source.offers, source.data?.offers, source.offer ? [source.offer] : null];
-      return candidates.find(Array.isArray) || [];
+    const looksLikeOffer = value => {
+      if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+      return Boolean(
+        value.offer_type || value.offerType || value.type || value.details || value.options || value.tiers || value.discounts ||
+        value.buy || value.get || value.min_items_count || value.min_items || value.discount_value || value.discount_percentage || value.percentage
+      );
+    };
+
+    const offersFromPayload = payload => {
+      const collected = [];
+      const visited = new Set();
+      const walk = (value, depth = 0) => {
+        if (value == null || depth > 5) return;
+        if (typeof value !== 'object') return;
+        if (visited.has(value)) return;
+        visited.add(value);
+        if (Array.isArray(value)) {
+          value.forEach(entry => {
+            if (looksLikeOffer(entry)) collected.push(entry);
+            else walk(entry, depth + 1);
+          });
+          return;
+        }
+        if (looksLikeOffer(value)) collected.push(value);
+        for (const key of ['offers','offer','items','results','data','payload','response','special_offers','specialOffers']) {
+          if (value[key] != null) walk(value[key], depth + 1);
+        }
+      };
+      walk(payload);
+      return [...new Set(collected)];
     };
 
     const offerAppliesToCurrentProduct = offer => {
@@ -246,14 +273,19 @@
       const excluded = new Set([
         ...listIds(offer.excluded_buy_products_ids),
         ...listIds(offer.exclude_product_ids),
-        ...listIds(offer.excluded_products)
+        ...listIds(offer.excluded_products),
+        ...listIds(offer.details?.excluded_products)
       ]);
       if (excluded.has(currentProductId)) return false;
 
       const directTargets = [
         offer.products,
         offer.product_ids,
-        offer.include_product_ids
+        offer.include_product_ids,
+        offer.targets,
+        offer.details?.products,
+        offer.details?.product_ids,
+        offer.details?.targets
       ].map(listIds).filter(ids => ids.length);
       if (directTargets.length && !directTargets.some(ids => ids.includes(currentProductId))) return false;
 
@@ -261,14 +293,46 @@
       if (offerType === 'buy_x_get_y' || offerType.includes('buy')) {
         // This selector promises a discount on the current item itself. Never show
         // cross-product Buy-X/Get-Y offers where the rewarded product is different.
-        if (!listTargetsCurrentProduct(offer?.buy?.products)) return false;
-        if (!listTargetsCurrentProduct(offer?.get?.products)) return false;
+        const buyProducts = offer?.buy?.products ?? offer?.details?.buy?.products ?? offer?.details?.buy?.source_value;
+        const getProducts = offer?.get?.products ?? offer?.details?.get?.products ?? offer?.details?.get?.source_value;
+        if (!listTargetsCurrentProduct(Array.isArray(buyProducts) ? buyProducts : (buyProducts == null ? [] : [buyProducts]))) return false;
+        if (!listTargetsCurrentProduct(Array.isArray(getProducts) ? getProducts : (getProducts == null ? [] : [getProducts]))) return false;
       }
-
-      // If Salla supplied explicit product ids, the checks above are authoritative.
-      // Otherwise trust the product-page <salla-offer>, which is already scoped to
-      // offers applicable in the current storefront/product context.
       return true;
+    };
+
+    const collectSimplePercentageTier = (offer, put) => {
+      const details = offer?.details || {};
+      const threshold =
+        offer?.min_items_count ?? offer?.min_items ?? offer?.minimum_quantity ?? offer?.condition_threshold ?? offer?.quantity ??
+        details?.min_items_count ?? details?.min_items ?? details?.minimum_quantity ?? details?.condition_threshold ?? details?.quantity ??
+        offer?.buy?.quantity ?? details?.buy?.quantity;
+      const explicitlyPercentage =
+        offer?.percentage ?? offer?.discount_percentage ?? details?.percentage ?? details?.discount_percentage;
+      const typeText = [
+        offer?.discount_type, offer?.discount_apply_type, offer?.type, offer?.offer_type,
+        details?.discount_type, details?.discount_apply_type, details?.type
+      ].filter(Boolean).join(' ').toLowerCase();
+      const percentValue = explicitlyPercentage ?? (
+        /percent|percentage|نسب/.test(typeText)
+          ? (offer?.discount_value ?? offer?.discount_amount ?? details?.discount_value ?? details?.discount_amount)
+          : null
+      );
+      put(threshold, percentValue);
+    };
+
+    const originalCollectTiers = collectTiers;
+    const collectAllTiers = offer => {
+      const found = new Map(originalCollectTiers(offer).map(tier => [tier.quantity, tier]));
+      const put = (quantityValue, percentValue) => {
+        const quantity = quantityFrom(quantityValue);
+        const percentage = percentFrom(percentValue);
+        if (!quantity || quantity <= 1 || !percentage) return;
+        const previous = found.get(quantity);
+        if (!previous || percentage > previous.percentage) found.set(quantity, { quantity, percentage });
+      };
+      collectSimplePercentageTier(offer, put);
+      return [...found.values()].sort((a,b) => a.quantity - b.quantity);
     };
 
     const mergeOfferTiers = offers => {
@@ -276,7 +340,7 @@
       offers
         .filter(offerAppliesToCurrentProduct)
         .forEach(offer => {
-          collectTiers(offer).forEach(tier => {
+          collectAllTiers(offer).forEach(tier => {
             if (!tier || tier.quantity <= 1 || !tier.percentage) return;
             const previous = merged.get(tier.quantity);
             if (!previous || tier.percentage > previous.percentage) {
@@ -287,26 +351,61 @@
       return [...merged.values()].sort((a, b) => a.quantity - b.quantity);
     };
 
-    const buildFromSalla = () => {
-      const offers = offersFromSource();
+    let lastOffers = [];
+    const consumeOffers = payload => {
+      const offers = offersFromPayload(payload);
       if (!offers.length) return false;
-
       const mergedTiers = mergeOfferTiers(offers);
-      if (mergedTiers.length < 2) {
-        tiers = [];
-        section.hidden = true;
-        return false;
-      }
-
+      if (mergedTiers.length < 2) return false;
+      lastOffers = offers;
       tiers = mergedTiers;
       render();
       return true;
     };
 
+    const subscribeOfferEvents = () => {
+      const events = window.salla?.product?.event;
+      try { events?.onOffersFetched?.(payload => consumeOffers(payload)); } catch (_) {}
+      try { events?.onOfferExisted?.(payload => consumeOffers(payload)); } catch (_) {}
+      try { events?.onFetchOffersFailed?.(() => { if (!lastOffers.length) section.hidden = true; }); } catch (_) {}
+    };
+
+    const requestOffers = async () => {
+      // Salla documents Product -> Offer details as `details()` and emits
+      // onOfferExisted/onOffersFetched. Twilight versions have exposed the
+      // namespace in slightly different shapes, so feature-detect them instead
+      // of reading private state from <salla-offer>.
+      const candidates = [
+        window.salla?.product?.offerDetails,
+        window.salla?.product?.offers,
+        window.salla?.product?.offer
+      ].filter(Boolean);
+      for (const api of candidates) {
+        const fn = typeof api?.details === 'function' ? api.details.bind(api) : (typeof api === 'function' ? api : null);
+        if (!fn) continue;
+        const payloads = [
+          { product_id: Number(currentProductId) || currentProductId },
+          { id: Number(currentProductId) || currentProductId },
+          Number(currentProductId) || currentProductId
+        ];
+        for (const payload of payloads) {
+          try {
+            const response = await fn(payload);
+            if (consumeOffers(response)) return true;
+            // A valid empty response means this product has no qualifying offers.
+            if (response != null) break;
+          } catch (_) {}
+        }
+      }
+      return false;
+    };
+
     let attempts = 0;
-    const waitForOffers = () => {
-      if (buildFromSalla()) return;
-      if (attempts++ < 40) window.setTimeout(waitForOffers, 200);
+    const waitForOffers = async () => {
+      if (tiers.length > 1) return;
+      if (attempts === 0) await requestOffers();
+      if (tiers.length > 1) return;
+      if (attempts++ < 25) window.setTimeout(waitForOffers, 240);
       else section.hidden = true;
     };
 
@@ -329,10 +428,8 @@
 
     const start = () => {
       bindPrice();
+      subscribeOfferEvents();
       waitForOffers();
-      // Web-component data can arrive after definition/upgrades; retry whenever the
-      // host mutates as well as on the timed fallback above.
-      try { new MutationObserver(() => buildFromSalla()).observe(source, { childList: true, subtree: true, attributes: true }); } catch (_) {}
     };
 
     if (window.customElements?.whenDefined) {

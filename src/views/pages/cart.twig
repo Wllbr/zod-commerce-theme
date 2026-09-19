@@ -74,8 +74,15 @@
       <div class="zod-cart-mobile-summary is-collapsed" data-zod-cart-summary-shell>
         <button type="button" class="zod-cart-mobile-summary__toggle" data-zod-cart-summary-toggle aria-expanded="false" aria-controls="zod-cart-mobile-summary-details">
           <span class="zod-cart-mobile-summary__toggle-label"><b>{{ trans('zod.cart.order_summary') }}</b><small>{{ trans('zod.cart.offer_details') }}</small></span>
-          <span class="zod-cart-mobile-summary__toggle-total"><strong data-zod-cart-grand-total>{{ cart.total|money }}</strong><i class="sicon-keyboard_arrow_up" aria-hidden="true"></i></span>
+          <span class="zod-cart-mobile-summary__toggle-total">
+            <span class="zod-cart-mobile-summary__toggle-prices"><del data-zod-cart-original-total hidden></del><strong data-zod-cart-grand-total>{{ cart.total|money }}</strong></span>
+            <i class="sicon-keyboard_arrow_up" aria-hidden="true"></i>
+          </span>
         </button>
+        <div class="zod-cart-mobile-summary__compact-meta">
+          <small class="zod-cart-mobile-summary__tax-note">{{ trans('pages.products.tax_included') }}</small>
+          <span class="zod-cart-mobile-summary__compact-saving" data-zod-cart-saved hidden><i class="sicon-gift"></i><span>{{ trans('zod.cart.you_saved') }}</span><strong data-zod-cart-saved-value></strong></span>
+        </div>
         <div id="zod-cart-mobile-summary-details" class="zod-cart-mobile-summary__details" data-zod-cart-summary-details hidden>
           <div class="zod-cart-mobile-summary__row">
             <span>{{ trans('zod.cart.subtotal_before_tax') }}</span>

@@ -1,3 +1,12 @@
+## v1.7.31
+- Replaced private `<salla-offer>` state inspection with Salla Product Offer Details event/API integration and resilient response normalization.
+- Added product-only scoping and merged separate quantity percentage offers.
+- Product cards now show both promotional title and discount; discount is physical-right and promo is physical-left.
+- Reduced product-page promotional badge size.
+- Removed Business Platform certificate from product payment strips while preserving it in footer trust certificates.
+- Improved collapsed mobile cart totals/savings presentation.
+- Made mobile footer policies permanently visible in a centered 3-column grid.
+
 ## v1.7.30
 
 - Merged multiple applicable Salla percentage quantity offers into a single product-page tier selector.

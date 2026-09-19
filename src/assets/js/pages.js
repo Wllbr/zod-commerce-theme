@@ -100,9 +100,9 @@ document.addEventListener('DOMContentLoaded',()=>{
   const taxRow=mobileSummary?.querySelector?.('[data-zod-cart-tax-row]');
   const discountNode=mobileSummary?.querySelector?.('[data-zod-cart-discount]');
   const discountRow=mobileSummary?.querySelector?.('[data-zod-cart-discount-row]');
-  const originalTotalNode=mobileSummary?.querySelector?.('[data-zod-cart-original-total]');
-  const savedBox=mobileSummary?.querySelector?.('[data-zod-cart-saved]');
-  const savedNode=mobileSummary?.querySelector?.('[data-zod-cart-saved-value]');
+  const originalTotalNodes=[...(mobileSummary?.querySelectorAll?.('[data-zod-cart-original-total]')||[])];
+  const savedBoxes=[...(mobileSummary?.querySelectorAll?.('[data-zod-cart-saved]')||[])];
+  const savedNodes=[...(mobileSummary?.querySelectorAll?.('[data-zod-cart-saved-value]')||[])];
   let activeCartItem=null;
   let mutationFallbackTimer=null;
   const findCartItem=event=>{
@@ -194,12 +194,12 @@ document.addEventListener('DOMContentLoaded',()=>{
     const hasDiscount=summary.discount>0.0001;
     if(discountNode) discountNode.innerHTML=`− ${formatMoney(summary.discount)}`;
     if(discountRow) discountRow.hidden=!hasDiscount;
-    if(originalTotalNode){
-      originalTotalNode.hidden=!hasDiscount;
-      originalTotalNode.innerHTML=hasDiscount?formatMoney(summary.originalTotal):'';
-    }
-    if(savedBox) savedBox.hidden=!hasDiscount;
-    if(savedNode) savedNode.innerHTML=hasDiscount?formatMoney(summary.discount):'';
+    originalTotalNodes.forEach(node=>{
+      node.hidden=!hasDiscount;
+      node.innerHTML=hasDiscount?formatMoney(summary.originalTotal):'';
+    });
+    savedBoxes.forEach(node=>{ node.hidden=!hasDiscount; });
+    savedNodes.forEach(node=>{ node.innerHTML=hasDiscount?formatMoney(summary.discount):''; });
   };
   const paintTotal=value=>{
     if(!totalNodes.length) return;

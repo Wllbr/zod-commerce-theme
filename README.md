@@ -1,3 +1,13 @@
+## v1.7.31 — product-scoped Salla offers + card/cart/footer polish
+
+- Uses Salla Product Offer Details events/API instead of private `<salla-offer>` properties.
+- Merges only eligible quantity/percentage offers for the current product into the custom **اشترِ أكثر، وفّر أكثر** selector.
+- Product cards show promotional title and discount as separate badges; discount is fixed to the physical right.
+- Product-page promotional badge is smaller.
+- Business Platform certificate is removed from product payment methods and kept with footer certificates.
+- Mobile cart keeps verbose rows collapsed but shows final/original total, VAT-inclusive note and savings at a glance.
+- Mobile footer policy links stay visible, centered three per row above social links.
+
 ## v1.7.30 — merged Salla quantity offers per product
 
 - Separate Salla quantity offers (for example 2→2%, 3→5%, 4→10%) are merged into one ZOD “buy more, save more” selector.

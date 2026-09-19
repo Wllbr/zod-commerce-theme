@@ -342,7 +342,7 @@ console.log('PASS: v1.7.20 uploaded product video media-type support.');
   assert.match(legacySource, /zod-product-card--legacy/, 'legacy runtime marks every restored card with the pre-marketplace class');
   assert.match(legacySource, /zpc-hover-actions[\s\S]*zpc-quick-view[\s\S]*zpc-wishlist/, 'legacy runtime keeps desktop Eye + Heart image actions');
   assert.match(legacySource, /zpc-heart-svg/, 'legacy wishlist uses a real SVG so active state can fill solid red');
-  assert.match(legacySource, /const offerLabel = promo \|\| \(discount/, 'legacy card resolves promotion/discount to one badge label');
+  assert.match(legacySource, /zpc-discount-badge[\s\S]*zpc-offer-badge/, 'legacy card renders separate discount and promotion badges');
   assert.match(legacySource, /class="zpc-add/, 'legacy runtime restores the full-width purchase action');
   assert.doesNotMatch(legacySource, /zpc-media-add|zpc-media-dots|zpc-brand/, 'legacy runtime does not render marketplace plus/dots/brand rows');
   assert.equal(publicLegacy, legacySource, 'packaged legacy product-card runtime exactly matches source');
@@ -418,8 +418,7 @@ console.log('PASS: v1.7.28 scroll stability, centered dock, smart mobile header,
   assert.match(legacySource, /p\.subtitle \?\? p\.sub_title[\s\S]*p\.promotion\?\.sub_title/, 'v1.7.29 legacy card reads Salla subtitle/sub-title variants');
   assert.match(legacySource, /class="zpc-subtitle"/, 'v1.7.29 legacy card renders subtitle under the product title');
   assert.match(appCss, /@media\(max-width:767px\)[\s\S]*zod-product-card--legacy \.zpc-hover-actions[\s\S]*display:none!important/, 'v1.7.29 mobile cards hide floating eye/wishlist actions');
-  assert.match(appCss, /html\[dir="rtl"\][\s\S]*\.zpc-offer-badge[\s\S]*right:8px!important/, 'v1.7.29 Arabic card promo badge is physically right aligned');
-  assert.match(appCss, /html\[dir="ltr"\][\s\S]*\.zpc-offer-badge[\s\S]*left:8px!important/, 'v1.7.29 English card promo badge is physically left aligned');
+  assert.match(legacySource, /p\.promotion_title[\s\S]*p\.promotion\?\.title/, 'v1.7.29 card still reads Salla promotional-title variants');
   assert.match(appCss, /body\.product-single \.zod-product-subtitle[\s\S]*text-align:right!important/, 'v1.7.29 Arabic product subtitle alignment missing');
   assert.equal((switcherTwig.match(/class="zod-shared-product-slider"/g)||[]).length,2,'v1.7.29 category switcher marks both selected/category feeds as shared-card surfaces');
   assert.equal((switcherTwig.match(/product-card-component="custom-salla-product-card"/g)||[]).length,2,'v1.7.29 category switcher keeps shared custom card for both feeds');
@@ -428,7 +427,7 @@ console.log('PASS: v1.7.28 scroll stability, centered dock, smart mobile header,
   assert.match(pagesJs, /collapseItemOfferDetails/, 'v1.7.29 per-item offer details collapse on mobile');
   assert.match(footerTwig, /data-zod-business-certificate/, 'v1.7.29 footer has a dedicated Business Platform certificate host');
   assert.match(footerTwig, /data-zod-footer-bottom-payments/, 'v1.7.29 payment methods moved to the footer bottom strip');
-  assert.match(appJs, /initFooterCertificatePlacement/, 'v1.7.29 runtime extracts the Business Platform certificate from payments');
+  assert.match(appJs, /Business Platform certificate/, 'footer runtime handles the Business Platform certificate');
   assert.match(appCss, /grid-template-columns:max-content minmax\(0,1fr\) max-content/, 'v1.7.29 footer bottom reserves a non-overlapping middle cell for payments');
   assert.match(productTwig, /zod-product-subtitle/, 'product page still renders Salla subtitle metadata');
 }
@@ -446,3 +445,33 @@ console.log('PASS: v1.7.29 mobile card metadata, compact cart details, shared ca
   assert.match(purchaseJs, /section\.hidden = true;/, 'v1.7.30 selector must remain hidden without eligible tiers');
 }
 console.log('PASS: v1.7.30 separate Salla offer merge and product-only scoping.');
+
+
+// v1.7.31 supported offers + dual badges + compact cart + footer policy grid.
+{
+  const purchaseJs = read('src/assets/js/product-purchase-v1726.js');
+  const legacySource = read('src/assets/js/legacy-product-card.js');
+  const cartTwig = read('src/views/pages/cart.twig');
+  const pagesJs = read('src/assets/js/pages.js');
+  const footerTwig = read('src/views/components/footer/footer.twig');
+  const appJs = read('src/assets/js/app.js');
+  const appCss = read('src/assets/styles/app.scss');
+  assert.match(purchaseJs, /onOffersFetched/, 'v1.7.31 must listen to Salla Product Offer Details success events');
+  assert.match(purchaseJs, /onOfferExisted/, 'v1.7.31 must listen to Salla existing-offer event');
+  assert.match(purchaseJs, /offerDetails/, 'v1.7.31 must feature-detect Salla product offerDetails API');
+  assert.doesNotMatch(purchaseJs, /source\.offersList|source\.data\?\.offers/, 'v1.7.31 must not depend on private salla-offer properties');
+  assert.match(purchaseJs, /offerAppliesToCurrentProduct/, 'v1.7.31 offer selector must stay product scoped');
+  assert.match(purchaseJs, /collectSimplePercentageTier/, 'v1.7.31 must merge separate percentage quantity offers');
+  assert.match(legacySource, /zpc-discount-badge[\s\S]*zpc-offer-badge/, 'v1.7.31 product card renders discount and promotional title separately');
+  assert.match(appCss, /\.zpc-discount-badge[\s\S]*right:8px!important/, 'v1.7.31 product-card discount is physical right');
+  assert.match(appCss, /\.zpc-offer-badge[\s\S]*left:8px!important/, 'v1.7.31 promotional title is physical left');
+  assert.match(appCss, /body\.product-single \.zod-product-badge[\s\S]*font-size:10px!important/, 'v1.7.31 product-page promotion tag is compact');
+  assert.match(cartTwig, /zod-cart-mobile-summary__compact-saving/, 'v1.7.31 collapsed mobile cart shows savings');
+  assert.match(cartTwig, /zod-cart-mobile-summary__tax-note/, 'v1.7.31 collapsed mobile cart shows tax note');
+  assert.match(pagesJs, /originalTotalNodes/, 'v1.7.31 cart updates both compact and expanded original totals');
+  assert.match(pagesJs, /savedBoxes/, 'v1.7.31 cart updates both compact and expanded saving chips');
+  assert.doesNotMatch(footerTwig, /data-footer-disclosure/, 'v1.7.31 mobile policy links must remain visible rather than collapsed by runtime');
+  assert.match(appCss, /grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/, 'v1.7.31 mobile policy links render three per row');
+  assert.match(appJs, /querySelectorAll\('salla-payments'\)/, 'v1.7.31 removes the Business Platform certificate from every payment strip');
+}
+console.log('PASS: v1.7.31 supported offer details, dual product badges, compact mobile cart, product payment cleanup, and 3-column policy footer.');

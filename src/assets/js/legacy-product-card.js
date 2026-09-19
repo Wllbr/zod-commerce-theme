@@ -46,9 +46,6 @@
       const needsProductForm = Boolean(hasOptions || p.can_add_note || p.can_upload_file || p.has_custom_form || p.has_bundle_products);
       const chooseOptionsLabel = this.t?.('zod.product.choose_options_card', this.isArabic?.() ? 'اختر الخيارات' : 'Choose options') || (this.isArabic?.() ? 'اختر الخيارات' : 'Choose options');
       const discount = this.discountPercent?.(p) || 0;
-      // v1.7.24: one promotion treatment only. Prefer the merchant promotion
-      // title, otherwise show the calculated percentage in the same pale-pink badge.
-      const offerLabel = promo || (discount ? `${discount}%` : '');
 
       const values = this.priceValues?.(p) || { current: 0, original: 0, onSale: false };
       let priceHtml = '';
@@ -68,7 +65,8 @@
           <a class="zpc-product-link" href="${this.esc?.(url || '#') || '#'}" aria-label="${imageAlt}">
             <img src="${this.esc?.(image) || ''}" alt="${imageAlt}" loading="lazy">
           </a>
-          ${offerLabel ? `<span class="zpc-offer-badge" title="${this.esc?.(offerLabel) || offerLabel}">${this.esc?.(offerLabel) || offerLabel}</span>` : ''}
+          ${discount ? `<span class="zpc-discount-badge" title="${discount}%">${discount}%</span>` : ''}
+          ${promo ? `<span class="zpc-offer-badge" title="${this.esc?.(promo) || promo}">${this.esc?.(promo) || promo}</span>` : ''}
           ${isOut ? `<span class="zpc-stock-stamp">${this.esc?.(outLabel) || outLabel}</span>` : ''}
           <div class="zpc-hover-actions" aria-label="${this.isArabic?.() ? 'إجراءات المنتج' : 'Product actions'}">
             <button type="button" class="zpc-action zpc-quick-view" aria-label="${quickViewLabel}"><i class="sicon-eye"></i></button>

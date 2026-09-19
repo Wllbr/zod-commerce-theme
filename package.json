@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.7.30",
-  "description": "ZOD Commerce v1.7.30 — merge separate Salla quantity-discount offers per product into one custom tier selector, with strict product scoping.",
+  "version": "1.7.31",
+  "description": "ZOD Commerce v1.7.31 — supported Salla offer-details integration, dual promo/discount card badges, compact mobile cart summary, payment certificate cleanup, and mobile policy grid.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
