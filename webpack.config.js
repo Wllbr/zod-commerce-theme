@@ -12,6 +12,7 @@ module.exports = {
     product: asset('js/product.js'),
     products: asset('js/products.js'),
     pages: asset('js/pages.js'),
+    'add-product-toast': asset('js/partials/add-product-toast.js'),
     'zod-menu': asset('js/partials/zod-menu.js'),
     'legacy-product-card': asset('js/legacy-product-card.js'),
     'product-runtime-compat': asset('js/product-runtime-compat.js'),
@@ -24,6 +25,6 @@ module.exports = {
     { test: /\.js$/, exclude: /(node_modules)/, use: { loader: 'babel-loader', options: { presets: ['@babel/preset-env'], plugins: ['@babel/plugin-transform-runtime'] } } },
     { test: /\.(s(a|c)ss)$/, use: [MiniCssExtractPlugin.loader, {loader:'css-loader',options:{url:false}}, 'postcss-loader', 'sass-loader'] }
   ]},
-  plugins: [new ThemeWatcher(), new MiniCssExtractPlugin(), new CopyPlugin({patterns:[{from:asset('images'),to:publicDir('images'),noErrorOnMissing:true}]})],
+  plugins: [new ThemeWatcher(), new MiniCssExtractPlugin(), new CopyPlugin({patterns:[{from:asset('images'),to:publicDir('images'),noErrorOnMissing:true},{from:asset('styles/refinement.css'),to:publicDir('refinement.css')}]})],
   optimization: { minimizer: ['...', new CssMinimizerPlugin()] }
 };

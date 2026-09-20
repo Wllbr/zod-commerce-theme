@@ -155,16 +155,11 @@ const cartTimers = new Map();
 const pending = [];
 let cartTimerId=0;
 const totalNode = {innerHTML:'100',classList:classes(),closest:()=>null};
-let checkoutClick;
-let checkoutSubmissions=0;
 const cartLineTotal={innerHTML:'707.40'};
 const cartDocument = {
-  getElementById:id=>id==='item-42'?{querySelector:()=>cartLineTotal}:null,
+  getElementById:id=>id==='item-42'?{querySelector:selector=>selector==='[data-testid="store-cart-item-total"]'?cartLineTotal:null}:null,
   addEventListener:(name,fn)=>{handlers[name]=fn;},
-  querySelector:selector=>selector==='[data-testid="store-cart-checkout-mobile"]'
-    ? {addEventListener:(_name,fn)=>{checkoutClick=fn;}}
-    : selector==='salla-cart-summary-card'
-      ? {querySelector:()=>({click:()=>{checkoutSubmissions++;}})} : {},
+  querySelector:selector=>selector==='[data-zod-cart-page]'?{}:null,
   querySelectorAll:selector=>selector==='[data-zod-cart-grand-total]'?[totalNode]:[]
 };
 const sdk={money:String, storage:{get:()=>({total:999})}, cart:{
@@ -177,8 +172,6 @@ vm.runInNewContext(read('src/assets/js/pages.js'),{
   clearTimeout:id=>cartTimers.delete(id)
 });
 handlers.DOMContentLoaded();
-checkoutClick();
-assert.equal(checkoutSubmissions,1,'mobile checkout must use native validation and submission');
 assert.equal(totalNode.innerHTML,'100');
 const flushRefresh=async()=>{
   const entry=[...cartTimers].find(([,task])=>task.delay===260);
@@ -254,7 +247,7 @@ const homeSource = read('src/assets/js/home.js');
 const laserTemplate = read('src/views/components/home/laser-showcase.twig');
 assert.match(menuSource,/document\.body\.appendChild\(drawer\)/,'catalog drawer escapes the sticky header stacking context');
 assert.match(styles,/html\.zod-lock \.zod-announcement/,'announcement is suppressed while the catalog dialog is open');
-assert.match(styles,/\.zod-cart-summary-card\{display:none!important\}/,'native mobile cart dock cannot overlap the theme checkout dock');
+assert.match(read('src/assets/styles/refinement.css'),/salla-cart-summary-card\.zod-cart-summary-card[^}]*display:block!important/,'native checkout summary stays visible on mobile');
 assert.match(dualShowcase,/replace\(\{'\/ar\/':'\/en\/'\}\)/,'English showcase links use the English storefront');
 assert.match(cartTemplate,/class="zod-cart-summary-card"/,'cart summary exposes the responsive target class');
 assert.doesNotMatch(`${categoryGridTemplate}\n${footerTemplate}\n${cartTemplate}`,/link\(['"]categories['"]\)/,'category calls to action never target Salla’s unavailable categories route');
@@ -360,9 +353,9 @@ console.log('PASS: v1.7.20 uploaded product video media-type support.');
   assert.match(read('src/assets/js/product.js'), /if \(rect\.bottom < 0\) activateDock\(\);/, 'sticky purchase bar waits until the inline purchase controls are passed');
   assert.doesNotMatch(productTwig, /sticky-product-bar is-docked is-ready/, 'product Twig does not start with an always-on dock');
   assert.doesNotMatch(productTwig, /data-zod-sale-countdown/, 'sale countdown is removed from the product page');
-  assert.match(productTwig, /data-zod-volume-offers[\s\S]*data-zod-volume-tier-list[\s\S]*salla-offer/, 'Salla-backed buy-more/save-more selector replaces the sale countdown');
+  assert.equal((productTwig.match(/<salla-offer\b/g)||[]).length, 1, 'one native offer component replaces estimated quantity tiers');
 }
-console.log('PASS: v1.7.26 persistent purchase dock, Salla-backed volume tiers, and no sale countdown.');
+console.log('PASS: purchase dock, native Salla offers, and no sale countdown.');
 
 
 // v1.7.25 notifier regression guard
@@ -374,20 +367,24 @@ console.log('PASS: v1.7.26 persistent purchase dock, Salla-backed volume tiers, 
   assert.match(srcApp, /salla\.notify\?\.setNotifier\?\./, 'source must register a custom Salla notifier');
   assert.match(publicApp, /salla\.notify\?\.setNotifier\?\./, 'compiled runtime must register a custom Salla notifier');
   assert.doesNotMatch(srcApp, /window\.alert\s*=/, 'must not monkey-patch window.alert globally');
-  assert.doesNotMatch(master, /<salla-add-product-toast\b/, 'native add-product toast must not render alongside the custom notifier');
+  assert.match(master, /<salla-add-product-toast\b/, 'Salla approval requires its add-product toast');
+  assert.match(srcApp, /googleTags\?\.event === 'addToCart'/, 'only native add-to-cart success metadata suppresses duplicate feedback');
+  assert.match(srcApp, /type !== 'error'/, 'purchase errors must not be silenced by the native toast');
 }
 
-// v1.7.27 custom-theme Salla offer + mobile summary hardening.
+// v1.8.2 supersedes the v1.7.27/30/31 estimated offer and custom-summary contracts.
+// Native Salla components now own promotion eligibility and monetary breakdowns.
 {
-  const productPurchase = await read('src/assets/js/product-purchase-v1726.js');
-  const cartTwig = await read('src/views/pages/cart.twig');
-  const pagesJs = await read('src/assets/js/pages.js');
-  assert(productPurchase.includes('condition_threshold') && productPurchase.includes('offer?.tiers') && productPurchase.includes('details?.discounts'), 'v1.7.27 must support current, legacy, and tiered Salla offer payloads');
-  assert(productPurchase.includes("setQuantity(quantityInput, quantity)"), 'v1.7.27 offer cards must update the native Salla quantity input');
-  assert(cartTwig.includes('data-zod-cart-subtotal') && cartTwig.includes('data-zod-cart-discount') && cartTwig.includes('data-zod-cart-saved'), 'v1.7.27 mobile cart summary hooks missing');
-  assert(pagesJs.includes('paintMobileSummary') && pagesJs.includes('salla.cart.details()'), 'v1.7.27 mobile cart summary must refresh from live Salla cart details');
+  const purchase = read('src/assets/js/product-purchase-v1726.js');
+  const cart = read('src/views/pages/cart.twig');
+  const pages = read('src/assets/js/pages.js');
+  assert.doesNotMatch(purchase, /condition_threshold|mergeOfferTiers|collectSimplePercentageTier|offerDetails|onOffersFetched|setQuantity/, 'no guessed promotion APIs, eligibility or per-unit formulas');
+  assert.doesNotMatch(cart, /data-zod-cart-subtotal|data-zod-cart-saved|data-zod-cart-discount|store-cart-checkout-mobile/, 'native summary replaces custom monetary breakdown and proxy checkout');
+  assert.match(cart, /<salla-cart-summary-card/, 'native checkout is retained');
+  assert.match(pages, /salla\.event\?\.cart\?\.onUpdated/, 'canonical native cart updates are observed');
+  assert.doesNotMatch(pages, /paintMobileSummary|originalTotalNodes|savedBoxes/, 'theme must not reconstruct summary savings or tax');
 }
-console.log('PASS: v1.7.27 Salla offer payload compatibility and live mobile savings summary.');
+console.log('PASS: native promotion and checkout ownership replaces estimated offer tiers and mobile summary calculations.');
 
 // v1.7.28 product-page scroll stability + smart header hardening.
 {
@@ -422,9 +419,8 @@ console.log('PASS: v1.7.28 scroll stability, centered dock, smart mobile header,
   assert.match(appCss, /body\.product-single \.zod-product-subtitle[\s\S]*text-align:right!important/, 'v1.7.29 Arabic product subtitle alignment missing');
   assert.equal((switcherTwig.match(/class="zod-shared-product-slider"/g)||[]).length,2,'v1.7.29 category switcher marks both selected/category feeds as shared-card surfaces');
   assert.equal((switcherTwig.match(/product-card-component="custom-salla-product-card"/g)||[]).length,2,'v1.7.29 category switcher keeps shared custom card for both feeds');
-  assert.match(cartTwig, /data-zod-cart-summary-toggle[\s\S]*data-zod-cart-summary-details/, 'v1.7.29 mobile order summary has an explicit expand/collapse control');
-  assert.match(pagesJs, /setMobileSummaryExpanded\(false\)/, 'v1.7.29 mobile cart details start collapsed');
-  assert.match(pagesJs, /collapseItemOfferDetails/, 'v1.7.29 per-item offer details collapse on mobile');
+  assert.match(cartTwig, /<details class="zod-cart-item-offer-details"/, 'item offers use a keyboard-operable native disclosure');
+  assert.doesNotMatch(cartTwig, /<details[^>]*\bopen(?:[\s>])/, 'offer disclosures start closed without rewriting native content');
   assert.match(footerTwig, /data-zod-business-certificate/, 'v1.7.29 footer has a dedicated Business Platform certificate host');
   assert.match(footerTwig, /data-zod-footer-bottom-payments/, 'v1.7.29 payment methods moved to the footer bottom strip');
   assert.match(appJs, /Business Platform certificate/, 'footer runtime handles the Business Platform certificate');
@@ -432,20 +428,6 @@ console.log('PASS: v1.7.28 scroll stability, centered dock, smart mobile header,
   assert.match(productTwig, /zod-product-subtitle/, 'product page still renders Salla subtitle metadata');
 }
 console.log('PASS: v1.7.29 mobile card metadata, compact cart details, shared category cards, and footer regrouping.');
-
-// v1.7.30 separate-offer merge + product scoping.
-{
-  const purchaseJs = read('src/assets/js/product-purchase-v1726.js');
-  const productTwig = read('src/views/pages/product/single.twig');
-  assert.match(productTwig, /data-zod-product-id="\{\{ product\.id \}\}"/, 'v1.7.30 selector must carry the current product id');
-  assert.match(purchaseJs, /const mergeOfferTiers = offers =>/, 'v1.7.30 must merge separate Salla quantity offers');
-  assert.match(purchaseJs, /\.filter\(offerAppliesToCurrentProduct\)/, 'v1.7.30 must scope merged offers to the current product');
-  assert.match(purchaseJs, /if \(!previous \|\| tier\.percentage > previous\.percentage\)/, 'v1.7.30 duplicate quantity thresholds must keep the higher discount');
-  assert.match(purchaseJs, /cross-product Buy-X\/Get-Y offers/, 'v1.7.30 must reject cross-product buy/get offers from the per-unit selector');
-  assert.match(purchaseJs, /section\.hidden = true;/, 'v1.7.30 selector must remain hidden without eligible tiers');
-}
-console.log('PASS: v1.7.30 separate Salla offer merge and product-only scoping.');
-
 
 // v1.7.31 supported offers + dual badges + compact cart + footer policy grid.
 {
@@ -456,25 +438,16 @@ console.log('PASS: v1.7.30 separate Salla offer merge and product-only scoping.'
   const footerTwig = read('src/views/components/footer/footer.twig');
   const appJs = read('src/assets/js/app.js');
   const appCss = read('src/assets/styles/app.scss');
-  assert.match(purchaseJs, /onOffersFetched/, 'v1.7.31 must listen to Salla Product Offer Details success events');
-  assert.match(purchaseJs, /onOfferExisted/, 'v1.7.31 must listen to Salla existing-offer event');
-  assert.match(purchaseJs, /offerDetails/, 'v1.7.31 must feature-detect Salla product offerDetails API');
   assert.doesNotMatch(purchaseJs, /source\.offersList|source\.data\?\.offers/, 'v1.7.31 must not depend on private salla-offer properties');
-  assert.match(purchaseJs, /offerAppliesToCurrentProduct/, 'v1.7.31 offer selector must stay product scoped');
-  assert.match(purchaseJs, /collectSimplePercentageTier/, 'v1.7.31 must merge separate percentage quantity offers');
   assert.match(legacySource, /zpc-discount-badge[\s\S]*zpc-offer-badge/, 'v1.7.31 product card renders discount and promotional title separately');
   assert.match(appCss, /\.zpc-discount-badge[\s\S]*right:8px!important/, 'v1.7.31 product-card discount is physical right');
   assert.match(appCss, /\.zpc-offer-badge[\s\S]*left:8px!important/, 'v1.7.31 promotional title is physical left');
   assert.match(appCss, /body\.product-single \.zod-product-badge[\s\S]*font-size:10px!important/, 'v1.7.31 product-page promotion tag is compact');
-  assert.match(cartTwig, /zod-cart-mobile-summary__compact-saving/, 'v1.7.31 collapsed mobile cart shows savings');
-  assert.match(cartTwig, /zod-cart-mobile-summary__tax-note/, 'v1.7.31 collapsed mobile cart shows tax note');
-  assert.match(pagesJs, /originalTotalNodes/, 'v1.7.31 cart updates both compact and expanded original totals');
-  assert.match(pagesJs, /savedBoxes/, 'v1.7.31 cart updates both compact and expanded saving chips');
   assert.doesNotMatch(footerTwig, /data-footer-disclosure/, 'v1.7.31 mobile policy links must remain visible rather than collapsed by runtime');
   assert.match(appCss, /grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/, 'v1.7.31 mobile policy links render three per row');
   assert.match(appJs, /querySelectorAll\('salla-payments'\)/, 'v1.7.31 removes the Business Platform certificate from every payment strip');
 }
-console.log('PASS: v1.7.31 supported offer details, dual product badges, compact mobile cart, product payment cleanup, and 3-column policy footer.');
+console.log('PASS: dual product badges, product payment cleanup, and 3-column policy footer.');
 
 
 // v1.7.32 silent unavailable-variant selection.

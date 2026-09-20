@@ -1,36 +1,55 @@
 {% extends "layouts.customer" %}
-
 {% block inner_title %}
-  <div class="flex items-center justify-between gap-3">
-    <h1 class="font-bold text-lg">{{ page.title }}</h1>
-    <salla-edit-order-button data-testid="store-order-edit-btn"></salla-edit-order-button>
-  </div>
+<div class="zod-order-title"><h1 class="zod-account-page-title">{{ page.title }}</h1><salla-edit-order-button data-testid="store-order-edit-btn"></salla-edit-order-button></div>
 {% endblock %}
-
 {% block inner_content %}
-  <div class="zod-account-card space-y-4">
-    {% hook 'customer:orders.single.details.start' %}
-
-    {% if order.is_pickable %}
-      <salla-order-branch data-testid="store-order-branch" stack-cards></salla-order-branch>
-    {% endif %}
-
-    <salla-order-details order-id="{{ order.id }}"></salla-order-details>
-    <salla-order-totals-card data-testid="store-order-totals" order="{{ order }}"></salla-order-totals-card>
-
-    {% for package in order.packages|default([]) %}
-      {% for item in package.items|default([]) %}
-        {% if item.rating and item.rating.id %}
-          <salla-review-factors-tags
-            order-id="{{ order.id }}"
-            rating-id="{{ item.rating.id }}"
-            item-id="{{ item.id }}"
-            {% if item.product %}product-id="{{ item.product.id }}"{% endif %}
-          ></salla-review-factors-tags>
-        {% endif %}
-      {% endfor %}
-    {% endfor %}
-
-    {% hook 'customer:orders.single.details.end' %}
+<div class="zod-order-page">
+  {% hook 'customer:orders.single.details.start' %}
+  <div class="zod-account-card zod-order-overview">
+    <div><small>{{ trans('zod.order.reference') }}</small><strong dir="auto">{{ order.reference_id|default(order.id) }}</strong></div>
+    {% if order.created_at %}<div><small>{{ trans('pages.orders.date') }}</small><strong>{{ order.created_at|date('Y-m-d') }}</strong></div>{% endif %}
+    <div><small>{{ trans('zod.order.status') }}</small><strong>{{ order.status.name }}</strong></div>
   </div>
+  {% if order.refund_message %}<div class="zod-account-card zod-rich-text">{{ order.refund_message|raw }}</div>{% endif %}
+  {% if order.is_pickable %}<salla-order-branch data-testid="store-order-branch" stack-cards></salla-order-branch>{% endif %}
+  {% if order.can_rate %}<div class="zod-account-card zod-order-title"><p>{{ trans('pages.order.order_rating_message') }}</p><salla-button data-testid="store-order-rate-btn" onclick="salla.event.dispatch('rating::open')">{{ trans('pages.rating.rate') }}</salla-button></div>{% endif %}
+  {% set order_packages = order.packages|default([]) %}
+  {% if not order_packages|length %}{% set order_packages = [{'items': order.items|default([])}] %}{% endif %}
+  {% for package in order_packages %}
+  <section class="zod-account-card zod-order-package" aria-label="{{ trans('zod.order.items') }}">
+    {% if package.shipping_company and not order.is_pickable %}
+      <header class="zod-order-package__header">
+        <div class="zod-order-carrier">{% if package.shipping_company.logo %}<img src="{{ package.shipping_company.logo }}" alt="" width="64" height="32" loading="lazy">{% endif %}<strong>{{ package.shipping_company.name }}</strong></div>
+        {% if package.branch %}<span>{{ trans('pages.orders.branch') }}: {{ package.branch.name }}</span>{% endif %}
+        {% if package.is_delivered %}<span>{{ package.status.name }}</span>{% elseif package.shipping_company.tracing_link %}<a class="zod-text-link" href="{{ package.shipping_company.tracing_link }}" target="_blank" rel="noopener noreferrer">{{ trans('pages.orders.tracking_url') }}</a>{% endif %}
+      </header>
+    {% endif %}
+    {% for item in package.items|default([]) %}
+    <article class="zod-order-item" data-order-item-id="{{ item.id }}" {% if item.product %}data-order-item-product-id="{{ item.product.id }}"{% endif %}>
+      <div class="zod-order-item__summary">
+        <img src="{{ item.image.url|default(item.image)|default(item.product.image.url)|default('images/placeholder.svg'|asset) }}" alt="{{ item.name }}" width="88" height="88" loading="lazy">
+        <div><h2>{% if item.product.url %}<a href="{{ item.product.url }}">{{ item.name }}</a>{% else %}{{ item.name }}{% endif %}</h2><p>{{ trans('zod.cart.quantity') }}: {{ item.quantity }}</p></div>
+        <strong class="zod-order-item__total">{{ item.total|money }}</strong>
+      </div>
+      {% if item.availability_date %}<p class="zod-order-item__note">{{ trans('pages.products.expected_to_be') }}: <time datetime="{{ item.availability_date|date('Y-m-d') }}">{{ item.availability_date|date('Y-m-d') }}</time></p>{% endif %}
+      {# Match Raed: this component describes an ITEM, not an order id. #}
+      <salla-order-details order-details="{{ item|json_encode }}" options="{{ item.options|default([])|json_encode }}"></salla-order-details>
+      {% if item.note %}<p class="zod-order-item__note">{{ item.note }}</p>{% endif %}
+      {% for attachment in item.attachments|default([]) %}<a class="zod-text-link" href="{{ attachment.url }}" target="_blank" rel="noopener noreferrer">{{ trans('pages.orders.file_url') }}</a>{% endfor %}
+      {% if item.product and item.product.id %}<salla-review-order-item product-id="{{ item.product.id }}"></salla-review-order-item>{% endif %}
+    </article>
+    {% endfor %}
+  </section>
+  {% endfor %}
+  {% if order.options|length %}<section class="zod-account-card"><h2 class="zod-editorial-section-title">{{ trans('zod.order.options') }}</h2>{% for option_item in order.options %}<salla-order-details order-details="{{ option_item|json_encode }}"></salla-order-details>{% endfor %}</section>{% endif %}
+  <salla-order-totals-card data-testid="store-order-totals" order="{{ order }}"></salla-order-totals-card>
+  <salla-order-shipments></salla-order-shipments>
+  {% if order.links|length %}<div class="zod-order-links">{% for order_link in order.links %}<a class="zod-btn zod-btn--outline" href="{{ order_link.url }}" target="_blank" rel="noopener noreferrer">{{ order_link.label }}</a>{% endfor %}</div>{% endif %}
+  {% if order.is_pending_payment %}
+    {% if order.pending_payment_ends_in == 0 %}<p class="zod-account-card">{{ trans('pages.orders.pending_payment_expired') }}</p>
+    {% else %}<salla-button href="{{ order.payment_url }}" width="wide">{{ trans('pages.orders.finish_payment') }}</salla-button>{% endif %}
+  {% endif %}
+  {% if order.can_rate or store.settings.rating.allow_update %}<salla-rating-modal></salla-rating-modal>{% endif %}
+  {% hook 'customer:orders.single.details.end' %}
+</div>
 {% endblock %}

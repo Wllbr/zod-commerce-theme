@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {read, sha256, inputFiles, walk} from './build-manifest.mjs';
+const manifest = JSON.parse(read('BUILD_MANIFEST.json'));
+assert.equal(manifest.version, JSON.parse(read('package.json')).version, 'Manifest version is stale. Rebuild first.');
+assert.deepEqual(Object.keys(manifest.inputs || {}).sort(), inputFiles(), 'Build inputs changed. Rebuild first.');
+for (const [file, hash] of Object.entries(manifest.inputs)) assert.equal(sha256(read(file)), hash, `Source/config changed since build: ${file}`);
+assert.deepEqual(Object.keys(manifest.files).sort(), walk('public'), 'Public asset set differs from the build manifest.');
+for (const [file, details] of Object.entries(manifest.files)) assert.equal(sha256(read(file)), details.sha256, `Packaged asset changed since build: ${file}`);
+if (process.argv.includes('--require-production')) assert.equal(manifest.builder, 'webpack-production', 'A complete dependency-backed production build is required. Snapshot output is not sufficient.');
+console.log(`PASS: ${Object.keys(manifest.inputs).length} build inputs + ${Object.keys(manifest.files).length} outputs match (${manifest.builder}).`);

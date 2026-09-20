@@ -1,0 +1,17 @@
+{
+  "origin": "Previously delivered v1.8.0 archive, derived from the supplied v1.7.32 theme. This is not proof of a fresh dependency-backed build.",
+  "files": {
+    "src/assets/styles/app.scss": "e9a4450ae4837a3d55688e56dfb9c597c37cb761cf2fda28222b5ba4a2503f3f",
+    "src/assets/js/product.js": "dd84daeb62a8fdcd6b15c7464708fb1b464fd87bfa406f6e4d01dca419726aff",
+    "tailwind.config.js": "f321881ec2a51603ba55316b6841c2b0950a4b33b00c04dd4818d1de9d79d169",
+    "postcss.config.js": "134370dcd34c87ed8277c373743326a1f87b669d66ac1cf3fc98abc024208c76",
+    "public/app.css": "4ab83347da5ccc49c679ba69e16e63c5d2cf274ec7dec341619b7bca8c14aa6f",
+    "public/product.js": "aed0bddc39437b07d9bc93237edb0ec8fe3233c5838d1a209a4d3b564bfbacdd",
+    "public/675.d18f08966778e4fd7975.js": "46d05692b42c575ddc256ec02705df39714c5e7ed1fb51861e5638782b2b5d7e",
+    "pnpm-lock.yaml": "3f2bcf6cb159d4dacbffa697add62fb88fe97bfcda1260644f33381a3024f963",
+    "pnpm-workspace.yaml": "9082b3fed56a9b818282d1ab4d450eab0fa4da7c8f191072e9dc4dde32f21eb2",
+    ".npmrc": "f84e69fe032956925070936b1557ae1320d29d06b58db541649515e05db580c6",
+    "webpack.config.js": "4308d439ba372bbe507188cf29ea4762a830b88baa136c1af49eafdcd2e4589e"
+  },
+  "dependencies": "72ac4b5c9aed23556097591a8015c174be348fa1d957f2a9412a4f5a94c45a9e"
+}

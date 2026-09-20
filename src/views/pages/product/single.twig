@@ -16,7 +16,8 @@
    product.price may be the string "-"; numeric Twig comparisons here can abort rendering. #}
 {% set sticky_image = product.image ? product.image : (product.images|first) %}
 {% set sticky_price_value = product.is_on_sale ? product.sale_price : product.price %}
-{% set show_product_reviews = store.settings.rating.show_on_product or product.rating %}
+{% set show_product_reviews = store.settings.rating.show_on_product %}
+{% set sticky_enabled = theme.settings.get('sticky_add_to_cart', true) %}
 {% set brand_logo = product.brand and product.brand.logo ? product.brand.logo : null %}
 {% set product_promotion_title = product.promotion_title|default(product.promotion.title|default(null)) %}
 
@@ -118,7 +119,7 @@
 
       <h1 data-testid="store-product-title" class="zod-product-title">{{ product.name }}</h1>
       {% if product.subtitle %}<p class="zod-product-subtitle">{{ product.subtitle }}</p>{% endif %}
-      {% if product.rating %}<a href="#reviews" class="zod-product-rating"><salla-rating-stars data-testid="store-product-rating" value="{{ product.rating.stars }}" reviews="{{ product.rating.count }}"></salla-rating-stars></a>{% endif %}
+      {% if show_product_reviews and product.rating %}<a href="#reviews" class="zod-product-rating"><salla-rating-stars data-testid="store-product-rating" value="{{ product.rating.stars }}" reviews="{{ product.rating.count }}"></salla-rating-stars></a>{% endif %}
 
       {% if product.is_taxable %}<small class="zod-native-tax-label is-included">
         <i class="sicon-check-circle" aria-hidden="true"></i>
@@ -210,24 +211,10 @@
         {% include 'pages.partials.product.options' %}
         {% hook 'product:single.form.end' %}
 
-        {# Discount-table offers are sourced from Salla itself. The visual selector is
-           hydrated through Salla's Product Offer Details API/events for this product,
-           so tiers are never invented by the theme and Salla remains pricing authority. #}
-        <section class="zod-volume-offers" data-zod-volume-offers data-zod-product-id="{{ product.id }}" data-zod-unit-price="{{ sticky_price_value }}" hidden>
-          <div class="zod-volume-offers__head">
-            <span class="zod-volume-offers__eyebrow"><i class="sicon-special-discount" aria-hidden="true"></i>{{ trans('zod.product.volume_offer_eyebrow') }}</span>
-            <h3>{{ trans('zod.product.buy_more_save_more') }}</h3>
-            <p>{{ trans('zod.product.buy_more_save_more_text') }}</p>
-          </div>
-          <div class="zod-volume-offers__label">{{ trans('zod.product.choose_offer') }}</div>
-          <div class="zod-volume-tier-list" data-zod-volume-tier-list></div>
-          <salla-offer class="zod-volume-offers__source" data-testid="store-product-offer" aria-hidden="true"></salla-offer>
-        </section>
-
         {% if product.has_preorder_campaign %}<div class="zod-preorder"><salla-count-down data-testid="store-product-preorder-countdown" pre-order='{{ product.preorder|json_encode }}' boxed labeled></salla-count-down></div>{% endif %}
 
         <div class="zod-buy-controls-anchor" data-zod-buy-anchor>
-          <div class="zod-buy-controls sticky-product-bar zod-dock-persistent-v1726 is-docked is-ready {{ product.is_hidden_quantity or product.type == 'booking' ? 'zod-buy-controls--no-qty' : '' }} {{ product.can_quick_buy ? 'zod-buy-controls--quick' : '' }} {{ not product_available ? 'zod-buy-controls--unavailable' : '' }}" data-zod-sticky-buy data-zod-sticky-enabled="1">
+          <div class="zod-buy-controls sticky-product-bar {{ sticky_enabled ? 'zod-dock-persistent-v1726 is-docked is-ready' : '' }} {{ product.is_hidden_quantity or product.type == 'booking' ? 'zod-buy-controls--no-qty' : '' }} {{ product.can_quick_buy ? 'zod-buy-controls--quick' : '' }} {{ not product_available ? 'zod-buy-controls--unavailable' : '' }}" data-zod-sticky-buy data-zod-sticky-enabled="{{ sticky_enabled ? '1' : '0' }}">
             <div class="zod-sticky-product-summary">
               <div class="zod-sticky-product-summary__image">
                 {% if sticky_image and sticky_image.url %}<img src="{{ sticky_image.url }}" alt="{{ sticky_image.alt|default(product.name) }}">{% else %}<img src="{{ 'images/placeholder.svg'|asset }}" alt="{{ product.name }}">{% endif %}
@@ -261,7 +248,7 @@
                 <salla-add-product-button
                   data-testid="store-product-add-to-cart"
                   {{ product.can_quick_buy ? 'quick-buy' : '' }}
-                  support-sticky-bar
+                  {{ sticky_enabled ? 'support-sticky-bar' : '' }}
                   {{ product.is_require_shipping ? 'required-shipping' : '' }}
                   {{ product.has_preorder_campaign ? 'has-pre-order' : '' }}
                   amount="{{ product.base_currency_price }}"
@@ -285,6 +272,16 @@
 
         {% if product.is_giftable %}<salla-gifting data-testid="store-product-gifting" class="zod-gifting" widget-subtitle="{{ gifting_intro }}" product-id="{{ product.id }}" {{ product.is_require_shipping ? 'physical-products' : '' }}></salla-gifting>{% endif %}
       </form>
+
+      {# One native offer component, outside the purchase form. Salla owns eligibility and amounts. #}
+      <salla-offer class="zod-native-product-offers" data-testid="store-product-offer" product-card-component="custom-salla-product-card"></salla-offer>
+
+      {% if theme.settings.get('show_product_selection_help', true) %}
+      <details class="zod-selection-help">
+        <summary><i class="sicon-info" aria-hidden="true"></i><span>{{ trans('zod.product.check_before_order') }}</span><i class="sicon-keyboard_arrow_down" aria-hidden="true"></i></summary>
+        <div><p>{{ trans('zod.product.check_before_order_text') }}</p>{% if product.has_metadata %}<a href="#specifications">{{ trans('zod.product.view_specifications') }}</a>{% endif %}</div>
+      </details>
+      {% endif %}
 
       {% if theme.settings.get('show_product_trust', true) %}
       <section class="zod-product-confidence" aria-label="{{ trans('zod.product.details') }}">

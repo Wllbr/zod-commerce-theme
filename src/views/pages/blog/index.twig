@@ -1,2 +1,38 @@
 {% extends "layouts.master" %}
-{% block content %}<div class="container"><nav class="zod-breadcrumb"><salla-breadcrumb></salla-breadcrumb></nav><section class="zod-blog-page"><header class="zod-page-hero"><span class="zod-eyebrow">{{ trans('zod.common.brand_name') }}</span><h1>{{ page.title|default(trans('zod.blog.title')) }}</h1><p>{{ trans('zod.blog.subtitle') }}</p></header><div class="zod-blog-grid">{% for article in articles %}<article class="zod-blog-card"><a href="{{ article.url }}" class="zod-blog-card__image"><img src="{{ article.image }}" alt="{{ article.title }}" loading="lazy"></a><div><small>{{ article.created_at|date('Y-m-d') }}</small><h2><a href="{{ article.url }}">{{ article.title }}</a></h2>{% if article.summary %}<p>{{ article.summary|striptags }}</p>{% endif %}<a href="{{ article.url }}" class="zod-text-link">{{ trans('zod.home.learn_more') }} <i class="sicon-arrow-left rtl:rotate-180"></i></a></div></article>{% endfor %}</div></section></div>{% endblock %}
+{% block content %}
+<div class="container">
+  <nav class="zod-breadcrumb"><salla-breadcrumb></salla-breadcrumb></nav>
+  <section class="zod-blog-page zod-editorial-page">
+    <header class="zod-page-hero zod-editorial-heading">
+      <span class="zod-eyebrow">{{ trans('zod.blog.eyebrow') }}</span>
+      <h1>{{ page.title|default(trans('zod.blog.title')) }}</h1>
+      <p>{{ trans('zod.blog.subtitle') }}</p>
+    </header>
+    {% if categories|length %}
+      <nav class="zod-editorial-categories" data-testid="store-blog-categories" aria-label="{{ trans('zod.blog.categories') }}">
+        {% for category in categories %}<a href="{{ category.url }}" {% if category.is_current %}aria-current="page"{% endif %}>{{ category.name }}</a>{% endfor %}
+      </nav>
+    {% endif %}
+    {% if slides|length %}
+      <section class="zod-editorial-featured" aria-label="{{ trans('zod.blog.featured') }}">
+        <h2 class="zod-editorial-section-title">{{ trans('zod.blog.featured') }}</h2>
+        <div class="zod-blog-grid">{% for article in slides %}{% include 'components.blog.article-card' with {article:article} %}{% endfor %}</div>
+      </section>
+    {% endif %}
+    {% hook 'blog:index.items.start' %}
+    {% if articles|length %}
+      <salla-infinite-scroll class="zod-blog-grid" next-page="{{ articles.next_page }}" autoload>
+        {% for article in articles %}{% include 'components.blog.article-card' with {article:article} %}{% endfor %}
+      </salla-infinite-scroll>
+    {% elseif not slides|length %}
+      <div class="zod-empty-state zod-editorial-empty">
+        <span><i class="sicon-book-open" aria-hidden="true"></i></span>
+        <h2>{{ trans('zod.blog.empty_title') }}</h2>
+        <p>{{ trans('zod.blog.empty_text') }}</p>
+        <a href="{{ link('/') }}" class="zod-btn zod-btn--primary">{{ trans('common.elements.back_home') }}</a>
+      </div>
+    {% endif %}
+    {% hook 'blog:index.items.end' %}
+  </section>
+</div>
+{% endblock %}

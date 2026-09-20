@@ -1,0 +1,48 @@
+{
+  "version": "1.8.2",
+  "environment": "Node v24.11.1; destructive checks on disposable copies only",
+  "results": [
+    {
+      "test": "stale source rejected",
+      "pass": true,
+      "expected_failure": true,
+      "return_code": 1,
+      "diagnostic_contains": "Source/config changed since build"
+    },
+    {
+      "test": "modified public output rejected",
+      "pass": true,
+      "expected_failure": true,
+      "return_code": 1,
+      "diagnostic_contains": "Packaged asset changed since build"
+    },
+    {
+      "test": "retained PDP source change rejected",
+      "pass": true,
+      "expected_failure": true,
+      "return_code": 1,
+      "diagnostic_contains": "Snapshot input changed"
+    },
+    {
+      "test": "retained base stylesheet change rejected",
+      "pass": true,
+      "expected_failure": true,
+      "return_code": 1,
+      "diagnostic_contains": "Snapshot input changed"
+    },
+    {
+      "test": "unsupported standalone import rejected",
+      "pass": true,
+      "expected_failure": true,
+      "return_code": 1,
+      "diagnostic_contains": "gained module syntax"
+    },
+    {
+      "test": "production-only gate refuses snapshot",
+      "pass": true,
+      "expected_failure": true,
+      "return_code": 1,
+      "diagnostic_contains": "A complete dependency-backed production build is required"
+    }
+  ]
+}

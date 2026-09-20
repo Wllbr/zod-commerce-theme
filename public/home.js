@@ -1,1 +1,582 @@
-(()=>{var e={};const t={};function r(o){const a=t[o];if(void 0!==a)return a.exports;const s=t[o]={exports:{}};return e[o](s,s.exports,r),s.exports}r.m=e,(()=>{const e=Object.getPrototypeOf?e=>Object.getPrototypeOf(e):e=>e.__proto__;let t;r.t=function(o,a){if(1&a&&(o=this(o)),8&a)return o;if("object"==typeof o&&o){if(4&a&&o.__esModule)return o;if(16&a&&"function"==typeof o.then)return o}const s=Object.create(null);r.r(s);const n={};t=t||[null,e({}),e([]),e(e)];for(var d=2&a&&o;("object"==typeof d||"function"==typeof d)&&!~t.indexOf(d);d=e(d))Object.getOwnPropertyNames(d).forEach(e=>n[e]=()=>o[e]);return n.default=()=>o,r.d(s,n),s}})(),r.d=(e,t)=>{if(Array.isArray(t))for(var o=0;o<t.length;){var a=t[o++],s=t[o++];r.o(e,a)?0===s&&o++:0===s?Object.defineProperty(e,a,{enumerable:!0,value:t[o++]}):Object.defineProperty(e,a,{enumerable:!0,get:s})}else for(var a in t)r.o(t,a)&&!r.o(e,a)&&Object.defineProperty(e,a,{enumerable:!0,get:t[a]})},r.f={},r.e=e=>Promise.all(Object.keys(r.f).reduce((t,o)=>(r.f[o](e,t),t),[])),r.u=e=>e+".d18f08966778e4fd7975.js",r.miniCssF=e=>{},r.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(e){if("object"==typeof window)return window}}(),r.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),(()=>{const e={},t="zod-commerce-theme:";r.l=(o,a,s,n)=>{if(e[o])return void e[o].push(a);let d,i;if(void 0!==s){const e=document.getElementsByTagName("script");for(var c=0;c<e.length;c++){const r=e[c];if(r.getAttribute("src")==o||r.getAttribute("data-webpack")==t+s){d=r;break}}}d||(i=!0,d=document.createElement("script"),d.charset="utf-8",r.nc&&d.setAttribute("nonce",r.nc),d.setAttribute("data-webpack",t+s),d.src=o),e[o]=[a];const l=(t,r)=>{d.onerror=d.onload=null,clearTimeout(u);const a=e[o];if(delete e[o],d.parentNode?.removeChild(d),a?.forEach(e=>e(r)),t)return t(r)},u=setTimeout(l.bind(null,void 0,{type:"timeout",target:d}),12e4);d.onerror=l.bind(null,d.onerror),d.onload=l.bind(null,d.onload),i&&document.head.appendChild(d)}})(),r.r=e=>{Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},(()=>{let e;r.g.importScripts&&(e=r.g.location+"");const t=r.g.document;if(!e&&t&&("SCRIPT"===t.currentScript?.tagName.toUpperCase()&&(e=t.currentScript.src),!e)){const r=t.getElementsByTagName("script");if(r.length){let t=r.length-1;for(;t>-1&&(!e||!/^http(s?):/.test(e));)e=r[t--].src}}if(!e)throw new Error("Automatic publicPath is not supported in this browser");e=e.replace(/^blob:/,"").replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),r.p=e})(),(()=>{const e={962:0};r.f.j=(t,o)=>{let a=r.o(e,t)?e[t]:void 0;if(0!==a)if(a)o.push(a[2]);else{const s=new Promise((r,o)=>a=e[t]=[r,o]);o.push(a[2]=s);const n=r.p+r.u(t),d=new Error,i=o=>{if(r.o(e,t)&&(a=e[t],0!==a&&(e[t]=void 0),a)){const e=o&&("load"===o.type?"missing":o.type),r=o&&o.target&&o.target.src;d.message="Loading chunk "+t+" failed.\n("+e+": "+r+")",d.name="ChunkLoadError",d.type=e,d.request=r,d.event=o,a[1](d)}};r.l(n,i,"chunk-"+t,t)}};const t=(t,o)=>{let[a,s,n]=o;var d,i,c=0;if(a.some(t=>0!==e[t])){for(d in s)r.o(s,d)&&(r.m[d]=s[d]);n&&n(r)}for(t&&t(o);c<a.length;c++)i=a[c],r.o(e,i)&&e[i]&&e[i][0](),e[i]=0},o=self.webpackChunkzod_commerce_theme=self.webpackChunkzod_commerce_theme||[];o.forEach(t.bind(null,0)),o.push=t.bind(null,o.push.bind(o))})(),document.querySelector("lite-youtube")&&r.e(675).then(r.t.bind(r,675,23)).catch(()=>{});const o=e=>{if(!e||"true"===e.dataset.zodDualReady)return;if(e.dataset.zodDualReady="true",!("IntersectionObserver"in window))return void e.classList.add("is-visible");const t=new IntersectionObserver(r=>{r.some(e=>e.isIntersecting)&&(e.classList.add("is-visible"),t.disconnect())},{threshold:.18});t.observe(e)},a=window.matchMedia("(prefers-reduced-motion: reduce)"),s="IntersectionObserver"in window?new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&(e.target.classList.add("is-inview"),s.unobserve(e.target))})},{rootMargin:"0px 0px -8% 0px",threshold:.08}):null,n=e=>{if(!e||"true"===e.dataset.zodHeroReady)return;e.dataset.zodHeroReady="true";let t=0;const r=()=>{window.cancelAnimationFrame(t),t=window.requestAnimationFrame(()=>{try{e.update?.()}catch(e){}try{e.swiper?.update?.()}catch(e){}try{e.slider?.update?.()}catch(e){}try{e.swiper?.loopFix?.()}catch(e){}try{e.slider?.loopFix?.()}catch(e){}})};"ResizeObserver"in window&&new ResizeObserver(r).observe(e),window.addEventListener("resize",r,{passive:!0}),window.addEventListener("orientationchange",r,{passive:!0}),window.setTimeout(r,120),window.setTimeout(r,500)},d=e=>{if(!e||"true"===e.dataset.zodShowcaseReady)return;e.dataset.zodShowcaseReady="true";const t=[...e.querySelectorAll("[data-zod-feature-trigger]")],r=[...e.querySelectorAll("[data-zod-feature-panel]")];if(!t.length||!r.length)return;let o=0,a=null;const s=(e,a=!1)=>{o=(e+t.length)%t.length,t.forEach((e,t)=>{const r=t===o;e.classList.toggle("is-active",r),e.setAttribute("aria-selected",r?"true":"false")}),r.forEach((e,t)=>e.classList.toggle("is-active",t===o)),a&&i()},n=()=>{a&&window.clearInterval(a),a=null},d=()=>{n(),window.matchMedia("(prefers-reduced-motion: reduce)").matches||t.length<2||(a=window.setInterval(()=>s(o+1),3600))},i=()=>d();t.forEach((e,t)=>e.addEventListener("click",()=>s(t,!0))),e.addEventListener("mouseenter",n),e.addEventListener("mouseleave",d),e.addEventListener("focusin",n),e.addEventListener("focusout",t=>{e.contains(t.relatedTarget)||d()}),document.addEventListener("visibilitychange",()=>document.hidden?n():d()),s(0),d()},i=e=>{if(!e||"true"===e.dataset.zodLaserReady)return;e.dataset.zodLaserReady="true";const t=[...e.querySelectorAll("[data-zod-laser-trigger]")],r=[...e.querySelectorAll("[data-zod-laser-panel]")],o=e.querySelector(".zod-laser-selector");if(!t.length||t.length!==r.length)return;let a=0,s=!0,n=!1,d=!1,i=0;const c=window.matchMedia("(prefers-reduced-motion: reduce)"),l=e=>"number"==typeof e?Number.isFinite(e)?e:0:"string"==typeof e?Number(e.replace(/[^0-9.\-]/g,""))||0:e&&"object"==typeof e?l(e.amount??e.value??e.price):0,u=e=>"string"==typeof e?e:e?.url||e?.original||e?.medium||e?.small||e?.thumbnail||"",h=e=>`${new Intl.NumberFormat("en-US",{maximumFractionDigits:2}).format(l(e))} <i class="sicon-sar" aria-hidden="true"></i>`,f=async()=>{if(!window.salla?.product?.getDetails)return;const o=[...new Set(r.map(e=>e.dataset.productId).filter(Boolean))];await Promise.all(o.map(async o=>{try{((o,a)=>{if(!a)return;const s=a.name||e.dataset.labelError,n=l(a.sale_price),d=l(a.regular_price),i=l(a.price),c=n>0?n:i,f=u(a.image)||a.thumbnail||u(a.images?.[0]),p="out"===a.status||"out-and-notify"===a.status||!1===a.is_available;r.forEach((r,n)=>{if(r.dataset.productId!==String(o))return;const i=t[n];r.querySelector("[data-zod-laser-name]").textContent=s,r.querySelector("[data-zod-laser-price]").innerHTML=h(c);const l=r.querySelector("[data-zod-laser-regular]");l.hidden=!(d>c&&c>0),l.innerHTML=l.hidden?"":h(d);const u=r.querySelector("[data-zod-laser-stock]");u.classList.toggle("is-available",!p),u.querySelector("[data-zod-laser-stock-label]").textContent=p?e.dataset.labelUnavailable:e.dataset.labelAvailable;const m=r.querySelector("[data-zod-laser-link]"),y="string"==typeof a.url?a.url:a.url?.url||a.link;m.href=y||`/product/${o}`,m.removeAttribute("aria-disabled");const w=r.querySelector("[data-zod-laser-image]"),b=r.querySelector("[data-zod-laser-video]");if(f){w&&!w.src&&(w.src=f,w.hidden=!1,w.alt=s),b&&!b.poster&&(b.poster=f);const e=i.querySelector("[data-zod-laser-thumb]");e&&!e.src&&(e.src=f,e.hidden=!1)}i.querySelector("[data-zod-laser-trigger-name]").textContent=s,i.querySelector("[data-zod-laser-trigger-price]").innerHTML=h(c);const g=r.querySelector("[data-zod-laser-add]"),v=document.createElement("salla-add-product-button");v.setAttribute("fill","solid"),v.setAttribute("product-id",o),v.setAttribute("product-status",a.status||(p?"out":"sale")),v.setAttribute("product-type",a.type||"product"),v.textContent=a.add_to_cart_label||e.dataset.labelAdd,g.replaceChildren(v),r.classList.remove("is-loading")})})(o,(a=await salla.product.getDetails(o),[a?.data?.product,a?.data,a?.product,a].find(e=>e&&"object"==typeof e&&(e.id||e.name))||null))}catch(t){r.filter(e=>e.dataset.productId===o).forEach(t=>{t.querySelector("[data-zod-laser-name]").textContent=e.dataset.labelError})}var a}))},p=()=>{window.clearTimeout(i),e.classList.remove("is-sound-cue")},m=()=>{r.forEach((e,t)=>{const r=e.querySelector("[data-zod-laser-video]");if(!r)return;const o=t===a&&s&&!document.hidden&&(!c.matches||n);if(r.defaultMuted=!0,r.muted=!(t===a&&n),o){!r.src&&r.dataset.videoSrc&&(r.src=r.dataset.videoSrc);try{const t=r.play?.();t?.then?t.then(()=>e.classList.remove("is-playback-blocked")).catch(()=>{e.classList.add("is-playback-blocked"),n||(r.muted=!0)}):e.classList.remove("is-playback-blocked")}catch(t){e.classList.add("is-playback-blocked"),n||(r.muted=!0)}}else r.pause()}),r.forEach((t,r)=>{const o=t.querySelector("[data-zod-laser-sound]");if(!o)return;const s=r===a&&n,d=s?e.dataset.labelMute:e.dataset.labelUnmute;o.classList.toggle("is-unmuted",s),o.setAttribute("aria-pressed",s?"true":"false"),o.setAttribute("aria-label",d),o.querySelector("[data-zod-laser-sound-label]").textContent=d})},y=(e,{focus:s=!1,scroll:n=!1}={})=>{a=(e+t.length)%t.length,r.forEach((e,t)=>{const r=t===a;e.hidden=!r,e.classList.toggle("is-active",r)}),t.forEach((e,t)=>{const r=t===a;e.classList.toggle("is-active",r),e.setAttribute("aria-selected",r?"true":"false"),e.tabIndex=r?0:-1}),s&&t[a].focus({preventScroll:!0}),n&&((e,t=!0)=>{if(!o||!e)return;const r=o.getBoundingClientRect(),a=e.getBoundingClientRect(),s=t&&!c.matches?"smooth":"auto";if(o.scrollHeight>o.clientHeight+4){const e=a.top+a.height/2-(r.top+r.height/2);return void(Math.abs(e)>=4&&o.scrollBy({top:e,behavior:s}))}if(o.scrollWidth<=o.clientWidth+4)return;const n=a.left+a.width/2-(r.left+r.width/2);Math.abs(n)>=4&&o.scrollBy({left:n,behavior:s})})(t[a]),m()};t.forEach((e,r)=>{e.addEventListener("click",()=>{p(),y(r,{scroll:!0})}),e.addEventListener("keydown",e=>{const o="rtl"===document.documentElement.dir;let a=null;"Home"===e.key&&(a=0),"End"===e.key&&(a=t.length-1),"ArrowRight"===e.key&&(a=r+(o?-1:1)),"ArrowLeft"===e.key&&(a=r+(o?1:-1)),null!==a&&(e.preventDefault(),y(a,{focus:!0,scroll:!0}))})}),r.forEach((e,t)=>{const r=e.querySelector("[data-zod-laser-sound]"),o=e.querySelector("[data-zod-laser-video]");r&&o&&(o.defaultMuted=!0,o.muted=!0,r.addEventListener("click",()=>{p(),t!==a&&y(t),n=!n,m()}),o.addEventListener("error",()=>{r.hidden=!0,e.classList.add("is-video-error")}))});const w="IntersectionObserver"in window?new IntersectionObserver(t=>{s=t.some(e=>e.isIntersecting),!s||d||c.matches||(d=!0,e.classList.add("is-sound-cue"),i=window.setTimeout(p,6500)),m()},{threshold:.18}):null;w?.observe(e),document.addEventListener("visibilitychange",m),c.addEventListener?.("change",m),y(0),window.salla?.onReady?window.salla.onReady().then(f).catch(()=>{}):document.addEventListener("zod::ready",f,{once:!0})},c=e=>{if(!e||"true"===e.dataset.zodProductSwitcherReady)return;e.dataset.zodProductSwitcherReady="true";const t=e.querySelector("[data-zod-product-switcher-tabs]"),r=[...e.querySelectorAll("[data-zod-product-switcher-tab]")],o=[...e.querySelectorAll("[data-zod-product-switcher-panel]")];if(!r.length||r.length!==o.length)return;const a=window.matchMedia("(max-width: 767px)"),s=window.matchMedia("(prefers-reduced-motion: reduce)");let n=0,d=0,i=0;const c=e=>{const t=()=>{e?.querySelectorAll("salla-slider").forEach(e=>{try{e.update?.()}catch(e){}try{e.swiper?.update?.()}catch(e){}try{e.slider?.update?.()}catch(e){}}),e?.querySelectorAll("salla-products-slider").forEach(e=>{try{e.update?.()}catch(e){}try{e.swiper?.update?.()}catch(e){}try{e.slider?.update?.()}catch(e){}const t=e.shadowRoot?.querySelector?.("salla-slider");if(t){try{t.update?.()}catch(e){}try{t.swiper?.update?.()}catch(e){}try{t.slider?.update?.()}catch(e){}}})};requestAnimationFrame(()=>requestAnimationFrame(()=>{t(),window.dispatchEvent(new Event("resize"))})),window.setTimeout(t,220),window.setTimeout(t,700)},l=()=>{const t=e.getBoundingClientRect();return t.bottom>0&&t.top<window.innerHeight},u=()=>{window.clearInterval(d),d=0},h=()=>{if(!a.matches||s.matches||document.hidden||!l())return;const e=(e=>{if(!e)return null;const t=[...e.querySelectorAll("salla-products-slider")];for(const e of t){const t=e.shadowRoot?.querySelector?.("salla-slider"),r=[e.swiper,e.slider,t?.swiper,t?.slider].filter(Boolean).find(e=>"function"==typeof e?.slideNext);if(r)return r}const r=e.querySelector("salla-slider");return[r?.swiper,r?.slider].find(e=>"function"==typeof e?.slideNext)||null})(o[n]);if(e)try{e.isEnd&&"function"==typeof e.slideTo?e.slideTo(0):e.slideNext()}catch(e){}},f=()=>{u(),window.clearTimeout(i),i=0,!a.matches||s.matches||document.hidden||(d=window.setInterval(h,4400))},p=()=>{u(),window.clearTimeout(i),i=window.setTimeout(f,6500)};o.forEach(e=>{const t=e.querySelector("[data-zod-product-switcher-video]");t&&(e=>{const t=e.closest("[data-zod-product-switcher-showcase]");if(!t)return;const r=()=>{const r=Number(e.videoWidth)||0,o=Number(e.videoHeight)||0;if(!r||!o)return;const a=r/o,s=Math.min(3.2,Math.max(1.25,a));t.style.setProperty("--zod-video-aspect",String(s)),t.dataset.zodVideoFit=a<1.2?"portrait":"natural"};e.readyState>=1?r():e.addEventListener("loadedmetadata",r,{once:!0})})(t)});const m=(e=o[n])=>{o.forEach(t=>{const r=t.querySelector("[data-zod-product-switcher-video]");if(r)if(t!==e||document.hidden||s.matches||!l())try{r.pause()}catch(e){}else try{r.muted=!0;const e=r.play?.();e?.catch?.(()=>{})}catch(e){}})},y=(e,{focus:a=!1,scroll:s=!1}={})=>{const d=(e+r.length)%r.length,i=o[d],l=r[d];r.forEach((e,t)=>{const r=t===d;e.classList.toggle("is-active",r),e.setAttribute("aria-selected",r?"true":"false"),e.tabIndex=r?0:-1}),o.forEach((e,t)=>{const r=t===d;e.hidden=!r,e.setAttribute("aria-hidden",r?"false":"true"),e.classList.toggle("is-active",r)}),n=d,a&&l.focus({preventScroll:!0}),s&&((e,r=!0)=>{if(!t||!e||t.scrollWidth<=t.clientWidth+4)return;const o=t.getBoundingClientRect(),a=e.getBoundingClientRect(),s=a.left+a.width/2-(o.left+o.width/2);Math.abs(s)<4||t.scrollBy({left:s,behavior:r?"smooth":"auto"})})(l,!0),c(i),m(i),f()};r.forEach((e,t)=>{e.addEventListener("click",()=>y(t,{scroll:!0})),e.addEventListener("keydown",e=>{const o="rtl"===document.documentElement.dir;let a=null;"Home"===e.key&&(a=0),"End"===e.key&&(a=r.length-1),"ArrowRight"===e.key&&(a=t+(o?-1:1)),"ArrowLeft"===e.key&&(a=t+(o?1:-1)),"Enter"!==e.key&&" "!==e.key||(a=t),null!==a&&(e.preventDefault(),y(a,{focus:!0,scroll:!0}))})}),e.addEventListener("pointerdown",p,{passive:!0}),e.addEventListener("touchstart",p,{passive:!0}),e.addEventListener("wheel",p,{passive:!0}),e.addEventListener("zod:product-switcher-refresh",()=>{c(o[n]),f()}),document.addEventListener("visibilitychange",()=>{document.hidden?u():f(),m()}),a.addEventListener?.("change",f),s.addEventListener?.("change",()=>{f(),m()}),window.addEventListener("load",()=>{c(o[n]),m(),f()},{once:!0});const w="IntersectionObserver"in window?new IntersectionObserver(e=>{e.some(e=>e.isIntersecting)?m():o.forEach(e=>e.querySelector("[data-zod-product-switcher-video]")?.pause?.())},{threshold:.08}):null;w?.observe(e),y(0)},l=(e=document)=>{((e=document)=>{e.querySelectorAll(".zod-faq-item:not([data-zod-faq-ready])").forEach(e=>{e.dataset.zodFaqReady="true",e.addEventListener("toggle",()=>{e.open&&document.querySelectorAll(".zod-faq-item[open]").forEach(t=>{t!==e&&(t.open=!1)})})})})(e),((e=document)=>{const t=".zod-section:not(.zod-hero):not(.zod-dual-showcase), .zod-trust-strip",r=[];e instanceof Element&&e.matches(t)&&r.push(e),e.querySelectorAll?.(t).forEach(e=>r.push(e)),r.forEach(e=>{"true"!==e.dataset.zodMotionReady&&(e.dataset.zodMotionReady="true",e.classList.add("zod-motion-ready"),a.matches||!s?e.classList.add("is-inview"):s.observe(e))})})(e),e.querySelectorAll(".zod-hero-slider").forEach(n),e.querySelectorAll("[data-zod-dual-showcase]").forEach(o),e.querySelectorAll("[data-zod-interactive-showcase]").forEach(d),e.querySelectorAll("[data-zod-laser-showcase]").forEach(i),e.querySelectorAll("[data-zod-product-switcher]").forEach(c)};document.addEventListener("DOMContentLoaded",()=>{l();let e=!1;const t=new Set,r=()=>{e=!1,t.forEach(e=>{e.isConnected&&(e.matches?.("[data-zod-dual-showcase]")&&o(e),e.matches?.("[data-zod-interactive-showcase]")&&d(e),e.matches?.("[data-zod-laser-showcase]")&&i(e),e.matches?.("[data-zod-product-switcher]")&&c(e),l(e))}),t.clear()};new MutationObserver(o=>{for(const e of o)e.addedNodes.forEach(e=>{e instanceof HTMLElement&&t.add(e)});!e&&t.size&&(e=!0,requestAnimationFrame(r))}).observe(document.body,{childList:!0,subtree:!0})})})();
+/* ZOD 1.8.2 offline entry; unchanged lite-youtube snapshot embedded. */
+(()=>{
+if (document.querySelector('lite-youtube')) {
+  Promise.resolve().then(() => { if (!customElements.get('lite-youtube')) { class e extends HTMLElement{connectedCallback(){this.videoId=this.getAttribute("videoid");let t=this.querySelector(".lyt-playbtn,.lty-playbtn");if(this.playLabel=t&&t.textContent.trim()||this.getAttribute("playlabel")||"Play",this.dataset.title=this.getAttribute("title")||"",this.style.backgroundImage||(this.style.backgroundImage=`url("https://i.ytimg.com/vi/${this.videoId}/hqdefault.jpg")`,this.upgradePosterImage()),t||(t=document.createElement("button"),t.type="button",t.classList.add("lyt-playbtn","lty-playbtn"),this.append(t)),!t.textContent){const e=document.createElement("span");e.className="lyt-visually-hidden",e.textContent=this.playLabel,t.append(e)}this.addNoscriptIframe(),"A"===t.nodeName&&(t.removeAttribute("href"),t.setAttribute("tabindex","0"),t.setAttribute("role","button"),t.addEventListener("keydown",e=>{"Enter"!==e.key&&" "!==e.key||(e.preventDefault(),this.activate())})),this.addEventListener("pointerover",e.warmConnections,{once:!0}),this.addEventListener("focusin",e.warmConnections,{once:!0}),this.addEventListener("click",this.activate),this.needsYTApi=this.hasAttribute("js-api")||navigator.vendor.includes("Apple")||navigator.userAgent.includes("Mobi")}static addPrefetch(e,t,a){const i=document.createElement("link");i.rel=e,i.href=t,a&&(i.as=a),document.head.append(i)}static warmConnections(){e.preconnected||(e.addPrefetch("preconnect","https://www.youtube-nocookie.com"),e.addPrefetch("preconnect","https://www.google.com"),e.addPrefetch("preconnect","https://googleads.g.doubleclick.net"),e.addPrefetch("preconnect","https://static.doubleclick.net"),e.preconnected=!0)}fetchYTPlayerApi(){window.YT||window.YT&&window.YT.Player||(this.ytApiPromise=new Promise((e,t)=>{var a=document.createElement("script");a.src="https://www.youtube.com/iframe_api",a.async=!0,a.onload=t=>{YT.ready(e)},a.onerror=t,this.append(a)}))}async getYTPlayer(){return this.playerPromise||await this.activate(),this.playerPromise}async addYTPlayerIframe(){this.fetchYTPlayerApi(),await this.ytApiPromise;const e=document.createElement("div");this.append(e);const t=Object.fromEntries(this.getParams().entries());this.playerPromise=new Promise(a=>{let i=new YT.Player(e,{width:"100%",videoId:this.videoId,playerVars:t,events:{onReady:e=>{e.target.playVideo(),a(i)}}})})}addNoscriptIframe(){const e=this.createBasicIframe(),t=document.createElement("noscript");t.innerHTML=e.outerHTML,this.append(t)}getParams(){const e=new URLSearchParams(this.getAttribute("params")||[]);return e.append("autoplay","1"),e.append("playsinline","1"),e}async activate(){if(this.classList.contains("lyt-activated"))return;if(this.classList.add("lyt-activated"),this.needsYTApi)return this.addYTPlayerIframe(this.getParams());const e=this.createBasicIframe();this.append(e),e.focus()}createBasicIframe(){const e=document.createElement("iframe");return e.width=560,e.height=315,e.title=this.playLabel,e.allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",e.allowFullscreen=!0,e.referrerPolicy="strict-origin-when-cross-origin",e.src=`https://www.youtube-nocookie.com/embed/${encodeURIComponent(this.videoId)}?${this.getParams().toString()}`,e}upgradePosterImage(){setTimeout(()=>{const e=`https://i.ytimg.com/vi_webp/${this.videoId}/sddefault.webp`,t=new Image;t.fetchPriority="low",t.referrerpolicy="origin",t.src=e,t.onload=t=>{90==t.target.naturalHeight&&120==t.target.naturalWidth||(this.style.backgroundImage=`url("${e}")`)}},100)}}customElements.define("lite-youtube",e) } }).catch(() => {});
+}
+
+const initFaq = (root = document) => {
+  root.querySelectorAll('.zod-faq-item:not([data-zod-faq-ready])').forEach(item => {
+    item.dataset.zodFaqReady = 'true';
+    item.addEventListener('toggle', () => {
+      if (item.open) (item.closest('.zod-section') || document).querySelectorAll('.zod-faq-item[open]').forEach(other => { if (other !== item) other.open = false; });
+    });
+  });
+};
+
+const initDualShowcase = (section) => {
+  if (!section || section.dataset.zodDualReady === 'true') return;
+  section.dataset.zodDualReady = 'true';
+  if (!('IntersectionObserver' in window)) {
+    section.classList.add('is-visible');
+    return;
+  }
+  const observer = new IntersectionObserver(entries => {
+    if (!entries.some(entry => entry.isIntersecting)) return;
+    section.classList.add('is-visible');
+    observer.disconnect();
+  }, { threshold: 0.18 });
+  observer.observe(section);
+};
+
+const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+const motionObserver = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add('is-inview');
+    motionObserver.unobserve(entry.target);
+  });
+}, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }) : null;
+
+const initSectionMotion = (root = document) => {
+  const selector = '.zod-section:not(.zod-hero):not(.zod-hero-hub):not(.zod-dual-showcase), .zod-trust-strip';
+  const sections = [];
+  if (root instanceof Element && root.matches(selector)) sections.push(root);
+  root.querySelectorAll?.(selector).forEach(section => sections.push(section));
+
+  sections.forEach(section => {
+    if (section.dataset.zodMotionReady === 'true') return;
+    section.dataset.zodMotionReady = 'true';
+    section.classList.add('zod-motion-ready');
+    if (reducedMotionQuery.matches || !motionObserver) section.classList.add('is-inview');
+    else motionObserver.observe(section);
+  });
+};
+
+const initHeroSlider = (slider) => {
+  if (!slider || slider.dataset.zodHeroReady === 'true') return;
+  slider.dataset.zodHeroReady = 'true';
+
+  let frame = 0;
+  const refresh = () => {
+    window.cancelAnimationFrame(frame);
+    frame = window.requestAnimationFrame(() => {
+      try { slider.update?.(); } catch (_) {}
+      try { slider.swiper?.update?.(); } catch (_) {}
+      try { slider.slider?.update?.(); } catch (_) {}
+      try { slider.swiper?.loopFix?.(); } catch (_) {}
+      try { slider.slider?.loopFix?.(); } catch (_) {}
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        slider.removeAttribute('auto-play');
+        slider.autoPlay = false;
+        try { slider.swiper?.autoplay?.stop?.(); } catch (_) {}
+        try { slider.slider?.autoplay?.stop?.(); } catch (_) {}
+      }
+    });
+  };
+
+  if ('ResizeObserver' in window) {
+    const observer = new ResizeObserver(refresh);
+    observer.observe(slider);
+  }
+
+  window.addEventListener('resize', refresh, { passive: true });
+  window.addEventListener('orientationchange', refresh, { passive: true });
+  window.setTimeout(refresh, 120);
+  window.setTimeout(refresh, 500);
+};
+
+const initInteractiveShowcase = (section) => {
+  if (!section || section.dataset.zodShowcaseReady === 'true') return;
+  section.dataset.zodShowcaseReady = 'true';
+
+  const triggers = [...section.querySelectorAll('[data-zod-feature-trigger]')];
+  const panels = [...section.querySelectorAll('[data-zod-feature-panel]')];
+  if (!triggers.length || !panels.length) return;
+
+  let activeIndex = 0;
+  let timer = null;
+  const delay = 3600;
+
+  const activate = (index, userInitiated = false) => {
+    activeIndex = (index + triggers.length) % triggers.length;
+    triggers.forEach((trigger, i) => {
+      const active = i === activeIndex;
+      trigger.classList.toggle('is-active', active);
+      trigger.setAttribute('aria-selected', active ? 'true' : 'false');
+      trigger.tabIndex = active ? 0 : -1;
+    });
+    panels.forEach((panel, i) => { panel.classList.toggle('is-active', i === activeIndex); panel.setAttribute('aria-hidden', i === activeIndex ? 'false' : 'true'); panel.inert = i !== activeIndex; });
+    if (userInitiated) restart();
+  };
+
+  const stop = () => {
+    if (timer) window.clearInterval(timer);
+    timer = null;
+  };
+
+  const start = () => {
+    stop();
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || triggers.length < 2) return;
+    timer = window.setInterval(() => activate(activeIndex + 1), delay);
+  };
+
+  const restart = () => start();
+
+  triggers.forEach((trigger, i) => {
+    trigger.addEventListener('click', () => activate(i, true));
+    trigger.addEventListener('keydown', event => {
+      const rtl = document.documentElement.dir === 'rtl';
+      let next = null;
+      if (event.key === 'Home') next = 0;
+      if (event.key === 'End') next = triggers.length - 1;
+      if (event.key === 'ArrowRight') next = i + (rtl ? -1 : 1);
+      if (event.key === 'ArrowLeft') next = i + (rtl ? 1 : -1);
+      if (next === null) return;
+      event.preventDefault(); activate(next, true); triggers[activeIndex].focus(); stop();
+    });
+  });
+  section.addEventListener('mouseenter', stop);
+  section.addEventListener('mouseleave', start);
+  section.addEventListener('focusin', stop);
+  section.addEventListener('focusout', (event) => {
+    if (!section.contains(event.relatedTarget)) start();
+  });
+  document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+
+  activate(0);
+  start();
+};
+
+const initLaserShowcase = (section) => {
+  if (!section || section.dataset.zodLaserReady === 'true') return;
+  section.dataset.zodLaserReady = 'true';
+
+  const triggers = [...section.querySelectorAll('[data-zod-laser-trigger]')];
+  const panels = [...section.querySelectorAll('[data-zod-laser-panel]')];
+  const selector = section.querySelector('.zod-laser-selector');
+  if (!triggers.length || triggers.length !== panels.length) return;
+
+  let activeIndex = 0;
+  let isVisible = true;
+  let soundEnabled = false;
+  let soundCueShown = false;
+  let soundCueTimer = 0;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // Native Salla lists supply products. First panel loads normally; other
+  // panels mount their list only after the shopper selects that video.
+  const applyProduct = (productId, product) => {
+    if (!product) return;
+    panels.forEach((panel, index) => {
+      if (panel.dataset.productId !== String(productId)) return;
+      const name = product.name || section.dataset.labelError;
+      panel.querySelector('[data-zod-laser-name]').textContent = name;
+      triggers[index].querySelector('[data-zod-laser-trigger-name]').textContent = name;
+      const image = typeof product.image === 'string' ? product.image : (product.image?.url || product.thumbnail);
+      const thumb = triggers[index].querySelector('[data-zod-laser-thumb]');
+      if (image && thumb && !thumb.getAttribute('src')) { thumb.src = image; thumb.hidden = false; }
+      const stageImage = panel.querySelector('[data-zod-laser-image]');
+      if (image && stageImage && !stageImage.getAttribute('src')) { stageImage.src = image; stageImage.hidden = false; stageImage.alt = name; }
+      const video = panel.querySelector('[data-zod-laser-video]');
+      if (image && video && !video.poster) video.poster = image;
+      panel.classList.remove('is-loading');
+    });
+  };
+  section.addEventListener('zod:product-data', event => applyProduct(event.detail?.id, event.detail));
+  const mountProducts = panel => {
+    const template = panel?.querySelector('[data-zod-laser-products-template]');
+    if (template) template.replaceWith(template.content.cloneNode(true));
+    panel?.querySelectorAll('custom-salla-product-card').forEach(card => {
+      if (card.product) applyProduct(card.product.id, card.product);
+    });
+  };
+
+  const updateSoundControls = () => {
+    panels.forEach((panel, index) => {
+      const control = panel.querySelector('[data-zod-laser-sound]');
+      if (!control) return;
+      const enabled = index === activeIndex && soundEnabled;
+      const label = enabled ? section.dataset.labelMute : section.dataset.labelUnmute;
+      control.classList.toggle('is-unmuted', enabled);
+      control.setAttribute('aria-pressed', enabled ? 'true' : 'false');
+      control.setAttribute('aria-label', label);
+      control.querySelector('[data-zod-laser-sound-label]').textContent = label;
+    });
+  };
+
+  const stopSoundCue = () => {
+    window.clearTimeout(soundCueTimer);
+    section.classList.remove('is-sound-cue');
+  };
+
+  const syncVideo = () => {
+    panels.forEach((panel, index) => {
+      const video = panel.querySelector('[data-zod-laser-video]');
+      if (!video) return;
+      const shouldPlay = index === activeIndex && isVisible && !document.hidden && (!reducedMotion.matches || soundEnabled);
+      video.defaultMuted = true;
+      video.muted = !(index === activeIndex && soundEnabled);
+      if (shouldPlay) {
+        if (!video.src && video.dataset.videoSrc) video.src = video.dataset.videoSrc;
+        try {
+          const playback = video.play?.();
+          if (playback?.then) playback.then(() => panel.classList.remove('is-playback-blocked')).catch(() => {
+            panel.classList.add('is-playback-blocked');
+            if (!soundEnabled) video.muted = true;
+          });
+          else panel.classList.remove('is-playback-blocked');
+        } catch (_) {
+          panel.classList.add('is-playback-blocked');
+          if (!soundEnabled) video.muted = true;
+        }
+      } else {
+        video.pause();
+      }
+    });
+    updateSoundControls();
+  };
+
+  const keepTriggerInRail = (trigger, smooth = true) => {
+    if (!selector || !trigger) return;
+    const railRect = selector.getBoundingClientRect();
+    const triggerRect = trigger.getBoundingClientRect();
+    const behavior = smooth && !reducedMotion.matches ? 'smooth' : 'auto';
+    if (selector.scrollHeight > selector.clientHeight + 4) {
+      const top = triggerRect.top + (triggerRect.height / 2) - (railRect.top + (railRect.height / 2));
+      if (Math.abs(top) >= 4) selector.scrollBy({ top, behavior });
+      return;
+    }
+    if (selector.scrollWidth <= selector.clientWidth + 4) return;
+    const left = triggerRect.left + (triggerRect.width / 2) - (railRect.left + (railRect.width / 2));
+    if (Math.abs(left) >= 4) selector.scrollBy({ left, behavior });
+  };
+
+  const activate = (index, { focus = false, scroll = false } = {}) => {
+    activeIndex = (index + triggers.length) % triggers.length;
+    mountProducts(panels[activeIndex]);
+    panels.forEach((panel, panelIndex) => {
+      const active = panelIndex === activeIndex;
+      panel.hidden = !active;
+      panel.classList.toggle('is-active', active);
+    });
+    triggers.forEach((trigger, triggerIndex) => {
+      const active = triggerIndex === activeIndex;
+      trigger.classList.toggle('is-active', active);
+      trigger.setAttribute('aria-selected', active ? 'true' : 'false');
+      trigger.tabIndex = active ? 0 : -1;
+    });
+    if (focus) triggers[activeIndex].focus({ preventScroll: true });
+    if (scroll) keepTriggerInRail(triggers[activeIndex]);
+    syncVideo();
+  };
+
+  triggers.forEach((trigger, index) => {
+    trigger.addEventListener('click', () => {
+      stopSoundCue();
+      activate(index, { scroll: true });
+    });
+    trigger.addEventListener('keydown', event => {
+      const rtl = document.documentElement.dir === 'rtl';
+      let nextIndex = null;
+      if (event.key === 'Home') nextIndex = 0;
+      if (event.key === 'End') nextIndex = triggers.length - 1;
+      if (event.key === 'ArrowRight') nextIndex = index + (rtl ? -1 : 1);
+      if (event.key === 'ArrowLeft') nextIndex = index + (rtl ? 1 : -1);
+      if (nextIndex === null) return;
+      event.preventDefault();
+      activate(nextIndex, { focus: true, scroll: true });
+    });
+  });
+
+  panels.forEach((panel, index) => {
+    const control = panel.querySelector('[data-zod-laser-sound]');
+    const video = panel.querySelector('[data-zod-laser-video]');
+    if (!control || !video) return;
+    video.defaultMuted = true;
+    video.muted = true;
+    control.addEventListener('click', () => {
+      stopSoundCue();
+      if (index !== activeIndex) activate(index);
+      soundEnabled = !soundEnabled;
+      syncVideo();
+    });
+    video.addEventListener('error', () => {
+      control.hidden = true;
+      panel.classList.add('is-video-error');
+    });
+  });
+
+  const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+    isVisible = entries.some(entry => entry.isIntersecting);
+    if (isVisible && !soundCueShown && !reducedMotion.matches) {
+      soundCueShown = true;
+      section.classList.add('is-sound-cue');
+      soundCueTimer = window.setTimeout(stopSoundCue, 6500);
+    }
+    syncVideo();
+  }, { threshold: 0.18 }) : null;
+  observer?.observe(section);
+  document.addEventListener('visibilitychange', syncVideo);
+  reducedMotion.addEventListener?.('change', syncVideo);
+  activate(0);
+
+};
+
+const initProductSwitcher = (section) => {
+  if (!section || section.dataset.zodProductSwitcherReady === 'true') return;
+  section.dataset.zodProductSwitcherReady = 'true';
+
+  const tabsRail = section.querySelector('[data-zod-product-switcher-tabs]');
+  const tabs = [...section.querySelectorAll('[data-zod-product-switcher-tab]')];
+  const panels = [...section.querySelectorAll('[data-zod-product-switcher-panel]')];
+  if (!tabs.length || tabs.length !== panels.length) return;
+
+  const mobileQuery = window.matchMedia('(max-width: 767px)');
+  const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let activeIndex = 0;
+  let autoplayTimer = 0;
+  let autoplayResumeTimer = 0;
+
+  const findSliderApi = (panel) => {
+    if (!panel) return null;
+    const productSliders = [...panel.querySelectorAll('salla-products-slider')];
+    for (const productsSlider of productSliders) {
+      const inner = productsSlider.shadowRoot?.querySelector?.('salla-slider');
+      const candidates = [
+        productsSlider.swiper,
+        productsSlider.slider,
+        inner?.swiper,
+        inner?.slider
+      ].filter(Boolean);
+      const api = candidates.find(candidate => typeof candidate?.slideNext === 'function');
+      if (api) return api;
+    }
+    const direct = panel.querySelector('salla-slider');
+    return [direct?.swiper, direct?.slider].find(candidate => typeof candidate?.slideNext === 'function') || null;
+  };
+
+  const refreshPanel = (panel) => {
+    const refresh = () => {
+      panel?.querySelectorAll('salla-slider').forEach(slider => {
+        try { slider.update?.(); } catch (_) {}
+        try { slider.swiper?.update?.(); } catch (_) {}
+        try { slider.slider?.update?.(); } catch (_) {}
+      });
+
+      panel?.querySelectorAll('salla-products-slider').forEach(productsSlider => {
+        try { productsSlider.update?.(); } catch (_) {}
+        try { productsSlider.swiper?.update?.(); } catch (_) {}
+        try { productsSlider.slider?.update?.(); } catch (_) {}
+
+        const innerSlider = productsSlider.shadowRoot?.querySelector?.('salla-slider');
+        if (innerSlider) {
+          try { innerSlider.update?.(); } catch (_) {}
+          try { innerSlider.swiper?.update?.(); } catch (_) {}
+          try { innerSlider.slider?.update?.(); } catch (_) {}
+        }
+      });
+    };
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      refresh();
+      window.dispatchEvent(new Event('resize'));
+    }));
+    window.setTimeout(refresh, 220);
+    window.setTimeout(refresh, 700);
+  };
+
+  const centerTab = (tab, smooth = true) => {
+    if (!tabsRail || !tab || tabsRail.scrollWidth <= tabsRail.clientWidth + 4) return;
+    const railRect = tabsRail.getBoundingClientRect();
+    const tabRect = tab.getBoundingClientRect();
+    const delta = (tabRect.left + tabRect.width / 2) - (railRect.left + railRect.width / 2);
+    if (Math.abs(delta) < 4) return;
+    tabsRail.scrollBy({ left: delta, behavior: smooth ? 'smooth' : 'auto' });
+  };
+
+  const sectionIsVisible = () => {
+    const rect = section.getBoundingClientRect();
+    return rect.bottom > 0 && rect.top < window.innerHeight;
+  };
+
+  const stopAutoplay = () => {
+    window.clearInterval(autoplayTimer);
+    autoplayTimer = 0;
+  };
+
+  const advanceMobileSlider = () => {
+    if (!mobileQuery.matches || reducedMotionQuery.matches || document.hidden || !sectionIsVisible()) return;
+    const api = findSliderApi(panels[activeIndex]);
+    if (!api) return;
+    try {
+      if (api.isEnd && typeof api.slideTo === 'function') api.slideTo(0);
+      else api.slideNext();
+    } catch (_) {}
+  };
+
+  const startAutoplay = () => {
+    stopAutoplay();
+    window.clearTimeout(autoplayResumeTimer);
+    autoplayResumeTimer = 0;
+    if (!mobileQuery.matches || reducedMotionQuery.matches || document.hidden) return;
+    autoplayTimer = window.setInterval(advanceMobileSlider, 4400);
+  };
+
+  const pauseForInteraction = () => {
+    stopAutoplay();
+    window.clearTimeout(autoplayResumeTimer);
+    autoplayResumeTimer = window.setTimeout(startAutoplay, 6500);
+  };
+
+  const classifyBannerVideo = video => {
+    const showcase = video.closest('[data-zod-product-switcher-showcase]');
+    if (!showcase) return;
+    const applyFit = () => {
+      const width = Number(video.videoWidth) || 0;
+      const height = Number(video.videoHeight) || 0;
+      if (!width || !height) return;
+      const videoRatio = width / height;
+      const layoutRatio = Math.min(3.2, Math.max(1.25, videoRatio));
+      showcase.style.setProperty('--zod-video-aspect', String(layoutRatio));
+      showcase.dataset.zodVideoFit = videoRatio < 1.2 ? 'portrait' : 'natural';
+    };
+    if (video.readyState >= 1) applyFit();
+    else video.addEventListener('loadedmetadata', applyFit, { once: true });
+  };
+
+  panels.forEach(panel => {
+    const video = panel.querySelector('[data-zod-product-switcher-video]');
+    if (video) classifyBannerVideo(video);
+  });
+
+  const syncBannerVideos = (activePanel = panels[activeIndex]) => {
+    panels.forEach(panel => {
+      const video = panel.querySelector('[data-zod-product-switcher-video]');
+      if (!video) return;
+      const shouldPlay = panel === activePanel && !document.hidden && !reducedMotionQuery.matches && sectionIsVisible();
+      if (!shouldPlay) {
+        try { video.pause(); } catch (_) {}
+        return;
+      }
+      try {
+        video.muted = true;
+        const playPromise = video.play?.();
+        playPromise?.catch?.(() => {});
+      } catch (_) {}
+    });
+  };
+
+  const activate = (index, { focus = false, scroll = false } = {}) => {
+    const nextIndex = (index + tabs.length) % tabs.length;
+    const nextPanel = panels[nextIndex];
+    const nextTab = tabs[nextIndex];
+
+    tabs.forEach((tab, tabIndex) => {
+      const active = tabIndex === nextIndex;
+      tab.classList.toggle('is-active', active);
+      tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      tab.tabIndex = active ? 0 : -1;
+    });
+
+    panels.forEach((panel, panelIndex) => {
+      const active = panelIndex === nextIndex;
+      panel.hidden = !active;
+      panel.setAttribute('aria-hidden', active ? 'false' : 'true');
+      panel.classList.toggle('is-active', active);
+    });
+
+    activeIndex = nextIndex;
+    if (focus) nextTab.focus({ preventScroll: true });
+    if (scroll) centerTab(nextTab, true);
+    refreshPanel(nextPanel);
+    syncBannerVideos(nextPanel);
+    startAutoplay();
+  };
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => activate(index, { scroll: true }));
+    tab.addEventListener('keydown', event => {
+      const rtl = document.documentElement.dir === 'rtl';
+      let nextIndex = null;
+      if (event.key === 'Home') nextIndex = 0;
+      if (event.key === 'End') nextIndex = tabs.length - 1;
+      if (event.key === 'ArrowRight') nextIndex = index + (rtl ? -1 : 1);
+      if (event.key === 'ArrowLeft') nextIndex = index + (rtl ? 1 : -1);
+      if (event.key === 'Enter' || event.key === ' ') nextIndex = index;
+      if (nextIndex === null) return;
+      event.preventDefault();
+      activate(nextIndex, { focus: true, scroll: true });
+    });
+  });
+
+  section.addEventListener('pointerdown', pauseForInteraction, { passive: true });
+  section.addEventListener('touchstart', pauseForInteraction, { passive: true });
+  section.addEventListener('wheel', pauseForInteraction, { passive: true });
+  section.addEventListener('zod:product-switcher-refresh', () => {
+    refreshPanel(panels[activeIndex]);
+    startAutoplay();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopAutoplay();
+    else startAutoplay();
+    syncBannerVideos();
+  });
+  mobileQuery.addEventListener?.('change', startAutoplay);
+  reducedMotionQuery.addEventListener?.('change', () => {
+    startAutoplay();
+    syncBannerVideos();
+  });
+  window.addEventListener('load', () => {
+    refreshPanel(panels[activeIndex]);
+    syncBannerVideos();
+    startAutoplay();
+  }, { once: true });
+
+  const bannerObserver = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+    if (entries.some(entry => entry.isIntersecting)) syncBannerVideos();
+    else panels.forEach(panel => panel.querySelector('[data-zod-product-switcher-video]')?.pause?.());
+  }, { threshold: 0.08 }) : null;
+  bannerObserver?.observe(section);
+
+  activate(0);
+};
+
+const initHome = (root = document) => {
+  initFaq(root);
+  initSectionMotion(root);
+  root.querySelectorAll('.zod-hero-slider').forEach(initHeroSlider);
+  root.querySelectorAll('[data-zod-dual-showcase]').forEach(initDualShowcase);
+  root.querySelectorAll('[data-zod-interactive-showcase]').forEach(initInteractiveShowcase);
+  root.querySelectorAll('[data-zod-laser-showcase]').forEach(initLaserShowcase);
+  root.querySelectorAll('[data-zod-product-switcher]').forEach(initProductSwitcher);
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  initHome();
+  let queued = false;
+  const pending = new Set();
+  const flush = () => {
+    queued = false;
+    pending.forEach(node => {
+      if (!node.isConnected) return;
+      if (node.matches?.('[data-zod-dual-showcase]')) initDualShowcase(node);
+      if (node.matches?.('[data-zod-interactive-showcase]')) initInteractiveShowcase(node);
+      if (node.matches?.('[data-zod-laser-showcase]')) initLaserShowcase(node);
+      if (node.matches?.('[data-zod-product-switcher]')) initProductSwitcher(node);
+      initHome(node);
+    });
+    pending.clear();
+  };
+  const observer = new MutationObserver(mutations => {
+    for (const mutation of mutations) {
+      mutation.addedNodes.forEach(node => { if (node instanceof HTMLElement) pending.add(node); });
+    }
+    if (!queued && pending.size) {
+      queued = true;
+      requestAnimationFrame(flush);
+    }
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+});
+
+})();

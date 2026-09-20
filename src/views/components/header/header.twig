@@ -35,6 +35,25 @@
     </div>
   </div>
 
+  {% if theme.settings.get('show_header_search', true) %}
+  <div class="container zod-search-row">
+    <span class="zod-search-row__intro">{{ trans('zod.header.specialists') }}</span>
+    <button class="zod-search-launch" type="button" onclick="salla.event.dispatch('search::open')" aria-haspopup="dialog">
+      <i class="sicon-search" aria-hidden="true"></i>
+      <span>{{ trans('zod.header.search_placeholder') }}</span>
+      <span class="zod-search-launch__action">{{ trans('zod.mobile.search') }}</span>
+    </button>
+  </div>
+  {% endif %}
+  {% if theme.settings.get('show_department_rail', true) %}
+  <nav class="zod-department-nav" aria-label="{{ trans('zod.header.all_categories') }}">
+    <div class="container zod-department-nav__inner">
+      <button type="button" onclick="window.zodMenu?.open(this)" aria-controls="zod-catalog-drawer"><i class="sicon-layout-grid" aria-hidden="true"></i>{{ trans('zod.header.all_categories') }}</button>
+      <div class="zod-department-links" data-zod-departments></div>
+    </div>
+  </nav>
+  {% endif %}
+
   {# Hidden menu data source. Categories themselves always come from Salla menus/categories. #}
   <zod-main-menu class="zod-menu-source" data-home-url="{{ store.url }}" aria-hidden="true"></zod-main-menu>
 

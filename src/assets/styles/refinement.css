@@ -1,0 +1,335 @@
+/* ZOD Commerce 1.8 — a shared retail refinement layer.
+   Loaded after the existing compiled utility bundle. Native Salla controls retain
+   ownership of prices, availability, forms, customer state and checkout. */
+body.zod-commerce{--zod-surface:#fff;--zod-soft:#f5f6f7;--zod-ink:#202527;--zod-muted:#60696f;--zod-line:#e4e8ea;--zod-radius:18px;--zod-shadow:0 12px 32px rgba(24,36,41,.055);background:var(--zod-surface);color:var(--zod-ink);line-height:1.65}
+.zod-commerce [hidden]{display:none!important}
+.zod-commerce :where(a,button,input,select,textarea,summary,[tabindex]):focus-visible{outline:3px solid var(--color-primary);outline-offset:4px;border-radius:5px}
+.zod-commerce #main-content:focus{outline:none}
+.zod-skip-link{position:fixed;inset-block-start:12px;inset-inline-start:16px;z-index:11000;padding:12px 24px;background:#fff;color:#202527;border:2px solid currentColor;border-radius:12px;transform:translateY(-180%)}
+.zod-skip-link:focus{transform:none}
+.zod-commerce .container,.zod-commerce .zod-section>.container,.zod-commerce .zod-catalog-body>.container{width:min(1280px,calc(100% - 48px))!important;max-width:none!important}
+.zod-commerce :where(h1,h2,h3){text-wrap:balance;overflow-wrap:anywhere}
+.zod-commerce :where(p,small,a){overflow-wrap:anywhere}
+.zod-commerce .zod-section{padding-block:48px}
+.zod-commerce .zod-section-head{gap:24px;margin-bottom:26px;align-items:center}
+.zod-commerce .zod-section-head h2{font-size:clamp(23px,2.1vw,32px);font-weight:800;line-height:1.4;letter-spacing:-.02em}
+.zod-commerce .zod-section-head p{font-size:14px;line-height:1.8}
+.zod-commerce .zod-btn{border-radius:11px;min-height:46px;font-size:14px;font-weight:750}
+.zod-commerce .zod-btn--outline{border:1px solid var(--zod-line);background:#fff;color:var(--zod-ink)}
+.zod-commerce .zod-text-link{min-height:40px;white-space:normal}
+.zod-commerce .zod-rich-text{font-size:16px;line-height:1.95;overflow-wrap:anywhere}
+.zod-commerce .zod-rich-text a{text-decoration:underline;text-underline-offset:4px;color:var(--color-primary)}
+.zod-commerce .zod-rich-text :where(ul,ol){padding-inline-start:1.5em;margin-block:1em}
+.zod-commerce .zod-rich-text ul{list-style:disc}.zod-commerce .zod-rich-text ol{list-style:decimal}
+.zod-commerce .zod-rich-text table{display:block;max-width:100%;overflow-x:auto}
+/* Header: retain the merchant logo and Salla search, with one consistent rail. */
+.zod-commerce .zod-header{margin:0!important;border-radius:0!important;border:0!important;box-shadow:none!important;background:#fff!important;backdrop-filter:none!important}
+.zod-commerce .zod-header.is-scrolled{box-shadow:0 4px 24px rgba(24,36,41,.07)!important}
+.zod-commerce .zod-header-main{background:#fff!important;border-bottom:1px solid #eef0f1!important;border-radius:0!important}
+.zod-commerce .zod-compact-header{min-height:74px;height:74px}
+.zod-commerce .zod-logo img{max-height:48px!important;max-width:170px!important}
+.zod-commerce .zod-header-actions{gap:10px!important}
+.zod-search-row{display:flex;align-items:center;justify-content:space-between;gap:32px;padding-block:13px}
+.zod-search-row__intro{font-size:13px;font-weight:650;color:var(--zod-muted);flex:0 1 350px}
+.zod-search-launch{display:flex;align-items:center;gap:12px;width:100%;max-width:740px;min-height:46px;padding:4px 5px 4px 16px;padding-inline:16px 5px;border:1px solid var(--zod-line);border-radius:11px;background:#f7f8f9;color:var(--zod-muted);text-align:start;font-size:13px;cursor:pointer}
+.zod-search-launch>i{font-size:20px;color:var(--zod-ink);flex:none}.zod-search-launch>span:not(.zod-search-launch__action){flex:1}
+.zod-search-launch__action{display:grid;place-items:center;padding-inline:22px;min-height:36px;background:var(--zod-ink);border-radius:7px;color:#fff;font-weight:700;flex:none}
+.zod-search-launch:hover{border-color:#afb8bd;background:#fff}
+.zod-department-nav{border-block:1px solid #edf0f1;background:#fff}
+.zod-department-nav__inner{display:flex;align-items:center;gap:24px;min-height:46px}
+.zod-department-nav__inner>button{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:750;flex:none;min-height:44px;background:transparent;border:0;cursor:pointer}
+.zod-department-links{display:flex;gap:28px;overflow:auto;scrollbar-width:thin;align-items:center;white-space:nowrap;min-width:0;flex:1}
+.zod-department-links a{display:flex;align-items:center;min-height:44px;font-size:12px;color:#505a60;flex:none;border-bottom:2px solid transparent;white-space:nowrap}
+.zod-department-links a:hover{border-color:var(--color-primary);color:var(--zod-ink)}
+/* Contain the translated off-canvas panel, including LTR mobile layouts. */
+.zod-commerce .zod-catalog-drawer{overflow:hidden}
+/* Three specialist category doors. The artwork can be replaced with cutouts. */
+.zod-commerce .zod-hero-hub{padding-block:32px 38px;background:#fff}
+.zod-hub-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin-bottom:25px}
+.zod-hub-heading .zod-eyebrow{font-size:11px;font-weight:750;letter-spacing:.09em;margin:0 0 6px;color:var(--zod-muted)}
+.zod-hub-heading h2{font-size:clamp(25px,2.55vw,36px);font-weight:800;line-height:1.5;letter-spacing:-.03em;margin:0}
+.zod-hub-heading>p{font-size:13px;line-height:1.9;max-width:360px;color:var(--zod-muted);margin:0 0 4px}
+.zod-hub-grid{display:grid;grid-template-columns:minmax(0,1.42fr) minmax(0,1fr);grid-template-rows:1fr 1fr;gap:16px}
+.zod-hub-card{position:relative;isolation:isolate;overflow:hidden;border-radius:18px;padding:28px 28px 26px;min-height:220px;background:#eef1f2;display:flex;align-items:center;box-shadow:inset 0 0 0 1px rgba(22,34,40,.045)}
+.zod-hub-card--exhaust{grid-row:span 2;min-height:456px;align-items:flex-start;padding:40px 34px;background:#20282a;color:#fff}
+.zod-hub-card--intercom{background:#eaf0f2;color:#273b43}
+.zod-hub-card--insect{background:#f3f0eb;color:#504536}
+.zod-hub-card::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(140deg,rgba(255,255,255,.075),transparent 70%);pointer-events:none}
+.zod-hub-card__content{position:relative;z-index:2;width:62%}
+.zod-hub-card--exhaust .zod-hub-card__content{width:67%}
+.zod-hub-card__tag{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.09em;font-weight:750;line-height:1.6;opacity:.8}
+.zod-hub-card__tag::before{content:"";width:18px;height:2px;background:currentColor;display:block;flex:none}
+.zod-hub-card h3{font-weight:800;font-size:25px;line-height:1.4;letter-spacing:-.03em;margin:12px 0 10px}
+.zod-hub-card--exhaust h3{font-size:clamp(31px,3.5vw,48px);line-height:1.35;max-width:385px;margin-block:24px 16px}
+.zod-hub-card p{font-size:12px;line-height:1.85;max-width:270px;margin:0;opacity:.85}
+.zod-hub-card--exhaust p{font-size:14px;max-width:290px;color:#d9e0e0}
+.zod-hub-card__link{display:inline-flex;align-items:center;gap:15px;margin-top:20px;min-height:42px;position:static;font-size:12px;font-weight:750;border-bottom:1px solid currentColor}
+.zod-hub-card--exhaust .zod-hub-card__link{background:#fff;color:#20282a;border:0;border-radius:10px;padding-inline:18px;min-height:46px;margin-top:28px}
+.zod-hub-card__link::after{content:"";position:absolute;inset:0;z-index:3}
+.zod-hub-card:focus-within{outline:3px solid var(--color-primary);outline-offset:4px}
+[dir=ltr] .zod-hub-card__link>i{transform:rotate(180deg)}
+.zod-hub-card__art{position:absolute;z-index:1;inset-inline-end:-5%;top:50%;transform:translateY(-50%);width:50%;aspect-ratio:1;pointer-events:none;color:inherit}
+.zod-hub-card--exhaust .zod-hub-card__art{width:61%;inset-inline-end:-9%;top:auto;bottom:-9%;transform:rotate(-12deg);color:#d3e2e1;opacity:.68}
+.zod-hub-card__art>img,.zod-hub-card__art>svg{width:100%;height:100%;object-fit:contain;transition:transform .35s ease}
+.zod-hub-card__art>img{filter:drop-shadow(0 12px 20px rgba(0,0,0,.1));padding:12px}
+.zod-hub-card:hover .zod-hub-card__art>img,.zod-hub-card:hover .zod-hub-card__art>svg{transform:scale(1.035)}
+.zod-hub-card__number{position:absolute;inset-inline-start:28px;bottom:16px;font-size:10px;opacity:.4;letter-spacing:.2em}
+.zod-hub-card--exhaust .zod-hub-card__number{inset-inline-start:34px;bottom:24px}
+/* Product cards: readable type, predictable heights, unobscured purchase actions. */
+.zod-commerce custom-salla-product-card.zod-product-card{border:1px solid var(--zod-line)!important;border-radius:15px!important;background:#fff!important;overflow:hidden!important;box-shadow:none!important;transition:border-color .2s,box-shadow .2s,transform .2s!important}
+.zod-commerce custom-salla-product-card.zod-product-card:hover{border-color:#c4cdd1!important;box-shadow:var(--zod-shadow)!important;transform:translateY(-3px)!important}
+.zod-commerce custom-salla-product-card.zod-product-card .zpc-media{background:#f7f8f9!important;border-radius:0!important;border:0!important;aspect-ratio:1.08!important;margin:0!important}
+.zod-commerce custom-salla-product-card.zod-product-card .zpc-media img{mix-blend-mode:multiply;padding:22px!important;object-fit:contain!important}
+.zod-commerce custom-salla-product-card.zod-product-card .zpc-body{padding:16px!important;gap:0!important;min-width:0;display:flex!important;flex-direction:column!important;flex:1}
+.zod-commerce custom-salla-product-card.zod-product-card .zpc-body h3{height:auto!important;min-height:46px!important;max-height:none!important;font-size:14px!important;line-height:1.65!important;font-weight:750!important;margin:4px 0 8px!important}
+.zod-commerce custom-salla-product-card.zod-product-card .zpc-category{font-size:11px!important;color:var(--zod-muted)!important;max-width:100%;height:auto!important;line-height:1.6!important}
+.zod-commerce custom-salla-product-card.zod-product-card .zpc-subtitle{font-size:12px!important;color:var(--zod-muted)!important;line-height:1.6!important}
+.zod-commerce custom-salla-product-card.zod-product-card .zpc-body h3 a{font-size:inherit!important;line-height:inherit!important;min-height:0!important;max-height:none!important}
+.zod-commerce custom-salla-product-card.zod-product-card .zpc-meta:empty{display:none!important}
+.zod-commerce .zpc-model{font-size:11px;color:#677177;margin-block:0 7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zod-commerce custom-salla-product-card.zod-product-card .zpc-bottom{padding-top:9px!important;margin-top:auto!important}
+.zod-commerce custom-salla-product-card.zod-product-card .zpc-price strong{font-size:19px!important;line-height:1.5!important;font-weight:800!important;color:var(--zod-ink)!important}
+.zod-commerce custom-salla-product-card.zod-product-card .zpc-price del{font-size:12px!important;color:var(--zod-muted)!important}
+.zod-commerce custom-salla-product-card.zod-product-card .zpc-tax{font-size:10px!important;line-height:1.7!important;color:#626b70!important;margin-block:3px 10px!important}
+.zod-commerce custom-salla-product-card.zod-product-card .zpc-add{margin-top:8px!important;border-radius:9px!important;min-height:44px!important}
+.zod-commerce custom-salla-product-card.zod-product-card .zpc-add::part(button),.zod-commerce custom-salla-product-card.zod-product-card .zpc-add .s-button-element{min-height:44px!important;border-radius:9px!important;font-size:12px!important;font-weight:700!important;border-color:var(--color-primary)!important;color:var(--color-primary)!important;background:#fff!important}
+.zod-commerce custom-salla-product-card.zod-product-card .zpc-add:hover::part(button){background:var(--color-primary)!important;color:var(--color-primary-reverse)!important}
+.zod-commerce custom-salla-product-card.zod-product-card .zpc-action{width:40px!important;height:40px!important;min-width:40px!important;border:1px solid var(--zod-line)!important;background:#fff!important;border-radius:50%!important;color:var(--zod-ink)!important}
+.zod-commerce custom-salla-product-card.zod-product-card:focus-within .zpc-hover-actions{opacity:1!important;visibility:visible!important;transform:none!important;pointer-events:auto!important}
+.zod-commerce .zpc-discount-badge{background:var(--color-primary)!important;color:var(--color-primary-reverse)!important;border-radius:6px!important;padding:4px 7px!important;font-size:11px!important}
+.zod-commerce .zpc-offer-badge{font-size:10px!important;max-width:80%!important;line-height:1.5!important;overflow:hidden;text-overflow:ellipsis}
+/* Category, product, content and account pages use the same surface vocabulary. */
+.zod-commerce .zod-category-card{border-radius:16px!important;border:1px solid var(--zod-line)!important;background:#fff!important;box-shadow:none!important}
+.zod-commerce .zod-category-card__name{font-size:14px!important;line-height:1.6!important}
+.zod-commerce :where(.zod-brand-directory-card,.zod-guide-card,.zod-promo-card,.zod-need-card){border-radius:16px!important;border-color:var(--zod-line)!important;box-shadow:none!important}
+.zod-commerce .zod-catalog-head{background:var(--zod-soft);border-block:1px solid var(--zod-line);padding-block:32px!important;margin-bottom:24px}
+.zod-commerce .zod-catalog-head h1{font-size:clamp(26px,3vw,36px)!important;line-height:1.4!important}
+.zod-commerce .zod-catalog-toolbar{border:1px solid var(--zod-line);border-radius:12px;padding:14px 16px;margin-bottom:22px;background:#fff}
+.zod-commerce .zod-filter-sidebar{border:1px solid var(--zod-line);border-radius:16px;background:#fff}
+.zod-commerce .zod-sort select{min-height:42px;border-radius:9px}
+.zod-commerce .zod-product-gallery-stage{background:#f7f8f9!important;border:1px solid var(--zod-line)!important;border-radius:20px!important}
+.zod-commerce .zod-product-main{gap:clamp(24px,4vw,56px)!important}
+.zod-commerce .zod-product-info h1,.zod-commerce .zod-product-title{font-size:clamp(25px,2.4vw,34px)!important;line-height:1.55!important}
+.zod-commerce :where(.zod-account-card,.zod-cart-item,.zod-cart-widget,.zod-content-page,.zod-info-page__card,.zod-status-card){border:1px solid var(--zod-line)!important;border-radius:16px!important;background:#fff;box-shadow:none!important}
+.zod-commerce .zod-account-card{padding:24px}
+.zod-commerce .zod-account-layout{padding-block:24px 64px;gap:28px}
+.zod-commerce .zod-account-page-title{font-size:28px;font-weight:800;line-height:1.45;margin-bottom:20px}
+.zod-commerce .zod-account-sidebar{border-radius:16px;background:var(--zod-soft)}
+.zod-commerce .zod-info-page__hero{padding-block:34px}
+.zod-commerce .zod-article-page h1{max-width:900px;margin-inline:auto;font-size:clamp(28px,3vw,44px);line-height:1.5}
+.zod-commerce .zod-article-content{max-width:800px;margin-inline:auto}
+.zod-order-page{display:grid;gap:20px}
+.zod-order-title{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.zod-order-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.zod-order-overview small{display:block;font-size:12px;color:var(--zod-muted);margin-bottom:6px}
+.zod-order-overview strong{font-size:15px;line-height:1.6}
+.zod-order-package__header{font-weight:700;padding-block:0 16px;border-bottom:1px solid var(--zod-line)}
+.zod-order-item{padding-block:20px;border-bottom:1px solid var(--zod-line)}.zod-order-item:last-child{border-bottom:0;padding-bottom:0}
+.zod-order-item__summary{display:grid;grid-template-columns:88px minmax(0,1fr) auto;gap:18px;align-items:center;margin-bottom:16px}
+.zod-order-item__summary>img{width:88px;height:88px;object-fit:contain;border-radius:10px;background:var(--zod-soft);padding:8px}
+.zod-order-item h2{font-size:15px;font-weight:750;margin:0 0 6px;line-height:1.6}
+.zod-order-item p{font-size:13px;color:var(--zod-muted)}.zod-order-item__total{font-size:16px;white-space:nowrap}
+.zod-order-links{display:flex;flex-wrap:wrap;gap:12px}
+.zod-order-item salla-review-order-item{display:block;margin-top:16px}
+/* Native laser product list: one listing payload, one compact purchase card. */
+.zod-laser-native-product{margin-top:20px;min-height:200px}
+.zod-laser-native-product .s-products-list-wrapper{display:block!important;grid-template-columns:1fr!important}
+.zod-commerce .zod-laser-native-product custom-salla-product-card.zod-product-card{display:block!important;width:100%!important;color:var(--zod-ink)}
+.zod-commerce .zod-laser-native-product .zpc-media{display:none!important}
+.zod-commerce .zod-laser-native-product .zpc-body h3{min-height:0!important}
+.zod-commerce .zod-laser-native-product .zpc-meta{display:none!important}
+/* Footer remains native-data driven; no invented service or trust claims. */
+.zod-commerce .zod-footer--market{background:#f5f6f7!important;border-top:1px solid var(--zod-line)!important;margin-top:40px!important}
+.zod-commerce .zod-footer--market .zod-footer-support{padding-block:32px!important;border-bottom:1px solid #dce2e5!important}
+.zod-commerce .zod-footer-support__copy h2{font-size:22px!important;line-height:1.5!important}
+.zod-commerce .zod-footer-support__copy p{font-size:13px!important;color:var(--zod-muted)!important}
+.zod-commerce .zod-footer--market .zod-footer-market-nav{padding-block:36px!important;gap:42px!important}
+.zod-commerce .zod-footer-description{font-size:13px!important;line-height:1.9!important;color:var(--zod-muted)!important}
+.zod-commerce .zod-footer-category-group summary{font-size:13px!important;line-height:1.6!important;padding-block:8px!important}
+.zod-commerce .zod-footer-category-group__links a{font-size:12px!important;line-height:1.7!important;padding-block:5px;min-height:30px}
+.zod-commerce .zod-footer--market .s-menu-footer-item{font-size:12px!important;line-height:1.6!important}
+.zod-commerce .zod-footer--market .zod-footer-copyright{font-size:11px!important}
+.zod-commerce .zod-footer--market .zod-footer-back-top{font-size:12px!important;min-height:40px}
+.zod-commerce .zod-footer-logo img{max-height:56px;max-width:190px}
+/* Added-to-cart feedback: no focus stealing, errors stay in existing notifier. */
+salla-add-product-toast.zod-add-toast{position:fixed;z-index:9900;inset-block-start:24px;inset-inline-end:24px;width:min(420px,calc(100vw - 32px));padding:20px;border:1px solid #dce4e0;border-radius:18px;background:#fff;color:var(--zod-ink);box-shadow:0 20px 64px rgba(24,36,41,.18);font-family:var(--font-main),sans-serif}
+.zod-add-toast__head{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.zod-add-toast__status{font-size:14px;font-weight:750;color:#147a4b}
+.zod-add-toast__close{display:grid;place-items:center;width:36px;height:36px;flex:none;font-size:25px;background:var(--zod-soft);border-radius:50%;border:0;cursor:pointer}
+.zod-add-toast__body{display:flex;align-items:center;gap:12px;padding-block:18px;border-top:1px solid var(--zod-line);margin-top:12px}
+.zod-add-toast__image{width:64px;height:64px;object-fit:contain;background:var(--zod-soft);border-radius:8px;padding:5px;flex:none}
+.zod-add-toast__info{min-width:0;flex:1}.zod-add-toast__name{font-size:13px;font-weight:700;display:block;line-height:1.7}
+.zod-add-toast__info small{display:block;font-size:11px;color:var(--zod-muted);margin-top:4px;line-height:1.5}
+.zod-add-toast__price{font-size:14px;max-width:90px;flex-shrink:0}
+.zod-add-toast__actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.zod-add-toast__continue{border:1px solid var(--zod-line);border-radius:11px;background:#fff;padding:8px;font-size:12px;cursor:pointer;min-height:44px}
+.zod-commerce .zod-mobile-dock [aria-current=page]{color:var(--color-primary)!important}
+@media(min-width:1024px){.zod-commerce .zod-products-list>.s-products-list-wrapper{gap:22px!important}.zod-commerce .zod-product-main{padding-block:12px 32px}}
+@media(max-width:1023px){
+ .zod-search-row__intro{display:none}.zod-search-launch{max-width:none}.zod-search-row{padding-block:10px}
+ .zod-hub-card{padding:24px 20px;min-height:218px}.zod-hub-card--exhaust{padding:32px 26px;min-height:452px}
+ .zod-hub-card--exhaust h3{font-size:35px}.zod-hub-card h3{font-size:22px}.zod-hub-heading>p{max-width:290px}
+ .zod-department-nav__inner{gap:20px}.zod-department-links{gap:22px}
+ .zod-commerce .zod-filter-sidebar{border-radius:0}
+}
+@media(max-width:767px){
+ .zod-commerce .container,.zod-commerce .zod-section>.container,.zod-commerce .zod-catalog-body>.container{width:calc(100% - 32px)!important}
+ .zod-commerce .zod-section{padding-block:34px}.zod-commerce .zod-section-head{gap:12px;margin-bottom:20px}
+ .zod-commerce .zod-section-head h2{font-size:23px}.zod-commerce .zod-section-head p{font-size:12px}
+ .zod-commerce .zod-compact-header{height:62px;min-height:62px}.zod-commerce .zod-logo img{max-height:38px!important;max-width:128px!important}
+ .zod-commerce .zod-header-actions{gap:4px!important}.zod-commerce .zod-header-icon-button{display:none!important}
+ .zod-search-launch{font-size:12px;min-height:44px;gap:8px;padding-inline:12px 4px}.zod-search-launch__action{padding-inline:15px;font-size:11px}
+ .zod-department-nav{display:none}.zod-commerce .zod-hero-hub{padding-block:24px 16px}
+ .zod-hub-heading{display:block;margin-bottom:20px}.zod-hub-heading h2{font-size:26px;line-height:1.5}
+ .zod-hub-heading .zod-eyebrow{font-size:9px;letter-spacing:.04em}.zod-hub-heading>p{font-size:12px;max-width:100%;margin-top:7px;line-height:1.8}
+ .zod-hub-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto auto;gap:12px}
+ .zod-hub-card{min-height:292px;padding:22px 17px 18px;border-radius:14px;align-items:flex-start}
+ .zod-hub-card--exhaust{grid-row:auto;grid-column:span 2;min-height:370px;padding:28px 24px}
+ .zod-hub-card__content{width:100%}.zod-hub-card--exhaust .zod-hub-card__content{width:77%}
+ .zod-hub-card h3{font-size:20px;line-height:1.5;margin-block:12px 8px}.zod-hub-card--exhaust h3{font-size:32px;line-height:1.4;max-width:285px;margin-block:16px 12px}
+ .zod-hub-card p{font-size:11px;line-height:1.75;max-width:100%}.zod-hub-card--exhaust p{font-size:12px;max-width:215px}
+ .zod-hub-card__tag{font-size:9px;letter-spacing:.02em;gap:6px}.zod-hub-card__tag::before{width:12px}
+ .zod-hub-card__art{width:86%;top:auto;bottom:-22px;inset-inline-end:-24%;transform:none;opacity:.2}
+ .zod-hub-card--exhaust .zod-hub-card__art{width:68%;bottom:-13%;inset-inline-end:-12%;opacity:.45}
+ .zod-hub-card__link{font-size:11px;gap:6px;min-height:42px;margin-top:14px;line-height:1.6}.zod-hub-card--exhaust .zod-hub-card__link{margin-top:20px;font-size:12px;padding-inline:15px}
+ .zod-hub-card__number{inset-inline-start:17px;bottom:14px}.zod-hub-card--exhaust .zod-hub-card__number{inset-inline-start:24px;bottom:20px}
+ .zod-commerce custom-salla-product-card.zod-product-card{border-radius:12px!important}
+ .zod-commerce custom-salla-product-card.zod-product-card .zpc-body{padding:12px!important}
+ .zod-commerce custom-salla-product-card.zod-product-card .zpc-media img{padding:15px!important}
+ .zod-commerce custom-salla-product-card.zod-product-card .zpc-body h3{font-size:13px!important;line-height:1.7!important;min-height:44px!important}
+ .zod-commerce custom-salla-product-card.zod-product-card .zpc-price{gap:5px!important;flex-wrap:wrap!important}
+ .zod-commerce custom-salla-product-card.zod-product-card .zpc-price strong{font-size:17px!important}.zod-commerce custom-salla-product-card.zod-product-card .zpc-price del{font-size:10px!important}
+ .zod-commerce custom-salla-product-card.zod-product-card .zpc-tax{font-size:10px!important}
+ .zod-commerce custom-salla-product-card.zod-product-card .zpc-category{font-size:10px!important}
+ .zod-commerce .zod-products-list>.s-products-list-wrapper{gap:12px!important}
+ .zod-commerce .zod-catalog-head{padding-block:24px!important}.zod-commerce .zod-catalog-toolbar{padding:10px;border-radius:10px}
+ .zod-commerce .zod-product-main{gap:24px!important}.zod-commerce .zod-product-gallery-stage{border-radius:16px!important}
+ .zod-commerce .zod-account-card{padding:18px}.zod-commerce .zod-account-page-title{font-size:24px}
+ .zod-order-overview{grid-template-columns:1fr 1fr;gap:18px}.zod-order-overview strong{font-size:13px}
+ .zod-order-item__summary{grid-template-columns:64px minmax(0,1fr);gap:12px}.zod-order-item__summary>img{width:64px;height:64px}
+ .zod-order-item__total{grid-column:2;font-size:15px}.zod-order-item h2{font-size:13px}
+ .zod-commerce .zod-rich-text{font-size:14px}
+ .zod-commerce .zod-footer--market{margin-top:24px!important}.zod-commerce .zod-footer--market .zod-footer-support{padding-block:28px!important}
+ .zod-commerce .zod-footer--market .zod-footer-market-nav{padding-block:24px!important;gap:24px!important}
+ .zod-commerce .zod-footer--market .zod-footer-links .s-menu-footer-list{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:4px 10px!important}
+ .zod-commerce .zod-footer--market .zod-footer-links .s-menu-footer-item{font-size:12px!important;min-height:44px;display:grid;place-items:center}
+ .zod-commerce .zod-footer-support__copy h2{font-size:20px!important}
+ .zod-commerce .zod-footer-category-group summary{min-height:44px!important;font-size:14px!important}
+ .zod-commerce .zod-footer-category-group__links a{min-height:40px!important;font-size:13px!important}
+ salla-add-product-toast.zod-add-toast{inset-block-start:12px;inset-inline-end:16px;padding:16px;border-radius:14px}
+ .zod-add-toast__body{gap:10px}.zod-add-toast__price{font-size:12px;max-width:74px}.zod-add-toast__image{width:52px;height:52px}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto!important}
+ .zod-commerce *, .zod-commerce *::before,.zod-commerce *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+ .zod-commerce .zod-motion-ready,.zod-commerce .zod-reveal-card{opacity:1!important;transform:none!important}
+ .zod-commerce custom-salla-product-card.zod-product-card:hover{transform:none!important}
+}
+
+/* 1.8.1: editorial and post-order surfaces share the storefront design system. */
+.zod-commerce .zod-editorial-page{padding-block:20px 64px}
+.zod-commerce .zod-editorial-heading{padding:clamp(24px,4vw,56px);border:1px solid var(--zod-line);border-radius:20px;background:linear-gradient(120deg,#f5f7f7,#fff);margin-bottom:28px}
+.zod-commerce .zod-editorial-heading h1{font-size:clamp(28px,4vw,48px);line-height:1.45;max-width:850px}
+.zod-commerce .zod-editorial-heading p{max-width:650px;font-size:15px}
+.zod-editorial-categories,.zod-editorial-tags{display:flex;flex-wrap:wrap;gap:10px;margin-block:20px 32px}
+.zod-editorial-categories a,.zod-editorial-tags a{display:inline-flex;align-items:center;min-height:44px;padding:8px 18px;border:1px solid var(--zod-line);border-radius:99px;font-size:13px;background:#fff;line-height:1.5}
+.zod-editorial-categories [aria-current=page]{background:var(--zod-ink);color:#fff;border-color:var(--zod-ink)}
+.zod-editorial-categories a:hover,.zod-editorial-tags a:hover{border-color:var(--color-primary)}
+.zod-commerce .zod-blog-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.zod-commerce .zod-editorial-card{display:flex;flex-direction:column;border:1px solid var(--zod-line);border-radius:18px;overflow:hidden;background:#fff;min-width:0;box-shadow:none;height:100%}
+.zod-commerce .zod-editorial-card:hover{box-shadow:var(--zod-shadow)}
+.zod-commerce .zod-editorial-card .zod-blog-card__image{height:auto;aspect-ratio:3/2;display:grid;place-items:center;background:var(--zod-soft);overflow:hidden;flex:none}
+.zod-editorial-card .zod-blog-card__image img{width:100%;height:100%;object-fit:cover;transition:transform .25s ease}
+.zod-editorial-card:hover .zod-blog-card__image img{transform:scale(1.03)}
+.zod-editorial-placeholder{display:grid;place-items:center;min-height:150px;color:var(--zod-muted);font-size:46px}
+.zod-commerce .zod-editorial-card>.zod-editorial-card__body{display:flex;flex-direction:column;flex:1;padding:24px}
+.zod-editorial-meta{display:flex;flex-wrap:wrap;gap:8px 16px;color:var(--zod-muted);font-size:12px;line-height:1.8}
+.zod-commerce .zod-editorial-card h2{font-size:20px;line-height:1.65;margin-block:12px 10px}
+.zod-commerce .zod-editorial-card p{font-size:14px;line-height:1.9;margin-block:0 18px;color:var(--zod-muted)}
+.zod-editorial-card .zod-text-link{margin-top:auto;justify-content:space-between;font-size:13px}
+.zod-direction-arrow{display:inline-block}[dir=rtl] .zod-direction-arrow{transform:scaleX(-1)}
+.zod-editorial-featured{margin-block:32px 48px}
+.zod-editorial-section-title{font-size:20px;font-weight:750;line-height:1.6;margin-bottom:20px}
+.zod-editorial-empty{border:1px dashed var(--zod-line);border-radius:18px;padding:48px 24px;text-align:center}
+.zod-editorial-empty h2{font-size:24px}.zod-editorial-empty p{max-width:480px;margin:12px auto 24px}
+.zod-editorial-layout{display:grid;grid-template-columns:minmax(0,900px);justify-content:center;gap:40px;padding-block:20px 64px}
+.zod-editorial-layout.has-related{grid-template-columns:minmax(0,1fr) minmax(240px,300px)}
+.zod-commerce .zod-editorial-article{min-width:0;margin:0;padding:32px;border:1px solid var(--zod-line);border-radius:20px;background:#fff}
+.zod-commerce .zod-editorial-article>header{text-align:start;margin:0 0 28px;padding:0}
+.zod-commerce .zod-editorial-article h1{font-size:clamp(28px,3.2vw,42px);line-height:1.55;margin:0 0 18px}
+.zod-commerce .zod-editorial-article .zod-article-cover{width:100%;height:auto;max-height:560px;object-fit:cover;border-radius:14px;margin-block:24px 32px}
+.zod-commerce .zod-editorial-article .zod-article-content{max-width:100%;font-size:16px;line-height:2}
+.zod-editorial-article .zod-rich-text :where(iframe,video){max-width:100%;border-radius:12px}
+.zod-editorial-comments{padding-top:28px;margin-top:28px;border-top:1px solid var(--zod-line)}
+.zod-editorial-comments h2,.zod-editorial-related>h2{font-size:20px;font-weight:750;margin:0 0 20px}
+.zod-editorial-related{align-self:start;position:sticky;top:140px;min-width:0}
+.zod-editorial-related-card{display:flex;align-items:flex-start;gap:14px;padding:18px 0;border-bottom:1px solid var(--zod-line)}
+.zod-editorial-related-card img{width:76px;height:76px;object-fit:cover;border-radius:12px;flex:none}
+.zod-editorial-related-card span{min-width:0}.zod-editorial-related-card time{font-size:11px;color:var(--zod-muted)}
+.zod-editorial-related-card strong{display:block;font-size:14px;line-height:1.85;margin-top:5px}
+.zod-commerce .zod-confirmation-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-block:28px 8px}
+.zod-confirmation-instructions{padding:24px;background:var(--zod-soft);border-radius:12px;text-align:start;margin-top:28px}
+.zod-confirmation-messages{margin-top:20px}.zod-confirmation-messages p{margin-block:10px;font-size:14px}
+.zod-commerce .zod-status-icon.is-pending{background:#fff4db;color:#765014;box-shadow:none}
+.zod-commerce .is-payment-pending .zod-order-complete-card__eyebrow{color:#765014}
+.zod-confirmation-native{display:block;margin-block:24px}.zod-confirmation-native:empty{margin:0}
+.zod-confirmation-email{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:28px;border:1px solid var(--zod-line);border-radius:18px;margin:24px auto 0;max-width:860px}
+.zod-confirmation-email>div{min-width:0}.zod-confirmation-email h2{font-size:20px;font-weight:750;margin-bottom:8px}
+.zod-confirmation-email p{color:var(--zod-muted);font-size:13px;line-height:1.8}.zod-confirmation-email>strong{overflow-wrap:anywhere;min-width:0}
+.zod-confirmation-email form{display:flex;gap:10px;align-items:center;min-width:0;max-width:100%}
+.zod-confirmation-email input{min-width:0;max-width:100%;width:240px;min-height:46px;border:1px solid var(--zod-line);border-radius:10px;padding:10px 14px;background:#fff}
+.zod-confirmation-email salla-button{flex:none}
+.zod-order-package__header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.zod-order-carrier{display:flex;align-items:center;gap:12px}.zod-order-carrier img{width:auto;max-width:64px;height:32px;object-fit:contain}
+@media(max-width:1023px){.zod-commerce .zod-blog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.zod-editorial-layout.has-related{grid-template-columns:minmax(0,1fr)}.zod-editorial-related{position:static}.zod-confirmation-email{flex-wrap:wrap}.zod-editorial-related-card{max-width:100%}}
+@media(max-width:600px){.zod-commerce .zod-blog-grid{grid-template-columns:minmax(0,1fr);gap:20px}.zod-commerce .zod-editorial-heading{padding:26px 22px;border-radius:16px}.zod-commerce .zod-editorial-heading h1{font-size:29px}.zod-commerce .zod-editorial-heading p{font-size:13px}.zod-editorial-categories{gap:8px}.zod-editorial-categories a{font-size:12px;padding-inline:14px}.zod-commerce .zod-editorial-card>.zod-editorial-card__body{padding:20px}.zod-commerce .zod-editorial-article{padding:22px 18px;border-radius:16px}.zod-commerce .zod-editorial-article h1{font-size:28px}.zod-commerce .zod-editorial-article .zod-article-content{font-size:15px}.zod-editorial-layout{gap:32px;padding-bottom:40px}.zod-confirmation-actions>.zod-btn{width:100%}.zod-confirmation-instructions{padding:18px}.zod-confirmation-email{padding:22px 18px;gap:18px;display:block}.zod-confirmation-email form{margin-top:18px;gap:8px}.zod-confirmation-email input{width:100%}.zod-confirmation-email>strong{display:block;margin-top:16px;font-size:13px}}
+/* 1.8.2 — shopping flows. Keep native pricing/checkout visible on every viewport. */
+.zod-commerce .zod-catalog-toolbar__left{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+.zod-commerce [data-zod-catalog-count]{font-size:12px;color:var(--zod-muted);font-weight:500}
+.zod-commerce .zod-catalog-intro{color:var(--zod-muted);font-size:14px;max-width:640px;line-height:1.85}
+.zod-commerce .zod-catalog-loading{font-size:13px;padding:10px 14px;background:var(--zod-soft);border-radius:10px;margin-bottom:12px}
+.zod-commerce .zod-sort select:disabled{cursor:wait;opacity:.6}
+.zod-commerce .zod-filter-footer{display:none}
+.zod-commerce .zod-native-product-offers,.zod-commerce .zod-native-cart-offers{display:block;min-width:0;max-width:100%}
+.zod-commerce .zod-selection-help{margin-block:18px 24px;border:1px solid var(--zod-line);border-radius:14px;background:var(--zod-soft);overflow:hidden}
+.zod-commerce .zod-selection-help>summary{display:flex;align-items:center;gap:12px;padding:15px 18px;min-height:50px;list-style:none;cursor:pointer;font-size:14px;font-weight:700}
+.zod-commerce .zod-selection-help>summary::-webkit-details-marker{display:none}
+.zod-commerce .zod-selection-help>summary>span{flex:1}
+.zod-commerce .zod-selection-help[open]>summary>i:last-child{transform:rotate(180deg)}
+.zod-commerce .zod-selection-help>div{padding:0 18px 18px;font-size:13px;line-height:1.9;color:var(--zod-muted)}
+.zod-commerce .zod-selection-help a{text-decoration:underline;text-underline-offset:3px;color:var(--zod-ink);display:inline-block;margin-top:10px}
+.zod-commerce [data-zod-sticky-buy][data-zod-sticky-enabled="0"]{position:static!important;transform:none!important;inset:auto!important;width:100%!important;max-width:none!important;box-shadow:none!important;opacity:1!important;visibility:visible!important}
+.zod-commerce .zod-cart-overview{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 22px;margin:22px 0;background:var(--zod-soft);border:1px solid var(--zod-line);border-radius:16px}
+.zod-commerce .zod-cart-overview>div{display:flex;flex-direction:column;gap:3px;min-width:0}
+.zod-commerce .zod-cart-overview>div>span{font-size:12px;color:var(--zod-muted)}
+.zod-commerce .zod-cart-overview strong{font-size:23px;line-height:1.5;font-weight:800;unicode-bidi:plaintext}
+.zod-commerce .zod-cart-overview>a{flex:none}
+.zod-commerce .zod-cart-summary{scroll-margin-top:140px;min-width:0}
+.zod-commerce .zod-cart-summary-intro{margin:0;padding:18px 20px;border:0;background:transparent}
+.zod-commerce .zod-cart-summary-intro h2{font-size:20px;font-weight:800;margin-bottom:6px}
+.zod-commerce .zod-cart-summary-intro p{font-size:12px;color:var(--zod-muted);line-height:1.85}
+.zod-commerce .zod-cart-page salla-cart-summary-card.zod-cart-summary-card{display:block!important;max-width:100%;min-width:0}
+.zod-commerce .zod-cart-item__image img{object-fit:contain;aspect-ratio:1;background:#fff;border-radius:10px}
+.zod-commerce .zod-cart-item__unit-price{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;margin-top:8px}
+.zod-commerce .zod-cart-item__unit-price>small{color:var(--zod-muted);font-size:11px}
+.zod-commerce .zod-cart-item__price>small{display:block;font-size:11px;color:var(--zod-muted);margin-bottom:4px}
+.zod-commerce .zod-cart-legacy-offer{padding:10px 14px;font-size:13px;line-height:1.8}
+.zod-commerce .zod-free-shipping>span[role="progressbar"]{display:block;overflow:hidden}
+@media(max-width:1023px){
+ .zod-commerce .zod-filter-sidebar:not(.is-open){visibility:hidden;pointer-events:none}
+ .zod-commerce .zod-filter-sidebar.is-open{visibility:visible;display:flex;flex-direction:column;max-height:100dvh;overscroll-behavior:contain}
+ .zod-commerce .zod-filter-sidebar salla-filters{flex:1;min-height:0;overflow-y:auto;padding-bottom:16px}
+ .zod-commerce .zod-filter-head{flex:none}
+ .zod-commerce .zod-filter-footer{display:block;flex:none;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--zod-line);background:#fff}
+ .zod-commerce .zod-filter-footer>button{width:100%}
+ .zod-commerce.cart-page .zod-mobile-dock{display:none!important}
+ .zod-commerce.cart-page{padding-bottom:0!important}
+ body.zod-commerce.cart-page .zod-cart-page.zod-cart-page--has-items{padding-bottom:48px!important}
+ .zod-commerce .zod-cart-overview{align-items:flex-start;padding:16px;gap:12px}
+ .zod-commerce .zod-cart-overview>a{font-size:12px;min-height:44px;max-width:56%;white-space:normal;text-align:center}
+ .zod-commerce .zod-cart-overview strong{font-size:20px}
+ .zod-commerce .zod-cart-summary{position:static!important;top:auto!important}
+}
+
+/* Keep optional cart inputs compact without altering native validation. */
+.zod-commerce .zod-cart-item .zod-option-actions{display:flex;flex-wrap:wrap;gap:8px}.zod-commerce .zod-cart-item .zod-option-toggle{flex:1 1 90px;min-height:40px;font-size:12px;padding:8px}.zod-commerce .zod-cart-summary> salla-tiered-offer:empty{border:0;background:transparent}

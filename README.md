@@ -1,182 +1,64 @@
-## v1.7.32 — silent out-of-stock variant selection
+# ZOD Commerce — v1.8.2
 
-- Out-of-stock variant clicks no longer show quantity/service error notifications; stock state stays inline on the product page.
-- Removed ZOD's duplicate manual `salla.product.getPrice(new FormData(form))` request so `<salla-product-options>` remains the single variant-price authority.
-- Includes all v1.7.31 offer, card, cart, payment, and footer refinements.
+Continuation of the previously delivered v1.8.1, based on your original v1.7.32. **This package is a locally tested staging snapshot, not a verified production build or Salla approval.** No store was published or changed remotely.
 
-## v1.7.31 — product-scoped Salla offers + card/cart/footer polish
+## Start here
 
-- Uses Salla Product Offer Details events/API instead of private `<salla-offer>` properties.
-- Merges only eligible quantity/percentage offers for the current product into the custom **اشترِ أكثر، وفّر أكثر** selector.
-- Product cards show promotional title and discount as separate badges; discount is fixed to the physical right.
-- Product-page promotional badge is smaller.
-- Business Platform certificate is removed from product payment methods and kept with footer certificates.
-- Mobile cart keeps verbose rows collapsed but shows final/original total, VAT-inclusive note and savings at a glance.
-- Mobile footer policy links stay visible, centered three per row above social links.
+Read **MERCHANT_GUIDE_AR.md** (Arabic setup), **STORE_SETUP.md** (English), **COMPONENTS.md** (all 18 custom components), and **QA_REPORT.md** (evidence and remaining release gates). Open **START_HERE.html** for a quick orientation. Existing component IDs and the original dependency lock are preserved.
 
-## v1.7.30 — merged Salla quantity offers per product
+## What's new in 1.8.2
 
-- Separate Salla quantity offers (for example 2→2%, 3→5%, 4→10%) are merged into one ZOD “buy more, save more” selector.
-- The selector is product-scoped: explicit product IDs are checked and cross-product buy/get offers are excluded.
-- Products with no applicable quantity discount keep the selector hidden.
-- If duplicate thresholds exist, the highest percentage for that exact quantity is displayed.
-- Salla remains the checkout pricing authority; the theme only mirrors eligible offer tiers and changes the native quantity input.
+- The cart keeps a single visible native `salla-cart-summary-card` on desktop and mobile. Its own checkout remains the authority; the former fixed proxy checkout and theme-calculated tax, discount and savings breakdowns have been removed.
+- Cart rows display native special line totals, including legitimate zero-price promotions, separately from unit prices. Confirmed updates refresh stock, weight, offers and free-shipping state; stale delayed responses cannot overwrite newer mutations.
+- Saved cart notes and attachments retain the native cart-item context. Option disclosures have connected labels and expanded states.
+- Catalog initial sorting matches the selected control and native list. Changes use native reload, preserve query parameters and filter state, avoid repeated busy requests, and provide ordinary-navigation fallbacks. Mobile filters handle Escape, changed events and responsive focus transitions.
+- Product offers use one native `salla-offer` outside the add-to-cart form. Heuristic volume-discount tiers are removed. Sticky purchasing and review links now respect merchant settings.
+- Optional bilingual purchase-selection reminder (`show_product_selection_help`) encourages checking the supplied specifications without inventing compatibility claims. All 18 custom component IDs are preserved.
 
-## v1.7.29 — Salla-backed quantity offers + live mobile savings summary
+**Upgrade note:** a merchant who previously disabled sticky purchasing will now get the inline purchase layout. The mobile navigation dock deliberately does not appear on cart pages. Configure promotions in Salla; the theme no longer estimates eligibility or per-unit savings.
 
-> Current release: **v1.7.28**. This remains a custom Twilight theme; native Salla components/data are used as the pricing authority while ZOD controls the presentation.
+All 1.8.0 approval fixes remain: master toast, per-product order reviews, list-payload-only cards, explicitly opened Quick View details, and deferred laser panels. The three-category hero for exhaust fans, intercom and insect control remains the recommended homepage entry.
 
-## v1.7.26 — Persistent purchase dock + quantity-offer selector
+## Full production workflow — still required
 
-- Persistent product purchase dock from first paint.
-- Salla-backed Discount Table tiers rendered in a buy-more/save-more selector.
-- Sale countdown removed; preorder countdown remains.
-- Native Salla add-to-cart / fast-checkout / Apple Pay flows preserved.
+Use a supported Node version declared in `package.json` (`^22.18.0 || >=24.11.0`) and the declared `pnpm@11.21.0`. Dependencies/lockfile were not upgraded.
 
-> Current release: **v1.7.26** — persistent Orkida-inspired purchase dock plus Salla-backed quantity discount tiers.
-
-# ZOD Commerce Theme
-
-**Version 1.7.26** — Salla Twilight storefront for ZOD.
-
-## v1.6.48 consumer-readiness fixes
-
-- Opens native modal search without covering the results on Salla versions that ignore inline mode.
-- Routes mobile checkout through Salla's native form validation and submission control.
-- Refreshes cart line totals from confirmed server data as well as the grand total.
-- Adds category-menu retry and empty states, keyboard containment, and focus restoration when navigating subcategories.
-- Passed local regression checks and production compilation; live verification of this release remains pending while Salla holds the previous submission under review.
-
-## v1.6.47 storefront fixes
-
-- Fresh product details take precedence over cached stock; unlimited stock is handled consistently.
-- Quick View ignores superseded requests, contains keyboard focus, restores its trigger, and labels controls in the active language.
-- Cart totals use successful mutations and fresh responses, with no stale storage fallback. Salla notifications use a dismissible, nonblocking interface.
-- Certificate links open the actual certificate; gallery controls are translated, and purchase buttons retain readable contrast with pale accents.
-- WhatsApp uses the store contact before its fallback and ignores blank contact entries. Branch navigation respects reduced motion.
-- Production builds preserve the original videos. Run `npm test` for validation and regression checks.
-
-This local version does not replace an existing Salla review submission automatically.
-
-This repository is an independent, clean-start Salla theme project.
-
-## v1.5.3 cart interaction polish
-
-- Cart quantity changes no longer require a blocking browser OK alert.
-- Quantity updates show a compact ZOD toast and animate the changed cart row.
-- Cart totals animate when the live amount changes.
-- The old Secure Checkout label is replaced by a Cart → Delivery → Payment journey indicator on desktop.
-
-## Product philosophy
-
-The storefront is built around three jobs:
-
-1. **Discover** — strong search, mega-menu navigation, categories, and shopping by need.
-2. **Buy** — product shelves, campaign storytelling, technical product pages, clear stock/price/options, and mobile purchase controls.
-3. **Trust** — delivery/warranty information, real Salla reviews, brands, guides, business/wholesale pathways, policy navigation, and a complete footer.
-
-The visual direction is light, premium retail: white and soft-neutral surfaces, charcoal typography, restrained ZOD red accents, product-led imagery, large search, spacious cards, and responsive components designed independently for desktop and mobile behavior.
-
-## Included storefront areas
-
-- Announcement / utility bar
-- Sticky desktop and mobile header
-- Native Salla live search
-- Multi-level desktop mega-menu
-- Mobile drill-down catalog menu
-- Mobile bottom navigation dock
-- Hero campaigns with separate mobile artwork
-- Category discovery
-- Shop by need
-- Product shelves
-- Product spotlight / storytelling
-- Promotion grid
-- Brands
-- Trust/service strip
-- Buying guides
-- FAQ
-- Wholesale/business CTA
-- Optional locations / branch contact section
-- Product catalog with subcategories, filtering and sorting
-- Technical product detail experience
-- Product options, bundles, size guides, notes and uploads
-- Add-to-cart toast + Salla quick-buy support
-- Mobile sticky product purchase bar
-- Cart with offers, coupon, loyalty, gifting and summary
-- Brands pages
-- Blog / buying-guide pages
-- Reviews page
-- Customer account, wishlist, wallet and orders
-- Landing/content/loyalty/thank-you pages
-- Responsive footer with mobile accordions
-- Arabic RTL + English LTR locale parity
-
-## Requirements
-
-Use pnpm. Do not run `npm install` in this project.
-
-```bash
-pnpm install
-pnpm test
+```sh
+corepack enable
+pnpm install --frozen-lockfile
 pnpm production
-salla theme preview --with-editor
+pnpm test
+pnpm release:check
 ```
 
-See `STORE_SETUP.md` for the complete new-repository and launch checklist.
-See `DESIGN_SYSTEM.md` for the visual and responsive rules.
+`production` runs Webpack first and records a production manifest only after that command succeeds. `test` checks the freshly built source/output hashes. Editing source after building requires another build. `release:check` rejects a snapshot manifest even when its hashes match.
 
-## Recommended homepage order
+The full workflow **was not executed here**. Corepack failed to download pnpm because `registry.npmjs.org` could not be resolved (`EAI_AGAIN`). The final snapshot build and repository tests ran with Node 24.11.1, which satisfies the declared engine range. Dependency installation and Webpack remain blocked; passing local checks does not certify the complete toolchain.
 
-1. Commerce Hero
-2. Category Navigation
-3. Shop by Need
-4. Best Sellers
-5. Product Spotlight
-6. Category Product Shelves
-7. Promotion Grid (only when there is a real campaign)
-8. Brands
-9. Wholesale / Business CTA
-10. Buying Guides
-11. FAQ
-12. Locations / Contact (when applicable)
-13. Real Salla Reviews / Testimonials component
-14. Trust & Service
+## Shipped snapshot workflow
 
-The timed Screen Advertisement is a fixed overlay, so its editor position does not affect the visual order. Add only one WhatsApp Contact component; it now renders as a fixed language-aware contact control rather than an in-page section.
+```sh
+node scripts/build-offline.mjs
+npm test
+npm run build:verify
+```
 
-Only the product shelf is enabled as a safe default so a new store can render without fake banners, fake category imagery, fake trust claims, or placeholder reviews. Configure the remaining sections in the Salla theme editor with real store content.
+The offline builder refreshes supported local JavaScript entries and plain refinement CSS. It retains the previously supplied compiled base stylesheet, PDP bundle and vendor snapshot. Their hashes, mapped source, dependency declarations and build configuration are pinned in `scripts/SNAPSHOT_BASELINE.json`. Unsupported imports or edits to retained inputs stop the offline builder rather than silently using stale output. It is **not** a replacement for Sass/Tailwind/Webpack/Babel or the Salla renderer.
 
-## Repository recommendation
+`BUILD_MANIFEST.json` identifies every source/configuration input and public output. These hashes prove consistency with the recorded snapshot, not runtime correctness or approval. `npm run release:check` is intentionally expected to fail on this delivered snapshot until a full production build is completed.
 
-Create a dedicated empty repository for this theme:
+## Packaging and rollback
 
-`Wllbr/zod-commerce-theme`
+On Windows, `pnpm release` verifies production provenance before packaging. An explicitly labelled staging snapshot may be packaged with:
 
-## v1.4.0 interaction behavior
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-release.ps1 -AllowSnapshot
+```
 
-- Catalog navigation uses one right-side drawer on desktop and mobile. The page behind it blurs smoothly; X, Escape, or any click outside the drawer closes it.
-- Search opens as a full-page blurred overlay using the current Salla store logo and native `salla-search`. X, Escape, or any click outside the search field/results closes it.
-- The footer has no newsletter form. Store description/slogan, footer menu, contacts, social links, tax/trust information, payment methods and copyright remain sourced from Salla.
+The PowerShell packaging script was updated but could not be executed here; the delivered archive was independently created and inspected with Python. ZIP roots contain `twilight.json`, `src/` and `public/`. Keep the old ZIP and merchant settings for rollback. The 1 MiB compressed size threshold is this project's own budget, not a claim about a current Salla limit.
 
+Preview products/prices, mock widgets, fixture illustrations and browser screenshots belong only to the separate preview package. No font files or fixture data are shipped in the theme ZIP.
 
+## Before live publication
 
-## v1.3 Motion Commerce
-
-The homepage now uses motion intentionally: hero slides autoplay without large arrow controls; category, brand and product rails move horizontally; and the new Interactive Featured Product component combines product media, native Salla commerce data and auto-cycling clickable benefit icons. The native Salla Store Features component is styled by the theme rather than duplicated as store data.
-
-
-## Mobile commerce density
-
-Version 1.4 uses a count-only header cart badge (hidden at zero), bottom-dock search on phones, two-card mobile product rails, and animated add-to-cart feedback.
-
-## v1.4.1 polish
-
-- Blocking add-to-cart success alerts are intercepted and replaced by a non-blocking ZOD cart confirmation pill.
-- Interactive showcase price refreshes from Salla's live storefront product APIs.
-- Interactive showcase no longer renders an eyebrow / featured-offer line.
-- `WhatsApp contact` is a floating homepage control with up to four configurable WhatsApp destinations and a Salla contact-number fallback.
-- Footer customer-service contacts are icon-only, sourced from Salla, with hover/focus glow interactions.
-
-## v1.5.2 cart / checkout handoff
-
-The cart now keeps the grand total visible in the mobile sticky checkout dock and refreshes it from Salla cart data after cart changes. The actual hosted checkout/payment screen is controlled by Salla rather than a Twilight `checkout.twig`; see `CHECKOUT_EXPERIENCE_V152.md` for the supported customization boundary and recommended Salla dashboard settings.
+Complete the full production build, Salla schema validation and actual Twig rendering, then test real native widgets, product options, carts, search, order reviews, pending-payment orders and checkout in your store's staging preview. See the detailed checklist in QA_REPORT.md. Nothing in the local test results substitutes for those gates.

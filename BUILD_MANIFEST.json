@@ -1,0 +1,184 @@
+{
+  "version": "1.8.2",
+  "builder": "offline-local-esm-snapshot",
+  "toolchain": {
+    "node": "v24.11.1",
+    "platform": "linux"
+  },
+  "inputs": {
+    ".npmrc": "f84e69fe032956925070936b1557ae1320d29d06b58db541649515e05db580c6",
+    "package.json": "fdf170aad7027098b676d11246cf48ada4e24fff7d8b28f550b997025f748862",
+    "pnpm-lock.yaml": "3f2bcf6cb159d4dacbffa697add62fb88fe97bfcda1260644f33381a3024f963",
+    "pnpm-workspace.yaml": "9082b3fed56a9b818282d1ab4d450eab0fa4da7c8f191072e9dc4dde32f21eb2",
+    "postcss.config.js": "134370dcd34c87ed8277c373743326a1f87b669d66ac1cf3fc98abc024208c76",
+    "scripts/SNAPSHOT_BASELINE.json": "e57e7a443ad09a26c64c91fbc584ccf9537c8958f45076e39bee7a8631c329be",
+    "scripts/build-manifest.mjs": "e3d1a6258e837ec30c01237c5f7bbe2c766a75e00ffc9c297e2e9fe37a3ace2f",
+    "scripts/build-offline.mjs": "9162eee67c9508101584a25a4fbe69a867c9a41139effb5e4b806c28a60dd707",
+    "scripts/check-build-integrity.mjs": "a55b85f4b6fa61ece185ebef9c955d2e5a63772753866ec87fbf9a966e6fa5a0",
+    "scripts/check-css-budget.mjs": "054cc25f1a3715a011fc1e5c0a196b69e81497538c8f691a197a79fe0b9e1001",
+    "scripts/package-release.ps1": "16556f275fcebfb6fa69b2bf621cb6d857c526c231240340cb05c8f6886996b1",
+    "scripts/record-build.mjs": "671b6a42cdd2dbeec4955851180a9d4d3308daff3c1bdaca0aea8ad3a9e6689c",
+    "scripts/test-approval.mjs": "7518db3db7e341490e5856a9eb5d19edddaac9d63330ec2c3e30be44fed4feaf",
+    "scripts/test-continuation.mjs": "6f91bb9d2a06ef1fc1ce3171fc04a06d56cfaa07bc75a29a8342f5252148644b",
+    "scripts/test-regressions.mjs": "b3cfd4a0f3618968927c6266049fd136476cf48b0f825644f288bf95291b0f55",
+    "scripts/test-shopping.mjs": "076df82474bbb7532b952645e047a9a2bc8b29c4a075bffdddfa38a2873f6f94",
+    "scripts/validate-theme.mjs": "c7a2b243e8fe5b88e3608b5f8c376136b28fcb8563cbc588f8eee24efa056426",
+    "src/assets/images/generated/insect-traps/afc-glue-trap-lifestyle.webp": "4313ef87e5305f190f0ad7378c9a94baf7d02f4893a5d10b6b1cb06a8b7c907d",
+    "src/assets/images/generated/insect-traps/geepas-electric-trap-lifestyle.webp": "53545050b602e37b7f8b2b5adfedf5e5fa1b501d033fc895baa59bd0b0985dab",
+    "src/assets/images/generated/ventilation/kdk-wall-fan-spotlight-square.webp": "3a16974c64a078980af5aee845ce1361311855d1e0c9f1487fe0190481327c50",
+    "src/assets/images/placeholder.svg": "b4a0b8e8beda6cf59ac4739286b09f2b9946fe45413252e0234d3f4b27d913aa",
+    "src/assets/js/app.js": "b1e73b45b39d1bc64fc1b3fc9251f2861d9c2aea5d9fb6cf1d91bfd59ddc23bf",
+    "src/assets/js/home.js": "9f614ac11558c1f7a3596898f27b507908cb1860f6a8e7cab7cbd9841095432d",
+    "src/assets/js/legacy-product-card.js": "ce87427664a619dfbaa2f94e86edcc6acc7e0c383d7608a9525296a66b77abb1",
+    "src/assets/js/pages.js": "7291103a5b491b60880f539bc268fb21bbdc8db8b5235197c26a5a232548cf6d",
+    "src/assets/js/partials/add-product-toast.js": "74d95375813b4e87dfc8ad5543ad007db18833adf67b42e425c0ebe9397d9fb5",
+    "src/assets/js/partials/dialog-focus.js": "55a504e139a1a3fb55174849b853855f9417a6c69eb63cbb68e5d075f1e44f7e",
+    "src/assets/js/partials/digital-files.js": "1e4a7901a5fcc5d95caffb44b981e530058927cfe143a005450fbd218f200a47",
+    "src/assets/js/partials/preview-links.js": "82a8fa5cccc9cd2e5d0034c4d249bd2228046e8a248378be39ae2e7e59861e44",
+    "src/assets/js/partials/product-card.js": "fe619baf0d082c919a5e19ee0ab03ee00042f2e3711ec3849bbc283edfb8abbc",
+    "src/assets/js/partials/search-card-navigation.js": "d07dd404d89acb134be24b1fcd6820b8bb44d99c2f7df90b9105bd06a65c9284",
+    "src/assets/js/partials/stock.js": "d1eb5e55ad04fc919bc89eddc9b4c417fa7dab309eb3301a33a26632e5a1cea9",
+    "src/assets/js/partials/zod-menu.js": "126471acecb93fa7f566bd6959b07c40f7a512228201dbdc1970bd8fbdc3591f",
+    "src/assets/js/product-purchase-v1726.js": "3b0780700928fcaaf08b8e625672a6a634555ce810900565c18b4325ac847882",
+    "src/assets/js/product-runtime-compat.js": "dd978365b238b8d74ccac90acdc5cbafb005ffe03633c51d8ff2ec63c035e34c",
+    "src/assets/js/product.js": "dd84daeb62a8fdcd6b15c7464708fb1b464fd87bfa406f6e4d01dca419726aff",
+    "src/assets/js/products.js": "892ee5f5436da14e4a90feec140b3c2ee5c98eb008d21f65490c38cf7e8fe0c5",
+    "src/assets/styles/app.scss": "e9a4450ae4837a3d55688e56dfb9c597c37cb761cf2fda28222b5ba4a2503f3f",
+    "src/assets/styles/refinement.css": "d8cbbff8294e3811e7da1c3569a200d3c970d8e9d59062cd89af31a24b69ab09",
+    "src/locales/ar.json": "170d1419ea0082b3369186e59e60361d8c97fa35166dc324808f8ccce13acb5d",
+    "src/locales/en.json": "639a82e82a9b4399d93460684af5f82ffed96be1b9681381f0a7bbcd7531d840",
+    "src/views/components/blog/article-card.twig": "08e54744a1e11e571ef7dfa67e6e183ee85b1817662c6f237e99e1b748ff2e76",
+    "src/views/components/footer/footer.twig": "49804402760c8fe2c429bda62f854b9d94557d6335e396b51e399a864beda107",
+    "src/views/components/header/header.twig": "eb41bcd3f61e5cacc3f1ab0147bd68d2c8f666ba03d310d2e25734b2103e90a0",
+    "src/views/components/home/brands.twig": "04fda8ade48ee0ea5cea59a4b2216f1d8cf90f05a1b962a62c921455b47c464b",
+    "src/views/components/home/buying-guides.twig": "7e2f8cffd046ab648ed36795474b2812a911fa4268d5e8b66fcf3b84b99e56cb",
+    "src/views/components/home/category-grid.twig": "629dfb5490393c4d11196912b52ce0f593e7f975b95fb2628a461fe6617daf91",
+    "src/views/components/home/dual-showcase.twig": "e4d33d3af2c1d0fe74da83e6b287b4385e56cb736fb3b0964fe68ac290baa2d9",
+    "src/views/components/home/faq.twig": "b37a9469dbfecba5d6aa13fb4691b42bd834aeade53cd7dba7874a10fd2ed33e",
+    "src/views/components/home/featured-products-style1.twig": "fda25bc181efa20a7168ddd2f6460533d95739c732454a348911b77fe2074459",
+    "src/views/components/home/featured-products-style2.twig": "fda25bc181efa20a7168ddd2f6460533d95739c732454a348911b77fe2074459",
+    "src/views/components/home/featured-products-style3.twig": "fda25bc181efa20a7168ddd2f6460533d95739c732454a348911b77fe2074459",
+    "src/views/components/home/featured-products.twig": "9f3f298ff9d99a7e8d6b92d1c8c4b4b6091ed23db4cec1e6060f6f4166bd25bb",
+    "src/views/components/home/fixed-banner.twig": "e8500a31a94d350bf4dc22beb6b1571609417fb25489a9d650e60cc795ffc506",
+    "src/views/components/home/fixed-products.twig": "1ed30b6c59b4fe9fe5472760a8ae6f464139226e2be15f38a857387fe779fd77",
+    "src/views/components/home/hero-hub.twig": "e26e7e604012cb7cb760ec81c2647b0677d3ef81443583f15dd69f6639a3fbcd",
+    "src/views/components/home/hero.twig": "08b2cd98923ecac88d40f5e73fbffed0d747c12872c946fff647c050aeb603c0",
+    "src/views/components/home/interactive-product-showcase.twig": "8751aa2a6b921964e78e50a6f9c275755bf5726126481918c73b859a141027c1",
+    "src/views/components/home/laser-showcase.twig": "941deacfcd7cdfac6a2c6130653609a352328f6e5cbb4c23fcf3db7a8583b0b0",
+    "src/views/components/home/locations.twig": "fc6870f0983eeb13a076705c5594c704984df16571c904faa667166e908399c2",
+    "src/views/components/home/photos-slider.twig": "35e80ffb4da74737b48d1b6d214a0afd70d3ce715a9e6f3fdad04973fdc00420",
+    "src/views/components/home/product-shelf.twig": "d54b08893177a16af6857827521debbaf53b754d11a33a76558f0723afc2c7bd",
+    "src/views/components/home/product-spotlight.twig": "f0f39c1cb1a67ce2b6a4b93c42d9b88ff2d7c928d661a1318eb6e0300069700f",
+    "src/views/components/home/product-type-switcher.twig": "fd247ea3bbe35978b6074461e17c4e17b68647c9adf29ee720afd22429c72e6a",
+    "src/views/components/home/products-slider.twig": "2fb0327a3bb8f12de007fdbb7edae84b97a9742a734f001528e39dcec15bbe70",
+    "src/views/components/home/promo-grid.twig": "ed3092aae9ca6f3f4e5ae4d7a21ab6b39382ebe3d4a0af5653005d8147cf4137",
+    "src/views/components/home/screen-ad.twig": "f9f2874c79abe4b13f64def3ff61a9fa43b3094b1dcc7a1ad7ec6ea1f2902188",
+    "src/views/components/home/shop-by-need.twig": "29f23669cfbc49ae5696ef9e4bbd7b9d889a44e2a265aa596e2859751a2d09cd",
+    "src/views/components/home/store-features.twig": "16166778e573f874c1cdf8b480ee09e28b8d27495e5e5021fa636454170ad7b5",
+    "src/views/components/home/testimonials.twig": "109add716ab15b8da3785e6330c46ff923b3a7298d03d777436a19b7d8bc7ac5",
+    "src/views/components/home/trust-strip.twig": "19f201e2e0c5084c8dd3454a60a327c7233a3ab40efa068202326eb4d13086d3",
+    "src/views/components/home/whatsapp-contact.twig": "0e5271dddea23900565d74910b47840f454826cfbeb65107545d716170c7431a",
+    "src/views/components/home/wholesale-cta.twig": "d26db45fb4a7257348793dd9fd57d89cec0d0b7e67e6f6206798d00ae01f7303",
+    "src/views/components/home/youtube.twig": "3bdfb2a01c95cac9aa755a38dec1cbcd12f6d394c1d5751f8b76e7b39355d212",
+    "src/views/components/shared/category-symbol.twig": "044912c8aa8010a3794f7b8f727e7ca163102b67802ebef486a39dbfb0494771",
+    "src/views/layouts/customer.twig": "04f6376ca00ad99ac91b0d4baf89c01729728ec8550f1ab5c1f1d63531a404b9",
+    "src/views/layouts/master.twig": "8a0af7fc3922cc3bbe77f404ff05bad67831a048bc2354d1a687342e4d205823",
+    "src/views/pages/blog/index.twig": "e084826bb7e6e22c5b7c2ee760c823071d9d48ef83844f9471e97ae34e3fd724",
+    "src/views/pages/blog/single.twig": "3f850a97a1d5429dd6cf309dcedd1750bc54d4b4fdc877e944654d0c89a01d45",
+    "src/views/pages/brands/index.twig": "696b29af931a52ea82e3f022c273fcaea7483ed4605eece5cbfaf0cc2a7080b6",
+    "src/views/pages/brands/single.twig": "6aa54da25378e12342d385479b7d3b1fbf23981ec4d3688355fba7c26feaa964",
+    "src/views/pages/cart.twig": "4923a0cccb2ffb02347c0cafd92b755ebd3a5256a331155b1516ae92fba5517f",
+    "src/views/pages/customer/notifications.twig": "4581ebf78d1c9958c9164ccb37e58e57542d990721f9834b5485471d9a9222b8",
+    "src/views/pages/customer/orders/index.twig": "788a71adf29beb388c97e8bd92cb2059253eecce9249c677e0f72d1ab21eee68",
+    "src/views/pages/customer/orders/single.twig": "a347346faa17e57a76774c878837648100d57750f78f00010b05f847b7ca78c7",
+    "src/views/pages/customer/profile.twig": "8d07fb36bda23c62b2fb85d2b7cb65b7c8a83c9440b296898f63e0a894e39510",
+    "src/views/pages/customer/wallet.twig": "969f4dc496b8be004648e9112b8c4e41ccb4bd094acead3f1cee499f903bec85",
+    "src/views/pages/customer/wishlist.twig": "b9172be38155299a599828a65bd12952525423941d22ab1b25b0ed3d6b90cf13",
+    "src/views/pages/index.twig": "8e2f9b6fa4995205b0a37980cef1a2897e229e0e8b3d31826e2516e8cbe41424",
+    "src/views/pages/landing-page.twig": "0dd429ad3443cd208eb023062b634a343a3cacaf56ffa43f15ff4464a868552b",
+    "src/views/pages/loyalty.twig": "31fc788f031d045cd334b66900377e3e5c68c03e495755caa9ec8bc0403df018",
+    "src/views/pages/page-single.twig": "f837ef3993e0ff868de05a05d1835c8b66d30c1d172dbc8d18d4ef3c45e79128",
+    "src/views/pages/partials/product/options.twig": "862ce4ad7bdbedbaa4d6ea86ee9febf464030099d6915b119a03427086131b9a",
+    "src/views/pages/product/index.twig": "7062ecf64b651aff8b3bd4f8206dcbc54bf7dd3ecb8fbbd88a07b7319827c7b2",
+    "src/views/pages/product/single.twig": "efb1af5521f7e693845265db448d6a5bdfec646d6a0b3edbd675f99ebe8e2841",
+    "src/views/pages/testimonials.twig": "d499be8138a23a6daa457cbf1000759df3a15024fb9272d8f8395018ec945323",
+    "src/views/pages/thank-you.twig": "a51fb48179d9d21eb5b21b01b485642edfe5612800ad5233d742ff5a59012dc8",
+    "tailwind.config.js": "f321881ec2a51603ba55316b6841c2b0950a4b33b00c04dd4818d1de9d79d169",
+    "twilight.json": "702ccc38d7acd215d2f0513345123605882bc0994d8ba8e73cba549a983927d7",
+    "webpack.config.js": "4308d439ba372bbe507188cf29ea4762a830b88baa136c1af49eafdcd2e4589e"
+  },
+  "files": {
+    "public/675.d18f08966778e4fd7975.js": {
+      "sha256": "46d05692b42c575ddc256ec02705df39714c5e7ed1fb51861e5638782b2b5d7e",
+      "mode": "retained-original-compiled-asset"
+    },
+    "public/add-product-toast.js": {
+      "sha256": "74d95375813b4e87dfc8ad5543ad007db18833adf67b42e425c0ebe9397d9fb5",
+      "mode": "copy-no-imports"
+    },
+    "public/app.css": {
+      "sha256": "4ab83347da5ccc49c679ba69e16e63c5d2cf274ec7dec341619b7bca8c14aa6f",
+      "mode": "retained-original-compiled-asset"
+    },
+    "public/app.js": {
+      "sha256": "4b49fe4a287505a895fd0f86e5c2510ab8f0e175496b3ca943faa36ba5b3b76c",
+      "mode": "local-esm-bundle"
+    },
+    "public/digital-files.js": {
+      "sha256": "1e4a7901a5fcc5d95caffb44b981e530058927cfe143a005450fbd218f200a47",
+      "mode": "copy-no-imports"
+    },
+    "public/home.js": {
+      "sha256": "8a1a8a982970ce22dab8f3ad7adc45281ab26e5eb174522a2dcb67f4ad8fcbb8",
+      "mode": "source-plus-original-vendor"
+    },
+    "public/images/generated/insect-traps/afc-glue-trap-lifestyle.webp": {
+      "sha256": "4313ef87e5305f190f0ad7378c9a94baf7d02f4893a5d10b6b1cb06a8b7c907d",
+      "mode": "copied-static-asset"
+    },
+    "public/images/generated/insect-traps/geepas-electric-trap-lifestyle.webp": {
+      "sha256": "53545050b602e37b7f8b2b5adfedf5e5fa1b501d033fc895baa59bd0b0985dab",
+      "mode": "copied-static-asset"
+    },
+    "public/images/generated/ventilation/kdk-wall-fan-spotlight-square.webp": {
+      "sha256": "3a16974c64a078980af5aee845ce1361311855d1e0c9f1487fe0190481327c50",
+      "mode": "copied-static-asset"
+    },
+    "public/images/placeholder.svg": {
+      "sha256": "b4a0b8e8beda6cf59ac4739286b09f2b9946fe45413252e0234d3f4b27d913aa",
+      "mode": "copied-static-asset"
+    },
+    "public/legacy-product-card.js": {
+      "sha256": "ce87427664a619dfbaa2f94e86edcc6acc7e0c383d7608a9525296a66b77abb1",
+      "mode": "copy-no-imports"
+    },
+    "public/pages.js": {
+      "sha256": "960611e3fc880335ced3ccfbc9f7c857e3f33c639e3a2c0d1ef6a99734cb60a2",
+      "mode": "local-esm-bundle"
+    },
+    "public/product-purchase-v1726.js": {
+      "sha256": "3b0780700928fcaaf08b8e625672a6a634555ce810900565c18b4325ac847882",
+      "mode": "copy-no-imports"
+    },
+    "public/product-runtime-compat.js": {
+      "sha256": "dd978365b238b8d74ccac90acdc5cbafb005ffe03633c51d8ff2ec63c035e34c",
+      "mode": "copy-no-imports"
+    },
+    "public/product.js": {
+      "sha256": "aed0bddc39437b07d9bc93237edb0ec8fe3233c5838d1a209a4d3b564bfbacdd",
+      "mode": "retained-original-compiled-asset"
+    },
+    "public/products.js": {
+      "sha256": "59a17c87f98bffcd809334bba520948a9c7d1bfbfbb032bee90bdc8f5f177e73",
+      "mode": "local-esm-bundle"
+    },
+    "public/refinement.css": {
+      "sha256": "d8cbbff8294e3811e7da1c3569a200d3c970d8e9d59062cd89af31a24b69ab09",
+      "mode": "plain-css"
+    },
+    "public/zod-menu.js": {
+      "sha256": "fbf22c0b50be927c7e70fb172f60ae09b0e3f6aaa0ca2831fd1bc8befbeb661f",
+      "mode": "local-esm-bundle"
+    }
+  }
+}

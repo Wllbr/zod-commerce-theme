@@ -1,28 +1,50 @@
 {% extends "layouts.master" %}
 {% block content %}
-<section class="zod-status-page zod-order-complete-page">
+{% set payment_pending = order and order.is_pending_payment %}
+{% set payment_expired = payment_pending and order.pending_payment_ends_in is defined and order.pending_payment_ends_in is not null and order.pending_payment_ends_in == 0 %}
+{% hook 'thank-you:start' %}
+<section class="zod-status-page zod-order-complete-page" data-zod-order-state="{{ payment_expired ? 'expired' : (payment_pending ? 'pending' : 'received') }}">
   <div class="container">
     <div class="zod-order-complete-progress" aria-label="{{ trans('zod.cart.progress_label') }}">
-      <span class="is-done"><i class="sicon-check"></i><b>{{ trans('zod.cart.step_cart') }}</b></span>
+      <span class="is-done"><i class="sicon-check" aria-hidden="true"></i><b>{{ trans('zod.cart.step_cart') }}</b></span>
       <em><i></i></em>
-      <span class="is-done"><i class="sicon-check"></i><b>{{ trans('zod.cart.step_delivery_payment') }}</b></span>
+      <span class="{{ payment_pending ? 'is-current' : 'is-done' }}"><i class="{{ payment_pending ? 'sicon-time' : 'sicon-check' }}" aria-hidden="true"></i><b>{{ trans('zod.cart.step_delivery_payment') }}</b></span>
       <em><i></i></em>
-      <span class="is-current"><i class="sicon-check"></i><b>{{ trans('zod.cart.order_complete') }}</b></span>
+      <span class="{{ payment_pending ? '' : 'is-current' }}"><i class="{{ payment_pending ? 'sicon-newspaper' : 'sicon-check' }}" aria-hidden="true"></i><b>{{ trans('zod.order.received') }}</b></span>
     </div>
-    <div class="zod-status-card zod-order-complete-card">
-      <span class="zod-status-icon is-success"><i class="sicon-check"></i></span>
-      <p class="zod-order-complete-card__eyebrow">{{ trans('zod.cart.journey_complete') }}</p>
-      <h1>{{ page.title }}</h1>
-      <p class="zod-order-complete-card__hint">{{ trans('zod.cart.thank_you_hint') }}</p>
-      <div class="zod-rich-text">{{ page.content|raw }}</div>
-      {% if order %}<div class="zod-order-complete-card__details"><salla-order-details order-id="{{ order.id }}"></salla-order-details></div>{% endif %}
-      <a href="{{ link('/') }}" class="zod-btn zod-btn--primary">{{ trans('common.elements.back_home') }}</a>
+    <div class="zod-status-card zod-order-complete-card {{ payment_pending ? 'is-payment-pending' : '' }}">
+      <span class="zod-status-icon {{ payment_pending ? 'is-pending' : 'is-success' }}"><i class="{{ payment_pending ? 'sicon-time' : 'sicon-check' }}" aria-hidden="true"></i></span>
+      <p class="zod-order-complete-card__eyebrow">{{ payment_expired ? trans('zod.order.payment_expired') : (payment_pending ? trans('zod.order.payment_pending') : trans('zod.order.received')) }}</p>
+      <h1 data-testid="store-thankyou-title">{{ thank_you_title|default(page.title) }}</h1>
+      <p class="zod-order-complete-card__hint">{{ payment_expired ? trans('zod.order.expired_hint') : (payment_pending ? trans('zod.order.pending_hint') : trans('zod.cart.thank_you_hint')) }}</p>
+      {% if order %}<div class="zod-order-complete-card__details"><p><span>{{ trans('zod.order.reference') }}: </span><strong dir="auto">{{ order.reference_id|default(order.id) }}</strong></p></div>{% endif %}
+      <div class="zod-confirmation-actions">
+        {% if order and order.url %}<a href="{{ order.url }}" data-zod-order-open data-order-id="{{ order.id }}" class="zod-btn zod-btn--primary" data-testid="store-thankyou-order-details-btn">{{ trans('zod.order.view_details') }}</a>{% endif %}
+        {% if payment_pending and not payment_expired and order.payment_url %}<a class="zod-btn zod-btn--primary" href="{{ order.payment_url }}">{{ trans('pages.orders.finish_payment') }}</a>{% endif %}
+        <a href="{{ link('/') }}" class="zod-btn zod-btn--outline">{{ trans('zod.cart.continue_shopping') }}</a>
+      </div>
+      {% if order.instructions %}<div class="zod-rich-text zod-confirmation-instructions">{{ order.instructions|raw }}</div>{% endif %}
+      {% if messages|length %}<div class="zod-confirmation-messages">{% for message in messages %}<p>{{ message }}</p>{% endfor %}</div>{% endif %}
+      {% hook 'thank-you:items.start' %}
+      {% hook 'thank-you:items.end' %}
     </div>
     {% if order %}
-      <salla-order-shipments class="block mb-6 md:mb-8 empty:hidden"></salla-order-shipments>
-      <salla-next-order-coupon data-testid="store-thankyou-coupon"></salla-next-order-coupon>
-      {% if order.is_pickable %}<salla-order-branch data-testid="store-thankyou-branch"></salla-order-branch>{% endif %}
+      <salla-order-shipments class="zod-confirmation-native"></salla-order-shipments>
+      <salla-next-order-coupon class="zod-confirmation-native" data-testid="store-thankyou-coupon"></salla-next-order-coupon>
+      {% if order.is_pickable %}<salla-order-branch class="zod-confirmation-native" data-testid="store-thankyou-branch"></salla-order-branch>{% endif %}
+      <section class="zod-confirmation-email" aria-labelledby="zod-invoice-title">
+        <div><h2 id="zod-invoice-title">{{ trans('zod.order.invoice') }}</h2><p>{{ order.email_sent ? trans('pages.thank_you.email_sent') : trans('pages.thank_you.resend_email') }}</p></div>
+        {% if order.email_sent %}<strong dir="auto">{{ order.customer.email }}</strong>{% else %}
+          <form onsubmit="return salla.form.onSubmit('order.sendInvoice', event)">
+            <label class="sr-only" for="zod-invoice-email">{{ trans('zod.order.email') }}</label>
+            <input id="zod-invoice-email" data-testid="store-thankyou-email-input" class="form-input" type="email" name="email" autocomplete="email" inputmode="email" required placeholder="{{ trans('zod.order.email') }}">
+            <salla-button data-testid="store-thankyou-email-submit" type="submit">{{ trans('blocks.comments.submit') }}</salla-button>
+          </form>
+        {% endif %}
+      </section>
     {% endif %}
   </div>
 </section>
+{% hook 'thank-you:end' %}
 {% endblock %}
+{% block scripts %}<script defer src="{{ 'pages.js'|asset }}"></script>{% endblock %}

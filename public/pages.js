@@ -1,276 +1,185 @@
+/* ZOD 1.8.2: generated from source by scripts/build-offline.mjs */
+(()=>{
+'use strict';
+const modules={
+"src/assets/js/pages.js":function(module,exports,require){
 document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('[data-zod-order-open]').forEach(link => {
+    link.addEventListener('click', event => {
+      if (event.defaultPrevented || event.button > 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (!window.salla?.order?.show || !link.dataset.orderId) return; // Working link before the SDK is ready.
+      event.preventDefault();
+      if (link.getAttribute('aria-busy') === 'true') return;
+      link.setAttribute('aria-busy', 'true');
+      const release = () => link.removeAttribute('aria-busy');
+      const fallback = () => { release(); window.location.assign(link.href); };
+      try {
+        Promise.resolve(window.salla.order.show({ order_id: link.dataset.orderId, url: link.href })).then(release, fallback);
+      } catch (_) { fallback(); }
+    });
+  });
   document.querySelectorAll('[data-accordion-trigger]').forEach(btn=>btn.addEventListener('click',()=>btn.closest('[data-accordion]')?.classList.toggle('is-open')));
 
   const cartPage=document.querySelector('[data-zod-cart-page]');
   if(!cartPage) return;
 
-  const ar=(document.documentElement?.lang||'').toLowerCase().startsWith('ar');
-
-  // Keep offer copy customer-ready when a merchant offer contains Salla's raw
-  // payment-method placeholder. Components render asynchronously in shadow DOM.
-  const replaceOfferPlaceholders=root=>{
-    if(!root) return;
-    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
-    const replacement=ar?'طريقة الدفع المختارة':'selected payment method';
-    let node;
-    while((node=walker.nextNode())){
-      if(node.nodeValue?.includes('{payment_method}')) node.nodeValue=node.nodeValue.replaceAll('{payment_method}',replacement);
+  // Prices and eligibility come from confirmed cart responses, never cached
+  // totals or reconstructed subtotal/tax/discount formulas. The native summary
+  // handles checkout validation, coupons, shipping and all monetary breakdowns.
+  const totalNodes = [...document.querySelectorAll('[data-zod-cart-grand-total]')];
+  const pendingItems = new Map();
+  let revision = 0;
+  let refreshTimer;
+  const flag = value => value === true || value === 1 || value === '1' || value === 'true';
+  const moneyNumber = value => {
+    const raw = value && typeof value === 'object' ? value.amount : value;
+    if (raw === null || raw === undefined || raw === '' || typeof raw === 'boolean') return null;
+    if (typeof raw === 'number') return Number.isFinite(raw) ? raw : null;
+    const normalized = String(raw).trim()
+      .replace(/[٠-٩]/g, digit => String('٠١٢٣٤٥٦٧٨٩'.indexOf(digit)))
+      .replace(/[۰-۹]/g, digit => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)))
+      .replace(/٬/g, '').replace(/٫/g, '.');
+    if (!/^-?\d+(?:\.\d+)?$/.test(normalized)) return null;
+    const parsed = Number(normalized);
+    return Number.isFinite(parsed) ? parsed : null;
+  };
+  const cartFrom = payload => {
+    const roots = [payload?.data?.cart, payload?.cart, payload?.data?.data, payload?.data, payload];
+    return roots.find(root => root && typeof root === 'object'
+      && ('total' in root || 'items' in root || 'free_shipping_bar' in root)) || null;
+  };
+  const paintMoney = (node, value) => {
+    const amount = moneyNumber(value);
+    if (!node || amount === null) return;
+    try { node.innerHTML = salla.money(amount); }
+    catch (_) { node.textContent = String(amount); }
+  };
+  const clearItemState = (item, success = false) => {
+    const timer = pendingItems.get(item);
+    clearTimeout(timer); pendingItems.delete(item);
+    item.classList.remove('is-updating'); item.removeAttribute?.('aria-busy');
+    if (success) {
+      item.classList.add('is-updated');
+      setTimeout(() => item.classList.remove('is-updated'), 720);
     }
   };
-  const watchOfferComponent=async host=>{
-    try{await customElements.whenDefined(host.localName);}catch(_){return;}
-    const root=host.shadowRoot||host;
-    replaceOfferPlaceholders(root);
-    new MutationObserver(()=>replaceOfferPlaceholders(root)).observe(root,{subtree:true,childList:true,characterData:true});
-  };
-  document.querySelectorAll('salla-offer,salla-cart-item-offers').forEach(watchOfferComponent);
-
-  // Reuse Salla's native summary-card checkout validation. Wait for the web
-  // component and accept current and previous native submit selectors so a
-  // slow component render does not leave the mobile dock unresponsive.
-  const checkoutButton=document.querySelector('[data-testid="store-cart-checkout-mobile"]');
-  const findNativeCheckout=summary=>{
-    const roots=[summary,summary?.shadowRoot].filter(Boolean);
-    const selectors=['[data-testid="store-cart-submit"]','#s-cart-summary-card-submit','button[type="submit"]'];
-    for(const root of roots) for(const selector of selectors){const button=root.querySelector?.(selector);if(button) return button;}
-    return null;
-  };
-  checkoutButton?.addEventListener('click',()=>{
-    if(checkoutButton.getAttribute?.('aria-busy')==='true') return;
-    const summary=document.querySelector('salla-cart-summary-card');
-    const immediateSubmit=findNativeCheckout(summary);
-    if(immediateSubmit){immediateSubmit.click();return;}
-    checkoutButton.setAttribute?.('aria-busy','true');
-    const continueCheckout=async()=>{
-      try{
-        await customElements.whenDefined('salla-cart-summary-card');
-      let submit=findNativeCheckout(summary);
-      if(!submit){await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));submit=findNativeCheckout(summary);}
-      if(submit){submit.click();return;}
-      summary?.scrollIntoView?.({behavior:'smooth',block:'center'});
-      window.salla?.notify?.error?.(ar?'جارٍ تجهيز إتمام الطلب. حاول مرة أخرى بعد لحظات.':'Checkout is still loading. Please try again in a moment.');
-      }finally{setTimeout(()=>checkoutButton.removeAttribute?.('aria-busy'),900);}
-    };
-    continueCheckout();
-  });
-
-  // Hide the optional cart-offers drawer when Salla returns no offer content.
-  const offersDrawer=document.querySelector('[data-zod-cart-offers-drawer]');
-  const offersHost=offersDrawer?.querySelector?.('salla-offer');
-  if(offersDrawer&&offersHost){
-    customElements.whenDefined('salla-offer').then(()=>setTimeout(()=>{
-      const text=(offersHost.shadowRoot?.textContent||offersHost.textContent||'').trim();
-      if(!text) offersDrawer.hidden=true;
-    },700)).catch(()=>{});
-  }
-
-  const totalNodes=[...document.querySelectorAll('[data-zod-cart-grand-total]')];
-  const mobileSummary=document.querySelector('[data-zod-cart-mobile-summary]');
-  const mobileSummaryToggle=mobileSummary?.querySelector?.('[data-zod-cart-summary-toggle]');
-  const mobileSummaryShell=mobileSummary?.querySelector?.('[data-zod-cart-summary-shell]');
-  const mobileSummaryDetails=mobileSummary?.querySelector?.('[data-zod-cart-summary-details]');
-  const setMobileSummaryExpanded=expanded=>{
-    if(!mobileSummaryToggle||!mobileSummaryDetails||!mobileSummaryShell)return;
-    mobileSummaryToggle.setAttribute('aria-expanded',String(expanded));
-    mobileSummaryDetails.hidden=!expanded;
-    mobileSummaryShell.classList.toggle('is-expanded',expanded);
-    mobileSummaryShell.classList.toggle('is-collapsed',!expanded);
-  };
-  setMobileSummaryExpanded(false);
-  mobileSummaryToggle?.addEventListener('click',()=>setMobileSummaryExpanded(mobileSummaryToggle.getAttribute('aria-expanded')!=='true'));
-
-  // On mobile, keep Salla's verbose per-item discount breakdown collapsed until
-  // the shopper explicitly asks for it. Desktop remains unchanged.
-  const mobileMq=typeof window.matchMedia==='function'?window.matchMedia('(max-width: 767px)'):{matches:false,addEventListener:()=>{}};
-  const collapseItemOfferDetails=()=>{
-    if(!mobileMq.matches)return;
-    document.querySelectorAll('.zod-cart-item-offer-details').forEach(details=>details.removeAttribute('open'));
-  };
-  collapseItemOfferDetails();
-  mobileMq.addEventListener?.('change',collapseItemOfferDetails);
-  if(typeof MutationObserver!=='undefined') new MutationObserver(records=>{
-    if(!mobileMq.matches)return;
-    records.forEach(record=>record.addedNodes?.forEach?.(node=>{
-      if(node?.matches?.('.zod-cart-item-offer-details')) node.removeAttribute('open');
-      node?.querySelectorAll?.('.zod-cart-item-offer-details').forEach(details=>details.removeAttribute('open'));
-    }));
-  }).observe(cartPage,{childList:true,subtree:true});
-  const subtotalNode=mobileSummary?.querySelector?.('[data-zod-cart-subtotal]');
-  const taxNode=mobileSummary?.querySelector?.('[data-zod-cart-tax]');
-  const taxRow=mobileSummary?.querySelector?.('[data-zod-cart-tax-row]');
-  const discountNode=mobileSummary?.querySelector?.('[data-zod-cart-discount]');
-  const discountRow=mobileSummary?.querySelector?.('[data-zod-cart-discount-row]');
-  const originalTotalNodes=[...(mobileSummary?.querySelectorAll?.('[data-zod-cart-original-total]')||[])];
-  const savedBoxes=[...(mobileSummary?.querySelectorAll?.('[data-zod-cart-saved]')||[])];
-  const savedNodes=[...(mobileSummary?.querySelectorAll?.('[data-zod-cart-saved-value]')||[])];
-  let activeCartItem=null;
-  let mutationFallbackTimer=null;
-  const findCartItem=event=>{
-    const path=typeof event?.composedPath==='function'?event.composedPath():[];
-    for(const node of path){
-      if(node?.matches?.('[data-zod-cart-item]')) return node;
-      const item=node?.closest?.('[data-zod-cart-item]'); if(item) return item;
+  const settlePending = success => [...pendingItems.keys()].forEach(item => clearItemState(item, success));
+  const paintItem = item => {
+    if (item?.id == null) return;
+    const form = document.getElementById(`item-${item.id}`);
+    if (!form) return;
+    const row = form.querySelector('[data-zod-cart-item]');
+    const total = form.querySelector('[data-testid="store-cart-item-total"]');
+    if (item.is_available !== undefined && !flag(item.is_available)) {
+      if (total) total.textContent = row?.dataset.unavailableLabel || salla.lang.get('pages.cart.out_of_stock');
+    } else {
+      const special = item.detailed_offers?.length ? moneyNumber(item.total_special_price) : null;
+      paintMoney(total, special === null ? item.total : special);
     }
-    return event?.target?.closest?.('[data-zod-cart-item]')||null;
-  };
-  const beginItemUpdate=item=>{
-    if(!item) return;
-    activeCartItem=item;
-    item.classList.remove('is-updated');
-    item.classList.add('is-updating');
-    clearTimeout(mutationFallbackTimer);
-    mutationFallbackTimer=setTimeout(()=>finishItemUpdate(item),1800);
-  };
-  const finishItemUpdate=(item=activeCartItem)=>{
-    if(!item) return;
-    item.classList.remove('is-updating');
-    item.classList.add('is-updated');
-    setTimeout(()=>item.classList.remove('is-updated'),720);
-    if(activeCartItem===item) activeCartItem=null;
-  };
-
-  const moneyNumber=value=>{
-    if(value===null||value===undefined||value==='') return null;
-    if(typeof value==='number') return Number.isFinite(value)?value:null;
-    if(typeof value==='string'){
-      const normalized=value.replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[^0-9.\-]/g,'');
-      const n=Number(normalized); return Number.isFinite(n)?n:null;
+    paintMoney(form.querySelector('[data-testid="store-cart-item-price"]'), item.price);
+    const original = form.querySelector('.item-original-price');
+    if (original && item.is_on_sale !== undefined) {
+      original.hidden = !flag(item.is_on_sale);
+      if (!original.hidden) paintMoney(original, item.original_price);
     }
-    if(typeof value==='object'){
-      for(const key of ['amount','value','total','total_price','grand_total']){
-        const n=moneyNumber(value?.[key]); if(n!==null) return n;
-      }
+    const weight = form.querySelector('.item-weight');
+    if (weight && item.weight_label !== undefined) {
+      weight.textContent = item.weight_label || '';
+      const weightRow = form.querySelector('.item-weight-row');
+      if (weightRow) weightRow.hidden = !item.weight_label;
     }
-    return null;
-  };
-  const extractTotal=payload=>{
-    const roots=[payload?.data?.data,payload?.data,payload,payload?.cart,payload?.data?.cart].filter(Boolean);
-    for(const root of roots){
-      for(const key of ['total','total_price','grand_total']){
-        const n=moneyNumber(root?.[key]); if(n!==null) return n;
-      }
-      const n=moneyNumber(root?.summary?.total); if(n!==null) return n;
+    const quantity = form.querySelector('salla-quantity-input');
+    if (quantity && item.max_quantity !== undefined && item.max_quantity !== null) quantity.setAttribute('max', String(item.max_quantity));
+    if (Array.isArray(item.detailed_offers)) {
+      const offers = form.querySelector('salla-cart-item-offers');
+      offers?.setAttribute('offers', JSON.stringify(item.detailed_offers));
+      if (item.quantity !== undefined) offers?.setAttribute('quantity', String(item.quantity));
+      const details = form.querySelector('.zod-cart-item-offer-details');
+      if (details) details.hidden = !item.detailed_offers.length && !item.offer;
+      const legacy = form.querySelector('.zod-cart-legacy-offer');
+      if (legacy) { legacy.textContent = item.offer?.names || ''; legacy.hidden = Boolean(item.detailed_offers.length || !item.offer?.names); }
     }
-    return null;
   };
-  const payloadRoots=payload=>[payload?.data?.data,payload?.data,payload,payload?.cart,payload?.data?.cart].filter(Boolean);
-  const pickMoney=(payload,keys)=>{
-    const roots=payloadRoots(payload);
-    for(const root of roots){
-      for(const key of keys){
-        const direct=moneyNumber(root?.[key]); if(direct!==null) return direct;
-        const summary=moneyNumber(root?.summary?.[key]); if(summary!==null) return summary;
-        const totals=moneyNumber(root?.totals?.[key]); if(totals!==null) return totals;
-      }
+  const paintShipping = cart => {
+    // Missing shipping data in a partial mutation response does not mean "free".
+    if (!Object.prototype.hasOwnProperty.call(cart, 'free_shipping_bar')) return;
+    const host = document.querySelector('[data-zod-free-shipping]');
+    if (!host) return;
+    const shipping = cart.free_shipping_bar;
+    host.hidden = !shipping;
+    if (!shipping) return;
+    const text = host.querySelector('[data-zod-free-shipping-message]');
+    const remaining = moneyNumber(shipping.remaining);
+    if (text && (flag(shipping.has_free_shipping) || remaining !== null)) {
+      const key = flag(shipping.has_free_shipping) ? 'pages.cart.has_free_shipping' : 'pages.cart.free_shipping_alert';
+      text.innerHTML = salla.lang.get(key, { amount: salla.money(remaining ?? 0) });
     }
-    return null;
+    const progress = host.querySelector('[data-zod-free-shipping-progress]');
+    const percent = moneyNumber(shipping.percent);
+    if (progress && percent !== null) {
+      const value = Math.max(0, Math.min(100, percent));
+      progress.setAttribute('aria-valuenow', String(value));
+      const bar = progress.querySelector('i');
+      if (bar) bar.style.width = `${value}%`;
+    }
   };
-  const formatMoney=value=>{
-    let formatted=String(Number(value||0).toFixed(2));
-    try{formatted=salla.money(value);}catch(_){}
-    return formatted;
+  const paint = payload => {
+    const cart = cartFrom(payload);
+    if (!cart) return;
+    totalNodes.forEach(node => paintMoney(node, cart.total));
+    if (Array.isArray(cart.items)) cart.items.forEach(paintItem);
+    paintShipping(cart);
   };
-  const extractCartSummary=payload=>{
-    const total=extractTotal(payload);
-    if(total===null) return null;
-    const discountRaw=pickMoney(payload,['discount','discount_amount','discount_total','total_discount','discounts_total']);
-    const discount=Math.max(0,Math.abs(discountRaw||0));
-    const taxRaw=pickMoney(payload,['tax_amount','vat_amount','tax','vat','total_tax']);
-    const tax=Math.max(0,Math.abs(taxRaw||0));
-    const serverSubtotal=pickMoney(payload,['sub_total_without_tax','subtotal_without_tax','products_subtotal','products_total','sub_total','subtotal']);
-    const originalTotal=total+discount;
-    const calculatedPreTax=Math.max(0,originalTotal-tax);
-    let subtotal=serverSubtotal;
-    if(subtotal===null) subtotal=calculatedPreTax;
-    else if(tax>0 && Math.abs(subtotal-originalTotal)<0.05) subtotal=calculatedPreTax;
-    return {subtotal, tax, discount, total, originalTotal};
+  const refresh = () => {
+    const request = ++revision;
+    clearTimeout(refreshTimer);
+    refreshTimer = setTimeout(async () => {
+      try {
+        const response = await salla.cart.details();
+        if (request === revision) paint(response);
+      } catch (_) { /* Keep server-rendered values; do not substitute zero. */ }
+    }, 260);
   };
-  const paintMobileSummary=payload=>{
-    if(!mobileSummary) return;
-    const summary=extractCartSummary(payload); if(!summary) return;
-    if(subtotalNode) subtotalNode.innerHTML=formatMoney(summary.subtotal);
-    if(taxNode) taxNode.innerHTML=formatMoney(summary.tax);
-    if(taxRow) taxRow.hidden=summary.tax<=0;
-    const hasDiscount=summary.discount>0.0001;
-    if(discountNode) discountNode.innerHTML=`− ${formatMoney(summary.discount)}`;
-    if(discountRow) discountRow.hidden=!hasDiscount;
-    originalTotalNodes.forEach(node=>{
-      node.hidden=!hasDiscount;
-      node.innerHTML=hasDiscount?formatMoney(summary.originalTotal):'';
-    });
-    savedBoxes.forEach(node=>{ node.hidden=!hasDiscount; });
-    savedNodes.forEach(node=>{ node.innerHTML=hasDiscount?formatMoney(summary.discount):''; });
-  };
-  const paintTotal=value=>{
-    if(!totalNodes.length) return;
-    const amount=moneyNumber(value); if(amount===null) return;
-    let formatted=String(amount);
-    try{formatted=salla.money(amount);}catch(_){}
-    totalNodes.forEach(node=>{
-      if(node.innerHTML!==formatted){
-        node.innerHTML=formatted;
-        const host=node.closest('.zod-cart-grand-total,.zod-cart-mobile-checkout__meta')||node;
-        host.classList.remove('is-total-updated');
-        void host.offsetWidth;
-        host.classList.add('is-total-updated');
-        setTimeout(()=>host.classList.remove('is-total-updated'),620);
-      }
-    });
-  };
-  const paintItemTotals=payload=>{
-    const roots=[payload?.data?.data,payload?.data,payload,payload?.cart,payload?.data?.cart].filter(Boolean);
-    const items=roots.find(root=>Array.isArray(root.items))?.items;
-    if(!items) return;
-    items.forEach(item=>{
-      const amount=moneyNumber(item.total);
-      if(item.id==null || amount===null || item.is_available===false) return;
-      const form=document.getElementById(`item-${item.id}`);
-      const node=form?.querySelector('[data-testid="store-cart-item-total"]');
-      if(node) { try{node.innerHTML=salla.money(amount);}catch(_){node.textContent=String(amount);} }
-    });
-  };
-  let timer;
-  let revision=0;
-  const refresh=()=>{
-    const request=++revision;
-    clearTimeout(timer);
-    timer=setTimeout(async()=>{
-      try{
-        const details=await salla.cart.details();
-        const total=extractTotal(details);
-        if(request===revision) {
-          if(total!==null) paintTotal(total);
-          paintMobileSummary(details);
-          paintItemTotals(details);
-        }
-      }catch(_){}
-    },260);
-  };
-  const boot=()=>{
+  let bound = false;
+  const boot = () => {
+    if (bound) return;
+    bound = true;
     refresh();
-    const afterMutation=response=>{
-      ++revision;
-      finishItemUpdate();
-      const total=extractTotal(response);
-      if(total!==null) paintTotal(total);
-      paintMobileSummary(response);
-      paintItemTotals(response);
-      refresh();
+    const afterMutation = response => {
+      ++revision; settlePending(true); paint(response); refresh();
     };
-    salla.cart?.event?.onItemAdded?.(afterMutation);
-    salla.cart?.event?.onItemDeleted?.(afterMutation);
-    salla.cart?.event?.onItemUpdated?.(afterMutation);
-    salla.cart?.event?.onItemUpdatedFailed?.(()=>{finishItemUpdate();refresh();});
-    salla.cart?.event?.onCouponAdded?.(afterMutation);
-    salla.cart?.event?.onCouponDeleted?.(afterMutation);
+    // Canonical cart updates include changes made inside native coupon/shipping widgets.
+    salla.event?.cart?.onUpdated?.(afterMutation);
+    const events = salla.cart?.event;
+    events?.onItemAdded?.(afterMutation);
+    events?.onItemDeleted?.(afterMutation);
+    events?.onItemUpdated?.(afterMutation);
+    events?.onCouponAdded?.(afterMutation);
+    events?.onCouponDeleted?.(afterMutation);
+    events?.onItemUpdatedFailed?.(() => { ++revision; settlePending(false); refresh(); });
   };
-  if(window.salla?.onReady) window.salla.onReady().then(boot).catch(()=>{}); else boot();
+  if (window.salla?.onReady) Promise.resolve(window.salla.onReady()).then(boot).catch(() => {});
+  else if (typeof salla !== 'undefined') boot();
+  else document.addEventListener('zod::ready', boot, { once: true });
 
-  document.addEventListener('change',event=>{
-    const path=typeof event.composedPath==='function'?event.composedPath():[];
-    const isCartChange=path.some(node=>node?.matches?.('.zod-cart-item, salla-quantity-input, form[id^="item-"]')) || event.target?.closest?.('.zod-cart-item, form[id^="item-"]');
-    if(isCartChange){beginItemUpdate(findCartItem(event));++revision;clearTimeout(timer);}
-  },true);
-  document.addEventListener('zod:cart-update-success',()=>{finishItemUpdate();refresh();});
-  document.addEventListener('zod:cart-delete-success',refresh);
+  document.addEventListener('change', event => {
+    const path = typeof event.composedPath === 'function' ? event.composedPath() : [event.target];
+    const row = path.map(node => node?.closest?.('[data-zod-cart-item]')).find(Boolean);
+    if (!row) return;
+    ++revision; clearTimeout(refreshTimer);
+    clearTimeout(pendingItems.get(row));
+    row.classList.remove('is-updated'); row.classList.add('is-updating'); row.setAttribute('aria-busy', 'true');
+    // A timeout clears the spinner only; it must never imply a successful mutation.
+    pendingItems.set(row, setTimeout(() => clearItemState(row, false), 12000));
+  }, true);
+  document.addEventListener('zod:cart-update-success', event => { settlePending(true); paint(event.detail); refresh(); });
+  document.addEventListener('zod:cart-delete-success', event => { paint(event.detail); refresh(); });
 });
+
+
+}
+};
+const cache=Object.create(null);
+function require(id){if(cache[id])return cache[id].exports;if(!modules[id])throw new Error('Missing module '+id);const m=cache[id]={exports:{}};modules[id](m,m.exports,require);return m.exports;}
+require("src/assets/js/pages.js");
+})();

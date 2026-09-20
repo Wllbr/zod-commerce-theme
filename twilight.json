@@ -192,9 +192,232 @@
       ],
       "source": "Manual",
       "required": true
+    },
+    {
+      "type": "boolean",
+      "icon": "sicon-toggle-off",
+      "label": "إظهار شريط البحث الواضح",
+      "description": "يفتح بحث سلة الرسمي دون إنشاء محرك بحث آخر. / Opens the native Salla search.",
+      "id": "show_header_search",
+      "format": "switch",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "boolean",
+      "icon": "sicon-toggle-off",
+      "label": "إظهار شريط التصنيفات",
+      "description": "يعرض أول 7 تصنيفات من نفس بيانات الفوتر. رتّب التصنيفات في لوحة سلة. / Uses existing category data, no additional request.",
+      "id": "show_department_rail",
+      "format": "switch",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "id": "show_product_selection_help",
+      "type": "boolean",
+      "format": "switch",
+      "icon": "sicon-info",
+      "label": "إظهار تذكير التحقق قبل الشراء",
+      "description": "يظهر تذكير عام بالموديل والمقاسات والمواصفات الكهربائية والملحقات. لا يضيف مواصفات أو وعود ضمان للمنتج.",
+      "required": false,
+      "value": true,
+      "selected": true
     }
   ],
   "components": [
+    {
+      "key": "709b8a37-4b37-4bc9-b0b3-31643709c470",
+      "title": {
+        "en": "Specialist category hero",
+        "ar": "واجهة الأقسام الرئيسية — زود"
+      },
+      "icon": "sicon-layout-grid",
+      "path": "home.hero-hub",
+      "fields": [
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "العنوان الرئيسي — اتركه فارغاً لاستخدام النص الافتراضي",
+          "multilanguage": true,
+          "id": "title",
+          "value": null,
+          "required": false,
+          "format": "text",
+          "maxLength": 100,
+          "description": "ابدأ بهذا المكوّن في الصفحة الرئيسية. اختر الأقسام الثلاثة من تصنيفات متجرك؛ لا تظهر أزرار الانتقال قبل اختيار تصنيف له رابط. أضف صور المنتجات بخلفية شفافة. عدّل النصين العربي والإنجليزي من زر اللغة. / Place first. Select three real categories, upload cutout images and edit both languages."
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "الوصف الرئيسي",
+          "multilanguage": true,
+          "id": "intro",
+          "value": null,
+          "required": false,
+          "format": "textarea",
+          "maxLength": 220
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "label": "تصنيف مراوح الشفط",
+          "id": "exhaust_category",
+          "format": "dropdown-list",
+          "selected": [],
+          "options": [],
+          "required": false,
+          "multichoice": false,
+          "searchable": true,
+          "source": "categories",
+          "maxLength": 1,
+          "value": [],
+          "description": "اختر تصنيفاً واحداً فعلياً من سلة. رابط البطاقة يأتي من هذا التصنيف. / Select one existing Salla category."
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "عنوان بطاقة مراوح الشفط",
+          "multilanguage": true,
+          "id": "exhaust_title",
+          "value": null,
+          "required": false,
+          "format": "text",
+          "maxLength": 95
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "وصف بطاقة مراوح الشفط",
+          "multilanguage": true,
+          "id": "exhaust_text",
+          "value": null,
+          "required": false,
+          "format": "textarea",
+          "maxLength": 180
+        },
+        {
+          "type": "string",
+          "icon": "sicon-image",
+          "label": "صورة مراوح الشفط — 720×720",
+          "id": "exhaust_image",
+          "value": null,
+          "format": "image",
+          "required": false,
+          "description": "صورة منتج مقصوصة بخلفية شفافة، دون كتابة داخل الصورة. اتركها فارغة لعرض رسم رمزي عام، وليس صورة منتج. / Transparent product cutout; no baked-in text. Optional schematic fallback.",
+          "settings": {
+            "width": 720,
+            "height": 720
+          }
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "label": "تصنيف الانتركوم",
+          "id": "intercom_category",
+          "format": "dropdown-list",
+          "selected": [],
+          "options": [],
+          "required": false,
+          "multichoice": false,
+          "searchable": true,
+          "source": "categories",
+          "maxLength": 1,
+          "value": [],
+          "description": "اختر تصنيفاً واحداً فعلياً من سلة. رابط البطاقة يأتي من هذا التصنيف. / Select one existing Salla category."
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "عنوان بطاقة الانتركوم",
+          "multilanguage": true,
+          "id": "intercom_title",
+          "value": null,
+          "required": false,
+          "format": "text",
+          "maxLength": 95
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "وصف بطاقة الانتركوم",
+          "multilanguage": true,
+          "id": "intercom_text",
+          "value": null,
+          "required": false,
+          "format": "textarea",
+          "maxLength": 180
+        },
+        {
+          "type": "string",
+          "icon": "sicon-image",
+          "label": "صورة الانتركوم — 720×720",
+          "id": "intercom_image",
+          "value": null,
+          "format": "image",
+          "required": false,
+          "description": "صورة منتج مقصوصة بخلفية شفافة، دون كتابة داخل الصورة. اتركها فارغة لعرض رسم رمزي عام، وليس صورة منتج. / Transparent product cutout; no baked-in text. Optional schematic fallback.",
+          "settings": {
+            "width": 720,
+            "height": 720
+          }
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "label": "تصنيف مكافحة الحشرات",
+          "id": "insect_category",
+          "format": "dropdown-list",
+          "selected": [],
+          "options": [],
+          "required": false,
+          "multichoice": false,
+          "searchable": true,
+          "source": "categories",
+          "maxLength": 1,
+          "value": [],
+          "description": "اختر تصنيفاً واحداً فعلياً من سلة. رابط البطاقة يأتي من هذا التصنيف. / Select one existing Salla category."
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "عنوان بطاقة مكافحة الحشرات",
+          "multilanguage": true,
+          "id": "insect_title",
+          "value": null,
+          "required": false,
+          "format": "text",
+          "maxLength": 95
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "وصف بطاقة مكافحة الحشرات",
+          "multilanguage": true,
+          "id": "insect_text",
+          "value": null,
+          "required": false,
+          "format": "textarea",
+          "maxLength": 180
+        },
+        {
+          "type": "string",
+          "icon": "sicon-image",
+          "label": "صورة مكافحة الحشرات — 720×720",
+          "id": "insect_image",
+          "value": null,
+          "format": "image",
+          "required": false,
+          "description": "صورة منتج مقصوصة بخلفية شفافة، دون كتابة داخل الصورة. اتركها فارغة لعرض رسم رمزي عام، وليس صورة منتج. / Transparent product cutout; no baked-in text. Optional schematic fallback.",
+          "settings": {
+            "width": 720,
+            "height": 720
+          }
+        }
+      ]
+    },
     {
       "key": "3d193de0-55ba-43cb-b9c7-6874eaf486ba",
       "title": {
@@ -369,7 +592,8 @@
               "value": true,
               "selected": true
             }
-          ]
+          ],
+          "description": "اختر صور سطح المكتب والجوال، واضبط رابط كل شريحة. لا تضع نصوصاً مهمة داخل الصور. يفضّل استخدام واجهة الأقسام الرئيسية بدلاً منه كبداية، وليس الاثنين معاً.  / Full setup: MERCHANT_GUIDE_AR.md and COMPONENTS.md."
         }
       ]
     },
@@ -391,7 +615,8 @@
           "value": null,
           "required": false,
           "format": "text",
-          "maxLength": 180
+          "maxLength": 180,
+          "description": "اختر 6–12 تصنيفاً. ضع الشفاطات والانتركوم ومكافحة الحشرات أولاً. استعمل صوراً مربعة متناسقة للتصنيفات من لوحة سلة.  / Full setup: MERCHANT_GUIDE_AR.md and COMPONENTS.md."
         },
         {
           "type": "string",
@@ -450,7 +675,8 @@
           "value": null,
           "required": false,
           "format": "text",
-          "maxLength": 180
+          "maxLength": 180,
+          "description": "رتّب الروابط حسب الاستخدام مثل الحمام، المطبخ، المنزل أو المشروع. تأكد أن كل رابط يصل إلى مجموعة صحيحة.  / Full setup: MERCHANT_GUIDE_AR.md and COMPONENTS.md."
         },
         {
           "type": "string",
@@ -601,7 +827,8 @@
           "value": null,
           "required": false,
           "format": "text",
-          "maxLength": 180
+          "maxLength": 180,
+          "description": "اختر المنتجات الخاصة بهذا القسم من حقل المنتجات. الصف الفارغ لا يظهر إلا عند تشغيل خيار أحدث المنتجات. / Select products for this category. An empty shelf stays hidden unless the latest-products option is enabled."
         },
         {
           "type": "string",
@@ -707,6 +934,17 @@
           "required": false,
           "value": false,
           "selected": false
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "label": "إظهار أحدث المنتجات عند عدم اختيار منتجات",
+          "description": "اتركه مغلقاً لرفوف مراوح الشفط والإنتركم ومكافحة الحشرات. عند تشغيله تظهر أحدث منتجات المتجر إذا كانت القائمة فارغة. / Enable only for a general latest-products shelf; unconfigured specialist shelves stay hidden.",
+          "id": "show_latest_when_empty",
+          "format": "switch",
+          "required": false,
+          "value": false,
+          "selected": false
         }
       ]
     },
@@ -728,7 +966,8 @@
           "value": null,
           "required": true,
           "format": "text",
-          "maxLength": 180
+          "maxLength": 180,
+          "description": "اجعل كل تبويب نوعاً فرعياً واضحاً. اختر تصنيفاً أو منتجات محددة، ثم أضف صور العرض الاختيارية. اختبر التبويبات على الجوال.  / Full setup: MERCHANT_GUIDE_AR.md and COMPONENTS.md."
         },
         {
           "type": "string",
@@ -992,7 +1231,8 @@
           "searchable": true,
           "source": "products",
           "maxLength": 1,
-          "value": []
+          "value": [],
+          "description": "اختر منتجاً واحداً، وصورته وفوائده المؤكدة فقط. الأسعار تأتي من بيانات سلة؛ لن يجلب الثيم تفاصيل إضافية لإظهار سعر ناقص.  / Full setup: MERCHANT_GUIDE_AR.md and COMPONENTS.md."
         },
         {
           "type": "string",
@@ -1110,7 +1350,8 @@
           "searchable": true,
           "source": "products",
           "maxLength": 1,
-          "value": []
+          "value": [],
+          "description": "اختر منتجات وعناوين متناسقة. لا تستخدم أكثر من عرض متحرك واحد قرب أعلى الصفحة.  / Full setup: MERCHANT_GUIDE_AR.md and COMPONENTS.md."
         },
         {
           "type": "string",
@@ -1304,7 +1545,8 @@
           "value": null,
           "required": false,
           "format": "text",
-          "maxLength": 120
+          "maxLength": 120,
+          "description": "اختر منتجاً لكل فيديو، وصورة غلاف ورابط MP4 مباشر. يُحمّل التبويب الأول فقط؛ باقي قوائم المنتجات تُحمّل عند النقر. لا تستخدم مقاطع ضخمة.  / Full setup: MERCHANT_GUIDE_AR.md and COMPONENTS.md."
         },
         {
           "type": "string",
@@ -1595,7 +1837,8 @@
               "value": true,
               "selected": true
             }
-          ]
+          ],
+          "description": "استخدم عروضاً فعلية فقط. تجنّب وعود الخصم أو التوصيل غير المعتمدة. اربط كل بطاقة بالمنتجات المقصودة.  / Full setup: MERCHANT_GUIDE_AR.md and COMPONENTS.md."
         }
       ]
     },
@@ -1617,7 +1860,8 @@
           "value": null,
           "required": false,
           "format": "text",
-          "maxLength": 180
+          "maxLength": 180,
+          "description": "اختر العلامات الموجودة فعلياً في الكتالوج مع شعارات عالية الجودة. لا تضف ادعاء الوكيل المعتمد دون إثبات.  / Full setup: MERCHANT_GUIDE_AR.md and COMPONENTS.md."
         },
         {
           "type": "string",
@@ -1676,7 +1920,8 @@
           "value": null,
           "required": false,
           "format": "text",
-          "maxLength": 180
+          "maxLength": 180,
+          "description": "أدخل بيانات فروعك الحقيقية وإحداثياتها وساعات العمل. راجع روابط الخرائط على الهاتف.  / Full setup: MERCHANT_GUIDE_AR.md and COMPONENTS.md."
         },
         {
           "type": "string",
@@ -1790,7 +2035,8 @@
           "value": null,
           "required": false,
           "format": "text",
-          "maxLength": 180
+          "maxLength": 180,
+          "description": "اربط أدلة مفيدة لاختيار المقاس، الجهد، التوافق ونوع الاستخدام. ضع تفاصيل فنية مؤكدة من الشركة المصنعة.  / Full setup: MERCHANT_GUIDE_AR.md and COMPONENTS.md."
         },
         {
           "type": "string",
@@ -1940,7 +2186,7 @@
           "value": null,
           "format": "image",
           "required": true,
-          "description": "استخدم صورة واضحة بنسبة قريبة من 3:2، مع إبقاء النص داخل الصورة بعيداً عن الحواف.",
+          "description": "استخدمه عند وجود عرض مهم فقط. اجعل الإغلاق سهلاً، والتكرار منخفضاً. يُفضّل عدم إضافته في أول إطلاق. استخدم صورة واضحة بنسبة قريبة من 3:2، مع إبقاء النص داخل الصورة بعيداً عن الحواف. / Full setup: MERCHANT_GUIDE_AR.md and COMPONENTS.md.",
           "settings": {
             "width": 1200,
             "height": 800
@@ -2129,7 +2375,8 @@
           "value": null,
           "required": false,
           "format": "text",
-          "maxLength": 160
+          "maxLength": 160,
+          "description": "أدخل أرقام العمل الحالية مع رمز الدولة. لا تستخدم أرقاماً تجريبية. اذكر غرض كل جهة اتصال.  / Full setup: MERCHANT_GUIDE_AR.md and COMPONENTS.md."
         },
         {
           "type": "string",
@@ -2271,7 +2518,8 @@
           "value": null,
           "required": false,
           "format": "text",
-          "maxLength": 180
+          "maxLength": 180,
+          "description": "أجب عن أسئلة متجرك الفعلية في المقاسات والتوافق والشحن والضمان. لا تكتب مدة ضمان موحدة لكل المنتجات.  / Full setup: MERCHANT_GUIDE_AR.md and COMPONENTS.md."
         },
         {
           "type": "string",
@@ -2339,7 +2587,8 @@
           "value": null,
           "required": false,
           "format": "text",
-          "maxLength": 180
+          "maxLength": 180,
+          "description": "مقارنة بصرية من بطاقتين فقط. استخدم مقارنة واضحة بين تقنيتين دون ادعاءات أداء غير موثقة.  / Full setup: MERCHANT_GUIDE_AR.md and COMPONENTS.md."
         },
         {
           "type": "string",
@@ -2463,7 +2712,7 @@
           "value": null,
           "format": "image",
           "required": false,
-          "description": "المقاس الموصى به: 1600 × 900 بكسل بنسبة 16:9. اجعل موضوع الصورة في الوسط واترك هامشاً آمناً للحفاظ على التكوين في سطح المكتب والجوال.",
+          "description": "اربط طلب الجملة بقناة عمل فعلية. وضّح أن السعر النهائي والتوفر يتم تأكيدهما، ولا تعد بتخفيض ثابت. المقاس الموصى به: 1600 × 900 بكسل بنسبة 16:9. اجعل موضوع الصورة في الوسط واترك هامشاً آمناً للحفاظ على التكوين في سطح المكتب والجوال. / Full setup: MERCHANT_GUIDE_AR.md and COMPONENTS.md.",
           "settings": {
             "width": 1600,
             "height": 900

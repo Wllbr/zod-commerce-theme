@@ -11,7 +11,7 @@
 
       <div class="zod-footer-market-nav">
         <div class="zod-footer-brand">
-          <a href="{{ link('/') }}" class="zod-footer-logo"><img src="{{ store.logo|cdn(220) }}" alt="{{ store.name }}"></a>
+          <a href="{{ link('/') }}" class="zod-footer-logo"><img src="{{ store.logo|cdn(220) }}" alt="{{ store.name }}" loading="lazy" decoding="async"></a>
           {% if store.slogan %}<strong class="zod-footer-slogan">{{ store.slogan }}</strong>{% endif %}
           <div class="zod-footer-description">{{ store.description ? store.description|raw : trans('zod.footer.about') }}</div>
         </div>
@@ -44,7 +44,7 @@
     <div class="container zod-footer-bottom__inner">
       <span class="zod-footer-copyright">{% hook copyright %}</span>
       <div class="zod-footer-bottom-payments" data-zod-footer-bottom-payments aria-label="{{ trans('zod.footer.payments') }}"><salla-payments data-testid="store-footer-payments"></salla-payments></div>
-      <button class="zod-footer-back-top" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="sicon-keyboard_arrow_up"></i>{{ trans('zod.footer.back_top') }}</button>
+      <button class="zod-footer-back-top" type="button" onclick="window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})"><i class="sicon-keyboard_arrow_up"></i>{{ trans('zod.footer.back_top') }}</button>
     </div>
   </div>
 </footer>

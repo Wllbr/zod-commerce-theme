@@ -1,4 +1,4 @@
-/* ZOD v1.7.29 — shared pre-v1.7.12 Orkida-style product card.
+/* ZOD 1.8.0 — backward-compatible full-width-purchase product card.
  * This patches the shared custom card after app.js defines it, so we can keep
  * all newer product-page/Twilight fixes while returning the storefront card UI
  * to the older Eye + Heart + full-width purchase layout.
@@ -23,7 +23,7 @@
       try { this.stopMediaCycle?.(false); } catch (_) {}
 
       const url = this.cardUrl(p);
-      const image = this.imageUrl?.(p.image) || p.thumbnail || this.productImages?.(p)?.[0] || '';
+      const image = this.imageUrl?.(p.image) || p.thumbnail || this.productImages?.(p)?.[0] || window.salla?.url?.asset?.('images/placeholder.svg') || '';
       const imageAlt = this.esc?.(p?.image?.alt || p.name || '') || '';
       const isOut = this.isOutOfStock?.(p) ?? false;
       const status = isOut
@@ -45,7 +45,7 @@
       const hasOptions = Boolean(p.has_options || optionCount);
       const needsProductForm = Boolean(hasOptions || p.can_add_note || p.can_upload_file || p.has_custom_form || p.has_bundle_products);
       const chooseOptionsLabel = this.t?.('zod.product.choose_options_card', this.isArabic?.() ? 'اختر الخيارات' : 'Choose options') || (this.isArabic?.() ? 'اختر الخيارات' : 'Choose options');
-      const discount = this.discountPercent?.(p) || 0;
+      const discount = this.priceValues?.(p)?.onSale ? (this.discountPercent?.(p) || 0) : 0;
 
       const values = this.priceValues?.(p) || { current: 0, original: 0, onSale: false };
       let priceHtml = '';
@@ -63,7 +63,7 @@
       this.innerHTML = `
         <div class="zpc-media ${isOut ? 'is-out' : ''}">
           <a class="zpc-product-link" href="${this.esc?.(url || '#') || '#'}" aria-label="${imageAlt}">
-            <img src="${this.esc?.(image) || ''}" alt="${imageAlt}" loading="lazy">
+            <img src="${this.esc?.(image) || ''}" alt="${imageAlt}" loading="lazy" decoding="async" width="400" height="400">
           </a>
           ${discount ? `<span class="zpc-discount-badge" title="${discount}%">${discount}%</span>` : ''}
           ${promo ? `<span class="zpc-offer-badge" title="${this.esc?.(promo) || promo}">${this.esc?.(promo) || promo}</span>` : ''}
@@ -78,6 +78,7 @@
             ? `<a class="zpc-category" href="${this.esc?.(category.url) || category.url}">${this.esc?.(category.name) || category.name}</a>`
             : `<span class="zpc-category">${this.esc?.(category.name) || category.name}</span>`) : ''}
           <h3><a href="${this.esc?.(url || '#') || '#'}">${this.esc?.(p.name) || p.name || ''}</a></h3>
+          ${p.sku ? `<p class="zpc-model" dir="auto">${this.esc?.(this.t?.('zod.product.model', 'Model / SKU'))}: ${this.esc?.(p.sku)}</p>` : ''}
           ${subtitle ? `<p class="zpc-subtitle">${this.esc?.(subtitle) || subtitle}</p>` : ''}
           ${p.rating?.stars ? `<div class="zpc-meta"><span class="zpc-rating"><i class="sicon-star2"></i>${this.esc?.(p.rating.stars) || p.rating.stars}${p.rating.count ? ` <small>(${this.esc?.(p.rating.count) || p.rating.count})</small>` : ''}</span></div>` : '<div class="zpc-meta"></div>'}
           <div class="zpc-bottom">${priceHtml}</div>
@@ -98,6 +99,8 @@
         event.stopPropagation();
         await this.toggleWishlist?.(event.currentTarget, p.id);
       });
+
+      this.dispatchEvent(new CustomEvent('zod:product-data', { bubbles: true, detail: p }));
 
       this.onclick = event => {
         if (!url || event.defaultPrevented || event.target.closest('a,button,input,select,textarea,salla-add-product-button,salla-button')) return;

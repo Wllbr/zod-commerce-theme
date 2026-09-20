@@ -18,3 +18,10 @@ if (css.length > rawLimit || compressed.length > gzipLimit) {
 }
 
 console.log(`CSS budget OK: ${css.length} bytes raw, ${compressed.length} bytes gzip.`);
+
+// The refinement layer has its own strict allowance; legacy CSS budget unchanged.
+const refinement = fs.readFileSync(new URL('../public/refinement.css', import.meta.url));
+const refinementGzip = gzipSync(refinement, { level: 9 });
+if(refinement.length > 39 * 1024 || refinementGzip.length > 9 * 1024) throw new Error('Refinement CSS budget exceeded.');
+if(compressed.length + refinementGzip.length > 73 * 1024) throw new Error('Combined transfer budget exceeded.');
+console.log(`Refinement CSS: ${refinement.length} bytes raw, ${refinementGzip.length} bytes gzip. Combined: ${compressed.length + refinementGzip.length} bytes gzip.`);

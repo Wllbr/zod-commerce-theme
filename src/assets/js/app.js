@@ -30,6 +30,7 @@ class ZodTheme {
         const target = document.getElementById(id);
         if (target) {
           event.preventDefault();
+          if (link.classList.contains('zod-skip-link')) target.focus({ preventScroll: true });
           target.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
         }
       }
@@ -233,10 +234,10 @@ class ZodTheme {
     const sale = this.moneyNumber(product?.sale_price ?? product?.salePrice);
     const base = this.moneyNumber(product?.price ?? product?.current_price ?? root?.price) ?? this.moneyNumber(product);
     const regular = this.moneyNumber(product?.regular_price ?? product?.regularPrice ?? product?.original_price);
-    const current = sale !== null && sale > 0 ? sale : base;
+    const current = product.is_on_sale !== false && sale !== null && sale > 0 ? sale : base;
     return {
       current,
-      regular: regular !== null && current !== null && regular > current ? regular : null
+      regular: product.is_on_sale !== false && regular !== null && current !== null && regular > current ? regular : null
     };
   }
 
@@ -261,35 +262,19 @@ class ZodTheme {
   }
 
   initLiveShowcasePrices() {
-    const bind = async () => {
-      const nodes = [...document.querySelectorAll('[data-zod-live-price][data-product-id]')]
-        .filter(node => {
-          if (node.dataset.priceReady === '1') {
-            node.hidden = false;
-            return false;
-          }
-          return true;
-        });
-      if (!nodes.length) return;
-
-      await Promise.all(nodes.map(async node => {
-        const productId = Number(node.dataset.productId);
-        if (!productId) return;
-        let applied = false;
-        try {
-          const response = await salla.product.getPrice(productId);
-          applied = this.applyLivePrice(node, this.extractProductPrice(response));
-        } catch (_) {}
-        if (!applied) {
-          try {
-            const response = await salla.product.getDetails(productId);
-            this.applyLivePrice(node, this.extractProductPrice(response));
-          } catch (_) {}
+    document.querySelectorAll('[data-zod-live-price][data-product-id]').forEach(node => {
+      node.hidden = node.dataset.priceReady !== '1';
+    });
+    // Reuse already loaded native list payloads; do not request extra product data.
+    document.addEventListener('zod:product-data', event => {
+      const product = event.detail;
+      if (!product?.id) return;
+      document.querySelectorAll('[data-zod-live-price][data-product-id]').forEach(node => {
+        if (String(node.dataset.productId) === String(product.id)) {
+          this.applyLivePrice(node, this.extractProductPrice(product));
         }
-      }));
-    };
-    if (window.salla?.onReady) window.salla.onReady().then(bind).catch(()=>{});
-    else document.addEventListener('zod::ready', bind, {once:true});
+      });
+    });
   }
 
   initProductCardReveal() {
@@ -519,9 +504,8 @@ class ZodTheme {
   initCartExperience() {
     const bind = () => {
       // Twilight uses the browser's blocking alert() as its default notifier.
-      // Replace it with ZOD's non-blocking toast UI. We intentionally do not
-      // render <salla-add-product-toast> at the same time, so add/update/delete
-      // actions have exactly one feedback path and cannot double-notify.
+      // Product additions use the required salla-add-product-toast. Its official
+      // event metadata suppresses only the duplicate success notice, never errors.
       // Selecting an unavailable variant is an inline product-state change, not a
       // storefront error. Salla may emit stock/service notifier messages while
       // <salla-product-options> resolves that selection; keep those messages silent
@@ -546,7 +530,10 @@ class ZodTheme {
         return /الكمية\s*غير\s*متوفرة|خطأ\s*في\s*خدمة\s*المنتج|quantity[^.]{0,40}(?:unavailable|not available)|(?:out of stock|product service error)/i.test(text);
       };
 
-      salla.notify?.setNotifier?.((message, type) => {
+      salla.notify?.setNotifier?.((message, type, data) => {
+        if (window.enable_add_product_toast === true &&
+            document.querySelector('salla-add-product-toast')?.dataset.ready === 'true' &&
+            data?.data?.googleTags?.event === 'addToCart' && type !== 'error') return;
         if (shouldSilenceVariantNotification(message)) return;
         this.showNotification(message, type);
       });

@@ -12,7 +12,8 @@
       "cart": "Cart",
       "offers": "Offers",
       "search_question": "What are you looking for?",
-      "close": "Close"
+      "close": "Close",
+      "specialists": "Electrical essentials. Specialist solutions."
     },
     "home": {
       "shop_categories": "Shop by category",
@@ -54,12 +55,12 @@
       "choose_options": "Choose product options first",
       "options_available": "Options available",
       "choose_options_card": "Choose options",
-      "delivery": "Fast delivery",
+      "delivery": "Shipping & delivery",
       "delivery_text": "Shipping and delivery options are shown based on the product and address at checkout.",
       "warranty": "Warranty",
       "warranty_text": "Warranty coverage follows the product or manufacturer terms.",
-      "original": "Original products",
-      "original_text": "Original products from the brands we work with.",
+      "original": "Check the specifications",
+      "original_text": "Check the model, size, voltage and compatibility before ordering.",
       "secure": "Trusted payment",
       "secure_text": "Actual payment methods enabled in your Salla store.",
       "support": "Need help choosing?",
@@ -103,7 +104,10 @@
       "save_more": "Save more",
       "best_saving": "Best saving",
       "tier_description": "Buy :count and save :percent% on each item",
-      "per_piece": "/ item"
+      "per_piece": "/ item",
+      "check_before_order": "Check before you order",
+      "check_before_order_text": "Review the model number, dimensions, electrical specifications and compatible accessories in the product description. When replacing a part, match the existing part’s specifications before ordering.",
+      "view_specifications": "View specifications"
     },
     "catalog": {
       "products": "Products",
@@ -115,7 +119,11 @@
       "empty_text": "Try another category or adjust the filters.",
       "load_error": "Products could not be loaded",
       "load_error_text": "Check your connection and try again.",
-      "retry": "Try again"
+      "retry": "Try again",
+      "view_results": "View products",
+      "loaded_products": "products shown",
+      "loading": "Updating products…",
+      "browse_hint": "Compare models and dimensions, then use filters to narrow your selection."
     },
     "brands": {
       "title": "Brands",
@@ -125,7 +133,14 @@
     "blog": {
       "title": "Guides & articles",
       "subtitle": "Technical advice, comparisons and practical buying guides.",
-      "related": "Related guides"
+      "related": "Related guides",
+      "eyebrow": "KNOW BEFORE YOU CHOOSE",
+      "categories": "Guide categories",
+      "featured": "Featured guides",
+      "topics": "Article topics",
+      "comments": "Questions and comments",
+      "empty_title": "New guides are on the way",
+      "empty_text": "Explore our products while we prepare more practical guides."
     },
     "footer": {
       "about": "ZOD supplies technical, electrical and commercial products for homes and businesses across Saudi Arabia.",
@@ -172,7 +187,8 @@
     },
     "common": {
       "brand_name": "ZOD",
-      "javascript_required": "JavaScript is required for the full shopping experience."
+      "javascript_required": "JavaScript is required for the full shopping experience.",
+      "skip_content": "Skip to content"
     },
     "showcase": {
       "offer_ends": "Offer ends in:",
@@ -237,7 +253,16 @@
       "subtotal_before_tax": "Products subtotal (before VAT)",
       "vat": "VAT",
       "discount": "Discount",
-      "you_saved": "You saved"
+      "you_saved": "You saved",
+      "view_cart": "View cart",
+      "continue_shopping": "Continue shopping",
+      "quantity": "Quantity",
+      "unit_price": "Unit price",
+      "line_total": "Item total",
+      "review_summary": "Review total and checkout",
+      "native_summary_hint": "Discounts, delivery charges, tax and checkout are shown in Salla’s order summary below.",
+      "latest_products": "Latest products",
+      "items_count": "Items"
     },
     "locations": {
       "navigation": "Browse store locations",
@@ -253,6 +278,36 @@
       "toggle": "Show WhatsApp contact options",
       "prompt": "How can we help?",
       "open_option": "Contact us on WhatsApp"
+    },
+    "order": {
+      "reference": "Order number",
+      "status": "Status",
+      "items": "Order items",
+      "received": "Order received",
+      "payment_pending": "Awaiting payment",
+      "payment_expired": "Payment window expired",
+      "pending_hint": "Your order is awaiting payment. Follow the instructions below to continue.",
+      "expired_hint": "The payment window has ended. Open your order details to check the available next steps.",
+      "view_details": "View order details",
+      "invoice": "Your invoice",
+      "email": "Email address",
+      "options": "Order options"
+    },
+    "hub": {
+      "eyebrow": "THE RIGHT SOLUTION STARTS HERE",
+      "title": "Better spaces. Smarter choices.",
+      "intro": "Discover ventilation, connected entrances and insect control, all in one place.",
+      "exhaust_title": "Make room for fresh air.",
+      "exhaust_text": "Explore exhaust fans for kitchens, bathrooms and workspaces.",
+      "exhaust_tag": "VENTILATION",
+      "intercom_title": "Stay connected to your door.",
+      "intercom_text": "Video intercoms, indoor monitors and audio systems.",
+      "intercom_tag": "INTERCOM & ACCESS",
+      "insect_title": "More comfort. Fewer insects.",
+      "insect_text": "Explore electric zappers, traps and replacement accessories.",
+      "insect_tag": "INSECT CONTROL",
+      "explore": "Explore the collection",
+      "unlinked": "Select a category in the theme editor."
     }
   }
 }

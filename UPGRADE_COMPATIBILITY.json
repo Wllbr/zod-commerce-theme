@@ -1,0 +1,37 @@
+{
+  "baseline": "v1.8.1",
+  "version": "1.8.2",
+  "checks": {
+    "dependencies": "unchanged",
+    "devDependencies": "unchanged",
+    "engines": "unchanged",
+    "packageManager": "unchanged",
+    "pnpm-lock.yaml": "byte-identical",
+    "pnpm-workspace.yaml": "byte-identical",
+    "scripts/SNAPSHOT_BASELINE.json": "byte-identical",
+    "component_identifiers": {
+      "count": 18,
+      "unchanged": true,
+      "ids": [
+        "709b8a37-4b37-4bc9-b0b3-31643709c470",
+        "3d193de0-55ba-43cb-b9c7-6874eaf486ba",
+        "bd1481e2-6419-4ab4-a4a1-a88b63976227",
+        "e430c804-9967-46ee-ba27-f7d116c5b250",
+        "a56f7e57-1ab5-45b4-8e3b-bd022b1af65e",
+        "d9e9024d-031e-4bbc-9725-44483717e80c",
+        "53581304-ba89-4a7b-8147-e8d14e0e8221",
+        "024f6813-7415-44dd-b412-49aa738f2897",
+        "6c33e4d7-9bb3-4d9f-9151-1f3442097574",
+        "62e387d2-dcfa-41b2-82ed-4a603ad781b9",
+        "3b93f9ee-aa78-4948-a21e-1c08764bd4e9",
+        "eaad10b8-acb3-43ed-b247-50147f6313cb",
+        "e0f883ed-1a01-4bfb-baea-d87c0250e024",
+        "8c643f58-d9ae-4c9c-a699-146e9644d111",
+        "27902d73-6fe3-4775-ab2c-43f17c44b8fa",
+        "cf892faf-b961-4e87-bb31-e9091594700d",
+        "a40b44ca-a69e-4db6-8e82-c0ce5dc34cf2",
+        "2ece801c-243f-4721-a003-abc0cbb67407"
+      ]
+    }
+  }
+}

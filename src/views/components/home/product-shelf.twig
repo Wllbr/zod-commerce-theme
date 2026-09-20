@@ -1,11 +1,16 @@
 {% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
 {% set subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
+{% set show_latest = component.show_latest_when_empty|default(false) %}
+{% set view_all = component.display_all_url %}
+{% if view_all is iterable and not view_all.url %}{% set view_all = view_all|first %}{% endif %}
+{% set view_all_url = view_all.url|default(view_all) %}
+{% if component.products|length or show_latest %}
 <section class="zod-section zod-product-shelf {{ component.soft_background ? 'zod-section--soft' : '' }}">
   <div class="container">
-    {% if title or subtitle or component.display_all_url %}
+    {% if title or subtitle or view_all_url %}
       <div class="zod-section-head">
         {% if title or subtitle %}<div>{% if title %}<h2>{{ title }}</h2>{% endif %}{% if subtitle %}<p>{{ subtitle }}</p>{% endif %}</div>{% endif %}
-        {% if component.display_all_url %}<a class="zod-text-link" href="{{ component.display_all_url.url|default(component.display_all_url) }}">{{ trans('zod.home.view_all') }} <i class="sicon-arrow-left rtl:rotate-180"></i></a>{% endif %}
+        {% if view_all_url %}<a class="zod-text-link" href="{{ view_all_url }}">{{ trans('zod.home.view_all') }} <i class="sicon-arrow-left rtl:rotate-180"></i></a>{% endif %}
       </div>
     {% endif %}
     {% if component.products|length %}
@@ -19,3 +24,5 @@
     {% endif %}
   </div>
 </section>
+
+{% endif %}

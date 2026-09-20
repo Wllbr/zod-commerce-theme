@@ -1,272 +1,68 @@
-# ZOD Commerce — Store Setup & Launch Guide
+# ZOD Commerce 1.8.2 — English setup
 
-This guide assumes the theme will be launched as a **new Salla theme and dedicated new Git repository**.
+## 1. Keep a rollback copy
 
-## A. Local installation
+Retain your original v1.7.32 ZIP and the previously delivered v1.8.0 and v1.8.1 ZIPs and record the current theme-editor settings and homepage section order. This is an update to the existing theme, not a requirement to create a new repository, theme identity or store. Do not replace a working live storefront before testing a preview/staging copy.
 
-Recommended folder on Windows:
+## 2. Build and preview
 
-```text
-D:\ZOD\zod-commerce-theme
-```
+Upload/import using the Salla workflow already associated with your theme. Where your workflow compiles source, use the dependency versions in package.json and run `pnpm install --frozen-lockfile`, `pnpm production`, `pnpm test`, then `pnpm release:check`. See README for the exact shipped offline-build limitations. The new public/refinement.css and public/add-product-toast.js must remain in the deployment.
 
-Open CMD in the extracted theme folder and run:
+Open the theme's Salla preview and confirm it renders before publishing. The local visual-preview pack is only a fixture demonstration and does not replace this step.
 
-```cmd
-node -v
-pnpm -v
-pnpm install
-pnpm test
-pnpm production
-```
+## 3. Brand and shared settings
 
-If pnpm is missing:
+Use the real store logo with a transparent background. Use your established accent color; the release was visually checked in charcoal/white/red. Choose an Arabic font with complete Arabic glyphs in Salla and check English fallback. Set the merchant logo, description, contact details, social accounts, branches, tax/certificate data and payment methods in Salla. Do not enter example information from the preview.
 
-```cmd
-npm install -g pnpm
-```
+Enable `show_header_search`, `show_department_rail`, `enable_add_product_toast`, `show_mobile_bottom_nav` and stock notifications as appropriate. Search invokes Salla's search experience. The category rail shares the footer's category response rather than making a new request.
 
-The project already contains explicit pnpm build approvals for the native dependencies that commonly trigger pnpm 11's ignored-build warning.
+## 4. Recommended homepage order
 
-## B. Create a completely new GitHub repository
+1. **Specialist category hero / واجهة الأقسام الرئيسية — زود** (`home.hero-hub`). Select the real exhaust, intercom and insect-control categories. This is the main introduction; do not stack the old carousel immediately above it.
+2. **Shop by category**: show around 8–12 major departments; maintain a useful hierarchy in the Salla catalog.
+3. **Exhaust fan product shelf**: choose in-stock priority models with complete installation information.
+4. **Intercom product shelf**: distinguish video kits/panels from audio interphones.
+5. **Insect-control product shelf**: separate electrical zappers, glue traps and replacement consumables.
+6. **Shop by need** or **buying guides**, followed by brands and a truthful wholesale/projects contact block.
+7. Optional laser showcase lower down the page; FAQ above the footer. Avoid making every optional component visible simultaneously.
 
-Suggested repository name:
+**Changed in 1.8.1:** an empty product shelf is hidden by default. Select products explicitly for category headings. Only turn on **Show latest products when empty** (`show_latest_when_empty`) for a genuinely general-purpose latest-products row. Review existing empty shelves after upgrading.
 
-```text
-zod-commerce-theme
-```
+## 5. Photography and copy
 
-Create an empty repository under the GitHub account connected to Salla Partners. Do not initialize it with another README or theme.
+For the new hero, use square 720×720 transparent cutouts, WebP or PNG, with the full product inside a safe margin. The built-in drawings are decorative fallbacks. They must not be presented as a specific product model. Check crop and contrast on mobile; avoid text baked into the image.
 
-Then, from the new theme folder:
+For product images, use consistent square source photography and actual model images. Use a clear product name, brand, model/SKU and relevant specifications. Prices, stock, discounts and currency must come from Salla; do not type prices into banners that appear live.
 
-```cmd
-git init
-git branch -M main
-git add -A
-git commit -m "Initial ZOD Commerce theme"
-git remote add origin https://github.com/Wllbr/zod-commerce-theme.git
-git push -u origin main
-```
+Only publish warranty, delivery-time, authenticity, coverage-area, noise, water-resistance or laser-safety claims supported by your actual policies/manufacturer documentation. Do not imply every fan is suitable for bathrooms or industrial use merely because it is in the same category.
 
-On GitHub, confirm `main` is the default branch.
+## 6. Catalog structure
 
-## C. Import as a new Salla theme
+Recommended groups and subdivisions are in MERCHANT_GUIDE_AR.md. Keep video intercom and audio interphone as distinct child categories. Place insect replacement tubes/glue boards under their matching products. Distinguish battery chargers and accessories from voltage transformers/stabilizers.
 
-```cmd
-salla login
-salla theme create
-```
+## 7. Required staging checks
 
-Choose:
+Check Arabic and English, desktop and phone, real category selection, search/sorting/filtering, add-to-cart, variant selection, unavailable stock, quantities, checkout hand-off, signed-in account, a delivered order review, footer data and any integrations enabled on your store. Test long Arabic product titles and prices with Salla's actual currency formatter.
 
-```text
-Store Theme
-→ Import a theme
-→ Wllbr
-→ zod-commerce-theme
-```
+Use a real order with multiple products and, where available, split shipments. Submit a product review through the actual Salla control. Check missing/deleted product data, digital attachments and order payment links if those order types apply.
 
-Then enter the Salla-created local theme folder (if the CLI creates one) and run:
+No staging credentials or remote-store deployment were available for this update. Do not treat passing local tests as final marketplace approval.
 
-```cmd
-pnpm test
-pnpm production
-salla theme preview --with-editor
-```
 
-## D. Theme editor — homepage build order
+## 8. Buying guides and order confirmation
 
-The fresh project intentionally does not ship fake customer content or invented campaign artwork. Build the live homepage with real store content in this order:
+Publish real blog articles in Salla and link the homepage buying-guide cards to them. The theme now uses the native article body and image object, categories, next-page list and related articles. Use the merchant blog setting to enable or disable comments; the theme respects that setting. The preview's example advice and images are not installed as content.
 
-### 1. Commerce Hero
-Use 1–3 strong campaigns at launch, not six competing banners.
+The confirmation page automatically reads real order instructions and distinguishes received, pending-payment and expired-payment states. No theme setting should be used to force a paid label. Test a real pending order and the invoice-email action in Salla. Verify carrier/tracking and preorder dates on applicable customer orders.
 
-For every slide configure:
-- desktop image
-- mobile image
-- Arabic + English title
-- optional short supporting text
-- CTA label
-- destination
+For developers: `npm run build:verify` validates the current snapshot; `pnpm release:check` requires a fresh full production build. Do not remove the production gate merely to make a snapshot appear production-built.
 
-### 2. Category Navigation
-Choose the most important top-level categories. Aim for 6–10 categories before adding secondary catalog groups.
+## 1.8.2 shopping settings and upgrade checks
 
-Each selected Salla category should have:
-- clear category name in both languages
-- professional category image
-- correct parent/child hierarchy
+The cart uses a single native summary on all screen sizes. Its checkout, discounts, shipping and tax remain platform-owned. The previous calculated mobile breakdown and proxy checkout are intentionally removed; cart pages do not show the competing mobile navigation dock.
 
-### 3. Shop by Need
-Create customer-intent pathways rather than duplicating category names. Examples should be based on actual catalog/customer needs, not placeholder copy.
+Configure offers in Salla. The theme now renders native offers rather than inferring discount tiers. Check real cart special totals, including promotional zero prices, together with coupons, shipping, item options and quantity changes.
 
-Each card needs:
-- problem/need image
-- short bilingual title
-- optional one-line explanation
-- destination category, product collection, guide, or page
+`sticky_add_to_cart` now controls the persistent product purchase bar. Turning it off keeps purchasing inline. The optional `show_product_selection_help` setting displays a general specifications reminder, not an assertion of technical compatibility. Product review links follow the merchant's review setting. These controls are page settings, not additional homepage components.
 
-### 4. Best Sellers
-Use `Product Shelf`. Select real best sellers or leave product selection empty for the current fallback feed while testing.
-
-### 5. Product Spotlight
-Use only for products/campaigns that deserve a mini landing-page treatment. Combine one product with a strong image/video and 3–4 meaningful benefits.
-
-### 6. Category Product Shelves
-Duplicate Product Shelf for important catalog families. Keep each shelf focused and provide a View All destination.
-
-### 7. Promotion Grid
-Enable only when there is a real promotion. Do not keep fake discounts or expired urgency messages on the homepage.
-
-### 8. Brands
-Select important manufacturer brands and ensure each brand has a clean logo and useful Salla brand page.
-
-### 9. Wholesale / Business CTA
-Link to a real business/quotation/contact page. Keep this separate from consumer Add to Cart flows.
-
-### 10. Buying Guides
-Link to real Salla blog articles or useful content pages. Guides should answer compatibility/selection questions and link back to relevant products.
-
-### 11. FAQ
-Use questions that remove buying objections: delivery, warranty, returns, oversized products, installation/support, business quotations, etc. Answers must match actual store policies.
-
-### 12. Locations / Contact
-If customers can visit a showroom, branch or pickup location, add only verified locations, business hours, contact number and directions link. Keep this section disabled if there is no customer-facing location.
-
-### 13. Reviews
-Use Salla's real review/testimonial data. Do not create fabricated names or reviews.
-
-### 14. Trust & Service
-Use only claims the business can actually support. Keep each point short.
-
-## E. Menu architecture
-
-Keep category trees meaningful and customer-friendly. A technical store benefits from a three-path navigation model:
-
-1. **By category** — what the product is.
-2. **By need** — what the customer is trying to solve.
-3. **By brand** — for model/brand-aware shoppers.
-
-The desktop theme renders deep menus as a mega-menu; mobile renders them as a drill-down catalog drawer.
-
-## F. Search quality checklist
-
-Because the theme uses Salla's live search, search quality depends heavily on product data.
-
-For every technical product keep these consistent:
-- complete model number in title or SKU
-- brand attached in Salla
-- Arabic and English product name
-- searchable common terms in description/content
-- correct category
-- accurate stock
-- real price
-- clear primary image
-
-Test model-number variants and Arabic/English searches before launch.
-
-## G. Product page data checklist
-
-For each product:
-- 5–7 useful images when possible
-- clean primary image
-- model / SKU
-- brand
-- price and real discount if applicable
-- accurate stock
-- variants/options
-- Salla metadata/specifications
-- description focused on benefits + intended use
-- warranty terms
-- delivery/shipping behavior
-- size/install dimensions when relevant
-- what's in the box
-- video/3D asset only when it genuinely helps
-
-## H. Policy and trust pages
-
-Before public launch, verify and publish real pages for:
-- Shipping & Delivery
-- Returns / Exchanges
-- Warranty / Service
-- Privacy
-- Terms
-- Contact
-- About ZOD
-- Wholesale / Business Quotations
-
-Link them through the Salla footer menu so the theme renders them automatically.
-
-## I. Bilingual QA
-
-Test every important page twice: Arabic and English.
-
-Arabic:
-- RTL menu/navigation
-- Arabic component content
-- price/quantity controls
-- long product titles
-- mobile filter sheet
-- cart/checkout path
-
-English:
-- LTR navigation
-- no leftover Arabic storefront content
-- long technical model names
-- filters/options
-- cart/checkout path
-
-Avoid important text baked into campaign images unless separate Arabic/English artwork is intentionally used.
-
-## J. Device QA
-
-Minimum preview widths:
-- 360 px mobile
-- 390–430 px modern phone
-- 768 px tablet
-- 1024 px small desktop/tablet landscape
-- 1366 px laptop
-- 1440/1920 px desktop
-
-Test:
-- header/menu
-- live search
-- category pages
-- filters/sort
-- product gallery/video
-- product options
-- Add to Cart
-- Quick Buy when enabled
-- out of stock / notify availability
-- cart options/notes/uploads
-- coupons/offers
-- wishlist/account
-- footer accordions
-
-## K. Pre-launch commands
-
-```cmd
-pnpm install
-pnpm test
-pnpm production
-salla theme preview --with-editor
-```
-
-Commit only after the build and Salla preview are clean:
-
-```cmd
-git add -A
-git commit -m "Prepare ZOD Commerce for launch"
-git push origin main
-```
-
-## L. Consumer launch rule
-
-Do not publish just because the code builds. Publish only after the live Salla preview has been checked with **real ZOD content** in Arabic and English on desktop and mobile, including at least:
-- one normal product
-- one discounted product
-- one product with options
-- one out-of-stock product
-- one large/technical product
-- cart and checkout
+Verify saved cart notes/files after quantity changes; test catalog sorting with existing search and filter state. Local fixtures cannot prove server-side checkout validation, attachment persistence or payment correctness.

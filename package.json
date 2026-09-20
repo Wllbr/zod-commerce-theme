@@ -1,17 +1,20 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.7.32",
-  "description": "ZOD Commerce v1.7.32 — silent out-of-stock variant selection, native Salla variant pricing, supported offer-details integration, and v1.7.31 storefront polish.",
+  "version": "1.8.2",
+  "description": "ZOD Commerce v1.8.2 — native cart pricing and offers, catalog sorting, mobile filters, product preferences and attachment continuity.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "test": "node scripts/validate-theme.mjs && node scripts/test-regressions.mjs && node scripts/check-css-budget.mjs",
+    "test": "node scripts/validate-theme.mjs && node scripts/test-regressions.mjs && node scripts/check-css-budget.mjs && node scripts/test-approval.mjs && node scripts/test-continuation.mjs && node scripts/test-shopping.mjs && node scripts/check-build-integrity.mjs",
     "css:budget": "node scripts/check-css-budget.mjs",
-    "production": "webpack --mode production",
-    "prod": "webpack --mode production",
+    "production": "webpack --mode production && node scripts/record-build.mjs production",
+    "prod": "pnpm run production",
     "development": "webpack --mode development",
     "watch": "webpack --mode development --watch",
-    "release": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-release.ps1"
+    "release": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-release.ps1",
+    "build:offline": "node scripts/build-offline.mjs",
+    "build:verify": "node scripts/check-build-integrity.mjs",
+    "release:check": "node scripts/check-build-integrity.mjs --require-production"
   },
   "dependencies": {
     "@babel/runtime": "^8.0.0",

@@ -25,13 +25,13 @@ for(const f of jsonFiles){
 const pkg=JSON.parse(read('package.json'));
 const config=JSON.parse(read('twilight.json'));
 assert(pkg.name==='zod-commerce-theme','package.json: unexpected project name');
-assert(pkg.version==='1.7.32','package.json: expected v1.7.32');
+assert(/^1\.8\.\d+$/.test(pkg.version),'package.json: expected a valid 1.8 patch release');
 assert(pkg.packageManager?.startsWith('pnpm@') || !pkg.packageManager,'package.json: invalid packageManager');
 const trackedResult=spawnSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8'});
 const trackedFiles=trackedResult.status===0 ? (trackedResult.stdout||'').split('\0').filter(Boolean) : [];
 for(const forbiddenPrefix of ['release/','public/videos/','node_modules/','output/','.pnpm-store/','.tmp-theme-raed/']){
   if(trackedFiles.length) assert(!trackedFiles.some(file=>file.startsWith(forbiddenPrefix)),`Repository must not track ${forbiddenPrefix}`);
-  assert(!fs.existsSync(path.join(root,forbiddenPrefix)),`Release package must not contain ${forbiddenPrefix}`);
+  // Local dependencies/build folders are allowed here. Archive contents are checked at packaging time.
 }
 for(const file of trackedFiles){
   const absolute=path.join(root,file);
@@ -163,12 +163,12 @@ assert(whatsappConfig?.fields?.find(field=>field.id==='contacts')?.maxLength===4
 
 assert(cartTwig.includes('data-zod-cart-grand-total'),'Cart must expose the grand total for mobile and desktop');
 assert(cartTwig.includes('cart.total|money'),'Cart must render Salla cart.total');
-assert(cartTwig.includes('store-cart-checkout-mobile'),'Cart must keep a mobile checkout action');
+assert((cartTwig.match(/<salla-cart-summary-card\b/g)||[]).length===1 && !cartTwig.includes('store-cart-checkout-mobile'),'Cart must expose exactly one native checkout summary instead of a proxy mobile action');
 assert(!cartTwig.includes("document.querySelector('#item-"),'Cart delete control must not expose inline JavaScript as interface text');
 assert(read('src/assets/js/app.js').includes('[data-zod-cart-delete-item]'),'Cart delete control must be handled from the compiled application script');
 
 assert(masterTwig.includes('<salla-search data-testid="store-search-modal"></salla-search>'),'Master layout must include Salla search for Webview pages');
-for(const component of ['salla-order-totals-card','salla-order-branch','salla-edit-order-button','salla-review-factors-tags']){
+for(const component of ['salla-order-totals-card','salla-order-branch','salla-edit-order-button','salla-review-order-item']){
   assert(orderSingle.includes(`<${component}`),`Order details page missing ${component}`);
 }
 for(const component of ['salla-order-shipments','salla-next-order-coupon']){
@@ -197,7 +197,7 @@ assert(!single.includes('zod-brand-explore-card'),'Product page must not render 
 assert(single.includes("product.can_quick_buy ? 'quick-buy' : ''"),'Product page must enable native quick-buy on the single purchase component when supported');
 assert(single.includes('class="form product-form zod-purchase-form"'),'Product page must expose form.product-form for Salla native fast checkout');
 assert(single.includes('support-sticky-bar'),'Product purchase component must declare support for the persistent Salla purchase dock');
-assert((single.match(/data-zod-volume-offers/g)||[]).length===1,'Product page must render one Salla-backed volume-offer panel');
+assert((single.match(/<salla-offer\b/g)||[]).length===1 && !single.includes('data-zod-volume-offers'),'Product page must render one native offer component without estimated tier pricing');
 assert(single.indexOf('data-zod-product-offers') < single.indexOf('data-zod-buybox-description'),'Product offers must stay beside the price summary and before the description');
 
 const headerTwig=read('src/views/components/header/header.twig');
@@ -268,7 +268,7 @@ const productCardJs=read('src/assets/js/partials/product-card.js');
 assert(productPageJs.includes('if (rect.bottom < 0) activateDock();'),'Product purchase dock must activate only after the inline purchase controls have been passed');
 assert(productPageJs.includes("dataset.zodStickyEnabled !== '0'"),'Product purchase dock must respect the merchant sticky-cart setting');
 assert(!single.includes('sticky-product-bar is-docked is-ready'),'Product purchase controls must render inline first instead of covering content on initial load');
-assert(single.includes('data-zod-sticky-enabled="1"'),'Product purchase controls must keep the requested always-visible dock enabled');
+assert(single.includes("sticky_enabled ? '1' : '0'"),'Product purchase controls must respect the merchant sticky setting');
 assert(productCardJs.includes('return isOutOfStock(product)') && read('src/assets/js/partials/stock.js').includes('product.is_available === true || product.unlimited_quantity === true'),'Quick View stock must respect explicit Salla availability through the shared stock helper');
 assert(productCardJs.includes('window.zodOpenQuickView'),'Native and custom cards must share the Quick View controller');
 assert(read('src/assets/js/app.js').includes('initNativeCardActions()'),'Native cards must be decorated with unified Eye + Heart actions');

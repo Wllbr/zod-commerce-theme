@@ -6,7 +6,7 @@ const initFaq = (root = document) => {
   root.querySelectorAll('.zod-faq-item:not([data-zod-faq-ready])').forEach(item => {
     item.dataset.zodFaqReady = 'true';
     item.addEventListener('toggle', () => {
-      if (item.open) document.querySelectorAll('.zod-faq-item[open]').forEach(other => { if (other !== item) other.open = false; });
+      if (item.open) (item.closest('.zod-section') || document).querySelectorAll('.zod-faq-item[open]').forEach(other => { if (other !== item) other.open = false; });
     });
   });
 };
@@ -36,7 +36,7 @@ const motionObserver = 'IntersectionObserver' in window ? new IntersectionObserv
 }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }) : null;
 
 const initSectionMotion = (root = document) => {
-  const selector = '.zod-section:not(.zod-hero):not(.zod-dual-showcase), .zod-trust-strip';
+  const selector = '.zod-section:not(.zod-hero):not(.zod-hero-hub):not(.zod-dual-showcase), .zod-trust-strip';
   const sections = [];
   if (root instanceof Element && root.matches(selector)) sections.push(root);
   root.querySelectorAll?.(selector).forEach(section => sections.push(section));
@@ -63,6 +63,12 @@ const initHeroSlider = (slider) => {
       try { slider.slider?.update?.(); } catch (_) {}
       try { slider.swiper?.loopFix?.(); } catch (_) {}
       try { slider.slider?.loopFix?.(); } catch (_) {}
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        slider.removeAttribute('auto-play');
+        slider.autoPlay = false;
+        try { slider.swiper?.autoplay?.stop?.(); } catch (_) {}
+        try { slider.slider?.autoplay?.stop?.(); } catch (_) {}
+      }
     });
   };
 
@@ -95,8 +101,9 @@ const initInteractiveShowcase = (section) => {
       const active = i === activeIndex;
       trigger.classList.toggle('is-active', active);
       trigger.setAttribute('aria-selected', active ? 'true' : 'false');
+      trigger.tabIndex = active ? 0 : -1;
     });
-    panels.forEach((panel, i) => panel.classList.toggle('is-active', i === activeIndex));
+    panels.forEach((panel, i) => { panel.classList.toggle('is-active', i === activeIndex); panel.setAttribute('aria-hidden', i === activeIndex ? 'false' : 'true'); panel.inert = i !== activeIndex; });
     if (userInitiated) restart();
   };
 
@@ -113,7 +120,19 @@ const initInteractiveShowcase = (section) => {
 
   const restart = () => start();
 
-  triggers.forEach((trigger, i) => trigger.addEventListener('click', () => activate(i, true)));
+  triggers.forEach((trigger, i) => {
+    trigger.addEventListener('click', () => activate(i, true));
+    trigger.addEventListener('keydown', event => {
+      const rtl = document.documentElement.dir === 'rtl';
+      let next = null;
+      if (event.key === 'Home') next = 0;
+      if (event.key === 'End') next = triggers.length - 1;
+      if (event.key === 'ArrowRight') next = i + (rtl ? -1 : 1);
+      if (event.key === 'ArrowLeft') next = i + (rtl ? 1 : -1);
+      if (next === null) return;
+      event.preventDefault(); activate(next, true); triggers[activeIndex].focus(); stop();
+    });
+  });
   section.addEventListener('mouseenter', stop);
   section.addEventListener('mouseleave', start);
   section.addEventListener('focusin', stop);
@@ -142,83 +161,32 @@ const initLaserShowcase = (section) => {
   let soundCueTimer = 0;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  const number = value => {
-    if (typeof value === 'number') return Number.isFinite(value) ? value : 0;
-    if (typeof value === 'string') return Number(value.replace(/[^0-9.\-]/g, '')) || 0;
-    if (value && typeof value === 'object') return number(value.amount ?? value.value ?? value.price);
-    return 0;
-  };
-  const imageUrl = value => typeof value === 'string' ? value : (value?.url || value?.original || value?.medium || value?.small || value?.thumbnail || '');
-  const money = value => {
-    const formatted = new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(number(value));
-    return `${formatted} <i class="sicon-sar" aria-hidden="true"></i>`;
-  };
-  const unwrap = response => {
-    const candidates = [response?.data?.product, response?.data, response?.product, response];
-    return candidates.find(value => value && typeof value === 'object' && (value.id || value.name)) || null;
-  };
-
+  // Native Salla lists supply products. First panel loads normally; other
+  // panels mount their list only after the shopper selects that video.
   const applyProduct = (productId, product) => {
     if (!product) return;
-
-    const name = product.name || section.dataset.labelError;
-    const sale = number(product.sale_price);
-    const regular = number(product.regular_price);
-    const base = number(product.price);
-    const current = sale > 0 ? sale : base;
-    const image = imageUrl(product.image) || product.thumbnail || imageUrl(product.images?.[0]);
-    const isOut = product.status === 'out' || product.status === 'out-and-notify' || product.is_available === false;
-
     panels.forEach((panel, index) => {
       if (panel.dataset.productId !== String(productId)) return;
-      const trigger = triggers[index];
+      const name = product.name || section.dataset.labelError;
       panel.querySelector('[data-zod-laser-name]').textContent = name;
-      panel.querySelector('[data-zod-laser-price]').innerHTML = money(current);
-      const regularNode = panel.querySelector('[data-zod-laser-regular]');
-      regularNode.hidden = !(regular > current && current > 0);
-      regularNode.innerHTML = regularNode.hidden ? '' : money(regular);
-      const stock = panel.querySelector('[data-zod-laser-stock]');
-      stock.classList.toggle('is-available', !isOut);
-      stock.querySelector('[data-zod-laser-stock-label]').textContent = isOut ? section.dataset.labelUnavailable : section.dataset.labelAvailable;
-
-      const link = panel.querySelector('[data-zod-laser-link]');
-      const productUrl = typeof product.url === 'string' ? product.url : (product.url?.url || product.link);
-      link.href = productUrl || `/product/${productId}`;
-      link.removeAttribute('aria-disabled');
-      const mediaImage = panel.querySelector('[data-zod-laser-image]');
+      triggers[index].querySelector('[data-zod-laser-trigger-name]').textContent = name;
+      const image = typeof product.image === 'string' ? product.image : (product.image?.url || product.thumbnail);
+      const thumb = triggers[index].querySelector('[data-zod-laser-thumb]');
+      if (image && thumb && !thumb.getAttribute('src')) { thumb.src = image; thumb.hidden = false; }
+      const stageImage = panel.querySelector('[data-zod-laser-image]');
+      if (image && stageImage && !stageImage.getAttribute('src')) { stageImage.src = image; stageImage.hidden = false; stageImage.alt = name; }
       const video = panel.querySelector('[data-zod-laser-video]');
-      if (image) {
-        if (mediaImage && !mediaImage.src) { mediaImage.src = image; mediaImage.hidden = false; mediaImage.alt = name; }
-        if (video && !video.poster) video.poster = image;
-        const thumb = trigger.querySelector('[data-zod-laser-thumb]');
-        if (thumb && !thumb.src) { thumb.src = image; thumb.hidden = false; }
-      }
-      trigger.querySelector('[data-zod-laser-trigger-name]').textContent = name;
-      trigger.querySelector('[data-zod-laser-trigger-price]').innerHTML = money(current);
-
-      const host = panel.querySelector('[data-zod-laser-add]');
-      const button = document.createElement('salla-add-product-button');
-      button.setAttribute('fill', 'solid');
-      button.setAttribute('product-id', productId);
-      button.setAttribute('product-status', product.status || (isOut ? 'out' : 'sale'));
-      button.setAttribute('product-type', product.type || 'product');
-      button.textContent = product.add_to_cart_label || section.dataset.labelAdd;
-      host.replaceChildren(button);
+      if (image && video && !video.poster) video.poster = image;
       panel.classList.remove('is-loading');
     });
   };
-
-  const loadProducts = async () => {
-    if (!window.salla?.product?.getDetails) return;
-    const ids = [...new Set(panels.map(panel => panel.dataset.productId).filter(Boolean))];
-    await Promise.all(ids.map(async productId => {
-      try { applyProduct(productId, unwrap(await salla.product.getDetails(productId))); }
-      catch (_) {
-        panels.filter(panel => panel.dataset.productId === productId).forEach(panel => {
-          panel.querySelector('[data-zod-laser-name]').textContent = section.dataset.labelError;
-        });
-      }
-    }));
+  section.addEventListener('zod:product-data', event => applyProduct(event.detail?.id, event.detail));
+  const mountProducts = panel => {
+    const template = panel?.querySelector('[data-zod-laser-products-template]');
+    if (template) template.replaceWith(template.content.cloneNode(true));
+    panel?.querySelectorAll('custom-salla-product-card').forEach(card => {
+      if (card.product) applyProduct(card.product.id, card.product);
+    });
   };
 
   const updateSoundControls = () => {
@@ -283,6 +251,7 @@ const initLaserShowcase = (section) => {
 
   const activate = (index, { focus = false, scroll = false } = {}) => {
     activeIndex = (index + triggers.length) % triggers.length;
+    mountProducts(panels[activeIndex]);
     panels.forEach((panel, panelIndex) => {
       const active = panelIndex === activeIndex;
       panel.hidden = !active;
@@ -348,8 +317,7 @@ const initLaserShowcase = (section) => {
   document.addEventListener('visibilitychange', syncVideo);
   reducedMotion.addEventListener?.('change', syncVideo);
   activate(0);
-  if (window.salla?.onReady) window.salla.onReady().then(loadProducts).catch(() => {});
-  else document.addEventListener('zod::ready', loadProducts, { once: true });
+
 };
 
 const initProductSwitcher = (section) => {

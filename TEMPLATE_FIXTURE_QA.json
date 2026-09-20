@@ -1,0 +1,37 @@
+{
+  "scope": "Limited converted-template fixtures, not native Twig execution",
+  "tests": [
+    {
+      "test": "ar: template selected/default sort and search source",
+      "pass": true
+    },
+    {
+      "test": "ar: cart native summary, zero offer, uploader context, offer outside forms",
+      "pass": true
+    },
+    {
+      "test": "ar: product settings, reviews links, native offer position and PDP uploader",
+      "pass": true
+    },
+    {
+      "test": "ar: product-inline settings, reviews links, native offer position and PDP uploader",
+      "pass": true
+    },
+    {
+      "test": "en: template selected/default sort and search source",
+      "pass": true
+    },
+    {
+      "test": "en: cart native summary, zero offer, uploader context, offer outside forms",
+      "pass": true
+    },
+    {
+      "test": "en: product settings, reviews links, native offer position and PDP uploader",
+      "pass": true
+    },
+    {
+      "test": "en: product-inline settings, reviews links, native offer position and PDP uploader",
+      "pass": true
+    }
+  ]
+}

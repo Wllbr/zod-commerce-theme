@@ -1,0 +1,19 @@
+{# The Salla Article image is an object. No image URL means a decorative fallback. #}
+<article class="zod-blog-card zod-editorial-card" data-testid="store-blog-article-card">
+  <a href="{{ article.url }}" class="zod-blog-card__image" tabindex="-1" aria-hidden="true">
+    {% if article.has_image and article.image.url %}
+      <img src="{{ article.image.url }}" alt="" width="720" height="480" loading="lazy" decoding="async">
+    {% else %}
+      <span class="zod-editorial-placeholder"><i class="sicon-book-open" aria-hidden="true"></i></span>
+    {% endif %}
+  </a>
+  <div class="zod-editorial-card__body">
+    <div class="zod-editorial-meta">
+      {% if article.created_at %}<time datetime="{{ article.created_at|date('Y-m-d') }}">{{ article.created_at|date('Y-m-d') }}</time>{% endif %}
+      {% if article.author.name %}<span>{{ article.author.name }}</span>{% endif %}
+    </div>
+    <h2><a href="{{ article.url }}">{{ article.title }}</a></h2>
+    {% if article.summary %}<p>{{ article.summary|striptags }}</p>{% endif %}
+    <a href="{{ article.url }}" class="zod-text-link">{{ trans('zod.home.learn_more') }}<span class="zod-direction-arrow" aria-hidden="true">&rarr;</span><span class="sr-only">: {{ article.title }}</span></a>
+  </div>
+</article>

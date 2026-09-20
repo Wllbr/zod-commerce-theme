@@ -1,0 +1,36 @@
+{# Three editorial category doors. No fabricated category ids, prices or promises. #}
+{% set hub_title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
+{% set hub_intro = component.intro is iterable ? component.intro[language.code]|default(component.intro|first) : component.intro %}
+<section class="zod-section zod-hero-hub" data-zod-hero-hub>
+  <div class="container">
+    <header class="zod-hub-heading">
+      <div><p class="zod-eyebrow">{{ trans('zod.hub.eyebrow') }}</p><h2>{{ hub_title|default(trans('zod.hub.title')) }}</h2></div>
+      <p>{{ hub_intro|default(trans('zod.hub.intro')) }}</p>
+    </header>
+    <div class="zod-hub-grid">
+      {% for slot in ['exhaust', 'intercom', 'insect'] %}
+        {% set selection = component[slot ~ '_category']|default([]) %}
+        {% set category = selection.id is defined ? selection : selection|first %}
+        {% set category_url = category.url|default(null) %}
+        {% set label_value = component[slot ~ '_title']|default(null) %}
+        {% set description_value = component[slot ~ '_text']|default(null) %}
+        {% set label = label_value is iterable ? label_value[language.code]|default(label_value|first) : label_value %}
+        {% set description = description_value is iterable ? description_value[language.code]|default(description_value|first) : description_value %}
+        {% set media = component[slot ~ '_image']|default(null) %}
+        <article class="zod-hub-card zod-hub-card--{{ slot }}">
+          <div class="zod-hub-card__content">
+            <span class="zod-hub-card__tag">{{ trans('zod.hub.' ~ slot ~ '_tag') }}</span>
+            <h3>{{ label|default(trans('zod.hub.' ~ slot ~ '_title')) }}</h3>
+            <p>{{ description|default(trans('zod.hub.' ~ slot ~ '_text')) }}</p>
+            {% if category_url %}<a class="zod-hub-card__link" href="{{ category_url }}"><span>{{ trans('zod.hub.explore') }}</span><i class="sicon-arrow-left" aria-hidden="true"></i></a>{% endif %}
+          </div>
+          <div class="zod-hub-card__art" aria-hidden="true">
+            {% if media %}<img src="{{ media }}" alt="" width="720" height="720" decoding="async" {% if loop.first %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %}>
+            {% else %}{% include 'components.shared.category-symbol' with {variant: slot} %}{% endif %}
+          </div>
+          <span class="zod-hub-card__number" aria-hidden="true">0{{ loop.index }}</span>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -8,13 +8,13 @@
   <script defer data-cfasync="false" src="{{ 'zod-menu.js'|asset }}"></script>
   {% block head_scripts %}{% endblock %}
   <script data-cfasync="false">
-    {# Match current Theme Raed globals exactly while keeping typed ZOD settings below. #}
-    window.header_is_sticky = "{{ theme.settings.get('header_is_sticky', 'Default Value') }}";
+    {# Boolean settings must stay booleans; the string 'false' is truthy in JavaScript. #}
+    window.header_is_sticky = {{ theme.settings.get('header_is_sticky', true) | json_encode }};
     window.imageZoom = "{{ theme.settings.get('imageZoom') }}";
     window.can_access_wallet = {{ user.can_access_wallet | json_encode }};
-    window.enable_more_menu = "{{ theme.settings.get('enable_more_menu', true) }}";
-    window.enable_add_product_toast = "{{ theme.settings.get('enable_add_product_toast', true) }}";
-    window.notify_when_available_in_card = "{{ theme.settings.get('notify_when_available_in_card', true) }}";
+    window.enable_more_menu = {{ theme.settings.get('enable_more_menu', true) | json_encode }};
+    window.enable_add_product_toast = {{ theme.settings.get('enable_add_product_toast', true) | json_encode }};
+    window.notify_when_available_in_card = {{ theme.settings.get('notify_when_available_in_card', true) | json_encode }};
 
     window.zodSettings = {
       stickyHeader: {{ theme.settings.get('header_is_sticky', true) | json_encode }},
@@ -32,6 +32,7 @@
   {% hook head %}
   {% block styles %}{% endblock %}
   <link rel="stylesheet" href="{{ 'app.css' | asset }}">
+  <link rel="stylesheet" href="{{ 'refinement.css' | asset }}">
   <link rel="stylesheet" href="{{ theme.font.path|cdn }}">
   <link rel="stylesheet" href="{{ 'fonts/sallaicons.css'|cdn }}">
   <style>
@@ -53,30 +54,35 @@
   </style>
   {% hook 'head:end' %}
 </head>
-<body id="app" class="zod-commerce overflow-x-hidden {% hook 'body:classes' %} {{ theme.settings.get('sticky_add_to_cart') ? 'is-sticky-product-bar' : '' }} {{ theme.settings.get('show_mobile_bottom_nav', true) ? 'has-mobile-bottom-nav' : '' }} {{ is_page('product.single') ? 'product-single zod-product-dock-visible' : '' }} {{ is_page('cart') ? 'cart-page' : '' }}">
+<body id="app" class="zod-commerce overflow-x-hidden {% hook 'body:classes' %} {{ is_page('product.single') and theme.settings.get('sticky_add_to_cart') ? 'is-sticky-product-bar' : '' }} {{ theme.settings.get('show_mobile_bottom_nav', true) and not is_page('cart') ? 'has-mobile-bottom-nav' : '' }} {{ is_page('product.single') ? 'product-single' : '' }} {{ is_page('cart') ? 'cart-page' : '' }}">
+<a class="zod-skip-link" href="#main-content">{{ trans('zod.common.skip_content') }}</a>
 <noscript><div class="zod-noscript">{{ trans('zod.common.javascript_required') }}</div></noscript>
 <div class="app-inner min-h-screen flex flex-col">
   {% hook 'body:start' %}
   {% component 'header.header' %}
-  <main id="main-content" role="main" class="flex-1">
+  <main id="main-content" role="main" tabindex="-1" class="flex-1">
     {% block content %}{% endblock %}
   </main>
   {% component 'footer.footer' %}
 </div>
 {% hook 'body:end' %}
-{# ZOD uses salla.notify.setNotifier() for a single non-blocking notification path. #}
+{# Required Twilight toast, with its event controller. Other notices stay with ZOD. #}
+{% if theme.settings.get('enable_add_product_toast', true) %}
+<salla-add-product-toast data-testid="store-add-product-toast" data-cart-url="{{ link('cart') }}" data-label-added="{{ trans('zod.cart.added') }}" data-label-cart="{{ trans('zod.cart.view_cart') }}" data-label-continue="{{ trans('zod.cart.continue_shopping') }}" data-label-close="{{ trans('zod.header.close') }}" data-label-quantity="{{ trans('zod.cart.quantity') }}"></salla-add-product-toast>
+<script defer src="{{ 'add-product-toast.js' | asset }}"></script>
+{% endif %}
 <script defer crossorigin="anonymous" src="{{ 'app.js' | asset }}"></script>
 <script defer crossorigin="anonymous" src="{{ 'legacy-product-card.js' | asset }}"></script>
 <salla-offer-modal data-testid="store-offer-modal"></salla-offer-modal>
 <salla-search data-testid="store-search-modal"></salla-search>
 <salla-login-modal data-testid="store-login-modal"></salla-login-modal>
 {% if store.scope %}<salla-scopes data-testid="store-scopes" selection="{{ store.scope.display_as == 'popup' ? 'mandatory' : 'optional' }}"></salla-scopes>{% endif %}
-{% if theme.settings.get('show_mobile_bottom_nav', true) %}
+{% if theme.settings.get('show_mobile_bottom_nav', true) and not is_page('cart') %}
 <nav class="zod-mobile-dock lg:hidden" aria-label="{{ trans('zod.header.menu') }}">
-  <a href="{{ link('/') }}"><i class="sicon-home"></i><span>{{ trans('zod.mobile.home') }}</span></a>
+  <a href="{{ link('/') }}" {% if is_page('index') %}aria-current="page"{% endif %}><i class="sicon-home"></i><span>{{ trans('zod.mobile.home') }}</span></a>
   <button type="button" onclick="window.zodMenu?.open(this)"><i class="sicon-layout-grid"></i><span>{{ trans('zod.mobile.categories') }}</span></button>
   <button type="button" onclick="salla.event.dispatch('search::open')"><span class="zod-dock-search"><i class="sicon-search"></i></span><small>{{ trans('zod.mobile.search') }}</small></button>
-  <a href="{{ link('cart') }}"><i class="sicon-shopping-bag"></i><span>{{ trans('zod.mobile.cart') }}</span></a>
+  <a href="{{ link('cart') }}" {% if is_page('cart') %}aria-current="page"{% endif %}><i class="sicon-shopping-bag"></i><span>{{ trans('zod.mobile.cart') }}</span></a>
   <a href="{{ link('profile') }}" class="zod-dock-account" aria-label="{{ trans('zod.mobile.account') }}">
     <svg class="zod-dock-account-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3.25"></circle><path d="M5.75 19c.7-3.25 3-5 6.25-5s5.55 1.75 6.25 5"></path></svg>
     <span>{{ trans('zod.mobile.account') }}</span>

@@ -1,0 +1,59 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+const read = name => fs.readFileSync(new URL(`../${name}`, import.meta.url),'utf8');
+const blog = read('src/views/pages/blog/index.twig');
+const article = read('src/views/pages/blog/single.twig');
+const card = read('src/views/components/blog/article-card.twig');
+assert.match(blog, /salla-infinite-scroll[^>]*next-page="\{\{ articles.next_page \}\}"/);
+assert.match(blog, /category.is_current/);
+assert.match(blog, /zod.blog.empty_title/);
+assert.match(article, /article\.body\|replace/);
+assert.doesNotMatch(article, /\{\{ article\.content/);
+assert.match(article, /related\|default\(article.related/);
+assert.match(article, /store.settings.blog.allow_likes_and_comments/);
+assert.match(article, /item-id="\{\{ article.key \}\}" type="blog"/);
+for (const template of [card, article]) {
+  assert.match(template, /src="\{\{ article.image.url \}\}"/);
+  assert.doesNotMatch(template, /src="\{\{ (article|item).image \}\}"/);
+}
+for (const hook of ['blog:index.items.start','blog:index.items.end']) assert(blog.includes(hook));
+for (const hook of ['blog:single.items.start','blog:single.items.end']) assert(article.includes(hook));
+const thanks = read('src/views/pages/thank-you.twig');
+for (const token of ['thank_you_title','order.instructions|raw','for message in messages','order.is_pending_payment','order.pending_payment_ends_in == 0',"order.sendInvoice",'data-zod-order-open','pages.js']) assert(thanks.includes(token), `Missing native confirmation path: ${token}`);
+assert.doesNotMatch(thanks, /page.content\|raw/);
+assert(thanks.includes('pending_payment_ends_in is defined') && thanks.includes('pending_payment_ends_in is not null'), 'Missing expiry data must not imply an expired payment');
+for (const hook of ['thank-you:start','thank-you:items.start','thank-you:items.end','thank-you:end']) assert.equal(thanks.split(`'${hook}'`).length-1,1);
+const order = read('src/views/pages/customer/orders/single.twig');
+for (const token of ['package.shipping_company.tracing_link','item.availability_date','order.options','salla-review-order-item']) assert(order.includes(token));
+const shelf = read('src/views/components/home/product-shelf.twig');
+assert.match(shelf,/component.show_latest_when_empty\|default\(false\)/);
+assert.match(shelf,/{% if component.products\|length or show_latest %}/);
+const config = JSON.parse(read('twilight.json'));
+const field = config.components.find(c=>c.path==='home.product-shelf').fields.find(f=>f.id==='show_latest_when_empty');
+assert.equal(field.value, false);
+assert.equal(field.required, false);
+assert.match(read('src/assets/js/app.js'),/link.classList.contains\('zod-skip-link'\)\) target.focus/);
+// Execute the actual page controller with only its order link populated.
+function harness(show) {
+  let click, boot;
+  const attributes = new Map();
+  const calls = [], navigations = [];
+  const link = {dataset:{orderId:'123'},href:'https://example.test/order/123',addEventListener:(name,fn)=>{if(name==='click')click=fn;},getAttribute:key=>attributes.get(key),setAttribute:(key,value)=>attributes.set(key,value),removeAttribute:key=>attributes.delete(key)};
+  const document = {addEventListener:(name,fn)=>{if(name==='DOMContentLoaded')boot=fn;},querySelectorAll:selector=>selector==='[data-zod-order-open]'?[link]:[],querySelector:()=>null};
+  const window = {location:{assign:url=>navigations.push(url)},salla:show?{order:{show:payload=>{calls.push(payload);return show(payload);}}}:{}};
+  vm.runInNewContext(read('src/assets/js/pages.js'), {document,window,Promise}); boot();
+  return {calls,navigations,attributes, click:(extra={})=>{const event={button:0,preventDefault(){this.prevented=true;},...extra};click(event);return event;}};
+}
+const ready=harness(()=>Promise.resolve());
+assert(ready.click().prevented);
+assert.equal(ready.calls[0].order_id,'123');
+await new Promise(resolve=>setImmediate(resolve));
+assert(!ready.attributes.has('aria-busy'));
+assert(!ready.click({ctrlKey:true}).prevented);
+assert.equal(ready.calls.length,1,'Modified clicks must preserve native browser navigation');
+const waiting=harness(null);assert(!waiting.click().prevented,'Without SDK, keep the real link');
+const failed=harness(()=>Promise.reject(new Error('SDK failure')));failed.click();
+await new Promise(resolve=>setImmediate(resolve));assert.equal(failed.navigations[0],'https://example.test/order/123');
+const thrown=harness(()=>{throw Error('sync');});thrown.click();assert.equal(thrown.navigations.length,1);
+console.log('PASS: native blog fields/pagination/comments, pending-payment paths, order links/fallbacks, opt-in empty shelves and skip-link focus.');

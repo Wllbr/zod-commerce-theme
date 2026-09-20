@@ -1,5 +1,1597 @@
-(()=>{"use strict";const t=t=>["out","out-of-stock","out_of_stock","sold-out","sold_out","out-and-notify"].includes(String(t||"").toLowerCase());function e(e={}){if(!1===e.is_available||!0===e.is_out_of_stock)return!0;if(!0===e.is_available||!0===e.unlimited_quantity)return!1;if(t(e.status))return!0;const a=null==e.quantity||""===e.quantity?NaN:Number(e.quantity);return Number.isFinite(a)&&a<=0&&!["donating","financial_support"].includes(e.type)}function a(t,e){if("Tab"!==t.key)return;const a=[],s=t=>Array.from(t.children||[]).forEach(t=>{t.hidden||t.inert||"none"===getComputedStyle(t).display||(t.matches("button, a[href], input, select, textarea, [tabindex]")&&t.tabIndex>=0&&!t.disabled&&t.getClientRects().length&&a.push(t),t.shadowRoot&&s(t.shadowRoot),s(t))});s(e);let i=document.activeElement;for(;i?.shadowRoot?.activeElement;)i=i.shadowRoot.activeElement;const r=a.indexOf(i);if(!a.length)return t.preventDefault(),void e.focus();(r<0||(t.shiftKey?0===r:r===a.length-1))&&(t.preventDefault(),a[t.shiftKey?a.length-1:0].focus())}class s extends HTMLElement{connectedCallback(){try{this.product=this.product||JSON.parse(this.getAttribute("product")||"{}")}catch(t){this.product={}}this.product?.id&&this.waitForSalla().then(()=>salla.onReady()).then(()=>{salla.lang?.onLoaded?salla.lang.onLoaded(()=>this.render()):this.render()}).catch(()=>{})}waitForSalla(t=8e3){return window.__zodSallaReadyPromise||(window.__zodSallaReadyPromise=new Promise((e,a)=>{const s=Date.now(),i=()=>window.salla?.onReady?e(window.salla):Date.now()-s>=t?a(new Error("Salla SDK unavailable")):void setTimeout(i,80);i()})),window.__zodSallaReadyPromise}esc(t=""){return String(t).replace(/[&<>'"]/g,t=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[t]))}stripHtml(t=""){const e=document.createElement("div");return e.innerHTML=String(t||""),(e.textContent||e.innerText||"").replace(/\s+/g," ").trim()}money(t){if(null==t)return"";try{return salla.money(t)}catch(e){return t}}number(t){if("number"==typeof t)return Number.isFinite(t)?t:0;if("string"==typeof t){const e=Number(t.replace(/[^0-9.\-]/g,""));return Number.isFinite(e)?e:0}return t&&"object"==typeof t?this.number(t.amount??t.value??t.price):0}t(t,e=""){try{const a=salla.lang.get(t);return a&&a!==t?a:e}catch(t){return e}}isArabic(){return(document.documentElement.lang||"").toLowerCase().startsWith("ar")}localized(t){if(null==t)return"";if("object"!=typeof t)return String(t).trim();const e=this.isArabic()?"ar":"en";return String(t[e]??t.value??t.name??t.title??"").trim()}imageUrl(t){return t?"string"==typeof t?t:"object"==typeof t&&(t.url||t.original||t.medium||t.small||t.thumbnail)||"":""}productImages(t=this.product){const e=Array.isArray(t?.images)&&t.images.length?t.images:[t?.image,t?.thumbnail,...Array.isArray(t?.gallery)?t.gallery:[],...Array.isArray(t?.media)?t.media:[]],a=new Set;return e.map(t=>this.imageUrl(t?.image||t)).filter(t=>{if(!t)return!1;const e=t.split("?")[0].replace(/-(?:small|medium|large|thumbnail)(?=\.[a-z]+$)/i,"");return!a.has(e)&&(a.add(e),!0)})}setMediaIndex(t,e=!0){const a=this.querySelector("[data-zpc-image]");if(!a||!this.mediaImages?.length)return;const s=(t%this.mediaImages.length+this.mediaImages.length)%this.mediaImages.length,i=()=>{a.src=this.mediaImages[s],a.dataset.index=String(s),this.querySelectorAll("[data-zpc-dot]").forEach((t,e)=>{t.classList.toggle("is-active",e===s),t.setAttribute("aria-current",e===s?"true":"false")}),a.classList.remove("is-changing")};e&&a.src&&a.src!==this.mediaImages[s]?(a.classList.add("is-changing"),window.setTimeout(i,130)):i()}renderMediaDots(){const t=this.querySelector("[data-zpc-dots]");if(t){if((this.mediaImages?.length||0)<2)return t.hidden=!0,void(t.innerHTML="");t.hidden=!1,t.innerHTML=this.mediaImages.map((t,e)=>`<button type="button" data-zpc-dot="${e}" class="${0===e?"is-active":""}" aria-current="${0===e?"true":"false"}" aria-label="${this.esc(this.isArabic()?`الصورة ${e+1}`:`Image ${e+1}`)}"></button>`).join(""),t.querySelectorAll("[data-zpc-dot]").forEach(t=>t.addEventListener("click",t=>{t.preventDefault(),t.stopPropagation(),this.stopMediaCycle(!1),this.setMediaIndex(Number(t.currentTarget.dataset.zpcDot))}))}}async loadMediaImages(){if(!this.mediaHydrated&&!this.mediaLoading){this.mediaLoading=!0;try{if(this.mediaImages.length<2&&"function"==typeof salla.product?.getDetails){const t=await salla.product.getDetails(String(this.product.id)),e=this.unwrapProductDetails(t,this.product),a=this.productImages(e);a.length&&(this.mediaImages=a)}}catch(t){}this.mediaHydrated=!0,this.mediaLoading=!1,this.renderMediaDots()}}async startMediaCycle(){if(window.matchMedia?.("(prefers-reduced-motion: reduce)").matches)return;if(await this.loadMediaImages(),this.mediaImages.length<2||this.mediaTimer)return;let t=Number(this.querySelector("[data-zpc-image]")?.dataset.index||0);this.mediaTimer=window.setInterval(()=>{t=(t+1)%this.mediaImages.length,this.setMediaIndex(t)},1150)}stopMediaCycle(t=!0){this.mediaTimer&&window.clearInterval(this.mediaTimer),this.mediaTimer=0,t&&this.setMediaIndex(0)}disconnectedCallback(){this.stopMediaCycle(!1)}getCategory(t=this.product){const e=t?.category||t?.main_category||t?.categories?.[0]||null;if(!e)return null;if("string"==typeof e)return{name:e,url:""};const a=e.name||e.title||e.label||"";return a?{name:a,url:e.url||e.link||""}:null}getBrand(t=this.product){const e=t?.brand||t?.brand_info||t?.manufacturer||null;if(!e){const e=this.localized(t?.brand_name);return e?{name:e,url:""}:null}if("string"==typeof e)return{name:e,url:""};const a=this.localized(e.name??e.title??e.label);return a?{name:a,url:e.url||e.link||""}:null}priceValues(t=this.product){const e=t||{},a=this.number(e.price),s=this.number(e.sale_price??e.offer_price??e.discounted_price),i=this.number(e.regular_price??e.original_price??e.old_price??e.price_before_discount),r=i>s?i:s>0&&a>s?a:i,n=!1!==e.is_on_sale&&s>0&&r>s;return{current:n?s:a||s||i,original:n?r:0,onSale:n}}discountPercent(t=this.product){const e=t,a=e.discount_percentage??e.discountPercent??e.discount,s=this.number(a);if(s>0)return Math.round(s);const{current:i,original:r,onSale:n}=this.priceValues(e);return n?Math.max(1,Math.round((r-i)/r*100)):0}templateText(t,e=this.product){let a=this.localized(t);if(!a)return"";const{current:s,original:i,onSale:r}=this.priceValues(e),n={percent:r?`${this.discountPercent(e)}%`:"",discount:r?this.money(i-s):"",brand:this.getBrand(e)?.name||""};return Object.entries(n).forEach(([t,e])=>{a=a.replace(new RegExp(`\\{${t}\\}`,"gi"),e)}),a.replace(/\{(?:percent|discount|brand)\}/gi,"").replace(/\s+/g," ").trim()}price(t=this.product){const e=t,{current:a,original:s,onSale:i}=this.priceValues(e),r=this.discountPercent(e);return i?`<div class="zpc-price is-sale"><strong>${this.money(a)}</strong><del>${this.money(s)}</del>${r?`<span class="zpc-price-discount">${this.esc(r)}%</span>`:""}</div>`:this.number(e.starting_price)>0?`<div class="zpc-price"><small>${this.t("pages.products.starting_price",this.isArabic()?"يبدأ من":"From")}</small><strong>${this.money(e.starting_price)}</strong></div>`:`<div class="zpc-price"><strong>${this.money(a)}</strong></div>`}isOutOfStock(t=this.product){return e(t)}initialWishlistState(t=this.product){if(!0===t.is_in_wishlist||!0===t.isInWishlist||!0===t.in_wishlist)return!0;if(salla.config.isGuest())return!1;try{return(salla.storage.get("salla::wishlist",[])||[]).map(Number).includes(Number(t.id))}catch(t){return!1}}syncWishlistState(t,e){const a=String(t);document.querySelectorAll(`custom-salla-product-card[data-product-id="${CSS.escape(a)}"] .zpc-wishlist, [data-zod-product-page][data-product-id="${CSS.escape(a)}"] [data-zod-wishlist]`).forEach(t=>{t.classList.toggle("is-active",e),t.setAttribute("aria-pressed",String(e))})}async toggleWishlist(t,e){if(!t||"true"===t.getAttribute("aria-busy"))return;if(salla.config.isGuest()){const t=document.querySelector("salla-login-modal");return void("function"==typeof t?.open&&await t.open())}const a=t.classList.contains("is-active");t.setAttribute("aria-busy","true");try{await salla.wishlist.toggle(String(e));const s=!a;this.syncWishlistState(e,s),t.classList.remove("is-pulsing"),t.offsetWidth,t.classList.add("is-pulsing"),setTimeout(()=>t.classList.remove("is-pulsing"),360)}catch(t){this.syncWishlistState(e,a)}finally{t.removeAttribute("aria-busy")}}ensureQuickView(){let t=document.getElementById("zod-quick-view");if(t)return t;t=document.createElement("div"),t.id="zod-quick-view",t.className="zod-qv",t.hidden=!0,t.innerHTML=`\n      <div class="zod-qv__backdrop" data-zod-qv-close></div>\n      <section class="zod-qv__dialog" role="dialog" aria-modal="true" aria-labelledby="zod-qv-title">\n        <button type="button" class="zod-qv__close" data-zod-qv-close aria-label="${this.isArabic()?"إغلاق":"Close"}"><i class="sicon-cancel"></i></button>\n        <div class="zod-qv__content"></div>\n      </section>`,document.body.appendChild(t);const e=()=>{t.__zodRequest=(t.__zodRequest||0)+1,t.classList.remove("is-open"),document.body.classList.remove("zod-qv-open"),t.__zodCloseTimer=setTimeout(()=>{t.hidden=!0},180),t.__zodLastFocus?.focus?.({preventScroll:!0})};return t.querySelectorAll("[data-zod-qv-close]").forEach(t=>t.addEventListener("click",e)),document.addEventListener("keydown",s=>{"Escape"!==s.key||t.hidden||e(),t.classList.contains("is-open")&&a(s,t)}),t.__zodClose=e,t}unwrapProductDetails(t,e){const a=[t?.data?.data?.product,t?.data?.product,t?.product,t?.data?.data,t?.data,t].find(t=>t&&"object"==typeof t&&(t.id||t.name));return a?function(t,e){const a={...t,...e},s=["is_available","is_out_of_stock","unlimited_quantity","status","quantity"];return s.some(t=>void 0!==e[t]&&null!==e[t]&&""!==e[t])&&(s.forEach(t=>{delete a[t]}),s.forEach(t=>{null!=e[t]&&(a[t]=e[t])})),a}(e,a):e}async openQuickView(t=this.product){const e=this.ensureQuickView();clearTimeout(e.__zodCloseTimer);const a=e.__zodRequest=(e.__zodRequest||0)+1;e.contains(document.activeElement)||(e.__zodLastFocus=document.activeElement);const s=e.querySelector(".zod-qv__content");e.hidden=!1,s.innerHTML=`<div class="zod-qv__loading" role="status"><span class="zod-qv__spinner"></span><span id="zod-qv-title">${this.esc(this.isArabic()?"جارٍ تحميل المنتج…":"Loading product…")}</span></div>`,requestAnimationFrame(()=>{a===e.__zodRequest&&(e.classList.add("is-open"),document.body.classList.add("zod-qv-open"),e.querySelector(".zod-qv__close")?.focus({preventScroll:!0}))});let i=t;try{if("function"==typeof salla.product?.getDetails){const e=await salla.product.getDetails(String(t.id));i=this.unwrapProductDetails(e,t)}}catch(t){}if(e.hidden||a!==e.__zodRequest)return;const r=this.imageUrl(i?.image)||i.thumbnail||this.imageUrl(t?.image)||t.thumbnail||"",n=this.getCategory(i)||this.getCategory(t),o=this.isOutOfStock(i),c=o?this.t("pages.products.out_of_stock",this.isArabic()?"نفدت الكمية":"Out of stock"):this.isArabic()?"متوفر":"In stock",d=i.add_to_cart_label||this.t("booking"===i.type?"pages.cart.book_now":"pages.cart.add_to_cart",this.isArabic()?"أضف إلى السلة":"Add to cart"),l=this.isArabic()?"عرض التفاصيل كاملة":"View full details",u=this.isArabic()?"اختر الخيارات من صفحة المنتج":"Choose options on the product page",h=this.stripHtml(i.short_description||i.subtitle||i.description||"").slice(0,220),m=o?!1===window.notify_when_available_in_card||["donating","financial_support"].includes(i.type)?"out":"out-and-notify":i.status,p=Boolean(i.has_options||Array.isArray(i.options)&&i.options.length),g=Boolean(p||i.can_add_note||i.can_upload_file||i.has_custom_form||i.has_bundle_products),y=!i.can_quick_buy||g||o?"":" quick-buy";s.innerHTML=`\n      <div class="zod-qv__media"><img src="${this.esc(r)}" alt="${this.esc(i.name||"")}"></div>\n      <div class="zod-qv__info">\n        ${n?`<span class="zod-qv__category">${this.esc(n.name)}</span>`:""}\n        <h2 id="zod-qv-title">${this.esc(i.name||"")}</h2>\n        <div class="zod-qv__price">${this.price(i)}</div>\n        ${!1===i.is_taxable?"":`<small class="zod-qv__tax">${this.esc(this.t("pages.products.tax_included",this.isArabic()?"شامل ضريبة القيمة المضافة":"VAT included"))}</small>`}\n        <div class="zod-qv__stock ${o?"is-out":"is-in"}"><i></i>${this.esc(c)}</div>\n        ${h?`<p>${this.esc(h)}</p>`:""}\n        ${g?`<div class="zod-qv__options-note"><i class="sicon-list"></i>${this.esc(p?u:l)}</div>`:`\n        <div class="zod-qv__purchase">\n          ${i.is_hidden_quantity||"booking"===i.type?'<input type="hidden" name="quantity" value="1">':`<salla-quantity-input value="1" name="quantity" max="${this.esc(i.max_quantity||"")}"></salla-quantity-input>`}\n          <salla-add-product-button${y}${i.is_require_shipping?" required-shipping":""}${i.has_preorder_campaign?" has-pre-order":""} width="wide" fill="outline" product-id="${this.esc(i.id)}" product-status="${this.esc(m||"")}" product-type="${this.esc(i.type||"product")}"${null!=i.base_currency_price?` amount="${this.esc(i.base_currency_price)}"`:""}>${this.esc(d)}</salla-add-product-button>\n        </div>`}\n        <a class="zod-qv__details" href="${this.esc(i.url||t.url||"#")}">${this.esc(l)} <i class="sicon-arrow-left"></i></a>\n      </div>`,e.querySelector(".zod-qv__close")?.focus({preventScroll:!0})}render(){const t=this.product;this.mediaImages=this.productImages(t);const e=this.mediaImages[0]||"",a=this.esc(t?.image?.alt||t.name||""),s=this.isOutOfStock(t),i=s?!1===window.notify_when_available_in_card||["donating","financial_support"].includes(t.type)?"out":"out-and-notify":t.status,r=t.add_to_cart_label||this.t("booking"===t.type?"pages.cart.book_now":"pages.cart.add_to_cart",this.isArabic()?"أضف إلى السلة":"Add to cart"),n=this.t("pages.products.out_of_stock",this.isArabic()?"نفدت الكمية":"Out of stock"),o=this.esc(this.t("zod.header.wishlist",this.isArabic()?"المفضلة":"Wishlist")),c=this.getCategory(t),d=this.getBrand(t),l=this.initialWishlistState(t),u=this.templateText(t.promotion_title??t.promotional_title??t.promo_title??t.promotion?.title,t),h=this.templateText(t.subtitle??t.sub_title,t),m=!1===t.is_taxable?"":this.t("pages.products.tax_included",this.isArabic()?"شامل ضريبة القيمة المضافة":"VAT included"),p=Array.isArray(t.options)?t.options.length:0,g=Boolean(t.has_options||p),y=Boolean(g||t.can_add_note||t.can_upload_file||t.has_custom_form||t.has_bundle_products),f=this.t("zod.product.options_available",this.isArabic()?"خيارات متاحة":"Options available"),v=this.t("zod.product.choose_options_card",this.isArabic()?"اختر الخيارات":"Choose options");this.classList.add("zod-product-card"),this.setAttribute("data-product-id",t.id),this.innerHTML=`\n      <div class="zpc-media ${s?"is-out":""}">\n        <a class="zpc-product-link" href="${this.esc(t.url||"#")}" aria-label="${a}"><img src="${this.esc(e)}" alt="${a}" loading="lazy" data-zpc-image data-index="0"></a>\n        ${u?`<span class="zpc-offer-badge" title="${this.esc(u)}">${this.esc(u)}</span>`:""}\n        ${s?`<span class="zpc-stock-stamp">${this.esc(n)}</span>`:""}\n        <button type="button" class="zpc-action zpc-wishlist ${l?"is-active":""}" data-id="${t.id}" aria-label="${o}" aria-pressed="${l?"true":"false"}"><i class="sicon-heart"></i></button>\n        <div class="zpc-media-dots" data-zpc-dots ${this.mediaImages.length<2?"hidden":""}></div>\n        ${s?"":y?`<a class="zpc-media-add zpc-media-add--options" href="${this.esc(t.url||"#")}" aria-label="${this.esc(g?v:this.isArabic()?"عرض المنتج":"View product")}"><span aria-hidden="true">+</span></a>`:`<salla-add-product-button class="zpc-media-add" fill="outline" product-id="${t.id}" product-status="${this.esc(i||"")}" product-type="${this.esc(t.type||"product")}"${t.is_require_shipping?" required-shipping":""}${t.has_preorder_campaign?" has-pre-order":""}${null!=t.base_currency_price?` amount="${this.esc(t.base_currency_price)}"`:""} aria-label="${this.esc(r)}"><span aria-hidden="true">+</span></salla-add-product-button>`}\n      </div>\n      <div class="zpc-body">\n        ${c?c.url?`<a class="zpc-category" href="${this.esc(c.url)}">${this.esc(c.name)}</a>`:`<span class="zpc-category">${this.esc(c.name)}</span>`:""}\n        <h3><a href="${this.esc(t.url||"#")}">${this.esc(t.name)}</a></h3>\n        ${h?`<p class="zpc-subtitle">${this.esc(h)}</p>`:""}\n        ${d?d.url?`<a class="zpc-brand" href="${this.esc(d.url)}">${this.esc(d.name)}</a>`:`<span class="zpc-brand">${this.esc(d.name)}</span>`:""}\n        ${t.rating?.stars?`<div class="zpc-meta"><span class="zpc-rating"><i class="sicon-star2"></i>${this.esc(t.rating.stars)}${t.rating.count?` <small>(${this.esc(t.rating.count)})</small>`:""}</span></div>`:""}\n        <div class="zpc-bottom">${this.price()}</div>\n        ${m?`<p class="zpc-tax">${this.esc(m)}</p>`:""}\n        ${y?`<a class="zpc-options" href="${this.esc(t.url||"#")}"><i class="sicon-list"></i><span>${this.esc(g?f:this.isArabic()?"عرض تفاصيل المنتج":"View product details")}</span>${g&&p?`<b>${this.esc(p)}</b>`:""}</a>`:""}\n      </div>`,this.renderMediaDots();const b=this.querySelector(".zpc-media");b?.addEventListener("mouseenter",()=>this.startMediaCycle()),b?.addEventListener("mouseleave",()=>this.stopMediaCycle()),b?.addEventListener("focusin",()=>this.startMediaCycle()),b?.addEventListener("focusout",t=>{b.contains(t.relatedTarget)||this.stopMediaCycle()}),this.querySelector(".zpc-wishlist")?.addEventListener("click",async e=>{e.preventDefault(),e.stopPropagation(),await this.toggleWishlist(e.currentTarget,t.id)}),t.url&&this.addEventListener("click",e=>{e.defaultPrevented||e.target.closest("a,button,input,select,textarea,salla-add-product-button,salla-button")||window.location.assign(t.url)})}}customElements.get("custom-salla-product-card")||customElements.define("custom-salla-product-card",s),window.zodOpenQuickView=t=>document.createElement("custom-salla-product-card").openQuickView(t||{});const i="salla.design";const r=".s-search-grid-item",n=t=>t?.querySelector&&(t.querySelector("salla-search-product-card a[href], a[href]")||t.querySelector("salla-search-product-card")?.shadowRoot?.querySelector("a[href]"))||null;window.notify_when_available_in_card=!1!==window.zodSettings?.notifyWhenAvailable,window.zodTheme=new class{constructor(){this.header=document.querySelector(".zod-header"),window.zodTheme=this,this.init()}init(){if(document.documentElement.classList.add("zod-js"),"1"===this.header?.dataset.sticky){const t=()=>this.header.classList.toggle("is-scrolled",window.scrollY>20);t(),window.addEventListener("scroll",t,{passive:!0})}document.addEventListener("click",t=>{const e=t.target.closest('a[href^="#"]');if(e&&e.hash?.length>1){let a;try{a=decodeURIComponent(e.hash.slice(1))}catch(t){return}const s=document.getElementById(a);s&&(t.preventDefault(),s.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"}))}}),["initAnnouncementBar","initPreviewLinkRouting","initSearchCardNavigation","initCartExperience","initLiveShowcasePrices","initProductCardReveal","initNativeStockBadges","initNativeCardActions","initScreenAds","initWhatsAppFloat","initLocationsCarousel","initFooterDisclosures","initDisclosureToggles","initProfileAvatarUpload"].forEach(t=>{try{this[t]()}catch(e){console.error(`[ZodTheme] ${t} failed`,e)}}),window.salla?.onReady?.().then(()=>document.dispatchEvent(new CustomEvent("zod::ready")))}syncOverlayLock(){const t=document.getElementById("zod-catalog-drawer")?.classList.contains("is-open");document.documentElement.classList.toggle("zod-lock",Boolean(t))}initPreviewLinkRouting(){!function(t=document,e=window){const a=e.location,s=s=>{if(!s?.href)return;const r=function(t,e,a={},s={}){if(!t||!e?.href)return t;let r;try{r=new URL(t,e.href)}catch(e){return t}const n=String(e.hostname||"").toLowerCase(),o=n===i||n.endsWith(`.${i}`)||((t,e)=>{const a=String(t?.referrer||"");if(/^https:\/\/s\.salla\.sa\/themes\/editor\//i.test(a))return!0;try{return[...e?.location?.ancestorOrigins||[]].some(t=>/^https:\/\/s\.salla\.sa$/i.test(t))}catch(t){return!1}})(a,s);return o&&"demostore.salla.sa"===r.hostname.toLowerCase()&&r.pathname.split("/").filter(Boolean).some(t=>t.startsWith("dev-"))?(r.protocol="https:",r.host=i,!r.search&&n.includes(i)&&e.search&&(r.search=e.search),r.toString()):t}(s.href,a,t,e);r!==s.href&&(s.href=r,s.dataset.zodPreviewRouted="1")},r=t=>{t?.matches?.("a[href]")&&s(t),t?.querySelectorAll?.("a[href]").forEach(s)};r(t),t.addEventListener("click",t=>s(t.target.closest?.("a[href]")),!0);new MutationObserver(t=>t.forEach(t=>t.addedNodes.forEach(r))).observe(t.documentElement,{childList:!0,subtree:!0})}(document,window)}initSearchCardNavigation(){!function(t=document,e=window){const a=t=>{if(!t||"1"===t.dataset.zodCardLink)return;const e=n(t);if(!e)return;t.dataset.zodCardLink="1",t.tabIndex=0,t.setAttribute("role","link");const a=e.getAttribute("aria-label")||e.textContent?.trim();a&&t.setAttribute("aria-label",a)},s=t=>{t?.matches?.(r)&&a(t),a(t?.closest?.(r)),t?.querySelectorAll?.(r).forEach(a)};t.addEventListener("click",t=>{const a=t.composedPath?.()||[],s=a.find(t=>t?.matches?.(r))||t.target?.closest?.(r);if(!s||!((t,e)=>!t.some(t=>t!==e&&t?.matches?.('a,button,input,select,textarea,summary,[role="button"],[role="link"]')))(a,s))return;const i=n(s);i?.href&&e.location.assign(i.href)}),t.addEventListener("keydown",t=>{if(!["Enter"," "].includes(t.key))return;const a=t.target?.closest?.(r);if(!a||t.target!==a)return;const s=n(a);s?.href&&(t.preventDefault(),e.location.assign(s.href))}),s(t),"MutationObserver"in e&&new e.MutationObserver(t=>t.forEach(t=>t.addedNodes.forEach(t=>1===t.nodeType&&s(t)))).observe(t.documentElement||t,{childList:!0,subtree:!0})}(document,window)}initAnnouncementBar(){const t=document.querySelector(".app-inner > salla-advertisement");if(!t||!this.header||"1"!==this.header.dataset.sticky)return;const e=t.parentElement,a=document.createElement("div");a.className="zod-sticky-chrome",t.classList.add("zod-announcement"),e.insertBefore(a,t),a.append(t,this.header);const s=()=>{const e=t.querySelector(".s-advertisement-content"),a=t.querySelector(".s-advertisement-content-main");if(!e||!a||e.querySelector(".zod-announcement-track"))return!1;const s=document.createElement("div");s.className="zod-announcement-track",s.style.setProperty("--zod-announcement-duration",`${Math.min(28,Math.max(14,.32*a.textContent.trim().length))}s`),e.insertBefore(s,a),s.appendChild(a);for(let t=0;t<5;t+=1){const t=a.cloneNode(!0);t.setAttribute("aria-hidden","true"),t.querySelectorAll("a, button").forEach(t=>t.setAttribute("tabindex","-1")),s.appendChild(t)}return!0};if(!s()){const e=new MutationObserver(()=>{s()&&e.disconnect()});e.observe(t,{childList:!0,subtree:!0})}t.addEventListener("click",e=>{e.target.closest(".s-advertisement-action")&&(t.classList.add("is-closing"),window.setTimeout(()=>t.classList.add("is-closed"),320))},!0)}uiText(t,e=""){return window.zodSettings?.i18n?.[t]||e}showCartToast(t=null,e="added"){const a=Date.now();if(this.lastCartToastAt&&a-this.lastCartToastAt<650)return;this.lastCartToastAt=a;let s=document.getElementById("zod-cart-toast");s||(s=document.createElement("div"),s.id="zod-cart-toast",s.className="zod-cart-toast",s.setAttribute("role","status"),s.setAttribute("aria-live","polite"),s.innerHTML='<span class="zod-cart-toast__icon"><i class="sicon-check"></i></span><span data-zod-cart-toast-text></span>',document.body.appendChild(s));const i=this.uiText("cartAdded","Product added to cart"),r=t||i,n=s.querySelector("[data-zod-cart-toast-text]");n&&(n.textContent=r),s.classList.toggle("is-update","updated"===e),s.classList.toggle("is-remove","removed"===e);const o=s.querySelector(".zod-cart-toast__icon i");o&&(o.className="updated"===e?"sicon-refresh":"removed"===e?"sicon-trash":"sicon-check"),s.classList.remove("is-visible"),s.offsetWidth,s.classList.add("is-visible"),clearTimeout(this.cartToastTimer),this.cartToastTimer=setTimeout(()=>s.classList.remove("is-visible"),2100)}moneyNumber(t){if(null==t||""===t)return null;if("number"==typeof t)return Number.isFinite(t)?t:null;if("string"==typeof t){const e=Number(t.replace(/[^0-9.\-]/g,""));return Number.isFinite(e)?e:null}if(Array.isArray(t))for(const e of t){const t=this.moneyNumber(e);if(null!==t)return t}else if("object"==typeof t)for(const e of["amount","value","price","amount_with_tax","amount_without_tax"]){const a=this.moneyNumber(t?.[e]);if(null!==a)return a}return null}extractProductPrice(t){const e=t?.data?.data??t?.data??t??{},a=e?.product??e,s=this.moneyNumber(a?.sale_price??a?.salePrice),i=this.moneyNumber(a?.price??a?.current_price??e?.price)??this.moneyNumber(a),r=this.moneyNumber(a?.regular_price??a?.regularPrice??a?.original_price),n=null!==s&&s>0?s:i;return{current:n,regular:null!==r&&null!==n&&r>n?r:null}}applyLivePrice(t,e){if(!t||!e?.current||e.current<=0)return!1;const a=t.querySelector("[data-zod-price-current]"),s=t.querySelector("[data-zod-price-regular]");try{a.textContent=salla.money(e.current)}catch(t){a.textContent=String(e.current)}if(s)if(e.regular&&e.regular>e.current){try{s.textContent=salla.money(e.regular)}catch(t){s.textContent=String(e.regular)}s.hidden=!1}else s.hidden=!0,s.textContent="";return t.hidden=!1,!0}initLiveShowcasePrices(){const t=async()=>{const t=[...document.querySelectorAll("[data-zod-live-price][data-product-id]")].filter(t=>"1"!==t.dataset.priceReady||(t.hidden=!1,!1));t.length&&await Promise.all(t.map(async t=>{const e=Number(t.dataset.productId);if(!e)return;let a=!1;try{const s=await salla.product.getPrice(e);a=this.applyLivePrice(t,this.extractProductPrice(s))}catch(t){}if(!a)try{const a=await salla.product.getDetails(e);this.applyLivePrice(t,this.extractProductPrice(a))}catch(t){}}))};window.salla?.onReady?window.salla.onReady().then(t).catch(()=>{}):document.addEventListener("zod::ready",t,{once:!0})}initProductCardReveal(){const t="custom-salla-product-card, .s-product-card-entry",e=window.matchMedia("(prefers-reduced-motion: reduce)"),a=new WeakSet,s=new Set;let i=null;"IntersectionObserver"in window&&!e.matches&&(i=new IntersectionObserver(t=>{t.forEach(t=>{t.isIntersecting&&(t=>{if(!t?.isConnected)return;if(s.delete(t),i?.unobserve(t),e.matches)return;t.classList.add("is-visible");let a=null;const r=e=>{e.target===t&&"zodProductCardReveal"===e.animationName&&n()},n=()=>{t.removeEventListener("animationend",r),window.clearTimeout(a),t.classList.remove("zod-product-reveal","is-visible"),t.style.removeProperty("--zod-reveal-delay")};t.addEventListener("animationend",r),a=window.setTimeout(n,720)})(t.target)})},{rootMargin:"0px 0px -5% 0px",threshold:.08}));const r=r=>{const n=[];r.forEach(e=>{e instanceof Element&&(e.matches(t)&&n.push(e),n.push(...e.querySelectorAll(t)))}),(t=>{const r=window.matchMedia("(max-width: 640px)").matches?2:4;t.forEach((t,n)=>{a.has(t)||(a.add(t),!e.matches&&i&&(t.classList.add("zod-product-reveal"),t.style.setProperty("--zod-reveal-delay",n%r*(2===r?45:50)+"ms"),s.add(t),i.observe(t)))})})([...new Set(n)])};r([document.body]);let n=!1;const o=new Set;new MutationObserver(t=>{t.forEach(t=>t.addedNodes.forEach(t=>{t instanceof Element&&o.add(t)})),!n&&o.size&&(n=!0,requestAnimationFrame(()=>{n=!1,r([...o]),o.clear()}))}).observe(document.body,{childList:!0,subtree:!0}),e.addEventListener?.("change",t=>{t.matches&&(s.forEach(t=>{i?.unobserve(t),t.classList.remove("zod-product-reveal","is-visible"),t.style.removeProperty("--zod-reveal-delay")}),s.clear())})}getStoredCartCount(){try{const t=salla.storage.get("cart.summery")||salla.storage.get("cart.summary")||{},e=Number(t?.count??0);return Number.isFinite(e)&&e>0?e:0}catch(t){return 0}}extractCartCount(t,e=null==t){const a=[t?.data?.data?.cart?.summary?.count,t?.data?.data?.summary?.count,t?.data?.data?.count,t?.data?.cart?.summary?.count,t?.data?.summary?.count,t?.data?.cart?.count,t?.data?.count,t?.cart?.summary?.count,t?.summary?.count,t?.count];for(const t of a){const e=Number(t);if(Number.isFinite(e)&&e>=0)return e}const s=[t?.data?.data?.cart?.items,t?.data?.data?.items,t?.data?.cart?.items,t?.data?.items,t?.cart?.items,t?.items,Array.isArray(t?.data?.data)?t.data.data:null,Array.isArray(t?.data)?t.data:null];for(const t of s)if(Array.isArray(t))return t.reduce((t,e)=>{const a=Number(e?.quantity??1);return t+(Number.isFinite(a)&&a>0?a:1)},0);return e?this.getStoredCartCount():null}updateCartBadge(t=this.getStoredCartCount(),e=!1){const a=document.querySelector("[data-zod-cart-count]"),s=document.querySelector(".zod-cart-link");if(!a||!s)return;const i=Math.max(0,Number(t)||0);a.textContent=i>99?"99+":String(i),a.hidden=0===i,s.classList.toggle("has-items",i>0),e&&i>0&&(s.classList.remove("is-bumping"),s.offsetWidth,s.classList.add("is-bumping"),setTimeout(()=>s.classList.remove("is-bumping"),650))}recoverEmptyCartPage(t){if(document.querySelector("[data-zod-cart-page]"))if(!document.querySelector('[data-testid="store-cart-empty"]')||t<=0)try{sessionStorage.removeItem("zod::cart-recovery-attempted")}catch(t){}else try{if("1"===sessionStorage.getItem("zod::cart-recovery-attempted"))return;sessionStorage.setItem("zod::cart-recovery-attempted","1"),window.setTimeout(()=>window.location.reload(),80)}catch(t){}}async refreshCartBadge({recoverCartPage:t=!1,animate:e=!1}={}){const a=this.cartBadgeRequest=(this.cartBadgeRequest||0)+1;try{const s=await salla.cart.details();if(a!==this.cartBadgeRequest)return null;const i=this.extractCartCount(s,!1);if(null===i)throw new Error("Cart count missing from Salla response");return this.updateCartBadge(i,e),t&&this.recoverEmptyCartPage(i),i}catch(t){return null}}animateProductToCart(t){if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;const e=document.querySelector(`custom-salla-product-card[data-product-id="${t}"]`)||document.querySelector(`[data-zod-interactive-showcase][data-product-id="${t}"]`),a=e?.querySelector(".zpc-media img, .zod-interactive-showcase__media img"),s=document.querySelector(".zod-cart-link");if(!a||!s)return;const i=a.getBoundingClientRect(),r=s.getBoundingClientRect();if(!i.width||!r.width)return;const n=a.cloneNode(!0);n.className="zod-fly-to-cart",Object.assign(n.style,{left:`${i.left}px`,top:`${i.top}px`,width:`${Math.min(i.width,72)}px`,height:`${Math.min(i.height,72)}px`}),document.body.appendChild(n);const o=r.left+r.width/2-(i.left+Math.min(i.width,72)/2),c=r.top+r.height/2-(i.top+Math.min(i.height,72)/2);n.animate([{transform:"translate3d(0,0,0) scale(1)",opacity:.95},{transform:`translate3d(${.55*o}px,${.35*c-35}px,0) scale(.72)`,opacity:.85,offset:.55},{transform:`translate3d(${o}px,${c}px,0) scale(.18)`,opacity:.08}],{duration:620,easing:"cubic-bezier(.2,.8,.25,1)"}).finished.finally(()=>n.remove()),e?.classList.add("is-added"),setTimeout(()=>e?.classList.remove("is-added"),700)}async deleteCartItem(t,e){const a=e?document.querySelector(e):null,s=a?.querySelector("[data-zod-cart-item]")||a;s?.classList.add("is-removing");try{const e=await salla.cart.deleteItem(t);document.dispatchEvent(new CustomEvent("zod:cart-delete-success",{detail:e})),s?.classList.remove("is-removing"),s?.classList.add("is-removed"),setTimeout(()=>a?.remove(),360);const i=this.extractCartCount(e,!1);return null!==i?this.updateCartBadge(i,!1):this.refreshCartBadge(),0===i&&setTimeout(()=>window.location.reload(),430),e}catch(t){throw s?.classList.remove("is-removing"),t}}initCartExperience(){const t=()=>{this.variantNotificationSilencerBound||(this.variantNotificationSilencerBound=!0,["pointerdown","click","change"].forEach(t=>document.addEventListener(t,t=>{const e="function"==typeof t.composedPath?t.composedPath():[],a=e.some(t=>"SALLA-PRODUCT-OPTIONS"===t?.tagName)||t.target?.closest?.("salla-product-options");a&&(this.variantNotificationSilenceUntil=Date.now()+2500)},!0)));const e=t=>{if((this.variantNotificationSilenceUntil||0)<Date.now()||!document.querySelector("salla-product-options"))return!1;const e=String(t||"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim().toLowerCase();return /الكمية\s*غير\s*متوفرة|خطأ\s*في\s*خدمة\s*المنتج|quantity[^.]{0,40}(?:unavailable|not available)|(?:out of stock|product service error)/i.test(e)};salla.notify?.setNotifier?.((t,a)=>{e(t)||this.showNotification(t,a)}),this.updateCartBadge(0);const t=salla?.cart?.event;t?.onItemUpdated?.(()=>this.refreshCartBadge()),t?.onItemAdded?.((t,e)=>{this.animateProductToCart(e);const a=this.extractCartCount(t,!1);null!==a&&this.updateCartBadge(a,!0),setTimeout(()=>this.refreshCartBadge({animate:null===a}),100)}),t?.onItemDeleted?.(t=>{const e=this.extractCartCount(t,!1);null!==e&&this.updateCartBadge(e),setTimeout(()=>this.refreshCartBadge(),100)}),this.cartDeleteBound||(this.cartDeleteBound=!0,document.addEventListener("click",t=>{const e=t.target.closest?.("[data-zod-cart-delete-item]");if(!e||"1"===e.dataset.zodBusy)return;const a=e.dataset.zodCartDeleteItem;a&&(t.preventDefault(),e.dataset.zodBusy="1",this.deleteCartItem(a,`#item-${CSS.escape(a)}`).catch(()=>{}).finally(()=>{delete e.dataset.zodBusy}))})),this.refreshCartBadge({recoverCartPage:!0}),document.addEventListener("visibilitychange",()=>{document.hidden||this.refreshCartBadge()})};window.salla?.onReady?window.salla.onReady().then(t).catch(()=>{}):document.addEventListener("zod::ready",t,{once:!0})}showNotification(t,e="info"){let a=document.getElementById("zod-notifications");a||(a=document.createElement("div"),a.id="zod-notifications",document.body.appendChild(a)),"error"!==e&&a.querySelectorAll(".zod-notice:not(.is-error)").forEach(t=>t.remove());const s=document.createElement("div");s.className="zod-notice "+("error"===e?"is-error":"is-success"),s.setAttribute("role","error"===e?"alert":"status");const i=document.createElement("i");i.className="error"===e?"sicon-cancel":"sicon-check-circle",i.setAttribute("aria-hidden","true");const r=document.createElement("span"),n=(new DOMParser).parseFromString(String(t||""),"text/html");r.textContent=n.body.textContent;let o=!1;const c=()=>{o||(o=!0,s.classList.add("is-collapsing"),s.addEventListener("animationend",()=>s.remove(),{once:!0}),setTimeout(()=>s.remove(),650))};if(s.append(i,r),"error"===e){const t=document.createElement("button");t.type="button",t.textContent="×",t.setAttribute("aria-label",document.documentElement.lang.startsWith("ar")?"إغلاق":"Close"),t.addEventListener("click",t=>{t.stopPropagation(),c()}),s.append(t)}else s.tabIndex=0,s.setAttribute("aria-label",`${r.textContent}. ${document.documentElement.lang.startsWith("ar")?"اضغط للإغلاق":"Press to dismiss"}`),s.addEventListener("click",c),s.addEventListener("keydown",t=>{"Enter"!==t.key&&" "!==t.key||c()});a.appendChild(s),"error"!==e&&setTimeout(c,2600)}initNativeStockBadges(){const a=document.documentElement.lang?.toLowerCase().startsWith("ar")?"نفدت الكمية":"Out of stock",s=s=>{if(!s||s.matches("custom-salla-product-card"))return;const i=s.product||s.productData||s.data?.product||{},r=["is_available","is_out_of_stock","unlimited_quantity","quantity","status"].some(t=>null!=i[t]);let n=e(i);r||(n=t(s.getAttribute("product-status"))||t(s.getAttribute("status")));const o=[s,s.shadowRoot].filter(Boolean);for(const e of o){const a=e.querySelector?.("salla-add-product-button,button[disabled],[product-status]"),s=a?.getAttribute?.("product-status")||a?.getAttribute?.("status"),i=e.textContent||"";r||!t(s)&&!/نفدت\s*الكمية|out\s+of\s+stock/i.test(i)||(n=!0)}s.classList.toggle("zod-native-out-of-stock",n),n?s.setAttribute("data-zod-stock-label",a):s.removeAttribute("data-zod-stock-label")},i=()=>document.querySelectorAll("salla-product-card").forEach(s);i(),new MutationObserver(()=>requestAnimationFrame(i)).observe(document.documentElement,{childList:!0,subtree:!0,attributes:!0,attributeFilter:["product-status","status","disabled"]}),setTimeout(i,450),setTimeout(i,1400),setTimeout(i,3e3)}initNativeCardActions(){const t=t=>{if(!t||t.matches("custom-salla-product-card")||"1"===t.dataset.zodNativeActions)return;const e=t.querySelector(".s-product-card-image"),a=t.querySelector("salla-button.s-product-card-wishlist-btn");if(!e||!a)return;const s=document.createElement("div");s.className="zod-native-card-actions",s.append(a),e.appendChild(s),t.dataset.zodNativeActions="1"},e=()=>document.querySelectorAll("salla-product-card").forEach(t);e(),new MutationObserver(()=>requestAnimationFrame(e)).observe(document.documentElement,{childList:!0,subtree:!0}),setTimeout(e,450),setTimeout(e,1400),setTimeout(e,3e3)}initScreenAds(){document.querySelectorAll("[data-zod-screen-ad]").forEach(t=>{if("1"===t.dataset.zodReady)return;t.dataset.zodReady="1";const e=Math.max(1,Number(t.dataset.zodAdDuration)||5),s=1e3*Math.max(0,Number(t.dataset.zodAdDelay)||0),i=t.dataset.zodAdFrequency||"session",r="0"!==t.dataset.zodAdAutoClose,n="0"!==t.dataset.zodAdBackdropClose,o=`zod-screen-ad:${t.dataset.zodAdKey||"home"}`,c=t.querySelector("[data-zod-ad-skip]"),d=t.querySelector("[data-zod-ad-close]"),l=t.querySelector("[data-zod-ad-backdrop]"),u=t.querySelector("[data-zod-ad-count]"),h=t.querySelector("[data-zod-ad-count-wrap]"),m=t.querySelector("[data-zod-ad-progress]");let p=0,g=e,y=null;const f=()=>{u&&(u.textContent=String(Math.max(0,g))),m&&m.style.setProperty("--zod-ad-progress",100*Math.max(0,g/e)+"%")},v=()=>{t.hidden||(window.clearInterval(p),(()=>{try{"daily"===i?localStorage.setItem(o,(new Date).toISOString().slice(0,10)):"visit"!==i&&sessionStorage.setItem(o,"1")}catch(t){}})(),t.classList.remove("is-visible"),t.setAttribute("aria-hidden","true"),document.documentElement.classList.remove("zod-screen-ad-open"),window.setTimeout(()=>{t.hidden=!0},220),y?.focus?.())};document.addEventListener("keydown",e=>{"Escape"!==e.key||t.hidden||v(),t.classList.contains("is-visible")&&a(e,t)}),c?.addEventListener("click",v),d?.addEventListener("click",v),n&&l?.addEventListener("click",v),(()=>{try{return"visit"!==i&&("daily"===i?localStorage.getItem(o)===(new Date).toISOString().slice(0,10):"1"===sessionStorage.getItem(o))}catch(t){return!1}})()||window.setTimeout(()=>{t.isConnected&&!document.hidden&&(y=document.activeElement,g=e,f(),t.hidden=!1,t.setAttribute("aria-hidden","false"),document.documentElement.classList.add("zod-screen-ad-open"),requestAnimationFrame(()=>t.classList.add("is-visible")),c?.focus?.({preventScroll:!0}),p=window.setInterval(()=>{g-=1,f(),g>0||(window.clearInterval(p),h&&(h.hidden=!0),r&&v())},1e3))},s)})}initWhatsAppFloat(){document.querySelectorAll("[data-zod-whatsapp-float]").forEach(t=>{if("1"===t.dataset.zodReady)return;t.dataset.zodReady="1";const e=t.querySelector("[data-zod-whatsapp-toggle]"),a=t.querySelector("[data-zod-whatsapp-options]");if(!e||!a)return;const s=()=>{t.classList.remove("is-open"),e.setAttribute("aria-expanded","false"),window.setTimeout(()=>{t.classList.contains("is-open")||(a.hidden=!0)},180)};e.addEventListener("click",i=>{i.stopPropagation(),t.classList.contains("is-open")?s():(a.hidden=!1,requestAnimationFrame(()=>t.classList.add("is-open")),e.setAttribute("aria-expanded","true"))}),document.addEventListener("click",e=>{t.contains(e.target)||s()}),document.addEventListener("keydown",t=>{"Escape"===t.key&&s()}),t.querySelectorAll(".zod-whatsapp-float__option").forEach(t=>t.addEventListener("click",s)),requestAnimationFrame(()=>t.classList.add("is-intro")),window.setTimeout(()=>t.classList.remove("is-intro"),1800)})}initLocationsCarousel(){document.querySelectorAll("[data-zod-locations-rail]").forEach(t=>{if("1"===t.dataset.zodReady)return;t.dataset.zodReady="1";const e=[...t.querySelectorAll(".zod-location-card")],a=t.parentElement?.querySelector("[data-zod-locations-dots]"),s=[...a?.querySelectorAll("[data-zod-location-dot]")||[]];if(e.length<2||!s.length)return;const i=t=>s.forEach((e,a)=>{e.classList.toggle("is-active",a===t),e.setAttribute("aria-current",a===t?"true":"false")}),r=()=>{const a=t.getBoundingClientRect(),s=a.left+a.width/2;let r=0,n=1/0;e.forEach((t,e)=>{const a=t.getBoundingClientRect(),i=Math.abs(a.left+a.width/2-s);i<n&&(n=i,r=e)}),i(r)};let n=0;t.addEventListener("scroll",()=>{cancelAnimationFrame(n),n=requestAnimationFrame(r)},{passive:!0}),s.forEach((t,a)=>t.addEventListener("click",()=>e[a]?.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"nearest",inline:"center"}))),i(0)})}initProfileAvatarUpload(){const t=document.querySelector("[data-zod-profile-avatar]");t&&t.addEventListener("uploaded",async e=>{const a="string"==typeof e.detail?e.detail:"";if(a&&window.salla?.profile?.update){t.classList.add("is-saving-avatar");try{await salla.profile.update({avatar:a}),t.setAttribute("value",a)}catch(t){}finally{t.classList.remove("is-saving-avatar")}}})}initDisclosureToggles(){document.querySelectorAll(".collapse-content").forEach(t=>t.hidden=!0),document.addEventListener("click",t=>{const e=t.target.closest("[data-show]");if(!e)return;const a=e.getAttribute("data-show");if(!a)return;const s=document.getElementById(a);s&&(t.preventDefault(),s.hidden=!s.hidden,e.setAttribute("aria-expanded",String(!s.hidden)))})}initFooterDisclosures(){const t=[...document.querySelectorAll("[data-footer-disclosure]")];if(!t.length)return;const e=window.matchMedia("(max-width: 640px)"),a=()=>t.forEach(t=>{t.open=!e.matches});a(),e.addEventListener?.("change",a)}}})();
-;/* zod-v1728-smart-mobile-header */(()=>{const start=()=>{const header=document.querySelector('.zod-header');if(!header)return;const media=window.matchMedia('(max-width: 767px)');let lastY=Math.max(0,window.scrollY||0),hidden=false,frame=0;const target=()=>header.closest('.zod-sticky-chrome')||header;const apply=()=>{const node=target();node.classList.toggle('zod-mobile-smart-header',media.matches);node.classList.toggle('is-mobile-hidden',media.matches&&hidden)};const update=()=>{frame=0;const y=Math.max(0,window.scrollY||0);if(!media.matches){hidden=false;lastY=y;apply();return}const delta=y-lastY;if(y<=12)hidden=false;else if(delta>5&&y>72)hidden=true;else if(delta<-1)hidden=false;lastY=y;apply()};const schedule=()=>{if(!frame)frame=requestAnimationFrame(update)};window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('resize',schedule,{passive:true});window.addEventListener('orientationchange',schedule,{passive:true});media.addEventListener?.('change',schedule);apply();update()};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',start,{once:true}):start()})();
-;/* zod-v1729-footer-certificates */(()=>{const start=()=>{if(typeof document?.querySelector!=='function')return;const p=document.querySelector('[data-zod-footer-bottom-payments] salla-payments'),h=document.querySelector('[data-zod-business-certificate]');if(!p||!h)return;const sync=()=>{const r=p.shadowRoot||p,i=r.querySelector?.('.s-payments-sbc-image');if(!i)return false;const item=i.closest?.('.s-payments-list-item')||i.parentElement,src=i.getAttribute?.('src')||i.src||'';if(!src)return false;const current=h.querySelector('img');if(!current||current.getAttribute('src')!==src){h.innerHTML='';const card=document.createElement('span');card.className='zod-footer-business-certificate__card';const clone=i.cloneNode(true);clone.removeAttribute('class');clone.alt=document.documentElement.lang?.startsWith('ar')?'شهادة منصة الأعمال':'Business Platform certificate';const label=document.createElement('span');label.textContent=clone.alt;card.append(clone,label);h.appendChild(card)}h.hidden=false;if(item){item.hidden=true;item.setAttribute('aria-hidden','true');item.style.setProperty('display','none','important')}return true};customElements.whenDefined('salla-payments').then(()=>{sync();setTimeout(sync,300);setTimeout(sync,900);const r=p.shadowRoot||p;new MutationObserver(sync).observe(r,{childList:true,subtree:true,attributes:true,attributeFilter:['src','class']})}).catch(()=>{})};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',start,{once:true}):start()})();
+/* ZOD 1.8.2: generated from source by scripts/build-offline.mjs */
+(()=>{
+'use strict';
+const modules={
+"src/assets/js/app.js":function(module,exports,require){
+require("src/assets/js/partials/product-card.js");
+const { isOutOfStock, isOutStatus } = require("src/assets/js/partials/stock.js");
+const { containDialogFocus } = require("src/assets/js/partials/dialog-focus.js");
+const { installPreviewLinkRouting } = require("src/assets/js/partials/preview-links.js");
+const { installSearchCardNavigation } = require("src/assets/js/partials/search-card-navigation.js");
+class ZodTheme {
+  constructor() {
+    this.header = document.querySelector('.zod-header');
+    // Expose the core controller before optional enhancements initialize. A
+    // storefront-specific failure must never leave header controls inert.
+    window.zodTheme = this;
+    this.init();
+  }
 
-;/* zod-v1731-business-certificate-placement */(()=>{const start=()=>{const h=document.querySelector('[data-zod-business-certificate]'),hosts=[...document.querySelectorAll('salla-payments')];if(!hosts.length)return;const sync=p=>{const r=p.shadowRoot||p,i=r.querySelector?.('.s-payments-sbc-image');if(!i)return false;const item=i.closest?.('.s-payments-list-item')||i.parentElement,src=i.getAttribute?.('src')||i.src||'';if(h&&src&&p.closest?.('[data-zod-footer-bottom-payments]')){const c=h.querySelector('img');if(!c||c.getAttribute('src')!==src){h.innerHTML='';const card=document.createElement('span');card.className='zod-footer-business-certificate__card';const clone=i.cloneNode(true);clone.removeAttribute('class');clone.alt=document.documentElement.lang?.startsWith('ar')?'شهادة منصة الأعمال':'Business Platform certificate';const label=document.createElement('span');label.textContent=clone.alt;card.append(clone,label);h.appendChild(card)}h.hidden=false}if(item){item.hidden=true;item.setAttribute('aria-hidden','true');item.style.setProperty('display','none','important')}return true};customElements.whenDefined('salla-payments').then(()=>hosts.forEach(p=>{const run=()=>sync(p);run();setTimeout(run,300);setTimeout(run,900);try{new MutationObserver(run).observe(p.shadowRoot||p,{childList:true,subtree:true,attributes:true,attributeFilter:['src','class']})}catch(_){}})).catch(()=>{})};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',start,{once:true}):start()})();
+  init() {
+    document.documentElement.classList.add('zod-js');
+
+    if (this.header?.dataset.sticky === '1') {
+      const onScroll = () => this.header.classList.toggle('is-scrolled', window.scrollY > 20);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    }
+
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a[href^="#"]');
+      if (link && link.hash?.length > 1) {
+        let id;
+        try { id = decodeURIComponent(link.hash.slice(1)); } catch (_) { return; }
+        const target = document.getElementById(id);
+        if (target) {
+          event.preventDefault();
+          if (link.classList.contains('zod-skip-link')) target.focus({ preventScroll: true });
+          target.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+        }
+      }
+    });
+
+    [
+      'initAnnouncementBar',
+      'initMobileSmartHeader',
+      'initPreviewLinkRouting',
+      'initSearchCardNavigation',
+      'initCartExperience',
+      'initLiveShowcasePrices',
+      'initProductCardReveal',
+      'initNativeStockBadges',
+      'initNativeCardActions',
+      'initScreenAds',
+      'initWhatsAppFloat',
+      'initLocationsCarousel',
+      'initFooterDisclosures',
+      'initDisclosureToggles',
+      'initProfileAvatarUpload',
+    ].forEach(feature => {
+      try {
+        this[feature]();
+      } catch (error) {
+        console.error(`[ZodTheme] ${feature} failed`, error);
+      }
+    });
+    window.salla?.onReady?.().then(() => document.dispatchEvent(new CustomEvent('zod::ready')));
+  }
+
+  syncOverlayLock() {
+    const drawerOpen = document.getElementById('zod-catalog-drawer')?.classList.contains('is-open');
+    document.documentElement.classList.toggle('zod-lock', Boolean(drawerOpen));
+  }
+
+  initMobileSmartHeader() {
+    if (!this.header) return;
+
+    const media = window.matchMedia('(max-width: 767px)');
+    let lastY = Math.max(0, window.scrollY || 0);
+    let hidden = false;
+    let frame = 0;
+
+    const target = () => this.header.closest('.zod-sticky-chrome') || this.header;
+
+    const apply = () => {
+      const node = target();
+      node.classList.toggle('zod-mobile-smart-header', media.matches);
+      node.classList.toggle('is-mobile-hidden', media.matches && hidden);
+    };
+
+    const update = () => {
+      frame = 0;
+      const y = Math.max(0, window.scrollY || 0);
+
+      if (!media.matches) {
+        hidden = false;
+        lastY = y;
+        apply();
+        return;
+      }
+
+      const delta = y - lastY;
+      if (y <= 12) {
+        hidden = false;
+      } else if (delta > 5 && y > 72) {
+        hidden = true;
+      } else if (delta < -1) {
+        // A small upward gesture should reveal the header immediately.
+        hidden = false;
+      }
+
+      lastY = y;
+      apply();
+    };
+
+    const schedule = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(update);
+    };
+
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
+    window.addEventListener('orientationchange', schedule, { passive: true });
+    media.addEventListener?.('change', schedule);
+    apply();
+    update();
+  }
+
+  initPreviewLinkRouting() {
+    installPreviewLinkRouting(document, window);
+  }
+
+  initSearchCardNavigation() {
+    installSearchCardNavigation(document, window);
+  }
+
+  initAnnouncementBar() {
+    const advertisement = document.querySelector('.app-inner > salla-advertisement');
+    if (!advertisement || !this.header || this.header.dataset.sticky !== '1') return;
+
+    const parent = advertisement.parentElement;
+    const stickyChrome = document.createElement('div');
+    stickyChrome.className = 'zod-sticky-chrome';
+    advertisement.classList.add('zod-announcement');
+    parent.insertBefore(stickyChrome, advertisement);
+    stickyChrome.append(advertisement, this.header);
+
+    const setupTicker = () => {
+      const content = advertisement.querySelector('.s-advertisement-content');
+      const message = advertisement.querySelector('.s-advertisement-content-main');
+      if (!content || !message || content.querySelector('.zod-announcement-track')) return false;
+
+      const track = document.createElement('div');
+      track.className = 'zod-announcement-track';
+      track.style.setProperty('--zod-announcement-duration', `${Math.min(28, Math.max(14, message.textContent.trim().length * 0.32))}s`);
+      content.insertBefore(track, message);
+      track.appendChild(message);
+      for (let index = 0; index < 5; index += 1) {
+        const copy = message.cloneNode(true);
+        copy.setAttribute('aria-hidden', 'true');
+        copy.querySelectorAll('a, button').forEach(control => control.setAttribute('tabindex', '-1'));
+        track.appendChild(copy);
+      }
+      return true;
+    };
+
+    if (!setupTicker()) {
+      const hydrationObserver = new MutationObserver(() => {
+        if (setupTicker()) hydrationObserver.disconnect();
+      });
+      hydrationObserver.observe(advertisement, { childList: true, subtree: true });
+    }
+
+    advertisement.addEventListener('click', event => {
+      if (!event.target.closest('.s-advertisement-action')) return;
+      advertisement.classList.add('is-closing');
+      window.setTimeout(() => advertisement.classList.add('is-closed'), 320);
+    }, true);
+  }
+
+
+  uiText(key, fallback = '') {
+    return window.zodSettings?.i18n?.[key] || fallback;
+  }
+
+  showCartToast(message = null, variant = 'added') {
+    const now = Date.now();
+    if (this.lastCartToastAt && now - this.lastCartToastAt < 650) return;
+    this.lastCartToastAt = now;
+    let toast = document.getElementById('zod-cart-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'zod-cart-toast';
+      toast.className = 'zod-cart-toast';
+      toast.setAttribute('role', 'status');
+      toast.setAttribute('aria-live', 'polite');
+      toast.innerHTML = '<span class="zod-cart-toast__icon"><i class="sicon-check"></i></span><span data-zod-cart-toast-text></span>';
+      document.body.appendChild(toast);
+    }
+    const fallback = this.uiText('cartAdded', 'Product added to cart');
+    const text = message || fallback;
+    const textNode = toast.querySelector('[data-zod-cart-toast-text]');
+    if (textNode) textNode.textContent = text;
+    toast.classList.toggle('is-update', variant === 'updated');
+    toast.classList.toggle('is-remove', variant === 'removed');
+    const icon = toast.querySelector('.zod-cart-toast__icon i');
+    if (icon) icon.className = variant === 'updated' ? 'sicon-refresh' : (variant === 'removed' ? 'sicon-trash' : 'sicon-check');
+    toast.classList.remove('is-visible');
+    void toast.offsetWidth;
+    toast.classList.add('is-visible');
+    clearTimeout(this.cartToastTimer);
+    this.cartToastTimer = setTimeout(() => toast.classList.remove('is-visible'), 2100);
+  }
+
+  moneyNumber(value) {
+    if (value === null || value === undefined || value === '') return null;
+    if (typeof value === 'number') return Number.isFinite(value) ? value : null;
+    if (typeof value === 'string') {
+      const n = Number(value.replace(/[^0-9.\-]/g, ''));
+      return Number.isFinite(n) ? n : null;
+    }
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        const n = this.moneyNumber(item);
+        if (n !== null) return n;
+      }
+    } else if (typeof value === 'object') {
+      for (const key of ['amount','value','price','amount_with_tax','amount_without_tax']) {
+        const n = this.moneyNumber(value?.[key]);
+        if (n !== null) return n;
+      }
+    }
+    return null;
+  }
+
+  extractProductPrice(payload) {
+    const root = payload?.data?.data ?? payload?.data ?? payload ?? {};
+    const product = root?.product ?? root;
+    const sale = this.moneyNumber(product?.sale_price ?? product?.salePrice);
+    const base = this.moneyNumber(product?.price ?? product?.current_price ?? root?.price) ?? this.moneyNumber(product);
+    const regular = this.moneyNumber(product?.regular_price ?? product?.regularPrice ?? product?.original_price);
+    const current = product.is_on_sale !== false && sale !== null && sale > 0 ? sale : base;
+    return {
+      current,
+      regular: product.is_on_sale !== false && regular !== null && current !== null && regular > current ? regular : null
+    };
+  }
+
+  applyLivePrice(node, priceData) {
+    if (!node || !priceData?.current || priceData.current <= 0) return false;
+    const current = node.querySelector('[data-zod-price-current]');
+    const regular = node.querySelector('[data-zod-price-regular]');
+    try { current.textContent = salla.money(priceData.current); }
+    catch (_) { current.textContent = String(priceData.current); }
+    if (regular) {
+      if (priceData.regular && priceData.regular > priceData.current) {
+        try { regular.textContent = salla.money(priceData.regular); }
+        catch (_) { regular.textContent = String(priceData.regular); }
+        regular.hidden = false;
+      } else {
+        regular.hidden = true;
+        regular.textContent = '';
+      }
+    }
+    node.hidden = false;
+    return true;
+  }
+
+  initLiveShowcasePrices() {
+    document.querySelectorAll('[data-zod-live-price][data-product-id]').forEach(node => {
+      node.hidden = node.dataset.priceReady !== '1';
+    });
+    // Reuse already loaded native list payloads; do not request extra product data.
+    document.addEventListener('zod:product-data', event => {
+      const product = event.detail;
+      if (!product?.id) return;
+      document.querySelectorAll('[data-zod-live-price][data-product-id]').forEach(node => {
+        if (String(node.dataset.productId) === String(product.id)) {
+          this.applyLivePrice(node, this.extractProductPrice(product));
+        }
+      });
+    });
+  }
+
+  initProductCardReveal() {
+    const selector = 'custom-salla-product-card, .s-product-card-entry';
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const seen = new WeakSet();
+    const pending = new Set();
+    let revealObserver = null;
+
+    const show = card => {
+      if (!card?.isConnected) return;
+      pending.delete(card);
+      revealObserver?.unobserve(card);
+      if (reducedMotion.matches) return;
+
+      card.classList.add('is-visible');
+      let cleanupTimer = null;
+      const onAnimationEnd = event => {
+        if (event.target === card && event.animationName === 'zodProductCardReveal') cleanup();
+      };
+      const cleanup = () => {
+        card.removeEventListener('animationend', onAnimationEnd);
+        window.clearTimeout(cleanupTimer);
+        card.classList.remove('zod-product-reveal', 'is-visible');
+        card.style.removeProperty('--zod-reveal-delay');
+      };
+      card.addEventListener('animationend', onAnimationEnd);
+      cleanupTimer = window.setTimeout(cleanup, 720);
+    };
+
+    if ('IntersectionObserver' in window && !reducedMotion.matches) {
+      revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting) show(entry.target); });
+      }, { rootMargin: '0px 0px -5% 0px', threshold: 0.08 });
+    }
+
+    const registerCards = cards => {
+      const columns = window.matchMedia('(max-width: 640px)').matches ? 2 : 4;
+      cards.forEach((card, index) => {
+        if (seen.has(card)) return;
+        seen.add(card);
+        if (reducedMotion.matches || !revealObserver) return;
+        card.classList.add('zod-product-reveal');
+        card.style.setProperty('--zod-reveal-delay', `${(index % columns) * (columns === 2 ? 45 : 50)}ms`);
+        pending.add(card);
+        revealObserver.observe(card);
+      });
+    };
+
+    const collectCards = roots => {
+      const cards = [];
+      roots.forEach(root => {
+        if (!(root instanceof Element)) return;
+        if (root.matches(selector)) cards.push(root);
+        cards.push(...root.querySelectorAll(selector));
+      });
+      registerCards([...new Set(cards)]);
+    };
+
+    collectCards([document.body]);
+    let queued = false;
+    const addedRoots = new Set();
+    const mutationObserver = new MutationObserver(mutations => {
+      mutations.forEach(mutation => mutation.addedNodes.forEach(node => {
+        if (node instanceof Element) addedRoots.add(node);
+      }));
+      if (queued || !addedRoots.size) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        collectCards([...addedRoots]);
+        addedRoots.clear();
+      });
+    });
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    reducedMotion.addEventListener?.('change', event => {
+      if (!event.matches) return;
+      pending.forEach(card => {
+        revealObserver?.unobserve(card);
+        card.classList.remove('zod-product-reveal', 'is-visible');
+        card.style.removeProperty('--zod-reveal-delay');
+      });
+      pending.clear();
+    });
+  }
+
+
+  getStoredCartCount() {
+    try {
+      const summary = salla.storage.get('cart.summery') || salla.storage.get('cart.summary') || {};
+      const count = Number(summary?.count ?? 0);
+      return Number.isFinite(count) && count > 0 ? count : 0;
+    } catch (_) { return 0; }
+  }
+
+  extractCartCount(payload, allowStoredFallback = payload == null) {
+    const values = [
+      payload?.data?.data?.cart?.summary?.count,
+      payload?.data?.data?.summary?.count,
+      payload?.data?.data?.count,
+      payload?.data?.cart?.summary?.count,
+      payload?.data?.summary?.count,
+      payload?.data?.cart?.count,
+      payload?.data?.count,
+      payload?.cart?.summary?.count,
+      payload?.summary?.count,
+      payload?.count
+    ];
+    for (const value of values) {
+      const count = Number(value);
+      if (Number.isFinite(count) && count >= 0) return count;
+    }
+
+    const lists = [
+      payload?.data?.data?.cart?.items,
+      payload?.data?.data?.items,
+      payload?.data?.cart?.items,
+      payload?.data?.items,
+      payload?.cart?.items,
+      payload?.items,
+      Array.isArray(payload?.data?.data) ? payload.data.data : null,
+      Array.isArray(payload?.data) ? payload.data : null
+    ];
+    for (const list of lists) {
+      if (!Array.isArray(list)) continue;
+      return list.reduce((total, item) => {
+        const quantity = Number(item?.quantity ?? 1);
+        return total + (Number.isFinite(quantity) && quantity > 0 ? quantity : 1);
+      }, 0);
+    }
+    return allowStoredFallback ? this.getStoredCartCount() : null;
+  }
+
+  updateCartBadge(count = this.getStoredCartCount(), animate = false) {
+    const badge = document.querySelector('[data-zod-cart-count]');
+    const cart = document.querySelector('.zod-cart-link');
+    if (!badge || !cart) return;
+    const safeCount = Math.max(0, Number(count) || 0);
+    badge.textContent = safeCount > 99 ? '99+' : String(safeCount);
+    badge.hidden = safeCount === 0;
+    cart.classList.toggle('has-items', safeCount > 0);
+    if (animate && safeCount > 0) {
+      cart.classList.remove('is-bumping');
+      void cart.offsetWidth;
+      cart.classList.add('is-bumping');
+      setTimeout(() => cart.classList.remove('is-bumping'), 650);
+    }
+  }
+
+  recoverEmptyCartPage(count) {
+    const cartPage = document.querySelector('[data-zod-cart-page]');
+    if (!cartPage) return;
+    const emptyState = document.querySelector('[data-testid="store-cart-empty"]');
+    if (!emptyState || count <= 0) {
+      try { sessionStorage.removeItem('zod::cart-recovery-attempted'); } catch (_) {}
+      return;
+    }
+    try {
+      if (sessionStorage.getItem('zod::cart-recovery-attempted') === '1') return;
+      sessionStorage.setItem('zod::cart-recovery-attempted', '1');
+      window.setTimeout(() => window.location.reload(), 80);
+    } catch (_) {}
+  }
+
+  async refreshCartBadge({ recoverCartPage = false, animate = false } = {}) {
+    const request = this.cartBadgeRequest = (this.cartBadgeRequest || 0) + 1;
+    try {
+      const response = await salla.cart.details();
+      if (request !== this.cartBadgeRequest) return null;
+      const liveCount = this.extractCartCount(response, false);
+      if (liveCount === null) throw new Error('Cart count missing from Salla response');
+      this.updateCartBadge(liveCount, animate);
+      if (recoverCartPage) this.recoverEmptyCartPage(liveCount);
+      return liveCount;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  animateProductToCart(productId) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const card = document.querySelector(`custom-salla-product-card[data-product-id="${productId}"]`) || document.querySelector(`[data-zod-interactive-showcase][data-product-id="${productId}"]`);
+    const source = card?.querySelector('.zpc-media img, .zod-interactive-showcase__media img');
+    const target = document.querySelector('.zod-cart-link');
+    if (!source || !target) return;
+    const a = source.getBoundingClientRect();
+    const b = target.getBoundingClientRect();
+    if (!a.width || !b.width) return;
+    const flyer = source.cloneNode(true);
+    flyer.className = 'zod-fly-to-cart';
+    Object.assign(flyer.style, {left:`${a.left}px`, top:`${a.top}px`, width:`${Math.min(a.width,72)}px`, height:`${Math.min(a.height,72)}px`});
+    document.body.appendChild(flyer);
+    const dx = (b.left + b.width/2) - (a.left + Math.min(a.width,72)/2);
+    const dy = (b.top + b.height/2) - (a.top + Math.min(a.height,72)/2);
+    const anim = flyer.animate([
+      {transform:'translate3d(0,0,0) scale(1)', opacity:.95},
+      {transform:`translate3d(${dx*.55}px,${dy*.35-35}px,0) scale(.72)`, opacity:.85, offset:.55},
+      {transform:`translate3d(${dx}px,${dy}px,0) scale(.18)`, opacity:.08}
+    ], {duration:620,easing:'cubic-bezier(.2,.8,.25,1)'});
+    anim.finished.finally(() => flyer.remove());
+    card?.classList.add('is-added');
+    setTimeout(() => card?.classList.remove('is-added'), 700);
+  }
+
+  async deleteCartItem(itemId, selector) {
+    const form = selector ? document.querySelector(selector) : null;
+    const card = form?.querySelector('[data-zod-cart-item]') || form;
+    card?.classList.add('is-removing');
+    try {
+      const response = await salla.cart.deleteItem(itemId);
+      document.dispatchEvent(new CustomEvent('zod:cart-delete-success', { detail: response }));
+      card?.classList.remove('is-removing');
+      card?.classList.add('is-removed');
+      setTimeout(() => form?.remove(), 360);
+      const count = this.extractCartCount(response, false);
+      if (count !== null) this.updateCartBadge(count, false);
+      else this.refreshCartBadge();
+      if (count === 0) setTimeout(() => window.location.reload(), 430);
+      return response;
+    } catch (error) {
+      card?.classList.remove('is-removing');
+      throw error;
+    }
+  }
+
+  initCartExperience() {
+    const bind = () => {
+      // Twilight uses the browser's blocking alert() as its default notifier.
+      // Product additions use the required salla-add-product-toast. Its official
+      // event metadata suppresses only the duplicate success notice, never errors.
+      // Selecting an unavailable variant is an inline product-state change, not a
+      // storefront error. Salla may emit stock/service notifier messages while
+      // <salla-product-options> resolves that selection; keep those messages silent
+      // and let the product price/stock/button UI communicate the unavailable state.
+      if (!this.variantNotificationSilencerBound) {
+        this.variantNotificationSilencerBound = true;
+        const markVariantInteraction = event => {
+          const path = typeof event.composedPath === 'function' ? event.composedPath() : [];
+          const insideOptions = path.some(node => node?.tagName === 'SALLA-PRODUCT-OPTIONS')
+            || event.target?.closest?.('salla-product-options');
+          if (insideOptions) this.variantNotificationSilenceUntil = Date.now() + 2500;
+        };
+        document.addEventListener('pointerdown', markVariantInteraction, true);
+        document.addEventListener('click', markVariantInteraction, true);
+        document.addEventListener('change', markVariantInteraction, true);
+      }
+
+      const shouldSilenceVariantNotification = message => {
+        if ((this.variantNotificationSilenceUntil || 0) < Date.now()) return false;
+        if (!document.querySelector('salla-product-options')) return false;
+        const text = String(message || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
+        return /الكمية\s*غير\s*متوفرة|خطأ\s*في\s*خدمة\s*المنتج|quantity[^.]{0,40}(?:unavailable|not available)|(?:out of stock|product service error)/i.test(text);
+      };
+
+      salla.notify?.setNotifier?.((message, type, data) => {
+        if (window.enable_add_product_toast === true &&
+            document.querySelector('salla-add-product-toast')?.dataset.ready === 'true' &&
+            data?.data?.googleTags?.event === 'addToCart' && type !== 'error') return;
+        if (shouldSilenceVariantNotification(message)) return;
+        this.showNotification(message, type);
+      });
+      // Never paint a cached count as authoritative. The live Salla cart owns the badge.
+      this.updateCartBadge(0);
+      const cartEvents = salla?.cart?.event;
+      cartEvents?.onItemUpdated?.(() => this.refreshCartBadge());
+      cartEvents?.onItemAdded?.((response, productId) => {
+        this.animateProductToCart(productId);
+        const responseCount = this.extractCartCount(response, false);
+        if (responseCount !== null) this.updateCartBadge(responseCount, true);
+        setTimeout(() => this.refreshCartBadge({ animate: responseCount === null }), 100);
+      });
+      cartEvents?.onItemDeleted?.((response) => {
+        const responseCount = this.extractCartCount(response, false);
+        if (responseCount !== null) this.updateCartBadge(responseCount);
+        setTimeout(() => this.refreshCartBadge(), 100);
+      });
+      if (!this.cartDeleteBound) {
+        this.cartDeleteBound = true;
+        document.addEventListener('click', event => {
+          const button = event.target.closest?.('[data-zod-cart-delete-item]');
+          if (!button || button.dataset.zodBusy === '1') return;
+          const itemId = button.dataset.zodCartDeleteItem;
+          if (!itemId) return;
+          event.preventDefault();
+          button.dataset.zodBusy = '1';
+          this.deleteCartItem(itemId, `#item-${CSS.escape(itemId)}`)
+            .catch(() => {})
+            .finally(() => { delete button.dataset.zodBusy; });
+        });
+      }
+      this.refreshCartBadge({ recoverCartPage: true });
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) this.refreshCartBadge(); });
+    };
+    if (window.salla?.onReady) window.salla.onReady().then(bind).catch(()=>{});
+    else document.addEventListener('zod::ready', bind, {once:true});
+  }
+
+  showNotification(message, type = 'info') {
+    let region = document.getElementById('zod-notifications');
+    if (!region) {
+      region = document.createElement('div');
+      region.id = 'zod-notifications';
+      document.body.appendChild(region);
+    }
+    if (type !== 'error') region.querySelectorAll('.zod-notice:not(.is-error)').forEach(item => item.remove());
+
+    const notice = document.createElement('div');
+    notice.className = `zod-notice ${type === 'error' ? 'is-error' : 'is-success'}`;
+    notice.setAttribute('role', type === 'error' ? 'alert' : 'status');
+    const icon = document.createElement('i');
+    icon.className = type === 'error' ? 'sicon-cancel' : 'sicon-check-circle';
+    icon.setAttribute('aria-hidden', 'true');
+    const copy = document.createElement('span');
+    // Notifications may contain markup; show its text without injecting HTML.
+    const parsed = new DOMParser().parseFromString(String(message || ''), 'text/html');
+    copy.textContent = parsed.body.textContent;
+    let removed = false;
+    const dismiss = () => {
+      if (removed) return;
+      removed = true;
+      notice.classList.add('is-collapsing');
+      notice.addEventListener('animationend', () => notice.remove(), { once: true });
+      setTimeout(() => notice.remove(), 650);
+    };
+
+    notice.append(icon, copy);
+    if (type === 'error') {
+      const close = document.createElement('button');
+      close.type = 'button';
+      close.textContent = '×';
+      close.setAttribute('aria-label', document.documentElement.lang.startsWith('ar') ? 'إغلاق' : 'Close');
+      close.addEventListener('click', event => {
+        event.stopPropagation();
+        dismiss();
+      });
+      notice.append(close);
+    } else {
+      notice.tabIndex = 0;
+      notice.setAttribute('aria-label', `${copy.textContent}. ${document.documentElement.lang.startsWith('ar') ? 'اضغط للإغلاق' : 'Press to dismiss'}`);
+      notice.addEventListener('click', dismiss);
+      notice.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') dismiss();
+      });
+    }
+    region.appendChild(notice);
+    if (type !== 'error') setTimeout(dismiss, 2600);
+  }
+
+
+  initNativeStockBadges() {
+    const outAr = 'نفدت الكمية';
+    const outEn = 'Out of stock';
+    const label = document.documentElement.lang?.toLowerCase().startsWith('ar') ? outAr : outEn;
+
+    const decorate = card => {
+      if (!card || card.matches('custom-salla-product-card')) return;
+      const p = card.product || card.productData || card.data?.product || {};
+      const hasStock = ['is_available', 'is_out_of_stock', 'unlimited_quantity', 'quantity', 'status'].some(key => p[key] != null);
+      let isOut = isOutOfStock(p);
+      if (!hasStock) isOut = isOutStatus(card.getAttribute('product-status')) || isOutStatus(card.getAttribute('status'));
+      const roots = [card, card.shadowRoot].filter(Boolean);
+      for (const root of roots) {
+        const add = root.querySelector?.('salla-add-product-button,button[disabled],[product-status]');
+        const status = add?.getAttribute?.('product-status') || add?.getAttribute?.('status');
+        const text = root.textContent || '';
+        if (!hasStock && (isOutStatus(status) || /نفدت\s*الكمية|out\s+of\s+stock/i.test(text))) isOut = true;
+      }
+      card.classList.toggle('zod-native-out-of-stock', isOut);
+      if (isOut) card.setAttribute('data-zod-stock-label', label);
+      else card.removeAttribute('data-zod-stock-label');
+    };
+
+    const scan = () => document.querySelectorAll('salla-product-card').forEach(decorate);
+    scan();
+    const observer = new MutationObserver(() => requestAnimationFrame(scan));
+    observer.observe(document.documentElement, {childList:true, subtree:true, attributes:true, attributeFilter:['product-status','status','disabled']});
+    setTimeout(scan, 450);
+    setTimeout(scan, 1400);
+    setTimeout(scan, 3000);
+  }
+
+  initNativeCardActions() {
+    const decorate = card => {
+      if (!card || card.matches('custom-salla-product-card') || card.dataset.zodNativeActions === '1') return;
+      const media = card.querySelector('.s-product-card-image');
+      const wishlist = card.querySelector('salla-button.s-product-card-wishlist-btn');
+      if (!media || !wishlist) return;
+
+      const actions = document.createElement('div');
+      actions.className = 'zod-native-card-actions';
+      actions.append(wishlist);
+      media.appendChild(actions);
+      card.dataset.zodNativeActions = '1';
+    };
+
+    const scan = () => document.querySelectorAll('salla-product-card').forEach(decorate);
+    scan();
+    const observer = new MutationObserver(() => requestAnimationFrame(scan));
+    observer.observe(document.documentElement, { childList:true, subtree:true });
+    setTimeout(scan, 450);
+    setTimeout(scan, 1400);
+    setTimeout(scan, 3000);
+  }
+
+  initScreenAds() {
+    document.querySelectorAll('[data-zod-screen-ad]').forEach(ad => {
+      if (ad.dataset.zodReady === '1') return;
+      ad.dataset.zodReady = '1';
+
+      const duration = Math.max(1, Number(ad.dataset.zodAdDuration) || 5);
+      const delay = Math.max(0, Number(ad.dataset.zodAdDelay) || 0) * 1000;
+      const frequency = ad.dataset.zodAdFrequency || 'session';
+      const autoClose = ad.dataset.zodAdAutoClose !== '0';
+      const backdropClose = ad.dataset.zodAdBackdropClose !== '0';
+      const storageKey = `zod-screen-ad:${ad.dataset.zodAdKey || 'home'}`;
+      const skip = ad.querySelector('[data-zod-ad-skip]');
+      const closeButton = ad.querySelector('[data-zod-ad-close]');
+      const backdrop = ad.querySelector('[data-zod-ad-backdrop]');
+      const count = ad.querySelector('[data-zod-ad-count]');
+      const countWrap = ad.querySelector('[data-zod-ad-count-wrap]');
+      const progress = ad.querySelector('[data-zod-ad-progress]');
+      let interval = 0;
+      let remaining = duration;
+      let lastFocus = null;
+
+      const wasSeen = () => {
+        try {
+          if (frequency === 'visit') return false;
+          if (frequency === 'daily') return localStorage.getItem(storageKey) === new Date().toISOString().slice(0, 10);
+          return sessionStorage.getItem(storageKey) === '1';
+        } catch (_) { return false; }
+      };
+
+      const remember = () => {
+        try {
+          if (frequency === 'daily') localStorage.setItem(storageKey, new Date().toISOString().slice(0, 10));
+          else if (frequency !== 'visit') sessionStorage.setItem(storageKey, '1');
+        } catch (_) {}
+      };
+
+      const updateTimer = () => {
+        if (count) count.textContent = String(Math.max(0, remaining));
+        if (progress) progress.style.setProperty('--zod-ad-progress', `${Math.max(0, remaining / duration) * 100}%`);
+      };
+
+      const hide = () => {
+        if (ad.hidden) return;
+        window.clearInterval(interval);
+        remember();
+        ad.classList.remove('is-visible');
+        ad.setAttribute('aria-hidden', 'true');
+        document.documentElement.classList.remove('zod-screen-ad-open');
+        window.setTimeout(() => { ad.hidden = true; }, 220);
+        lastFocus?.focus?.();
+      };
+
+      const onKeydown = event => {
+        if (event.key === 'Escape' && !ad.hidden) hide();
+        if (ad.classList.contains('is-visible')) containDialogFocus(event, ad);
+      };
+      document.addEventListener('keydown', onKeydown);
+      skip?.addEventListener('click', hide);
+      closeButton?.addEventListener('click', hide);
+      if (backdropClose) backdrop?.addEventListener('click', hide);
+
+      if (wasSeen()) return;
+      window.setTimeout(() => {
+        if (!ad.isConnected || document.hidden) return;
+        lastFocus = document.activeElement;
+        remaining = duration;
+        updateTimer();
+        ad.hidden = false;
+        ad.setAttribute('aria-hidden', 'false');
+        document.documentElement.classList.add('zod-screen-ad-open');
+        requestAnimationFrame(() => ad.classList.add('is-visible'));
+        skip?.focus?.({ preventScroll: true });
+        interval = window.setInterval(() => {
+          remaining -= 1;
+          updateTimer();
+          if (remaining > 0) return;
+          window.clearInterval(interval);
+          if (countWrap) countWrap.hidden = true;
+          if (autoClose) hide();
+        }, 1000);
+      }, delay);
+    });
+  }
+
+  initWhatsAppFloat() {
+    document.querySelectorAll('[data-zod-whatsapp-float]').forEach(widget => {
+      if (widget.dataset.zodReady === '1') return;
+      widget.dataset.zodReady = '1';
+      const toggle = widget.querySelector('[data-zod-whatsapp-toggle]');
+      const options = widget.querySelector('[data-zod-whatsapp-options]');
+      if (!toggle || !options) return;
+
+      const close = () => {
+        widget.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        window.setTimeout(() => { if (!widget.classList.contains('is-open')) options.hidden = true; }, 180);
+      };
+      const open = () => {
+        options.hidden = false;
+        requestAnimationFrame(() => widget.classList.add('is-open'));
+        toggle.setAttribute('aria-expanded', 'true');
+      };
+
+      toggle.addEventListener('click', event => {
+        event.stopPropagation();
+        widget.classList.contains('is-open') ? close() : open();
+      });
+      document.addEventListener('click', event => { if (!widget.contains(event.target)) close(); });
+      document.addEventListener('keydown', event => { if (event.key === 'Escape') close(); });
+      widget.querySelectorAll('.zod-whatsapp-float__option').forEach(link => link.addEventListener('click', close));
+
+      requestAnimationFrame(() => widget.classList.add('is-intro'));
+      window.setTimeout(() => widget.classList.remove('is-intro'), 1800);
+    });
+  }
+
+  initLocationsCarousel() {
+    document.querySelectorAll('[data-zod-locations-rail]').forEach(rail => {
+      if (rail.dataset.zodReady === '1') return;
+      rail.dataset.zodReady = '1';
+      const cards = [...rail.querySelectorAll('.zod-location-card')];
+      const dotsWrap = rail.parentElement?.querySelector('[data-zod-locations-dots]');
+      const dots = [...(dotsWrap?.querySelectorAll('[data-zod-location-dot]') || [])];
+      if (cards.length < 2 || !dots.length) return;
+
+      const setActive = index => dots.forEach((dot, dotIndex) => {
+        dot.classList.toggle('is-active', dotIndex === index);
+        dot.setAttribute('aria-current', dotIndex === index ? 'true' : 'false');
+      });
+      const update = () => {
+        const railRect = rail.getBoundingClientRect();
+        const center = railRect.left + railRect.width / 2;
+        let active = 0;
+        let distance = Infinity;
+        cards.forEach((card, index) => {
+          const rect = card.getBoundingClientRect();
+          const nextDistance = Math.abs(rect.left + rect.width / 2 - center);
+          if (nextDistance < distance) { distance = nextDistance; active = index; }
+        });
+        setActive(active);
+      };
+      let frame = 0;
+      rail.addEventListener('scroll', () => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(update);
+      }, { passive: true });
+      dots.forEach((dot, index) => dot.addEventListener('click', () => cards[index]?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest', inline: 'center' })));
+      setActive(0);
+    });
+  }
+
+  initProfileAvatarUpload() {
+    const uploader = document.querySelector('[data-zod-profile-avatar]');
+    if (!uploader) return;
+
+    uploader.addEventListener('uploaded', async event => {
+      const avatar = typeof event.detail === 'string' ? event.detail : '';
+      if (!avatar || !window.salla?.profile?.update) return;
+      uploader.classList.add('is-saving-avatar');
+      try {
+        await salla.profile.update({ avatar });
+        uploader.setAttribute('value', avatar);
+      } catch (_) {
+        // Salla's native profile endpoint owns the user-facing error state.
+      } finally {
+        uploader.classList.remove('is-saving-avatar');
+      }
+    });
+  }
+
+  initDisclosureToggles() {
+    document.querySelectorAll('.collapse-content').forEach(panel => panel.hidden = true);
+    document.addEventListener('click', event => {
+      const trigger = event.target.closest('[data-show]');
+      if (!trigger) return;
+      const id = trigger.getAttribute('data-show');
+      if (!id) return;
+      const panel = document.getElementById(id);
+      if (!panel) return;
+      event.preventDefault();
+      panel.hidden = !panel.hidden;
+      trigger.setAttribute('aria-expanded', String(!panel.hidden));
+    });
+  }
+
+  initFooterDisclosures() {
+    const items = [...document.querySelectorAll('[data-footer-disclosure]')];
+    if (!items.length) return;
+    const mq = window.matchMedia('(max-width: 640px)');
+    const sync = () => items.forEach(item => { item.open = !mq.matches; });
+    sync();
+    mq.addEventListener?.('change', sync);
+  }
+}
+
+window.notify_when_available_in_card = window.zodSettings?.notifyWhenAvailable !== false;
+window.zodTheme = new ZodTheme();
+
+/* ZOD v1.7.31 — keep Salla's Business Platform certificate with the footer
+ * trust certificates and remove it from every payment-method strip (including
+ * the product page). */
+(() => {
+  const initBusinessCertificatePlacement = () => {
+    if (typeof document?.querySelector !== 'function') return;
+    const certificateHost = document.querySelector('[data-zod-business-certificate]');
+    const paymentHosts = [...document.querySelectorAll('salla-payments')];
+    if (!paymentHosts.length) return;
+
+    const syncHost = payments => {
+      const root = payments.shadowRoot || payments;
+      const image = root.querySelector?.('.s-payments-sbc-image');
+      if (!image) return false;
+      const item = image.closest?.('.s-payments-list-item') || image.parentElement;
+      const src = image.getAttribute?.('src') || image.src || '';
+
+      // Only the footer copy is moved into the certificate area. Product-page
+      // and other payment strips simply hide the certificate item.
+      if (certificateHost && src && payments.closest?.('[data-zod-footer-bottom-payments]')) {
+        const current = certificateHost.querySelector('img');
+        if (!current || current.getAttribute('src') !== src) {
+          certificateHost.innerHTML = '';
+          const card = document.createElement('span');
+          card.className = 'zod-footer-business-certificate__card';
+          const cloned = image.cloneNode(true);
+          cloned.removeAttribute('class');
+          cloned.alt = document.documentElement.lang?.startsWith('ar') ? 'شهادة منصة الأعمال' : 'Business Platform certificate';
+          const label = document.createElement('span');
+          label.textContent = cloned.alt;
+          card.append(cloned, label);
+          certificateHost.appendChild(card);
+        }
+        certificateHost.hidden = false;
+      }
+      if (item) {
+        item.hidden = true;
+        item.setAttribute('aria-hidden', 'true');
+        item.style.setProperty('display', 'none', 'important');
+      }
+      return true;
+    };
+
+    customElements.whenDefined('salla-payments').then(() => {
+      paymentHosts.forEach(payments => {
+        const run = () => syncHost(payments);
+        run();
+        setTimeout(run, 300);
+        setTimeout(run, 900);
+        const root = payments.shadowRoot || payments;
+        try { new MutationObserver(run).observe(root, { childList:true, subtree:true, attributes:true, attributeFilter:['src','class'] }); } catch (_) {}
+      });
+    }).catch(() => {});
+  };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initBusinessCertificatePlacement, { once:true });
+  else initBusinessCertificatePlacement();
+})();
+
+
+},
+"src/assets/js/partials/product-card.js":function(module,exports,require){
+const { isOutOfStock, mergeProductDetails } = require("src/assets/js/partials/stock.js");
+const { containDialogFocus } = require("src/assets/js/partials/dialog-focus.js");
+class ZodProductCard extends HTMLElement {
+  connectedCallback() {
+    try {
+      this.product = this.product || JSON.parse(this.getAttribute('product') || '{}');
+    } catch (_) { this.product = {}; }
+    if (!this.product?.id) return;
+    this.waitForSalla().then(() => salla.onReady()).then(() => {
+      if (salla.lang?.onLoaded) salla.lang.onLoaded(() => this.render());
+      else this.render();
+    }).catch(() => {});
+  }
+
+  waitForSalla(timeout = 8000) {
+    if (window.__zodSallaReadyPromise) return window.__zodSallaReadyPromise;
+    window.__zodSallaReadyPromise = new Promise((resolve, reject) => {
+      const started = Date.now();
+      const check = () => {
+        if (window.salla?.onReady) return resolve(window.salla);
+        if (Date.now() - started >= timeout) return reject(new Error('Salla SDK unavailable'));
+        setTimeout(check, 80);
+      };
+      check();
+    });
+    return window.__zodSallaReadyPromise;
+  }
+
+  esc(value = '') {
+    return String(value).replace(/[&<>'"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[ch]));
+  }
+
+  stripHtml(value = '') {
+    const node = document.createElement('div');
+    node.innerHTML = String(value || '');
+    return (node.textContent || node.innerText || '').replace(/\s+/g, ' ').trim();
+  }
+
+  money(value) {
+    if (value === undefined || value === null) return '';
+    try { return salla.money(value); } catch (_) { return value; }
+  }
+
+  number(value) {
+    if (typeof value === 'number') return Number.isFinite(value) ? value : 0;
+    if (typeof value === 'string') {
+      const n = Number(value.replace(/[^0-9.\-]/g, ''));
+      return Number.isFinite(n) ? n : 0;
+    }
+    if (value && typeof value === 'object') return this.number(value.amount ?? value.value ?? value.price);
+    return 0;
+  }
+
+  t(key, fallback = '') {
+    try {
+      const value = salla.lang.get(key);
+      return value && value !== key ? value : fallback;
+    } catch (_) { return fallback; }
+  }
+
+  isArabic() {
+    return (document.documentElement.lang || '').toLowerCase().startsWith('ar');
+  }
+
+  localized(value) {
+    if (value === undefined || value === null) return '';
+    if (typeof value !== 'object') return String(value).trim();
+    const language = this.isArabic() ? 'ar' : 'en';
+    return String(value[language] ?? value.value ?? value.name ?? value.title ?? '').trim();
+  }
+
+  imageUrl(value) {
+    if (!value) return '';
+    if (typeof value === 'string') return value;
+    if (typeof value === 'object') {
+      return value.url || value.original || value.medium || value.small || value.thumbnail || '';
+    }
+    return '';
+  }
+
+  productImages(product = this.product) {
+    // Salla often repeats the primary image in both `image`/`thumbnail` and
+    // `images`. Prefer the gallery when it exists so hover never starts with
+    // the same image twice.
+    const gallery = Array.isArray(product?.images) && product.images.length
+      ? product.images
+      : [product?.image, product?.thumbnail, ...(Array.isArray(product?.gallery) ? product.gallery : []), ...(Array.isArray(product?.media) ? product.media : [])];
+    const seen = new Set();
+    return gallery.map(item => this.imageUrl(item?.image || item)).filter(url => {
+      if (!url) return false;
+      const key = url.split('?')[0].replace(/-(?:small|medium|large|thumbnail)(?=\.[a-z]+$)/i, '');
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  setMediaIndex(index, animate = true) {
+    const image = this.querySelector('[data-zpc-image]');
+    if (!image || !this.mediaImages?.length) return;
+    const next = ((index % this.mediaImages.length) + this.mediaImages.length) % this.mediaImages.length;
+    const apply = () => {
+      image.src = this.mediaImages[next];
+      image.dataset.index = String(next);
+      this.querySelectorAll('[data-zpc-dot]').forEach((dot, dotIndex) => {
+        dot.classList.toggle('is-active', dotIndex === next);
+        dot.setAttribute('aria-current', dotIndex === next ? 'true' : 'false');
+      });
+      image.classList.remove('is-changing');
+    };
+    if (animate && image.src && image.src !== this.mediaImages[next]) {
+      image.classList.add('is-changing');
+      window.clearTimeout(this.mediaTransitionTimer);
+      this.mediaTransitionTimer = window.setTimeout(apply, 130);
+    } else apply();
+  }
+
+  renderMediaDots() {
+    const dots = this.querySelector('[data-zpc-dots]');
+    if (!dots) return;
+    if ((this.mediaImages?.length || 0) < 2) {
+      dots.hidden = true;
+      dots.innerHTML = '';
+      return;
+    }
+    dots.hidden = false;
+    dots.innerHTML = this.mediaImages.map((_, index) => `<button type="button" data-zpc-dot="${index}" class="${index === 0 ? 'is-active' : ''}" aria-current="${index === 0 ? 'true' : 'false'}" aria-label="${this.esc(this.isArabic() ? `الصورة ${index + 1}` : `Image ${index + 1}`)}"></button>`).join('');
+    dots.querySelectorAll('[data-zpc-dot]').forEach(dot => dot.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+      this.stopMediaCycle(false);
+      this.setMediaIndex(Number(event.currentTarget.dataset.zpcDot));
+    }));
+  }
+
+  startMediaCycle() {
+    // Listing payload only: NEVER hydrate cards with getDetails on hover/focus.
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    if (this.mediaImages.length < 2 || this.mediaTimer) return;
+    let index = Number(this.querySelector('[data-zpc-image]')?.dataset.index || 0);
+    this.mediaTimer = window.setInterval(() => {
+      if (document.hidden) return;
+      index = (index + 1) % this.mediaImages.length;
+      this.setMediaIndex(index);
+    }, 1800);
+  }
+
+  stopMediaCycle(reset = true) {
+    if (this.mediaTimer) window.clearInterval(this.mediaTimer);
+    this.mediaTimer = 0;
+    if (reset) this.setMediaIndex(0);
+  }
+
+  disconnectedCallback() {
+    this.stopMediaCycle(false);
+    window.clearTimeout(this.mediaTransitionTimer);
+  }
+
+  getCategory(product = this.product) {
+    const raw = product?.category || product?.main_category || product?.categories?.[0] || null;
+    if (!raw) return null;
+    if (typeof raw === 'string') return { name: raw, url: '' };
+    const name = raw.name || raw.title || raw.label || '';
+    if (!name) return null;
+    return { name, url: raw.url || raw.link || '' };
+  }
+
+  getBrand(product = this.product) {
+    const raw = product?.brand || product?.brand_info || product?.manufacturer || null;
+    if (!raw) {
+      const name = this.localized(product?.brand_name);
+      return name ? { name, url: '' } : null;
+    }
+    if (typeof raw === 'string') return { name: raw, url: '' };
+    const name = this.localized(raw.name ?? raw.title ?? raw.label);
+    if (!name) return null;
+    return { name, url: raw.url || raw.link || '' };
+  }
+
+  priceValues(product = this.product) {
+    const p = product || {};
+    const listed = this.number(p.price);
+    const sale = this.number(p.sale_price ?? p.offer_price ?? p.discounted_price);
+    const regular = this.number(p.regular_price ?? p.original_price ?? p.old_price ?? p.price_before_discount);
+    const original = regular > sale ? regular : (sale > 0 && listed > sale ? listed : regular);
+    // Salla applies sale dates before exposing is_on_sale. A scheduled or
+    // expired sale_price must not become a live discount on the card.
+    const onSale = p.is_on_sale === false ? false : sale > 0 && original > sale;
+    return { current: onSale ? sale : (listed || sale || regular), original: onSale ? original : 0, onSale };
+  }
+
+  discountPercent(product = this.product) {
+    const p = product;
+    const raw = p.discount_percentage ?? p.discountPercent ?? p.discount;
+    const parsed = this.number(raw);
+    if (parsed > 0) return Math.round(parsed);
+    const { current, original, onSale } = this.priceValues(p);
+    if (onSale) return Math.max(1, Math.round(((original - current) / original) * 100));
+    return 0;
+  }
+
+  templateText(value, product = this.product) {
+    let text = this.localized(value);
+    if (!text) return '';
+    const { current, original, onSale } = this.priceValues(product);
+    const replacements = {
+      percent: onSale ? `${this.discountPercent(product)}%` : '',
+      discount: onSale ? this.money(original - current) : '',
+      brand: this.getBrand(product)?.name || ''
+    };
+    Object.entries(replacements).forEach(([key, replacement]) => {
+      text = text.replace(new RegExp(`\\{${key}\\}`, 'gi'), replacement);
+    });
+    return text.replace(/\{(?:percent|discount|brand)\}/gi, '').replace(/\s+/g, ' ').trim();
+  }
+
+  price(product = this.product) {
+    const p = product;
+    const { current, original, onSale } = this.priceValues(p);
+    const discount = this.discountPercent(p);
+    if (onSale) {
+      return `<div class="zpc-price is-sale"><strong>${this.money(current)}</strong><del>${this.money(original)}</del>${discount ? `<span class="zpc-price-discount">${this.esc(discount)}%</span>` : ''}</div>`;
+    }
+    if (this.number(p.starting_price) > 0) {
+      return `<div class="zpc-price"><small>${this.t('pages.products.starting_price', this.isArabic() ? 'يبدأ من' : 'From')}</small><strong>${this.money(p.starting_price)}</strong></div>`;
+    }
+    return `<div class="zpc-price"><strong>${this.money(current)}</strong></div>`;
+  }
+
+  isOutOfStock(product = this.product) {
+    return isOutOfStock(product);
+  }
+
+  initialWishlistState(product = this.product) {
+    if (product.is_in_wishlist === true || product.isInWishlist === true || product.in_wishlist === true) return true;
+    if (salla.config.isGuest()) return false;
+    try {
+      return (salla.storage.get('salla::wishlist', []) || []).map(Number).includes(Number(product.id));
+    } catch (_) { return false; }
+  }
+
+
+  syncWishlistState(productId, active) {
+    const id = String(productId);
+    document.querySelectorAll(`custom-salla-product-card[data-product-id="${CSS.escape(id)}"] .zpc-wishlist, [data-zod-product-page][data-product-id="${CSS.escape(id)}"] [data-zod-wishlist]`)
+      .forEach(button => {
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+  }
+
+  async toggleWishlist(button, productId) {
+    if (!button || button.getAttribute('aria-busy') === 'true') return;
+    if (salla.config.isGuest()) {
+      const modal = document.querySelector('salla-login-modal');
+      if (typeof modal?.open === 'function') await modal.open();
+      return;
+    }
+    const wasActive = button.classList.contains('is-active');
+    button.setAttribute('aria-busy', 'true');
+    try {
+      await salla.wishlist.toggle(String(productId));
+      const active = !wasActive;
+      this.syncWishlistState(productId, active);
+      button.classList.remove('is-pulsing');
+      void button.offsetWidth;
+      button.classList.add('is-pulsing');
+      setTimeout(() => button.classList.remove('is-pulsing'), 360);
+    } catch (_) {
+      this.syncWishlistState(productId, wasActive);
+    } finally {
+      button.removeAttribute('aria-busy');
+    }
+  }
+
+  ensureQuickView() {
+    let modal = document.getElementById('zod-quick-view');
+    if (modal) return modal;
+
+    modal = document.createElement('div');
+    modal.id = 'zod-quick-view';
+    modal.className = 'zod-qv';
+    modal.hidden = true;
+    modal.innerHTML = `
+      <div class="zod-qv__backdrop" data-zod-qv-close></div>
+      <section class="zod-qv__dialog" role="dialog" aria-modal="true" aria-labelledby="zod-qv-title">
+        <button type="button" class="zod-qv__close" data-zod-qv-close aria-label="${this.isArabic() ? 'إغلاق' : 'Close'}"><i class="sicon-cancel"></i></button>
+        <div class="zod-qv__content"></div>
+      </section>`;
+    document.body.appendChild(modal);
+
+    const close = () => {
+      modal.__zodRequest = (modal.__zodRequest || 0) + 1;
+      modal.classList.remove('is-open');
+      document.body.classList.remove('zod-qv-open');
+      modal.__zodCloseTimer = setTimeout(() => { modal.hidden = true; }, 180);
+      modal.__zodLastFocus?.focus?.({ preventScroll: true });
+    };
+    modal.querySelectorAll('[data-zod-qv-close]').forEach(el => el.addEventListener('click', close));
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && !modal.hidden) close();
+      if (modal.classList.contains('is-open')) containDialogFocus(event, modal);
+    });
+    modal.__zodClose = close;
+    return modal;
+  }
+
+
+  unwrapProductDetails(response, fallback) {
+    const candidates = [
+      response?.data?.data?.product, response?.data?.product, response?.product,
+      response?.data?.data, response?.data, response
+    ];
+    const full = candidates.find(value => value && typeof value === 'object' && (value.id || value.name));
+    if (!full) return fallback;
+
+    return mergeProductDetails(fallback, full);
+  }
+
+  async openQuickView(product = this.product) {
+    const modal = this.ensureQuickView();
+    clearTimeout(modal.__zodCloseTimer);
+    const request = modal.__zodRequest = (modal.__zodRequest || 0) + 1;
+    if (!modal.contains(document.activeElement)) modal.__zodLastFocus = document.activeElement;
+    const content = modal.querySelector('.zod-qv__content');
+    modal.hidden = false;
+    content.innerHTML = `<div class="zod-qv__loading" role="status"><span class="zod-qv__spinner"></span><span id="zod-qv-title">${this.esc(this.isArabic() ? 'جارٍ تحميل المنتج…' : 'Loading product…')}</span></div>`;
+    requestAnimationFrame(() => {
+      if (request !== modal.__zodRequest) return;
+      modal.classList.add('is-open');
+      document.body.classList.add('zod-qv-open');
+      modal.querySelector('.zod-qv__close')?.focus({ preventScroll: true });
+    });
+
+    let details = product;
+    try {
+      if (typeof salla.product?.getDetails === 'function') {
+        const response = await salla.product.getDetails(String(product.id));
+        details = this.unwrapProductDetails(response, product);
+      }
+    } catch (_) {}
+    if (modal.hidden || request !== modal.__zodRequest) return;
+
+    const image = this.imageUrl(details?.image) || details.thumbnail || this.imageUrl(product?.image) || product.thumbnail || '';
+    const category = this.getCategory(details) || this.getCategory(product);
+    const isOut = this.isOutOfStock(details);
+    const stockLabel = isOut ? this.t('pages.products.out_of_stock', this.isArabic() ? 'نفدت الكمية' : 'Out of stock') : (this.isArabic() ? 'متوفر' : 'In stock');
+    const addLabel = details.add_to_cart_label || this.t(details.type === 'booking' ? 'pages.cart.book_now' : 'pages.cart.add_to_cart', this.isArabic() ? 'أضف إلى السلة' : 'Add to cart');
+    const detailsLabel = this.isArabic() ? 'عرض التفاصيل كاملة' : 'View full details';
+    const optionLabel = this.isArabic() ? 'اختر الخيارات من صفحة المنتج' : 'Choose options on the product page';
+    const description = this.stripHtml(details.short_description || details.subtitle || details.description || '').slice(0, 220);
+    const status = isOut ? (window.notify_when_available_in_card !== false && !['donating', 'financial_support'].includes(details.type) ? 'out-and-notify' : 'out') : details.status;
+    const hasOptions = Boolean(details.has_options || (Array.isArray(details.options) && details.options.length));
+    const needsProductForm = Boolean(hasOptions || details.can_add_note || details.can_upload_file || details.has_custom_form || details.has_bundle_products);
+    const quickBuy = details.can_quick_buy && !needsProductForm && !isOut ? ' quick-buy' : '';
+
+    content.innerHTML = `
+      <div class="zod-qv__media"><img src="${this.esc(image)}" alt="${this.esc(details.name || '')}"></div>
+      <div class="zod-qv__info">
+        ${category ? `<span class="zod-qv__category">${this.esc(category.name)}</span>` : ''}
+        <h2 id="zod-qv-title">${this.esc(details.name || '')}</h2>
+        <div class="zod-qv__price">${this.price(details)}</div>
+        ${details.is_taxable === false ? '' : `<small class="zod-qv__tax">${this.esc(this.t('pages.products.tax_included', this.isArabic() ? 'شامل ضريبة القيمة المضافة' : 'VAT included'))}</small>`}
+        <div class="zod-qv__stock ${isOut ? 'is-out' : 'is-in'}"><i></i>${this.esc(stockLabel)}</div>
+        ${description ? `<p>${this.esc(description)}</p>` : ''}
+        ${needsProductForm ? `<div class="zod-qv__options-note"><i class="sicon-list"></i>${this.esc(hasOptions ? optionLabel : detailsLabel)}</div>` : `
+        <div class="zod-qv__purchase">
+          ${!details.is_hidden_quantity && details.type !== 'booking' ? `<salla-quantity-input value="1" name="quantity" max="${this.esc(details.max_quantity || '')}"></salla-quantity-input>` : '<input type="hidden" name="quantity" value="1">'}
+          <salla-add-product-button${quickBuy}${details.is_require_shipping ? ' required-shipping' : ''}${details.has_preorder_campaign ? ' has-pre-order' : ''} width="wide" fill="outline" product-id="${this.esc(details.id)}" product-status="${this.esc(status || '')}" product-type="${this.esc(details.type || 'product')}"${details.base_currency_price != null ? ` amount="${this.esc(details.base_currency_price)}"` : ''}>${this.esc(addLabel)}</salla-add-product-button>
+        </div>`}
+        <a class="zod-qv__details" href="${this.esc(details.url || product.url || '#')}">${this.esc(detailsLabel)} <i class="sicon-arrow-left"></i></a>
+      </div>`;
+    modal.querySelector('.zod-qv__close')?.focus({ preventScroll: true });
+  }
+
+  render() {
+    this.stopMediaCycle(false);
+    window.clearTimeout(this.mediaTransitionTimer);
+    const p = this.product;
+    this.mediaImages = this.productImages(p);
+    const image = this.mediaImages[0] || (window.salla?.url?.asset?.('images/placeholder.svg') || '');
+    const imageAlt = this.esc(p?.image?.alt || p.name || '');
+    const isOut = this.isOutOfStock(p);
+    const status = isOut ? (window.notify_when_available_in_card !== false && !['donating', 'financial_support'].includes(p.type) ? 'out-and-notify' : 'out') : p.status;
+    const addLabel = p.add_to_cart_label || this.t(p.type === 'booking' ? 'pages.cart.book_now' : 'pages.cart.add_to_cart', this.isArabic() ? 'أضف إلى السلة' : 'Add to cart');
+    const outLabel = this.t('pages.products.out_of_stock', this.isArabic() ? 'نفدت الكمية' : 'Out of stock');
+    const wishlistLabel = this.esc(this.t('zod.header.wishlist', this.isArabic() ? 'المفضلة' : 'Wishlist'));
+    const category = this.getCategory(p);
+    const brand = this.getBrand(p);
+    const inWishlist = this.initialWishlistState(p);
+    const promo = this.templateText(p.promotion_title ?? p.promotional_title ?? p.promo_title ?? p.promotion?.title, p);
+    const subtitle = this.templateText(p.subtitle ?? p.sub_title, p);
+    const taxLabel = p.is_taxable === false ? '' : this.t('pages.products.tax_included', this.isArabic() ? 'شامل ضريبة القيمة المضافة' : 'VAT included');
+    const optionCount = Array.isArray(p.options) ? p.options.length : 0;
+    const hasOptions = Boolean(p.has_options || optionCount);
+    const needsProductForm = Boolean(hasOptions || p.can_add_note || p.can_upload_file || p.has_custom_form || p.has_bundle_products);
+    const optionsLabel = this.t('zod.product.options_available', this.isArabic() ? 'خيارات متاحة' : 'Options available');
+    const chooseOptionsLabel = this.t('zod.product.choose_options_card', this.isArabic() ? 'اختر الخيارات' : 'Choose options');
+
+    this.classList.add('zod-product-card');
+    this.setAttribute('data-product-id', p.id);
+    this.innerHTML = `
+      <div class="zpc-media ${isOut ? 'is-out' : ''}">
+        <a class="zpc-product-link" href="${this.esc(p.url || '#')}" aria-label="${imageAlt}"><img src="${this.esc(image)}" alt="${imageAlt}" loading="lazy" data-zpc-image data-index="0"></a>
+        ${promo ? `<span class="zpc-offer-badge" title="${this.esc(promo)}">${this.esc(promo)}</span>` : ''}
+        ${isOut ? `<span class="zpc-stock-stamp">${this.esc(outLabel)}</span>` : ''}
+        <button type="button" class="zpc-action zpc-wishlist ${inWishlist ? 'is-active' : ''}" data-id="${p.id}" aria-label="${wishlistLabel}" aria-pressed="${inWishlist ? 'true' : 'false'}"><i class="sicon-heart"></i></button>
+        <div class="zpc-media-dots" data-zpc-dots ${this.mediaImages.length < 2 ? 'hidden' : ''}></div>
+        ${!isOut ? (needsProductForm
+          ? `<a class="zpc-media-add zpc-media-add--options" href="${this.esc(p.url || '#')}" aria-label="${this.esc(hasOptions ? chooseOptionsLabel : (this.isArabic() ? 'عرض المنتج' : 'View product'))}"><span aria-hidden="true">+</span></a>`
+          : `<salla-add-product-button class="zpc-media-add" fill="outline" product-id="${p.id}" product-status="${this.esc(status || '')}" product-type="${this.esc(p.type || 'product')}"${p.is_require_shipping ? ' required-shipping' : ''}${p.has_preorder_campaign ? ' has-pre-order' : ''}${p.base_currency_price != null ? ` amount="${this.esc(p.base_currency_price)}"` : ''} aria-label="${this.esc(addLabel)}"><span aria-hidden="true">+</span></salla-add-product-button>`)
+          : ''}
+      </div>
+      <div class="zpc-body">
+        ${category ? `${category.url ? `<a class="zpc-category" href="${this.esc(category.url)}">${this.esc(category.name)}</a>` : `<span class="zpc-category">${this.esc(category.name)}</span>`}` : ''}
+        <h3><a href="${this.esc(p.url || '#')}">${this.esc(p.name)}</a></h3>
+        ${subtitle ? `<p class="zpc-subtitle">${this.esc(subtitle)}</p>` : ''}
+        ${brand ? `${brand.url ? `<a class="zpc-brand" href="${this.esc(brand.url)}">${this.esc(brand.name)}</a>` : `<span class="zpc-brand">${this.esc(brand.name)}</span>`}` : ''}
+        ${p.rating?.stars ? `<div class="zpc-meta"><span class="zpc-rating"><i class="sicon-star2"></i>${this.esc(p.rating.stars)}${p.rating.count ? ` <small>(${this.esc(p.rating.count)})</small>` : ''}</span></div>` : ''}
+        <div class="zpc-bottom">${this.price()}</div>
+        ${taxLabel ? `<p class="zpc-tax">${this.esc(taxLabel)}</p>` : ''}
+        ${needsProductForm ? `<a class="zpc-options" href="${this.esc(p.url || '#')}"><i class="sicon-list"></i><span>${this.esc(hasOptions ? optionsLabel : (this.isArabic() ? 'عرض تفاصيل المنتج' : 'View product details'))}</span>${hasOptions && optionCount ? `<b>${this.esc(optionCount)}</b>` : ''}</a>` : ''}
+      </div>`;
+
+    this.renderMediaDots();
+    const media = this.querySelector('.zpc-media');
+    media?.addEventListener('mouseenter', () => this.startMediaCycle());
+    media?.addEventListener('mouseleave', () => this.stopMediaCycle());
+    media?.addEventListener('focusin', () => this.startMediaCycle());
+    media?.addEventListener('focusout', event => {
+      if (!media.contains(event.relatedTarget)) this.stopMediaCycle();
+    });
+
+    this.querySelector('.zpc-wishlist')?.addEventListener('click', async event => {
+      event.preventDefault();
+      event.stopPropagation();
+      await this.toggleWishlist(event.currentTarget, p.id);
+    });
+
+    // One delegated handler even if Salla renders this node again.
+    if (!this.cardNavigationBound) {
+      this.cardNavigationBound = true;
+      this.addEventListener('click', event => {
+        if (event.defaultPrevented || event.target.closest('a,button,input,select,textarea,salla-add-product-button,salla-button')) return;
+        if (this.product?.url) window.location.assign(this.product.url);
+      });
+    }
+    // Showcase consumers reuse this exact payload; this never fetches anything.
+    this.dispatchEvent(new CustomEvent('zod:product-data', { bubbles: true, detail: p }));
+  }
+}
+
+if (!customElements.get('custom-salla-product-card')) customElements.define('custom-salla-product-card', ZodProductCard);
+
+// Native Salla cards do not expose Quick View. Keep one shared controller so
+// native and custom cards open the exact same live-data modal.
+window.zodOpenQuickView = product => {
+  const controller = document.createElement('custom-salla-product-card');
+  return controller.openQuickView(product || {});
+};
+
+
+},
+"src/assets/js/partials/stock.js":function(module,exports,require){
+const isOutStatus = value => ['out', 'out-of-stock', 'out_of_stock', 'sold-out', 'sold_out', 'out-and-notify'].includes(String(value || '').toLowerCase());
+
+function isOutOfStock(product = {}) {
+  if (product.is_available === false || product.is_out_of_stock === true) return true;
+  if (product.is_available === true || product.unlimited_quantity === true) return false;
+  if (isOutStatus(product.status)) return true;
+  const quantity = product.quantity == null || product.quantity === '' ? NaN : Number(product.quantity);
+  return Number.isFinite(quantity) && quantity <= 0 && !['donating', 'financial_support'].includes(product.type);
+}
+
+function mergeProductDetails(fallback, full) {
+  const merged = { ...fallback, ...full };
+  // Stock fields form one snapshot. Never combine new stock with old availability.
+  const keys = ['is_available', 'is_out_of_stock', 'unlimited_quantity', 'status', 'quantity'];
+  if (keys.some(key => full[key] !== undefined && full[key] !== null && full[key] !== '')) {
+    keys.forEach(key => { delete merged[key]; });
+    keys.forEach(key => { if (full[key] != null) merged[key] = full[key]; });
+  }
+  return merged;
+}
+
+exports.isOutStatus = isOutStatus;
+exports.isOutOfStock = isOutOfStock;
+exports.mergeProductDetails = mergeProductDetails;
+},
+"src/assets/js/partials/dialog-focus.js":function(module,exports,require){
+// Include controls inside Salla's open shadow roots in keyboard order.
+function containDialogFocus(event, dialog) {
+  if (event.key !== 'Tab') return;
+  const controls = [];
+  const visit = root => Array.from(root.children || []).forEach(element => {
+    if (element.hidden || element.inert || getComputedStyle(element).display === 'none') return;
+    if (element.matches('button, a[href], input, select, textarea, [tabindex]') && element.tabIndex >= 0 && !element.disabled && element.getClientRects().length) controls.push(element);
+    if (element.shadowRoot) visit(element.shadowRoot);
+    visit(element);
+  });
+  visit(dialog);
+  let active = document.activeElement;
+  while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement;
+  const index = controls.indexOf(active);
+  if (!controls.length) { event.preventDefault(); dialog.focus(); return; }
+  if (index < 0 || (event.shiftKey ? index === 0 : index === controls.length - 1)) {
+    event.preventDefault();
+    controls[event.shiftKey ? controls.length - 1 : 0].focus();
+  }
+}
+
+exports.containDialogFocus = containDialogFocus;
+},
+"src/assets/js/partials/preview-links.js":function(module,exports,require){
+const PREVIEW_HOST = 'salla.design';
+const DEMO_HOST = 'demostore.salla.sa';
+
+const isDraftPath = pathname => pathname
+  .split('/')
+  .filter(Boolean)
+  .some(segment => segment.startsWith('dev-'));
+
+const isThemeEditorFrame = (documentLike, windowLike) => {
+  const referrer = String(documentLike?.referrer || '');
+  if (/^https:\/\/s\.salla\.sa\/themes\/editor\//i.test(referrer)) return true;
+  try {
+    return [...(windowLike?.location?.ancestorOrigins || [])]
+      .some(origin => /^https:\/\/s\.salla\.sa$/i.test(origin));
+  } catch (_) {
+    return false;
+  }
+};
+
+function normalizePreviewStoreUrl(href, locationLike, documentLike = {}, windowLike = {}) {
+  if (!href || !locationLike?.href) return href;
+
+  let target;
+  try {
+    target = new URL(href, locationLike.href);
+  } catch (_) {
+    return href;
+  }
+
+  const currentHost = String(locationLike.hostname || '').toLowerCase();
+  const isPreview = currentHost === PREVIEW_HOST || currentHost.endsWith(`.${PREVIEW_HOST}`)
+    || isThemeEditorFrame(documentLike, windowLike);
+  if (!isPreview || target.hostname.toLowerCase() !== DEMO_HOST || !isDraftPath(target.pathname)) return href;
+
+  target.protocol = 'https:';
+  target.host = PREVIEW_HOST;
+  if (!target.search && currentHost.includes(PREVIEW_HOST) && locationLike.search) {
+    target.search = locationLike.search;
+  }
+  return target.toString();
+}
+
+function installPreviewLinkRouting(documentLike = document, windowLike = window) {
+  const locationLike = windowLike.location;
+  const route = anchor => {
+    if (!anchor?.href) return;
+    const routed = normalizePreviewStoreUrl(anchor.href, locationLike, documentLike, windowLike);
+    if (routed !== anchor.href) {
+      anchor.href = routed;
+      anchor.dataset.zodPreviewRouted = '1';
+    }
+  };
+  const scan = root => {
+    if (root?.matches?.('a[href]')) route(root);
+    root?.querySelectorAll?.('a[href]').forEach(route);
+  };
+
+  scan(documentLike);
+  documentLike.addEventListener('click', event => route(event.target.closest?.('a[href]')), true);
+  const observer = new MutationObserver(records => records.forEach(record => record.addedNodes.forEach(scan)));
+  observer.observe(documentLike.documentElement, { childList: true, subtree: true });
+  return observer;
+}
+
+exports.normalizePreviewStoreUrl = normalizePreviewStoreUrl;
+exports.installPreviewLinkRouting = installPreviewLinkRouting;
+},
+"src/assets/js/partials/search-card-navigation.js":function(module,exports,require){
+const SEARCH_CARD_SELECTOR = '.s-search-grid-item';
+const INTERACTIVE_SELECTOR = 'a,button,input,select,textarea,summary,[role="button"],[role="link"]';
+
+const getSearchCardLink = card => {
+  if (!card?.querySelector) return null;
+  return card.querySelector('salla-search-product-card a[href], a[href]')
+    || card.querySelector('salla-search-product-card')?.shadowRoot?.querySelector('a[href]')
+    || null;
+};
+
+const shouldOpenSearchCard = (path, card) => !path.some(node =>
+  node !== card && node?.matches?.(INTERACTIVE_SELECTOR)
+);
+
+function installSearchCardNavigation(root = document, browserWindow = window) {
+  const decorate = card => {
+    if (!card || card.dataset.zodCardLink === '1') return;
+    const link = getSearchCardLink(card);
+    if (!link) return;
+    card.dataset.zodCardLink = '1';
+    card.tabIndex = 0;
+    card.setAttribute('role', 'link');
+    const label = link.getAttribute('aria-label') || link.textContent?.trim();
+    if (label) card.setAttribute('aria-label', label);
+  };
+
+  const scan = scope => {
+    if (scope?.matches?.(SEARCH_CARD_SELECTOR)) decorate(scope);
+    decorate(scope?.closest?.(SEARCH_CARD_SELECTOR));
+    scope?.querySelectorAll?.(SEARCH_CARD_SELECTOR).forEach(decorate);
+  };
+
+  root.addEventListener('click', event => {
+    const path = event.composedPath?.() || [];
+    const card = path.find(node => node?.matches?.(SEARCH_CARD_SELECTOR))
+      || event.target?.closest?.(SEARCH_CARD_SELECTOR);
+    if (!card || !shouldOpenSearchCard(path, card)) return;
+    const link = getSearchCardLink(card);
+    if (!link?.href) return;
+    browserWindow.location.assign(link.href);
+  });
+
+  root.addEventListener('keydown', event => {
+    if (!['Enter', ' '].includes(event.key)) return;
+    const card = event.target?.closest?.(SEARCH_CARD_SELECTOR);
+    if (!card || event.target !== card) return;
+    const link = getSearchCardLink(card);
+    if (!link?.href) return;
+    event.preventDefault();
+    browserWindow.location.assign(link.href);
+  });
+
+  scan(root);
+  if ('MutationObserver' in browserWindow) {
+    new browserWindow.MutationObserver(records => records.forEach(record =>
+      record.addedNodes.forEach(node => node.nodeType === 1 && scan(node))
+    )).observe(root.documentElement || root, { childList: true, subtree: true });
+  }
+}
+
+exports.getSearchCardLink = getSearchCardLink;
+exports.shouldOpenSearchCard = shouldOpenSearchCard;
+exports.installSearchCardNavigation = installSearchCardNavigation;
+}
+};
+const cache=Object.create(null);
+function require(id){if(cache[id])return cache[id].exports;if(!modules[id])throw new Error('Missing module '+id);const m=cache[id]={exports:{}};modules[id](m,m.exports,require);return m.exports;}
+require("src/assets/js/app.js");
+})();

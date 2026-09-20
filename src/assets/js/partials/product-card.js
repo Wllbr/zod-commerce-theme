@@ -111,7 +111,8 @@ class ZodProductCard extends HTMLElement {
     };
     if (animate && image.src && image.src !== this.mediaImages[next]) {
       image.classList.add('is-changing');
-      window.setTimeout(apply, 130);
+      window.clearTimeout(this.mediaTransitionTimer);
+      this.mediaTransitionTimer = window.setTimeout(apply, 130);
     } else apply();
   }
 
@@ -133,31 +134,16 @@ class ZodProductCard extends HTMLElement {
     }));
   }
 
-  async loadMediaImages() {
-    if (this.mediaHydrated || this.mediaLoading) return;
-    this.mediaLoading = true;
-    try {
-      if (this.mediaImages.length < 2 && typeof salla.product?.getDetails === 'function') {
-        const response = await salla.product.getDetails(String(this.product.id));
-        const details = this.unwrapProductDetails(response, this.product);
-        const images = this.productImages(details);
-        if (images.length) this.mediaImages = images;
-      }
-    } catch (_) {}
-    this.mediaHydrated = true;
-    this.mediaLoading = false;
-    this.renderMediaDots();
-  }
-
-  async startMediaCycle() {
+  startMediaCycle() {
+    // Listing payload only: NEVER hydrate cards with getDetails on hover/focus.
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
-    await this.loadMediaImages();
     if (this.mediaImages.length < 2 || this.mediaTimer) return;
     let index = Number(this.querySelector('[data-zpc-image]')?.dataset.index || 0);
     this.mediaTimer = window.setInterval(() => {
+      if (document.hidden) return;
       index = (index + 1) % this.mediaImages.length;
       this.setMediaIndex(index);
-    }, 1150);
+    }, 1800);
   }
 
   stopMediaCycle(reset = true) {
@@ -168,6 +154,7 @@ class ZodProductCard extends HTMLElement {
 
   disconnectedCallback() {
     this.stopMediaCycle(false);
+    window.clearTimeout(this.mediaTransitionTimer);
   }
 
   getCategory(product = this.product) {
@@ -388,9 +375,11 @@ class ZodProductCard extends HTMLElement {
   }
 
   render() {
+    this.stopMediaCycle(false);
+    window.clearTimeout(this.mediaTransitionTimer);
     const p = this.product;
     this.mediaImages = this.productImages(p);
-    const image = this.mediaImages[0] || '';
+    const image = this.mediaImages[0] || (window.salla?.url?.asset?.('images/placeholder.svg') || '');
     const imageAlt = this.esc(p?.image?.alt || p.name || '');
     const isOut = this.isOutOfStock(p);
     const status = isOut ? (window.notify_when_available_in_card !== false && !['donating', 'financial_support'].includes(p.type) ? 'out-and-notify' : 'out') : p.status;
@@ -449,14 +438,16 @@ class ZodProductCard extends HTMLElement {
       await this.toggleWishlist(event.currentTarget, p.id);
     });
 
-    // Let shoppers open the product from unused card space while preserving
-    // every dedicated action and link inside the card.
-    if (p.url) {
+    // One delegated handler even if Salla renders this node again.
+    if (!this.cardNavigationBound) {
+      this.cardNavigationBound = true;
       this.addEventListener('click', event => {
         if (event.defaultPrevented || event.target.closest('a,button,input,select,textarea,salla-add-product-button,salla-button')) return;
-        window.location.assign(p.url);
+        if (this.product?.url) window.location.assign(this.product.url);
       });
     }
+    // Showcase consumers reuse this exact payload; this never fetches anything.
+    this.dispatchEvent(new CustomEvent('zod:product-data', { bubbles: true, detail: p }));
   }
 }
 

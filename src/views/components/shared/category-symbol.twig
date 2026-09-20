@@ -1,0 +1,31 @@
+<svg class="zod-category-symbol" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+{% if variant == 'exhaust' %}
+  <rect x="36" y="36" width="248" height="248" rx="20" fill="currentColor" opacity=".08"/>
+  <rect x="36" y="36" width="248" height="248" rx="20" stroke="currentColor" stroke-width="2"/>
+  <rect x="48" y="48" width="224" height="224" rx="14" stroke="currentColor" opacity=".25"/>
+  <circle cx="160" cy="160" r="92" stroke="currentColor" stroke-width="2"/>
+  <circle cx="160" cy="160" r="82" stroke="currentColor" opacity=".3"/>
+  {% for angle in [0,90,180,270] %}<path d="M160 153C109 105 120 76 150 82C183 90 177 118 167 153Z" transform="rotate({{ angle }} 160 160)" fill="currentColor" opacity=".85"/>{% endfor %}
+  <circle cx="160" cy="160" r="18" fill="currentColor"/><circle cx="160" cy="160" r="10" fill="#20282a"/>
+  <path d="M61 59H68M252 59H259M61 261H68M252 261H259M22 76V244M16 76H28M16 244H28M76 298H244M76 292V304M244 292V304" stroke="currentColor" opacity=".4"/>
+{% elseif variant == 'intercom' %}
+  <rect x="27" y="69" width="224" height="175" rx="14" fill="currentColor" opacity=".08"/>
+  <rect x="27" y="69" width="224" height="175" rx="14" stroke="currentColor" stroke-width="3"/>
+  <rect x="44" y="86" width="190" height="122" rx="5" fill="currentColor" opacity=".12"/>
+  <path d="M77 176V135L128 105L180 135V176M113 176V140H145V176M70 176H188" stroke="currentColor" stroke-width="3" stroke-linejoin="round" opacity=".65"/>
+  <circle cx="117" cy="226" r="3" fill="currentColor"/><circle cx="139" cy="226" r="3" fill="currentColor"/><circle cx="161" cy="226" r="3" fill="currentColor"/>
+  <rect x="262" y="102" width="38" height="131" rx="10" fill="currentColor" opacity=".15"/>
+  <rect x="262" y="102" width="38" height="131" rx="10" stroke="currentColor" stroke-width="2"/>
+  <circle cx="281" cy="123" r="8" stroke="currentColor" stroke-width="2"/><circle cx="281" cy="201" r="8" stroke="currentColor" stroke-width="2"/>
+{% else %}
+  <path d="M124 66V51C124 39 196 39 196 51V66" stroke="currentColor" stroke-width="3"/>
+  <rect x="60" y="66" width="200" height="204" rx="16" fill="currentColor" opacity=".08"/>
+  <rect x="60" y="66" width="200" height="204" rx="16" stroke="currentColor" stroke-width="3"/>
+  <rect x="77" y="95" width="166" height="130" rx="5" stroke="currentColor" stroke-width="2"/>
+  {% for x in [89,103,117,131,145,159,173,187,201,215,229] %}<path d="M{{ x }} 98V222" stroke="currentColor" opacity=".45"/>{% endfor %}
+  <path d="M79 117H241M79 139H241M79 161H241M79 183H241M79 205H241" stroke="currentColor" opacity=".25"/>
+  <path d="M112 106V214M208 106V214" stroke="currentColor" stroke-width="6" opacity=".45"/>
+  <path d="M84 247H236M84 254H236" stroke="currentColor" opacity=".4"/>
+  <circle cx="160" cy="81" r="3" fill="currentColor"/>
+{% endif %}
+</svg>

@@ -1,3 +1,43 @@
+# v1.8.2 — shopping-flow correctness and coordinated page controls
+
+Staging snapshot, not a completed production build or Salla approval. See QA_REPORT.md.
+
+- Replaced theme-calculated cart summary/proxy checkout with one visible native cart summary and its checkout. Removed obsolete mobile fixed-bar spacing and competing cart navigation.
+- Native zero-aware special totals, distinct unit/line labels, canonical cart events, shipping/stock/weight refresh, mutation busy/failure handling and stale-response protection.
+- Preserved cart notes and attachments with `cart-item-id` and native file payload; accessible disclosures.
+- Aligned the first catalog request with the selected sort; native reload, query/filter preservation, busy/retry feedback and fallback navigation.
+- Mobile filter dialog now handles native changed events and desktop/mobile breakpoint focus consistently.
+- Removed heuristic volume tiers in favor of native offers outside the product form. Honored sticky/reviews controls and added optional selection guidance.
+- Added 20 shopping/controller regression scenarios, eight converted-template assertion groups, 24 browser layout cases and nine browser interactions. Existing approval guards retained.
+- Node 24.11.1 used for the final dependency-free build/test run. Declared package-manager bootstrap still fails with registry DNS EAI_AGAIN; full production gate is not complete.
+
+---
+
+# v1.8.1 — native page completion and build integrity
+
+- Replaced blog content/image assumptions with article.body and article.image.url; restored native pagination, categories, related content, tags, conditional comments and empty states.
+- Added shared responsive editorial cards, article surfaces and pending-payment confirmation styling.
+- Restored native order instructions/messages, received/pending/expired state distinction, order-details action with URL fallback, and invoice form.
+- Restored shipment carrier/branch/tracking information and preorder availability dates on customer orders.
+- Empty product shelves now hide unless the merchant explicitly enables the latest-products fallback.
+- Corrected skip-link keyboard focus.
+- Made validation compatible with local dependency/output folders, while retaining archive checks; production toast validation no longer requires byte-identical minified and source JavaScript.
+- Added source/output hash verification, a production-only release gate, snapshot prerequisite checks, and safe packaging defaults.
+- Re-ran existing browser checks and added blog/article/confirmation checks: 72 local layout checks, 11 interaction/state checks, plus 6 expected-failure integrity checks. These are not native Twig/live Salla tests.
+- Full dependency-backed production build still outstanding: pnpm download failed on registry DNS and local Node is below the declared engine range.
+
+# v1.8.0 — specialist storefront / Salla approval fixes
+
+- Added required add-product toast and per-item order review integration.
+- Corrected order-item details props; preserved native totals, shipments, branches, rating and pending-payment links.
+- Removed listing-card media detail hydration and automatic homepage product-details enrichment.
+- Deferred inactive laser native lists until selection; retained Quick View detail loading only on interaction.
+- Added configurable three-category hero, visible native-search launcher and category rail.
+- Added shared refinement.css, consistent containers, readable card/SKU styling, actual PDP title styling, account/order/footer surfaces and mobile LTR drawer containment.
+- Added skip navigation, filter focus/Escape behavior, safer toast text/race handling and reduced-motion refinements.
+- Preserved old component IDs and dependency lock; added editor guidance and bilingual merchant documentation.
+- Shipped incremental offline-built changed bundles with a hash manifest; full pnpm/Webpack production build and live Salla approval remain separate gates.
+
 ## v1.7.32
 
 - Silenced the Salla `quantity unavailable` / `product service error` notifier messages only during product-option interaction.

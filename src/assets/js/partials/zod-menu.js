@@ -84,7 +84,16 @@ class ZodMainMenu extends HTMLElement {
     return cached.length ? cached : this.loadMenus();
   }
 
+  renderDepartmentRail(items = []) {
+    const host = document.querySelector('[data-zod-departments]');
+    if (!host) return;
+    const links = items.filter(item => item.url && item.url !== '#').slice(0, 7);
+    // Draw from the same category response as the footer; no new API requests.
+    host.innerHTML = links.map(item => `<a href="${this.escape(item.url)}">${this.escape(item.title)}</a>`).join('');
+  }
+
   renderFooterCategories(items = []) {
+    this.renderDepartmentRail(items);
     const box = document.querySelector('[data-zod-footer-categories]');
     if (!box) return;
     box.setAttribute('aria-busy', 'false');
