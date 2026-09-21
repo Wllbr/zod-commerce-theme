@@ -1,5 +1,5 @@
 {
-  "version": "1.9.5",
+  "version": "1.9.6",
   "base": "1.8.2",
   "changes": [
     "Relevant generated category campaigns",
@@ -11,7 +11,13 @@
     "Compact mobile cards, trust and footer",
     "Native collection default field-ID contract fixed",
     "Three-column native homepage trust row",
-    "Shipping popup focus and event-race regression coverage"
+    "Shipping popup focus and event-race regression coverage",
+    "Native shipping offer-only progress and reusable homepage component",
+    "Expiring and deduplicated cart notifications",
+    "Native mobile checkout visibility and persistent navigation",
+    "Measured dock clearance and corrected mobile centering",
+    "Readable offer placeholders and compact brand header",
+    "Preserve last-item removal confirmation across the native empty-cart reload"
   ],
   "auditStatus": "incomplete-browser-policy-blocked",
   "livePublished": false

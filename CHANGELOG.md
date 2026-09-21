@@ -1,3 +1,7 @@
+# 1.9.6 — cart, navigation, notices and native shipping offers
+
+Remove the legacy mobile rule that hid Salla's portaled cart summary. Keep mobile navigation on cart and product pages; measure action heights, distribute navigation evenly and correct purchase-dock centering. Preserve the single native checkout and actual monetary breakdown. Expire errors after 6.5 seconds and success notices after 3.5 seconds; deduplicate repeated errors and limit the stack. Native add toast expires after 5 seconds of active viewing. Add reusable native offer-driven shipping progress; remove fixed SAR350 fallback. Sanitize unresolved payment-method copy without guessing eligibility. Compact mobile brand heroes. Add notification behavior tests.
+
 # 1.9.5 — department editor compatibility and trust layout
 
 Correct collection default field IDs across all 16 departments; fix eight-product picker label; compact native homepage trust component; preserve shipping popup keyboard focus and test cart event races. Local responsive fixture checked; native audit remains blocked.
@@ -959,5 +963,3 @@ Generated the three category images from actual KDK, Commax and AFC catalog refe
 ## v1.9.1 — continued design refinement
 
 Requested follow-up after the three initial review rounds: larger homepage cards (280px desktop, 68vw mobile with a next-card cue), reduced product-image padding, a rebuilt dark laser stage with large selectors and integrated native purchase details, a generated poster for the actual spider fixture p1934775882, and explicit video playback. Native prices, availability and purchase actions remain owned by Salla. Video does not download or autoplay until requested; leaving the section or tab pauses it. Changing products resets playback and sound. Cards reveal once on scrolling and reduced-motion settings disable animation.
-
-

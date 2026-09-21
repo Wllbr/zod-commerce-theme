@@ -1,61 +1,42 @@
-# ZOD Commerce 1.9.5 — continuation audit
+# ZOD Commerce 1.9.6 — commerce and visual audit
 
-## Local fixes and evidence
-
-- Corrected all 16 department collection default objects to use full editor field IDs such as groups.title. This follows [Salla's reference theme configuration](https://github.com/SallaApp/theme-raed/blob/master/twilight.json). The new contract test failed against 1.9.4 and passes after the correction. This is a plausible cause of the previously incomplete Commax form, not a verified native diagnosis.
-- Corrected the department product-picker label to its actual eight-product limit.
-- Reworked the actual native homepage store-features component into three compact columns. The previous refresh styled only the separate custom trust and PDP components.
-- Visually inspected the compiled CSS in local 320px, 390px and 768px iframe fixtures with existing Arabic merchant copy. All three columns remain visible. At 320px, grid width 240.8px and scroll width 241px (rounding only). The fixture uses placeholder symbols, not native Salla icon fonts; native validation is still required.
-- Shipping popup no longer closes while its close control has keyboard focus; manually reopening it cancels the automatic timeout. Added event-level tests covering late responses, failures, focus restoration and popup timing.
-
-Production build and full regression suite pass. This is a local continuation pass; it does not count as a completed full-storefront visual audit. The native browser policy restriction was not bypassed or retried. The 9/10 target remains unverified, with the same saved-content and editor-arrangement work below outstanding. No live publication.
-
----
-
-## Previous draft evidence (1.9.4)
-# ZOD Commerce 1.9.4 — audit and release status
-
-21 September 2026. Arabic UI, layout and components. Development draft only; no live publication.
+21 September 2026. Development review branch only. No live publication or purchase.
 
 ## Result
 
-Production build and automated regression checks pass. Visual audit round 1 is incomplete. The requested 9/10 target has NOT been established; no overall score is awarded from partial observations. Rounds 2 and 3 have not been performed. This package is a development review candidate, not a visually approved final release.
+Production build and the complete automated suite pass: 138 build inputs and 20 outputs match the release manifest. CSS is 72,292 bytes combined gzip. Two Webpack raw-size advisories remain. The current revision is a staging candidate, not a certified 9/10 storefront or Salla marketplace approval.
 
-## Implemented
+## The three “Not Found!” messages in the v1.8.0 screenshot
 
-- Original generated intercom, extension and ventilation campaign artwork, without product references or AFC imagery. Generated art illustrates categories, not exact sale models.
-- Removed duplicate hero category shortcuts; retained the separate category grid.
-- SAR350 progress ring and bar, remaining amount, cart-update notice and completion celebration with reduced-motion support. Uses matching native eligibility when available, otherwise confirmed discounted subtotal; excludes delivery fees and taxes.
-- Persistent product purchase dock; removed the pre-order reminder; retained native installment/review components. Product pages retain header search because their bottom navigation is suppressed.
-- Smaller mobile cards, department headings, trust items and footer spacing.
-- Laser video starts muted when its section enters view, pauses outside and respects manual pause and reduced motion. Transparent card surfaces replace white wrappers.
-- Sixteen editable department components, category tabs, deferred native product feeds, empty group suppression, hidden LED and Bigboi defaults. See DEPARTMENTS_AR.md.
+The exact fan 1845 (p489401632) and KDK p2058856094 were opened in the development store. Neither reproduced the three alerts; the final inspected fan page contained zero theme notices. The old production request that generated those errors was not captured, so its original cause is not conclusively diagnosed. The fan is unavailable in this draft, unlike the supplied published screenshot; this is an important difference in coverage.
 
-## Evidence from round 1
+Repeated identical notices now collapse into one. Errors expire after 6.5 seconds; success messages after 3.5 seconds. Notices have a close button, Escape support and keyboard-focus pause. The required native add-product toast remains and dismisses after 5 seconds of active viewing. Its richer content uses the confirmed cart item. Add, quantity-update and delete use the native Salla events. Last-item deletion now carries a short-lived, single-use success flag across the empty-cart reload.
 
-Code ba32cf4 was pushed to the review branch and Salla created development draft 1313754418. Its mobile homepage rendered the new artwork. The editor preview displayed the completed shipping state (party icon and free-delivery text) after cart data loaded. New department components appeared in Salla's add-component list.
+## Visual findings and fixes
 
-The saved hero still displayed previous headlines and copy. The Commax create form did not finish loading editable controls. No new department instances were saved or arranged. Browser security then blocked further access with a URL-policy rejection. No workaround was attempted.
+1. Initial mobile cart audit found a hidden native summary. An obsolete display:none rule was responsible. Salla moves its mobile summary to body, outside the previous scoped visibility override. Removed that rule and supported the actual native placement. There is one native checkout summary, with native validation and no proxy checkout button.
+2. Mobile navigation is present on product and cart pages. The first new draft exposed two style conflicts: bunched navigation icons and an off-screen purchase panel. Corrected the grid layout and old centering overrides. Native screenshots of draft 1575812903 show evenly spaced navigation below the cart checkout and product purchase controls.
+3. The cart displays Salla's monetary breakdown: four KDK units, subtotal 320 SAR, discount 16 SAR, total 304 SAR. Product-line amount is 304 SAR and unit amount 76 SAR. The PDP offer price is 80 SAR before the additional cart offer. No invented savings or tax arithmetic.
+4. Added and removed the KDK item during testing, then restored the original four units. The native summary again showed four units, discount 16 SAR, total 304 SAR. Add confirmation and automatic dismissal were observed. Quantity update feedback and its dismissal were observed. Removing the final item reached the native empty-cart page; its reload revealed the short confirmation lifetime fixed in the final follow-up.
+5. A native offer description exposed the literal {payment_method}. It now reads “طريقة الدفع المؤهلة للعرض”. Actual merchant offer amount and conditions remain untouched. The merchant's offer wording still says “خصم 5” without identifying percent versus amount; this requires correction in Salla's offer content, not a guessed theme suffix.
+6. Stand-fan category, HTM brand, footer and header were inspected. Compact HTM header replaces the large mobile brand block. Category cards, native stock state, category links, footer contact/policy/social links and enabled payment icons rendered. The native preview exposes bank transfer and COD; enabled Tabby/Tamara and real review data were not demonstrated.
 
-Local review then fixed a mobile product-page search issue: its header search had been hidden by the bottom-navigation class even though the purchase dock hides that navigation. This final correction requires another native preview.
+## Shipping progress component
 
-## Remaining work before 9/10 can be claimed
+The new “تقدم الشحن المجاني — عروض سلة” component appears in Salla's component catalog. The homepage hero tile and floating progress icon use the same cart.free_shipping_bar data. The native minimum amount, remaining amount, percentage and eligibility determine the UI; the fixed SAR350 target and subtotal fallback were removed. Missing, disabled or incomplete shipping-offer data hides the UI. The currently inspected draft did not expose an active progress offer, and the old unsupported free-delivery promise disappeared.
 
-1. Edit saved hero 879805737 to the matching intercom and extension copy in STORE_SETUP.md; correct the second slide destination.
-2. Verify new component forms accept and retain default groups, save the desired department instances, arrange them among campaigns/brands, and hide obsolete duplicate shelves and comparison 453963266.
-3. Inspect final desktop and mobile homepage, PDP, category, cart and footer. Check actual card sizing, trust layout, fixed dock clearance, search access and laser white surfaces/playback.
-4. Verify native installment visibility using enabled Tabby/Tamara settings and reviews with actual review data. Their native components remain in the PDP but this round did not verify active providers or reviews.
-5. Configure and verify the actual SAR350 shipping rule before advertising live eligibility; theme UI does not activate it. Mada promotion remains optional and requires an actual discount rule and terms.
-6. Populate missing subtype inventory and exact air-curtain sizes. LED and Bigboi remain hidden. No random unrelated products are intentionally shown as substitutes.
+Automated cases cover different native thresholds (including 350 and 500), incomplete/disabled data, eligibility, late requests, failures and focus behavior. A real active offer and merchant threshold changes still need a controlled staging check. No merchant shipping or discount rule was changed in this audit.
 
-## Scoring method for the remaining rounds
+## Preview consistency
 
-Assess visual hierarchy and image/copy relevance (2), category discovery and content completeness (2), mobile sizing/spacing (2), PDP/laser/shipping interaction (2), and accessibility/footer consistency (2). Award 9/10 only after the final native draft is inspected and material issues are fixed. Build tests alone cannot establish this score.
+Initial draft 237554428 was audited before edits. First candidate 1858942425 exposed the dock conflicts. Corrected code b898330 was inspected in draft 1575812903. Keeping an older generated preview active caused linked pages to load that older draft's assets. After closing the older generated tab and reopening the current draft, page assets were verified as /themes/draft/1575812903/app.css. This was not treated as proof of a production navigation defect. Browser timeouts also occurred; screenshots and loaded asset paths were used to verify actions instead of assuming success.
 
-## Build and limits
+## Remaining before final storefront approval
 
-Production Webpack build and full local test suite passed: schema/templates, approval guards, shopping state, persistent purchase layout, laser visibility, campaign behavior, shipping boundaries and build provenance. All three approval fixes remain: native add-product toast, native order-item review, and no automatic product-details calls during card/list initialization. Existing CSS size gates pass; Webpack retains two raw size advisories.
+- Verify the final last-item removal confirmation in a fresh native preview; its one-time, expiry and same-page behavior pass automated tests. The final preview launch returned to Salla sign-in, so this last native check needs a restored editor session.
+- Reproduce or capture the original live v1.8.0 Not Found requests if they persist after staging installation. No original failure trace is available.
+- Confirm a real active free-shipping rule, changed threshold and disabled state in the intended merchant store. Theme code does not create an offer.
+- Complete the saved homepage hero copy and department-instance arrangement from STORE_SETUP.md. The older saved generic hero headline still appears over intercom artwork. LED and Bigboi remain hidden by default until inventory is ready.
+- Complete final desktop/mobile homepage and laser playback review, enabled installment/review verification, English content, physical-device and screen-reader checks. No Lighthouse measurement, payment transaction or Salla certification was performed.
 
-No new checkout/payment transaction tests, physical-device tests, screen-reader tests, Lighthouse score or Salla approval certification. English campaign/department copy remains incomplete by the current Arabic-first scope. Editor configuration/order is stored in Salla and is not transported by the ZIP.
-
-
+The earlier fixed-350 shipping behavior, suppressed mobile PDP/cart navigation, and prior blanket native-browser blocker are superseded by this report. The three approval guards remain: salla-add-product-toast in master, salla-review-order-item in customer order details, and no automatic product-details calls during card/list initialization.

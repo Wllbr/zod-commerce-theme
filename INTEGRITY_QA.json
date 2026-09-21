@@ -1,16 +1,16 @@
 {
-  "version": "1.9.5",
+  "version": "1.9.6",
   "date": "2026-09-21",
   "productionBuild": "passed",
   "tests": "passed",
-  "buildInputs": 131,
+  "buildInputs": 138,
   "publicOutputs": 20,
   "css": {
-    "appRaw": 398691,
-    "appGzip": 66328,
-    "refinementRaw": 38883,
-    "refinementGzip": 7261,
-    "combinedGzip": 73589
+    "appRaw": 397351,
+    "appGzip": 66189,
+    "refinementRaw": 38753,
+    "refinementGzip": 7248,
+    "combinedGzip": 73437
   },
   "approvalGuards": [
     "native add-product toast",

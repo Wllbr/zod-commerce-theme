@@ -1,4 +1,4 @@
-# Component manual — ZOD 1.9.5 / دليل المكونات
+# Component manual — ZOD 1.9.6 / دليل المكونات
 
 
 All 18 IDs from v1.8.0 are preserved; `home.hero-hub` was introduced in that release. Existing settings are not automatically populated. The first configuration field of each component now includes usage guidance in the theme editor. Image sizes below are editorial suggestions, not Salla API limits.
@@ -8,11 +8,11 @@ All 18 IDs from v1.8.0 are preserved; `home.hero-hub` was introduced in that rel
 
 Template: `home.hero-hub`. Existing component key is preserved.
 
-Three original conceptual campaign images, selectable Arabic HTML copy, accessible slide controls, optional rotation, a separate existing category grid and optional offer tiles. Native category selectors or manual category links connect exhaust, intercom and insect control. Set `power_url` for the electrical collection. Custom image overrides: `campaign_image`, `power_image`, `comfort_image`. Old tile titles, text and product-reference image fields were retired in 1.9.5.
+Three original conceptual campaign images, selectable Arabic HTML copy, accessible slide controls, optional rotation, a separate existing category grid and optional offer tiles. Native category selectors or manual category links connect exhaust, intercom and insect control. Set `power_url` for the electrical collection. Custom image overrides: `campaign_image`, `power_image`, `comfort_image`. Old tile titles, text and product-reference image fields were retired in 1.9.6.
 
-`show_shipping` displays the approved design for orders above SAR 350; it does not configure shipping. `show_mada` requires a nonempty `mada_terms` URL and defaults off. Set up and verify offer eligibility separately before live use.
+`show_shipping` renders native Salla free-shipping progress only when an active eligible offer supplies progress data; no fixed theme threshold. `show_mada` requires a nonempty `mada_terms` URL and defaults off. Set up and verify offer eligibility separately before live use.
 
-## New in 1.9.5: Brand and category collections / عالم العلامة — أقسام ومنتجات
+## New in 1.9.6: Brand and category collections / عالم العلامة — أقسام ومنتجات
 
 Template: `home.brand-world`. Editable name, heading, description, collection URL and optional image. `power_style` chooses the electrical artwork. Add up to six named groups with a URL and selected products or a native category. Selected products take priority; category mode includes all brands in that category. Inactive product sliders mount on first tab selection. Native pricing and availability remain authoritative.
 
@@ -268,8 +268,10 @@ Header search-bar and department-rail settings are retained only for configurati
 
 The first selected spider fixture (p1934775882) has a bundled generated dark poster based on its actual catalog photograph. Other products never inherit that image. Explicitly uploaded posters take priority; future posters must be generated from their corresponding actual products. The original merchant demo video remains available through Watch demo/Pause demo and the separate sound control. The white purchase box has been removed. Native Salla pricing and add-to-cart remain intact. Existing component IDs/settings are retained.
 
-## Department library in 1.9.5
+## Department library in 1.9.6
 
 Sixteen native custom components share home.department-base. Editable title, description, art and category/product groups. Eight products per department tab; feeds mount near the viewport and on tab selection. Empty groups are hidden. LED and Bigboi default disabled. See DEPARTMENTS_AR.md. New forms/defaults and saved homepage arrangement still require native validation. Hero destinations now correspond to intercom, extensions (power_url) and ventilation; update saved copy per STORE_SETUP.md.
 
+## Shipping progress in 1.9.6
 
+Add **تقدم الشحن المجاني — عروض سلة** (home.shipping-progress) anywhere on the homepage. It uses cart.free_shipping_bar from Salla, including minimum_amount, remaining, percent and has_free_shipping. The hero tile and floating icon use the same source. Missing/disabled/incomplete offer data hides the UI. The theme does not create commercial shipping rules.
