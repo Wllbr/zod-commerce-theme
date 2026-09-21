@@ -238,29 +238,6 @@
       "path": "home.hero-hub",
       "fields": [
         {
-          "type": "string",
-          "icon": "sicon-format-text-alt",
-          "label": "العنوان الرئيسي — اتركه فارغاً لاستخدام النص الافتراضي",
-          "multilanguage": true,
-          "id": "title",
-          "value": null,
-          "required": false,
-          "format": "text",
-          "maxLength": 100,
-          "description": "واجهة عربية بثلاث حملات متحركة وصور إبداعية مرفقة. النصوص قابلة للتحرير. اربط الأقسام الفعلية وأضف رابط الكهرباء. صور الأقسام السابقة أصبحت اختصارات صغيرة."
-        },
-        {
-          "type": "string",
-          "icon": "sicon-format-text-alt",
-          "label": "الوصف الرئيسي",
-          "multilanguage": true,
-          "id": "intro",
-          "value": null,
-          "required": false,
-          "format": "textarea",
-          "maxLength": 220
-        },
-        {
           "type": "items",
           "icon": "sicon-keyboard_arrow_down",
           "label": "تصنيف مراوح الشفط",
@@ -275,42 +252,6 @@
           "maxLength": 1,
           "value": [],
           "description": "اختر تصنيفاً واحداً فعلياً من سلة. رابط البطاقة يأتي من هذا التصنيف. / Select one existing Salla category."
-        },
-        {
-          "type": "string",
-          "icon": "sicon-format-text-alt",
-          "label": "عنوان بطاقة مراوح الشفط",
-          "multilanguage": true,
-          "id": "exhaust_title",
-          "value": null,
-          "required": false,
-          "format": "text",
-          "maxLength": 95
-        },
-        {
-          "type": "string",
-          "icon": "sicon-format-text-alt",
-          "label": "وصف بطاقة مراوح الشفط",
-          "multilanguage": true,
-          "id": "exhaust_text",
-          "value": null,
-          "required": false,
-          "format": "textarea",
-          "maxLength": 180
-        },
-        {
-          "type": "string",
-          "icon": "sicon-image",
-          "label": "صورة مراوح الشفط — 720×720",
-          "id": "exhaust_image",
-          "value": null,
-          "format": "image",
-          "required": false,
-          "description": "صورة مولدة اختيارية بالاستناد إلى منتج فعلي؛ تستخدم الرسوم المولدة المرفقة افتراضياً. / Optional generated artwork based on an actual store product; bundled generated artwork is used by default.",
-          "settings": {
-            "width": 720,
-            "height": 720
-          }
         },
         {
           "type": "items",
@@ -329,42 +270,6 @@
           "description": "اختر تصنيفاً واحداً فعلياً من سلة. رابط البطاقة يأتي من هذا التصنيف. / Select one existing Salla category."
         },
         {
-          "type": "string",
-          "icon": "sicon-format-text-alt",
-          "label": "عنوان بطاقة الانتركوم",
-          "multilanguage": true,
-          "id": "intercom_title",
-          "value": null,
-          "required": false,
-          "format": "text",
-          "maxLength": 95
-        },
-        {
-          "type": "string",
-          "icon": "sicon-format-text-alt",
-          "label": "وصف بطاقة الانتركوم",
-          "multilanguage": true,
-          "id": "intercom_text",
-          "value": null,
-          "required": false,
-          "format": "textarea",
-          "maxLength": 180
-        },
-        {
-          "type": "string",
-          "icon": "sicon-image",
-          "label": "صورة الانتركوم — 720×720",
-          "id": "intercom_image",
-          "value": null,
-          "format": "image",
-          "required": false,
-          "description": "صورة مولدة اختيارية بالاستناد إلى منتج فعلي؛ تستخدم الرسوم المولدة المرفقة افتراضياً. / Optional generated artwork based on an actual store product; bundled generated artwork is used by default.",
-          "settings": {
-            "width": 720,
-            "height": 720
-          }
-        },
-        {
           "type": "items",
           "icon": "sicon-keyboard_arrow_down",
           "label": "تصنيف مكافحة الحشرات",
@@ -379,90 +284,6 @@
           "maxLength": 1,
           "value": [],
           "description": "اختر تصنيفاً واحداً فعلياً من سلة. رابط البطاقة يأتي من هذا التصنيف. / Select one existing Salla category."
-        },
-        {
-          "type": "string",
-          "icon": "sicon-format-text-alt",
-          "label": "عنوان بطاقة مكافحة الحشرات",
-          "multilanguage": true,
-          "id": "insect_title",
-          "value": null,
-          "required": false,
-          "format": "text",
-          "maxLength": 95
-        },
-        {
-          "type": "string",
-          "icon": "sicon-format-text-alt",
-          "label": "وصف بطاقة مكافحة الحشرات",
-          "multilanguage": true,
-          "id": "insect_text",
-          "value": null,
-          "required": false,
-          "format": "textarea",
-          "maxLength": 180
-        },
-        {
-          "type": "string",
-          "icon": "sicon-image",
-          "label": "صورة مكافحة الحشرات — 720×720",
-          "id": "insect_image",
-          "value": null,
-          "format": "image",
-          "required": false,
-          "description": "صورة مولدة اختيارية بالاستناد إلى منتج فعلي؛ تستخدم الرسوم المولدة المرفقة افتراضياً. / Optional generated artwork based on an actual store product; bundled generated artwork is used by default.",
-          "settings": {
-            "width": 720,
-            "height": 720
-          }
-        },
-        {
-          "type": "items",
-          "icon": "sicon-shopping-bag",
-          "label": "منتج صورة مراوح الشفط",
-          "description": "استخدم صورة منتج حقيقي من متجرك. الصورة المرفوعة يدوياً لها الأولوية. / Use an actual store product image; a manually uploaded image takes priority.",
-          "id": "exhaust_product",
-          "format": "dropdown-list",
-          "selected": [],
-          "options": [],
-          "required": false,
-          "multichoice": true,
-          "searchable": true,
-          "source": "products",
-          "maxLength": 1,
-          "value": []
-        },
-        {
-          "type": "items",
-          "icon": "sicon-shopping-bag",
-          "label": "منتج صورة الإنتركم",
-          "description": "استخدم صورة منتج حقيقي من متجرك. الصورة المرفوعة يدوياً لها الأولوية. / Use an actual store product image; a manually uploaded image takes priority.",
-          "id": "intercom_product",
-          "format": "dropdown-list",
-          "selected": [],
-          "options": [],
-          "required": false,
-          "multichoice": true,
-          "searchable": true,
-          "source": "products",
-          "maxLength": 1,
-          "value": []
-        },
-        {
-          "type": "items",
-          "icon": "sicon-shopping-bag",
-          "label": "منتج صورة مكافحة الحشرات",
-          "description": "استخدم صورة منتج حقيقي من متجرك. الصورة المرفوعة يدوياً لها الأولوية. / Use an actual store product image; a manually uploaded image takes priority.",
-          "id": "insect_product",
-          "format": "dropdown-list",
-          "selected": [],
-          "options": [],
-          "required": false,
-          "multichoice": true,
-          "searchable": true,
-          "source": "products",
-          "maxLength": 1,
-          "value": []
         },
         {
           "type": "string",
@@ -596,6 +417,48 @@
           "value": null,
           "required": false,
           "maxLength": 800
+        },
+        {
+          "id": "campaign_image",
+          "label": "صورة الحملة الرئيسية",
+          "type": "string",
+          "icon": "sicon-image",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "description": "اختياري. تستخدم الصورة الإبداعية المرفقة عند تركه فارغاً. بدون نص مدمج؛ يظهر النص مستقلاً فوق الصورة.",
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "power_image",
+          "label": "صورة حملة الكهرباء",
+          "type": "string",
+          "icon": "sicon-image",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "description": "اختياري. تستخدم الصورة الإبداعية المرفقة عند تركه فارغاً. بدون نص مدمج؛ يظهر النص مستقلاً فوق الصورة.",
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "comfort_image",
+          "label": "صورة حملة الراحة",
+          "type": "string",
+          "icon": "sicon-image",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "description": "اختياري. تستخدم الصورة الإبداعية المرفقة عند تركه فارغاً. بدون نص مدمج؛ يظهر النص مستقلاً فوق الصورة.",
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
         }
       ]
     },
@@ -1289,6 +1152,22 @@
               "searchable": true,
               "required": false,
               "maxLength": 12
+            },
+            {
+              "id": "groups.category",
+              "label": "تصنيف تلقائي — إذا لم تحدد منتجات",
+              "type": "items",
+              "icon": "sicon-folder",
+              "format": "dropdown-list",
+              "source": "categories",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 1,
+              "description": "يعرض جميع ماركات هذا التصنيف. لعرض منتجات علامة بعينها اختر منتجاتها يدوياً أعلاه."
             }
           ]
         }

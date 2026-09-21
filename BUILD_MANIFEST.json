@@ -7,7 +7,7 @@
   },
   "inputs": {
     ".npmrc": "f84e69fe032956925070936b1557ae1320d29d06b58db541649515e05db580c6",
-    "package.json": "8e66bd319df3d3d90433dd08e27ecdc101f730e41c9e883b91ff2883c8c2674f",
+    "package.json": "79383b1087658c903ce8e377d0b0bbaece36d8b001dc7cb175b754464f09c0da",
     "pnpm-lock.yaml": "3f2bcf6cb159d4dacbffa697add62fb88fe97bfcda1260644f33381a3024f963",
     "pnpm-workspace.yaml": "9082b3fed56a9b818282d1ab4d450eab0fa4da7c8f191072e9dc4dde32f21eb2",
     "postcss.config.js": "134370dcd34c87ed8277c373743326a1f87b669d66ac1cf3fc98abc024208c76",
@@ -19,6 +19,7 @@
     "scripts/package-release.ps1": "16556f275fcebfb6fa69b2bf621cb6d857c526c231240340cb05c8f6886996b1",
     "scripts/record-build.mjs": "671b6a42cdd2dbeec4955851180a9d4d3308daff3c1bdaca0aea8ad3a9e6689c",
     "scripts/test-approval.mjs": "d30c1f3ddc122b2cd1bb0583e11e8f485d2d988fcd76597c571c3a83717a2b3b",
+    "scripts/test-campaign.mjs": "13d189424a3bb1b7e9d42acdba49be3d6d5f1e115e202c3a953ccece9a7af011",
     "scripts/test-continuation.mjs": "80a0f1f9de3114467c74e2d79cb584babcaa90aaa08e18953204c33861f725bc",
     "scripts/test-laser-playback.mjs": "65e5a3fccfcc90b38f97438838a4335c3bc05c17d0c3ba3db742149effce2790",
     "scripts/test-purchase-layout.mjs": "64bf3a05fdf9b56c2bd659d407f16f2082d1e0f48bff2faf1a35677f13863172",
@@ -31,7 +32,7 @@
     "src/assets/images/laser-bar-generated.webp": "d4387c238474b25b1bf60968bb6df13fa431c5c9389a69fd0012cf397c73b237",
     "src/assets/images/laser-spider-generated.webp": "9285ec89481bee6a1410bf25e5c75cad34226a4f24453fcadcf73327c7c7a217",
     "src/assets/images/placeholder.svg": "b4a0b8e8beda6cf59ac4739286b09f2b9946fe45413252e0234d3f4b27d913aa",
-    "src/assets/js/app.js": "b1e73b45b39d1bc64fc1b3fc9251f2861d9c2aea5d9fb6cf1d91bfd59ddc23bf",
+    "src/assets/js/app.js": "aa50ab2b7e5ebaf8f9129e782671c66822f5bd88119310ec98c376faa388e7bf",
     "src/assets/js/home.js": "b8fab563e7b559bcea2a5e4662ed0851e56526f4e2fa8540bce31dbd2b1f9cec",
     "src/assets/js/legacy-product-card.js": "c1f94506d19ea7d1940bc30a84c660d8fcfc4cb06792b0d3dfe0cff691a7f069",
     "src/assets/js/pages.js": "7291103a5b491b60880f539bc268fb21bbdc8db8b5235197c26a5a232548cf6d",
@@ -57,7 +58,7 @@
     "src/views/components/blog/article-card.twig": "08e54744a1e11e571ef7dfa67e6e183ee85b1817662c6f237e99e1b748ff2e76",
     "src/views/components/footer/footer.twig": "49804402760c8fe2c429bda62f854b9d94557d6335e396b51e399a864beda107",
     "src/views/components/header/header.twig": "cde1d0092bcba830a9b4200c0c5cff3c3e0aac158e216e618e7e5530fae80201",
-    "src/views/components/home/brand-world.twig": "12cc64747a79b7e644b30e5fd50f1b183e290aa22b7f638e7a4f2cfd7e2ed1d4",
+    "src/views/components/home/brand-world.twig": "c437b04f4b23fdbda19338fc9f3ebc46244481d80daff56f3e24a3febca95a14",
     "src/views/components/home/brands.twig": "04fda8ade48ee0ea5cea59a4b2216f1d8cf90f05a1b962a62c921455b47c464b",
     "src/views/components/home/buying-guides.twig": "7e2f8cffd046ab648ed36795474b2812a911fa4268d5e8b66fcf3b84b99e56cb",
     "src/views/components/home/category-grid.twig": "629dfb5490393c4d11196912b52ce0f593e7f975b95fb2628a461fe6617daf91",
@@ -69,7 +70,7 @@
     "src/views/components/home/featured-products.twig": "9f3f298ff9d99a7e8d6b92d1c8c4b4b6091ed23db4cec1e6060f6f4166bd25bb",
     "src/views/components/home/fixed-banner.twig": "e8500a31a94d350bf4dc22beb6b1571609417fb25489a9d650e60cc795ffc506",
     "src/views/components/home/fixed-products.twig": "1ed30b6c59b4fe9fe5472760a8ae6f464139226e2be15f38a857387fe779fd77",
-    "src/views/components/home/hero-hub.twig": "4bf827b199fefaff8327b9712674cec9dec2fb465a7dd05e5683a657120356e2",
+    "src/views/components/home/hero-hub.twig": "2bc5f3c19969477ef8111a8bb6497051e4c8dd4f7e8ac81031c115a5c9834187",
     "src/views/components/home/hero.twig": "08b2cd98923ecac88d40f5e73fbffed0d747c12872c946fff647c050aeb603c0",
     "src/views/components/home/interactive-product-showcase.twig": "8751aa2a6b921964e78e50a6f9c275755bf5726126481918c73b859a141027c1",
     "src/views/components/home/laser-showcase.twig": "7230cad02453e155840dc61322def19af5927cd347e01084a1972464285c0c92",
@@ -112,7 +113,7 @@
     "src/views/pages/testimonials.twig": "d499be8138a23a6daa457cbf1000759df3a15024fb9272d8f8395018ec945323",
     "src/views/pages/thank-you.twig": "a51fb48179d9d21eb5b21b01b485642edfe5612800ad5233d742ff5a59012dc8",
     "tailwind.config.js": "f321881ec2a51603ba55316b6841c2b0950a4b33b00c04dd4818d1de9d79d169",
-    "twilight.json": "cc9055830396e7e67e9a6ad59ed60435381b8f3ba2e1c9db898ab6da937b4867",
+    "twilight.json": "f66d3b4ce7bc1b58541c25357930b1349dfb160c0f2a66732cd4aa7cc709ca7b",
     "webpack.config.js": "4308d439ba372bbe507188cf29ea4762a830b88baa136c1af49eafdcd2e4589e"
   },
   "files": {
@@ -129,7 +130,7 @@
       "mode": "webpack-production-output"
     },
     "public/app.js": {
-      "sha256": "35f1ec5e8f3626fe5c36e1efff1419b04104ab11cffed2dc8fe76b07ec1826ae",
+      "sha256": "de78fb5274c84d5665fae3c386c6b2eedc6e6416ec363e528802987b41ca8a19",
       "mode": "webpack-production-output"
     },
     "public/digital-files.js": {

@@ -1,3 +1,7 @@
+# v1.9.3
+
+Arabic campaign slider, three original creative banners, category shortcuts, optional promotion tiles, reusable brand/category collections, and showcase price formatting fix.
+
 # v1.9.2
 
 Preserve hero category locale and native URL priority; recover laser controls from playback failures and ignore stale requests. See QA_REPORT.md for verification limits.

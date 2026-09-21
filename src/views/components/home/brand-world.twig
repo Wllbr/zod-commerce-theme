@@ -2,7 +2,7 @@
 {% set world_title = component.title|default(trans('zod.campaign.brand_title')) %}
 {% set world_text = component.text|default(trans('zod.campaign.brand_text')) %}
 {% set world_image = component.image|default((component.power_style ? 'images/campaign-power.webp' : 'images/campaign-living.webp')|asset) %}
-{% set world_groups = component['groups']|default([]) %}
+{% set world_groups = [] %}{% for group in component['groups']|default([]) %}{% if group.title %}{% set world_groups = world_groups|merge([group]) %}{% endif %}{% endfor %}
 <section class="zod-section zod-brand-world {{ component.power_style ? 'is-power' : '' }}" data-zod-brand-world>
  <div class="container">
   <div class="zod-brand-world__banner">
@@ -17,7 +17,8 @@
   <div role="tabpanel" tabindex="0" id="world-panel-{{ position }}-{{ loop.index0 }}" aria-labelledby="world-tab-{{ position }}-{{ loop.index0 }}" data-world-panel {% if not loop.first %}hidden{% endif %}>
    {% if group.url %}<a class="zod-world-all" href="{{ group.url }}">{{ trans('zod.home.view_all') }} — {{ group.title }} ↗</a>{% endif %}
    {% set product_ids = [] %}{% for product in group.products|default([]) %}{% set product_ids = product_ids|merge([product.id|default(product.value)|default(product)]) %}{% endfor %}
-   {% if product_ids|length %}{% if not loop.first %}<template data-world-products>{% endif %}<salla-products-slider source="selected" source-value="{{ product_ids|json_encode }}" limit="12" slider-id="world-{{ position }}-{{ loop.index0 }}" product-card-component="custom-salla-product-card"></salla-products-slider>{% if not loop.first %}</template>{% endif %}{% endif %}
+   {% set category = group.category|default(null) %}{% if category is iterable and category.id is not defined and category.value is not defined %}{% set category = category|first %}{% endif %}{% set category_id = category.id|default(category.value)|default(category.key)|default(category) %}
+   {% if product_ids|length or category_id %}{% if not loop.first %}<template data-world-products>{% endif %}<salla-products-slider source="{{ product_ids|length ? 'selected' : 'categories' }}" source-value="{{ (product_ids|length ? product_ids : [category_id])|json_encode }}" limit="12" slider-id="world-{{ position }}-{{ loop.index0 }}" product-card-component="custom-salla-product-card"></salla-products-slider>{% if not loop.first %}</template>{% endif %}{% endif %}
   </div>
   {% endfor %}
   {% elseif component.products|length %}

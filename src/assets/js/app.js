@@ -241,15 +241,23 @@ class ZodTheme {
     };
   }
 
+  showcaseMoney(value) {
+    const formatted = String(salla.money(value));
+    const template = document.createElement('template');
+    template.innerHTML = formatted;
+    template.content.querySelectorAll('.sicon-sar').forEach(icon => icon.replaceWith(document.documentElement.lang === 'ar' ? 'ر.س' : 'SAR'));
+    return template.content.textContent;
+  }
+
   applyLivePrice(node, priceData) {
     if (!node || !priceData?.current || priceData.current <= 0) return false;
     const current = node.querySelector('[data-zod-price-current]');
     const regular = node.querySelector('[data-zod-price-regular]');
-    try { current.textContent = salla.money(priceData.current); }
+    try { current.textContent = this.showcaseMoney(priceData.current); }
     catch (_) { current.textContent = String(priceData.current); }
     if (regular) {
       if (priceData.regular && priceData.regular > priceData.current) {
-        try { regular.textContent = salla.money(priceData.regular); }
+        try { regular.textContent = this.showcaseMoney(priceData.regular); }
         catch (_) { regular.textContent = String(priceData.regular); }
         regular.hidden = false;
       } else {
