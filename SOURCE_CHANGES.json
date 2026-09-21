@@ -1,5 +1,5 @@
 {
-  "version": "1.9.0",
+  "version": "1.9.1",
   "base": "1.8.2",
   "changes": [
     "Visibility-aware catalog errors",
@@ -10,7 +10,11 @@
     "Category selector compatibility and optional real URL fallback",
     "Three generated actual-product-reference hero assets",
     "Mobile artwork below text",
-    "Production manifest and purchase layout tests"
+    "Production manifest and purchase layout tests",
+    "Rebuilt dark laser stage with two generated actual-product posters",
+    "Larger homepage cards and less image padding",
+    "One-time scroll reveals with visible fallback and reduced-motion support",
+    "Opt-in video loading/playback with tested pause/sound/panel reset"
   ],
   "preserved": [
     "Native server prices/totals/offers",

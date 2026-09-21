@@ -1,16 +1,16 @@
 {
-  "version": "1.9.0",
+  "version": "1.9.1",
   "date": "2026-09-21",
   "productionBuild": "passed",
   "tests": "passed",
-  "buildInputs": 104,
-  "publicOutputs": 21,
+  "buildInputs": 107,
+  "publicOutputs": 22,
   "css": {
-    "appRaw": 385506,
-    "appGzip": 62314,
-    "refinementRaw": 38884,
-    "refinementGzip": 7151,
-    "combinedGzip": 69465
+    "appRaw": 393233,
+    "appGzip": 63670,
+    "refinementRaw": 38883,
+    "refinementGzip": 7145,
+    "combinedGzip": 70815
   },
   "generatedHeroWebpBytes": 70684,
   "approvalGuards": [
@@ -21,5 +21,6 @@
   "warnings": [
     "Webpack raw app.css and app entry size recommendations"
   ],
-  "certifiesMarketplaceApproval": false
+  "certifiesMarketplaceApproval": false,
+  "laserPosterWebpBytes": 62374
 }

@@ -1,9 +1,9 @@
 {
-  "version": "1.9.0",
+  "version": "1.9.1",
   "date": "2026-09-21",
   "status": "partial-staging-validation",
   "reviewBranch": "codex/zod-1.9.0-review",
-  "codeCommit": "2752a3d",
+  "codeCommit": "717478b",
   "verified": [
     "Salla rendered generated KDK/Commax/AFC hero images",
     "Three category destinations configured",
@@ -23,5 +23,14 @@
     "Final live-domain and English category-link configuration"
   ],
   "historicalEvidence": "Earlier populated-cart inspection applies to prior installed draft; no final cart transaction claim.",
-  "finalDraft": "128254000"
+  "finalDraft": "1617631033",
+  "redesignVerified": [
+    "488px mobile cards 290px; 1600px desktop cards 280px",
+    "No horizontal page overflow at those observed widths",
+    "Native laser second-product selection loaded the correct item",
+    "No video src before explicit play",
+    "First video played muted with advancing currentTime; pause exercised",
+    "Integrated dark native purchase card on mobile",
+    "Final desktop selector widths 250px each; both generated posters bound to correct product IDs; no video src before play"
+  ]
 }

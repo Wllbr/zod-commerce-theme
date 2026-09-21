@@ -28,3 +28,7 @@ Sticky purchase enabled: controls begin inline and dock only after being scrolle
 ## Before live publication
 
 Verify simple/optioned/out-of-stock/booking/digital products, cart edits and attachments, native checkout handoff, order review, actual payment methods, both languages and physical devices. Review all merchant claims, product descriptions and imported test tags. Do not publish from the editor or submit approval until explicitly authorized.
+
+## Laser and card design
+
+v1.9.1 enlarges homepage carousel cards and integrates the laser purchase area into its dark stage. Two bundled generated posters match the existing spider and six-lens bar products. Keep each poster tied to its actual model; use the image field for new generated art when selecting another product. Clips play only after Watch demo; sound stays muted until separately enabled. Scroll reveals respect reduced motion.

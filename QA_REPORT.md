@@ -1,6 +1,6 @@
-# ZOD Commerce v1.9.0 — QA and release report
+# ZOD Commerce v1.9.1 — QA and release report
 
-Date: 21 September 2026. Scope: three improvement rounds, continuing v1.8.2. This report supersedes earlier QA summaries.
+Date: 21 September 2026. Scope: three initial improvement rounds continuing v1.8.2, plus the user’s explicit follow-up to refine current components until ready for review. This report supersedes earlier QA summaries.
 
 ## Release status
 
@@ -26,7 +26,7 @@ Changes: removed header search row and department strip; desktop icon retained; 
 
 ## Editorial scorecard
 
-Scores are design/implementation assessments, not measured conversion improvements or Salla certification. Three-round limit reached; outstanding gates keep overall readiness below 9.
+Scores are design/implementation assessments, not measured conversion improvements or Salla certification. The initial three rounds are recorded below; the subsequent user-authorized design refinement is recorded separately. Outstanding launch gates keep overall readiness below 9.
 
 | Criterion | Round 1 | Round 2 | Round 3 |
 |---|---:|---:|---:|
@@ -45,11 +45,11 @@ Round 2 publishing score reflected unresolved draft category-link configuration 
 ## Build and automated evidence
 
 - Node 22.18.0, pnpm 11.19.0; project declares pnpm 11.21.0. Frozen-lockfile dependency installation succeeded without changing the lockfile.
-- Webpack 5.109.2 production build. BUILD_MANIFEST.json fingerprints 104 inputs and 21 public outputs; production gate checks all hashes.
-- Validators: 56 Twig templates, 18 custom components, 218 ZOD translation references, 16 source JavaScript files.
+- Webpack 5.109.2 production build. BUILD_MANIFEST.json fingerprints 107 inputs and 22 public outputs; production gate checks all hashes.
+- Validators: 56 Twig templates, 18 custom components, 222 ZOD translation references, 16 source JavaScript files.
 - Regression suites: inventory/unlimited stock, Quick View ordering/offline fallback, cart races, menu recovery, native offers/checkout ownership, numeric and zero-promotion handling, notes/attachments, catalog query and failure behavior, sticky setting, inline/docked/return-to-flow transitions and one native purchase component.
 - Approval guards retained: salla-add-product-toast in layouts/master.twig; salla-review-order-item in customer order details; no automatic salla.product.getDetails calls from card/listing initialization. Explicit Quick View may request details after user action.
-- Combined CSS gzip remains under the unchanged 73 KiB project budget. Webpack still warns about raw app.css (~376 KiB) and app entry (~419 KiB). These are file sizes, not Core Web Vitals results.
+- Combined CSS gzip remains under the unchanged 73 KiB project budget. Webpack still warns about raw app.css (~384 KiB) and app entry (~427 KiB). These are file sizes, not Core Web Vitals results.
 - Three added 720px WebP images total 70,684 bytes. Original generated PNGs are delivered separately. Images are promotional interpretations of reference products, not technical specification evidence.
 
 ## Browser evidence and limits
@@ -100,4 +100,21 @@ The exhaust category rendered 15 products. Selecting ascending price changed the
 ### Final draft artwork verification
 
 Salla draft 128254000 rendered all three bundled images successfully in Arabic RTL at an observed 488px viewport. All three category buttons were present. Images used full opacity and normal mobile flow; document scroll width was 469px. The bottom-center search opened the native search dialog and focused its search field. No live publication was performed.
+
+
+## v1.9.1 follow-up — laser and product-card redesign
+
+User explicitly requested further component improvements after the initial rounds. Rebuilt the laser section with a dark integrated native purchase area, larger horizontal selectors, stronger typography and two original generated posters tied only to their corresponding actual products (p1934775882 spider fixture and p1520863528 six-lens bar). Preserved the original merchant demo clips; they are now opt-in. The white product-card box and initial white collage/poster are removed from this showcase. Actual catalog photos remain unchanged.
+
+Enlarged homepage carousel cards to 280px on desktop and 68vw with a 290px cap on mobile; reduced image padding. Product listing grids remain responsive and use four desktop columns. One-time card scroll reveals run through IntersectionObserver; content stays visible before scripting, and reduced-motion CSS disables animation. Native add-to-cart, listing payloads and deferred inactive laser panels remain intact.
+
+Browser checks on the redesign: mobile 488px and desktop 1600px showed 290px and 280px cards respectively, with no horizontal page overflow. Laser product switching loaded the correct second product and neither clip had a src before playback. Watch demo started the first clip muted and its currentTime advanced; Pause demo was exercised. The mobile native purchase area had transparent background and a full-width button. Desktop inspection found a squeezed selector rail; this was corrected before final packaging.
+
+Added execution tests cover initial no-download/no-autoplay, explicit play and pause, hidden-page pause, sound opt-in, panel reset, interaction under reduced motion and variable scope. The full regression suite passed; the final CSS-only correction passed production build, playback regression, CSS budget and manifest checks. Final CSS: app 393,233 raw / 63,670 gzip bytes; refinement 38,883 raw / 7,145 gzip; combined 70,815 gzip (unchanged 73KiB limit). Two optimized laser posters total 62,374 bytes. Unreferenced legacy KDK artwork was archived outside the package to preserve the unchanged 1MiB release budget.
+
+Current editorial assessment: visual 9.2, UX 9.0, trust 8.2, mobile 8.9, discovery 9.0, conversion 8.2, compatibility 8.8, publishing readiness 7.0; mean 8.5/10. Design is ready for review; the publication blockers listed above still apply. No live publication was performed.
+
+Final design draft: **1617631033**, source commit **717478b**. The corrected desktop selectors measured 250px each at 1600px; both generated poster URLs resolved to their matching draft assets, and the second clip remained unloaded before play.
+
+Final English check: native language switch produced lang=en and dir=ltr at 1600px, both laser playback labels read Watch demo, and the document had no horizontal overflow.
 
