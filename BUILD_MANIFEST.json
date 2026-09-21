@@ -59,7 +59,7 @@
     "src/assets/styles/app.scss": "f44d2852f4cafdb07e8020418cb9bc7ef988a30b7ba796d8074cda74e729d1ee",
     "src/assets/styles/campaign.scss": "4c33a761620ab0b0182d00f26affd65b4343f0d0af02596fe6cb9bf9dfea8518",
     "src/assets/styles/commerce-states.scss": "e9707bcfef9455e780fb0dc7c0b82f43bbaf8e6eb0b742518c97df133c197392",
-    "src/assets/styles/product-polish.scss": "eb4489331d4f0b4c2e79455bba8f3ea712a23867471af4b7b1754911ef3cfc98",
+    "src/assets/styles/product-polish.scss": "cd3869a174d4a9184c63c4357da589fe3fd8a528cf1708f3d6fec94c19f69c85",
     "src/assets/styles/refinement.css": "a2a99c5d975cb76243b20adf1fa8bfee0da256c37d71efb9207fb4c02ae7a381",
     "src/assets/styles/retail-refresh.scss": "02a1b7987930b0a66b0a5632bd75fe072c30bbb15bf62ef31b4a35948072c156",
     "src/assets/styles/showcase-refresh.scss": "9ff4a4cbbeaa2757722a06b226a92506bd82c72fec4741b3186dafa8ad0a664c",
@@ -157,7 +157,7 @@
       "mode": "webpack-production-output"
     },
     "public/app.css": {
-      "sha256": "9cbaac6e2d5bbf00e8652ae2e72b4cab168c98060596ad238ce164f4ed64251e",
+      "sha256": "f33e9253068a8740027172ccce4a1eba26436c0c82577af3d4dbd332c95fd2e2",
       "mode": "webpack-production-output"
     },
     "public/app.js": {
