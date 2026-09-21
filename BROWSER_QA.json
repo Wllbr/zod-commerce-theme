@@ -1,18 +1,34 @@
 {
-  "version": "1.9.8",
+  "version": "1.9.9",
   "date": "2026-09-21",
-  "inspectedDraft": "1546873372",
-  "inspectedCodeCommit": "b9a75b1",
+  "inspectedDraft": "602971975",
+  "inspectedCodeCommit": "b087522",
   "reviewBranch": "codex/zod-1.9.0-review",
   "verified": [
-    "Manual target 350 rendered",
-    "Homepage and floating completion message/bar/icon",
-    "Progress aria-valuenow 100",
-    "Updated component catalog label"
+    "COMMAX, KDK and Ocarina generated campaigns on mobile and desktop",
+    "Hero has no visible pause/play, arrows, dots or edition numbering",
+    "Keyboard navigation and stable slide height: mobile 391px; desktop 458.61px",
+    "All three existing shipping surfaces remain visible with fallback target 350",
+    "Native existing component save to 1000; custom copy persisted after reload; 67% / 327.97 SAR remaining while other hosts retained 350 / 100%",
+    "Native target 350 and default copy restored and reloaded"
+  ],
+  "editorFieldsVerified": [
+    "independent target",
+    "discount basis",
+    "initial and remaining copy",
+    "success message",
+    "terms",
+    "normal and completion symbols",
+    "hero campaign headings, copy and optional images"
   ],
   "notVerified": [
-    "Native settings save/reload: design form stalled on loading placeholders",
-    "Native below-target to complete cart mutation; automated coverage passes"
+    "Full English, physical-device, accessibility and performance audit",
+    "Complete storefront approval and prior live error trace"
+  ],
+  "previewConsoleIssues": [
+    "Salla page-view POST 405",
+    "getInitialData timeout",
+    "Live reload server disconnected"
   ],
   "cartMutated": false,
   "livePublished": false,

@@ -1,28 +1,34 @@
-# ZOD Commerce 1.9.8 — manual free-shipping goal
+# ZOD Commerce 1.9.9 — product hero and independent shipping targets
 
-21 September 2026. Requested change: replace eligibility-dependent shipping UI with a merchant-managed amount and editable messages. Review branch only. No live publication or shipping-rule edits.
+21 September 2026. Review branch only; no live publication or shipping-rule edits.
 
 ## Changes
 
-- One shared manual target controls the floating icon, hero tile and standalone homepage component. Default 350 in store currency; no cart.free_shipping_bar dependency.
-- Merchant can edit target, initial message, remaining message, success message, supporting terms, truck/completion symbols, notifications, campaign visibility and whether discounts reduce progress.
-- Default calculation: cart product subtotal minus discounts, excluding shipping/payment fees. Remaining amount and progress update on native cart additions, quantities, removal and coupon events. The circle and bar fill, switch to the completion icon and show the success message at the target. Decreasing the cart reverses completion.
-- Message placeholders: {remaining} and {target}. Copy is rendered as text, avoiding HTML execution. Currency formatting uses Salla's text money formatter.
-- Automatic notices last 5.5 seconds and pause for keyboard focus. Manual opening stays open. Reduced-motion preference disables the celebration animation.
-- Invalid/zero target or disabled master campaign hides every shipping surface. Failed and incomplete cart requests preserve the last confirmed progress; stale responses cannot overwrite newer ones.
+- Each homepage shipping component has its own target, text, icons and discount basis. The hero's shipping tile also has its own controls. The floating icon retains the global theme controls. A single cart refresh feeds separate calculations for every instance.
+- Existing saved components can return empty new fields; target fallback keeps these visible until their individual values are saved.
+- Rebuilt the hero with generated COMMAX CDV-70QT / DRC-40K, KDK 25AUA and Ocarina metal insect-zapper artwork. No stock campaign imagery or AFC references. The exact Ocarina model was unspecified; brand-only copy avoids wattage/coverage claims.
+- Removed visible play/pause, arrows, dots, edition labels and numbering. Swipe, RTL keyboard navigation, focus/hover pause and reduced-motion behavior remain. Equal-height slides prevent the next section moving when heading length changes.
+- Separate readable text and imagery on desktop; compact vertical layout on mobile. Copy/images/category destinations remain editable. Obsolete campaign fields removed from the editor.
+- Relevant COMMAX/KDK artwork reused in department panels; superseded assets removed from the package. The three optimized hero images total 98,488 bytes.
 
-## Verification
+## Build and tests
 
-Full production build and automated suite passed: 141 inputs and 20 outputs match the production manifest; 79 Twig templates, 36 custom components and 347 translation references validated. CSS unchanged: 396065 raw / 64958 gzip app, 38753 raw / 7134 gzip refinement, 72092 combined gzip. Webpack's two existing raw-size advisories remain.
+Production build and the complete automated suite pass. Manifest: 142 inputs / 21 outputs. Validation: 79 Twig templates, 36 custom components, 332 translation references and 21 JavaScript files. CSS: app 394,136 raw / 64,651 gzip, refinement 38,753 raw / 7,134 gzip; combined 71,785 gzip. Two Webpack raw-size recommendations remain; no build errors.
 
-Shipping tests cover editable thresholds 350/500, Arabic digits, discount basis, empty cart, exact decimal boundary, invalid inputs, currency amount objects, custom text, campaign/notification switches, stale and failed responses, popup focus and timers. Existing approval, cart, offer, purchase, laser and notification regression checks pass.
+New regression checks use two targets (350 and 500) against the same cart, with the component first in DOM order. They prove separate progress and a single shared request. Existing decimal, Arabic-digit, discount, invalid data, notification, stale response and focus checks pass. The hero is tested without buttons/dots and supports keyboard navigation and Escape. All three Salla approval guards remain intact.
 
-Code b9a75b1 was pushed to codex/zod-1.9.0-review. Native draft 1546873372 loaded matching app.css. The existing cart exceeded 350: the homepage and floating popup showed a full bar, celebration icon and “مبروك! شحنك مجاني 🎉”; the visible progress attribute was 100. Component catalog includes “هدف الشحن المجاني — إعداد يدوي”. No cart quantities or contents were changed during this revision.
+## Native visual checks
 
-## Editor limitation and remaining checks
+Code b087522 is on codex/zod-1.9.0-review. Final draft 602971975 loads its matching app.css. All three shipping surfaces render target 350 and the completion state for the existing cart. No cart contents or quantities were changed.
 
-The native design-options page remained on three loading placeholders, including after one reload. Therefore saving a different target/custom message through Salla's editor was not verified. The fields are in twilight.json; instructions are in STORE_SETUP.md. Automated tests verify their runtime behavior, but native save/reload and a below-target-to-complete cart transition still need a working settings form. No other browser mechanism or private API was used to bypass the stalled form.
+The COMMAX, KDK and Ocarina campaigns were visually inspected. Desktop split layout tested at 1440 wide; compact mobile layout at 390 wide. Mobile viewport measured 391px high on all three slides; desktop remained 458.61px. No visible hero buttons, dots or numbering. Mobile bottom navigation and floating shipping icon remain visible.
 
-This is a manual promotional display. It does not change checkout fees, carrier/address/weight restrictions or Salla rules. The merchant must align the actual shipping offer with the configured message and amount. Unlike v1.9.7, changing or disabling a Salla rule alone does not automatically change this manual campaign.
+The native editor recovered after slow form loading. Existing shipping component 1718646479 was saved with target 1000 and custom remaining copy. After storefront reload, the hero and floating icon stayed at target 350 / 100%, while this component showed target 1000 / 67% and “باقي 327.97 ر.س للوصول إلى 1000 ر.س”. Target 350 and the original message were then restored and verified after another reload. This confirms native per-instance save, persistence, custom placeholders and independent calculations. No cart mutation was needed.
 
-Prior general storefront blockers remain: original live 1.8.0 error trace, full desktop/English/physical-device/accessibility/performance audit, final empty-cart reload notice, saved homepage copy/arrangement and enabled installment/review data. This focused revision does not certify a whole-store 9/10 or marketplace approval. All three approval guards remain intact.
+## Preview console observations
+
+The Salla preview still logs a native page-view POST 405, a getInitialData timeout and a disconnected live-reload server. The inspected hero and shipping UI worked despite these messages. These are not evidence that every storefront console issue is resolved; production/preview service validation remains open.
+
+## Remaining wider storefront checks
+
+This focused revision does not certify a whole-store 9/10 or Salla marketplace approval. Earlier remaining checks include the original live 1.8.0 error trace, complete English / physical-device / accessibility / performance audit, final empty-cart reload notification, saved homepage content review, and enabled installment/review data. Manual shipping advertising must match actual Salla checkout rules.
