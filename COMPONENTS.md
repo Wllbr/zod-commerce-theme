@@ -1,22 +1,22 @@
-# Component manual — ZOD 1.9.1 / دليل المكونات
+# Component manual — ZOD 1.9.3 / دليل المكونات
 
 
 All 18 IDs from v1.8.0 are preserved; `home.hero-hub` was introduced in that release. Existing settings are not automatically populated. The first configuration field of each component now includes usage guidance in the theme editor. Image sizes below are editorial suggestions, not Salla API limits.
 
 
-## 1. Specialist category hero / واجهة الأقسام الرئيسية — زود
+## 1. Campaign and category hero / واجهة الحملات والأقسام — زود
 
-Template: `home.hero-hub`
+Template: `home.hero-hub`. Existing component key is preserved.
 
-Placement: Top of homepage; your recommended primary hero. / بداية الصفحة الرئيسية.
+Three original conceptual campaign images, selectable Arabic HTML copy, accessible slide controls, optional rotation, category shortcuts and optional offer tiles. Native category selectors or manual category links connect exhaust, intercom and insect control. Set `power_url` for the electrical collection. Custom image overrides: `campaign_image`, `power_image`, `comfort_image`. Old tile titles, text and product-reference image fields were retired in 1.9.3.
 
-Setup: Select the three actual categories; edit bilingual copy and optional square cutouts. No category URL means no fake CTA. Media priority: manual generated image, then bundled generated KDK/Commax/AFC artwork. Actual catalog photos are references for generation. / اربط التصنيفات الثلاثة وأضف صوراً اختيارية.
+`show_shipping` displays the approved design for orders above SAR 350; it does not configure shipping. `show_mada` requires a nonempty `mada_terms` URL and defaults off. Set up and verify offer eligibility separately before live use.
 
-Destination fallback fields: `exhaust_url`, `intercom_url`, `insect_url`. Legacy representative-product selectors remain compatible but do not override the generated artwork.
+## New in 1.9.3: Brand and category collections / عالم العلامة — أقسام ومنتجات
 
-Fields: `title`, `intro`, `exhaust_category`, `exhaust_title`, `exhaust_text`, `exhaust_image`, `intercom_category`, `intercom_title`, `intercom_text`, `intercom_image`, `insect_category`, `insect_title`, `insect_text`, `insect_image`.
+Template: `home.brand-world`. Editable name, heading, description, collection URL and optional image. `power_style` chooses the electrical artwork. Add up to six named groups with a URL and selected products or a native category. Selected products take priority; category mode includes all brands in that category. Inactive product sliders mount on first tab selection. Native pricing and availability remain authoritative.
 
-
+Draft examples: KDK (replace with Ocarina later), STAC and an electrical explorer with transformers, stabilizers and extensions. The KDK and STAC examples use selected real products; the electrical explorer uses category feeds. No stock image or AFC product reference was used for the new campaign artwork.
 
 ## 2. Commerce hero / واجهة المتجر الرئيسية
 

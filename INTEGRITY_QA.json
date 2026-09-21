@@ -1,18 +1,17 @@
 {
-  "version": "1.9.1",
+  "version": "1.9.3",
   "date": "2026-09-21",
   "productionBuild": "passed",
   "tests": "passed",
-  "buildInputs": 107,
-  "publicOutputs": 22,
+  "buildInputs": 109,
+  "publicOutputs": 20,
   "css": {
-    "appRaw": 393233,
-    "appGzip": 63670,
+    "appRaw": 399981,
+    "appGzip": 65087,
     "refinementRaw": 38883,
     "refinementGzip": 7145,
-    "combinedGzip": 70815
+    "combinedGzip": 72232
   },
-  "generatedHeroWebpBytes": 70684,
   "approvalGuards": [
     "native add-product toast",
     "native order item review",
@@ -22,5 +21,6 @@
     "Webpack raw app.css and app entry size recommendations"
   ],
   "certifiesMarketplaceApproval": false,
-  "laserPosterWebpBytes": 62374
+  "laserPosterWebpBytes": 62374,
+  "generatedCampaignWebpBytes": 173710
 }

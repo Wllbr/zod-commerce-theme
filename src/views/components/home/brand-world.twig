@@ -7,7 +7,7 @@
  <div class="container">
   <div class="zod-brand-world__banner">
    <img src="{{ world_image }}" width="1536" height="1024" loading="lazy" decoding="async" alt="">
-   <div class="zod-brand-world__copy"><span class="zod-campaign__eyebrow">{{ trans('zod.campaign.brand') }}</span><span class="zod-brand-world__name">{{ world_name }}</span><h2>{{ world_title }}</h2><p>{{ world_text }}</p>{% if component.brand_url %}<a class="zod-campaign__cta" href="{{ component.brand_url }}">{{ trans('zod.campaign.brand_all') }} ↗</a>{% endif %}</div>
+   <div class="zod-brand-world__copy"><span class="zod-campaign__eyebrow">{{ trans('zod.campaign.eyebrow') }}</span><span class="zod-brand-world__name">{{ world_name }}</span><h2>{{ world_title }}</h2><p>{{ world_text }}</p>{% if component.brand_url %}<a class="zod-campaign__cta" href="{{ component.brand_url }}">{{ trans('zod.campaign.explore') }} ↗</a>{% endif %}</div>
   </div>
   {% if world_groups|length %}
   <div class="zod-brand-world__nav" role="tablist" aria-label="{{ world_name }}">

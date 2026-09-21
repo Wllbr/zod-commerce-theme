@@ -1,49 +1,70 @@
 {
-  "version": "1.9.2",
+  "version": "1.9.3",
   "date": "2026-09-21",
-  "status": "new-revision-staging-blocked",
+  "status": "arabic-ui-staging-validated",
   "reviewBranch": "codex/zod-1.9.0-review",
+  "finalDraft": "1693037723",
   "verified": [
-    "Existing English preview reproduces Arabic hero-link issue"
+    "Native campaign controls, generated artwork, electrical link and shipping tile",
+    "Saved KDK, STAC and electrical explorer sections with real native catalog feeds",
+    "Electrical category tabs and KDK industrial tab loaded correct products",
+    "Desktop: no horizontal overflow, broken loaded images or visible price HTML",
+    "390px local iframe composition and Salla mobile editor preview inspected",
+    "Duplicate hero and old full-screen promotion hidden"
   ],
-  "blockers": [
-    "Salla partner portal security check reports Incorrect device time; new draft not created",
-    "Checkout, physical-device accessibility and production manual category links remain unverified"
+  "notVerified": [
+    "Actual shipping and mada eligibility: settings unchanged",
+    "Physical devices and screen readers",
+    "Full English campaign copy",
+    "Checkout/payment and complete marketplace approval"
   ],
   "priorRevisionEvidence": {
-    "version": "1.9.1",
+    "version": "1.9.2",
     "date": "2026-09-21",
-    "status": "partial-staging-validation",
+    "status": "new-revision-staging-blocked",
     "reviewBranch": "codex/zod-1.9.0-review",
-    "codeCommit": "717478b",
     "verified": [
-      "Salla rendered generated KDK/Commax/AFC hero images",
-      "Three category destinations configured",
-      "Exhaust category navigation",
-      "15 initial category products",
-      "Native ascending price sort changed product order; no visible retry error",
-      "English LTR and Arabic RTL",
-      "No header search row; mobile icon suppressed while bottom search exists",
-      "Native PDP controls and inline/dock/inline transitions in this review series",
-      "Final mobile images loaded, opacity 1, normal flow; 488px viewport without horizontal overflow",
-      "Bottom-center search opened native dialog with focused search field"
+      "Existing English preview reproduces Arabic hero-link issue"
     ],
-    "notVerified": [
-      "Complete checkout/payment",
-      "Physical devices and assistive technology",
-      "All customer/order/specialized-product surfaces",
-      "Final live-domain and English category-link configuration"
+    "blockers": [
+      "Salla partner portal security check reports Incorrect device time; new draft not created",
+      "Checkout, physical-device accessibility and production manual category links remain unverified"
     ],
-    "historicalEvidence": "Earlier populated-cart inspection applies to prior installed draft; no final cart transaction claim.",
-    "finalDraft": "1617631033",
-    "redesignVerified": [
-      "488px mobile cards 290px; 1600px desktop cards 280px",
-      "No horizontal page overflow at those observed widths",
-      "Native laser second-product selection loaded the correct item",
-      "No video src before explicit play",
-      "First video played muted with advancing currentTime; pause exercised",
-      "Integrated dark native purchase card on mobile",
-      "Final desktop selector widths 250px each; both generated posters bound to correct product IDs; no video src before play"
-    ]
+    "priorRevisionEvidence": {
+      "version": "1.9.1",
+      "date": "2026-09-21",
+      "status": "partial-staging-validation",
+      "reviewBranch": "codex/zod-1.9.0-review",
+      "codeCommit": "717478b",
+      "verified": [
+        "Salla rendered generated KDK/Commax/AFC hero images",
+        "Three category destinations configured",
+        "Exhaust category navigation",
+        "15 initial category products",
+        "Native ascending price sort changed product order; no visible retry error",
+        "English LTR and Arabic RTL",
+        "No header search row; mobile icon suppressed while bottom search exists",
+        "Native PDP controls and inline/dock/inline transitions in this review series",
+        "Final mobile images loaded, opacity 1, normal flow; 488px viewport without horizontal overflow",
+        "Bottom-center search opened native dialog with focused search field"
+      ],
+      "notVerified": [
+        "Complete checkout/payment",
+        "Physical devices and assistive technology",
+        "All customer/order/specialized-product surfaces",
+        "Final live-domain and English category-link configuration"
+      ],
+      "historicalEvidence": "Earlier populated-cart inspection applies to prior installed draft; no final cart transaction claim.",
+      "finalDraft": "1617631033",
+      "redesignVerified": [
+        "488px mobile cards 290px; 1600px desktop cards 280px",
+        "No horizontal page overflow at those observed widths",
+        "Native laser second-product selection loaded the correct item",
+        "No video src before explicit play",
+        "First video played muted with advancing currentTime; pause exercised",
+        "Integrated dark native purchase card on mobile",
+        "Final desktop selector widths 250px each; both generated posters bound to correct product IDs; no video src before play"
+      ]
+    }
   }
 }

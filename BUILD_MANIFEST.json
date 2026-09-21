@@ -58,7 +58,7 @@
     "src/views/components/blog/article-card.twig": "08e54744a1e11e571ef7dfa67e6e183ee85b1817662c6f237e99e1b748ff2e76",
     "src/views/components/footer/footer.twig": "49804402760c8fe2c429bda62f854b9d94557d6335e396b51e399a864beda107",
     "src/views/components/header/header.twig": "cde1d0092bcba830a9b4200c0c5cff3c3e0aac158e216e618e7e5530fae80201",
-    "src/views/components/home/brand-world.twig": "c437b04f4b23fdbda19338fc9f3ebc46244481d80daff56f3e24a3febca95a14",
+    "src/views/components/home/brand-world.twig": "96d2253715ac562e4f69ac9cb90f47caf6e3650242df89cf435cc6684bf2eee9",
     "src/views/components/home/brands.twig": "04fda8ade48ee0ea5cea59a4b2216f1d8cf90f05a1b962a62c921455b47c464b",
     "src/views/components/home/buying-guides.twig": "7e2f8cffd046ab648ed36795474b2812a911fa4268d5e8b66fcf3b84b99e56cb",
     "src/views/components/home/category-grid.twig": "629dfb5490393c4d11196912b52ce0f593e7f975b95fb2628a461fe6617daf91",

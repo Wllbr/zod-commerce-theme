@@ -1,5 +1,5 @@
 {
-  "version": "1.9.1",
+  "version": "1.9.3",
   "base": "1.8.2",
   "changes": [
     "Visibility-aware catalog errors",
@@ -8,13 +8,17 @@
     "Purchase before long description, single native CTA, scroll-only docking",
     "Category/optional-offer product shelves",
     "Category selector compatibility and optional real URL fallback",
-    "Three generated actual-product-reference hero assets",
     "Mobile artwork below text",
     "Production manifest and purchase layout tests",
     "Rebuilt dark laser stage with two generated actual-product posters",
     "Larger homepage cards and less image padding",
     "One-time scroll reveals with visible fallback and reduced-motion support",
-    "Opt-in video loading/playback with tested pause/sound/panel reset"
+    "Opt-in video loading/playback with tested pause/sound/panel reset",
+    "Three original conceptual campaign images without AFC references",
+    "Accessible rotating campaign with optional shipping/mada tiles",
+    "Reusable brand/category collection tabs with lazy native product feeds",
+    "Arabic KDK/STAC/electrical draft setup",
+    "Currency markup display fix"
   ],
   "preserved": [
     "Native server prices/totals/offers",
