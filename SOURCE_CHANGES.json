@@ -1,5 +1,5 @@
 {
-  "version": "1.9.8",
+  "version": "1.9.9",
   "base": "1.8.2",
   "changes": [
     "Relevant generated category campaigns",
@@ -20,8 +20,11 @@
     "Compact mobile PDP spacing and custom SVG trust icons",
     "Expandable native offers with visible mobile carousel navigation",
     "Neutral shipping eligibility prompt before native confirmation",
-    "Merchant-requested manual shipping goal replaces eligibility-dependent display; shared editable target, copy, icons, discount basis and notices"
+    "Merchant-requested manual shipping goal replaces eligibility-dependent display; shared editable target, copy, icons, discount basis and notices",
+    "Independent per-instance shipping targets, messages and icons with a shared cart refresh",
+    "Generated COMMAX 70QT/40K, KDK 25AUA and Ocarina hero artwork; compact responsive split layout",
+    "Removed visible hero controls/numbering and obsolete fields; equal-height slides avoid carousel layout shifts"
   ],
-  "auditStatus": "manual-shipping-validation",
+  "auditStatus": "hero-and-component-target-validation",
   "livePublished": false
 }
