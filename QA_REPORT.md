@@ -24,3 +24,7 @@ Date: 21 September 2026. Scope: UI/layout/components only, per user direction. N
 ## Limits
 
 This is an Arabic design revision, not a new Salla approval score. Storefront English campaign copy is not completed. Real mobile devices and screen readers have not been tested. Checkout testing is outside the requested UI-only round. Native stock, prices and catalog names are preserved, including unavailable items and merchant test labels. Published-store shipping and mada eligibility/terms must be configured and checked before these promotions are used live.
+
+## Final delivery
+
+Final Salla draft: 884901354 (code commit 75560ef). Final 1600px desktop inspected after the last copy refinement. Full native feed interaction was checked in preceding draft 1693037723 with identical collection behavior. Production release gate passed; the archive contains 142 files and is below the project's 1 MiB budget. No live publication.

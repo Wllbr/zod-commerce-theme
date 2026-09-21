@@ -3,14 +3,15 @@
   "date": "2026-09-21",
   "status": "arabic-ui-staging-validated",
   "reviewBranch": "codex/zod-1.9.0-review",
-  "finalDraft": "1693037723",
+  "finalDraft": "884901354",
   "verified": [
     "Native campaign controls, generated artwork, electrical link and shipping tile",
     "Saved KDK, STAC and electrical explorer sections with real native catalog feeds",
     "Electrical category tabs and KDK industrial tab loaded correct products",
     "Desktop: no horizontal overflow, broken loaded images or visible price HTML",
     "390px local iframe composition and Salla mobile editor preview inspected",
-    "Duplicate hero and old full-screen promotion hidden"
+    "Duplicate hero and old full-screen promotion hidden",
+    "Final draft 884901354 renders revised collection CTA copy and all three configured worlds at 1600px; no horizontal overflow"
   ],
   "notVerified": [
     "Actual shipping and mada eligibility: settings unchanged",
@@ -66,5 +67,6 @@
         "Final desktop selector widths 250px each; both generated posters bound to correct product IDs; no video src before play"
       ]
     }
-  }
+  },
+  "codeCommit": "75560ef"
 }
