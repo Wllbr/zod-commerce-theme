@@ -1,35 +1,27 @@
 {
-  "version": "1.9.6",
+  "version": "1.9.7",
   "date": "2026-09-21",
-  "status": "production-build-passed-native-commerce-sampled",
+  "status": "native-mobile-product-cart-shipping-verified",
   "reviewBranch": "codex/zod-1.9.0-review",
-  "inspectedDraft": "1575812903",
-  "inspectedCodeCommit": "b898330",
-  "finalCodeCommit": "e4706e6",
+  "inspectedDraft": "383728642",
+  "inspectedCodeCommit": "15eedf9",
   "overallScore": null,
   "targetScore": 9,
   "verified": [
-    "Exact screenshot product 1845 and available KDK PDP opened without three error alerts",
-    "Native mobile cart checkout restored; current asset path verified",
-    "Mobile navigation evenly distributed below product and cart controls",
-    "Add notice appears and dismisses; quantity feedback dismisses",
-    "Cart item removed and original four KDK units restored; 320 subtotal, 16 discount, 304 total",
-    "Category, compact HTM brand, header and footer inspected",
-    "Shipping component appears in editor catalog; inactive offer UI hidden",
-    "Offer payment-method placeholder replaced without guessed commercial terms"
+    "Compact available fan PDP, custom trust icons, purchase dock and navigation",
+    "Three native product offers reachable using visible arrows; Enter collapses panel",
+    "Cart totals and sticky native checkout with unchanged quantities",
+    "Neutral shipping popup, hero tile and standalone homepage component"
   ],
   "notVerified": [
-    "Original live 1.8.0 failing request root cause",
-    "Final empty-cart flash in fresh native preview",
-    "Active shipping offer threshold and disabled-state changes in merchant store",
-    "Full final desktop/mobile homepage and laser, saved department arrangement",
-    "Enabled installment providers and real review data",
-    "English content, physical devices, screen readers and Lighthouse"
+    "Actual eligible checkout progress and changed merchant threshold/off state",
+    "Original v1.8.0 failure cause",
+    "Final last-item removal flash via native mutation",
+    "Full desktop/English, physical devices, screen readers, real reviews/installments, final laser and Lighthouse"
   ],
-  "blockers": [
-    "No active free-shipping progress offer exposed in inspected draft",
-    "Saved homepage content and department arrangement remain incomplete",
-    "Final preview launch returned to Salla sign-in; last-item removal flash is unit-tested but not observed in final native revision"
+  "consoleFindings": [
+    "Salla preview live-reload connection failure",
+    "Salla preview telemetry page/track HTTP405"
   ],
-  "previewNote": "An older generated preview temporarily selected older assets; closing it and reopening the current preview resolved revision mismatch."
+  "livePublished": false
 }

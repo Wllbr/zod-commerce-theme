@@ -1,10 +1,9 @@
 {
-  "version": "1.9.6",
+  "version": "1.9.7",
   "base": "1.8.2",
   "changes": [
     "Relevant generated category campaigns",
     "Sixteen editable department templates",
-    "SAR350 delivery progress and cart notices",
     "Persistent single native purchase dock",
     "Product-page header search restored",
     "Muted viewport-triggered laser playback",
@@ -17,8 +16,11 @@
     "Native mobile checkout visibility and persistent navigation",
     "Measured dock clearance and corrected mobile centering",
     "Readable offer placeholders and compact brand header",
-    "Preserve last-item removal confirmation across the native empty-cart reload"
+    "Preserve last-item removal confirmation across the native empty-cart reload",
+    "Compact mobile PDP spacing and custom SVG trust icons",
+    "Expandable native offers with visible mobile carousel navigation",
+    "Neutral shipping eligibility prompt before native confirmation"
   ],
-  "auditStatus": "incomplete-browser-policy-blocked",
+  "auditStatus": "native-mobile-product-cart-shipping-verified",
   "livePublished": false
 }

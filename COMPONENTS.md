@@ -1,4 +1,4 @@
-# Component manual — ZOD 1.9.6 / دليل المكونات
+# Component manual — ZOD 1.9.7 / دليل المكونات
 
 
 All 18 IDs from v1.8.0 are preserved; `home.hero-hub` was introduced in that release. Existing settings are not automatically populated. The first configuration field of each component now includes usage guidance in the theme editor. Image sizes below are editorial suggestions, not Salla API limits.
@@ -10,7 +10,7 @@ Template: `home.hero-hub`. Existing component key is preserved.
 
 Three original conceptual campaign images, selectable Arabic HTML copy, accessible slide controls, optional rotation, a separate existing category grid and optional offer tiles. Native category selectors or manual category links connect exhaust, intercom and insect control. Set `power_url` for the electrical collection. Custom image overrides: `campaign_image`, `power_image`, `comfort_image`. Old tile titles, text and product-reference image fields were retired in 1.9.6.
 
-`show_shipping` renders native Salla free-shipping progress only when an active eligible offer supplies progress data; no fixed theme threshold. `show_mada` requires a nonempty `mada_terms` URL and defaults off. Set up and verify offer eligibility separately before live use.
+`show_shipping` shows a neutral eligibility prompt before Salla supplies progress data, then native progress; no fixed theme threshold. `show_mada` requires a nonempty `mada_terms` URL and defaults off. Set up and verify offer eligibility separately before live use.
 
 ## New in 1.9.6: Brand and category collections / عالم العلامة — أقسام ومنتجات
 
@@ -274,4 +274,5 @@ Sixteen native custom components share home.department-base. Editable title, des
 
 ## Shipping progress in 1.9.6
 
-Add **تقدم الشحن المجاني — عروض سلة** (home.shipping-progress) anywhere on the homepage. It uses cart.free_shipping_bar from Salla, including minimum_amount, remaining, percent and has_free_shipping. The hero tile and floating icon use the same source. Missing/disabled/incomplete offer data hides the UI. The theme does not create commercial shipping rules.
+Add **تقدم الشحن المجاني — عروض سلة** (home.shipping-progress) anywhere on the homepage. It uses cart.free_shipping_bar from Salla, including minimum_amount, remaining, percent and has_free_shipping. The hero tile and floating icon use the same source. Missing/disabled/incomplete offer data clears progress and shows neutral eligibility text. Turn off the relevant theme setting to hide that prompt entirely. The theme does not create commercial shipping rules.
+
