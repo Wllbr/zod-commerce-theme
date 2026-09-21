@@ -56,3 +56,8 @@
  .zod-commerce .zod-laser-showcase__head p{font-size:13px}
 }
 @media(prefers-reduced-motion:reduce){.zod-card-motion.is-inview{animation:none!important;translate:none!important}.zod-commerce .zod-motion-ready{animation:none!important;transform:none!important}}
+@media(min-width:1024px){
+ .zod-commerce .zod-laser-sidebar{display:grid;grid-template-columns:minmax(0,1fr) auto}
+ .zod-commerce .zod-laser-sidebar .zod-laser-selector{grid-column:1;grid-row:1;min-width:0;max-width:100%}
+ .zod-commerce .zod-laser-sidebar .zod-laser-showcase__browse--desktop{grid-column:2;grid-row:1;width:auto!important;min-width:160px;align-self:center;margin:0}
+}

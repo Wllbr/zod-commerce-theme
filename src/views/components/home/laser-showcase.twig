@@ -27,10 +27,11 @@
             {% endfor %}
             {% set product_id = product_ids|first %}
             {% if product_id %}
-              {% set thumb = item.poster|default(product_id == '1934775882' ? 'images/laser-spider-generated.webp'|asset : null) %}
+              {% set selector_label = item.eyebrow is iterable ? item.eyebrow[language.code]|default(item.eyebrow|first) : item.eyebrow %}
+              {% set thumb = item.poster|default(product_id == '1934775882' ? 'images/laser-spider-generated.webp'|asset : (product_id == '1520863528' ? 'images/laser-bar-generated.webp'|asset : null)) %}
               <button type="button" class="zod-laser-selector__item {{ loop.first ? 'is-active' : '' }}" data-zod-laser-trigger="{{ loop.index0 }}" data-product-id="{{ product_id }}" role="tab" aria-selected="{{ loop.first ? 'true' : 'false' }}" aria-controls="zod-laser-panel-{{ position|default(0) }}-{{ loop.index0 }}">
                 <img {% if thumb %}src="{{ thumb }}"{% else %}hidden{% endif %} alt="" loading="lazy" data-zod-laser-thumb>
-                <span><strong data-zod-laser-trigger-name>{{ trans('zod.laser.featured') }} {{ loop.index }}</strong></span>
+                <span><strong data-zod-laser-trigger-name>{{ selector_label|default(trans('zod.laser.featured') ~ ' ' ~ loop.index) }}</strong></span>
               </button>
             {% endif %}
           {% endfor %}
@@ -52,7 +53,7 @@
               {% set feature_one = item.feature_one is iterable ? item.feature_one[language.code]|default(item.feature_one|first) : item.feature_one %}
               {% set feature_two = item.feature_two is iterable ? item.feature_two[language.code]|default(item.feature_two|first) : item.feature_two %}
               {% set feature_three = item.feature_three is iterable ? item.feature_three[language.code]|default(item.feature_three|first) : item.feature_three %}
-              {% set poster = item.poster|default(product_id == '1934775882' ? 'images/laser-spider-generated.webp'|asset : null) %}
+              {% set poster = item.poster|default(product_id == '1934775882' ? 'images/laser-spider-generated.webp'|asset : (product_id == '1520863528' ? 'images/laser-bar-generated.webp'|asset : null)) %}
               {% set video_url = item.video_url.url|default(item.video_url)|default(null) %}
               <article id="zod-laser-panel-{{ position|default(0) }}-{{ loop.index0 }}" role="tabpanel" tabindex="0" aria-label="{{ item_eyebrow|default(trans('zod.laser.featured')) }}" class="zod-laser-panel {{ loop.first ? 'is-active' : '' }}" data-zod-laser-panel="{{ loop.index0 }}" data-product-id="{{ product_id }}" {% if not loop.first %}hidden{% endif %}>
                 <div class="zod-laser-panel__media">
