@@ -1,240 +1,27 @@
 {
-  "version": "1.8.2",
-  "environment": "Chromium; limited source-derived Twig-to-Jinja fixtures; mock Salla SDK/native widgets",
-  "scope": "New shopping checks only; previous v1.8.1 browser cases are historical and are not included.",
-  "layout_notes": "Offscreen section content-visibility is disabled for complete measurement; intentional clipped shipping progress and offcanvas filter elements are excluded. Full document widths are still checked.",
-  "interaction_notes": "Browser history.replaceState is mocked in sort test because navigation is restricted; real URL preservation and navigation fallback are separately tested in the JavaScript controller harness. Checkout increments a mock counter, not a real payment.",
-  "layout_cases": [
-    {
-      "page": "cart-ar",
-      "width": 360,
-      "viewport": 360,
-      "body": 360,
-      "html": 360,
-      "overflow": []
-    },
-    {
-      "page": "cart-empty-ar",
-      "width": 360,
-      "viewport": 360,
-      "body": 360,
-      "html": 360,
-      "overflow": []
-    },
-    {
-      "page": "product-inline-ar",
-      "width": 360,
-      "viewport": 360,
-      "body": 360,
-      "html": 360,
-      "overflow": []
-    },
-    {
-      "page": "cart-ar",
-      "width": 390,
-      "viewport": 390,
-      "body": 390,
-      "html": 390,
-      "overflow": []
-    },
-    {
-      "page": "cart-empty-ar",
-      "width": 390,
-      "viewport": 390,
-      "body": 390,
-      "html": 390,
-      "overflow": []
-    },
-    {
-      "page": "product-inline-ar",
-      "width": 390,
-      "viewport": 390,
-      "body": 390,
-      "html": 390,
-      "overflow": []
-    },
-    {
-      "page": "cart-ar",
-      "width": 768,
-      "viewport": 768,
-      "body": 768,
-      "html": 768,
-      "overflow": []
-    },
-    {
-      "page": "cart-empty-ar",
-      "width": 768,
-      "viewport": 768,
-      "body": 768,
-      "html": 768,
-      "overflow": []
-    },
-    {
-      "page": "product-inline-ar",
-      "width": 768,
-      "viewport": 768,
-      "body": 768,
-      "html": 768,
-      "overflow": []
-    },
-    {
-      "page": "cart-ar",
-      "width": 1440,
-      "viewport": 1440,
-      "body": 1440,
-      "html": 1440,
-      "overflow": []
-    },
-    {
-      "page": "cart-empty-ar",
-      "width": 1440,
-      "viewport": 1440,
-      "body": 1440,
-      "html": 1440,
-      "overflow": []
-    },
-    {
-      "page": "product-inline-ar",
-      "width": 1440,
-      "viewport": 1440,
-      "body": 1440,
-      "html": 1440,
-      "overflow": []
-    },
-    {
-      "page": "cart-en",
-      "width": 360,
-      "viewport": 360,
-      "body": 360,
-      "html": 360,
-      "overflow": []
-    },
-    {
-      "page": "cart-empty-en",
-      "width": 360,
-      "viewport": 360,
-      "body": 360,
-      "html": 360,
-      "overflow": []
-    },
-    {
-      "page": "product-inline-en",
-      "width": 360,
-      "viewport": 360,
-      "body": 360,
-      "html": 360,
-      "overflow": []
-    },
-    {
-      "page": "cart-en",
-      "width": 390,
-      "viewport": 390,
-      "body": 390,
-      "html": 390,
-      "overflow": []
-    },
-    {
-      "page": "cart-empty-en",
-      "width": 390,
-      "viewport": 390,
-      "body": 390,
-      "html": 390,
-      "overflow": []
-    },
-    {
-      "page": "product-inline-en",
-      "width": 390,
-      "viewport": 390,
-      "body": 390,
-      "html": 390,
-      "overflow": []
-    },
-    {
-      "page": "cart-en",
-      "width": 768,
-      "viewport": 768,
-      "body": 768,
-      "html": 768,
-      "overflow": []
-    },
-    {
-      "page": "cart-empty-en",
-      "width": 768,
-      "viewport": 768,
-      "body": 768,
-      "html": 768,
-      "overflow": []
-    },
-    {
-      "page": "product-inline-en",
-      "width": 768,
-      "viewport": 768,
-      "body": 768,
-      "html": 768,
-      "overflow": []
-    },
-    {
-      "page": "cart-en",
-      "width": 1440,
-      "viewport": 1440,
-      "body": 1440,
-      "html": 1440,
-      "overflow": []
-    },
-    {
-      "page": "cart-empty-en",
-      "width": 1440,
-      "viewport": 1440,
-      "body": 1440,
-      "html": 1440,
-      "overflow": []
-    },
-    {
-      "page": "product-inline-en",
-      "width": 1440,
-      "viewport": 1440,
-      "body": 1440,
-      "html": 1440,
-      "overflow": []
-    }
+  "version": "1.9.0",
+  "date": "2026-09-21",
+  "status": "partial-staging-validation",
+  "reviewBranch": "codex/zod-1.9.0-review",
+  "codeCommit": "2752a3d",
+  "verified": [
+    "Salla rendered generated KDK/Commax/AFC hero images",
+    "Three category destinations configured",
+    "Exhaust category navigation",
+    "15 initial category products",
+    "Native ascending price sort changed product order; no visible retry error",
+    "English LTR and Arabic RTL",
+    "No header search row; mobile icon suppressed while bottom search exists",
+    "Native PDP controls and inline/dock/inline transitions in this review series",
+    "Final mobile images loaded, opacity 1, normal flow; 488px viewport without horizontal overflow",
+    "Bottom-center search opened native dialog with focused search field"
   ],
-  "interaction_cases": [
-    {
-      "test": "sort uses native reload once; busy state, native filter state and no detail fetch (history method mocked)",
-      "pass": true
-    },
-    {
-      "test": "native error markers, not product-name text, control recoverable list errors",
-      "pass": true
-    },
-    {
-      "test": "native filter changed closes mobile dialog and restores focus before hiding it",
-      "pass": true
-    },
-    {
-      "test": "breakpoint changes remove modal state and keep focus out of hidden controls",
-      "pass": true
-    },
-    {
-      "test": "mobile native summary stays visible; shortcut reaches single mock checkout; competing dock absent",
-      "pass": true
-    },
-    {
-      "test": "saved cart note/file retained; disclosures have working state; form change delegates to Salla",
-      "pass": true
-    },
-    {
-      "test": "canonical cart responses repaint real DOM with zero offer totals and unavailable state",
-      "pass": true
-    },
-    {
-      "test": "disabled sticky/reviews/help remain off in browser; one native offer outside form",
-      "pass": true
-    },
-    {
-      "test": "enabled purchase dock and selection reminder work without product-details enrichment",
-      "pass": true
-    }
+  "notVerified": [
+    "Complete checkout/payment",
+    "Physical devices and assistive technology",
+    "All customer/order/specialized-product surfaces",
+    "Final live-domain and English category-link configuration"
   ],
-  "browser_errors": []
+  "historicalEvidence": "Earlier populated-cart inspection applies to prior installed draft; no final cart transaction claim.",
+  "finalDraft": "128254000"
 }

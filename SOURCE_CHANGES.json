@@ -1,191 +1,21 @@
 {
-  "baseline": "ZOD-Commerce-v1.8.1-Salla-Upload.zip",
-  "version": "1.8.2",
-  "note": "SOURCE_CHANGES.json excludes itself to avoid self-referential hashes.",
-  "added": [
-    {
-      "path": "TEMPLATE_FIXTURE_QA.json",
-      "sha256": "cc49cc4947782a925ce7f03320208b3337c754418803b660138524253e2146d5"
-    },
-    {
-      "path": "UPGRADE_COMPATIBILITY.json",
-      "sha256": "0bf59a8431f229ae26a75f9d068989ae65481a157bef62d0920984b6c5639957"
-    },
-    {
-      "path": "scripts/TOOLCHAIN_ATTEMPT.txt",
-      "sha256": "e61b5c95cafd8f4bdbd70dc879bb39f8c082f733f33b5256699b3b63a20e8c9a"
-    },
-    {
-      "path": "scripts/test-shopping.mjs",
-      "sha256": "076df82474bbb7532b952645e047a9a2bc8b29c4a075bffdddfa38a2873f6f94"
-    }
+  "version": "1.9.0",
+  "base": "1.8.2",
+  "changes": [
+    "Visibility-aware catalog errors",
+    "Icon-only rounded header; bottom mobile search",
+    "Compact cards without repeated SKU",
+    "Purchase before long description, single native CTA, scroll-only docking",
+    "Category/optional-offer product shelves",
+    "Category selector compatibility and optional real URL fallback",
+    "Three generated actual-product-reference hero assets",
+    "Mobile artwork below text",
+    "Production manifest and purchase layout tests"
   ],
-  "changed": [
-    {
-      "path": "BROWSER_QA.json",
-      "before_sha256": "e7cef0ea3d7632a5561f18c3eef90895c448fa28e34dc1d77b78c5f0f572a932",
-      "sha256": "fd061ac760a6b8c3167a9d5f121cb5a34391b5f6482c4e0bfc91806fbd826e0b"
-    },
-    {
-      "path": "BUILD_MANIFEST.json",
-      "before_sha256": "0202ddae23867e770360963bcf2291a0661d8051b95dc252bdda0dfe85601afc",
-      "sha256": "926215d0fd765d60df8bd162714c454677e0d825eb41be856b4d0512bf775327"
-    },
-    {
-      "path": "CHANGELOG.md",
-      "before_sha256": "4793ce514968482d1cb927c0bc9ca52e0e9fbda06e5ecb030a4a2226e6255d78",
-      "sha256": "35d991f92e2f9309f12984fe96dec32cdaed6f683ec5b63ede7feacafe034a40"
-    },
-    {
-      "path": "COMPONENTS.md",
-      "before_sha256": "2ef604410d27c6c800ed13dcca4c31bfa1434ba1a3b598f1a12862421c3b7b7d",
-      "sha256": "d61b1ed46f1f6b5b61950611c58e44cd514a1c3b2262af310a1fed4254d800c8"
-    },
-    {
-      "path": "INTEGRITY_QA.json",
-      "before_sha256": "526ddf1ec99ee1ce89426edba9488d9339aa9805953a83b19f368aec35c25366",
-      "sha256": "efdd5518985e4f2e42ce206e2bfc45aa791815d76aa79ddf1fb8714aeb5f61d5"
-    },
-    {
-      "path": "MERCHANT_GUIDE_AR.md",
-      "before_sha256": "fe09a9486d10627f9008971f5f9eebe1cd5ca7379c061151b20922018335d0d2",
-      "sha256": "626c755867625114b6464d5e6fccf50ce077a5d11b797b663e7c62530a1d2427"
-    },
-    {
-      "path": "QA_REPORT.md",
-      "before_sha256": "0f1d9db27bb2d8bcbdd04f07d70213ba974312f716ca5fe06e70ba5f282eaae4",
-      "sha256": "0482a0e5941ca94ba10576a5a6eab44673f1dc0bc92a8b6c452d402a9ba291f9"
-    },
-    {
-      "path": "README.md",
-      "before_sha256": "158ee7099dad9614ca4535a6dfadd64a5d53c9b165d3f70d16985df2a01241c2",
-      "sha256": "1620185c31f6eecba8b911630657afbaf373f53796927967439e0cbe26019b61"
-    },
-    {
-      "path": "START_HERE.html",
-      "before_sha256": "a099fbd93dcee345afb7a5057e8d868fb7b4e98dd6290794ab36f48fdc239720",
-      "sha256": "ca5e6fda1b8b440f2525be3113e38e81a920877cfd8a59b9f0101e177a2d2549"
-    },
-    {
-      "path": "STORE_SETUP.md",
-      "before_sha256": "0e2b20e9cd7e4d05fcc901a3e236ed1a4c0c8769e2289e4bd359b4a458ac1f4c",
-      "sha256": "312a8336a7a8e3e9fd93e09e29eae23df3bc19b723fd982acf169ffc26d348dc"
-    },
-    {
-      "path": "package.json",
-      "before_sha256": "98be631b9d7508d4a721e8ae3977f86ab301094411ae031a9c59310aceafbbf6",
-      "sha256": "fdf170aad7027098b676d11246cf48ada4e24fff7d8b28f550b997025f748862"
-    },
-    {
-      "path": "public/app.js",
-      "before_sha256": "4b5336ebf1a16e1cb72bda0c092b737f34cfdb603e10851ebd93eac886f4401f",
-      "sha256": "4b49fe4a287505a895fd0f86e5c2510ab8f0e175496b3ca943faa36ba5b3b76c"
-    },
-    {
-      "path": "public/home.js",
-      "before_sha256": "dae928b1be7adb65b9154509ae13334b517345d91981302cc1d1f156ee5797cf",
-      "sha256": "8a1a8a982970ce22dab8f3ad7adc45281ab26e5eb174522a2dcb67f4ad8fcbb8"
-    },
-    {
-      "path": "public/pages.js",
-      "before_sha256": "b8722f15bbac72694efbeff32d71c5f381303ecff65b762357ab33bf8a57a123",
-      "sha256": "960611e3fc880335ced3ccfbc9f7c857e3f33c639e3a2c0d1ef6a99734cb60a2"
-    },
-    {
-      "path": "public/product-purchase-v1726.js",
-      "before_sha256": "12ccaef5971a973332c76d9159d87744b11a5779a11e5e9d1020401c598a91b8",
-      "sha256": "3b0780700928fcaaf08b8e625672a6a634555ce810900565c18b4325ac847882"
-    },
-    {
-      "path": "public/products.js",
-      "before_sha256": "efb785d5d011380477c5e7c26644b47530bfd2689cc2ee20c0a1b23cfdacda4c",
-      "sha256": "59a17c87f98bffcd809334bba520948a9c7d1bfbfbb032bee90bdc8f5f177e73"
-    },
-    {
-      "path": "public/refinement.css",
-      "before_sha256": "f91f479e0e26a910cd2b1e1faa9e71de8333073b297ded2fd4770ab0523f657d",
-      "sha256": "d8cbbff8294e3811e7da1c3569a200d3c970d8e9d59062cd89af31a24b69ab09"
-    },
-    {
-      "path": "public/zod-menu.js",
-      "before_sha256": "738d0f83d0776303807c6760306b1d13c9f009c08373a5873feb773a32f71aa3",
-      "sha256": "fbf22c0b50be927c7e70fb172f60ae09b0e3f6aaa0ca2831fd1bc8befbeb661f"
-    },
-    {
-      "path": "scripts/LOCAL_TEST_RESULTS.txt",
-      "before_sha256": "e859128b54629fb05915b94d4ba1cf6220a6fd18c1bd927278ad12a8e8eadf4f",
-      "sha256": "ffe9237d34b6901eeee0a85eaa7f0f1c921878f190ecf7dc2cdce3aa252e88d7"
-    },
-    {
-      "path": "scripts/test-regressions.mjs",
-      "before_sha256": "5e35aec6c1584c2bf3ad3f012911af62a836189136c00eb142b0a6fac4afeb73",
-      "sha256": "b3cfd4a0f3618968927c6266049fd136476cf48b0f825644f288bf95291b0f55"
-    },
-    {
-      "path": "scripts/validate-theme.mjs",
-      "before_sha256": "fd60c63f5c651f909e42022bf784a107ede7b8c6215f5fdd7d45aab34cadd4b2",
-      "sha256": "c7a2b243e8fe5b88e3608b5f8c376136b28fcb8563cbc588f8eee24efa056426"
-    },
-    {
-      "path": "src/assets/js/pages.js",
-      "before_sha256": "a1ae23a76806fe9262da1b8622100f9f716c4b9a60a39ed04190ba111dde78b9",
-      "sha256": "7291103a5b491b60880f539bc268fb21bbdc8db8b5235197c26a5a232548cf6d"
-    },
-    {
-      "path": "src/assets/js/product-purchase-v1726.js",
-      "before_sha256": "12ccaef5971a973332c76d9159d87744b11a5779a11e5e9d1020401c598a91b8",
-      "sha256": "3b0780700928fcaaf08b8e625672a6a634555ce810900565c18b4325ac847882"
-    },
-    {
-      "path": "src/assets/js/products.js",
-      "before_sha256": "076542918c9491c9ee1f119694273b1400e036fec44cf642c412edea977ecdbe",
-      "sha256": "892ee5f5436da14e4a90feec140b3c2ee5c98eb008d21f65490c38cf7e8fe0c5"
-    },
-    {
-      "path": "src/assets/styles/refinement.css",
-      "before_sha256": "f91f479e0e26a910cd2b1e1faa9e71de8333073b297ded2fd4770ab0523f657d",
-      "sha256": "d8cbbff8294e3811e7da1c3569a200d3c970d8e9d59062cd89af31a24b69ab09"
-    },
-    {
-      "path": "src/locales/ar.json",
-      "before_sha256": "c6c403b987d73f262bb3bed115c9f80e699206c1ad159d04770d8b92a4f4b79e",
-      "sha256": "170d1419ea0082b3369186e59e60361d8c97fa35166dc324808f8ccce13acb5d"
-    },
-    {
-      "path": "src/locales/en.json",
-      "before_sha256": "a49d72f0a7b0445dff91e686f7d5cef7c2501812d8646aa54c99c28ff760aa09",
-      "sha256": "639a82e82a9b4399d93460684af5f82ffed96be1b9681381f0a7bbcd7531d840"
-    },
-    {
-      "path": "src/views/layouts/master.twig",
-      "before_sha256": "9c4efb46393495f99d3411967295f7bbf07cf5962c06659af41fda4a36658f03",
-      "sha256": "8a0af7fc3922cc3bbe77f404ff05bad67831a048bc2354d1a687342e4d205823"
-    },
-    {
-      "path": "src/views/pages/cart.twig",
-      "before_sha256": "0b5d7dd23a2da731f53aa081c957cccb9beb9f89873ff2c4b1e3c132ecaff2c9",
-      "sha256": "4923a0cccb2ffb02347c0cafd92b755ebd3a5256a331155b1516ae92fba5517f"
-    },
-    {
-      "path": "src/views/pages/partials/product/options.twig",
-      "before_sha256": "61e62d7332d5ab4beae7872fdb4a68b49447dd1e021effaa7df8046e197b73c0",
-      "sha256": "862ce4ad7bdbedbaa4d6ea86ee9febf464030099d6915b119a03427086131b9a"
-    },
-    {
-      "path": "src/views/pages/product/index.twig",
-      "before_sha256": "d4f212d947cd381bc5019a6c618610948ee8c67fca663ea5afb4209b236cfd4f",
-      "sha256": "7062ecf64b651aff8b3bd4f8206dcbc54bf7dd3ecb8fbbd88a07b7319827c7b2"
-    },
-    {
-      "path": "src/views/pages/product/single.twig",
-      "before_sha256": "c603d816d074d533cfa73f825075422499d64eccabafd5b1273522a73ce36e66",
-      "sha256": "efb1af5521f7e693845265db448d6a5bdfec646d6a0b3edbd675f99ebe8e2841"
-    },
-    {
-      "path": "twilight.json",
-      "before_sha256": "b2b15ac1e44a92fff790f0c7b79b4fcaa9c088592d15a0d83bae315a488b3ff3",
-      "sha256": "702ccc38d7acd215d2f0513345123605882bc0994d8ba8e73cba549a983927d7"
-    }
+  "preserved": [
+    "Native server prices/totals/offers",
+    "Native toast and order review",
+    "Existing component IDs"
   ],
-  "removed": []
+  "livePublished": false
 }

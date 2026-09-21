@@ -92,3 +92,12 @@ Use STORE_SETUP.md / MERCHANT_GUIDE_AR.md. Keep the hero first, followed by the 
 - [Product page](https://docs.salla.dev/422561m0)
 - [Native product slider sources](https://docs.salla.dev/422722m0)
 - [Twig helpers and assets](https://docs.salla.dev/twilight-engine/flavoured-twig)
+
+### Final category check
+
+The exhaust category rendered 15 products. Selecting ascending price changed the selected native sort and the first results to lower-priced accessories; no visible retry message remained. Final combined CSS gzip: 69,465 bytes.
+
+### Final draft artwork verification
+
+Salla draft 128254000 rendered all three bundled images successfully in Arabic RTL at an observed 488px viewport. All three category buttons were present. Images used full opacity and normal mobile flow; document scroll width was 469px. The bottom-center search opened the native search dialog and focused its search field. No live publication was performed.
+
