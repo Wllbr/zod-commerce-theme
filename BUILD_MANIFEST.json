@@ -1,5 +1,5 @@
 {
-  "version": "1.9.7",
+  "version": "1.9.8",
   "builder": "webpack-production",
   "toolchain": {
     "node": "v22.18.0",
@@ -7,7 +7,7 @@
   },
   "inputs": {
     ".npmrc": "f84e69fe032956925070936b1557ae1320d29d06b58db541649515e05db580c6",
-    "package.json": "224c0e4c08a98a3897709819fe56bde172e10bb25ae495bebf417913408a46cb",
+    "package.json": "ceba35cf506516fa4639427d3ec2025b212b15563117af619776b72da960ed12",
     "pnpm-lock.yaml": "3f2bcf6cb159d4dacbffa697add62fb88fe97bfcda1260644f33381a3024f963",
     "pnpm-workspace.yaml": "9082b3fed56a9b818282d1ab4d450eab0fa4da7c8f191072e9dc4dde32f21eb2",
     "postcss.config.js": "134370dcd34c87ed8277c373743326a1f87b669d66ac1cf3fc98abc024208c76",
@@ -26,7 +26,7 @@
     "scripts/test-notifications.mjs": "aa26cde7baa6805e151b846a0fb8466fc13b64175b36f1771fda158b31be9a95",
     "scripts/test-purchase-layout.mjs": "e5130fd918515cfc6e03674d47da4601a8499a8a836a9e0e07706db11e29dce3",
     "scripts/test-regressions.mjs": "f54fa7de65eb0f5b9fab11b58a98366ebfe804c9861fed515cd9f725404d42f0",
-    "scripts/test-shipping-goal.mjs": "45431b4c57d70b6ea2de475b65ec4acfd35f44c735c1df6be31bb8003a32cbb7",
+    "scripts/test-shipping-goal.mjs": "6b0a9193b042ff50bbdebdd8fdadd1b45eeb81baf908064d9ab8c9ea203ec58f",
     "scripts/test-shopping.mjs": "bdefbbc41d580b056833f10382d25be854844d6a114521d7000d5d86025cefe4",
     "scripts/validate-theme.mjs": "597877959bad421b24ec0f800e778465e63e839616ae4ea22e73f8fe192d6309",
     "src/assets/images/campaign-home.webp": "0be8a4f471cf3ad2b6dab4b103e5e70e8ddfa93783880c6375c798b9cad34328",
@@ -49,7 +49,7 @@
     "src/assets/js/partials/preview-links.js": "5c5b7875161c4f8e3985daabb7460aa2260e7c1b8992427c71e97de018cbc5f9",
     "src/assets/js/partials/product-card.js": "fe619baf0d082c919a5e19ee0ab03ee00042f2e3711ec3849bbc283edfb8abbc",
     "src/assets/js/partials/search-card-navigation.js": "d07dd404d89acb134be24b1fcd6820b8bb44d99c2f7df90b9105bd06a65c9284",
-    "src/assets/js/partials/shipping-goal.js": "cdbb57c8ed5fb814aca8770fa78fe49edbe403f4284f63a155b70de635b544fe",
+    "src/assets/js/partials/shipping-goal.js": "fa2a7744cd573f15f80e4c6dd56c69a164384b1d50714e3345c132dd529eb810",
     "src/assets/js/partials/stock.js": "d1eb5e55ad04fc919bc89eddc9b4c417fa7dab309eb3301a33a26632e5a1cea9",
     "src/assets/js/partials/zod-menu.js": "126471acecb93fa7f566bd6959b07c40f7a512228201dbdc1970bd8fbdc3591f",
     "src/assets/js/product-purchase-v1726.js": "810ffb0962eaccd16975de9a0f5c5e9e26e8a35129c33d14e63cc1ef67837068",
@@ -118,8 +118,9 @@
     "src/views/components/home/wholesale-cta.twig": "d26db45fb4a7257348793dd9fd57d89cec0d0b7e67e6f6206798d00ae01f7303",
     "src/views/components/home/youtube.twig": "3bdfb2a01c95cac9aa755a38dec1cbcd12f6d394c1d5751f8b76e7b39355d212",
     "src/views/components/shared/category-symbol.twig": "044912c8aa8010a3794f7b8f727e7ca163102b67802ebef486a39dbfb0494771",
-    "src/views/components/shipping-goal.twig": "530812f7d29173553ccf78fd6f062020e4460b12601c4d3df0feab8bf6038929",
-    "src/views/components/shipping-progress.twig": "e102c9cf2d4c5cb1e86c7385b96d2fd7c3a71fca3c154825a87faeb0014bb758",
+    "src/views/components/shipping-config.twig": "4805d640a2177d4f9b4bf3daacd9ece207909f8d142eb4b2f98c3f30e64f99b9",
+    "src/views/components/shipping-goal.twig": "a8277601439e5f802abd1252a0a1697581024f9e6e014d572a1a0707f2b0eaa5",
+    "src/views/components/shipping-progress.twig": "6308e0654c6443912af62f92fcbfe5fac2b8bd1733d4d125bf6d6c964d82c96a",
     "src/views/components/trust-icon.twig": "06428abdae31ebe08438866e22bc47b832ff835b6a43752d119ff611fa52da0f",
     "src/views/layouts/customer.twig": "04f6376ca00ad99ac91b0d4baf89c01729728ec8550f1ab5c1f1d63531a404b9",
     "src/views/layouts/master.twig": "801d32eb35555b318f4928522baf6c67257fbee989da94ab38f0e96c6357a327",
@@ -144,7 +145,7 @@
     "src/views/pages/testimonials.twig": "d499be8138a23a6daa457cbf1000759df3a15024fb9272d8f8395018ec945323",
     "src/views/pages/thank-you.twig": "a51fb48179d9d21eb5b21b01b485642edfe5612800ad5233d742ff5a59012dc8",
     "tailwind.config.js": "f321881ec2a51603ba55316b6841c2b0950a4b33b00c04dd4818d1de9d79d169",
-    "twilight.json": "e629b33faf90be36b9f953ce764c4f417a74eff5c35a08ef93536b4397d3df39",
+    "twilight.json": "06fcfa403876a238892a57afed5a04ab7c5b992c3f1e32c78b43f9c029a2389a",
     "webpack.config.js": "4308d439ba372bbe507188cf29ea4762a830b88baa136c1af49eafdcd2e4589e"
   },
   "files": {
@@ -161,7 +162,7 @@
       "mode": "webpack-production-output"
     },
     "public/app.js": {
-      "sha256": "95013c9075e838dc654eaca784daaf87fb6f27e00abc1df06d247852460a5bac",
+      "sha256": "40decfc0f5018aa26436045e2674514a40ec4b1544824dd4f8faa78936875efe",
       "mode": "webpack-production-output"
     },
     "public/digital-files.js": {

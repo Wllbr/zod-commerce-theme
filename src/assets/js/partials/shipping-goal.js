@@ -1,107 +1,104 @@
-// Eligibility, target and progress come only from the active Salla shipping offer.
-export const goalState = cart => {
-  const number = value => {
-    value = value?.amount ?? value;
-    if (value === null || value === undefined || value === '' || typeof value === 'boolean') return null;
-    const n = Number(value); return Number.isFinite(n) ? n : null;
-  };
-  const native = cart?.free_shipping_bar;
-  const threshold = number(native?.minimum_amount);
-  const remaining = number(native?.remaining);
-  const percent = number(native?.percent);
-  if (!native || threshold === null || threshold <= 0 || remaining === null || percent === null) return null;
-  const complete = native.has_free_shipping === true || native.has_free_shipping === 1 || native.has_free_shipping === '1';
-  return {threshold,remaining:Math.max(0,remaining),percent:Math.max(0,Math.min(100,percent)),complete};
+// Merchant-managed campaign. This display does not configure checkout shipping.
+const shippingNumber = value => {
+  value = value?.amount ?? value;
+  if (value === null || value === undefined || typeof value === 'boolean') return null;
+  const text = String(value).trim().replace(/[٠-٩]/g,c=>String(c.charCodeAt(0)-1632)).replace(/[۰-۹]/g,c=>String(c.charCodeAt(0)-1776)).replace('٫','.');
+  if (!text) return null;
+  const n = Number(text); return Number.isFinite(n) ? n : null;
 };
+export const goalState = (cart, target, afterDiscount = true) => {
+  const threshold = shippingNumber(target), subtotal = shippingNumber(cart?.sub_total);
+  const discount = cart?.discount == null ? 0 : shippingNumber(cart.discount);
+  if (threshold === null || threshold <= 0 || subtotal === null || subtotal < 0 || (afterDiscount && (discount === null || discount < 0))) return null;
+  const cents = Math.round(threshold * 100);
+  if (!Number.isSafeInteger(cents) || cents < 1) return null;
+  const amount = Math.max(0,Math.round(subtotal*100) - (afterDiscount ? Math.round(discount*100) : 0));
+  const remaining = Math.max(0,cents-amount)/100;
+  return {threshold:cents/100,remaining,percent:Math.min(100,amount/cents*100),complete:amount>=cents};
+};
+export const shippingMessage = (template, remaining, target) => String(template).replaceAll('{remaining}',remaining).replaceAll('{target}',target);
 
 export const initShippingGoal = () => {
   const widget = document.querySelector('[data-shipping-widget]');
   const hosts = [...document.querySelectorAll('[data-shipping-goal]')];
   if (!hosts.length || document.documentElement.dataset.shippingReady) return;
   document.documentElement.dataset.shippingReady = 'true';
-  const ar = document.documentElement.lang === 'ar';
+  const config = hosts[0].dataset;
+  const ar = document.documentElement.lang.startsWith('ar');
   const format = n => new Intl.NumberFormat(ar ? 'ar-SA' : 'en', {maximumFractionDigits:2}).format(n);
+  const money = n => {
+    try { return String(window.salla.money(n,false)).replace(/<[^>]*>/g,''); } catch (_) { return format(n); }
+  };
+  const target = shippingNumber(config.shippingTarget);
+  if (config.shippingEnabled === 'false' || target === null || target <= 0) return;
+  const afterDiscount = config.shippingAfterDiscount !== 'false';
+  const notifyEnabled = config.shippingNotify !== 'false';
+  const progressText = config.shippingRemaining || (ar ? 'باقي لك {remaining} للشحن المجاني' : '{remaining} away from free delivery');
+  const successText = config.shippingSuccess || (ar ? 'مبروك! شحنك مجاني 🎉' : 'You unlocked free delivery! 🎉');
+  const initialText = config.shippingInitial || (ar ? 'شحن مجاني للطلبات من {target}' : 'Free delivery on orders from {target}');
+  const termsText = config.shippingTermsCopy || '';
+  const normalIcon = config.shippingIcon || '🚚', completeIcon = config.shippingCompleteIcon || '🎉';
   const toggle = widget?.querySelector('[data-shipping-toggle]');
   const popup = widget?.querySelector('[data-shipping-popup]');
   const live = widget?.querySelector('[data-shipping-live]');
-  const terms = new Map(hosts.flatMap(host => [...host.querySelectorAll('[data-shipping-terms]')].map(node => [node,node.textContent])));
-  let revision = 0, timer, closeTimer, previous, showNotice = false;
+  let revision = 0, timer, closeTimer, previous, showNotice = false, wasComplete = false;
   const close = () => { if(popup) popup.hidden = true; toggle?.setAttribute('aria-expanded','false'); };
   const open = () => { clearTimeout(closeTimer); if(popup) popup.hidden = false; toggle?.setAttribute('aria-expanded','true'); };
   toggle?.addEventListener('click', () => popup.hidden ? open() : close());
   widget?.querySelector('[data-shipping-close]')?.addEventListener('click', close);
   widget?.addEventListener('keydown', e => { if (e.key === 'Escape') { close(); toggle.focus(); } });
-  const render = (cart, notify) => {
-    const state = goalState(cart);
+  const render = (state, notify) => {
+    const message = shippingMessage(state ? (state.complete ? successText : progressText) : initialText, money(state?.remaining ?? target), money(target));
     hosts.forEach(host => {
       host.hidden = false; host.closest?.('[data-shipping-section]')?.removeAttribute('hidden');
       host.classList.toggle('is-unconfirmed',!state);
-      host.querySelectorAll('[data-shipping-progress]').forEach(node => { node.hidden = !state; });
-      host.querySelectorAll('[data-shipping-check]').forEach(node => { node.hidden = Boolean(state); });
-    });
-    terms.forEach((text,node) => { node.textContent = state ? text : (ar ? 'تعتمد الأهلية على عنوانك وطريقة التوصيل وشروط العرض. تأكد منها عند إتمام الطلب.' : 'Eligibility depends on your address, delivery method and offer conditions. Confirm it at checkout.'); });
-    if (!state) {
-      const message = ar ? 'تحقق من أهلية الشحن المجاني' : 'Check free-delivery eligibility';
-      hosts.forEach(host => {
-        host.classList.remove('is-complete');host.style.setProperty('--shipping-progress','0%');
-        host.querySelectorAll('[data-shipping-message]').forEach(node => {node.textContent=message;});
-        host.querySelectorAll('[data-shipping-icon]').forEach(node => {node.textContent='🚚';});
+      host.classList.toggle('is-complete',Boolean(state?.complete));
+      host.style.setProperty('--shipping-progress', `${state?.percent ?? 0}%`);
+      host.querySelectorAll('[data-shipping-terms]').forEach(node => {node.textContent=termsText;node.hidden=!termsText;});
+      host.querySelectorAll('[data-shipping-message]').forEach(node => {node.textContent=message;});
+      host.querySelectorAll('[data-shipping-check]').forEach(node => {node.hidden=Boolean(state);});
+      host.querySelectorAll('[data-shipping-icon]').forEach(node => {node.textContent=state?.complete ? completeIcon : normalIcon;});
+      host.querySelectorAll('[data-shipping-progress]').forEach(node => {
+        node.hidden=!state;
+        node.setAttribute('aria-valuenow',String(Math.round(state?.percent ?? 0)));
+        node.setAttribute('aria-valuetext',message);
       });
-      toggle?.setAttribute('aria-label',message);
-      if(previous) close(); previous=null; return;
-    }
-    // Use Salla's current currency formatter, not a hard-coded SAR campaign.
-    let amount = format(state.remaining);
-    try { amount = window.salla.money(state.remaining); } catch (_) {}
-    const message = state.complete ? (ar ? 'مبروك! شحنك علينا' : 'You unlocked free delivery!') :
-      (ar ? `باقي لك ${amount} للشحن المجاني` : `${amount} away from free delivery`);
-    let plainMessage = message.replace(/<[^>]*>/g,'');
-    hosts.forEach(host => {
-      host.style.setProperty('--shipping-progress', `${state.percent}%`);
-      host.classList.toggle('is-complete', state.complete);
-      host.querySelectorAll('[data-shipping-message]').forEach(n => { n.innerHTML = message; });
-      host.querySelectorAll('[data-shipping-progress]').forEach(n => {
-        n.setAttribute('aria-valuenow', String(Math.round(state.percent)));
-        n.setAttribute('aria-valuetext', plainMessage);
-      });
-      host.querySelectorAll('[data-shipping-icon]').forEach(n => { n.textContent = state.complete ? '🎉' : '🚚'; });
     });
-    toggle?.setAttribute('aria-label', plainMessage);
-    if (notify && previous !== message && widget) {
-      live.textContent = plainMessage; open(); clearTimeout(closeTimer);
-      closeTimer = setTimeout(() => {
-        // Do not remove the close control while a keyboard user is using it.
-        if (!popup.contains(document.activeElement)) close();
-      }, 5500);
+    toggle?.setAttribute('aria-label',message);
+    if (notifyEnabled && notify && previous !== message && widget) {
+      if(live) live.textContent=message;
+      open(); clearTimeout(closeTimer);
+      closeTimer=setTimeout(()=>{if(!popup.contains(document.activeElement)) close();},5500);
       widget.classList.remove('is-celebrating');
-      if (state.complete && previous && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if(state?.complete && !wasComplete && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         widget.classList.add('is-celebrating');
-        setTimeout(() => widget.classList.remove('is-celebrating'), 1300);
+        setTimeout(()=>widget.classList.remove('is-celebrating'),1300);
       }
     }
-    previous = message;
+    wasComplete=Boolean(state?.complete); previous=message;
   };
-  const refresh = (notify = false) => {
-    const current = ++revision; showNotice = showNotice || notify; clearTimeout(timer);
-    timer = setTimeout(async () => {
+  const refresh = (notify=false) => {
+    const current=++revision; showNotice=showNotice||notify; clearTimeout(timer);
+    timer=setTimeout(async()=>{
       try {
-        const response = await window.salla.cart.details();
-        if (current !== revision) return;
-        const roots = [response?.data?.cart, response?.cart, response?.data?.data, response?.data, response];
-        const cart = roots.find(r => r && typeof r === 'object' && ('sub_total' in r || 'free_shipping_bar' in r));
-        render(cart, showNotice); showNotice = false;
-      } catch (_) { /* Preserve confirmed values; a failed request never means an empty cart. */ }
-    }, 180);
+        const response=await window.salla.cart.details();
+        if(current!==revision) return;
+        const roots=[response?.data?.cart,response?.cart,response?.data?.data,response?.data,response];
+        const cart=roots.find(r=>r && typeof r==='object' && 'sub_total' in r);
+        const state=goalState(cart,target,afterDiscount);
+        // Incomplete/failed requests never reset a confirmed basket to zero.
+        if(state) {render(state,showNotice);showNotice=false;}
+      } catch (_) {}
+    },180);
   };
   render(null,false);
-  const boot = () => {
+  const boot=()=>{
     refresh();
-    const events = window.salla.cart?.event;
-    events?.onItemAdded?.(() => refresh(true));
-    ['onItemUpdated','onItemDeleted','onCouponAdded','onCouponDeleted'].forEach(name => events?.[name]?.(() => refresh(true)));
-    window.salla.event?.cart?.onUpdated?.(() => refresh(true));
-    ['zod:cart-update-success','zod:cart-delete-success'].forEach(name => document.addEventListener(name, () => refresh(true)));
-    document.addEventListener('visibilitychange', () => { if(!document.hidden) refresh(); });
+    const events=window.salla.cart?.event;
+    ['onItemAdded','onItemUpdated','onItemDeleted','onCouponAdded','onCouponDeleted'].forEach(name=>events?.[name]?.(()=>refresh(true)));
+    window.salla.event?.cart?.onUpdated?.(()=>refresh(true));
+    ['zod:cart-update-success','zod:cart-delete-success'].forEach(name=>document.addEventListener(name,()=>refresh(true)));
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh();});
   };
-  window.salla?.onReady?.().then(boot).catch(() => {});
+  window.salla?.onReady?.().then(boot).catch(()=>{});
 };

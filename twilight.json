@@ -220,9 +220,119 @@
       "type": "boolean",
       "format": "switch",
       "icon": "sicon-shipping-fast",
-      "label": "أيقونة تقدم الشحن — تتبع عرض الشحن المجاني في سلة",
+      "label": "إظهار أيقونة هدف الشحن المجاني العائمة",
       "value": true,
       "selected": true,
+      "required": false
+    },
+    {
+      "id": "shipping_campaign_enabled",
+      "type": "boolean",
+      "format": "switch",
+      "icon": "sicon-toggle-off",
+      "label": "تفعيل هدف الشحن المجاني اليدوي — جميع المواضع",
+      "value": true,
+      "selected": true,
+      "description": "يتحكم في الأيقونة والبنر ومكوّن الصفحة. إعداد عرض الشحن الفعلي في سلة مسؤولية التاجر؛ هذا المؤشر لا يعدّل رسوم الدفع.",
+      "required": false
+    },
+    {
+      "id": "shipping_goal_target",
+      "type": "string",
+      "format": "text",
+      "icon": "sicon-format-text-alt",
+      "label": "مبلغ الوصول إلى الشحن المجاني",
+      "value": "350",
+      "description": "أدخل المبلغ بعملة المتجر مثل 350 أو 500. يقبل الأرقام العربية. القيمة صفر تخفي المؤشر. تتشارك جميع المواضع هذا المبلغ.",
+      "maxLength": 20,
+      "required": false
+    },
+    {
+      "id": "shipping_after_discount",
+      "type": "boolean",
+      "format": "switch",
+      "icon": "sicon-toggle-off",
+      "label": "احتساب قيمة المنتجات بعد الخصومات",
+      "value": true,
+      "selected": true,
+      "description": "عند إيقافه تحتسب قيمة المنتجات قبل الخصم. رسوم الشحن والدفع لا تدخل في التقدم.",
+      "required": false
+    },
+    {
+      "id": "shipping_initial_text",
+      "type": "string",
+      "format": "text",
+      "icon": "sicon-format-text-alt",
+      "label": "نص الهدف أثناء تحميل السلة",
+      "value": "شحن مجاني للطلبات من {target}",
+      "description": "{target} = المبلغ المطلوب مع العملة. اتركه فارغاً للنص الافتراضي حسب اللغة.",
+      "maxLength": 220,
+      "required": false
+    },
+    {
+      "id": "shipping_remaining_text",
+      "type": "string",
+      "format": "text",
+      "icon": "sicon-format-text-alt",
+      "label": "نص المبلغ المتبقي",
+      "value": "باقي لك {remaining} للشحن المجاني",
+      "description": "{remaining} = المبلغ المتبقي، {target} = المبلغ المطلوب. استخدم الرموز كما هي.",
+      "maxLength": 220,
+      "required": false
+    },
+    {
+      "id": "shipping_success_text",
+      "type": "string",
+      "format": "text",
+      "icon": "sicon-format-text-alt",
+      "label": "رسالة الوصول إلى الهدف",
+      "value": "مبروك! شحنك مجاني 🎉",
+      "description": "تظهر عند بلوغ مبلغ الهدف. اتركه فارغاً للنص الافتراضي حسب اللغة.",
+      "maxLength": 220,
+      "required": false
+    },
+    {
+      "id": "shipping_terms_text",
+      "type": "string",
+      "format": "text",
+      "icon": "sicon-format-text-alt",
+      "label": "وصف أو شروط العرض تحت الرسالة",
+      "value": "وفق شروط الشحن في المتجر",
+      "description": "اختياري. يظهر كما تكتبه؛ اتركه فارغاً لإخفائه.",
+      "maxLength": 220,
+      "required": false
+    },
+    {
+      "id": "shipping_icon",
+      "type": "string",
+      "format": "text",
+      "icon": "sicon-format-text-alt",
+      "label": "رمز الأيقونة قبل بلوغ الهدف",
+      "value": "🚚",
+      "description": "رمز تعبيري أو نص قصير.",
+      "maxLength": 8,
+      "required": false
+    },
+    {
+      "id": "shipping_complete_icon",
+      "type": "string",
+      "format": "text",
+      "icon": "sicon-format-text-alt",
+      "label": "رمز الأيقونة بعد بلوغ الهدف",
+      "value": "🎉",
+      "description": "رمز تعبيري أو نص قصير.",
+      "maxLength": 8,
+      "required": false
+    },
+    {
+      "id": "shipping_notify",
+      "type": "boolean",
+      "format": "switch",
+      "icon": "sicon-toggle-off",
+      "label": "إشعار تلقائي بعد تغيير السلة",
+      "value": true,
+      "selected": true,
+      "description": "يظهر المتبقي أو رسالة الشحن المجاني بعد الإضافة وتغيير الكمية والحذف وتعديل الكوبون. يختفي تلقائياً؛ فتح الأيقونة يدوياً يبقيه مفتوحاً.",
       "required": false
     }
   ],
@@ -379,7 +489,7 @@
         },
         {
           "id": "show_shipping",
-          "label": "عرض تقدم الشحن حسب العرض الفعّال في سلة",
+          "label": "إظهار هدف الشحن المجاني اليدوي",
           "type": "boolean",
           "icon": "sicon-toggle-off",
           "format": "switch",
@@ -5412,8 +5522,8 @@
     {
       "key": "cfe82b72-f5be-4cea-8562-3d543ce849fd",
       "title": {
-        "ar": "تقدم الشحن المجاني — عروض سلة",
-        "en": "Free shipping progress — Salla offers"
+        "ar": "هدف الشحن المجاني — إعداد يدوي",
+        "en": "Free shipping goal — manual settings"
       },
       "icon": "sicon-shipping-fast",
       "path": "home.shipping-progress",
@@ -5422,8 +5532,8 @@
           "id": "enabled",
           "type": "boolean",
           "format": "switch",
-          "label": "إظهار أهلية الشحن المجاني وتقدم العرض",
-          "description": "يظهر تنبيه للتحقق من الأهلية حتى تؤكد سلة العرض. بعدها يظهر المبلغ والتقدم تلقائياً حسب شروط المتجر. أخفِ المكوّن من هذا الخيار عند عدم الحاجة إليه. إعداد الأيقونة العائمة في خيارات الثيم.",
+          "label": "إظهار مكوّن هدف الشحن المجاني",
+          "description": "عدّل المبلغ والنصوص والرموز والإشعارات من خيارات التصميم ← إعدادات هدف الشحن المجاني اليدوي. تتشارك الأيقونة والبنر وهذا المكوّن الإعدادات نفسها.",
           "value": true,
           "selected": true,
           "required": false
@@ -5436,5 +5546,5 @@
     "ar": "ثيم متجر زود التجاري — واجهة احترافية ثنائية اللغة للمنتجات التقنية والإلكترونية والأجهزة.",
     "en": "ZOD Commerce — a professional bilingual storefront for technical products, electronics, appliances, and equipment."
   },
-  "version": "1.9.7"
+  "version": "1.9.8"
 }
