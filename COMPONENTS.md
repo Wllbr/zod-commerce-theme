@@ -1,4 +1,4 @@
-# Component manual — ZOD 1.8.3 / دليل المكونات
+# Component manual — ZOD 1.9.0 / دليل المكونات
 
 
 All 18 IDs from v1.8.0 are preserved; `home.hero-hub` was introduced in that release. Existing settings are not automatically populated. The first configuration field of each component now includes usage guidance in the theme editor. Image sizes below are editorial suggestions, not Salla API limits.
@@ -10,7 +10,9 @@ Template: `home.hero-hub`
 
 Placement: Top of homepage; your recommended primary hero. / بداية الصفحة الرئيسية.
 
-Setup: Select the three actual categories; edit bilingual copy and optional square cutouts. No category URL means no fake CTA. Empty media uses schematic artwork. / اربط التصنيفات الثلاثة وأضف صوراً اختيارية.
+Setup: Select the three actual categories; edit bilingual copy and optional square cutouts. No category URL means no fake CTA. Media priority: manual image, selected real product image, category image, then schematic artwork. / اربط التصنيفات الثلاثة وأضف صوراً اختيارية.
+
+Additional fields: `exhaust_product`, `intercom_product`, `insect_product`.
 
 Fields: `title`, `intro`, `exhaust_category`, `exhaust_title`, `exhaust_text`, `exhaust_image`, `intercom_category`, `intercom_title`, `intercom_text`, `intercom_image`, `insect_category`, `insect_title`, `insect_text`, `insect_image`.
 
@@ -255,3 +257,9 @@ These are not extra homepage components; the 18 existing component IDs are uncha
 - Native cart summary and native product offers need no duplicate theme component. Promotions are configured in Salla. / لا تضف ملخص سلة أو حساب خصومات موازياً.
 - Mobile bottom navigation is omitted on the cart page. / يُخفى التنقل السفلي في السلة لإعطاء الأولوية لإتمام الطلب.
 
+
+## v1.9.0 shelf and header updates
+
+home.product-shelf adds category and show_offers_when_empty. Selected products remain first priority, followed by category, offers, then opt-in latest. Set three focused shelves for the hero categories; use sales reports to curate best sellers. All 18 component IDs are retained.
+
+Header search-bar and department-rail settings are retained only for configuration compatibility. Their former bars no longer render. Desktop search is an icon; mobile bottom navigation owns search where enabled.

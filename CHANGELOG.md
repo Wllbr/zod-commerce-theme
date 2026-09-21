@@ -1,3 +1,12 @@
+# v1.9.0 — storefront refinement and native purchase layout
+
+- Rounded, icon-only search header; removed duplicate search row and category rail.
+- Removed SKU text from cards; bounded title/subtitle layout; retained actual product image colors.
+- Moved long PDP content below purchase area; native inline-to-sticky controls with a single controller.
+- Added category/offer shelf sources and real-product image selection for hero doors.
+- Visibility-aware catalog recovery and purchase-scroll regression coverage.
+- Production build, draft-only Git branch and updated setup/QA records.
+
 # v1.8.3 — production build and catalog recovery
 
 - Completed a frozen-lockfile dependency install and full Webpack production build under Node 22.18.0. The production manifest and release gate pass.

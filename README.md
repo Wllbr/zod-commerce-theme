@@ -1,31 +1,32 @@
-# ZOD Commerce v1.8.3
+# ZOD Commerce v1.9.0
 
-This package is for Salla draft/staging review. It contains a complete Webpack production build. It has not been uploaded as v1.8.3, published live, or approved by Salla.
+Production-built revision for Salla draft review. See QA_REPORT.md for the exact verified scope and remaining publication gates. No live publication is authorized or performed.
 
-## What changed
+## Main changes
 
-The exhaust category preview showed 15 loaded products and a theme retry message at the same time. Salla retained a hidden native error element; the theme treated its mere presence as a visible failure. The catalog now shows its retry panel only when the native error is actually displayed.
+- Rounded header. Desktop search icon only; no search bar or department strip. Mobile uses its bottom-navigation search. When that navigation is absent (including cart), the header icon remains available.
+- Shared cards omit the redundant SKU line, contain long names/subtitles, and preserve native purchase actions.
+- Product page puts price, availability, options and purchasing ahead of the long description and specification facts. One purchase controller docks after scrolling past the inline action and restores it on return.
+- Hero category component can use an actual selected product image. Manual artwork takes priority, followed by selected product, category image and schematic fallback.
+- Product shelves support selected products, category feeds, native offers or opt-in latest products, in that priority order. No fabricated best-seller ranking.
+- Catalog error recovery observes changes in native error visibility as well as added/removed content.
 
-Production release tests now accept minified Webpack output while still checking required compiled features and every input/output hash. The v1.8.0 approval fixes remain: add-product toast in the master layout, order-item review in customer order details, and no automatic product-detail requests from listing cards. Quick View still requests details only after a shopper opens it.
+## Build
 
-## Build and verification
-
-Use Node 22.18.0 or a version allowed by package.json. Dependencies are locked in pnpm-lock.yaml.
+Use Node matching package.json, then run:
 
 ```sh
 pnpm install --frozen-lockfile
 pnpm production
 pnpm test
 pnpm release:check
+pnpm release
 ```
 
-The supplied BUILD_MANIFEST.json records a webpack-production build. Edit source, scripts, or documentation only before rebuilding, because the integrity check hashes all build inputs. The locally executed release gate passed. The package does not prove Salla's Twig/schema renderer, browser compatibility, checkout, or marketplace approval.
+BUILD_MANIFEST.json hashes source, configuration, scripts and production outputs. Rebuild after editing build inputs. ZIP packaging requires production provenance and excludes credentials, dependencies and Git metadata.
 
-## Salla draft checklist
+## Draft and rollout
 
-1. Keep v1.8.2 for rollback. Upload this ZIP to a draft, not the live theme.
-2. In the home editor, add the available “واجهة الأقسام الرئيسية — زود” component and select the actual exhaust, intercom, and insect-control categories, imagery, and localized text. It is available in the editor but currently not active on the inspected draft homepage.
-3. Check category sorting/filtering, the exhaust list retry state, product options, native offers, cart summary and checkout handoff in Arabic RTL and English LTR on desktop and mobile.
-4. Check order review, attachments, saved notes, payment states, and assistive technology with real account/order data. Test before any publication.
+Review branch: codex/zod-1.9.0-review in Wllbr/zod-commerce-theme. Keep the previous release for rollback. Preview changes in Salla before merging to main or requesting publication. Store page order and chosen products are merchant settings; they are not embedded in a portable theme ZIP.
 
-See STORE_SETUP.md, MERCHANT_GUIDE_AR.md, COMPONENTS.md and QA_REPORT.md for configuration and remaining gates.
+The required toast and order-item review components remain in place. Listing initialization makes no automatic product-detail calls; explicit Quick View retains its single on-demand call.

@@ -20,7 +20,7 @@
     "scripts/record-build.mjs": "671b6a42cdd2dbeec4955851180a9d4d3308daff3c1bdaca0aea8ad3a9e6689c",
     "scripts/test-approval.mjs": "f64d2e291469003005c5567c710023ba6734da811dd3e89550f7b6efc368e87e",
     "scripts/test-continuation.mjs": "80a0f1f9de3114467c74e2d79cb584babcaa90aaa08e18953204c33861f725bc",
-    "scripts/test-purchase-layout.mjs": "caa04bb7217723090e57d73a0c2b6046e8302c74a87108f4c5a04016654ff389",
+    "scripts/test-purchase-layout.mjs": "64bf3a05fdf9b56c2bd659d407f16f2082d1e0f48bff2faf1a35677f13863172",
     "scripts/test-regressions.mjs": "387c02a2458cd55008989c4499470593619f5e063b06be9b4d40b4aedf85f9db",
     "scripts/test-shopping.mjs": "1339f9851f4a6c53b91c25a2d6267b273cbd000178aa4fc779fa8b0f23cb7778",
     "scripts/validate-theme.mjs": "12f709f3fbbdf194f378d7b2cfe30d0f1b8bf85b6c6f9823f96805891cb5c71a",
@@ -45,12 +45,12 @@
     "src/assets/js/product.js": "bcd8c9ad9ba2389a50bdfc1a1828d4b2d7178c3664d36bb116c56d2b4c065acb",
     "src/assets/js/products.js": "2288737674b5b18ec7301e0e8c5c951edeb089b2371fbadebd8342665922fb5b",
     "src/assets/styles/app.scss": "e9a4450ae4837a3d55688e56dfb9c597c37cb761cf2fda28222b5ba4a2503f3f",
-    "src/assets/styles/refinement.css": "c25cdd43c753ebd2d86e7d8509fa61c365f1c6066dfb6e27ba2ab5ac0b4fd409",
+    "src/assets/styles/refinement.css": "738f970c265d4ef848f3863df65e36b9c5cb8e6202538d6da6cacd653a98dd4e",
     "src/locales/ar.json": "170d1419ea0082b3369186e59e60361d8c97fa35166dc324808f8ccce13acb5d",
     "src/locales/en.json": "639a82e82a9b4399d93460684af5f82ffed96be1b9681381f0a7bbcd7531d840",
     "src/views/components/blog/article-card.twig": "08e54744a1e11e571ef7dfa67e6e183ee85b1817662c6f237e99e1b748ff2e76",
     "src/views/components/footer/footer.twig": "49804402760c8fe2c429bda62f854b9d94557d6335e396b51e399a864beda107",
-    "src/views/components/header/header.twig": "1a318b4ddbe4eb67822aaf7a5174c69b894a3a0f9f2a41dfe7ab3bafd50ff4e9",
+    "src/views/components/header/header.twig": "cde1d0092bcba830a9b4200c0c5cff3c3e0aac158e216e618e7e5530fae80201",
     "src/views/components/home/brands.twig": "04fda8ade48ee0ea5cea59a4b2216f1d8cf90f05a1b962a62c921455b47c464b",
     "src/views/components/home/buying-guides.twig": "7e2f8cffd046ab648ed36795474b2812a911fa4268d5e8b66fcf3b84b99e56cb",
     "src/views/components/home/category-grid.twig": "629dfb5490393c4d11196912b52ce0f593e7f975b95fb2628a461fe6617daf91",
@@ -62,7 +62,7 @@
     "src/views/components/home/featured-products.twig": "9f3f298ff9d99a7e8d6b92d1c8c4b4b6091ed23db4cec1e6060f6f4166bd25bb",
     "src/views/components/home/fixed-banner.twig": "e8500a31a94d350bf4dc22beb6b1571609417fb25489a9d650e60cc795ffc506",
     "src/views/components/home/fixed-products.twig": "1ed30b6c59b4fe9fe5472760a8ae6f464139226e2be15f38a857387fe779fd77",
-    "src/views/components/home/hero-hub.twig": "142558c031c4229ece8890c09b68d4cbde6cf1fab60aeec666db112bb293f684",
+    "src/views/components/home/hero-hub.twig": "b410dc83ebfa3fb09830d570c7af6d3134e2604c836d3c53130b058db859bcc6",
     "src/views/components/home/hero.twig": "08b2cd98923ecac88d40f5e73fbffed0d747c12872c946fff647c050aeb603c0",
     "src/views/components/home/interactive-product-showcase.twig": "8751aa2a6b921964e78e50a6f9c275755bf5726126481918c73b859a141027c1",
     "src/views/components/home/laser-showcase.twig": "941deacfcd7cdfac6a2c6130653609a352328f6e5cbb4c23fcf3db7a8583b0b0",
@@ -105,7 +105,7 @@
     "src/views/pages/testimonials.twig": "d499be8138a23a6daa457cbf1000759df3a15024fb9272d8f8395018ec945323",
     "src/views/pages/thank-you.twig": "a51fb48179d9d21eb5b21b01b485642edfe5612800ad5233d742ff5a59012dc8",
     "tailwind.config.js": "f321881ec2a51603ba55316b6841c2b0950a4b33b00c04dd4818d1de9d79d169",
-    "twilight.json": "e24c2594d8718a4e08601473126075b461fd7e007b2756a21ca44f48537572fe",
+    "twilight.json": "0b1963fd1ca3b34f9a23f66377c046ab1c02ea5b47cc84703c0cd42a186c596e",
     "webpack.config.js": "4308d439ba372bbe507188cf29ea4762a830b88baa136c1af49eafdcd2e4589e"
   },
   "files": {
@@ -174,7 +174,7 @@
       "mode": "webpack-production-output"
     },
     "public/refinement.css": {
-      "sha256": "92b5c1c52f42ab8e94c500f74bcbfea6fc1f86b6e81badb532b8eb21df31606e",
+      "sha256": "db84883eb2084edfa3bc8b2c8f0974d56c904df8a3095fbdc1b55ada6b2e3b97",
       "mode": "webpack-production-output"
     },
     "public/zod-menu.js": {

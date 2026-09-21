@@ -197,12 +197,12 @@
       "type": "boolean",
       "icon": "sicon-toggle-off",
       "label": "إظهار شريط البحث الواضح",
-      "description": "يفتح بحث سلة الرسمي دون إنشاء محرك بحث آخر. / Opens the native Salla search.",
+      "description": "خيار توافق قديم؛ البحث بأيقونة في رأس الصفحة على الكمبيوتر وزر الشريط السفلي على الجوال. / Legacy setting; desktop uses a search icon, mobile uses the bottom navigation search.",
       "id": "show_header_search",
       "format": "switch",
       "required": false,
-      "value": true,
-      "selected": true
+      "value": false,
+      "selected": false
     },
     {
       "type": "boolean",
@@ -306,7 +306,7 @@
           "value": null,
           "format": "image",
           "required": false,
-          "description": "صورة منتج مقصوصة بخلفية شفافة، دون كتابة داخل الصورة. اتركها فارغة لعرض رسم رمزي عام، وليس صورة منتج. / Transparent product cutout; no baked-in text. Optional schematic fallback.",
+          "description": "صورة اختيارية؛ الأولوية للصورة المرفوعة ثم صورة المنتج المختار ثم صورة التصنيف. / Optional image; otherwise uses the selected product, then category image.",
           "settings": {
             "width": 720,
             "height": 720
@@ -358,7 +358,7 @@
           "value": null,
           "format": "image",
           "required": false,
-          "description": "صورة منتج مقصوصة بخلفية شفافة، دون كتابة داخل الصورة. اتركها فارغة لعرض رسم رمزي عام، وليس صورة منتج. / Transparent product cutout; no baked-in text. Optional schematic fallback.",
+          "description": "صورة اختيارية؛ الأولوية للصورة المرفوعة ثم صورة المنتج المختار ثم صورة التصنيف. / Optional image; otherwise uses the selected product, then category image.",
           "settings": {
             "width": 720,
             "height": 720
@@ -410,11 +410,59 @@
           "value": null,
           "format": "image",
           "required": false,
-          "description": "صورة منتج مقصوصة بخلفية شفافة، دون كتابة داخل الصورة. اتركها فارغة لعرض رسم رمزي عام، وليس صورة منتج. / Transparent product cutout; no baked-in text. Optional schematic fallback.",
+          "description": "صورة اختيارية؛ الأولوية للصورة المرفوعة ثم صورة المنتج المختار ثم صورة التصنيف. / Optional image; otherwise uses the selected product, then category image.",
           "settings": {
             "width": 720,
             "height": 720
           }
+        },
+        {
+          "type": "items",
+          "icon": "sicon-shopping-bag",
+          "label": "منتج صورة مراوح الشفط",
+          "description": "استخدم صورة منتج حقيقي من متجرك. الصورة المرفوعة يدوياً لها الأولوية. / Use an actual store product image; a manually uploaded image takes priority.",
+          "id": "exhaust_product",
+          "format": "dropdown-list",
+          "selected": [],
+          "options": [],
+          "required": false,
+          "multichoice": false,
+          "searchable": true,
+          "source": "products",
+          "maxLength": 1,
+          "value": []
+        },
+        {
+          "type": "items",
+          "icon": "sicon-shopping-bag",
+          "label": "منتج صورة الإنتركم",
+          "description": "استخدم صورة منتج حقيقي من متجرك. الصورة المرفوعة يدوياً لها الأولوية. / Use an actual store product image; a manually uploaded image takes priority.",
+          "id": "intercom_product",
+          "format": "dropdown-list",
+          "selected": [],
+          "options": [],
+          "required": false,
+          "multichoice": false,
+          "searchable": true,
+          "source": "products",
+          "maxLength": 1,
+          "value": []
+        },
+        {
+          "type": "items",
+          "icon": "sicon-shopping-bag",
+          "label": "منتج صورة مكافحة الحشرات",
+          "description": "استخدم صورة منتج حقيقي من متجرك. الصورة المرفوعة يدوياً لها الأولوية. / Use an actual store product image; a manually uploaded image takes priority.",
+          "id": "insect_product",
+          "format": "dropdown-list",
+          "selected": [],
+          "options": [],
+          "required": false,
+          "multichoice": false,
+          "searchable": true,
+          "source": "products",
+          "maxLength": 1,
+          "value": []
         }
       ]
     },

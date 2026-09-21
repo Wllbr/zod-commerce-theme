@@ -1,69 +1,30 @@
-# ZOD Commerce 1.8.3 — English setup
+# ZOD v1.9.0 store setup
 
-## 1. Keep a rollback copy
+## Homepage order
 
-Retain your original v1.7.32 ZIP and the previously delivered v1.8.0 and v1.8.1 ZIPs and record the current theme-editor settings and homepage section order. This is an update to the existing theme, not a requirement to create a new repository, theme identity or store. Do not replace a working live storefront before testing a preview/staging copy.
+1. Three-category hero: exhaust/ventilation, intercom, insect control.
+2. Ventilation product type switcher or focused exhaust shelf.
+3. Intercom shelf.
+4. Insect-control shelf.
+5. Existing campaign banners, category discovery and brands.
+6. Secondary product families, project/wholesale callout, trust, guides, FAQ and contact.
 
-## 2. Build and preview
+This order was saved in the inspected development draft. Portable ZIPs do not transfer a store's selected products, artwork or page layout.
 
-Upload/import using the Salla workflow already associated with your theme. Where your workflow compiles source, use the dependency versions in package.json and run `pnpm install --frozen-lockfile`, `pnpm production`, `pnpm test`, then `pnpm release:check`. See README for the exact shipped offline-build limitations. The new public/refinement.css and public/add-product-toast.js must remain in the deployment.
+## Category hero
 
-Open the theme's Salla preview and confirm it renders before publishing. The local visual-preview pack is only a fixture demonstration and does not replace this step.
+Select the three real categories and one representative product for each image. A manually uploaded image overrides the selected product. Retain real store imagery. Enter both language versions when overriding default copy. Category links must resolve before review.
 
-## 3. Brand and shared settings
+## Shelves and campaigns
 
-Use the real store logo with a transparent background. Use your established accent color; the release was visually checked in charcoal/white/red. Choose an Arabic font with complete Arabic glyphs in Salla and check English fallback. Set the merchant logo, description, contact details, social accounts, branches, tax/certificate data and payment methods in Salla. Do not enter example information from the preview.
+Select products to curate a shelf, or select a category to keep it current. Native offers are optional. Use latest-products fallback only for an explicitly labelled new-arrivals shelf. Curate best sellers from store sales reports. The theme does not invent sales rankings, delivery promises or discounts.
 
-Enable `show_header_search`, `show_department_rail`, `enable_add_product_toast`, `show_mobile_bottom_nav` and stock notifications as appropriate. Search invokes Salla's search experience. The category rail shares the footer's category response rather than making a new request.
+## Header and purchase settings
 
-## 4. Recommended homepage order
+The old search-bar/department-strip toggles are compatibility fields only. Desktop search uses an icon. The mobile bottom-center search remains the main entry; the header icon is suppressed while bottom navigation exists. Cart and configurations without bottom navigation retain an accessible header search entry.
 
-1. **Specialist category hero / واجهة الأقسام الرئيسية — زود** (`home.hero-hub`). Select the real exhaust, intercom and insect-control categories. This is the main introduction; do not stack the old carousel immediately above it.
-2. **Shop by category**: show around 8–12 major departments; maintain a useful hierarchy in the Salla catalog.
-3. **Exhaust fan product shelf**: choose in-stock priority models with complete installation information.
-4. **Intercom product shelf**: distinguish video kits/panels from audio interphones.
-5. **Insect-control product shelf**: separate electrical zappers, glue traps and replacement consumables.
-6. **Shop by need** or **buying guides**, followed by brands and a truthful wholesale/projects contact block.
-7. Optional laser showcase lower down the page; FAQ above the footer. Avoid making every optional component visible simultaneously.
+Sticky purchase enabled: controls begin inline and dock only after being scrolled past. Disabled: controls remain inline. Salla owns option validation, availability, quick buy, offers and prices.
 
-**Changed in 1.8.1:** an empty product shelf is hidden by default. Select products explicitly for category headings. Only turn on **Show latest products when empty** (`show_latest_when_empty`) for a genuinely general-purpose latest-products row. Review existing empty shelves after upgrading.
+## Before live publication
 
-## 5. Photography and copy
-
-For the new hero, use square 720×720 transparent cutouts, WebP or PNG, with the full product inside a safe margin. The built-in drawings are decorative fallbacks. They must not be presented as a specific product model. Check crop and contrast on mobile; avoid text baked into the image.
-
-For product images, use consistent square source photography and actual model images. Use a clear product name, brand, model/SKU and relevant specifications. Prices, stock, discounts and currency must come from Salla; do not type prices into banners that appear live.
-
-Only publish warranty, delivery-time, authenticity, coverage-area, noise, water-resistance or laser-safety claims supported by your actual policies/manufacturer documentation. Do not imply every fan is suitable for bathrooms or industrial use merely because it is in the same category.
-
-## 6. Catalog structure
-
-Recommended groups and subdivisions are in MERCHANT_GUIDE_AR.md. Keep video intercom and audio interphone as distinct child categories. Place insect replacement tubes/glue boards under their matching products. Distinguish battery chargers and accessories from voltage transformers/stabilizers.
-
-## 7. Required staging checks
-
-Check Arabic and English, desktop and phone, real category selection, search/sorting/filtering, add-to-cart, variant selection, unavailable stock, quantities, checkout hand-off, signed-in account, a delivered order review, footer data and any integrations enabled on your store. Test long Arabic product titles and prices with Salla's actual currency formatter.
-
-Use a real order with multiple products and, where available, split shipments. Submit a product review through the actual Salla control. Check missing/deleted product data, digital attachments and order payment links if those order types apply.
-
-The Salla draft was inspected but v1.8.3 has not been uploaded or deployed. Do not treat passing local tests as final marketplace approval.
-
-
-## 8. Buying guides and order confirmation
-
-Publish real blog articles in Salla and link the homepage buying-guide cards to them. The theme now uses the native article body and image object, categories, next-page list and related articles. Use the merchant blog setting to enable or disable comments; the theme respects that setting. The preview's example advice and images are not installed as content.
-
-The confirmation page automatically reads real order instructions and distinguishes received, pending-payment and expired-payment states. No theme setting should be used to force a paid label. Test a real pending order and the invoice-email action in Salla. Verify carrier/tracking and preorder dates on applicable customer orders.
-
-For developers: the supplied manifest records a complete Webpack production build and `pnpm release:check` passed locally. Rebuild after any source edits.
-
-## 1.8.2 shopping settings and upgrade checks
-
-The cart uses a single native summary on all screen sizes. Its checkout, discounts, shipping and tax remain platform-owned. The previous calculated mobile breakdown and proxy checkout are intentionally removed; cart pages do not show the competing mobile navigation dock.
-
-Configure offers in Salla. The theme now renders native offers rather than inferring discount tiers. Check real cart special totals, including promotional zero prices, together with coupons, shipping, item options and quantity changes.
-
-`sticky_add_to_cart` now controls the persistent product purchase bar. Turning it off keeps purchasing inline. The optional `show_product_selection_help` setting displays a general specifications reminder, not an assertion of technical compatibility. Product review links follow the merchant's review setting. These controls are page settings, not additional homepage components.
-
-Verify saved cart notes/files after quantity changes; test catalog sorting with existing search and filter state. Local fixtures cannot prove server-side checkout validation, attachment persistence or payment correctness.
-
+Verify simple/optioned/out-of-stock/booking/digital products, cart edits and attachments, native checkout handoff, order review, actual payment methods, both languages and physical devices. Review all merchant claims, product descriptions and imported test tags. Do not publish from the editor or submit approval until explicitly authorized.

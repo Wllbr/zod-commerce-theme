@@ -26,4 +26,7 @@ const pdp=read('src/views/pages/product/single.twig');
 assert(pdp.indexOf('store-product-add-to-cart')<pdp.indexOf('store-product-description'));
 assert.equal((pdp.match(/<salla-add-product-button\b/g)||[]).length,1);
 assert(!read('src/assets/js/legacy-product-card.js').includes('class="zpc-model"'));
+const header=read('src/views/components/header/header.twig');
+assert(!header.includes('zod-search-row'),'no separate header search bar');
+assert.equal((header.match(/search::open/g)||[]).length,1,'single desktop search icon');
 console.log('PASS: inline purchase, dock after scroll, stable repeated scroll, return to flow, disabled setting, single CTA and description order.');
