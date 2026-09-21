@@ -10,9 +10,9 @@ Template: `home.hero-hub`
 
 Placement: Top of homepage; your recommended primary hero. / بداية الصفحة الرئيسية.
 
-Setup: Select the three actual categories; edit bilingual copy and optional square cutouts. No category URL means no fake CTA. Media priority: manual image, selected real product image, category image, then schematic artwork. / اربط التصنيفات الثلاثة وأضف صوراً اختيارية.
+Setup: Select the three actual categories; edit bilingual copy and optional square cutouts. No category URL means no fake CTA. Media priority: manual generated image, then bundled generated KDK/Commax/AFC artwork. Actual catalog photos are references for generation. / اربط التصنيفات الثلاثة وأضف صوراً اختيارية.
 
-Additional fields: `exhaust_product`, `intercom_product`, `insect_product`.
+Destination fallback fields: `exhaust_url`, `intercom_url`, `insect_url`. Legacy representative-product selectors remain compatible but do not override the generated artwork.
 
 Fields: `title`, `intro`, `exhaust_category`, `exhaust_title`, `exhaust_text`, `exhaust_image`, `intercom_category`, `intercom_title`, `intercom_text`, `intercom_image`, `insect_category`, `insect_title`, `insect_text`, `insect_image`.
 

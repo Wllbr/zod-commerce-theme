@@ -48,7 +48,7 @@
     "src/assets/js/product.js": "bcd8c9ad9ba2389a50bdfc1a1828d4b2d7178c3664d36bb116c56d2b4c065acb",
     "src/assets/js/products.js": "2288737674b5b18ec7301e0e8c5c951edeb089b2371fbadebd8342665922fb5b",
     "src/assets/styles/app.scss": "e9a4450ae4837a3d55688e56dfb9c597c37cb761cf2fda28222b5ba4a2503f3f",
-    "src/assets/styles/refinement.css": "738f970c265d4ef848f3863df65e36b9c5cb8e6202538d6da6cacd653a98dd4e",
+    "src/assets/styles/refinement.css": "fffc43f8cbea753bcc29b508b43dc6d76f54e70ecdc403fdb45d791f85116095",
     "src/locales/ar.json": "170d1419ea0082b3369186e59e60361d8c97fa35166dc324808f8ccce13acb5d",
     "src/locales/en.json": "639a82e82a9b4399d93460684af5f82ffed96be1b9681381f0a7bbcd7531d840",
     "src/views/components/blog/article-card.twig": "08e54744a1e11e571ef7dfa67e6e183ee85b1817662c6f237e99e1b748ff2e76",
@@ -189,7 +189,7 @@
       "mode": "webpack-production-output"
     },
     "public/refinement.css": {
-      "sha256": "db84883eb2084edfa3bc8b2c8f0974d56c904df8a3095fbdc1b55ada6b2e3b97",
+      "sha256": "870974dfbbb193b07ef2b589b3e4166707ee0e53e0a71228e1c7786fa5c14dd8",
       "mode": "webpack-production-output"
     },
     "public/zod-menu.js": {

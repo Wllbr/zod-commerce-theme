@@ -936,3 +936,6 @@ Staging snapshot, not a completed production build or Salla approval. See QA_REP
 - Redesigned the footer around Salla-native customer-service channels so mobile, phone, email, WhatsApp, and Telegram can all appear when configured.
 - Added marketplace-specific social hover and keyboard-focus motion for Instagram, X, Snapchat, TikTok, YouTube, Facebook, Pinterest, and WhatsApp.
 - Separated the Saudi Business Center certificate from payment methods visually and improved trust, tax, payment, mobile, tablet, RTL, and LTR layouts.
+
+### v1.9.0 final artwork adjustment
+Generated the three category images from actual KDK, Commax and AFC catalog references, bundled optimized WebP defaults, and retained real catalog photos for product listings/PDPs. No stock imagery introduced.

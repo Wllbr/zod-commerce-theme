@@ -171,12 +171,12 @@ salla-add-product-toast.zod-add-toast{position:fixed;z-index:9900;inset-block-st
  .zod-hub-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto auto;gap:12px}
  .zod-hub-card{min-height:292px;padding:22px 17px 18px;border-radius:14px;align-items:flex-start}
  .zod-hub-card--exhaust{grid-row:auto;grid-column:span 2;min-height:370px;padding:28px 24px}
- .zod-hub-card__content{width:100%}.zod-hub-card--exhaust .zod-hub-card__content{width:77%}
+ .zod-hub-card__content{width:100%}.zod-hub-card--exhaust .zod-hub-card__content{width:100%}
  .zod-hub-card h3{font-size:20px;line-height:1.5;margin-block:12px 8px}.zod-hub-card--exhaust h3{font-size:32px;line-height:1.4;max-width:285px;margin-block:16px 12px}
  .zod-hub-card p{font-size:11px;line-height:1.75;max-width:100%}.zod-hub-card--exhaust p{font-size:12px;max-width:215px}
  .zod-hub-card__tag{font-size:9px;letter-spacing:.02em;gap:6px}.zod-hub-card__tag::before{width:12px}
- .zod-hub-card__art{width:86%;top:auto;bottom:-22px;inset-inline-end:-24%;transform:none;opacity:.2}
- .zod-hub-card--exhaust .zod-hub-card__art{width:68%;bottom:-13%;inset-inline-end:-12%;opacity:.45}
+ .zod-hub-card__art{position:relative;width:100%;top:auto;bottom:auto;inset-inline-end:auto;transform:none;opacity:1;margin-top:16px;max-height:150px}.zod-hub-card{flex-direction:column}
+ .zod-hub-card--exhaust .zod-hub-card__art{width:100%;bottom:auto;inset-inline-end:auto;opacity:1;transform:none;max-height:200px}
  .zod-hub-card__link{font-size:11px;gap:6px;min-height:42px;margin-top:14px;line-height:1.6}.zod-hub-card--exhaust .zod-hub-card__link{margin-top:20px;font-size:12px;padding-inline:15px}
  .zod-hub-card__number{inset-inline-start:17px;bottom:14px}.zod-hub-card--exhaust .zod-hub-card__number{inset-inline-start:24px;bottom:20px}
  .zod-commerce custom-salla-product-card.zod-product-card{border-radius:12px!important}

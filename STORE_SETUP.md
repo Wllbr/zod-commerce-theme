@@ -9,11 +9,11 @@
 5. Existing campaign banners, category discovery and brands.
 6. Secondary product families, project/wholesale callout, trust, guides, FAQ and contact.
 
-This order was saved in the inspected development draft. Portable ZIPs do not transfer a store's selected products, artwork or page layout.
+This order was saved in the inspected development draft. Portable ZIPs do not transfer a store's selected products or page layout; the three default generated hero images are included.
 
 ## Category hero
 
-Select the three real categories and one representative product for each image. A manually uploaded image overrides the selected product. Retain real store imagery. Enter both language versions when overriding default copy. Category links must resolve before review.
+Select the three real categories. If a category payload has no URL, enter its actual destination in exhaust_url, intercom_url or insect_url. The hero uses bundled generated artwork based on the store’s actual KDK 20AUA, Commax CDV-43K kit and AFC trap. A manually uploaded generated image overrides the bundled asset. Use actual products as references for all future promotional artwork; do not substitute stock scenes or unrelated models. Product-card and PDP catalog photos remain the merchant’s actual photos. Enter both language versions when overriding default copy. Category links must resolve before review.
 
 ## Shelves and campaigns
 
