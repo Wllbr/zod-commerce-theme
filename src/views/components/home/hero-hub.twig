@@ -10,8 +10,9 @@
     <div class="zod-hub-grid">
       {% for slot in ['exhaust', 'intercom', 'insect'] %}
         {% set selection = component[slot ~ '_category']|default([]) %}
-        {% set category = selection.id is defined ? selection : selection|first %}
+        {% set category = selection.url is defined or selection.id is defined ? selection : (selection is iterable ? selection|first : null) %}
         {% set category_url = category.url|default(null) %}
+        {% set category_url = component[slot ~ '_url']|default(category_url) %}
         {% set label_value = component[slot ~ '_title']|default(null) %}
         {% set description_value = component[slot ~ '_text']|default(null) %}
         {% set label = label_value is iterable ? label_value[language.code]|default(label_value|first) : label_value %}

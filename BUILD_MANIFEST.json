@@ -62,7 +62,7 @@
     "src/views/components/home/featured-products.twig": "9f3f298ff9d99a7e8d6b92d1c8c4b4b6091ed23db4cec1e6060f6f4166bd25bb",
     "src/views/components/home/fixed-banner.twig": "e8500a31a94d350bf4dc22beb6b1571609417fb25489a9d650e60cc795ffc506",
     "src/views/components/home/fixed-products.twig": "1ed30b6c59b4fe9fe5472760a8ae6f464139226e2be15f38a857387fe779fd77",
-    "src/views/components/home/hero-hub.twig": "b410dc83ebfa3fb09830d570c7af6d3134e2604c836d3c53130b058db859bcc6",
+    "src/views/components/home/hero-hub.twig": "8fedf0a490162b3192c121370b0bd22d4ac9a5d85570ceedd733208ba453cd61",
     "src/views/components/home/hero.twig": "08b2cd98923ecac88d40f5e73fbffed0d747c12872c946fff647c050aeb603c0",
     "src/views/components/home/interactive-product-showcase.twig": "8751aa2a6b921964e78e50a6f9c275755bf5726126481918c73b859a141027c1",
     "src/views/components/home/laser-showcase.twig": "941deacfcd7cdfac6a2c6130653609a352328f6e5cbb4c23fcf3db7a8583b0b0",
@@ -105,7 +105,7 @@
     "src/views/pages/testimonials.twig": "d499be8138a23a6daa457cbf1000759df3a15024fb9272d8f8395018ec945323",
     "src/views/pages/thank-you.twig": "a51fb48179d9d21eb5b21b01b485642edfe5612800ad5233d742ff5a59012dc8",
     "tailwind.config.js": "f321881ec2a51603ba55316b6841c2b0950a4b33b00c04dd4818d1de9d79d169",
-    "twilight.json": "0b1963fd1ca3b34f9a23f66377c046ab1c02ea5b47cc84703c0cd42a186c596e",
+    "twilight.json": "2cb80c989fe076102d7da2ae2ac631375815917bc3c9564ede74b230efc89fd2",
     "webpack.config.js": "4308d439ba372bbe507188cf29ea4762a830b88baa136c1af49eafdcd2e4589e"
   },
   "files": {
