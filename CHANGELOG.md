@@ -1,3 +1,7 @@
+# 1.9.4 — Arabic department and mobile refresh
+
+Relevant generated artwork; 16 department templates; shipping progress; persistent purchase; viewport-aware laser playback; compact mobile styling; header search retained on PDP. Native audit remains incomplete; see AUDIT_REPORT.md.
+
 # v1.9.3
 
 Arabic campaign slider, three original creative banners, category shortcuts, optional promotion tiles, reusable brand/category collections, and showcase price formatting fix.
@@ -951,3 +955,4 @@ Generated the three category images from actual KDK, Commax and AFC catalog refe
 ## v1.9.1 — continued design refinement
 
 Requested follow-up after the three initial review rounds: larger homepage cards (280px desktop, 68vw mobile with a next-card cue), reduced product-image padding, a rebuilt dark laser stage with large selectors and integrated native purchase details, a generated poster for the actual spider fixture p1934775882, and explicit video playback. Native prices, availability and purchase actions remain owned by Salla. Video does not download or autoplay until requested; leaving the section or tab pauses it. Changing products resets playback and sound. Cards reveal once on scrolling and reduced-motion settings disable animation.
+

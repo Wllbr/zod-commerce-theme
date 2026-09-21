@@ -1,29 +1,15 @@
 {
-  "version": "1.9.3",
+  "version": "1.9.4",
   "base": "1.8.2",
   "changes": [
-    "Visibility-aware catalog errors",
-    "Icon-only rounded header; bottom mobile search",
-    "Compact cards without repeated SKU",
-    "Purchase before long description, single native CTA, scroll-only docking",
-    "Category/optional-offer product shelves",
-    "Category selector compatibility and optional real URL fallback",
-    "Mobile artwork below text",
-    "Production manifest and purchase layout tests",
-    "Rebuilt dark laser stage with two generated actual-product posters",
-    "Larger homepage cards and less image padding",
-    "One-time scroll reveals with visible fallback and reduced-motion support",
-    "Opt-in video loading/playback with tested pause/sound/panel reset",
-    "Three original conceptual campaign images without AFC references",
-    "Accessible rotating campaign with optional shipping/mada tiles",
-    "Reusable brand/category collection tabs with lazy native product feeds",
-    "Arabic KDK/STAC/electrical draft setup",
-    "Currency markup display fix"
+    "Relevant generated category campaigns",
+    "Sixteen editable department templates",
+    "SAR350 delivery progress and cart notices",
+    "Persistent single native purchase dock",
+    "Product-page header search restored",
+    "Muted viewport-triggered laser playback",
+    "Compact mobile cards, trust and footer"
   ],
-  "preserved": [
-    "Native server prices/totals/offers",
-    "Native toast and order review",
-    "Existing component IDs"
-  ],
+  "auditStatus": "incomplete-browser-policy-blocked",
   "livePublished": false
 }

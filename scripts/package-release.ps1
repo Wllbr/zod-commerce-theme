@@ -17,6 +17,7 @@ try {
 $releaseRoot = Join-Path $projectRoot 'release' 
 New-Item -ItemType Directory -Path $releaseRoot -Force | Out-Null
 $rootFiles = @('package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', '.npmrc', 'twilight.json', 'webpack.config.js', 'postcss.config.js', 'tailwind.config.js', 'README.md', 'CHANGELOG.md', 'STORE_SETUP.md', 'MERCHANT_GUIDE_AR.md', 'COMPONENTS.md', 'QA_REPORT.md', 'START_HERE.html', 'BUILD_MANIFEST.json', 'BROWSER_QA.json', 'INTEGRITY_QA.json', 'SOURCE_CHANGES.json')
+$rootFiles += @('DEPARTMENTS_AR.md', 'AUDIT_REPORT.md')
 $files = @($rootFiles | ForEach-Object { Get-Item -LiteralPath (Join-Path $projectRoot $_) })
 $files += @(foreach ($folder in @('src', 'public', 'scripts')) { Get-ChildItem -LiteralPath (Join-Path $projectRoot $folder) -Recurse -File })
 foreach ($kind in @('Salla-Upload', 'Source')) {

@@ -1,9 +1,10 @@
-# ZOD Commerce v1.9.3
+# ZOD Commerce v1.9.4
 
-Arabic storefront design revision. Three original generated campaign images; accessible rotating campaign slider; category shortcuts; optional shipping/mada promotion tiles; reusable brand and product-family collections with manual selections or automatic category feeds. KDK is the replaceable brand example; STAC uses verified draft products.
+Arabic storefront review candidate: relevant generated campaigns, sixteen department components, SAR350 progress, persistent purchase controls and compact mobile layout.
 
-See STORE_SETUP.md for Arabic configuration instructions and QA_REPORT.md for exact verification scope. Promotions do not configure shipping or payment discounts. This revision is for draft review only; no live publication.
+Production build and automated checks pass. Native visual audit is incomplete; the 9/10 target is not yet verified. Read AUDIT_REPORT.md and STORE_SETUP.md before use. No live publication.
 
 Build: pnpm run production
 Tests: pnpm test
 Package: pnpm release
+
