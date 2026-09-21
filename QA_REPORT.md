@@ -1,47 +1,28 @@
-# ZOD Commerce 1.9.7 — mobile product and shipping audit
+# ZOD Commerce 1.9.8 — manual free-shipping goal
 
-21 September 2026. Review branch only; no live publication, checkout transaction or shipping-rule change.
+21 September 2026. Requested change: replace eligibility-dependent shipping UI with a merchant-managed amount and editable messages. Review branch only. No live publication or shipping-rule edits.
 
-## Result
+## Changes
 
-Production build and complete automated suite passed. The manifest verifies 140 inputs and 20 outputs. Validation covers 78 Twig templates, 36 custom components and 347 translation references. CSS: app 396,065 bytes raw / 64,958 gzip; refinement 38,753 raw / 7,134 gzip; combined 72,092 gzip. Two Webpack raw-size advisories remain.
+- One shared manual target controls the floating icon, hero tile and standalone homepage component. Default 350 in store currency; no cart.free_shipping_bar dependency.
+- Merchant can edit target, initial message, remaining message, success message, supporting terms, truck/completion symbols, notifications, campaign visibility and whether discounts reduce progress.
+- Default calculation: cart product subtotal minus discounts, excluding shipping/payment fees. Remaining amount and progress update on native cart additions, quantities, removal and coupon events. The circle and bar fill, switch to the completion icon and show the success message at the target. Decreasing the cart reverses completion.
+- Message placeholders: {remaining} and {target}. Copy is rendered as text, avoiding HTML execution. Currency formatting uses Salla's text money formatter.
+- Automatic notices last 5.5 seconds and pause for keyboard focus. Manual opening stays open. Reduced-motion preference disables the celebration animation.
+- Invalid/zero target or disabled master campaign hides every shipping surface. Failed and incomplete cart requests preserve the last confirmed progress; stale responses cannot overwrite newer ones.
 
-Final code commit: 15eedf9 on codex/zod-1.9.0-review. Native final draft: 383728642. Its app.css asset path was verified. Earlier candidate 2105970949 exposed missing mobile offer arrows, which were corrected and retested in the final draft.
+## Verification
 
-## Mobile product findings and changes
+Full production build and automated suite passed: 141 inputs and 20 outputs match the production manifest; 79 Twig templates, 36 custom components and 347 translation references validated. CSS unchanged: 396065 raw / 64958 gzip app, 38753 raw / 7134 gzip refinement, 72092 combined gzip. Webpack's two existing raw-size advisories remain.
 
-- On available fan p627597650, removed the empty 76px purchase-form reservation, unused brand row and empty installment margins. Reduced buybox padding and vertical spacing without hiding real product options. The native purchase controller remains fixed above persistent bottom navigation.
-- Replaced the three PDP trust icons with custom lightweight inline SVGs: specifications, secure payment and delivery. A short stroke animation runs once when the row enters view. Reduced-motion preference disables it. The row remains three columns on mobile.
-- Product and cart offers now open from a compact summary. Summary wording comes from the actual native offer titles. No estimated discounts or new commercial claims. Empty offer components remain hidden.
-- Final native product check: expanded the panel, used native Next slide controls to reach all three offers, and collapsed it using Enter. Salla normally hides these arrows on mobile; this revision makes them available inside the panel. Native offer descriptions and conditions remain intact.
-- Product screenshots verified the compact collapsed panel, three trust icons, native payment methods, eligibility popup, purchase controls and navigation. Current enabled payment evidence was bank transfer; enabled Tabby/Tamara and actual customer reviews were not demonstrated.
+Shipping tests cover editable thresholds 350/500, Arabic digits, discount basis, empty cart, exact decimal boundary, invalid inputs, currency amount objects, custom text, campaign/notification switches, stale and failed responses, popup focus and timers. Existing approval, cart, offer, purchase, laser and notification regression checks pass.
 
-## Why the enabled shipping icon was absent
+Code b9a75b1 was pushed to codex/zod-1.9.0-review. Native draft 1546873372 loaded matching app.css. The existing cart exceeded 350: the homepage and floating popup showed a full bar, celebration icon and “مبروك! شحنك مجاني 🎉”; the visible progress attribute was 100. Component catalog includes “هدف الشحن المجاني — إعداد يدوي”. No cart quantities or contents were changed during this revision.
 
-Merchant UI showed an enabled rule: minimum 350 SAR, Saudi Arabia/all cities, Dev Company only, maximum 50kg. Salla explains that address and carrier restrictions can defer eligibility until the customer provides those details. The inspected cart had no native free_shipping_bar progress data. The old component hid everything in that case.
+## Editor limitation and remaining checks
 
-Following the user's explicit choice, the enabled component now shows a neutral truck icon and “تحقق من أهلية الشحن المجاني” before confirmation. Opening it explains that address, delivery method and offer conditions determine eligibility. It links to the cart. No zero-progress bar or free-delivery promise is shown in this state.
+The native design-options page remained on three loading placeholders, including after one reload. Therefore saving a different target/custom message through Salla's editor was not verified. The fields are in twilight.json; instructions are in STORE_SETUP.md. Automated tests verify their runtime behavior, but native save/reload and a below-target-to-complete cart transition still need a working settings form. No other browser mechanism or private API was used to bypass the stalled form.
 
-When Salla supplies complete cart.free_shipping_bar data, minimum_amount, remaining, percent and has_free_shipping drive the progress bar, remaining amount and celebration. No fixed 350 fallback exists. Different thresholds including 500, incomplete data, disabled/removed data, request races, failed refreshes and popup focus behavior pass automated checks.
+This is a manual promotional display. It does not change checkout fees, carrier/address/weight restrictions or Salla rules. The merchant must align the actual shipping offer with the configured message and amount. Unlike v1.9.7, changing or disabling a Salla rule alone does not automatically change this manual campaign.
 
-Important: absent native data cannot distinguish an ineligible cart from a disabled merchant rule. The neutral eligibility icon therefore remains while its theme setting is enabled, as requested. To remove all shipping prompts, disable the floating icon and the relevant homepage component/hero tile. A removed native rule clears confirmed progress and celebration; it returns to neutral eligibility text.
-
-Final native screenshots verified all three surfaces: homepage hero tile, separately enabled homepage shipping component, and floating icon. The standalone component is placed just before the newly saved intercom department. Merchant layout and shipping settings were preserved.
-
-## Cart and error checks
-
-The existing cart was left unchanged: two units of p627597650 and one of p1313406228. Native rendered subtotal 836.60 SAR, discount 41.83 SAR, total 794.77 SAR. Mobile cart screenshot verified the compact offer row, native sticky checkout, savings amount and navigation. No cart mutations were performed during this revision's audit.
-
-No three persistent Not Found alerts were observed on the sampled product pages. The original live v1.8.0 failure trace is still unavailable, so its exact cause is not proven. Prior v1.9.6 notification fixes and approval guards remain covered by the automated suite. Final empty-cart reload confirmation still requires a controlled native mutation test.
-
-The preview console is not clean: Salla live-reload connection errors and HTTP405 responses for its preview page/track telemetry endpoints were captured. They did not produce the supplied three visible product alerts. No theme-side request suppression or fabricated success was added.
-
-## Remaining validation and content work
-
-- Confirm native progress and celebration after a real eligible address/carrier selection. The restrictive rule did not expose progress before checkout; no address was invented and no order was placed. Native threshold/off-state merchant changes were not performed.
-- Finish saved homepage campaign copy and section arrangement. The generic saved first headline remains above intercom artwork. A saved shipping component and intercom department now exist; the earlier statement that no department instances were saved is superseded.
-- Complete full desktop/English, physical-device, screen-reader, real review/installment, final laser and performance measurement coverage. The current work focused on the requested Arabic mobile PDP, offers and shipping UI; it does not establish a whole-store 9/10 score.
-- Salla marketplace approval is still external. Preserve salla-add-product-toast in master.twig, salla-review-order-item in customer order details and no automatic salla.product.getDetails calls from card/list initialization. These checks pass.
-
-Official shipping behavior reference: https://help.salla.sa/en/article/setting-up-free-shipping-in-your-store/zr6n1k2b8ogmvg8md6lv4rgs
-
+Prior general storefront blockers remain: original live 1.8.0 error trace, full desktop/English/physical-device/accessibility/performance audit, final empty-cart reload notice, saved homepage copy/arrangement and enabled installment/review data. This focused revision does not certify a whole-store 9/10 or marketplace approval. All three approval guards remain intact.

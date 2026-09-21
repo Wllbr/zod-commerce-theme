@@ -1,9 +1,8 @@
 {
-  "version": "1.9.7",
-  "date": "2026-09-21",
+  "version": "1.9.8",
   "productionBuild": "passed",
   "tests": "passed",
-  "buildInputs": 140,
+  "buildInputs": 141,
   "publicOutputs": 20,
   "css": {
     "appRaw": 396065,
@@ -12,13 +11,9 @@
     "refinementGzip": 7134,
     "combinedGzip": 72092
   },
-  "approvalGuards": [
-    "native add-product toast",
-    "native order item review",
-    "no automatic product detail fetch from card/list initialization"
-  ],
+  "approvalGuards": "passed",
   "warnings": [
-    "Webpack raw app.css and app entry size recommendations"
+    "Webpack raw CSS/app entry recommendations"
   ],
   "certifiesMarketplaceApproval": false
 }

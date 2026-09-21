@@ -1,5 +1,5 @@
 {
-  "version": "1.9.7",
+  "version": "1.9.8",
   "base": "1.8.2",
   "changes": [
     "Relevant generated category campaigns",
@@ -19,8 +19,9 @@
     "Preserve last-item removal confirmation across the native empty-cart reload",
     "Compact mobile PDP spacing and custom SVG trust icons",
     "Expandable native offers with visible mobile carousel navigation",
-    "Neutral shipping eligibility prompt before native confirmation"
+    "Neutral shipping eligibility prompt before native confirmation",
+    "Merchant-requested manual shipping goal replaces eligibility-dependent display; shared editable target, copy, icons, discount basis and notices"
   ],
-  "auditStatus": "native-mobile-product-cart-shipping-verified",
+  "auditStatus": "manual-shipping-validation",
   "livePublished": false
 }

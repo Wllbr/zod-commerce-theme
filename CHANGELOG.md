@@ -1,3 +1,11 @@
+# 1.9.8 — manual free-shipping campaign
+
+- Replaced native shipping eligibility dependency with an editable merchant target.
+- Added shared target, copy, icons, discount basis, enable/disable and notification controls.
+- Progress follows refreshed cart product values and reverses after deletion/discounts.
+- Merchant copy renders as text. Invalid targets hide the campaign; incomplete requests preserve the last confirmed cart progress.
+- Preserved v1.9.7 product layout, offers, native checkout and approval fixes.
+
 # 1.9.7 — 21 September 2026
 
 - Removed empty mobile PDP form/brand/instalment spacing.
@@ -973,4 +981,5 @@ Generated the three category images from actual KDK, Commax and AFC catalog refe
 ## v1.9.1 — continued design refinement
 
 Requested follow-up after the three initial review rounds: larger homepage cards (280px desktop, 68vw mobile with a next-card cue), reduced product-image padding, a rebuilt dark laser stage with large selectors and integrated native purchase details, a generated poster for the actual spider fixture p1934775882, and explicit video playback. Native prices, availability and purchase actions remain owned by Salla. Video does not download or autoplay until requested; leaving the section or tab pauses it. Changing products resets playback and sound. Cards reveal once on scrolling and reduced-motion settings disable animation.
+
 

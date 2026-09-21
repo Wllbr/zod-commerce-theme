@@ -1,27 +1,20 @@
 {
-  "version": "1.9.7",
+  "version": "1.9.8",
   "date": "2026-09-21",
-  "status": "native-mobile-product-cart-shipping-verified",
+  "inspectedDraft": "1546873372",
+  "inspectedCodeCommit": "b9a75b1",
   "reviewBranch": "codex/zod-1.9.0-review",
-  "inspectedDraft": "383728642",
-  "inspectedCodeCommit": "15eedf9",
-  "overallScore": null,
-  "targetScore": 9,
   "verified": [
-    "Compact available fan PDP, custom trust icons, purchase dock and navigation",
-    "Three native product offers reachable using visible arrows; Enter collapses panel",
-    "Cart totals and sticky native checkout with unchanged quantities",
-    "Neutral shipping popup, hero tile and standalone homepage component"
+    "Manual target 350 rendered",
+    "Homepage and floating completion message/bar/icon",
+    "Progress aria-valuenow 100",
+    "Updated component catalog label"
   ],
   "notVerified": [
-    "Actual eligible checkout progress and changed merchant threshold/off state",
-    "Original v1.8.0 failure cause",
-    "Final last-item removal flash via native mutation",
-    "Full desktop/English, physical devices, screen readers, real reviews/installments, final laser and Lighthouse"
+    "Native settings save/reload: design form stalled on loading placeholders",
+    "Native below-target to complete cart mutation; automated coverage passes"
   ],
-  "consoleFindings": [
-    "Salla preview live-reload connection failure",
-    "Salla preview telemetry page/track HTTP405"
-  ],
-  "livePublished": false
+  "cartMutated": false,
+  "livePublished": false,
+  "overallScore": null
 }

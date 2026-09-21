@@ -1,4 +1,4 @@
-# Component manual — ZOD 1.9.7 / دليل المكونات
+# Component manual — ZOD 1.9.8 / دليل المكونات
 
 
 All 18 IDs from v1.8.0 are preserved; `home.hero-hub` was introduced in that release. Existing settings are not automatically populated. The first configuration field of each component now includes usage guidance in the theme editor. Image sizes below are editorial suggestions, not Salla API limits.
@@ -10,7 +10,7 @@ Template: `home.hero-hub`. Existing component key is preserved.
 
 Three original conceptual campaign images, selectable Arabic HTML copy, accessible slide controls, optional rotation, a separate existing category grid and optional offer tiles. Native category selectors or manual category links connect exhaust, intercom and insect control. Set `power_url` for the electrical collection. Custom image overrides: `campaign_image`, `power_image`, `comfort_image`. Old tile titles, text and product-reference image fields were retired in 1.9.6.
 
-`show_shipping` shows a neutral eligibility prompt before Salla supplies progress data, then native progress; no fixed theme threshold. `show_mada` requires a nonempty `mada_terms` URL and defaults off. Set up and verify offer eligibility separately before live use.
+`show_shipping` displays the manually configured shared shipping goal. Edit target and messages in theme design settings. `show_mada` requires a nonempty `mada_terms` URL and defaults off. Set up and verify offer eligibility separately before live use.
 
 ## New in 1.9.6: Brand and category collections / عالم العلامة — أقسام ومنتجات
 
@@ -272,7 +272,19 @@ The first selected spider fixture (p1934775882) has a bundled generated dark pos
 
 Sixteen native custom components share home.department-base. Editable title, description, art and category/product groups. Eight products per department tab; feeds mount near the viewport and on tab selection. Empty groups are hidden. LED and Bigboi default disabled. See DEPARTMENTS_AR.md. New forms/defaults and saved homepage arrangement still require native validation. Hero destinations now correspond to intercom, extensions (power_url) and ventilation; update saved copy per STORE_SETUP.md.
 
-## Shipping progress in 1.9.6
 
-Add **تقدم الشحن المجاني — عروض سلة** (home.shipping-progress) anywhere on the homepage. It uses cart.free_shipping_bar from Salla, including minimum_amount, remaining, percent and has_free_shipping. The hero tile and floating icon use the same source. Missing/disabled/incomplete offer data clears progress and shows neutral eligibility text. Turn off the relevant theme setting to hide that prompt entirely. The theme does not create commercial shipping rules.
+## إعداد الشحن اليدوي — 1.9.8
+
+افتح **خيارات التصميم** في محرر سلة، ثم إعدادات الثيم المخصصة. جميع إعدادات الشحن تبدأ بكلمة الشحن أو هدف الشحن:
+
+- **تفعيل هدف الشحن المجاني اليدوي — جميع المواضع:** مفتاح تشغيل وإيقاف شامل.
+- **مبلغ الوصول إلى الشحن المجاني:** القيمة الابتدائية 350؛ غيّرها إلى مبلغك بعملة المتجر. صفر يخفي المؤشر.
+- **احتساب قيمة المنتجات بعد الخصومات:** مفعّل افتراضياً؛ إيقافه يحسب المنتجات قبل الخصم. رسوم الشحن والدفع خارج التقدم.
+- **نص الهدف أثناء تحميل السلة** و**نص المبلغ المتبقي** و**رسالة الوصول إلى الهدف** و**وصف أو شروط العرض:** نصوص قابلة للتعديل. استخدم {remaining} للمتبقي و{target} للهدف مع العملة. اترك النصوص الرئيسية فارغة لاستخدام النص الافتراضي حسب اللغة؛ الوصف الفارغ يُخفى.
+- **رمز الأيقونة قبل بلوغ الهدف** و**رمز الأيقونة بعد بلوغ الهدف:** قابلان للتعديل، افتراضياً 🚚 ثم 🎉.
+- **إشعار تلقائي بعد تغيير السلة:** إظهار المتبقي أو النجاح بعد إضافة المنتجات أو تعديلها أو حذفها أو تغيير الكوبون. ينتهي بعد 5.5 ثوانٍ، ويحترم تركيز لوحة المفاتيح.
+
+الأيقونة العائمة وبنر الصفحة ومكوّن **هدف الشحن المجاني — إعداد يدوي** يستخدمون المبلغ والنصوص نفسها. مفتاح الأيقونة العائمة يتحكم بموضعها فقط، ومفتاح المكوّن يتحكم بموضع الصفحة. لا يلزم إنشاء المكوّن من جديد؛ معرّفه محفوظ.
+
+هذا عرض ترويجي يدوي لا يغيّر رسوم الدفع ولا ينتظر أهلية شركة الشحن. اضبط قاعدة الشحن الفعلية في سلة لتطابق المبلغ والشروط التي تعلنها. تغييرات قواعد سلة لا تغيّر الهدف اليدوي تلقائياً. الاختبار البصري الحالي بعملة SAR؛ طابق قيمة الهدف مع عملة السلة عند استخدام عملات أخرى.
 
