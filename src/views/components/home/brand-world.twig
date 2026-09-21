@@ -1,0 +1,28 @@
+{% set world_name = component.brand_name|default(trans('zod.campaign.brand')) %}
+{% set world_title = component.title|default(trans('zod.campaign.brand_title')) %}
+{% set world_text = component.text|default(trans('zod.campaign.brand_text')) %}
+{% set world_image = component.image|default((component.power_style ? 'images/campaign-power.webp' : 'images/campaign-living.webp')|asset) %}
+{% set world_groups = component['groups']|default([]) %}
+<section class="zod-section zod-brand-world {{ component.power_style ? 'is-power' : '' }}" data-zod-brand-world>
+ <div class="container">
+  <div class="zod-brand-world__banner">
+   <img src="{{ world_image }}" width="1536" height="1024" loading="lazy" decoding="async" alt="">
+   <div class="zod-brand-world__copy"><span class="zod-campaign__eyebrow">{{ trans('zod.campaign.brand') }}</span><span class="zod-brand-world__name">{{ world_name }}</span><h2>{{ world_title }}</h2><p>{{ world_text }}</p>{% if component.brand_url %}<a class="zod-campaign__cta" href="{{ component.brand_url }}">{{ trans('zod.campaign.brand_all') }} ↗</a>{% endif %}</div>
+  </div>
+  {% if world_groups|length %}
+  <div class="zod-brand-world__nav" role="tablist" aria-label="{{ world_name }}">
+   {% for group in world_groups %}<button type="button" role="tab" id="world-tab-{{ position }}-{{ loop.index0 }}" aria-controls="world-panel-{{ position }}-{{ loop.index0 }}" aria-selected="{{ loop.first ? 'true' : 'false' }}" tabindex="{{ loop.first ? '0' : '-1' }}" data-world-tab>{{ group.title }}</button>{% endfor %}
+  </div>
+  {% for group in world_groups %}
+  <div role="tabpanel" tabindex="0" id="world-panel-{{ position }}-{{ loop.index0 }}" aria-labelledby="world-tab-{{ position }}-{{ loop.index0 }}" data-world-panel {% if not loop.first %}hidden{% endif %}>
+   {% if group.url %}<a class="zod-world-all" href="{{ group.url }}">{{ trans('zod.home.view_all') }} — {{ group.title }} ↗</a>{% endif %}
+   {% set product_ids = [] %}{% for product in group.products|default([]) %}{% set product_ids = product_ids|merge([product.id|default(product.value)|default(product)]) %}{% endfor %}
+   {% if product_ids|length %}{% if not loop.first %}<template data-world-products>{% endif %}<salla-products-slider source="selected" source-value="{{ product_ids|json_encode }}" limit="12" slider-id="world-{{ position }}-{{ loop.index0 }}" product-card-component="custom-salla-product-card"></salla-products-slider>{% if not loop.first %}</template>{% endif %}{% endif %}
+  </div>
+  {% endfor %}
+  {% elseif component.products|length %}
+   {% set product_ids = [] %}{% for product in component.products %}{% set product_ids = product_ids|merge([product.id|default(product.value)|default(product)]) %}{% endfor %}
+   <salla-products-slider source="selected" source-value="{{ product_ids|json_encode }}" limit="12" slider-id="world-{{ position }}" product-card-component="custom-salla-product-card"></salla-products-slider>
+  {% endif %}
+ </div>
+</section>

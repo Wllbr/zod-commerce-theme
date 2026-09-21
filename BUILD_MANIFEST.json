@@ -1,5 +1,5 @@
 {
-  "version": "1.9.2",
+  "version": "1.9.3",
   "builder": "webpack-production",
   "toolchain": {
     "node": "v22.18.0",
@@ -7,7 +7,7 @@
   },
   "inputs": {
     ".npmrc": "f84e69fe032956925070936b1557ae1320d29d06b58db541649515e05db580c6",
-    "package.json": "4fad3e3b3cf47e848870f2215ffa63255207002b7203836615131307378ff113",
+    "package.json": "8e66bd319df3d3d90433dd08e27ecdc101f730e41c9e883b91ff2883c8c2674f",
     "pnpm-lock.yaml": "3f2bcf6cb159d4dacbffa697add62fb88fe97bfcda1260644f33381a3024f963",
     "pnpm-workspace.yaml": "9082b3fed56a9b818282d1ab4d450eab0fa4da7c8f191072e9dc4dde32f21eb2",
     "postcss.config.js": "134370dcd34c87ed8277c373743326a1f87b669d66ac1cf3fc98abc024208c76",
@@ -25,19 +25,18 @@
     "scripts/test-regressions.mjs": "c1093c742a21b4799d3039d7e2b5322ba3c18f4efa2a4d432b6b1e04d5b9af3d",
     "scripts/test-shopping.mjs": "1339f9851f4a6c53b91c25a2d6267b273cbd000178aa4fc779fa8b0f23cb7778",
     "scripts/validate-theme.mjs": "12f709f3fbbdf194f378d7b2cfe30d0f1b8bf85b6c6f9823f96805891cb5c71a",
-    "src/assets/images/exhaust-kdk-generated.webp": "ec4125fc5f9d13fc3e8c1cbc55d097dd11b194e0996d5ba9b7ca30a40b922260",
-    "src/assets/images/generated/insect-traps/afc-glue-trap-lifestyle.webp": "4313ef87e5305f190f0ad7378c9a94baf7d02f4893a5d10b6b1cb06a8b7c907d",
-    "src/assets/images/generated/insect-traps/geepas-electric-trap-lifestyle.webp": "53545050b602e37b7f8b2b5adfedf5e5fa1b501d033fc895baa59bd0b0985dab",
-    "src/assets/images/insect-afc-generated.webp": "657835b9b1d2e6cf33fbf19fa71dc0e76285a436002c2e7d0d5ffa5c202a92ff",
-    "src/assets/images/intercom-commax-generated.webp": "b99959c8f29f368ae34ce95335276aa2161f0791b40421d8a1d1ccb151872108",
+    "src/assets/images/campaign-home.webp": "0f09a219a6ba57b7d359eea9caead4ad2c3fa2ac9970e93b28d4fd8c5868ab87",
+    "src/assets/images/campaign-living.webp": "768f81ac6302246e106f246b26edaebe68ac5020679409d778bfbe76f7db2cec",
+    "src/assets/images/campaign-power.webp": "6b0b1766c19b0421e2abb573267684bd091f4de36f552796d178c7d96da8cc30",
     "src/assets/images/laser-bar-generated.webp": "d4387c238474b25b1bf60968bb6df13fa431c5c9389a69fd0012cf397c73b237",
     "src/assets/images/laser-spider-generated.webp": "9285ec89481bee6a1410bf25e5c75cad34226a4f24453fcadcf73327c7c7a217",
     "src/assets/images/placeholder.svg": "b4a0b8e8beda6cf59ac4739286b09f2b9946fe45413252e0234d3f4b27d913aa",
     "src/assets/js/app.js": "b1e73b45b39d1bc64fc1b3fc9251f2861d9c2aea5d9fb6cf1d91bfd59ddc23bf",
-    "src/assets/js/home.js": "207b0d14517cfa7d4fb8cad4d436890242dfe627f79bc7905b67dac0120036e9",
+    "src/assets/js/home.js": "b8fab563e7b559bcea2a5e4662ed0851e56526f4e2fa8540bce31dbd2b1f9cec",
     "src/assets/js/legacy-product-card.js": "c1f94506d19ea7d1940bc30a84c660d8fcfc4cb06792b0d3dfe0cff691a7f069",
     "src/assets/js/pages.js": "7291103a5b491b60880f539bc268fb21bbdc8db8b5235197c26a5a232548cf6d",
     "src/assets/js/partials/add-product-toast.js": "74d95375813b4e87dfc8ad5543ad007db18833adf67b42e425c0ebe9397d9fb5",
+    "src/assets/js/partials/campaign.js": "002b741099ef5acb778ba548e3732d2147dd45d3e1b6ae0c1c164ebed8a77aee",
     "src/assets/js/partials/dialog-focus.js": "55a504e139a1a3fb55174849b853855f9417a6c69eb63cbb68e5d075f1e44f7e",
     "src/assets/js/partials/digital-files.js": "1e4a7901a5fcc5d95caffb44b981e530058927cfe143a005450fbd218f200a47",
     "src/assets/js/partials/preview-links.js": "5c5b7875161c4f8e3985daabb7460aa2260e7c1b8992427c71e97de018cbc5f9",
@@ -49,18 +48,20 @@
     "src/assets/js/product-runtime-compat.js": "dd978365b238b8d74ccac90acdc5cbafb005ffe03633c51d8ff2ec63c035e34c",
     "src/assets/js/product.js": "bcd8c9ad9ba2389a50bdfc1a1828d4b2d7178c3664d36bb116c56d2b4c065acb",
     "src/assets/js/products.js": "2288737674b5b18ec7301e0e8c5c951edeb089b2371fbadebd8342665922fb5b",
-    "src/assets/styles/app.scss": "d1ae5849edc514466621bdd2d1204010a7011954b75e3534dd3e26b9d821ed1d",
+    "src/assets/styles/app.scss": "7862fb9cb74d08ed69e0d5ae381502ac11973ff3cbf54a694d511937de9a812c",
+    "src/assets/styles/campaign.scss": "412fa2cb009aa697c10f334dd5a60c2d4a1d4c7b0eb6ac6fe5384891a61d2de1",
     "src/assets/styles/refinement.css": "1427c55b9d99d918400a700b2c52afebdda5be855af4dcff8355f97837d2b466",
     "src/assets/styles/showcase-refresh.scss": "9ff4a4cbbeaa2757722a06b226a92506bd82c72fec4741b3186dafa8ad0a664c",
-    "src/locales/ar.json": "0a9d7ea2f6553772de275d7a1fc29dba4844fb45469c4c6dd0075d1b20e0b861",
-    "src/locales/en.json": "2df0857b559da25cdf1992eeae7217710a83a3ab92a03345ff640838454c496b",
+    "src/locales/ar.json": "d8763c5287b45c14c2e56ecf310631d047b2faadb8720abb393bf3eb2c2a8b54",
+    "src/locales/en.json": "dfe0780dd3478ad2ac24e4f786e651ac92f09dc9a4bc2c1476bc3eae1e8b3787",
     "src/views/components/blog/article-card.twig": "08e54744a1e11e571ef7dfa67e6e183ee85b1817662c6f237e99e1b748ff2e76",
     "src/views/components/footer/footer.twig": "49804402760c8fe2c429bda62f854b9d94557d6335e396b51e399a864beda107",
     "src/views/components/header/header.twig": "cde1d0092bcba830a9b4200c0c5cff3c3e0aac158e216e618e7e5530fae80201",
+    "src/views/components/home/brand-world.twig": "12cc64747a79b7e644b30e5fd50f1b183e290aa22b7f638e7a4f2cfd7e2ed1d4",
     "src/views/components/home/brands.twig": "04fda8ade48ee0ea5cea59a4b2216f1d8cf90f05a1b962a62c921455b47c464b",
     "src/views/components/home/buying-guides.twig": "7e2f8cffd046ab648ed36795474b2812a911fa4268d5e8b66fcf3b84b99e56cb",
     "src/views/components/home/category-grid.twig": "629dfb5490393c4d11196912b52ce0f593e7f975b95fb2628a461fe6617daf91",
-    "src/views/components/home/dual-showcase.twig": "e4d33d3af2c1d0fe74da83e6b287b4385e56cb736fb3b0964fe68ac290baa2d9",
+    "src/views/components/home/dual-showcase.twig": "bd30f9f910a87e84ba0bcc992003d5639f521bfe1feaab46bf5dfcf8ea9bf180",
     "src/views/components/home/faq.twig": "b37a9469dbfecba5d6aa13fb4691b42bd834aeade53cd7dba7874a10fd2ed33e",
     "src/views/components/home/featured-products-style1.twig": "fda25bc181efa20a7168ddd2f6460533d95739c732454a348911b77fe2074459",
     "src/views/components/home/featured-products-style2.twig": "fda25bc181efa20a7168ddd2f6460533d95739c732454a348911b77fe2074459",
@@ -68,7 +69,7 @@
     "src/views/components/home/featured-products.twig": "9f3f298ff9d99a7e8d6b92d1c8c4b4b6091ed23db4cec1e6060f6f4166bd25bb",
     "src/views/components/home/fixed-banner.twig": "e8500a31a94d350bf4dc22beb6b1571609417fb25489a9d650e60cc795ffc506",
     "src/views/components/home/fixed-products.twig": "1ed30b6c59b4fe9fe5472760a8ae6f464139226e2be15f38a857387fe779fd77",
-    "src/views/components/home/hero-hub.twig": "27b266c7c074e85b65347fedebfd3299cbbdba191e0f1a596b1260d76c654cc7",
+    "src/views/components/home/hero-hub.twig": "4bf827b199fefaff8327b9712674cec9dec2fb465a7dd05e5683a657120356e2",
     "src/views/components/home/hero.twig": "08b2cd98923ecac88d40f5e73fbffed0d747c12872c946fff647c050aeb603c0",
     "src/views/components/home/interactive-product-showcase.twig": "8751aa2a6b921964e78e50a6f9c275755bf5726126481918c73b859a141027c1",
     "src/views/components/home/laser-showcase.twig": "7230cad02453e155840dc61322def19af5927cd347e01084a1972464285c0c92",
@@ -111,7 +112,7 @@
     "src/views/pages/testimonials.twig": "d499be8138a23a6daa457cbf1000759df3a15024fb9272d8f8395018ec945323",
     "src/views/pages/thank-you.twig": "a51fb48179d9d21eb5b21b01b485642edfe5612800ad5233d742ff5a59012dc8",
     "tailwind.config.js": "f321881ec2a51603ba55316b6841c2b0950a4b33b00c04dd4818d1de9d79d169",
-    "twilight.json": "5c10fd0641bf37cdfd37d3c5f27465cda38f2f5fbe7c48ece0a39e47da60615f",
+    "twilight.json": "cc9055830396e7e67e9a6ad59ed60435381b8f3ba2e1c9db898ab6da937b4867",
     "webpack.config.js": "4308d439ba372bbe507188cf29ea4762a830b88baa136c1af49eafdcd2e4589e"
   },
   "files": {
@@ -124,7 +125,7 @@
       "mode": "webpack-production-output"
     },
     "public/app.css": {
-      "sha256": "9f6759b47cd6dc4c36648a88b56ed83e655431e86db0eb1c955d1b2379cdfa7d",
+      "sha256": "a7bf942000ff7eccc35d23ff3dbcec7523e23df78b3e228c39ee083e0b24a7e9",
       "mode": "webpack-production-output"
     },
     "public/app.js": {
@@ -136,27 +137,19 @@
       "mode": "webpack-production-output"
     },
     "public/home.js": {
-      "sha256": "2ce7a5116dbcf0856bff8a2a8c69fe399fcdc900647140e96b941504449d1eaf",
+      "sha256": "ce085a86ee998c63af67657d311355fc4a0c0f2c9f21a2aa74a7f5e44a7bcbd5",
       "mode": "webpack-production-output"
     },
-    "public/images/exhaust-kdk-generated.webp": {
-      "sha256": "ec4125fc5f9d13fc3e8c1cbc55d097dd11b194e0996d5ba9b7ca30a40b922260",
+    "public/images/campaign-home.webp": {
+      "sha256": "0f09a219a6ba57b7d359eea9caead4ad2c3fa2ac9970e93b28d4fd8c5868ab87",
       "mode": "webpack-production-output"
     },
-    "public/images/generated/insect-traps/afc-glue-trap-lifestyle.webp": {
-      "sha256": "4313ef87e5305f190f0ad7378c9a94baf7d02f4893a5d10b6b1cb06a8b7c907d",
+    "public/images/campaign-living.webp": {
+      "sha256": "768f81ac6302246e106f246b26edaebe68ac5020679409d778bfbe76f7db2cec",
       "mode": "webpack-production-output"
     },
-    "public/images/generated/insect-traps/geepas-electric-trap-lifestyle.webp": {
-      "sha256": "53545050b602e37b7f8b2b5adfedf5e5fa1b501d033fc895baa59bd0b0985dab",
-      "mode": "webpack-production-output"
-    },
-    "public/images/insect-afc-generated.webp": {
-      "sha256": "657835b9b1d2e6cf33fbf19fa71dc0e76285a436002c2e7d0d5ffa5c202a92ff",
-      "mode": "webpack-production-output"
-    },
-    "public/images/intercom-commax-generated.webp": {
-      "sha256": "b99959c8f29f368ae34ce95335276aa2161f0791b40421d8a1d1ccb151872108",
+    "public/images/campaign-power.webp": {
+      "sha256": "6b0b1766c19b0421e2abb573267684bd091f4de36f552796d178c7d96da8cc30",
       "mode": "webpack-production-output"
     },
     "public/images/laser-bar-generated.webp": {

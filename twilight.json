@@ -232,7 +232,7 @@
       "key": "709b8a37-4b37-4bc9-b0b3-31643709c470",
       "title": {
         "en": "Specialist category hero",
-        "ar": "واجهة الأقسام الرئيسية — زود"
+        "ar": "واجهة الحملات والأقسام — زود"
       },
       "icon": "sicon-layout-grid",
       "path": "home.hero-hub",
@@ -247,7 +247,7 @@
           "required": false,
           "format": "text",
           "maxLength": 100,
-          "description": "ابدأ بهذا المكوّن في الصفحة الرئيسية. اختر الأقسام الثلاثة من تصنيفات متجرك؛ لا تظهر أزرار الانتقال قبل اختيار تصنيف له رابط. أضف صور المنتجات بخلفية شفافة. عدّل النصين العربي والإنجليزي من زر اللغة. / Place first. Select real categories; use generated artwork based on your actual products. Edit both languages."
+          "description": "واجهة عربية بثلاث حملات متحركة وصور إبداعية مرفقة. النصوص قابلة للتحرير. اربط الأقسام الفعلية وأضف رابط الكهرباء. صور الأقسام السابقة أصبحت اختصارات صغيرة."
         },
         {
           "type": "string",
@@ -495,6 +495,106 @@
           "value": null,
           "required": false,
           "format": "url",
+          "maxLength": 800
+        },
+        {
+          "id": "campaign_title",
+          "label": "عنوان الحملة الرئيسية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "تفاصيل صغيرة. راحة أكبر.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "campaign_text",
+          "label": "وصف الحملة الرئيسية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "من التهوية والإنتركوم إلى الكهرباء والإضاءة. اكتشف حلولاً تناسب بيتك وعملك.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "power_url",
+          "label": "رابط مجموعة الكهرباء",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "url",
+          "value": null,
+          "required": false,
+          "maxLength": 800
+        },
+        {
+          "id": "power_title",
+          "label": "عنوان حملة الكهرباء",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "لكل احتياج، توصيلة مناسبة.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "power_text",
+          "label": "وصف حملة الكهرباء",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "تصفح المحولات ومثبتات الجهد والتوصيلات. وقارن مواصفات المنتج قبل الاختيار.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "campaign_autoplay",
+          "label": "تبديل البنرات تلقائياً",
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "format": "switch",
+          "value": true,
+          "selected": true,
+          "required": false
+        },
+        {
+          "id": "show_shipping",
+          "label": "إظهار إعلان الشحن المجاني — بعد ضبط شروط الشحن",
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "format": "switch",
+          "value": false,
+          "selected": false,
+          "required": false
+        },
+        {
+          "id": "show_mada",
+          "label": "إظهار إعلان مدى — بعد تفعيل العرض",
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "format": "switch",
+          "value": false,
+          "selected": false,
+          "required": false
+        },
+        {
+          "id": "shipping_terms",
+          "label": "رابط شروط الشحن",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "url",
+          "value": null,
+          "required": false,
+          "maxLength": 800
+        },
+        {
+          "id": "mada_terms",
+          "label": "رابط شروط عرض مدى",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "url",
+          "value": null,
+          "required": false,
           "maxLength": 800
         }
       ]
@@ -1053,6 +1153,144 @@
           "required": false,
           "value": false,
           "selected": false
+        }
+      ]
+    },
+    {
+      "key": "cb482140-f9a7-4de1-b964-c5c661a8e9a4",
+      "title": {
+        "ar": "عالم العلامة — أقسام ومنتجات",
+        "en": "Brand collections"
+      },
+      "icon": "sicon-star",
+      "path": "home.brand-world",
+      "fields": [
+        {
+          "id": "brand_name",
+          "label": "اسم العلامة",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "أوكارينا",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "title",
+          "label": "العنوان",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "خيارات أكثر لكل مساحة.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "text",
+          "label": "الوصف",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "التوصيلات والستائر الهوائية ومصائد الحشرات. اكتشف كل مجموعة في مكان واحد.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "brand_url",
+          "label": "رابط جميع منتجات العلامة",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "url",
+          "value": null,
+          "required": false,
+          "maxLength": 800
+        },
+        {
+          "id": "power_style",
+          "label": "تصميم الكهرباء والمحولات",
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "format": "switch",
+          "value": false,
+          "selected": false,
+          "required": false
+        },
+        {
+          "id": "image",
+          "label": "صورة حملة اختيارية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "maxLength": 220,
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "products",
+          "label": "منتجات مختارة للعلامة",
+          "type": "items",
+          "icon": "sicon-shopping-bag",
+          "format": "dropdown-list",
+          "source": "products",
+          "selected": [],
+          "options": [],
+          "value": [],
+          "multichoice": true,
+          "searchable": true,
+          "required": false,
+          "maxLength": 12
+        },
+        {
+          "id": "groups",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "مجموعات المنتجات داخل العلامة",
+          "item_label": "مجموعة",
+          "value": [],
+          "fields": [
+            {
+              "id": "groups.title",
+              "label": "اسم المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "text",
+              "value": null,
+              "required": false,
+              "maxLength": 220
+            },
+            {
+              "id": "groups.url",
+              "label": "رابط المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "url",
+              "value": null,
+              "required": false,
+              "maxLength": 800
+            },
+            {
+              "id": "groups.products",
+              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "type": "items",
+              "icon": "sicon-shopping-bag",
+              "format": "dropdown-list",
+              "source": "products",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 12
+            }
+          ]
         }
       ]
     },

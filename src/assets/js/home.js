@@ -1,3 +1,4 @@
+import {initCampaign, initBrandWorld} from './partials/campaign';
 if (document.querySelector('lite-youtube')) {
   import('lite-youtube-embed/src/lite-yt-embed.js').catch(() => {});
 }
@@ -561,6 +562,8 @@ const initProductSwitcher = (section) => {
 
 const initHome = (root = document) => {
   initFaq(root);
+  root.querySelectorAll('[data-zod-campaign]').forEach(initCampaign);
+  root.querySelectorAll('[data-zod-brand-world]').forEach(initBrandWorld);
   initSectionMotion(root);
   root.querySelectorAll('.zod-hero-slider').forEach(initHeroSlider);
   root.querySelectorAll('[data-zod-dual-showcase]').forEach(initDualShowcase);
@@ -581,6 +584,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (node.matches?.('[data-zod-interactive-showcase]')) initInteractiveShowcase(node);
       if (node.matches?.('[data-zod-laser-showcase]')) initLaserShowcase(node);
       if (node.matches?.('[data-zod-product-switcher]')) initProductSwitcher(node);
+      if (node.matches?.('[data-zod-campaign]')) initCampaign(node);
+      if (node.matches?.('[data-zod-brand-world]')) initBrandWorld(node);
       initHome(node);
     });
     pending.clear();

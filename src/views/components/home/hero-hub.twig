@@ -1,38 +1,44 @@
-{# Three editorial category doors. No fabricated category ids, prices or promises. #}
-{% set hub_title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
-{% set hub_intro = component.intro is iterable ? component.intro[language.code]|default(component.intro|first) : component.intro %}
-<section class="zod-section zod-hero-hub" data-zod-hero-hub>
-  <div class="container">
-    <header class="zod-hub-heading">
-      <div><p class="zod-eyebrow">{{ trans('zod.hub.eyebrow') }}</p><h2>{{ hub_title|default(trans('zod.hub.title')) }}</h2></div>
-      <p>{{ hub_intro|default(trans('zod.hub.intro')) }}</p>
-    </header>
-    <div class="zod-hub-grid">
-      {% for slot in ['exhaust', 'intercom', 'insect'] %}
-        {% set selection = component[slot ~ '_category']|default([]) %}
-        {% set category = selection.url is defined or selection.id is defined ? selection : (selection is iterable ? selection|first : null) %}
-        {% set category_url = category.url|default(component[slot ~ '_url']|default(null)) %}
-        {% set label_value = component[slot ~ '_title']|default(null) %}
-        {% set description_value = component[slot ~ '_text']|default(null) %}
-        {% set label = label_value is iterable ? label_value[language.code]|default(label_value|first) : label_value %}
-        {% set description = description_value is iterable ? description_value[language.code]|default(description_value|first) : description_value %}
-        {% set artwork = {'exhaust': 'exhaust-kdk-generated.webp', 'intercom': 'intercom-commax-generated.webp', 'insect': 'insect-afc-generated.webp'} %}
-        {% set media = component[slot ~ '_image']|default(('images/' ~ artwork[slot])|asset) %}
-        {% if media is iterable %}{% set media = media.url|default(null) %}{% endif %}
-        <article class="zod-hub-card zod-hub-card--{{ slot }}">
-          <div class="zod-hub-card__content">
-            <span class="zod-hub-card__tag">{{ trans('zod.hub.' ~ slot ~ '_tag') }}</span>
-            <h3>{{ label|default(trans('zod.hub.' ~ slot ~ '_title')) }}</h3>
-            <p>{{ description|default(trans('zod.hub.' ~ slot ~ '_text')) }}</p>
-            {% if category_url %}<a class="zod-hub-card__link" data-zod-category-link href="{{ category_url }}"><span>{{ trans('zod.hub.explore') }}</span><i class="sicon-arrow-left" aria-hidden="true"></i></a>{% endif %}
-          </div>
-          <div class="zod-hub-card__art" aria-hidden="true">
-            {% if media %}<img src="{{ media }}" alt="" width="720" height="720" decoding="async" {% if loop.first %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %}>
-            {% else %}{% include 'components.shared.category-symbol' with {variant: slot} %}{% endif %}
-          </div>
-          <span class="zod-hub-card__number" aria-hidden="true">0{{ loop.index }}</span>
-        </article>
-      {% endfor %}
-    </div>
+{% set category_urls = {} %}
+{% for slot in ['exhaust', 'intercom', 'insect'] %}
+  {% set selection = component[slot ~ '_category']|default([]) %}
+  {% set category = selection.url is defined or selection.id is defined ? selection : (selection is iterable ? selection|first : null) %}
+  {% set category_url = category.url|default(component[slot ~ '_url']|default(null)) %}
+  {% set category_urls = category_urls|merge({(slot): category_url}) %}
+{% endfor %}
+{% set campaign_title = component.campaign_title|default(trans('zod.campaign.title')) %}
+{% set campaign_text = component.campaign_text|default(trans('zod.campaign.intro')) %}
+{% set campaigns = [
+  {image:'campaign-home.webp', title:campaign_title, text:campaign_text, url:category_urls.exhaust},
+  {image:'campaign-power.webp', title:component.power_title|default(trans('zod.campaign.power_title')), text:component.power_text|default(trans('zod.campaign.power_text')), url:component.power_url|default(null)},
+  {image:'campaign-living.webp', title:trans('zod.campaign.comfort_title'), text:trans('zod.campaign.comfort_text'), url:category_urls.insect}
+] %}
+<section class="zod-campaign container" data-zod-campaign data-autoplay="{{ component.campaign_autoplay is defined and not component.campaign_autoplay ? 'false' : 'true' }}" data-play="{{ trans('zod.campaign.play') }}" data-pause="{{ trans('zod.campaign.pause') }}" aria-label="{{ trans('zod.campaign.eyebrow') }}" aria-roledescription="carousel">
+  <div class="zod-campaign__viewport" data-campaign-viewport>
+    {% for campaign in campaigns %}
+    <article class="zod-campaign__slide {{ loop.index == 3 ? 'is-pale' : '' }}" data-campaign-slide role="group" aria-roledescription="slide" aria-label="{{ loop.index }} / {{ campaigns|length }}" {% if not loop.first %}hidden{% endif %}>
+      <img class="zod-campaign__art" src="{{ ('images/' ~ campaign.image)|asset }}" width="1536" height="1024" alt="" decoding="async" {{ loop.first ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"' }}>
+      <div class="zod-campaign__copy"><span class="zod-campaign__eyebrow">{{ trans('zod.campaign.eyebrow') }}</span><h2>{{ campaign.title }}</h2><p>{{ campaign.text }}</p>
+        {% if campaign.url %}<a class="zod-campaign__cta" data-zod-category-link href="{{ campaign.url }}">{{ trans('zod.campaign.explore') }} <span aria-hidden="true">↗</span></a>{% endif %}
+      </div>
+      <span class="zod-campaign__edition" aria-hidden="true">ZOD / 0{{ loop.index }}</span>
+    </article>
+    {% endfor %}
+  </div>
+  <div class="zod-campaign__controls">
+    <button type="button" data-campaign-prev aria-label="{{ trans('zod.campaign.previous') }}">→</button>
+    <div class="zod-campaign__dots">{% for campaign in campaigns %}<button type="button" data-campaign-dot aria-label="{{ trans('zod.campaign.slide') }} {{ loop.index }}" aria-pressed="{{ loop.first ? 'true' : 'false' }}"><span></span></button>{% endfor %}</div>
+    <button type="button" data-campaign-next aria-label="{{ trans('zod.campaign.next') }}">←</button>
+    <button type="button" data-campaign-pause aria-label="{{ trans('zod.campaign.pause') }}" aria-pressed="false"><span aria-hidden="true">Ⅱ</span></button>
+  </div>
+  <nav class="zod-quick-categories" aria-label="{{ trans('zod.campaign.categories') }}">
+    <button type="button" aria-controls="zod-catalog-drawer" aria-expanded="false" onclick="window.zodMenu?.open(this)"><i class="sicon-menu" aria-hidden="true"></i>{{ trans('zod.campaign.all') }}</button>
+    {% for slot in ['exhaust','intercom','insect'] %}{% if category_urls[slot] %}<a data-zod-category-link href="{{ category_urls[slot] }}"><span class="zod-quick-categories__mark" aria-hidden="true">0{{ loop.index }}</span>{{ trans('zod.hub.' ~ slot ~ '_tag') }}</a>{% endif %}{% endfor %}
+    {% if component.power_url %}<a data-zod-category-link href="{{ component.power_url }}"><span class="zod-quick-categories__mark" aria-hidden="true">04</span>{{ trans('zod.campaign.power') }}</a>{% endif %}
+    <a href="{{ link('brands') }}"><i class="sicon-star" aria-hidden="true"></i>{{ trans('zod.campaign.brand') }}</a>
+  </nav>
+  <div class="zod-offer-tiles">
+    {% if component.show_shipping %}<article class="zod-offer-tile is-shipping"><span class="zod-offer-tile__number" aria-hidden="true">350<span>+</span></span><div><strong>{{ trans('zod.campaign.shipping') }}</strong><p>{{ trans('zod.campaign.shipping_text') }}</p>{% if component.shipping_terms %}<a href="{{ component.shipping_terms }}">{{ trans('zod.campaign.terms') }} ↗</a>{% endif %}</div></article>{% endif %}
+    {% if component.show_mada and component.mada_terms %}<article class="zod-offer-tile is-mada"><span class="zod-offer-tile__number" aria-hidden="true">5<span>%</span></span><div><strong>{{ trans('zod.campaign.mada') }}</strong><p>{{ trans('zod.campaign.mada_text') }}</p><a href="{{ component.mada_terms }}">{{ trans('zod.campaign.terms') }} ↗</a></div></article>{% endif %}
+    <a class="zod-offer-tile is-offers" href="{{ link('offers') }}"><span class="zod-offer-tile__number" aria-hidden="true">↗</span><div><strong>{{ trans('zod.campaign.offers') }}</strong><p>{{ trans('zod.campaign.offers_text') }}</p></div></a>
   </div>
 </section>
