@@ -17,9 +17,8 @@
         {% set description_value = component[slot ~ '_text']|default(null) %}
         {% set label = label_value is iterable ? label_value[language.code]|default(label_value|first) : label_value %}
         {% set description = description_value is iterable ? description_value[language.code]|default(description_value|first) : description_value %}
-        {% set featured = component[slot ~ '_product']|default(null) %}
-        {% if featured is iterable and featured.id is not defined %}{% set featured = featured|first %}{% endif %}
-        {% set media = component[slot ~ '_image']|default(featured.image|default(featured.thumbnail|default(category.image|default(null)))) %}
+        {% set artwork = {'exhaust': 'exhaust-kdk-generated.webp', 'intercom': 'intercom-commax-generated.webp', 'insect': 'insect-afc-generated.webp'} %}
+        {% set media = component[slot ~ '_image']|default(('images/' ~ artwork[slot])|asset) %}
         {% if media is iterable %}{% set media = media.url|default(null) %}{% endif %}
         <article class="zod-hub-card zod-hub-card--{{ slot }}">
           <div class="zod-hub-card__content">

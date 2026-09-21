@@ -247,7 +247,7 @@
           "required": false,
           "format": "text",
           "maxLength": 100,
-          "description": "ابدأ بهذا المكوّن في الصفحة الرئيسية. اختر الأقسام الثلاثة من تصنيفات متجرك؛ لا تظهر أزرار الانتقال قبل اختيار تصنيف له رابط. أضف صور المنتجات بخلفية شفافة. عدّل النصين العربي والإنجليزي من زر اللغة. / Place first. Select three real categories, upload cutout images and edit both languages."
+          "description": "ابدأ بهذا المكوّن في الصفحة الرئيسية. اختر الأقسام الثلاثة من تصنيفات متجرك؛ لا تظهر أزرار الانتقال قبل اختيار تصنيف له رابط. أضف صور المنتجات بخلفية شفافة. عدّل النصين العربي والإنجليزي من زر اللغة. / Place first. Select real categories; use generated artwork based on your actual products. Edit both languages."
         },
         {
           "type": "string",
@@ -306,7 +306,7 @@
           "value": null,
           "format": "image",
           "required": false,
-          "description": "صورة اختيارية؛ الأولوية للصورة المرفوعة ثم صورة المنتج المختار ثم صورة التصنيف. / Optional image; otherwise uses the selected product, then category image.",
+          "description": "صورة مولدة اختيارية بالاستناد إلى منتج فعلي؛ تستخدم الرسوم المولدة المرفقة افتراضياً. / Optional generated artwork based on an actual store product; bundled generated artwork is used by default.",
           "settings": {
             "width": 720,
             "height": 720
@@ -358,7 +358,7 @@
           "value": null,
           "format": "image",
           "required": false,
-          "description": "صورة اختيارية؛ الأولوية للصورة المرفوعة ثم صورة المنتج المختار ثم صورة التصنيف. / Optional image; otherwise uses the selected product, then category image.",
+          "description": "صورة مولدة اختيارية بالاستناد إلى منتج فعلي؛ تستخدم الرسوم المولدة المرفقة افتراضياً. / Optional generated artwork based on an actual store product; bundled generated artwork is used by default.",
           "settings": {
             "width": 720,
             "height": 720
@@ -410,7 +410,7 @@
           "value": null,
           "format": "image",
           "required": false,
-          "description": "صورة اختيارية؛ الأولوية للصورة المرفوعة ثم صورة المنتج المختار ثم صورة التصنيف. / Optional image; otherwise uses the selected product, then category image.",
+          "description": "صورة مولدة اختيارية بالاستناد إلى منتج فعلي؛ تستخدم الرسوم المولدة المرفقة افتراضياً. / Optional generated artwork based on an actual store product; bundled generated artwork is used by default.",
           "settings": {
             "width": 720,
             "height": 720

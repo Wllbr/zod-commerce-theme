@@ -24,9 +24,12 @@
     "scripts/test-regressions.mjs": "387c02a2458cd55008989c4499470593619f5e063b06be9b4d40b4aedf85f9db",
     "scripts/test-shopping.mjs": "1339f9851f4a6c53b91c25a2d6267b273cbd000178aa4fc779fa8b0f23cb7778",
     "scripts/validate-theme.mjs": "12f709f3fbbdf194f378d7b2cfe30d0f1b8bf85b6c6f9823f96805891cb5c71a",
+    "src/assets/images/exhaust-kdk-generated.webp": "ec4125fc5f9d13fc3e8c1cbc55d097dd11b194e0996d5ba9b7ca30a40b922260",
     "src/assets/images/generated/insect-traps/afc-glue-trap-lifestyle.webp": "4313ef87e5305f190f0ad7378c9a94baf7d02f4893a5d10b6b1cb06a8b7c907d",
     "src/assets/images/generated/insect-traps/geepas-electric-trap-lifestyle.webp": "53545050b602e37b7f8b2b5adfedf5e5fa1b501d033fc895baa59bd0b0985dab",
     "src/assets/images/generated/ventilation/kdk-wall-fan-spotlight-square.webp": "3a16974c64a078980af5aee845ce1361311855d1e0c9f1487fe0190481327c50",
+    "src/assets/images/insect-afc-generated.webp": "657835b9b1d2e6cf33fbf19fa71dc0e76285a436002c2e7d0d5ffa5c202a92ff",
+    "src/assets/images/intercom-commax-generated.webp": "b99959c8f29f368ae34ce95335276aa2161f0791b40421d8a1d1ccb151872108",
     "src/assets/images/placeholder.svg": "b4a0b8e8beda6cf59ac4739286b09f2b9946fe45413252e0234d3f4b27d913aa",
     "src/assets/js/app.js": "b1e73b45b39d1bc64fc1b3fc9251f2861d9c2aea5d9fb6cf1d91bfd59ddc23bf",
     "src/assets/js/home.js": "9f614ac11558c1f7a3596898f27b507908cb1860f6a8e7cab7cbd9841095432d",
@@ -62,7 +65,7 @@
     "src/views/components/home/featured-products.twig": "9f3f298ff9d99a7e8d6b92d1c8c4b4b6091ed23db4cec1e6060f6f4166bd25bb",
     "src/views/components/home/fixed-banner.twig": "e8500a31a94d350bf4dc22beb6b1571609417fb25489a9d650e60cc795ffc506",
     "src/views/components/home/fixed-products.twig": "1ed30b6c59b4fe9fe5472760a8ae6f464139226e2be15f38a857387fe779fd77",
-    "src/views/components/home/hero-hub.twig": "8fedf0a490162b3192c121370b0bd22d4ac9a5d85570ceedd733208ba453cd61",
+    "src/views/components/home/hero-hub.twig": "385ffdbd1dde1f09509bfa70d382eb0e2b9038561a5f7613042e48cf3094bfc8",
     "src/views/components/home/hero.twig": "08b2cd98923ecac88d40f5e73fbffed0d747c12872c946fff647c050aeb603c0",
     "src/views/components/home/interactive-product-showcase.twig": "8751aa2a6b921964e78e50a6f9c275755bf5726126481918c73b859a141027c1",
     "src/views/components/home/laser-showcase.twig": "941deacfcd7cdfac6a2c6130653609a352328f6e5cbb4c23fcf3db7a8583b0b0",
@@ -105,7 +108,7 @@
     "src/views/pages/testimonials.twig": "d499be8138a23a6daa457cbf1000759df3a15024fb9272d8f8395018ec945323",
     "src/views/pages/thank-you.twig": "a51fb48179d9d21eb5b21b01b485642edfe5612800ad5233d742ff5a59012dc8",
     "tailwind.config.js": "f321881ec2a51603ba55316b6841c2b0950a4b33b00c04dd4818d1de9d79d169",
-    "twilight.json": "2cb80c989fe076102d7da2ae2ac631375815917bc3c9564ede74b230efc89fd2",
+    "twilight.json": "5c10fd0641bf37cdfd37d3c5f27465cda38f2f5fbe7c48ece0a39e47da60615f",
     "webpack.config.js": "4308d439ba372bbe507188cf29ea4762a830b88baa136c1af49eafdcd2e4589e"
   },
   "files": {
@@ -133,6 +136,10 @@
       "sha256": "2b97cb3960c0a61ded0b209f77ee1e9f1f9d1a500c7786ca09b8488160f0fd7a",
       "mode": "webpack-production-output"
     },
+    "public/images/exhaust-kdk-generated.webp": {
+      "sha256": "ec4125fc5f9d13fc3e8c1cbc55d097dd11b194e0996d5ba9b7ca30a40b922260",
+      "mode": "webpack-production-output"
+    },
     "public/images/generated/insect-traps/afc-glue-trap-lifestyle.webp": {
       "sha256": "4313ef87e5305f190f0ad7378c9a94baf7d02f4893a5d10b6b1cb06a8b7c907d",
       "mode": "webpack-production-output"
@@ -143,6 +150,14 @@
     },
     "public/images/generated/ventilation/kdk-wall-fan-spotlight-square.webp": {
       "sha256": "3a16974c64a078980af5aee845ce1361311855d1e0c9f1487fe0190481327c50",
+      "mode": "webpack-production-output"
+    },
+    "public/images/insect-afc-generated.webp": {
+      "sha256": "657835b9b1d2e6cf33fbf19fa71dc0e76285a436002c2e7d0d5ffa5c202a92ff",
+      "mode": "webpack-production-output"
+    },
+    "public/images/intercom-commax-generated.webp": {
+      "sha256": "b99959c8f29f368ae34ce95335276aa2161f0791b40421d8a1d1ccb151872108",
       "mode": "webpack-production-output"
     },
     "public/images/placeholder.svg": {
