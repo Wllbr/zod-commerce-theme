@@ -31,7 +31,7 @@ export const initShippingGoal = () => {
   const live = widget.querySelector('[data-shipping-live]');
   let revision = 0, timer, closeTimer, previous, showNotice = false;
   const close = () => { popup.hidden = true; toggle.setAttribute('aria-expanded','false'); };
-  const open = () => { popup.hidden = false; toggle.setAttribute('aria-expanded','true'); };
+  const open = () => { clearTimeout(closeTimer); popup.hidden = false; toggle.setAttribute('aria-expanded','true'); };
   toggle.addEventListener('click', () => popup.hidden ? open() : close());
   widget.querySelector('[data-shipping-close]').addEventListener('click', close);
   widget.addEventListener('keydown', e => { if (e.key === 'Escape') { close(); toggle.focus(); } });
@@ -56,7 +56,10 @@ export const initShippingGoal = () => {
     toggle.setAttribute('aria-label', message);
     if (notify && previous !== message) {
       live.textContent = message; open(); clearTimeout(closeTimer);
-      closeTimer = setTimeout(close, 5500);
+      closeTimer = setTimeout(() => {
+        // Do not remove the close control while a keyboard user is using it.
+        if (!popup.contains(document.activeElement)) close();
+      }, 5500);
       widget.classList.remove('is-celebrating');
       if (state.complete && previous && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         widget.classList.add('is-celebrating');
@@ -72,7 +75,7 @@ export const initShippingGoal = () => {
         const response = await window.salla.cart.details();
         if (current !== revision) return;
         const roots = [response?.data?.cart, response?.cart, response?.data?.data, response?.data, response];
-        const cart = roots.find(r => r && ('sub_total' in r || 'free_shipping_bar' in r));
+        const cart = roots.find(r => r && typeof r === 'object' && ('sub_total' in r || 'free_shipping_bar' in r));
         render(cart, showNotice); showNotice = false;
       } catch (_) { /* Preserve confirmed values; a failed request never means an empty cart. */ }
     }, 180);

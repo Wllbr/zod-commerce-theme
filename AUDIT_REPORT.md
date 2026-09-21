@@ -1,3 +1,18 @@
+# ZOD Commerce 1.9.5 — continuation audit
+
+## Local fixes and evidence
+
+- Corrected all 16 department collection default objects to use full editor field IDs such as groups.title. This follows [Salla's reference theme configuration](https://github.com/SallaApp/theme-raed/blob/master/twilight.json). The new contract test failed against 1.9.4 and passes after the correction. This is a plausible cause of the previously incomplete Commax form, not a verified native diagnosis.
+- Corrected the department product-picker label to its actual eight-product limit.
+- Reworked the actual native homepage store-features component into three compact columns. The previous refresh styled only the separate custom trust and PDP components.
+- Visually inspected the compiled CSS in local 320px, 390px and 768px iframe fixtures with existing Arabic merchant copy. All three columns remain visible. At 320px, grid width 240.8px and scroll width 241px (rounding only). The fixture uses placeholder symbols, not native Salla icon fonts; native validation is still required.
+- Shipping popup no longer closes while its close control has keyboard focus; manually reopening it cancels the automatic timeout. Added event-level tests covering late responses, failures, focus restoration and popup timing.
+
+Production build and full regression suite pass. This is a local continuation pass; it does not count as a completed full-storefront visual audit. The native browser policy restriction was not bypassed or retried. The 9/10 target remains unverified, with the same saved-content and editor-arrangement work below outstanding. No live publication.
+
+---
+
+## Previous draft evidence (1.9.4)
 # ZOD Commerce 1.9.4 — audit and release status
 
 21 September 2026. Arabic UI, layout and components. Development draft only; no live publication.
@@ -42,4 +57,5 @@ Assess visual hierarchy and image/copy relevance (2), category discovery and con
 Production Webpack build and full local test suite passed: schema/templates, approval guards, shopping state, persistent purchase layout, laser visibility, campaign behavior, shipping boundaries and build provenance. All three approval fixes remain: native add-product toast, native order-item review, and no automatic product-details calls during card/list initialization. Existing CSS size gates pass; Webpack retains two raw size advisories.
 
 No new checkout/payment transaction tests, physical-device tests, screen-reader tests, Lighthouse score or Salla approval certification. English campaign/department copy remains incomplete by the current Arabic-first scope. Editor configuration/order is stored in Salla and is not transported by the ZIP.
+
 

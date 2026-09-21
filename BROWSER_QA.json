@@ -1,7 +1,7 @@
 {
-  "version": "1.9.4",
+  "version": "1.9.5",
   "date": "2026-09-21",
-  "status": "round-1-partial-browser-policy-blocked",
+  "status": "local-continuation-checked-native-audit-blocked",
   "reviewBranch": "codex/zod-1.9.0-review",
   "inspectedDraft": "1313754418",
   "inspectedCodeCommit": "ba32cf4",
@@ -15,6 +15,7 @@
     "Sixteen departments appear in add-component catalog"
   ],
   "notVerified": [
+    "1.9.5 department editor defaults and native trust row",
     "Final search correction in native PDP",
     "Department form defaults, instances and homepage order",
     "Final desktop/mobile PDP, cart, category, laser and footer review",
@@ -97,5 +98,9 @@
       }
     },
     "codeCommit": "75560ef"
-  }
+  },
+  "localChecks": [
+    "Compiled trust CSS visually inspected at 320, 390 and 768px with placeholder icons",
+    "320px trust grid has no material horizontal overflow"
+  ]
 }

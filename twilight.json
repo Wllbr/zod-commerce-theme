@@ -3132,10 +3132,10 @@
           "item_label": "مجموعة",
           "value": [
             {
-              "title": "شاشات",
-              "category": [],
-              "url": null,
-              "products": [
+              "groups.title": "شاشات",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": [
                 916540833,
                 184487847,
                 1865793957,
@@ -3143,26 +3143,26 @@
               ]
             },
             {
-              "title": "كاميرات ولوحات خارجية",
-              "category": [],
-              "url": null,
-              "products": [
+              "groups.title": "كاميرات ولوحات خارجية",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": [
                 255367053,
                 291440312,
                 1198712767
               ]
             },
             {
-              "title": "سماعات وإنترفون",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "سماعات وإنترفون",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             },
             {
-              "title": "ملحقات",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "ملحقات",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             }
           ],
           "fields": [
@@ -3188,7 +3188,7 @@
             },
             {
               "id": "groups.products",
-              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "label": "منتجات المجموعة — حتى 8 منتجات",
               "type": "items",
               "icon": "sicon-shopping-bag",
               "format": "dropdown-list",
@@ -3286,36 +3286,36 @@
           "item_label": "مجموعة",
           "value": [
             {
-              "title": "شاشات",
-              "category": [
+              "groups.title": "شاشات",
+              "groups.category": [
                 1792203262
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/intercom-monitors/c1792203262",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/intercom-monitors/c1792203262",
+              "groups.products": []
             },
             {
-              "title": "كاميرات الأبواب",
-              "category": [
+              "groups.title": "كاميرات الأبواب",
+              "groups.category": [
                 1153431807
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/door-cameras-panels/c1153431807",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/door-cameras-panels/c1153431807",
+              "groups.products": []
             },
             {
-              "title": "إنترفون وسماعات",
-              "category": [
+              "groups.title": "إنترفون وسماعات",
+              "groups.category": [
                 377751544
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/audio-intercom/c377751544",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/audio-intercom/c377751544",
+              "groups.products": []
             },
             {
-              "title": "الملحقات",
-              "category": [
+              "groups.title": "الملحقات",
+              "groups.category": [
                 843990522
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/access-systems-parts/c843990522",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/access-systems-parts/c843990522",
+              "groups.products": []
             }
           ],
           "fields": [
@@ -3341,7 +3341,7 @@
             },
             {
               "id": "groups.products",
-              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "label": "منتجات المجموعة — حتى 8 منتجات",
               "type": "items",
               "icon": "sicon-shopping-bag",
               "format": "dropdown-list",
@@ -3439,30 +3439,30 @@
           "item_label": "مجموعة",
           "value": [
             {
-              "title": "كل التوصيلات",
-              "category": [
+              "groups.title": "كل التوصيلات",
+              "groups.category": [
                 1435013845
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/extensions-power-strips/c1435013845",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/extensions-power-strips/c1435013845",
+              "groups.products": []
             },
             {
-              "title": "بكرات",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "بكرات",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             },
             {
-              "title": "توصيلات مخفية",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "توصيلات مخفية",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             },
             {
-              "title": "توصيلات متعددة الاستخدام",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "توصيلات متعددة الاستخدام",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             }
           ],
           "fields": [
@@ -3488,7 +3488,7 @@
             },
             {
               "id": "groups.products",
-              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "label": "منتجات المجموعة — حتى 8 منتجات",
               "type": "items",
               "icon": "sicon-shopping-bag",
               "format": "dropdown-list",
@@ -3586,28 +3586,28 @@
           "item_label": "مجموعة",
           "value": [
             {
-              "title": "مصائد صاعقة",
-              "category": [
+              "groups.title": "مصائد صاعقة",
+              "groups.category": [
                 457446698
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/electric-insect-traps/c457446698",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/electric-insect-traps/c457446698",
+              "groups.products": []
             },
             {
-              "title": "مصائد لاصقة",
-              "category": [
+              "groups.title": "مصائد لاصقة",
+              "groups.category": [
                 1965110315
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/adhesive-insect-traps/c1965110315",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/adhesive-insect-traps/c1965110315",
+              "groups.products": []
             },
             {
-              "title": "لمبات وملحقات",
-              "category": [
+              "groups.title": "لمبات وملحقات",
+              "groups.category": [
                 1192121140
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/insect-trap-parts/c1192121140",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/insect-trap-parts/c1192121140",
+              "groups.products": []
             }
           ],
           "fields": [
@@ -3633,7 +3633,7 @@
             },
             {
               "id": "groups.products",
-              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "label": "منتجات المجموعة — حتى 8 منتجات",
               "type": "items",
               "icon": "sicon-shopping-bag",
               "format": "dropdown-list",
@@ -3731,44 +3731,44 @@
           "item_label": "مجموعة",
           "value": [
             {
-              "title": "شفاطات وتهوية",
-              "category": [
+              "groups.title": "شفاطات وتهوية",
+              "groups.category": [
                 1077500701
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/exhaust-ventilation/c1077500701",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/exhaust-ventilation/c1077500701",
+              "groups.products": []
             },
             {
-              "title": "ستاند",
-              "category": [
+              "groups.title": "ستاند",
+              "groups.category": [
                 96190918
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/stand-fans/c96190918",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/stand-fans/c96190918",
+              "groups.products": []
             },
             {
-              "title": "جدارية",
-              "category": [
+              "groups.title": "جدارية",
+              "groups.category": [
                 736010949
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/wall-fans/c736010949",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/wall-fans/c736010949",
+              "groups.products": []
             },
             {
-              "title": "سقفية",
-              "category": [
+              "groups.title": "سقفية",
+              "groups.category": [
                 1468063943
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/ceiling-fans/c1468063943",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/ceiling-fans/c1468063943",
+              "groups.products": []
             },
             {
-              "title": "أرضية وصندوق",
-              "category": [
+              "groups.title": "أرضية وصندوق",
+              "groups.category": [
                 560795584
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/box-fans/c560795584",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/box-fans/c560795584",
+              "groups.products": []
             }
           ],
           "fields": [
@@ -3794,7 +3794,7 @@
             },
             {
               "id": "groups.products",
-              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "label": "منتجات المجموعة — حتى 8 منتجات",
               "type": "items",
               "icon": "sicon-shopping-bag",
               "format": "dropdown-list",
@@ -3892,26 +3892,26 @@
           "item_label": "مجموعة",
           "value": [
             {
-              "title": "لوحات مخارج",
-              "category": [
+              "groups.title": "لوحات مخارج",
+              "groups.category": [
                 1480654385
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/emergency-exit-signs/c1480654385",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/emergency-exit-signs/c1480654385",
+              "groups.products": []
             },
             {
-              "title": "إنارة طوارئ",
-              "category": [
+              "groups.title": "إنارة طوارئ",
+              "groups.category": [
                 707599666
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/emergency-lighting/c707599666",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/emergency-lighting/c707599666",
+              "groups.products": []
             },
             {
-              "title": "أجراس طوارئ",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "أجراس طوارئ",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             }
           ],
           "fields": [
@@ -3937,7 +3937,7 @@
             },
             {
               "id": "groups.products",
-              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "label": "منتجات المجموعة — حتى 8 منتجات",
               "type": "items",
               "icon": "sicon-shopping-bag",
               "format": "dropdown-list",
@@ -4035,26 +4035,26 @@
           "item_label": "مجموعة",
           "value": [
             {
-              "title": "بطاريات وشواحن",
-              "category": [
+              "groups.title": "بطاريات وشواحن",
+              "groups.category": [
                 700798155
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/batteries-chargers/c700798155",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/batteries-chargers/c700798155",
+              "groups.products": []
             },
             {
-              "title": "إنفرترات",
-              "category": [
+              "groups.title": "إنفرترات",
+              "groups.category": [
                 1610102218
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/converters-inverters/c1610102218",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/converters-inverters/c1610102218",
+              "groups.products": []
             },
             {
-              "title": "ملحقات الطاقة",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "ملحقات الطاقة",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             }
           ],
           "fields": [
@@ -4080,7 +4080,7 @@
             },
             {
               "id": "groups.products",
-              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "label": "منتجات المجموعة — حتى 8 منتجات",
               "type": "items",
               "icon": "sicon-shopping-bag",
               "format": "dropdown-list",
@@ -4178,20 +4178,20 @@
           "item_label": "مجموعة",
           "value": [
             {
-              "title": "محولات",
-              "category": [
+              "groups.title": "محولات",
+              "groups.category": [
                 1610102218
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/converters-inverters/c1610102218",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/converters-inverters/c1610102218",
+              "groups.products": []
             },
             {
-              "title": "مثبتات الجهد",
-              "category": [
+              "groups.title": "مثبتات الجهد",
+              "groups.category": [
                 34805449
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/voltage-stabilizers/c34805449",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/voltage-stabilizers/c34805449",
+              "groups.products": []
             }
           ],
           "fields": [
@@ -4217,7 +4217,7 @@
             },
             {
               "id": "groups.products",
-              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "label": "منتجات المجموعة — حتى 8 منتجات",
               "type": "items",
               "icon": "sicon-shopping-bag",
               "format": "dropdown-list",
@@ -4315,30 +4315,30 @@
           "item_label": "مجموعة",
           "value": [
             {
-              "title": "تشكيلة الزينة",
-              "category": [
+              "groups.title": "تشكيلة الزينة",
+              "groups.category": [
                 1683069661
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/decorative-lighting/c1683069661",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/decorative-lighting/c1683069661",
+              "groups.products": []
             },
             {
-              "title": "ستائر",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "ستائر",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             },
             {
-              "title": "حبال",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "حبال",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             },
             {
-              "title": "شبكات",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "شبكات",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             }
           ],
           "fields": [
@@ -4364,7 +4364,7 @@
             },
             {
               "id": "groups.products",
-              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "label": "منتجات المجموعة — حتى 8 منتجات",
               "type": "items",
               "icon": "sicon-shopping-bag",
               "format": "dropdown-list",
@@ -4462,30 +4462,30 @@
           "item_label": "مجموعة",
           "value": [
             {
-              "title": "جميع المقاسات",
-              "category": [
+              "groups.title": "جميع المقاسات",
+              "groups.category": [
                 519859395
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/air-curtains/c519859395",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/air-curtains/c519859395",
+              "groups.products": []
             },
             {
-              "title": "مقاس صغير",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "مقاس صغير",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             },
             {
-              "title": "مقاس متوسط",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "مقاس متوسط",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             },
             {
-              "title": "مقاس كبير",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "مقاس كبير",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             }
           ],
           "fields": [
@@ -4511,7 +4511,7 @@
             },
             {
               "id": "groups.products",
-              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "label": "منتجات المجموعة — حتى 8 منتجات",
               "type": "items",
               "icon": "sicon-shopping-bag",
               "format": "dropdown-list",
@@ -4609,24 +4609,24 @@
           "item_label": "مجموعة",
           "value": [
             {
-              "title": "أجهزة وتحكم",
-              "category": [
+              "groups.title": "أجهزة وتحكم",
+              "groups.category": [
                 910080478
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/smart-controls/c910080478",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/smart-controls/c910080478",
+              "groups.products": []
             },
             {
-              "title": "حساسات الحركة",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "حساسات الحركة",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             },
             {
-              "title": "حساسات الإضاءة",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "حساسات الإضاءة",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             }
           ],
           "fields": [
@@ -4652,7 +4652,7 @@
             },
             {
               "id": "groups.products",
-              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "label": "منتجات المجموعة — حتى 8 منتجات",
               "type": "items",
               "icon": "sicon-shopping-bag",
               "format": "dropdown-list",
@@ -4750,24 +4750,24 @@
           "item_label": "مجموعة",
           "value": [
             {
-              "title": "كشافات قابلة للشحن",
-              "category": [
+              "groups.title": "كشافات قابلة للشحن",
+              "groups.category": [
                 176913372
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/rechargeable-lights/c176913372",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/rechargeable-lights/c176913372",
+              "groups.products": []
             },
             {
-              "title": "يدوية",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "يدوية",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             },
             {
-              "title": "كشافات رأس",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "كشافات رأس",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             }
           ],
           "fields": [
@@ -4793,7 +4793,7 @@
             },
             {
               "id": "groups.products",
-              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "label": "منتجات المجموعة — حتى 8 منتجات",
               "type": "items",
               "icon": "sicon-shopping-bag",
               "format": "dropdown-list",
@@ -4891,44 +4891,44 @@
           "item_label": "مجموعة",
           "value": [
             {
-              "title": "تبريد",
-              "category": [
+              "groups.title": "تبريد",
+              "groups.category": [
                 1825173280
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/refrigerators-cooling/c1825173280",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/refrigerators-cooling/c1825173280",
+              "groups.products": []
             },
             {
-              "title": "تنظيف",
-              "category": [
+              "groups.title": "تنظيف",
+              "groups.category": [
                 141765922
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/home-cleaning/c141765922",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/home-cleaning/c141765922",
+              "groups.products": []
             },
             {
-              "title": "غلايات وقهوة",
-              "category": [
+              "groups.title": "غلايات وقهوة",
+              "groups.category": [
                 1515736099
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/kettles-coffee/c1515736099",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/kettles-coffee/c1515736099",
+              "groups.products": []
             },
             {
-              "title": "خلاطات وطواحين",
-              "category": [
+              "groups.title": "خلاطات وطواحين",
+              "groups.category": [
                 874867500
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/blenders-grinders/c874867500",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/blenders-grinders/c874867500",
+              "groups.products": []
             },
             {
-              "title": "طبخ وشوايات",
-              "category": [
+              "groups.title": "طبخ وشوايات",
+              "groups.category": [
                 100895277
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/cooking-grills/c100895277",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/cooking-grills/c100895277",
+              "groups.products": []
             }
           ],
           "fields": [
@@ -4954,7 +4954,7 @@
             },
             {
               "id": "groups.products",
-              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "label": "منتجات المجموعة — حتى 8 منتجات",
               "type": "items",
               "icon": "sicon-shopping-bag",
               "format": "dropdown-list",
@@ -5052,42 +5052,42 @@
           "item_label": "مجموعة",
           "value": [
             {
-              "title": "سقفية",
-              "category": [
+              "groups.title": "سقفية",
+              "groups.category": [
                 1824991
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/indoor-ceiling-speakers/c1824991",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/indoor-ceiling-speakers/c1824991",
+              "groups.products": []
             },
             {
-              "title": "صندوق ومتنقلة",
-              "category": [
+              "groups.title": "صندوق ومتنقلة",
+              "groups.category": [
                 801965785
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/box-portable-speakers/c801965785",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/box-portable-speakers/c801965785",
+              "groups.products": []
             },
             {
-              "title": "ميكسرات",
-              "category": [
+              "groups.title": "ميكسرات",
+              "groups.category": [
                 1266107611
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/amplifiers-mixers/c1266107611",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/amplifiers-mixers/c1266107611",
+              "groups.products": []
             },
             {
-              "title": "ملحقات",
-              "category": [
+              "groups.title": "ملحقات",
+              "groups.category": [
                 2000323109
               ],
-              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/audio-accessories/c2000323109",
-              "products": []
+              "groups.url": "https://salla.design/ar/dev-lzzllycttpjfcngw/audio-accessories/c2000323109",
+              "groups.products": []
             },
             {
-              "title": "باقات صوتية",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "باقات صوتية",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             }
           ],
           "fields": [
@@ -5113,7 +5113,7 @@
             },
             {
               "id": "groups.products",
-              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "label": "منتجات المجموعة — حتى 8 منتجات",
               "type": "items",
               "icon": "sicon-shopping-bag",
               "format": "dropdown-list",
@@ -5211,16 +5211,16 @@
           "item_label": "مجموعة",
           "value": [
             {
-              "title": "المنتجات",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "المنتجات",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             },
             {
-              "title": "الملحقات",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "الملحقات",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             }
           ],
           "fields": [
@@ -5246,7 +5246,7 @@
             },
             {
               "id": "groups.products",
-              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "label": "منتجات المجموعة — حتى 8 منتجات",
               "type": "items",
               "icon": "sicon-shopping-bag",
               "format": "dropdown-list",
@@ -5344,22 +5344,22 @@
           "item_label": "مجموعة",
           "value": [
             {
-              "title": "شرائط LED",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "شرائط LED",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             },
             {
-              "title": "وحدات تشغيل",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "وحدات تشغيل",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             },
             {
-              "title": "بروفايلات وملحقات",
-              "category": [],
-              "url": null,
-              "products": []
+              "groups.title": "بروفايلات وملحقات",
+              "groups.category": [],
+              "groups.url": null,
+              "groups.products": []
             }
           ],
           "fields": [
@@ -5385,7 +5385,7 @@
             },
             {
               "id": "groups.products",
-              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "label": "منتجات المجموعة — حتى 8 منتجات",
               "type": "items",
               "icon": "sicon-shopping-bag",
               "format": "dropdown-list",
@@ -5425,5 +5425,5 @@
     "ar": "ثيم متجر زود التجاري — واجهة احترافية ثنائية اللغة للمنتجات التقنية والإلكترونية والأجهزة.",
     "en": "ZOD Commerce — a professional bilingual storefront for technical products, electronics, appliances, and equipment."
   },
-  "version": "1.9.4"
+  "version": "1.9.5"
 }

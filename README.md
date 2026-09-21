@@ -1,4 +1,4 @@
-# ZOD Commerce v1.9.4
+# ZOD Commerce v1.9.5
 
 Arabic storefront review candidate: relevant generated campaigns, sixteen department components, SAR350 progress, persistent purchase controls and compact mobile layout.
 
@@ -7,4 +7,5 @@ Production build and automated checks pass. Native visual audit is incomplete; t
 Build: pnpm run production
 Tests: pnpm test
 Package: pnpm release
+
 

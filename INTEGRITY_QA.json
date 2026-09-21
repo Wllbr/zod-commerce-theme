@@ -1,16 +1,16 @@
 {
-  "version": "1.9.4",
+  "version": "1.9.5",
   "date": "2026-09-21",
   "productionBuild": "passed",
   "tests": "passed",
-  "buildInputs": 130,
+  "buildInputs": 131,
   "publicOutputs": 20,
   "css": {
-    "appRaw": 399795,
-    "appGzip": 65488,
+    "appRaw": 398691,
+    "appGzip": 66328,
     "refinementRaw": 38883,
-    "refinementGzip": 7145,
-    "combinedGzip": 72633
+    "refinementGzip": 7261,
+    "combinedGzip": 73589
   },
   "approvalGuards": [
     "native add-product toast",
@@ -22,5 +22,5 @@
   ],
   "certifiesMarketplaceApproval": false,
   "laserPosterWebpBytes": 62374,
-  "generatedCampaignWebpBytes": 112290.0
+  "generatedCampaignWebpBytes": 112290
 }

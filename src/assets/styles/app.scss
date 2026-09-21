@@ -412,15 +412,11 @@ html[dir=ltr] .s-search-modal .s-search-input{padding-right:18px!important;paddi
 .zod-interactive-showcase__actions .zod-btn--ghost:hover{border-color:var(--color-primary);color:var(--color-primary)}
 
 /* Theme-native Store Features — uses Salla's real feature content. */
-.zod-store-features{padding:52px 0;background:linear-gradient(180deg,#fff,var(--zod-canvas));border-block:1px solid var(--zod-line)}
-.zod-store-features__head{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:24px}
-.zod-store-features__head h2{font-size:clamp(27px,3vw,38px);font-weight:900;margin:0;letter-spacing:-.025em}
-.zod-store-features__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-.zod-store-feature-card{position:relative;overflow:hidden;background:#fff;border:1px solid var(--zod-line);border-radius:18px;padding:24px 20px;display:flex;gap:15px;align-items:flex-start;min-height:130px;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
-.zod-store-feature-card::before{content:"";position:absolute;inset-inline-start:0;top:18px;bottom:18px;width:3px;border-radius:3px;background:var(--color-primary);opacity:.9}
-.zod-store-feature-card:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--color-primary) 28%,var(--zod-line));box-shadow:0 14px 32px rgba(16,24,40,.07)}
-.zod-store-feature-card__icon{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;background:color-mix(in srgb,var(--color-primary) 10%,white);color:var(--color-primary);font-size:23px;flex:none}
-.zod-store-feature-card strong{display:block;font-size:15px;font-weight:900;margin:4px 0 6px}
+.zod-store-features{padding:24px 0;border-block:1px solid var(--zod-line)}
+.zod-store-features__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.zod-store-feature-card{display:flex;gap:12px;align-items:flex-start;min-width:0;padding:12px}
+.zod-store-feature-card__icon{display:grid;place-items:center;width:32px;height:32px;color:#4e5b65;font-size:23px;flex:none}
+.zod-store-feature-card strong{display:block;font-size:14px;font-weight:700;margin:4px 0 6px}
 .zod-store-feature-card p{font-size:12px;color:var(--zod-muted);line-height:1.65;margin:0}
 
 @media(max-width:1023px){
@@ -429,7 +425,6 @@ html[dir=ltr] .s-search-modal .s-search-input{padding-right:18px!important;paddi
   .zod-interactive-showcase{grid-template-columns:1fr;min-height:0}
   .zod-interactive-showcase__media{min-height:430px;order:0}
   .zod-interactive-showcase__content{order:1;padding:38px}
-  .zod-store-features__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
 @media(max-width:767px){
@@ -450,11 +445,11 @@ html[dir=ltr] .s-search-modal .s-search-input{padding-right:18px!important;paddi
   .zod-feature-icon svg{width:21px;height:21px}
   .zod-feature-panel strong{font-size:18px}
   .zod-interactive-showcase__actions{grid-template-columns:1fr}
-  .zod-store-features{padding:38px 0}
-  .zod-store-features__head{margin-bottom:18px}
-  .zod-store-features__grid{display:flex;overflow:auto;scroll-snap-type:x mandatory;gap:10px;margin-inline:-14px;padding-inline:14px 6px;scrollbar-width:none}
-  .zod-store-features__grid::-webkit-scrollbar{display:none}
-  .zod-store-feature-card{flex:0 0 82vw;max-width:330px;scroll-snap-align:start;min-height:116px}
+  .zod-store-features{padding:16px 0}
+  .zod-store-features__grid{gap:6px}
+  .zod-store-feature-card{flex-direction:column;align-items:center;text-align:center;gap:4px;padding:4px}
+  .zod-store-feature-card strong{font-size:12px}
+  .zod-store-feature-card p{font-size:11px;overflow-wrap:anywhere}
 }
 
 @media(prefers-reduced-motion:reduce){

@@ -1,5 +1,5 @@
 {
-  "version": "1.9.4",
+  "version": "1.9.5",
   "base": "1.8.2",
   "changes": [
     "Relevant generated category campaigns",
@@ -8,7 +8,10 @@
     "Persistent single native purchase dock",
     "Product-page header search restored",
     "Muted viewport-triggered laser playback",
-    "Compact mobile cards, trust and footer"
+    "Compact mobile cards, trust and footer",
+    "Native collection default field-ID contract fixed",
+    "Three-column native homepage trust row",
+    "Shipping popup focus and event-race regression coverage"
   ],
   "auditStatus": "incomplete-browser-policy-blocked",
   "livePublished": false
