@@ -208,12 +208,12 @@
       "type": "boolean",
       "icon": "sicon-toggle-off",
       "label": "إظهار شريط التصنيفات",
-      "description": "يعرض أول 7 تصنيفات من نفس بيانات الفوتر. رتّب التصنيفات في لوحة سلة. / Uses existing category data, no additional request.",
+      "description": "خيار توافق محفوظ؛ التصنيفات الآن في قائمة الأقسام. / Legacy setting retained; category navigation now uses the menu drawer.",
       "id": "show_department_rail",
       "format": "switch",
       "required": false,
-      "value": true,
-      "selected": true
+      "value": false,
+      "selected": false
     },
     {
       "id": "show_product_selection_help",
@@ -828,7 +828,7 @@
           "required": false,
           "format": "text",
           "maxLength": 180,
-          "description": "اختر المنتجات الخاصة بهذا القسم من حقل المنتجات. الصف الفارغ لا يظهر إلا عند تشغيل خيار أحدث المنتجات. / Select products for this category. An empty shelf stays hidden unless the latest-products option is enabled."
+          "description": "اختر منتجات أو تصنيفاً لصفوف مراوح الشفط والإنتركم ومكافحة الحشرات. للمنتجات الأكثر مبيعاً اختر المنتجات بناءً على تقارير متجرك. / Select products or a category. Curate best sellers using store sales reports."
         },
         {
           "type": "string",
@@ -854,6 +854,22 @@
           "searchable": true,
           "source": "products",
           "maxLength": 20,
+          "value": []
+        },
+        {
+          "type": "items",
+          "icon": "sicon-folder",
+          "label": "التصنيف — تعبئة الصف تلقائياً",
+          "description": "تظهر المنتجات المختارة أولاً، وإلا تظهر 12 من منتجات التصنيف. استخدم صفاً لكل قسم رئيسي. / Selected products take priority; otherwise show up to 12 products from this category.",
+          "id": "category",
+          "format": "dropdown-list",
+          "selected": [],
+          "options": [],
+          "required": false,
+          "multichoice": false,
+          "searchable": true,
+          "source": "categories",
+          "maxLength": 1,
           "value": []
         },
         {
@@ -941,6 +957,17 @@
           "label": "إظهار أحدث المنتجات عند عدم اختيار منتجات",
           "description": "اتركه مغلقاً لرفوف مراوح الشفط والإنتركم ومكافحة الحشرات. عند تشغيله تظهر أحدث منتجات المتجر إذا كانت القائمة فارغة. / Enable only for a general latest-products shelf; unconfigured specialist shelves stay hidden.",
           "id": "show_latest_when_empty",
+          "format": "switch",
+          "required": false,
+          "value": false,
+          "selected": false
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "label": "عرض التخفيضات عند عدم اختيار منتجات أو تصنيف",
+          "description": "عروض سلة الفعلية فقط. له الأولوية على خيار أحدث المنتجات. / Native Salla offers; takes priority over latest products.",
+          "id": "show_offers_when_empty",
           "format": "switch",
           "required": false,
           "value": false,

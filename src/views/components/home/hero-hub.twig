@@ -16,7 +16,8 @@
         {% set description_value = component[slot ~ '_text']|default(null) %}
         {% set label = label_value is iterable ? label_value[language.code]|default(label_value|first) : label_value %}
         {% set description = description_value is iterable ? description_value[language.code]|default(description_value|first) : description_value %}
-        {% set media = component[slot ~ '_image']|default(null) %}
+        {% set media = component[slot ~ '_image']|default(category.image|default(null)) %}
+        {% if media is iterable %}{% set media = media.url|default(null) %}{% endif %}
         <article class="zod-hub-card zod-hub-card--{{ slot }}">
           <div class="zod-hub-card__content">
             <span class="zod-hub-card__tag">{{ trans('zod.hub.' ~ slot ~ '_tag') }}</span>

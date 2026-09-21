@@ -1,10 +1,14 @@
 {% set title = component.title is iterable ? component.title[language.code]|default(component.title|first) : component.title %}
 {% set subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
 {% set show_latest = component.show_latest_when_empty|default(false) %}
+{% set category = component.category|default(null) %}
+{% if category is iterable and category.id is not defined and category.value is not defined %}{% set category = category|first %}{% endif %}
+{% set category_id = category.id|default(category.value)|default(category.key)|default(category) %}
+{% set show_offers = component.show_offers_when_empty|default(false) %}
 {% set view_all = component.display_all_url %}
 {% if view_all is iterable and not view_all.url %}{% set view_all = view_all|first %}{% endif %}
-{% set view_all_url = view_all.url|default(view_all) %}
-{% if component.products|length or show_latest %}
+{% set view_all_url = view_all.url|default(view_all)|default(category.url|default(null)) %}
+{% if component.products|length or category_id or show_offers or show_latest %}
 <section class="zod-section zod-product-shelf {{ component.soft_background ? 'zod-section--soft' : '' }}">
   <div class="container">
     {% if title or subtitle or view_all_url %}
@@ -19,6 +23,10 @@
           {% for product in component.products|slice(0,12) %}<div class="swiper-slide zod-native-product-slide"><custom-salla-product-card product="{{ product }}"></custom-salla-product-card></div>{% endfor %}
         </div>
       </salla-slider>
+    {% elseif category_id %}
+      <salla-products-slider source="categories" source-value="{{ [category_id]|json_encode }}" limit="12" slider-id="zod-shelf-{{ position }}" product-card-component="custom-salla-product-card"></salla-products-slider>
+    {% elseif show_offers %}
+      <salla-products-slider source="offers" limit="12" slider-id="zod-shelf-{{ position }}" product-card-component="custom-salla-product-card"></salla-products-slider>
     {% else %}
       <salla-products-slider source="latest" limit="12" slider-id="zod-shelf-{{ position }}" product-card-component="custom-salla-product-card"></salla-products-slider>
     {% endif %}

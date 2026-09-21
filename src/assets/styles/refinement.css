@@ -24,7 +24,7 @@ body.zod-commerce{--zod-surface:#fff;--zod-soft:#f5f6f7;--zod-ink:#202527;--zod-
 .zod-commerce .zod-rich-text table{display:block;max-width:100%;overflow-x:auto}
 /* Rounded header, one search entry, categories in the drawer. */
 .zod-commerce .zod-header{width:min(1280px,calc(100% - 32px))!important;margin:12px auto!important;border-radius:20px!important;border:1px solid var(--zod-line)!important;box-shadow:var(--zod-shadow)!important;background:#fff!important;backdrop-filter:none!important}
-.zod-commerce .zod-header-main{margin:0!important;background:transparent!important;border:0!important;border-radius:20px!important}
+.zod-commerce .zod-header-main{margin:0!important;background:transparent!important;border:0!important;border-radius:20px!important;box-shadow:none!important}
 .zod-commerce .zod-header .zod-compact-header{height:72px!important;min-height:72px!important;width:100%!important;padding-inline:20px!important}
 .zod-commerce .zod-header .zod-logo img{height:46px!important;max-height:46px!important;max-width:170px!important}
 .zod-commerce .zod-header-actions{gap:8px!important}
@@ -336,6 +336,8 @@ body.zod-commerce.product-single .zod-product-brand-card__logo{width:56px!import
 body.zod-commerce.product-single .zod-product-brand-card__copy{font-size:12px!important}
 body.zod-commerce.product-single .zod-buy-controls:not(.is-docked){position:static!important;transform:none!important;width:100%!important;max-width:none!important;padding:16px 0!important;margin:0!important;box-shadow:none!important;border:0!important;background:#fff!important;opacity:1!important;visibility:visible!important}
 body.zod-commerce.product-single .zod-buy-controls:not(.is-docked) .zod-sticky-product-summary{display:none!important}
+body.zod-commerce.product-single .zod-purchase-actions{display:block!important;min-width:0!important}
+body.zod-commerce.product-single .zod-main-add{width:100%!important;grid-column:auto!important}
 body.zod-commerce.product-single .zod-product-lower{display:grid;gap:24px;padding-block:32px!important}
 body.zod-commerce.product-single .zod-buybox-description{margin:0!important;padding:28px!important;border:1px solid var(--zod-line)!important;border-radius:20px!important;background:var(--zod-soft)!important}
 body.zod-commerce.product-single .zod-buybox-description h2{font-size:22px;margin-bottom:16px;font-weight:800}

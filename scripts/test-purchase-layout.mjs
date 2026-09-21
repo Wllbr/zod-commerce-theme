@@ -1,0 +1,29 @@
+import fs from 'node:fs';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+const read=p=>fs.readFileSync(new URL('../'+p,import.meta.url),'utf8');
+const source=read('src/assets/js/product.js').replace(/^import[^\n]+\n/,'');
+const classes=()=>{const values=new Set();return{add:(...v)=>v.forEach(x=>values.add(x)),remove:(...v)=>v.forEach(x=>values.delete(x)),contains:v=>values.has(v)}};
+function harness(enabled){
+ const events={},frames=[];let bottom=120;
+ const style={values:{},setProperty(k,v){this.values[k]=v},removeProperty(k){delete this.values[k]}};
+ const buyBar={classList:classes(),dataset:{zodStickyEnabled:enabled?'1':'0'},getBoundingClientRect:()=>({height:72})};
+ const buyAnchor={style,getBoundingClientRect:()=>({bottom})};
+ const body={classList:classes()};
+ const context={document:{addEventListener(){},body,documentElement:{style:{...style,values:{}}}},window:{addEventListener:(n,fn)=>events[n]=fn},requestAnimationFrame:fn=>{frames.push(fn);return frames.length;}};
+ vm.runInNewContext(source+'\nthis.controller=ZodProductPage.prototype.initStickyPurchase;',context);
+ context.controller.call({buyBar,buyAnchor});
+ const flush=()=>{let count=0;while(frames.length){assert(++count<10,'no animation-frame loop');frames.shift()();}};flush();
+ return{buyBar,buyAnchor,events,flush,scroll:(n)=>{bottom=n;events.scroll?.();flush();}};
+}
+const active=harness(true);
+assert(!active.buyBar.classList.contains('is-docked'),'starts in normal flow');
+active.scroll(-1);assert(active.buyBar.classList.contains('is-ready'));assert.equal(active.buyAnchor.style.values['min-height'],'72px');
+active.scroll(-200);assert(active.buyBar.classList.contains('is-docked'),'stays stable while passed');
+active.scroll(1);assert(!active.buyBar.classList.contains('is-docked'));assert.equal(active.buyAnchor.style.values['min-height'],undefined);
+const disabled=harness(false);assert(!disabled.events.scroll,'disabled setting installs no scroll controller');
+const pdp=read('src/views/pages/product/single.twig');
+assert(pdp.indexOf('store-product-add-to-cart')<pdp.indexOf('store-product-description'));
+assert.equal((pdp.match(/<salla-add-product-button\b/g)||[]).length,1);
+assert(!read('src/assets/js/legacy-product-card.js').includes('class="zpc-model"'));
+console.log('PASS: inline purchase, dock after scroll, stable repeated scroll, return to flow, disabled setting, single CTA and description order.');
