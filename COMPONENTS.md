@@ -1,4 +1,4 @@
-# Component manual — ZOD 1.9.0 / دليل المكونات
+# Component manual — ZOD 1.9.1 / دليل المكونات
 
 
 All 18 IDs from v1.8.0 are preserved; `home.hero-hub` was introduced in that release. Existing settings are not automatically populated. The first configuration field of each component now includes usage guidance in the theme editor. Image sizes below are editorial suggestions, not Salla API limits.
@@ -258,8 +258,12 @@ These are not extra homepage components; the 18 existing component IDs are uncha
 - Mobile bottom navigation is omitted on the cart page. / يُخفى التنقل السفلي في السلة لإعطاء الأولوية لإتمام الطلب.
 
 
-## v1.9.0 shelf and header updates
+## v1.9.1 shelf and header updates
 
 home.product-shelf adds category and show_offers_when_empty. Selected products remain first priority, followed by category, offers, then opt-in latest. Set three focused shelves for the hero categories; use sales reports to curate best sellers. All 18 component IDs are retained.
 
 Header search-bar and department-rail settings are retained only for configuration compatibility. Their former bars no longer render. Desktop search is an icon; mobile bottom navigation owns search where enabled.
+
+## Laser showcase — v1.9.1
+
+The first selected spider fixture (p1934775882) has a bundled generated dark poster based on its actual catalog photograph. Other products never inherit that image. Explicitly uploaded posters take priority; future posters must be generated from their corresponding actual products. The original merchant demo video remains available through Watch demo/Pause demo and the separate sound control. The white purchase box has been removed. Native Salla pricing and add-to-cart remain intact. Existing component IDs/settings are retained.

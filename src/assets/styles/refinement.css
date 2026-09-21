@@ -68,7 +68,7 @@ body.zod-commerce{--zod-surface:#fff;--zod-soft:#f5f6f7;--zod-ink:#202527;--zod-
 .zod-commerce custom-salla-product-card.zod-product-card{border:1px solid var(--zod-line)!important;border-radius:15px!important;background:#fff!important;overflow:hidden!important;box-shadow:none!important;transition:border-color .2s,box-shadow .2s,transform .2s!important}
 .zod-commerce custom-salla-product-card.zod-product-card:hover{border-color:#c4cdd1!important;box-shadow:var(--zod-shadow)!important;transform:translateY(-3px)!important}
 .zod-commerce custom-salla-product-card.zod-product-card .zpc-media{background:#f7f8f9!important;border-radius:0!important;border:0!important;aspect-ratio:1.08!important;margin:0!important}
-.zod-commerce custom-salla-product-card.zod-product-card .zpc-media img{mix-blend-mode:normal;padding:22px!important;object-fit:contain!important}
+.zod-commerce custom-salla-product-card.zod-product-card .zpc-media img{mix-blend-mode:normal;padding:10px!important;object-fit:contain!important}
 .zod-commerce custom-salla-product-card.zod-product-card .zpc-body{padding:16px!important;gap:0!important;min-width:0;display:flex!important;flex-direction:column!important;flex:1}
 .zod-commerce custom-salla-product-card.zod-product-card .zpc-body h3{height:auto!important;min-height:46px!important;max-height:4.95em!important;font-size:14px!important;line-height:1.65!important;font-weight:750!important;margin:4px 0 8px!important}
 .zod-commerce custom-salla-product-card.zod-product-card .zpc-category{font-size:11px!important;color:var(--zod-muted)!important;max-width:100%;height:auto!important;line-height:1.6!important}
@@ -181,7 +181,7 @@ salla-add-product-toast.zod-add-toast{position:fixed;z-index:9900;inset-block-st
  .zod-hub-card__number{inset-inline-start:17px;bottom:14px}.zod-hub-card--exhaust .zod-hub-card__number{inset-inline-start:24px;bottom:20px}
  .zod-commerce custom-salla-product-card.zod-product-card{border-radius:12px!important}
  .zod-commerce custom-salla-product-card.zod-product-card .zpc-body{padding:12px!important}
- .zod-commerce custom-salla-product-card.zod-product-card .zpc-media img{padding:15px!important}
+ .zod-commerce custom-salla-product-card.zod-product-card .zpc-media img{padding:7px!important}
  .zod-commerce custom-salla-product-card.zod-product-card .zpc-body h3{font-size:13px!important;line-height:1.7!important;min-height:44px!important}
  .zod-commerce custom-salla-product-card.zod-product-card .zpc-price{gap:5px!important;flex-wrap:wrap!important}
  .zod-commerce custom-salla-product-card.zod-product-card .zpc-price strong{font-size:17px!important}.zod-commerce custom-salla-product-card.zod-product-card .zpc-price del{font-size:10px!important}

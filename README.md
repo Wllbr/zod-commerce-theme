@@ -1,4 +1,4 @@
-# ZOD Commerce v1.9.0
+# ZOD Commerce v1.9.1
 
 Production-built revision for Salla draft review. See QA_REPORT.md for the exact verified scope and remaining publication gates. No live publication is authorized or performed.
 
@@ -27,6 +27,6 @@ BUILD_MANIFEST.json hashes source, configuration, scripts and production outputs
 
 ## Draft and rollout
 
-Review branch: codex/zod-1.9.0-review in Wllbr/zod-commerce-theme. Keep the previous release for rollback. Preview changes in Salla before merging to main or requesting publication. Store page order and chosen products are merchant settings; they are not embedded in a portable theme ZIP.
+Review branch: codex/zod-1.9.1-review in Wllbr/zod-commerce-theme. Keep the previous release for rollback. Preview changes in Salla before merging to main or requesting publication. Store page order and chosen products are merchant settings; they are not embedded in a portable theme ZIP.
 
 The required toast and order-item review components remain in place. Listing initialization makes no automatic product-detail calls; explicit Quick View retains its single on-demand call.

@@ -260,7 +260,7 @@ assert.doesNotMatch(homeSource,/triggers\[activeIndex\]\.scrollIntoView/,'laser 
 assert.match(homeSource,/selector\.scrollBy\(\{ top, behavior \}\)[\s\S]*selector\.scrollBy\(\{ left, behavior \}\)/,'laser selection stays inside its desktop vertical or mobile horizontal rail');
 assert.match(homeSource,/video\.muted = !\(index === activeIndex && soundEnabled\)/,'laser videos stay muted until sound is explicitly enabled');
 assert.match(laserTemplate,/data-zod-laser-sound[\s\S]*aria-pressed="false"/,'laser video exposes an accessible muted-by-default sound control');
-assert.doesNotMatch(laserTemplate,/sicon-play/,'laser selector does not show decorative play icons');
+assert.match(laserTemplate,/data-zod-laser-play/,'laser demo has an explicit playback control');
 assert.doesNotMatch(laserTemplate,/motion_preview|zod-laser-panel__live/,'laser media does not show a redundant live-preview badge');
 assert.match(laserTemplate,/zod-laser-panel__feature-icon[\s\S]*zod-laser-showcase__browse/,'laser showcase uses icon benefits and a browse-all action');
 assert.match(styles,/\.zod-laser-showcase\.is-sound-cue[\s\S]*zodLaserSoundCue/,'laser sound control provides a limited arrival cue');

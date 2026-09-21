@@ -1,0 +1,34 @@
+import fs from 'node:fs';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+const home=fs.readFileSync(new URL('../src/assets/js/home.js',import.meta.url),'utf8');
+const code=home.slice(home.indexOf('const initLaserShowcase ='),home.indexOf('const initProductSwitcher ='));
+const element=()=>({dataset:{},events:{},attrs:{},classList:{add(){},remove(){},toggle(){}},addEventListener(name,fn){this.events[name]=fn},setAttribute(name,v){this.attrs[name]=v},getBoundingClientRect(){return{top:0,left:0,height:60,width:200}},focus(){}});
+function run(reduced){
+ const observers=[];
+ const triggers=[element(),element()];
+ const panels=triggers.map((_,i)=>{
+  const panel=element(),play=element(),sound=element(),label={textContent:''},soundLabel={textContent:''};
+  play.querySelector=()=>label;sound.querySelector=()=>soundLabel;
+  const video=element();Object.assign(video,{src:'',dataset:{videoSrc:'https://example.test/demo.mp4'},playCount:0,pauseCount:0,play(){this.playCount++},pause(){this.pauseCount++}});
+  panel.querySelector=s=>({'[data-zod-laser-play]':play,'[data-zod-laser-sound]':sound,'[data-zod-laser-video]':video}[s]||null);
+  panel.querySelectorAll=()=>[];return Object.assign(panel,{playControl:play,soundControl:sound,video});
+ });
+ const section=element();section.dataset={labelPlay:'Watch',labelPause:'Pause',labelMute:'Mute',labelUnmute:'Unmute'};
+ section.querySelectorAll=s=>s.includes('trigger')?triggers:panels;
+ section.querySelector=()=>({scrollHeight:0,clientHeight:0,scrollWidth:0,clientWidth:0,getBoundingClientRect:()=>({top:0,left:0,height:60,width:200})});
+ const doc={hidden:false,events:{},documentElement:{dir:'rtl'},addEventListener(n,f){this.events[n]=f}};
+ const context={document:doc,window:{matchMedia:()=>({matches:reduced,addEventListener(){}}),clearTimeout(){},setTimeout(){return 1}},IntersectionObserver:class{constructor(cb){observers.push(cb)}observe(){}}};
+ vm.runInNewContext(code+'\nthis.init=initLaserShowcase;',context);context.init(section);
+ assert.equal(panels[0].video.src,'','no initial video download');assert.equal(panels[0].video.playCount,0,'no autoplay');
+ panels[0].playControl.events.click();assert.equal(panels[0].video.playCount,1);assert.equal(panels[0].video.muted,true);assert.equal(panels[0].playControl.attrs['aria-pressed'],'true');
+ panels[0].soundControl.events.click();assert.equal(panels[0].video.muted,false);
+ doc.hidden=true;doc.events.visibilitychange();assert(panels[0].video.pauseCount>0,'hidden page pauses');doc.hidden=false;
+ triggers[1].events.click();assert.equal(panels[1].video.src,'','switching panel does not autoplay');assert.equal(panels[0].playControl.attrs['aria-pressed'],'false');
+ panels[1].playControl.events.click();assert.equal(panels[1].video.muted,true,'new panel resets sound');
+ panels[1].playControl.events.click();assert.equal(panels[1].playControl.attrs['aria-pressed'],'false');
+}
+run(false);run(true);
+const interactive=home.slice(home.indexOf('const initInteractiveShowcase'),home.indexOf('const initLaserShowcase'));
+assert(!interactive.includes('playbackRequested'),'laser playback state stays scoped to laser');
+console.log('PASS: laser opt-in video loading/playback, pause, muted default, explicit sound, panel reset, reduced-motion interaction and state scope.');

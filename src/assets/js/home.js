@@ -36,7 +36,7 @@ const motionObserver = 'IntersectionObserver' in window ? new IntersectionObserv
 }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }) : null;
 
 const initSectionMotion = (root = document) => {
-  const selector = '.zod-section:not(.zod-hero):not(.zod-hero-hub):not(.zod-dual-showcase), .zod-trust-strip';
+  const selector = '.zod-section:not(.zod-hero):not(.zod-hero-hub):not(.zod-dual-showcase), .zod-trust-strip, custom-salla-product-card';
   const sections = [];
   if (root instanceof Element && root.matches(selector)) sections.push(root);
   root.querySelectorAll?.(selector).forEach(section => sections.push(section));
@@ -44,7 +44,7 @@ const initSectionMotion = (root = document) => {
   sections.forEach(section => {
     if (section.dataset.zodMotionReady === 'true') return;
     section.dataset.zodMotionReady = 'true';
-    section.classList.add('zod-motion-ready');
+    section.classList.add(section.matches('custom-salla-product-card') ? 'zod-card-motion' : 'zod-motion-ready');
     if (reducedMotionQuery.matches || !motionObserver) section.classList.add('is-inview');
     else motionObserver.observe(section);
   });
@@ -157,6 +157,7 @@ const initLaserShowcase = (section) => {
   let activeIndex = 0;
   let isVisible = true;
   let soundEnabled = false;
+  let playbackRequested = false;
   let soundCueShown = false;
   let soundCueTimer = 0;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -211,7 +212,7 @@ const initLaserShowcase = (section) => {
     panels.forEach((panel, index) => {
       const video = panel.querySelector('[data-zod-laser-video]');
       if (!video) return;
-      const shouldPlay = index === activeIndex && isVisible && !document.hidden && (!reducedMotion.matches || soundEnabled);
+      const shouldPlay = playbackRequested && index === activeIndex && isVisible && !document.hidden;
       video.defaultMuted = true;
       video.muted = !(index === activeIndex && soundEnabled);
       if (shouldPlay) {
@@ -232,6 +233,13 @@ const initLaserShowcase = (section) => {
       }
     });
     updateSoundControls();
+    panels.forEach((panel, index) => {
+      const play = panel.querySelector('[data-zod-laser-play]');
+      if (!play) return;
+      const playing = playbackRequested && index === activeIndex;
+      play.setAttribute('aria-pressed', String(playing));
+      play.querySelector('span').textContent = playing ? section.dataset.labelPause : section.dataset.labelPlay;
+    });
   };
 
   const keepTriggerInRail = (trigger, smooth = true) => {
@@ -250,6 +258,7 @@ const initLaserShowcase = (section) => {
   };
 
   const activate = (index, { focus = false, scroll = false } = {}) => {
+    if (index !== activeIndex) { playbackRequested = false; soundEnabled = false; }
     activeIndex = (index + triggers.length) % triggers.length;
     mountProducts(panels[activeIndex]);
     panels.forEach((panel, panelIndex) => {
@@ -287,6 +296,11 @@ const initLaserShowcase = (section) => {
   });
 
   panels.forEach((panel, index) => {
+    panel.querySelector('[data-zod-laser-play]')?.addEventListener('click', () => {
+      if (index !== activeIndex) activate(index);
+      playbackRequested = !playbackRequested;
+      syncVideo();
+    });
     const control = panel.querySelector('[data-zod-laser-sound]');
     const video = panel.querySelector('[data-zod-laser-video]');
     if (!control || !video) return;

@@ -1,4 +1,4 @@
-# ZOD v1.9.0 store setup
+# ZOD v1.9.1 store setup
 
 ## Homepage order
 

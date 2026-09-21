@@ -1,0 +1,58 @@
+/* v1.9.1: immersive laser stage and generous product discovery. */
+.zod-commerce .zod-laser-showcase{background:#090a10;padding-block:clamp(32px,5vw,68px)!important;overflow:clip}
+.zod-commerce .zod-laser-showcase:before,.zod-commerce .zod-laser-showcase:after{animation:none;opacity:.35}
+.zod-commerce .zod-laser-showcase__head{margin-bottom:26px}
+.zod-commerce .zod-laser-showcase__head h2{font-size:clamp(28px,3vw,42px);line-height:1.35}
+.zod-commerce .zod-laser-showcase__head p{font-size:14px;line-height:1.8;max-width:680px;color:#bfc3d1}
+.zod-commerce .zod-laser-layout{display:flex!important;flex-direction:column;gap:20px}
+.zod-commerce .zod-laser-sidebar{display:flex;flex-direction:row;align-items:center;gap:18px}
+.zod-commerce .zod-laser-sidebar .zod-laser-selector{display:flex;flex-direction:row;gap:12px;max-height:none;padding:4px;overflow-x:auto;scroll-snap-type:x proximity}
+.zod-commerce .zod-laser-selector__item,.zod-commerce .zod-laser-selector__item.is-active{display:grid;grid-template-columns:72px 1fr;flex:0 0 250px;width:250px;min-width:250px;min-height:92px;padding:10px;gap:12px;background:#151722;border:1px solid #323547;text-align:start;transform:none;animation:none;border-radius:16px;scroll-snap-align:start;box-shadow:none}
+.zod-commerce .zod-laser-selector__item.is-active{border-color:#d79bff;background:#211b2e}
+.zod-commerce .zod-laser-selector__item img,.zod-commerce .zod-laser-selector__item.is-active img{width:72px;height:72px;object-fit:cover;border-radius:10px;background:#090a10;box-shadow:none}
+.zod-commerce .zod-laser-selector__item strong,.zod-commerce .zod-laser-selector__item.is-active strong{font-size:13px;line-height:1.7}
+.zod-commerce .zod-laser-stage{min-height:0}
+.zod-commerce .zod-laser-panel{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.85fr)!important;min-height:0!important;overflow:hidden;border:1px solid #303341;border-radius:24px;background:#11131c;box-shadow:none}
+.zod-commerce .zod-laser-panel[hidden]{display:none!important}
+.zod-commerce .zod-laser-panel__media{position:relative;aspect-ratio:16/10;min-height:0!important;max-height:none!important;background:#080910;align-self:center}
+.zod-commerce .zod-laser-panel__media img,.zod-commerce .zod-laser-panel__video{width:100%;height:100%;aspect-ratio:auto;min-height:0!important;max-height:none!important;object-fit:contain!important}
+.zod-commerce .zod-laser-panel__glow{display:none}
+.zod-commerce .zod-laser-panel__content{padding:clamp(24px,3vw,42px)!important;color:#f3f3f8}
+.zod-commerce .zod-laser-panel__content h3{font-size:clamp(23px,2.2vw,32px)!important;line-height:1.5;color:#fff;margin:10px 0 14px}
+.zod-commerce .zod-laser-panel__content>p{font-size:14px;line-height:1.9;color:#bfc3d1}
+.zod-commerce .zod-laser-panel__features{display:flex;flex-wrap:wrap;gap:8px!important;margin-block:18px}
+.zod-commerce .zod-laser-panel__features li{min-height:36px!important;padding:6px 10px!important;border:1px solid #343644;border-radius:9px;background:transparent;font-size:11px!important}
+.zod-commerce .zod-laser-panel__feature-icon{width:22px!important;height:22px!important;flex-basis:22px!important;background:none;border:0;box-shadow:none}
+.zod-commerce .zod-laser-panel__feature-icon:after{display:none}
+.zod-laser-panel__play{position:absolute;z-index:4;bottom:18px;inset-inline-start:18px;display:flex;align-items:center;gap:8px;min-height:44px;padding:10px 16px;border:1px solid #77738b;border-radius:99px;background:#151320e8;color:#fff;font-size:13px;font-weight:700}
+.zod-commerce .zod-laser-panel__sound{inset-inline-start:auto;inset-inline-end:18px;bottom:18px;min-height:44px;background:#151320e8;animation:none!important;box-shadow:none;border:1px solid #77738b}
+.zod-commerce .zod-laser-panel__sound [data-zod-laser-sound-label]{display:none}
+.zod-commerce .zod-laser-native-product{min-height:0;margin-top:22px}
+.zod-commerce .zod-laser-native-product custom-salla-product-card.zod-product-card{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;color:#fff;transform:none!important}
+.zod-commerce .zod-laser-native-product custom-salla-product-card.zod-product-card .zpc-body{padding:0!important;min-height:0!important}
+.zod-commerce .zod-laser-native-product custom-salla-product-card.zod-product-card .zpc-body h3,.zod-commerce .zod-laser-native-product .zpc-category,.zod-commerce .zod-laser-native-product .zpc-subtitle{display:none!important}
+.zod-commerce .zod-laser-native-product custom-salla-product-card.zod-product-card .zpc-price strong{font-size:30px!important;color:#fff!important}
+.zod-commerce .zod-laser-native-product custom-salla-product-card.zod-product-card .zpc-tax,.zod-commerce .zod-laser-native-product custom-salla-product-card.zod-product-card .zpc-price del{color:#bfc3d1!important}
+.zod-commerce .zod-laser-native-product custom-salla-product-card.zod-product-card .zpc-add::part(button),.zod-commerce .zod-laser-native-product custom-salla-product-card.zod-product-card .zpc-add .s-button-element{min-height:50px!important;border-color:#dcb4ff!important;background:#dcb4ff!important;color:#20112c!important;font-size:14px!important}
+.zod-commerce .zod-laser-showcase button:focus-visible,.zod-commerce .zod-laser-showcase a:focus-visible{outline:3px solid #e0b9ff;outline-offset:4px}
+/* Cards remain visible before JS and animate once as they enter the viewport. */
+.zod-commerce .zod-motion-ready{opacity:1;transform:none;filter:none;will-change:auto}
+.zod-card-motion.is-inview:not(:focus-within){animation:zodCardArrive .55s cubic-bezier(.2,.7,.2,1) both}
+@keyframes zodCardArrive{from{opacity:.55;translate:0 16px}to{opacity:1;translate:0 0}}
+@media(min-width:1024px){
+ .zod-commerce .zod-density-carousel .swiper-slide,.zod-commerce .zod-native-product-slide,.zod-commerce .zod-section salla-products-slider .swiper-slide,.zod-commerce .zod-related-products salla-products-slider .swiper-slide{width:280px!important;max-width:280px!important;flex:0 0 280px!important}
+ .zod-commerce .zod-products-list>.s-products-list-wrapper{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+}
+@media(min-width:768px) and (max-width:1023px){
+ .zod-commerce .zod-density-carousel .swiper-slide,.zod-commerce .zod-native-product-slide,.zod-commerce .zod-section salla-products-slider .swiper-slide{width:250px!important;max-width:250px!important;flex:0 0 250px!important}
+}
+@media(max-width:767px){
+ .zod-commerce .zod-density-carousel .swiper-slide,.zod-commerce .zod-native-product-slide,.zod-commerce .zod-section salla-products-slider .swiper-slide{width:68vw!important;max-width:290px!important;flex:0 0 68vw!important}
+ .zod-commerce .zod-laser-panel{display:flex;flex-direction:column;border-radius:18px}
+ .zod-commerce .zod-laser-panel__media{width:100%;aspect-ratio:16/10}
+ .zod-commerce .zod-laser-panel__content{padding:22px!important}
+ .zod-commerce .zod-laser-selector__item,.zod-commerce .zod-laser-selector__item.is-active{flex-basis:220px;width:220px;min-width:220px;grid-template-columns:60px 1fr}
+ .zod-commerce .zod-laser-selector__item img,.zod-commerce .zod-laser-selector__item.is-active img{width:60px;height:60px}
+ .zod-commerce .zod-laser-showcase__head p{font-size:13px}
+}
+@media(prefers-reduced-motion:reduce){.zod-card-motion.is-inview{animation:none!important;translate:none!important}.zod-commerce .zod-motion-ready{animation:none!important;transform:none!important}}

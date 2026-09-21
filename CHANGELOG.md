@@ -939,3 +939,7 @@ Staging snapshot, not a completed production build or Salla approval. See QA_REP
 
 ### v1.9.0 final artwork adjustment
 Generated the three category images from actual KDK, Commax and AFC catalog references, bundled optimized WebP defaults, and retained real catalog photos for product listings/PDPs. No stock imagery introduced.
+
+## v1.9.1 — continued design refinement
+
+Requested follow-up after the three initial review rounds: larger homepage cards (280px desktop, 68vw mobile with a next-card cue), reduced product-image padding, a rebuilt dark laser stage with large selectors and integrated native purchase details, a generated poster for the actual spider fixture p1934775882, and explicit video playback. Native prices, availability and purchase actions remain owned by Salla. Video does not download or autoplay until requested; leaving the section or tab pauses it. Changing products resets playback and sound. Cards reveal once on scrolling and reduced-motion settings disable animation.

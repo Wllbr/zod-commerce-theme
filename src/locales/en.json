@@ -212,7 +212,9 @@
       "choose_product": "Choose a laser product",
       "browse_all": "Browse all lasers",
       "unmute": "Turn sound on",
-      "mute": "Mute video"
+      "mute": "Mute video",
+      "play": "Watch demo",
+      "pause": "Pause demo"
     },
     "cart": {
       "added": "Product added to cart",

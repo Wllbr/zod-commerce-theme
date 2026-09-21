@@ -1,5 +1,5 @@
 {
-  "version": "1.9.0",
+  "version": "1.9.1",
   "builder": "webpack-production",
   "toolchain": {
     "node": "v22.18.0",
@@ -7,7 +7,7 @@
   },
   "inputs": {
     ".npmrc": "f84e69fe032956925070936b1557ae1320d29d06b58db541649515e05db580c6",
-    "package.json": "ac2744f61e029a7a85d70935ba66ed9623421bbebe18e6598b1a9b0c83eca199",
+    "package.json": "f75ea32957178c46bf04ef805cf517c8ece415de0638db02e1cdae497e09ec1f",
     "pnpm-lock.yaml": "3f2bcf6cb159d4dacbffa697add62fb88fe97bfcda1260644f33381a3024f963",
     "pnpm-workspace.yaml": "9082b3fed56a9b818282d1ab4d450eab0fa4da7c8f191072e9dc4dde32f21eb2",
     "postcss.config.js": "134370dcd34c87ed8277c373743326a1f87b669d66ac1cf3fc98abc024208c76",
@@ -20,19 +20,20 @@
     "scripts/record-build.mjs": "671b6a42cdd2dbeec4955851180a9d4d3308daff3c1bdaca0aea8ad3a9e6689c",
     "scripts/test-approval.mjs": "f64d2e291469003005c5567c710023ba6734da811dd3e89550f7b6efc368e87e",
     "scripts/test-continuation.mjs": "80a0f1f9de3114467c74e2d79cb584babcaa90aaa08e18953204c33861f725bc",
+    "scripts/test-laser-playback.mjs": "c6092f3d822e692893c69901a233e933da925fa70f7433321f67cfcd1ab9bdcc",
     "scripts/test-purchase-layout.mjs": "64bf3a05fdf9b56c2bd659d407f16f2082d1e0f48bff2faf1a35677f13863172",
-    "scripts/test-regressions.mjs": "387c02a2458cd55008989c4499470593619f5e063b06be9b4d40b4aedf85f9db",
+    "scripts/test-regressions.mjs": "f388a5cf81ab252c3166a92a05ab4cf7e41d69040c7e008e5139070c0431567d",
     "scripts/test-shopping.mjs": "1339f9851f4a6c53b91c25a2d6267b273cbd000178aa4fc779fa8b0f23cb7778",
     "scripts/validate-theme.mjs": "12f709f3fbbdf194f378d7b2cfe30d0f1b8bf85b6c6f9823f96805891cb5c71a",
     "src/assets/images/exhaust-kdk-generated.webp": "ec4125fc5f9d13fc3e8c1cbc55d097dd11b194e0996d5ba9b7ca30a40b922260",
     "src/assets/images/generated/insect-traps/afc-glue-trap-lifestyle.webp": "4313ef87e5305f190f0ad7378c9a94baf7d02f4893a5d10b6b1cb06a8b7c907d",
     "src/assets/images/generated/insect-traps/geepas-electric-trap-lifestyle.webp": "53545050b602e37b7f8b2b5adfedf5e5fa1b501d033fc895baa59bd0b0985dab",
-    "src/assets/images/generated/ventilation/kdk-wall-fan-spotlight-square.webp": "3a16974c64a078980af5aee845ce1361311855d1e0c9f1487fe0190481327c50",
     "src/assets/images/insect-afc-generated.webp": "657835b9b1d2e6cf33fbf19fa71dc0e76285a436002c2e7d0d5ffa5c202a92ff",
     "src/assets/images/intercom-commax-generated.webp": "b99959c8f29f368ae34ce95335276aa2161f0791b40421d8a1d1ccb151872108",
+    "src/assets/images/laser-spider-generated.webp": "f053c39df1a71b2dc3bdd5f2c77325046d4b96be5d2ea9673f9451e6de9aac8c",
     "src/assets/images/placeholder.svg": "b4a0b8e8beda6cf59ac4739286b09f2b9946fe45413252e0234d3f4b27d913aa",
     "src/assets/js/app.js": "b1e73b45b39d1bc64fc1b3fc9251f2861d9c2aea5d9fb6cf1d91bfd59ddc23bf",
-    "src/assets/js/home.js": "9f614ac11558c1f7a3596898f27b507908cb1860f6a8e7cab7cbd9841095432d",
+    "src/assets/js/home.js": "2cb482b379bc023113dcc22e445c43dd7ef4da1ddda59f3fc42800dbffcac4b1",
     "src/assets/js/legacy-product-card.js": "c1f94506d19ea7d1940bc30a84c660d8fcfc4cb06792b0d3dfe0cff691a7f069",
     "src/assets/js/pages.js": "7291103a5b491b60880f539bc268fb21bbdc8db8b5235197c26a5a232548cf6d",
     "src/assets/js/partials/add-product-toast.js": "74d95375813b4e87dfc8ad5543ad007db18833adf67b42e425c0ebe9397d9fb5",
@@ -47,10 +48,11 @@
     "src/assets/js/product-runtime-compat.js": "dd978365b238b8d74ccac90acdc5cbafb005ffe03633c51d8ff2ec63c035e34c",
     "src/assets/js/product.js": "bcd8c9ad9ba2389a50bdfc1a1828d4b2d7178c3664d36bb116c56d2b4c065acb",
     "src/assets/js/products.js": "2288737674b5b18ec7301e0e8c5c951edeb089b2371fbadebd8342665922fb5b",
-    "src/assets/styles/app.scss": "e9a4450ae4837a3d55688e56dfb9c597c37cb761cf2fda28222b5ba4a2503f3f",
-    "src/assets/styles/refinement.css": "fffc43f8cbea753bcc29b508b43dc6d76f54e70ecdc403fdb45d791f85116095",
-    "src/locales/ar.json": "170d1419ea0082b3369186e59e60361d8c97fa35166dc324808f8ccce13acb5d",
-    "src/locales/en.json": "639a82e82a9b4399d93460684af5f82ffed96be1b9681381f0a7bbcd7531d840",
+    "src/assets/styles/app.scss": "d1ae5849edc514466621bdd2d1204010a7011954b75e3534dd3e26b9d821ed1d",
+    "src/assets/styles/refinement.css": "1427c55b9d99d918400a700b2c52afebdda5be855af4dcff8355f97837d2b466",
+    "src/assets/styles/showcase-refresh.scss": "2f89158faccc96557d7a3ed9a4ebacc059b678842c973960d9ecb6d0fe19ce0b",
+    "src/locales/ar.json": "0a9d7ea2f6553772de275d7a1fc29dba4844fb45469c4c6dd0075d1b20e0b861",
+    "src/locales/en.json": "2df0857b559da25cdf1992eeae7217710a83a3ab92a03345ff640838454c496b",
     "src/views/components/blog/article-card.twig": "08e54744a1e11e571ef7dfa67e6e183ee85b1817662c6f237e99e1b748ff2e76",
     "src/views/components/footer/footer.twig": "49804402760c8fe2c429bda62f854b9d94557d6335e396b51e399a864beda107",
     "src/views/components/header/header.twig": "cde1d0092bcba830a9b4200c0c5cff3c3e0aac158e216e618e7e5530fae80201",
@@ -68,7 +70,7 @@
     "src/views/components/home/hero-hub.twig": "385ffdbd1dde1f09509bfa70d382eb0e2b9038561a5f7613042e48cf3094bfc8",
     "src/views/components/home/hero.twig": "08b2cd98923ecac88d40f5e73fbffed0d747c12872c946fff647c050aeb603c0",
     "src/views/components/home/interactive-product-showcase.twig": "8751aa2a6b921964e78e50a6f9c275755bf5726126481918c73b859a141027c1",
-    "src/views/components/home/laser-showcase.twig": "941deacfcd7cdfac6a2c6130653609a352328f6e5cbb4c23fcf3db7a8583b0b0",
+    "src/views/components/home/laser-showcase.twig": "fa6bc8ed553dc7e9220cb321db0de5e62d76031c917b85670d5abf29ab4c7865",
     "src/views/components/home/locations.twig": "fc6870f0983eeb13a076705c5594c704984df16571c904faa667166e908399c2",
     "src/views/components/home/photos-slider.twig": "35e80ffb4da74737b48d1b6d214a0afd70d3ce715a9e6f3fdad04973fdc00420",
     "src/views/components/home/product-shelf.twig": "12774c937176cd710be2d3ad92be371f327cabef8e2fba24938942d4ccb124ef",
@@ -121,7 +123,7 @@
       "mode": "webpack-production-output"
     },
     "public/app.css": {
-      "sha256": "e0b7204135885a06786eff313efc84bed8803c54db56c9adef3f763294bc6726",
+      "sha256": "c2cc6b44f607ca4fb2f25f9e9471cca461e515631ec781da640dda0a72b1edb7",
       "mode": "webpack-production-output"
     },
     "public/app.js": {
@@ -133,7 +135,7 @@
       "mode": "webpack-production-output"
     },
     "public/home.js": {
-      "sha256": "2b97cb3960c0a61ded0b209f77ee1e9f1f9d1a500c7786ca09b8488160f0fd7a",
+      "sha256": "1673a09914e083dc26eb51313721f81aab8f2a3f5ce774b76434bba69ba2aa17",
       "mode": "webpack-production-output"
     },
     "public/images/exhaust-kdk-generated.webp": {
@@ -148,16 +150,16 @@
       "sha256": "53545050b602e37b7f8b2b5adfedf5e5fa1b501d033fc895baa59bd0b0985dab",
       "mode": "webpack-production-output"
     },
-    "public/images/generated/ventilation/kdk-wall-fan-spotlight-square.webp": {
-      "sha256": "3a16974c64a078980af5aee845ce1361311855d1e0c9f1487fe0190481327c50",
-      "mode": "webpack-production-output"
-    },
     "public/images/insect-afc-generated.webp": {
       "sha256": "657835b9b1d2e6cf33fbf19fa71dc0e76285a436002c2e7d0d5ffa5c202a92ff",
       "mode": "webpack-production-output"
     },
     "public/images/intercom-commax-generated.webp": {
       "sha256": "b99959c8f29f368ae34ce95335276aa2161f0791b40421d8a1d1ccb151872108",
+      "mode": "webpack-production-output"
+    },
+    "public/images/laser-spider-generated.webp": {
+      "sha256": "f053c39df1a71b2dc3bdd5f2c77325046d4b96be5d2ea9673f9451e6de9aac8c",
       "mode": "webpack-production-output"
     },
     "public/images/placeholder.svg": {
@@ -189,7 +191,7 @@
       "mode": "webpack-production-output"
     },
     "public/refinement.css": {
-      "sha256": "870974dfbbb193b07ef2b589b3e4166707ee0e53e0a71228e1c7786fa5c14dd8",
+      "sha256": "54c9617b452ccb2c868fa3cbaf5a886dcccfa3b7f26f4f8468aba4cd01132a19",
       "mode": "webpack-production-output"
     },
     "public/zod-menu.js": {

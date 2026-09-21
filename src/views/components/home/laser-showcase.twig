@@ -3,7 +3,7 @@
   {% set section_subtitle = component.subtitle is iterable ? component.subtitle[language.code]|default(component.subtitle|first) : component.subtitle %}
   {% set browse_label = component.browse_label is iterable ? component.browse_label[language.code]|default(component.browse_label|first) : component.browse_label %}
   {% set browse_url = component.browse_url.url|default(component.browse_url)|default(null) %}
-  <section class="zod-section zod-laser-showcase" data-zod-laser-showcase data-label-available="{{ trans('zod.laser.available') }}" data-label-unavailable="{{ trans('pages.products.out_of_stock') }}" data-label-error="{{ trans('zod.laser.unavailable_product') }}" data-label-add="{{ trans('pages.cart.add_to_cart') }}" data-label-unmute="{{ trans('zod.laser.unmute') }}" data-label-mute="{{ trans('zod.laser.mute') }}">
+  <section class="zod-section zod-laser-showcase" data-zod-laser-showcase data-label-available="{{ trans('zod.laser.available') }}" data-label-unavailable="{{ trans('pages.products.out_of_stock') }}" data-label-error="{{ trans('zod.laser.unavailable_product') }}" data-label-add="{{ trans('pages.cart.add_to_cart') }}" data-label-unmute="{{ trans('zod.laser.unmute') }}" data-label-mute="{{ trans('zod.laser.mute') }}" data-label-play="{{ trans('zod.laser.play') }}" data-label-pause="{{ trans('zod.laser.pause') }}">
     <div class="container">
       <header class="zod-laser-showcase__head">
         <span class="zod-laser-showcase__beam" aria-hidden="true"></span>
@@ -27,7 +27,7 @@
             {% endfor %}
             {% set product_id = product_ids|first %}
             {% if product_id %}
-              {% set thumb = item.poster|default(null) %}
+              {% set thumb = item.poster|default(product_id == '1934775882' ? 'images/laser-spider-generated.webp'|asset : null) %}
               <button type="button" class="zod-laser-selector__item {{ loop.first ? 'is-active' : '' }}" data-zod-laser-trigger="{{ loop.index0 }}" data-product-id="{{ product_id }}" role="tab" aria-selected="{{ loop.first ? 'true' : 'false' }}" aria-controls="zod-laser-panel-{{ position|default(0) }}-{{ loop.index0 }}">
                 <img {% if thumb %}src="{{ thumb }}"{% else %}hidden{% endif %} alt="" loading="lazy" data-zod-laser-thumb>
                 <span><strong data-zod-laser-trigger-name>{{ trans('zod.laser.featured') }} {{ loop.index }}</strong></span>
@@ -52,9 +52,9 @@
               {% set feature_one = item.feature_one is iterable ? item.feature_one[language.code]|default(item.feature_one|first) : item.feature_one %}
               {% set feature_two = item.feature_two is iterable ? item.feature_two[language.code]|default(item.feature_two|first) : item.feature_two %}
               {% set feature_three = item.feature_three is iterable ? item.feature_three[language.code]|default(item.feature_three|first) : item.feature_three %}
-              {% set poster = item.poster|default(null) %}
+              {% set poster = item.poster|default(product_id == '1934775882' ? 'images/laser-spider-generated.webp'|asset : null) %}
               {% set video_url = item.video_url.url|default(item.video_url)|default(null) %}
-              <article id="zod-laser-panel-{{ position|default(0) }}-{{ loop.index0 }}" class="zod-laser-panel {{ loop.first ? 'is-active' : '' }}" data-zod-laser-panel="{{ loop.index0 }}" data-product-id="{{ product_id }}" {% if not loop.first %}hidden{% endif %}>
+              <article id="zod-laser-panel-{{ position|default(0) }}-{{ loop.index0 }}" role="tabpanel" tabindex="0" aria-label="{{ item_eyebrow|default(trans('zod.laser.featured')) }}" class="zod-laser-panel {{ loop.first ? 'is-active' : '' }}" data-zod-laser-panel="{{ loop.index0 }}" data-product-id="{{ product_id }}" {% if not loop.first %}hidden{% endif %}>
                 <div class="zod-laser-panel__media">
                   {% if video_url %}
                     <video class="zod-laser-panel__video" muted loop playsinline preload="none" {% if poster %}poster="{{ poster }}"{% endif %} data-zod-laser-video data-video-src="{{ video_url }}" aria-label="{{ section_title|default(trans('zod.laser.title')) }}"></video>
@@ -63,6 +63,7 @@
                   {% endif %}
                   <span class="zod-laser-panel__glow" aria-hidden="true"></span>
                   {% if video_url %}
+                    <button type="button" class="zod-laser-panel__play" data-zod-laser-play aria-pressed="false"><i class="sicon-play" aria-hidden="true"></i><span>{{ trans('zod.laser.play') }}</span></button>
                     <button type="button" class="zod-laser-panel__sound" data-zod-laser-sound aria-pressed="false" aria-label="{{ trans('zod.laser.unmute') }}">
                       <span class="zod-laser-panel__sound-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path class="zod-laser-panel__speaker" d="M4 9v6h4l5 4V5L8 9H4Z"></path><path class="zod-laser-panel__sound-wave" d="M16 8.5c1 .9 1.5 2 1.5 3.5S17 14.6 16 15.5M18.5 6c1.7 1.6 2.5 3.6 2.5 6s-.8 4.4-2.5 6"></path><path class="zod-laser-panel__mute-mark" d="m16.5 9 4 6m0-6-4 6"></path></svg></span>
                       <span data-zod-laser-sound-label>{{ trans('zod.laser.unmute') }}</span>
