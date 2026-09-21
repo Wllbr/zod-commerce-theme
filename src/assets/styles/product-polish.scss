@@ -1,0 +1,28 @@
+.zod-offer-disclosure[hidden]{display:none!important}
+[data-shipping-progress][hidden],[data-shipping-check][hidden]{display:none!important}.is-unconfirmed .zod-shipping-ring,.is-unconfirmed.zod-shipping-ring{background:#fff!important;border:2px dashed #9aaba2;color:#31473b}.is-unconfirmed .zod-shipping-ring:after{background:#f2f5f3}.zod-shipping-check{display:block;font-size:12px;font-weight:700;margin-top:10px;text-decoration:underline}
+.zod-commerce .zod-offer-disclosure{margin:12px 0;border:1px solid #e5ded3;border-radius:12px;background:#fffaf2;overflow:hidden}
+.zod-offer-disclosure>summary{display:flex;gap:10px;align-items:center;cursor:pointer;list-style:none;padding:13px 12px;min-height:64px}
+.zod-offer-disclosure>summary::-webkit-details-marker{display:none}.zod-offer-disclosure>summary:focus-visible{outline:2px solid var(--color-primary);outline-offset:-3px}
+.zod-offer-disclosure>summary>i{font-size:22px;color:#966a25}.zod-offer-disclosure>summary>span:first-of-type{flex:1;min-width:0}.zod-offer-disclosure strong{display:block;font-size:13px;line-height:1.65}.zod-offer-disclosure summary small{display:block;font-size:10px;color:#746a5c;line-height:1.6}.zod-offer-expand{display:flex;align-items:center;gap:4px;white-space:nowrap;font-size:10px;font-weight:700}.zod-offer-disclosure[open] .zod-offer-expand i{transform:rotate(180deg)}
+.zod-offer-disclosure salla-offer{padding:0 10px 10px!important;margin:0!important}.zod-offer-disclosure .s-block__title{display:none!important}.zod-offer-disclosure .s-offer-card{box-shadow:none!important;border-radius:8px!important;min-height:0!important;padding:12px!important}.zod-offer-disclosure .s-offer-card-title{font-size:13px!important}.zod-offer-disclosure .s-offer-card-description,.zod-offer-disclosure .s-offer-card-details{font-size:12px!important;line-height:1.8!important}.zod-offer-disclosure .s-offer-card-icon{width:30px!important;height:30px!important}.zod-offer-disclosure .s-offer-card-icon svg{width:22px;height:22px}
+.zod-trust-icon{width:38px;height:38px;flex:none;color:#334942;padding:4px;background:#f0f5f2;border-radius:12px}.zod-trust-icon .zod-icon-accent{stroke:var(--color-primary)}
+@keyframes zod-trust-draw{from{stroke-dashoffset:80}to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:no-preference){.zod-product-trust.is-visible .zod-icon-accent{stroke-dasharray:80;animation:zod-trust-draw 1s ease-out both}.zod-product-trust.is-visible .zod-trust-card:nth-child(2) .zod-icon-accent{animation-delay:.12s}.zod-product-trust.is-visible .zod-trust-card:nth-child(3) .zod-icon-accent{animation-delay:.24s}}
+@media(max-width:767px){
+ body.zod-commerce.product-single .zod-product-main{gap:10px!important;padding-bottom:18px!important}
+ body.zod-commerce.product-single .zod-product-buybox{padding:12px!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important}
+ body.zod-commerce.product-single .zod-product-brand-row.no-brand-logo{display:none!important}
+ body.zod-commerce.product-single .zod-product-brand-row.has-brand-logo{margin-bottom:8px!important;min-height:0!important}
+ body.zod-commerce.product-single .zod-mobile-gallery-tools{margin:5px 0!important;min-height:36px!important}
+ body.zod-commerce.product-single .zod-product-title{font-size:21px!important;line-height:1.5!important;margin:0 0 6px!important}
+ body.zod-commerce.product-single .zod-installment-zone{margin:0!important}
+ body.zod-commerce.product-single .zod-purchase-form{min-height:0!important;margin:0!important;padding:0!important}
+ body.zod-commerce.product-single .zod-stock-cluster{margin:6px 0 10px!important}
+ body.zod-commerce.product-single .zod-product-confidence{margin:10px 0 0!important;gap:10px!important}
+ body.zod-commerce.product-single .zod-product-trust{margin:0!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}
+ body.zod-commerce.product-single .zod-trust-card{min-height:0!important;padding:8px 2px!important;gap:7px!important;border:0!important;background:transparent!important}
+ body.zod-commerce.product-single .zod-trust-card b{font-size:11px!important}.zod-product-trust small{line-height:1.6!important}
+ body.zod-commerce.product-single .zod-product-payments{padding:10px!important;margin:0!important}
+ body.zod-commerce.product-single .zod-product-lower{padding-top:14px!important}
+}
+.zod-offer-disclosure .s-offer-wrapper{padding:0!important;background:transparent!important}.zod-offer-disclosure .s-slider-block__title-right{display:none!important}.zod-offer-disclosure .s-slider-block__title{margin:0!important;padding:0!important}.zod-offer-disclosure .s-slider-block__title-nav{margin-bottom:6px}

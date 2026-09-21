@@ -239,14 +239,17 @@
       </form>
 
       {# One native offer component, outside the purchase form. Salla owns eligibility and amounts. #}
-      <salla-offer class="zod-native-product-offers" data-testid="store-product-offer" product-card-component="custom-salla-product-card"></salla-offer>
+      <details class="zod-offer-disclosure" data-offer-disclosure hidden>
+        <summary><i class="sicon-discount" aria-hidden="true"></i><span><strong data-offer-summary>{{ trans('zod.product.available_offers') }}</strong><small>{{ trans('zod.product.available_offers_hint') }}</small></span><span class="zod-offer-expand">{{ trans('zod.cart.offer_details') }} <i class="sicon-keyboard_arrow_down" aria-hidden="true"></i></span></summary>
+        <salla-offer class="zod-native-product-offers" data-testid="store-product-offer" product-card-component="custom-salla-product-card"></salla-offer>
+      </details>
 
 {% if theme.settings.get('show_product_trust', true) %}
       <section class="zod-product-confidence" aria-label="{{ trans('zod.product.details') }}">
         <div class="zod-product-trust">
-          <div class="zod-trust-card"><i class="sicon-check-circle"></i><span><b>{{ trans('zod.product.original') }}</b><small>{{ trans('zod.product.original_text') }}</small></span></div>
-          <div class="zod-trust-card"><i class="sicon-shield-check"></i><span><b>{{ trans('zod.product.secure') }}</b><small>{{ trans('zod.product.secure_text') }}</small></span></div>
-          <div class="zod-trust-card"><i class="sicon-shipping-fast"></i><span><b>{{ trans('zod.product.delivery') }}</b><small>{{ trans('zod.product.delivery_text') }}</small></span></div>
+          <div class="zod-trust-card">{% include 'components.trust-icon' with {kind:'specs'} %}<span><b>{{ trans('zod.product.original') }}</b><small>{{ trans('zod.product.original_text') }}</small></span></div>
+          <div class="zod-trust-card">{% include 'components.trust-icon' with {kind:'secure'} %}<span><b>{{ trans('zod.product.secure') }}</b><small>{{ trans('zod.product.secure_text') }}</small></span></div>
+          <div class="zod-trust-card">{% include 'components.trust-icon' with {kind:'delivery'} %}<span><b>{{ trans('zod.product.delivery') }}</b><small>{{ trans('zod.product.delivery_text') }}</small></span></div>
         </div>
         {% if theme.settings.get('show_product_payment_methods', true) %}
         <div class="zod-product-payments" data-testid="store-product-payment-methods">

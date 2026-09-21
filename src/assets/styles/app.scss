@@ -3418,16 +3418,6 @@ body.product-single.zod-product-dock-visible #zod-notifications{bottom:calc(var(
 .product-single .zod-native-tax-label{display:inline-flex!important;align-items:center;gap:6px;width:max-content;max-width:100%;margin:2px 0 5px!important;padding:5px 9px;border-radius:999px;background:#f1f8f4;color:#287a4e!important;font-size:10.5px!important;font-weight:800}
 .product-single .zod-trust-card>i{animation:none!important}
 .s-skeleton-wrapper.hydrated{animation:none!important}
-.product-single .zod-product-offers-drawer{max-width:860px;margin:20px auto 0;border:1px solid var(--zod-line);border-radius:16px;background:#fff;overflow:hidden}
-.product-single .zod-product-offers-drawer.is-loading{visibility:hidden}
-.product-single .zod-product-offers-drawer>summary{min-height:64px;padding:12px 16px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:3px 12px;list-style:none;cursor:pointer}
-.product-single .zod-product-offers-drawer>summary::-webkit-details-marker{display:none}
-.product-single .zod-product-offers-drawer>summary>span{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:900}
-.product-single .zod-product-offers-drawer>summary>span i{color:var(--color-primary)}
-.product-single .zod-product-offers-drawer>summary>small{grid-column:1;color:var(--zod-muted);font-size:10px}
-.product-single .zod-product-offers-drawer>summary>i:last-child{grid-column:2;grid-row:1/3;color:#98a2b3;transition:transform .2s ease}
-.product-single .zod-product-offers-drawer[open]>summary>i:last-child{transform:rotate(180deg)}
-.product-single .zod-product-offers-drawer>salla-offer{display:block;padding:0 12px 12px}
 .product-single .zod-product-topline{display:block;min-width:0}
 .product-single .zod-product-overview{min-width:0}
 .zod-related-products .zod-related-slide--out{opacity:.78}
@@ -3443,11 +3433,6 @@ body.product-single.zod-product-dock-visible #zod-notifications{bottom:calc(var(
   .product-single .zod-product-trust b{font-size:12.5px!important}
   .product-single .zod-product-trust small{font-size:10.5px!important;line-height:1.55!important}
   .product-single .zod-trust-card{padding:14px!important;min-height:78px}
-  .product-single .zod-product-topline .zod-product-offers-drawer{width:100%;max-width:none;margin:18px 0 0!important;border-color:rgba(239,91,99,.24);background:linear-gradient(145deg,rgba(255,246,247,.98),#fff)}
-  .product-single .zod-product-topline .zod-product-offers-drawer>summary{min-height:62px;padding:11px 15px}
-  .product-single .zod-product-topline .zod-product-offers-drawer>summary>span{color:#29313a;line-height:1.45}
-  .product-single .zod-product-topline .zod-product-offers-drawer>summary>span i{width:30px;height:30px;display:grid;place-items:center;flex:none;border-radius:50%;background:rgba(239,91,99,.11)}
-  .product-single .zod-product-topline .zod-product-offers-drawer>salla-offer{padding:0 14px 14px}
   body.product-single .zod-buy-controls.is-docked,body.product-single .zod-buy-controls.is-docked.is-ready{left:50%!important;right:auto!important;bottom:14px!important;width:min(1120px,calc(100vw - 48px))!important;min-height:62px!important;padding:7px 10px!important;grid-template-columns:minmax(230px,1fr) minmax(500px,650px)!important;border:1px solid rgba(16,24,40,.1)!important;border-radius:16px!important;box-shadow:0 14px 42px rgba(16,24,40,.18)!important;transform:translateX(-50%)!important}
   body.zod-product-dock-visible.product-single{padding-bottom:calc(var(--zod-product-dock-height,62px) + 34px)!important}
 }
@@ -3455,14 +3440,9 @@ body.product-single.zod-product-dock-visible #zod-notifications{bottom:calc(var(
 @media(max-width:767px){
   .product-single .zod-product-trust b{font-size:11.5px!important}
   .product-single .zod-product-trust small{font-size:9.5px!important;line-height:1.5!important}
-  .product-single .zod-product-offers-drawer{margin-top:14px;border-radius:13px}
-  .product-single .zod-product-offers-drawer>summary{min-height:54px;padding:9px 11px}
-  .product-single .zod-product-offers-drawer>summary>span{font-size:11px}
-  .product-single .zod-product-offers-drawer>summary>small{font-size:9px}
-  .product-single .zod-product-topline .zod-product-offers-drawer{width:100%;margin:12px 0 0!important;border-color:rgba(239,91,99,.22);background:#fff8f8}
 }
 
-@media(prefers-reduced-motion:reduce){.product-single .zod-product-offers-drawer>summary>i:last-child{transition:none!important}}
+@media(prefers-reduced-motion:reduce){}
 
 /* ZOD v1.6.71 — consumer readiness, accessible controls and resilient catalog. */
 :where(a,button,input,select,textarea,summary,[tabindex]):focus-visible{
@@ -4728,63 +4708,6 @@ custom-salla-product-card.zod-product-card--legacy .zpc-wishlist.is-pulsing .zpc
    v1.7.26 — Orkida-inspired persistent purchase dock + Salla discount tiers
    Uses ZOD red branding while keeping Salla's native cart / fast-checkout flow.
    ========================================================================== */
-.product-single .zod-volume-offers{
-  margin:16px 0 18px;
-  padding:0;
-  border:0;
-  background:transparent;
-}
-.product-single .zod-volume-offers[hidden]{display:none!important}
-.product-single .zod-volume-offers__head{text-align:center;margin-bottom:13px}
-.product-single .zod-volume-offers__eyebrow{
-  display:inline-flex;align-items:center;gap:6px;margin-bottom:5px;
-  color:var(--color-primary);font-size:10.5px;font-weight:900
-}
-.product-single .zod-volume-offers__head h3{
-  margin:0;color:#17191d;font-size:20px;line-height:1.35;font-weight:950
-}
-.product-single .zod-volume-offers__head p{
-  margin:6px auto 0;max-width:560px;color:#7b8492;font-size:11.5px;line-height:1.7
-}
-.product-single .zod-volume-offers__label{
-  margin:0 0 8px;color:#333a45;font-size:11px;font-weight:900
-}
-.product-single .zod-volume-offers__source{
-  position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;
-  clip:rect(0 0 0 0)!important;clip-path:inset(50%)!important;white-space:nowrap!important
-}
-.product-single .zod-volume-tier-list{display:grid;gap:8px}
-.product-single .zod-volume-tier{
-  position:relative;width:100%;min-height:78px;padding:12px 16px;
-  display:grid;grid-template-columns:24px minmax(0,1fr) auto;align-items:center;gap:11px;
-  border:1px solid #e5e9ef;border-radius:12px;background:#fff;color:#1b222c;text-align:start;
-  box-shadow:0 2px 8px rgba(15,23,42,.035);cursor:pointer;transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease
-}
-.product-single .zod-volume-tier:hover{border-color:color-mix(in srgb,var(--color-primary) 42%,#d8dde5);box-shadow:0 7px 18px rgba(15,23,42,.07)}
-.product-single .zod-volume-tier.is-selected{border:1.5px solid #16202b;box-shadow:0 0 0 1px rgba(22,32,43,.04)}
-.product-single .zod-volume-tier__radio{
-  width:20px;height:20px;border:2px solid #d4dae2;border-radius:50%;display:grid;place-items:center;background:#fff
-}
-.product-single .zod-volume-tier.is-selected .zod-volume-tier__radio{border-color:#14202c}
-.product-single .zod-volume-tier.is-selected .zod-volume-tier__radio:after{content:"";width:10px;height:10px;border-radius:50%;background:#14202c}
-.product-single .zod-volume-tier__copy{min-width:0;display:flex;flex-wrap:wrap;align-items:center;gap:4px 7px}
-.product-single .zod-volume-tier__copy strong{width:100%;font-size:13px;line-height:1.35;font-weight:950;color:#1b222c}
-.product-single .zod-volume-tier__copy small{width:100%;font-size:10.5px;line-height:1.45;color:#7b8492}
-.product-single .zod-volume-tier__saving{
-  display:inline-flex;padding:3px 7px;border-radius:999px;background:#eafbf0;color:#22a35a;font-size:9.5px;font-weight:900
-}
-.product-single .zod-volume-tier__price{display:grid;grid-template-columns:auto auto;align-items:baseline;justify-content:end;gap:2px 4px;white-space:nowrap}
-.product-single .zod-volume-tier__price b{font-size:13px;font-weight:950;color:#232a34}
-.product-single .zod-volume-tier__price small{font-size:9.5px;color:#5d6570}
-.product-single .zod-volume-tier__price del{grid-column:1/-1;font-size:9.5px;color:#a4abb5;text-decoration-thickness:1px}
-.product-single .zod-volume-tier__ribbon{
-  position:absolute;left:-1px;right:auto;top:9px;bottom:9px;width:28px;padding:5px 3px;
-  display:flex;align-items:center;justify-content:center;border-radius:7px 0 0 7px;
-  background:#ffab00;color:#17120a;font-size:8.5px;font-weight:950;writing-mode:vertical-rl;transform:rotate(180deg)
-}
-[dir="ltr"] .product-single .zod-volume-tier__ribbon{left:auto;right:-1px;border-radius:0 7px 7px 0}
-[dir="rtl"] .product-single .zod-volume-tier.has-discount{padding-left:42px}
-[dir="ltr"] .product-single .zod-volume-tier.has-discount{padding-right:42px}
 
 /* v1.7.27 — Orkida-style mobile cart summary using Salla's real cart totals. */
 @media(max-width:767px){
@@ -5337,3 +5260,5 @@ body.product-single .zod-product-payments .s-payments-list-item:has(.s-payments-
 
 @include meta.load-css('./retail-refresh');
 @include meta.load-css('./commerce-states');
+
+@include meta.load-css('./product-polish');

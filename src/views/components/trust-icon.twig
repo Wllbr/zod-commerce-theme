@@ -1,0 +1,9 @@
+<svg class="zod-trust-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+{% if kind == 'specs' %}
+ <rect x="10" y="8" width="22" height="27" rx="5"/><path d="M16 8V5h10v3M15 16h11M15 21h6"/><path class="zod-icon-accent" d="m19 28 4 4 11-12"/>
+{% elseif kind == 'secure' %}
+ <path d="M20 5 33 10v10c0 8-8 13-13 16C15 33 7 28 7 20V10Z"/><rect x="15" y="18" width="10" height="9" rx="2"/><path class="zod-icon-accent" d="M17 18v-4a3 3 0 0 1 6 0v4M20 22v2"/>
+{% else %}
+ <path d="M5 12h19v17H5M24 18h7l5 6v5h-5M24 29h-9"/><circle cx="11" cy="30" r="3"/><circle cx="28" cy="30" r="3"/><path class="zod-icon-accent" d="M3 7h12M1 17h8M2 22h5M27 20v4h6"/>
+{% endif %}
+</svg>

@@ -60,7 +60,10 @@
         {% endfor %}
         {% hook 'cart:items.end' %}
         {% if cart.options|length %}<div class="zod-cart-options cart-options">{% for product_option in cart.options %}<form onchange="salla.form.onChange('cart.updateItem', event)" id="item-{{ product_option.id }}"><input type="hidden" name="id" value="{{ product_option.id }}"><input type="hidden" name="quantity" value="{{ product_option.quantity }}">{% include 'pages.partials.product.options' with {product:product_option} %}</form>{% endfor %}</div>{% endif %}
-        <salla-offer class="zod-native-cart-offers" data-testid="store-cart-offer"></salla-offer>
+        <details class="zod-offer-disclosure" data-offer-disclosure hidden>
+          <summary><i class="sicon-discount" aria-hidden="true"></i><span><strong data-offer-summary>{{ trans('zod.cart.available_offers') }}</strong><small>{{ trans('zod.cart.available_offers_hint') }}</small></span><span class="zod-offer-expand">{{ trans('zod.cart.offer_details') }} <i class="sicon-keyboard_arrow_down" aria-hidden="true"></i></span></summary>
+          <salla-offer class="zod-native-cart-offers" data-testid="store-cart-offer"></salla-offer>
+        </details>
       </div>
       {% hook 'cart:summary.start' %}
       <aside class="zod-cart-summary" id="zod-cart-summary" tabindex="-1" aria-label="{{ trans('zod.cart.order_summary') }}">

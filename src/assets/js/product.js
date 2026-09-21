@@ -41,6 +41,17 @@ class ZodProductPage {
     this.initOptionPanels();
     this.initProductOffers();
     this.initRelatedProducts();
+    this.initTrustIcons();
+  }
+
+  initTrustIcons() {
+    const trust = this.page.querySelector('.zod-product-trust');
+    if (!trust || window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      trust.classList.add('is-visible'); observer.disconnect();
+    }, {threshold:0.5});
+    observer.observe(trust);
   }
 
   normalizeInitialPriceState() {

@@ -4,7 +4,8 @@
   <button type="button" data-shipping-close aria-label="{{ trans('zod.header.close') }}">×</button>
   <strong data-shipping-message>{{ trans('zod.shipping.title') }}</strong>
   <div class="zod-shipping-track" data-shipping-progress role="progressbar" aria-label="{{ trans('zod.shipping.title') }}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
-  <small>{{ trans('zod.shipping.terms') }}</small>
+  <small data-shipping-terms>{{ trans('zod.shipping.terms') }}</small>
+  <a class="zod-shipping-check" data-shipping-check href="{{ link('cart') }}">{{ trans('zod.header.cart') }} <i class="sicon-arrow-left" aria-hidden="true"></i></a>
  </div>
  <span class="sr-only" role="status" aria-live="polite" data-shipping-live></span>
 </aside>

@@ -24,6 +24,7 @@ export const initShippingGoal = () => {
   const toggle = widget?.querySelector('[data-shipping-toggle]');
   const popup = widget?.querySelector('[data-shipping-popup]');
   const live = widget?.querySelector('[data-shipping-live]');
+  const terms = new Map(hosts.flatMap(host => [...host.querySelectorAll('[data-shipping-terms]')].map(node => [node,node.textContent])));
   let revision = 0, timer, closeTimer, previous, showNotice = false;
   const close = () => { if(popup) popup.hidden = true; toggle?.setAttribute('aria-expanded','false'); };
   const open = () => { clearTimeout(closeTimer); if(popup) popup.hidden = false; toggle?.setAttribute('aria-expanded','true'); };
@@ -32,8 +33,23 @@ export const initShippingGoal = () => {
   widget?.addEventListener('keydown', e => { if (e.key === 'Escape') { close(); toggle.focus(); } });
   const render = (cart, notify) => {
     const state = goalState(cart);
-    hosts.forEach(host => { host.hidden = !state; host.closest?.('[data-shipping-section]')?.toggleAttribute('hidden',!state); });
-    if (!state) { close(); previous = null; return; }
+    hosts.forEach(host => {
+      host.hidden = false; host.closest?.('[data-shipping-section]')?.removeAttribute('hidden');
+      host.classList.toggle('is-unconfirmed',!state);
+      host.querySelectorAll('[data-shipping-progress]').forEach(node => { node.hidden = !state; });
+      host.querySelectorAll('[data-shipping-check]').forEach(node => { node.hidden = Boolean(state); });
+    });
+    terms.forEach((text,node) => { node.textContent = state ? text : (ar ? 'تعتمد الأهلية على عنوانك وطريقة التوصيل وشروط العرض. تأكد منها عند إتمام الطلب.' : 'Eligibility depends on your address, delivery method and offer conditions. Confirm it at checkout.'); });
+    if (!state) {
+      const message = ar ? 'تحقق من أهلية الشحن المجاني' : 'Check free-delivery eligibility';
+      hosts.forEach(host => {
+        host.classList.remove('is-complete');host.style.setProperty('--shipping-progress','0%');
+        host.querySelectorAll('[data-shipping-message]').forEach(node => {node.textContent=message;});
+        host.querySelectorAll('[data-shipping-icon]').forEach(node => {node.textContent='🚚';});
+      });
+      toggle?.setAttribute('aria-label',message);
+      if(previous) close(); previous=null; return;
+    }
     // Use Salla's current currency formatter, not a hard-coded SAR campaign.
     let amount = format(state.remaining);
     try { amount = window.salla.money(state.remaining); } catch (_) {}
@@ -77,6 +93,7 @@ export const initShippingGoal = () => {
       } catch (_) { /* Preserve confirmed values; a failed request never means an empty cart. */ }
     }, 180);
   };
+  render(null,false);
   const boot = () => {
     refresh();
     const events = window.salla.cart?.event;
