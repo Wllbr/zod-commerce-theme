@@ -18,14 +18,16 @@ function run(reduced){
  section.querySelectorAll=s=>s.includes('trigger')?triggers:panels;
  section.querySelector=()=>({scrollHeight:0,clientHeight:0,scrollWidth:0,clientWidth:0,getBoundingClientRect:()=>({top:0,left:0,height:60,width:200})});
  const doc={hidden:false,events:{},documentElement:{dir:'rtl'},addEventListener(n,f){this.events[n]=f}};
- const context={document:doc,window:{matchMedia:()=>({matches:reduced,addEventListener(){}}),clearTimeout(){},setTimeout(){return 1}},IntersectionObserver:class{constructor(cb){observers.push(cb)}observe(){}}};
+ const context={document:doc,window:{IntersectionObserver:true,matchMedia:()=>({matches:reduced,addEventListener(){}}),clearTimeout(){},setTimeout(){return 1}},IntersectionObserver:class{constructor(cb){observers.push(cb)}observe(){}}};
  vm.runInNewContext(code+'\nthis.init=initLaserShowcase;',context);context.init(section);
- assert.equal(panels[0].video.src,'','no initial video download');assert.equal(panels[0].video.playCount,0,'no autoplay');
- panels[0].playControl.events.click();assert.equal(panels[0].video.playCount,1);assert.equal(panels[0].video.muted,true);assert.equal(panels[0].playControl.attrs['aria-pressed'],'true');
+ assert.equal(panels[0].video.src,'','no download before visibility');assert.equal(panels[0].video.playCount,0); observers[0]([{isIntersecting:true}]);
+ assert.equal(panels[0].video.playCount,reduced?0:1,'visible section autoplays except reduced motion');
+ if(!reduced) panels[0].playControl.events.click();
+ panels[0].playControl.events.click();assert.equal(panels[0].video.playCount,reduced?1:2);assert.equal(panels[0].video.muted,true);assert.equal(panels[0].playControl.attrs['aria-pressed'],'true');
  panels[0].soundControl.events.click();assert.equal(panels[0].video.muted,false);
  doc.hidden=true;doc.events.visibilitychange();assert(panels[0].video.pauseCount>0,'hidden page pauses');doc.hidden=false;
- triggers[1].events.click();assert.equal(panels[1].video.src,'','switching panel does not autoplay');assert.equal(panels[0].playControl.attrs['aria-pressed'],'false');
- panels[1].playControl.events.click();assert.equal(panels[1].video.muted,true,'new panel resets sound');
+ triggers[1].events.click();assert.equal(Boolean(panels[1].video.src),!reduced,'new active panel follows visible playback preference');assert.equal(panels[0].playControl.attrs['aria-pressed'],'false');
+ if(!reduced) panels[1].playControl.events.click(); panels[1].playControl.events.click();assert.equal(panels[1].video.muted,true,'new panel resets sound');
  panels[1].playControl.events.click();assert.equal(panels[1].playControl.attrs['aria-pressed'],'false');
  return {panels,triggers,doc};
 }
@@ -39,7 +41,7 @@ assert.equal(panels[1].playControl.querySelector('span').textContent,'Watch','fa
 let rejectOld;
 panels[1].video.play=()=>new Promise((_,reject)=>{rejectOld=reject});
 panels[1].playControl.events.click();
-triggers[0].events.click();panels[0].playControl.events.click();
+triggers[0].events.click();
 rejectOld(new Error('old request'));
 await new Promise(resolve=>setImmediate(resolve));
 assert.equal(panels[0].playControl.attrs['aria-pressed'],'true','stale failure cannot stop current panel');
@@ -50,4 +52,4 @@ panels[0].playControl.events.click();
 assert.equal(panels[0].playControl.attrs['aria-pressed'],'false','synchronous failure resets playback');
 const interactive=home.slice(home.indexOf('const initInteractiveShowcase'),home.indexOf('const initLaserShowcase'));
 assert(!interactive.includes('playbackRequested'),'laser playback state stays scoped to laser');
-console.log('PASS: laser opt-in video loading/playback, pause, muted default, explicit sound, panel reset, reduced-motion interaction and state scope.');
+console.log('PASS: laser visibility playback, pause, muted default, explicit sound, panel reset, reduced-motion interaction and state scope.');

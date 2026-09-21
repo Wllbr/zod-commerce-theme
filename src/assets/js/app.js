@@ -1,3 +1,4 @@
+import { initShippingGoal } from './partials/shipping-goal';
 import './partials/product-card';
 import { isOutOfStock, isOutStatus } from './partials/stock';
 import { containDialogFocus } from './partials/dialog-focus';
@@ -42,6 +43,7 @@ class ZodTheme {
       'initPreviewLinkRouting',
       'initSearchCardNavigation',
       'initCartExperience',
+      'initShippingGoal',
       'initLiveShowcasePrices',
       'initProductCardReveal',
       'initNativeStockBadges',
@@ -61,6 +63,8 @@ class ZodTheme {
     });
     window.salla?.onReady?.().then(() => document.dispatchEvent(new CustomEvent('zod::ready')));
   }
+
+  initShippingGoal() { initShippingGoal(); }
 
   syncOverlayLock() {
     const drawerOpen = document.getElementById('zod-catalog-drawer')?.classList.contains('is-open');

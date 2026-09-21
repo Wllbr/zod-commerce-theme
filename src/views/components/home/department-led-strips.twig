@@ -1,0 +1,6 @@
+{% set department_title = component.title|default(trans('zod.departments.led_strips.title')) %}
+{% set department_text = component.text|default(trans('zod.departments.led_strips.text')) %}
+{% set department_defaults = [{title:trans('zod.departments.led_strips.group_0'),category:[],products:[],url:null},{title:trans('zod.departments.led_strips.group_1'),category:[],products:[],url:null},{title:trans('zod.departments.led_strips.group_2'),category:[],products:[],url:null}] %}
+{% set department_art = null %}
+{% set department_enabled = component.enabled is defined ? component.enabled : false %}
+{% include 'components.home.department-base' %}

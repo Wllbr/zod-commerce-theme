@@ -67,4 +67,14 @@ export const initBrandWorld = section => {
       if (next !== undefined) { event.preventDefault(); show(next,true); }
     });
   });
+  if (tabs.length) {
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(entries => {
+        if (!entries.some(e => e.isIntersecting)) return;
+        const active = tabs.findIndex(t => t.getAttribute('aria-selected') === 'true');
+        show(active < 0 ? 0 : active); observer.disconnect();
+      }, {rootMargin:'160px 0px'});
+      observer.observe(section);
+    } else show(0);
+  }
 };

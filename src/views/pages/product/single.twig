@@ -241,14 +241,7 @@
       {# One native offer component, outside the purchase form. Salla owns eligibility and amounts. #}
       <salla-offer class="zod-native-product-offers" data-testid="store-product-offer" product-card-component="custom-salla-product-card"></salla-offer>
 
-      {% if theme.settings.get('show_product_selection_help', true) %}
-      <details class="zod-selection-help">
-        <summary><i class="sicon-info" aria-hidden="true"></i><span>{{ trans('zod.product.check_before_order') }}</span><i class="sicon-keyboard_arrow_down" aria-hidden="true"></i></summary>
-        <div><p>{{ trans('zod.product.check_before_order_text') }}</p>{% if product.has_metadata %}<a href="#specifications">{{ trans('zod.product.view_specifications') }}</a>{% endif %}</div>
-      </details>
-      {% endif %}
-
-      {% if theme.settings.get('show_product_trust', true) %}
+{% if theme.settings.get('show_product_trust', true) %}
       <section class="zod-product-confidence" aria-label="{{ trans('zod.product.details') }}">
         <div class="zod-product-trust">
           <div class="zod-trust-card"><i class="sicon-check-circle"></i><span><b>{{ trans('zod.product.original') }}</b><small>{{ trans('zod.product.original_text') }}</small></span></div>

@@ -1,0 +1,6 @@
+{% set department_title = component.title|default(trans('zod.departments.sensors.title')) %}
+{% set department_text = component.text|default(trans('zod.departments.sensors.text')) %}
+{% set department_defaults = [{title:trans('zod.departments.sensors.group_0'),category:[910080478],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/smart-controls/c910080478"},{title:trans('zod.departments.sensors.group_1'),category:[],products:[],url:null},{title:trans('zod.departments.sensors.group_2'),category:[],products:[],url:null}] %}
+{% set department_art = null %}
+{% set department_enabled = component.enabled is defined ? component.enabled : true %}
+{% include 'components.home.department-base' %}

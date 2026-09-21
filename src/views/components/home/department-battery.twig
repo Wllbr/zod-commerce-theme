@@ -1,0 +1,6 @@
+{% set department_title = component.title|default(trans('zod.departments.battery.title')) %}
+{% set department_text = component.text|default(trans('zod.departments.battery.text')) %}
+{% set department_defaults = [{title:trans('zod.departments.battery.group_0'),category:[700798155],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/batteries-chargers/c700798155"},{title:trans('zod.departments.battery.group_1'),category:[1610102218],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/converters-inverters/c1610102218"},{title:trans('zod.departments.battery.group_2'),category:[],products:[],url:null}] %}
+{% set department_art = null %}
+{% set department_enabled = component.enabled is defined ? component.enabled : true %}
+{% include 'components.home.department-base' %}

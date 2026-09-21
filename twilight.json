@@ -216,15 +216,24 @@
       "selected": false
     },
     {
-      "id": "show_product_selection_help",
+      "id": "show_shipping_goal",
       "type": "boolean",
       "format": "switch",
-      "icon": "sicon-info",
-      "label": "إظهار تذكير التحقق قبل الشراء",
-      "description": "يظهر تذكير عام بالموديل والمقاسات والمواصفات الكهربائية والملحقات. لا يضيف مواصفات أو وعود ضمان للمنتج.",
-      "required": false,
+      "icon": "sicon-shipping-fast",
+      "label": "إظهار تقدم الشحن المجاني — اضبط العرض الفعلي في سلة",
       "value": true,
-      "selected": true
+      "selected": true,
+      "required": false
+    },
+    {
+      "id": "shipping_goal_amount",
+      "type": "number",
+      "format": "units",
+      "label": "هدف الشحن المجاني بالريال",
+      "icon": "sicon-shipping-fast",
+      "value": 350,
+      "required": true,
+      "minimum": 1
     }
   ],
   "components": [
@@ -324,7 +333,7 @@
           "type": "string",
           "icon": "sicon-format-text-alt",
           "format": "text",
-          "value": "تفاصيل صغيرة. راحة أكبر.",
+          "value": "شوف زائرك. وتواصل بوضوح.",
           "required": false,
           "maxLength": 220
         },
@@ -334,7 +343,7 @@
           "type": "string",
           "icon": "sicon-format-text-alt",
           "format": "textarea",
-          "value": "من التهوية والإنتركوم إلى الكهرباء والإضاءة. اكتشف حلولاً تناسب بيتك وعملك.",
+          "value": "شاشات إنتركوم وكاميرات أبواب وسماعات داخلية. اختر النظام المناسب لمدخل منزلك أو مشروعك.",
           "required": false,
           "maxLength": 220
         },
@@ -354,7 +363,7 @@
           "type": "string",
           "icon": "sicon-format-text-alt",
           "format": "text",
-          "value": "لكل احتياج، توصيلة مناسبة.",
+          "value": "توصيلة تناسب مكانك.",
           "required": false,
           "maxLength": 220
         },
@@ -364,7 +373,7 @@
           "type": "string",
           "icon": "sicon-format-text-alt",
           "format": "textarea",
-          "value": "تصفح المحولات ومثبتات الجهد والتوصيلات. وقارن مواصفات المنتج قبل الاختيار.",
+          "value": "بكرات كهرباء وتوصيلات مكتبية ومشتركات متعددة. اختر الطول وعدد المخارج المناسبين.",
           "required": false,
           "maxLength": 220
         },
@@ -448,7 +457,7 @@
         },
         {
           "id": "comfort_image",
-          "label": "صورة حملة الراحة",
+          "label": "صورة حملة التهوية",
           "type": "string",
           "icon": "sicon-image",
           "format": "image",
@@ -3058,11 +3067,2363 @@
           ]
         }
       ]
+    },
+    {
+      "key": "49bbbcd6-0b41-48ed-9b5f-957addc5658e",
+      "title": {
+        "ar": "كوماكس — نظام متكامل لمدخلك",
+        "en": "commax department"
+      },
+      "icon": "sicon-layout-grid",
+      "path": "home.department-commax",
+      "fields": [
+        {
+          "id": "enabled",
+          "type": "boolean",
+          "format": "switch",
+          "icon": "sicon-toggle-off",
+          "label": "إظهار القسم عند وجود منتجات مرتبطة",
+          "value": true,
+          "selected": true,
+          "required": false
+        },
+        {
+          "id": "title",
+          "label": "العنوان",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "كوماكس — نظام متكامل لمدخلك",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "text",
+          "label": "الوصف",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "شاشات وكاميرات خارجية وسماعات وملحقات. قارن توافق أجزاء النظام قبل الاختيار.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "image",
+          "label": "صورة حملة اختيارية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "maxLength": 220,
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "groups",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "مجموعات القسم",
+          "item_label": "مجموعة",
+          "value": [
+            {
+              "title": "شاشات",
+              "category": [],
+              "url": null,
+              "products": [
+                916540833,
+                184487847,
+                1865793957,
+                1132692571
+              ]
+            },
+            {
+              "title": "كاميرات ولوحات خارجية",
+              "category": [],
+              "url": null,
+              "products": [
+                255367053,
+                291440312,
+                1198712767
+              ]
+            },
+            {
+              "title": "سماعات وإنترفون",
+              "category": [],
+              "url": null,
+              "products": []
+            },
+            {
+              "title": "ملحقات",
+              "category": [],
+              "url": null,
+              "products": []
+            }
+          ],
+          "fields": [
+            {
+              "id": "groups.title",
+              "label": "اسم المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "text",
+              "value": null,
+              "required": false,
+              "maxLength": 220
+            },
+            {
+              "id": "groups.url",
+              "label": "رابط المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "url",
+              "value": null,
+              "required": false,
+              "maxLength": 800
+            },
+            {
+              "id": "groups.products",
+              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "type": "items",
+              "icon": "sicon-shopping-bag",
+              "format": "dropdown-list",
+              "source": "products",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 8
+            },
+            {
+              "id": "groups.category",
+              "label": "تصنيف تلقائي — إذا لم تحدد منتجات",
+              "type": "items",
+              "icon": "sicon-folder",
+              "format": "dropdown-list",
+              "source": "categories",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 1,
+              "description": "يعرض جميع ماركات هذا التصنيف. لعرض منتجات علامة بعينها اختر منتجاتها يدوياً أعلاه."
+            }
+          ],
+          "description": "المجموعات غير المرتبطة بمنتجات أو تصنيف تبقى مخفية. املأ القائمة لاستبدال المجموعات الجاهزة. تجهيز زود الحالي موضح في دليل الأقسام."
+        }
+      ]
+    },
+    {
+      "key": "63ab1172-e60b-4531-b90e-eb3f83cd5ca5",
+      "title": {
+        "ar": "الإنتركوم والإنترفون",
+        "en": "intercom department"
+      },
+      "icon": "sicon-layout-grid",
+      "path": "home.department-intercom",
+      "fields": [
+        {
+          "id": "enabled",
+          "type": "boolean",
+          "format": "switch",
+          "icon": "sicon-toggle-off",
+          "label": "إظهار القسم عند وجود منتجات مرتبطة",
+          "value": true,
+          "selected": true,
+          "required": false
+        },
+        {
+          "id": "title",
+          "label": "العنوان",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "الإنتركوم والإنترفون",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "text",
+          "label": "الوصف",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "من الشاشة إلى سماعة الداخل: أنظمة اتصال من علامات متعددة.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "image",
+          "label": "صورة حملة اختيارية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "maxLength": 220,
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "groups",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "مجموعات القسم",
+          "item_label": "مجموعة",
+          "value": [
+            {
+              "title": "شاشات",
+              "category": [
+                1792203262
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/intercom-monitors/c1792203262",
+              "products": []
+            },
+            {
+              "title": "كاميرات الأبواب",
+              "category": [
+                1153431807
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/door-cameras-panels/c1153431807",
+              "products": []
+            },
+            {
+              "title": "إنترفون وسماعات",
+              "category": [
+                377751544
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/audio-intercom/c377751544",
+              "products": []
+            },
+            {
+              "title": "الملحقات",
+              "category": [
+                843990522
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/access-systems-parts/c843990522",
+              "products": []
+            }
+          ],
+          "fields": [
+            {
+              "id": "groups.title",
+              "label": "اسم المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "text",
+              "value": null,
+              "required": false,
+              "maxLength": 220
+            },
+            {
+              "id": "groups.url",
+              "label": "رابط المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "url",
+              "value": null,
+              "required": false,
+              "maxLength": 800
+            },
+            {
+              "id": "groups.products",
+              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "type": "items",
+              "icon": "sicon-shopping-bag",
+              "format": "dropdown-list",
+              "source": "products",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 8
+            },
+            {
+              "id": "groups.category",
+              "label": "تصنيف تلقائي — إذا لم تحدد منتجات",
+              "type": "items",
+              "icon": "sicon-folder",
+              "format": "dropdown-list",
+              "source": "categories",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 1,
+              "description": "يعرض جميع ماركات هذا التصنيف. لعرض منتجات علامة بعينها اختر منتجاتها يدوياً أعلاه."
+            }
+          ],
+          "description": "المجموعات غير المرتبطة بمنتجات أو تصنيف تبقى مخفية. املأ القائمة لاستبدال المجموعات الجاهزة. تجهيز زود الحالي موضح في دليل الأقسام."
+        }
+      ]
+    },
+    {
+      "key": "352e6bbc-7b87-4f19-8c87-7a0f2c5c8f16",
+      "title": {
+        "ar": "توصيلات تناسب استخدامك",
+        "en": "extensions department"
+      },
+      "icon": "sicon-layout-grid",
+      "path": "home.department-extensions",
+      "fields": [
+        {
+          "id": "enabled",
+          "type": "boolean",
+          "format": "switch",
+          "icon": "sicon-toggle-off",
+          "label": "إظهار القسم عند وجود منتجات مرتبطة",
+          "value": true,
+          "selected": true,
+          "required": false
+        },
+        {
+          "id": "title",
+          "label": "العنوان",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "توصيلات تناسب استخدامك",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "text",
+          "label": "الوصف",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "اختر طول السلك وعدد المخارج وطريقة التركيب المناسبة.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "image",
+          "label": "صورة حملة اختيارية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "maxLength": 220,
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "groups",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "مجموعات القسم",
+          "item_label": "مجموعة",
+          "value": [
+            {
+              "title": "كل التوصيلات",
+              "category": [
+                1435013845
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/extensions-power-strips/c1435013845",
+              "products": []
+            },
+            {
+              "title": "بكرات",
+              "category": [],
+              "url": null,
+              "products": []
+            },
+            {
+              "title": "توصيلات مخفية",
+              "category": [],
+              "url": null,
+              "products": []
+            },
+            {
+              "title": "توصيلات متعددة الاستخدام",
+              "category": [],
+              "url": null,
+              "products": []
+            }
+          ],
+          "fields": [
+            {
+              "id": "groups.title",
+              "label": "اسم المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "text",
+              "value": null,
+              "required": false,
+              "maxLength": 220
+            },
+            {
+              "id": "groups.url",
+              "label": "رابط المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "url",
+              "value": null,
+              "required": false,
+              "maxLength": 800
+            },
+            {
+              "id": "groups.products",
+              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "type": "items",
+              "icon": "sicon-shopping-bag",
+              "format": "dropdown-list",
+              "source": "products",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 8
+            },
+            {
+              "id": "groups.category",
+              "label": "تصنيف تلقائي — إذا لم تحدد منتجات",
+              "type": "items",
+              "icon": "sicon-folder",
+              "format": "dropdown-list",
+              "source": "categories",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 1,
+              "description": "يعرض جميع ماركات هذا التصنيف. لعرض منتجات علامة بعينها اختر منتجاتها يدوياً أعلاه."
+            }
+          ],
+          "description": "المجموعات غير المرتبطة بمنتجات أو تصنيف تبقى مخفية. املأ القائمة لاستبدال المجموعات الجاهزة. تجهيز زود الحالي موضح في دليل الأقسام."
+        }
+      ]
+    },
+    {
+      "key": "784abeb4-5177-4ffa-a85f-bc5aee693ab9",
+      "title": {
+        "ar": "حلول مكافحة الحشرات",
+        "en": "insects department"
+      },
+      "icon": "sicon-layout-grid",
+      "path": "home.department-insects",
+      "fields": [
+        {
+          "id": "enabled",
+          "type": "boolean",
+          "format": "switch",
+          "icon": "sicon-toggle-off",
+          "label": "إظهار القسم عند وجود منتجات مرتبطة",
+          "value": true,
+          "selected": true,
+          "required": false
+        },
+        {
+          "id": "title",
+          "label": "العنوان",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "حلول مكافحة الحشرات",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "text",
+          "label": "الوصف",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "اختر بين المصائد الصاعقة واللاصقة، ثم ملحقات التشغيل والصيانة.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "image",
+          "label": "صورة حملة اختيارية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "maxLength": 220,
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "groups",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "مجموعات القسم",
+          "item_label": "مجموعة",
+          "value": [
+            {
+              "title": "مصائد صاعقة",
+              "category": [
+                457446698
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/electric-insect-traps/c457446698",
+              "products": []
+            },
+            {
+              "title": "مصائد لاصقة",
+              "category": [
+                1965110315
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/adhesive-insect-traps/c1965110315",
+              "products": []
+            },
+            {
+              "title": "لمبات وملحقات",
+              "category": [
+                1192121140
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/insect-trap-parts/c1192121140",
+              "products": []
+            }
+          ],
+          "fields": [
+            {
+              "id": "groups.title",
+              "label": "اسم المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "text",
+              "value": null,
+              "required": false,
+              "maxLength": 220
+            },
+            {
+              "id": "groups.url",
+              "label": "رابط المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "url",
+              "value": null,
+              "required": false,
+              "maxLength": 800
+            },
+            {
+              "id": "groups.products",
+              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "type": "items",
+              "icon": "sicon-shopping-bag",
+              "format": "dropdown-list",
+              "source": "products",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 8
+            },
+            {
+              "id": "groups.category",
+              "label": "تصنيف تلقائي — إذا لم تحدد منتجات",
+              "type": "items",
+              "icon": "sicon-folder",
+              "format": "dropdown-list",
+              "source": "categories",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 1,
+              "description": "يعرض جميع ماركات هذا التصنيف. لعرض منتجات علامة بعينها اختر منتجاتها يدوياً أعلاه."
+            }
+          ],
+          "description": "المجموعات غير المرتبطة بمنتجات أو تصنيف تبقى مخفية. املأ القائمة لاستبدال المجموعات الجاهزة. تجهيز زود الحالي موضح في دليل الأقسام."
+        }
+      ]
+    },
+    {
+      "key": "be89ba1b-bd5d-4869-b0ac-a3a233480247",
+      "title": {
+        "ar": "مراوح وتهوية لكل مساحة",
+        "en": "fans department"
+      },
+      "icon": "sicon-layout-grid",
+      "path": "home.department-fans",
+      "fields": [
+        {
+          "id": "enabled",
+          "type": "boolean",
+          "format": "switch",
+          "icon": "sicon-toggle-off",
+          "label": "إظهار القسم عند وجود منتجات مرتبطة",
+          "value": true,
+          "selected": true,
+          "required": false
+        },
+        {
+          "id": "title",
+          "label": "العنوان",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "مراوح وتهوية لكل مساحة",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "text",
+          "label": "الوصف",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "حدد طريقة التركيب، ثم قارن المقاسات والمواصفات.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "image",
+          "label": "صورة حملة اختيارية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "maxLength": 220,
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "groups",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "مجموعات القسم",
+          "item_label": "مجموعة",
+          "value": [
+            {
+              "title": "شفاطات وتهوية",
+              "category": [
+                1077500701
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/exhaust-ventilation/c1077500701",
+              "products": []
+            },
+            {
+              "title": "ستاند",
+              "category": [
+                96190918
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/stand-fans/c96190918",
+              "products": []
+            },
+            {
+              "title": "جدارية",
+              "category": [
+                736010949
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/wall-fans/c736010949",
+              "products": []
+            },
+            {
+              "title": "سقفية",
+              "category": [
+                1468063943
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/ceiling-fans/c1468063943",
+              "products": []
+            },
+            {
+              "title": "أرضية وصندوق",
+              "category": [
+                560795584
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/box-fans/c560795584",
+              "products": []
+            }
+          ],
+          "fields": [
+            {
+              "id": "groups.title",
+              "label": "اسم المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "text",
+              "value": null,
+              "required": false,
+              "maxLength": 220
+            },
+            {
+              "id": "groups.url",
+              "label": "رابط المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "url",
+              "value": null,
+              "required": false,
+              "maxLength": 800
+            },
+            {
+              "id": "groups.products",
+              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "type": "items",
+              "icon": "sicon-shopping-bag",
+              "format": "dropdown-list",
+              "source": "products",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 8
+            },
+            {
+              "id": "groups.category",
+              "label": "تصنيف تلقائي — إذا لم تحدد منتجات",
+              "type": "items",
+              "icon": "sicon-folder",
+              "format": "dropdown-list",
+              "source": "categories",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 1,
+              "description": "يعرض جميع ماركات هذا التصنيف. لعرض منتجات علامة بعينها اختر منتجاتها يدوياً أعلاه."
+            }
+          ],
+          "description": "المجموعات غير المرتبطة بمنتجات أو تصنيف تبقى مخفية. املأ القائمة لاستبدال المجموعات الجاهزة. تجهيز زود الحالي موضح في دليل الأقسام."
+        }
+      ]
+    },
+    {
+      "key": "5544d206-264b-4e17-97fe-4237b2a72da3",
+      "title": {
+        "ar": "تجهيزات السلامة والطوارئ",
+        "en": "emergency department"
+      },
+      "icon": "sicon-layout-grid",
+      "path": "home.department-emergency",
+      "fields": [
+        {
+          "id": "enabled",
+          "type": "boolean",
+          "format": "switch",
+          "icon": "sicon-toggle-off",
+          "label": "إظهار القسم عند وجود منتجات مرتبطة",
+          "value": true,
+          "selected": true,
+          "required": false
+        },
+        {
+          "id": "title",
+          "label": "العنوان",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "تجهيزات السلامة والطوارئ",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "text",
+          "label": "الوصف",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "لوحات خروج وإنارة طوارئ لتجهيز الممرات والمساحات.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "image",
+          "label": "صورة حملة اختيارية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "maxLength": 220,
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "groups",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "مجموعات القسم",
+          "item_label": "مجموعة",
+          "value": [
+            {
+              "title": "لوحات مخارج",
+              "category": [
+                1480654385
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/emergency-exit-signs/c1480654385",
+              "products": []
+            },
+            {
+              "title": "إنارة طوارئ",
+              "category": [
+                707599666
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/emergency-lighting/c707599666",
+              "products": []
+            },
+            {
+              "title": "أجراس طوارئ",
+              "category": [],
+              "url": null,
+              "products": []
+            }
+          ],
+          "fields": [
+            {
+              "id": "groups.title",
+              "label": "اسم المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "text",
+              "value": null,
+              "required": false,
+              "maxLength": 220
+            },
+            {
+              "id": "groups.url",
+              "label": "رابط المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "url",
+              "value": null,
+              "required": false,
+              "maxLength": 800
+            },
+            {
+              "id": "groups.products",
+              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "type": "items",
+              "icon": "sicon-shopping-bag",
+              "format": "dropdown-list",
+              "source": "products",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 8
+            },
+            {
+              "id": "groups.category",
+              "label": "تصنيف تلقائي — إذا لم تحدد منتجات",
+              "type": "items",
+              "icon": "sicon-folder",
+              "format": "dropdown-list",
+              "source": "categories",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 1,
+              "description": "يعرض جميع ماركات هذا التصنيف. لعرض منتجات علامة بعينها اختر منتجاتها يدوياً أعلاه."
+            }
+          ],
+          "description": "المجموعات غير المرتبطة بمنتجات أو تصنيف تبقى مخفية. املأ القائمة لاستبدال المجموعات الجاهزة. تجهيز زود الحالي موضح في دليل الأقسام."
+        }
+      ]
+    },
+    {
+      "key": "d50094c8-1b4b-418e-8853-6643c90cb318",
+      "title": {
+        "ar": "البطاريات وحلول الطاقة",
+        "en": "battery department"
+      },
+      "icon": "sicon-layout-grid",
+      "path": "home.department-battery",
+      "fields": [
+        {
+          "id": "enabled",
+          "type": "boolean",
+          "format": "switch",
+          "icon": "sicon-toggle-off",
+          "label": "إظهار القسم عند وجود منتجات مرتبطة",
+          "value": true,
+          "selected": true,
+          "required": false
+        },
+        {
+          "id": "title",
+          "label": "العنوان",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "البطاريات وحلول الطاقة",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "text",
+          "label": "الوصف",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "بطاريات وشواحن ومحولات طاقة للاستخدامات المختلفة.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "image",
+          "label": "صورة حملة اختيارية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "maxLength": 220,
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "groups",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "مجموعات القسم",
+          "item_label": "مجموعة",
+          "value": [
+            {
+              "title": "بطاريات وشواحن",
+              "category": [
+                700798155
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/batteries-chargers/c700798155",
+              "products": []
+            },
+            {
+              "title": "إنفرترات",
+              "category": [
+                1610102218
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/converters-inverters/c1610102218",
+              "products": []
+            },
+            {
+              "title": "ملحقات الطاقة",
+              "category": [],
+              "url": null,
+              "products": []
+            }
+          ],
+          "fields": [
+            {
+              "id": "groups.title",
+              "label": "اسم المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "text",
+              "value": null,
+              "required": false,
+              "maxLength": 220
+            },
+            {
+              "id": "groups.url",
+              "label": "رابط المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "url",
+              "value": null,
+              "required": false,
+              "maxLength": 800
+            },
+            {
+              "id": "groups.products",
+              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "type": "items",
+              "icon": "sicon-shopping-bag",
+              "format": "dropdown-list",
+              "source": "products",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 8
+            },
+            {
+              "id": "groups.category",
+              "label": "تصنيف تلقائي — إذا لم تحدد منتجات",
+              "type": "items",
+              "icon": "sicon-folder",
+              "format": "dropdown-list",
+              "source": "categories",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 1,
+              "description": "يعرض جميع ماركات هذا التصنيف. لعرض منتجات علامة بعينها اختر منتجاتها يدوياً أعلاه."
+            }
+          ],
+          "description": "المجموعات غير المرتبطة بمنتجات أو تصنيف تبقى مخفية. املأ القائمة لاستبدال المجموعات الجاهزة. تجهيز زود الحالي موضح في دليل الأقسام."
+        }
+      ]
+    },
+    {
+      "key": "a0a2d3ad-3351-4f04-b4e5-814a446afb69",
+      "title": {
+        "ar": "المحولات ومثبتات الجهد",
+        "en": "transformers department"
+      },
+      "icon": "sicon-layout-grid",
+      "path": "home.department-transformers",
+      "fields": [
+        {
+          "id": "enabled",
+          "type": "boolean",
+          "format": "switch",
+          "icon": "sicon-toggle-off",
+          "label": "إظهار القسم عند وجود منتجات مرتبطة",
+          "value": true,
+          "selected": true,
+          "required": false
+        },
+        {
+          "id": "title",
+          "label": "العنوان",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "المحولات ومثبتات الجهد",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "text",
+          "label": "الوصف",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "قارن القدرة وجهد الدخول والخروج لاختيار الجهاز المناسب.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "image",
+          "label": "صورة حملة اختيارية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "maxLength": 220,
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "groups",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "مجموعات القسم",
+          "item_label": "مجموعة",
+          "value": [
+            {
+              "title": "محولات",
+              "category": [
+                1610102218
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/converters-inverters/c1610102218",
+              "products": []
+            },
+            {
+              "title": "مثبتات الجهد",
+              "category": [
+                34805449
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/voltage-stabilizers/c34805449",
+              "products": []
+            }
+          ],
+          "fields": [
+            {
+              "id": "groups.title",
+              "label": "اسم المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "text",
+              "value": null,
+              "required": false,
+              "maxLength": 220
+            },
+            {
+              "id": "groups.url",
+              "label": "رابط المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "url",
+              "value": null,
+              "required": false,
+              "maxLength": 800
+            },
+            {
+              "id": "groups.products",
+              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "type": "items",
+              "icon": "sicon-shopping-bag",
+              "format": "dropdown-list",
+              "source": "products",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 8
+            },
+            {
+              "id": "groups.category",
+              "label": "تصنيف تلقائي — إذا لم تحدد منتجات",
+              "type": "items",
+              "icon": "sicon-folder",
+              "format": "dropdown-list",
+              "source": "categories",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 1,
+              "description": "يعرض جميع ماركات هذا التصنيف. لعرض منتجات علامة بعينها اختر منتجاتها يدوياً أعلاه."
+            }
+          ],
+          "description": "المجموعات غير المرتبطة بمنتجات أو تصنيف تبقى مخفية. املأ القائمة لاستبدال المجموعات الجاهزة. تجهيز زود الحالي موضح في دليل الأقسام."
+        }
+      ]
+    },
+    {
+      "key": "abdd5f76-bf7e-4785-908b-43b940793386",
+      "title": {
+        "ar": "إضاءة الزينة",
+        "en": "decorative department"
+      },
+      "icon": "sicon-layout-grid",
+      "path": "home.department-decorative",
+      "fields": [
+        {
+          "id": "enabled",
+          "type": "boolean",
+          "format": "switch",
+          "icon": "sicon-toggle-off",
+          "label": "إظهار القسم عند وجود منتجات مرتبطة",
+          "value": true,
+          "selected": true,
+          "required": false
+        },
+        {
+          "id": "title",
+          "label": "العنوان",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "إضاءة الزينة",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "text",
+          "label": "الوصف",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "ستائر وحبال وشبكات إضاءة لتزيين المساحات والمناسبات.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "image",
+          "label": "صورة حملة اختيارية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "maxLength": 220,
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "groups",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "مجموعات القسم",
+          "item_label": "مجموعة",
+          "value": [
+            {
+              "title": "تشكيلة الزينة",
+              "category": [
+                1683069661
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/decorative-lighting/c1683069661",
+              "products": []
+            },
+            {
+              "title": "ستائر",
+              "category": [],
+              "url": null,
+              "products": []
+            },
+            {
+              "title": "حبال",
+              "category": [],
+              "url": null,
+              "products": []
+            },
+            {
+              "title": "شبكات",
+              "category": [],
+              "url": null,
+              "products": []
+            }
+          ],
+          "fields": [
+            {
+              "id": "groups.title",
+              "label": "اسم المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "text",
+              "value": null,
+              "required": false,
+              "maxLength": 220
+            },
+            {
+              "id": "groups.url",
+              "label": "رابط المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "url",
+              "value": null,
+              "required": false,
+              "maxLength": 800
+            },
+            {
+              "id": "groups.products",
+              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "type": "items",
+              "icon": "sicon-shopping-bag",
+              "format": "dropdown-list",
+              "source": "products",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 8
+            },
+            {
+              "id": "groups.category",
+              "label": "تصنيف تلقائي — إذا لم تحدد منتجات",
+              "type": "items",
+              "icon": "sicon-folder",
+              "format": "dropdown-list",
+              "source": "categories",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 1,
+              "description": "يعرض جميع ماركات هذا التصنيف. لعرض منتجات علامة بعينها اختر منتجاتها يدوياً أعلاه."
+            }
+          ],
+          "description": "المجموعات غير المرتبطة بمنتجات أو تصنيف تبقى مخفية. املأ القائمة لاستبدال المجموعات الجاهزة. تجهيز زود الحالي موضح في دليل الأقسام."
+        }
+      ]
+    },
+    {
+      "key": "54a20927-b93d-42ab-abe7-94cf3fb71c21",
+      "title": {
+        "ar": "ستائر الهواء",
+        "en": "air-curtains department"
+      },
+      "icon": "sicon-layout-grid",
+      "path": "home.department-air-curtains",
+      "fields": [
+        {
+          "id": "enabled",
+          "type": "boolean",
+          "format": "switch",
+          "icon": "sicon-toggle-off",
+          "label": "إظهار القسم عند وجود منتجات مرتبطة",
+          "value": true,
+          "selected": true,
+          "required": false
+        },
+        {
+          "id": "title",
+          "label": "العنوان",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "ستائر الهواء",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "text",
+          "label": "الوصف",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "اختر المقاس المناسب لعرض المدخل، ثم راجع مواصفات التركيب.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "image",
+          "label": "صورة حملة اختيارية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "maxLength": 220,
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "groups",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "مجموعات القسم",
+          "item_label": "مجموعة",
+          "value": [
+            {
+              "title": "جميع المقاسات",
+              "category": [
+                519859395
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/air-curtains/c519859395",
+              "products": []
+            },
+            {
+              "title": "مقاس صغير",
+              "category": [],
+              "url": null,
+              "products": []
+            },
+            {
+              "title": "مقاس متوسط",
+              "category": [],
+              "url": null,
+              "products": []
+            },
+            {
+              "title": "مقاس كبير",
+              "category": [],
+              "url": null,
+              "products": []
+            }
+          ],
+          "fields": [
+            {
+              "id": "groups.title",
+              "label": "اسم المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "text",
+              "value": null,
+              "required": false,
+              "maxLength": 220
+            },
+            {
+              "id": "groups.url",
+              "label": "رابط المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "url",
+              "value": null,
+              "required": false,
+              "maxLength": 800
+            },
+            {
+              "id": "groups.products",
+              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "type": "items",
+              "icon": "sicon-shopping-bag",
+              "format": "dropdown-list",
+              "source": "products",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 8
+            },
+            {
+              "id": "groups.category",
+              "label": "تصنيف تلقائي — إذا لم تحدد منتجات",
+              "type": "items",
+              "icon": "sicon-folder",
+              "format": "dropdown-list",
+              "source": "categories",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 1,
+              "description": "يعرض جميع ماركات هذا التصنيف. لعرض منتجات علامة بعينها اختر منتجاتها يدوياً أعلاه."
+            }
+          ],
+          "description": "المجموعات غير المرتبطة بمنتجات أو تصنيف تبقى مخفية. املأ القائمة لاستبدال المجموعات الجاهزة. تجهيز زود الحالي موضح في دليل الأقسام."
+        }
+      ]
+    },
+    {
+      "key": "468659db-3cdf-4c1a-9af5-ff84ddfc6ecd",
+      "title": {
+        "ar": "الحساسات والتحكم",
+        "en": "sensors department"
+      },
+      "icon": "sicon-layout-grid",
+      "path": "home.department-sensors",
+      "fields": [
+        {
+          "id": "enabled",
+          "type": "boolean",
+          "format": "switch",
+          "icon": "sicon-toggle-off",
+          "label": "إظهار القسم عند وجود منتجات مرتبطة",
+          "value": true,
+          "selected": true,
+          "required": false
+        },
+        {
+          "id": "title",
+          "label": "العنوان",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "الحساسات والتحكم",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "text",
+          "label": "الوصف",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "حلول استشعار وتحكم للإضاءة والمساحات.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "image",
+          "label": "صورة حملة اختيارية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "maxLength": 220,
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "groups",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "مجموعات القسم",
+          "item_label": "مجموعة",
+          "value": [
+            {
+              "title": "أجهزة وتحكم",
+              "category": [
+                910080478
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/smart-controls/c910080478",
+              "products": []
+            },
+            {
+              "title": "حساسات الحركة",
+              "category": [],
+              "url": null,
+              "products": []
+            },
+            {
+              "title": "حساسات الإضاءة",
+              "category": [],
+              "url": null,
+              "products": []
+            }
+          ],
+          "fields": [
+            {
+              "id": "groups.title",
+              "label": "اسم المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "text",
+              "value": null,
+              "required": false,
+              "maxLength": 220
+            },
+            {
+              "id": "groups.url",
+              "label": "رابط المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "url",
+              "value": null,
+              "required": false,
+              "maxLength": 800
+            },
+            {
+              "id": "groups.products",
+              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "type": "items",
+              "icon": "sicon-shopping-bag",
+              "format": "dropdown-list",
+              "source": "products",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 8
+            },
+            {
+              "id": "groups.category",
+              "label": "تصنيف تلقائي — إذا لم تحدد منتجات",
+              "type": "items",
+              "icon": "sicon-folder",
+              "format": "dropdown-list",
+              "source": "categories",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 1,
+              "description": "يعرض جميع ماركات هذا التصنيف. لعرض منتجات علامة بعينها اختر منتجاتها يدوياً أعلاه."
+            }
+          ],
+          "description": "المجموعات غير المرتبطة بمنتجات أو تصنيف تبقى مخفية. املأ القائمة لاستبدال المجموعات الجاهزة. تجهيز زود الحالي موضح في دليل الأقسام."
+        }
+      ]
+    },
+    {
+      "key": "e69c41a5-b016-4f48-ae48-d320663debdf",
+      "title": {
+        "ar": "كشافات ترافقك",
+        "en": "flashlights department"
+      },
+      "icon": "sicon-layout-grid",
+      "path": "home.department-flashlights",
+      "fields": [
+        {
+          "id": "enabled",
+          "type": "boolean",
+          "format": "switch",
+          "icon": "sicon-toggle-off",
+          "label": "إظهار القسم عند وجود منتجات مرتبطة",
+          "value": true,
+          "selected": true,
+          "required": false
+        },
+        {
+          "id": "title",
+          "label": "العنوان",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "كشافات ترافقك",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "text",
+          "label": "الوصف",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "كشافات محمولة وحلول إنارة قابلة للشحن.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "image",
+          "label": "صورة حملة اختيارية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "maxLength": 220,
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "groups",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "مجموعات القسم",
+          "item_label": "مجموعة",
+          "value": [
+            {
+              "title": "كشافات قابلة للشحن",
+              "category": [
+                176913372
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/rechargeable-lights/c176913372",
+              "products": []
+            },
+            {
+              "title": "يدوية",
+              "category": [],
+              "url": null,
+              "products": []
+            },
+            {
+              "title": "كشافات رأس",
+              "category": [],
+              "url": null,
+              "products": []
+            }
+          ],
+          "fields": [
+            {
+              "id": "groups.title",
+              "label": "اسم المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "text",
+              "value": null,
+              "required": false,
+              "maxLength": 220
+            },
+            {
+              "id": "groups.url",
+              "label": "رابط المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "url",
+              "value": null,
+              "required": false,
+              "maxLength": 800
+            },
+            {
+              "id": "groups.products",
+              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "type": "items",
+              "icon": "sicon-shopping-bag",
+              "format": "dropdown-list",
+              "source": "products",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 8
+            },
+            {
+              "id": "groups.category",
+              "label": "تصنيف تلقائي — إذا لم تحدد منتجات",
+              "type": "items",
+              "icon": "sicon-folder",
+              "format": "dropdown-list",
+              "source": "categories",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 1,
+              "description": "يعرض جميع ماركات هذا التصنيف. لعرض منتجات علامة بعينها اختر منتجاتها يدوياً أعلاه."
+            }
+          ],
+          "description": "المجموعات غير المرتبطة بمنتجات أو تصنيف تبقى مخفية. املأ القائمة لاستبدال المجموعات الجاهزة. تجهيز زود الحالي موضح في دليل الأقسام."
+        }
+      ]
+    },
+    {
+      "key": "45fb85d0-dd13-49a9-a355-2767da7cdfb9",
+      "title": {
+        "ar": "للبيت والمطبخ",
+        "en": "appliances department"
+      },
+      "icon": "sicon-layout-grid",
+      "path": "home.department-appliances",
+      "fields": [
+        {
+          "id": "enabled",
+          "type": "boolean",
+          "format": "switch",
+          "icon": "sicon-toggle-off",
+          "label": "إظهار القسم عند وجود منتجات مرتبطة",
+          "value": true,
+          "selected": true,
+          "required": false
+        },
+        {
+          "id": "title",
+          "label": "العنوان",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "للبيت والمطبخ",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "text",
+          "label": "الوصف",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "أجهزة للاستخدام اليومي، مرتبة حسب احتياجك.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "image",
+          "label": "صورة حملة اختيارية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "maxLength": 220,
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "groups",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "مجموعات القسم",
+          "item_label": "مجموعة",
+          "value": [
+            {
+              "title": "تبريد",
+              "category": [
+                1825173280
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/refrigerators-cooling/c1825173280",
+              "products": []
+            },
+            {
+              "title": "تنظيف",
+              "category": [
+                141765922
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/home-cleaning/c141765922",
+              "products": []
+            },
+            {
+              "title": "غلايات وقهوة",
+              "category": [
+                1515736099
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/kettles-coffee/c1515736099",
+              "products": []
+            },
+            {
+              "title": "خلاطات وطواحين",
+              "category": [
+                874867500
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/blenders-grinders/c874867500",
+              "products": []
+            },
+            {
+              "title": "طبخ وشوايات",
+              "category": [
+                100895277
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/cooking-grills/c100895277",
+              "products": []
+            }
+          ],
+          "fields": [
+            {
+              "id": "groups.title",
+              "label": "اسم المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "text",
+              "value": null,
+              "required": false,
+              "maxLength": 220
+            },
+            {
+              "id": "groups.url",
+              "label": "رابط المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "url",
+              "value": null,
+              "required": false,
+              "maxLength": 800
+            },
+            {
+              "id": "groups.products",
+              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "type": "items",
+              "icon": "sicon-shopping-bag",
+              "format": "dropdown-list",
+              "source": "products",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 8
+            },
+            {
+              "id": "groups.category",
+              "label": "تصنيف تلقائي — إذا لم تحدد منتجات",
+              "type": "items",
+              "icon": "sicon-folder",
+              "format": "dropdown-list",
+              "source": "categories",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 1,
+              "description": "يعرض جميع ماركات هذا التصنيف. لعرض منتجات علامة بعينها اختر منتجاتها يدوياً أعلاه."
+            }
+          ],
+          "description": "المجموعات غير المرتبطة بمنتجات أو تصنيف تبقى مخفية. املأ القائمة لاستبدال المجموعات الجاهزة. تجهيز زود الحالي موضح في دليل الأقسام."
+        }
+      ]
+    },
+    {
+      "key": "92560563-3cb6-4ad7-8490-0ff6d6dd85fa",
+      "title": {
+        "ar": "جهّز نظامك الصوتي",
+        "en": "sound department"
+      },
+      "icon": "sicon-layout-grid",
+      "path": "home.department-sound",
+      "fields": [
+        {
+          "id": "enabled",
+          "type": "boolean",
+          "format": "switch",
+          "icon": "sicon-toggle-off",
+          "label": "إظهار القسم عند وجود منتجات مرتبطة",
+          "value": true,
+          "selected": true,
+          "required": false
+        },
+        {
+          "id": "title",
+          "label": "العنوان",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "جهّز نظامك الصوتي",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "text",
+          "label": "الوصف",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "سماعات وميكسرات وملحقات للمساحات والفعاليات.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "image",
+          "label": "صورة حملة اختيارية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "maxLength": 220,
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "groups",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "مجموعات القسم",
+          "item_label": "مجموعة",
+          "value": [
+            {
+              "title": "سقفية",
+              "category": [
+                1824991
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/indoor-ceiling-speakers/c1824991",
+              "products": []
+            },
+            {
+              "title": "صندوق ومتنقلة",
+              "category": [
+                801965785
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/box-portable-speakers/c801965785",
+              "products": []
+            },
+            {
+              "title": "ميكسرات",
+              "category": [
+                1266107611
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/amplifiers-mixers/c1266107611",
+              "products": []
+            },
+            {
+              "title": "ملحقات",
+              "category": [
+                2000323109
+              ],
+              "url": "https://salla.design/ar/dev-lzzllycttpjfcngw/audio-accessories/c2000323109",
+              "products": []
+            },
+            {
+              "title": "باقات صوتية",
+              "category": [],
+              "url": null,
+              "products": []
+            }
+          ],
+          "fields": [
+            {
+              "id": "groups.title",
+              "label": "اسم المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "text",
+              "value": null,
+              "required": false,
+              "maxLength": 220
+            },
+            {
+              "id": "groups.url",
+              "label": "رابط المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "url",
+              "value": null,
+              "required": false,
+              "maxLength": 800
+            },
+            {
+              "id": "groups.products",
+              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "type": "items",
+              "icon": "sicon-shopping-bag",
+              "format": "dropdown-list",
+              "source": "products",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 8
+            },
+            {
+              "id": "groups.category",
+              "label": "تصنيف تلقائي — إذا لم تحدد منتجات",
+              "type": "items",
+              "icon": "sicon-folder",
+              "format": "dropdown-list",
+              "source": "categories",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 1,
+              "description": "يعرض جميع ماركات هذا التصنيف. لعرض منتجات علامة بعينها اختر منتجاتها يدوياً أعلاه."
+            }
+          ],
+          "description": "المجموعات غير المرتبطة بمنتجات أو تصنيف تبقى مخفية. املأ القائمة لاستبدال المجموعات الجاهزة. تجهيز زود الحالي موضح في دليل الأقسام."
+        }
+      ]
+    },
+    {
+      "key": "b36784cb-ab3d-426f-a944-ccb398de8252",
+      "title": {
+        "ar": "عالم Bigboi",
+        "en": "bigboi department"
+      },
+      "icon": "sicon-layout-grid",
+      "path": "home.department-bigboi",
+      "fields": [
+        {
+          "id": "enabled",
+          "type": "boolean",
+          "format": "switch",
+          "icon": "sicon-toggle-off",
+          "label": "إظهار القسم عند وجود منتجات مرتبطة",
+          "value": false,
+          "selected": false,
+          "required": false
+        },
+        {
+          "id": "title",
+          "label": "العنوان",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "عالم Bigboi",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "text",
+          "label": "الوصف",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "جهّز مجموعات منتجات Bigboi وملحقاتها هنا عند إضافتها للمتجر.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "image",
+          "label": "صورة حملة اختيارية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "maxLength": 220,
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "groups",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "مجموعات القسم",
+          "item_label": "مجموعة",
+          "value": [
+            {
+              "title": "المنتجات",
+              "category": [],
+              "url": null,
+              "products": []
+            },
+            {
+              "title": "الملحقات",
+              "category": [],
+              "url": null,
+              "products": []
+            }
+          ],
+          "fields": [
+            {
+              "id": "groups.title",
+              "label": "اسم المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "text",
+              "value": null,
+              "required": false,
+              "maxLength": 220
+            },
+            {
+              "id": "groups.url",
+              "label": "رابط المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "url",
+              "value": null,
+              "required": false,
+              "maxLength": 800
+            },
+            {
+              "id": "groups.products",
+              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "type": "items",
+              "icon": "sicon-shopping-bag",
+              "format": "dropdown-list",
+              "source": "products",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 8
+            },
+            {
+              "id": "groups.category",
+              "label": "تصنيف تلقائي — إذا لم تحدد منتجات",
+              "type": "items",
+              "icon": "sicon-folder",
+              "format": "dropdown-list",
+              "source": "categories",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 1,
+              "description": "يعرض جميع ماركات هذا التصنيف. لعرض منتجات علامة بعينها اختر منتجاتها يدوياً أعلاه."
+            }
+          ],
+          "description": "المجموعات غير المرتبطة بمنتجات أو تصنيف تبقى مخفية. املأ القائمة لاستبدال المجموعات الجاهزة. تجهيز زود الحالي موضح في دليل الأقسام."
+        }
+      ]
+    },
+    {
+      "key": "69b235e8-4b0e-4430-af1a-dccae3381263",
+      "title": {
+        "ar": "إضاءة LED للمسات التفاصيل",
+        "en": "led-strips department"
+      },
+      "icon": "sicon-layout-grid",
+      "path": "home.department-led-strips",
+      "fields": [
+        {
+          "id": "enabled",
+          "type": "boolean",
+          "format": "switch",
+          "icon": "sicon-toggle-off",
+          "label": "إظهار القسم عند وجود منتجات مرتبطة",
+          "value": false,
+          "selected": false,
+          "required": false
+        },
+        {
+          "id": "title",
+          "label": "العنوان",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "text",
+          "value": "إضاءة LED للمسات التفاصيل",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "text",
+          "label": "الوصف",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "textarea",
+          "value": "شرائط LED ووحدات تشغيل وملحقات. قسم جاهز للتعبئة عند توفر المنتجات.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "image",
+          "label": "صورة حملة اختيارية",
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "format": "image",
+          "value": null,
+          "required": false,
+          "maxLength": 220,
+          "settings": {
+            "width": 1536,
+            "height": 1024
+          }
+        },
+        {
+          "id": "groups",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 1,
+          "maxLength": 6,
+          "label": "مجموعات القسم",
+          "item_label": "مجموعة",
+          "value": [
+            {
+              "title": "شرائط LED",
+              "category": [],
+              "url": null,
+              "products": []
+            },
+            {
+              "title": "وحدات تشغيل",
+              "category": [],
+              "url": null,
+              "products": []
+            },
+            {
+              "title": "بروفايلات وملحقات",
+              "category": [],
+              "url": null,
+              "products": []
+            }
+          ],
+          "fields": [
+            {
+              "id": "groups.title",
+              "label": "اسم المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "text",
+              "value": null,
+              "required": false,
+              "maxLength": 220
+            },
+            {
+              "id": "groups.url",
+              "label": "رابط المجموعة",
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "format": "url",
+              "value": null,
+              "required": false,
+              "maxLength": 800
+            },
+            {
+              "id": "groups.products",
+              "label": "منتجات المجموعة — حتى 12 منتجاً",
+              "type": "items",
+              "icon": "sicon-shopping-bag",
+              "format": "dropdown-list",
+              "source": "products",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 8
+            },
+            {
+              "id": "groups.category",
+              "label": "تصنيف تلقائي — إذا لم تحدد منتجات",
+              "type": "items",
+              "icon": "sicon-folder",
+              "format": "dropdown-list",
+              "source": "categories",
+              "selected": [],
+              "options": [],
+              "value": [],
+              "multichoice": true,
+              "searchable": true,
+              "required": false,
+              "maxLength": 1,
+              "description": "يعرض جميع ماركات هذا التصنيف. لعرض منتجات علامة بعينها اختر منتجاتها يدوياً أعلاه."
+            }
+          ],
+          "description": "المجموعات غير المرتبطة بمنتجات أو تصنيف تبقى مخفية. املأ القائمة لاستبدال المجموعات الجاهزة. تجهيز زود الحالي موضح في دليل الأقسام."
+        }
+      ]
     }
   ],
   "support_url": "https://zodstore.sa/",
   "description": {
     "ar": "ثيم متجر زود التجاري — واجهة احترافية ثنائية اللغة للمنتجات التقنية والإلكترونية والأجهزة.",
     "en": "ZOD Commerce — a professional bilingual storefront for technical products, electronics, appliances, and equipment."
-  }
+  },
+  "version": "1.9.4"
 }

@@ -1,0 +1,6 @@
+{% set department_title = component.title|default(trans('zod.departments.appliances.title')) %}
+{% set department_text = component.text|default(trans('zod.departments.appliances.text')) %}
+{% set department_defaults = [{title:trans('zod.departments.appliances.group_0'),category:[1825173280],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/refrigerators-cooling/c1825173280"},{title:trans('zod.departments.appliances.group_1'),category:[141765922],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/home-cleaning/c141765922"},{title:trans('zod.departments.appliances.group_2'),category:[1515736099],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/kettles-coffee/c1515736099"},{title:trans('zod.departments.appliances.group_3'),category:[874867500],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/blenders-grinders/c874867500"},{title:trans('zod.departments.appliances.group_4'),category:[100895277],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/cooking-grills/c100895277"}] %}
+{% set department_art = null %}
+{% set department_enabled = component.enabled is defined ? component.enabled : true %}
+{% include 'components.home.department-base' %}

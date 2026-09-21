@@ -1,0 +1,6 @@
+{% set department_title = component.title|default(trans('zod.departments.sound.title')) %}
+{% set department_text = component.text|default(trans('zod.departments.sound.text')) %}
+{% set department_defaults = [{title:trans('zod.departments.sound.group_0'),category:[1824991],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/indoor-ceiling-speakers/c1824991"},{title:trans('zod.departments.sound.group_1'),category:[801965785],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/box-portable-speakers/c801965785"},{title:trans('zod.departments.sound.group_2'),category:[1266107611],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/amplifiers-mixers/c1266107611"},{title:trans('zod.departments.sound.group_3'),category:[2000323109],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/audio-accessories/c2000323109"},{title:trans('zod.departments.sound.group_4'),category:[],products:[],url:null}] %}
+{% set department_art = null %}
+{% set department_enabled = component.enabled is defined ? component.enabled : true %}
+{% include 'components.home.department-base' %}

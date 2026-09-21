@@ -265,7 +265,7 @@ assert(read('src/assets/js/app.js').includes("'initAnnouncementBar'"),'App must 
 
 const productPageJs=read('src/assets/js/product.js');
 const productCardJs=read('src/assets/js/partials/product-card.js');
-assert(productPageJs.includes('if (rect.bottom < 0) activateDock();'),'Product purchase dock must activate only after the inline purchase controls have been passed');
+assert(productPageJs.includes("classList.toggle('is-docked', enabled)"),'Product purchase dock must remain visible when enabled');
 assert(productPageJs.includes("dataset.zodStickyEnabled !== '0'"),'Product purchase dock must respect the merchant sticky-cart setting');
 assert(!single.includes('sticky-product-bar is-docked is-ready'),'Product purchase controls must render inline first instead of covering content on initial load');
 assert(single.includes("sticky_enabled ? '1' : '0'"),'Product purchase controls must respect the merchant sticky setting');

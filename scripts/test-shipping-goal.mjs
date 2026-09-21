@@ -1,0 +1,18 @@
+import fs from 'node:fs';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+const source=fs.readFileSync(new URL('../src/assets/js/partials/shipping-goal.js',import.meta.url),'utf8').replaceAll('export const ','const ');
+const context={};vm.runInNewContext(source+'\nthis.calculate=goalState',context);const calc=context.calculate;
+assert.equal(calc({sub_total:200,discount:0}).remaining,150);
+assert.equal(calc({sub_total:350,discount:0}).complete,true,'inclusive 350 threshold');
+assert.equal(calc({sub_total:375,discount:50}).remaining,25,'discount reduces eligible spend');
+assert.equal(calc({sub_total:100,discount:0,total:400}).complete,false,'delivery fees and taxes never fill the goal');
+assert.equal(calc({sub_total:0,discount:0}).percent,0,'empty cart');
+assert.equal(calc({sub_total:900,discount:0}).percent,100,'clamped over threshold');
+assert.equal(calc({total:900}),null,'unknown subtotal is not fabricated');
+assert.equal(calc({sub_total:null,discount:0}),null);
+assert.equal(calc({sub_total:500}),null,'unknown discount cannot claim free shipping');
+assert.equal(calc({sub_total:500,discount:0,free_shipping_bar:{minimum_amount:350,remaining:25}}).remaining,25,'native eligibility wins');
+assert.equal(calc({sub_total:350,discount:0,free_shipping_bar:{minimum_amount:500,remaining:150}}).complete,true,'separate configured 350 campaign target');
+assert.equal(calc({sub_total:349.99,discount:0}).complete,false);
+console.log('PASS: shipping target boundary, discounted spend, fee exclusion, native eligibility, unknown states and progress clamping.');

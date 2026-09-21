@@ -156,7 +156,8 @@ const initLaserShowcase = (section) => {
   if (!triggers.length || triggers.length !== panels.length) return;
 
   let activeIndex = 0;
-  let isVisible = true;
+  let isVisible = false;
+  let manuallyPaused = false;
   let soundEnabled = false;
   let playbackRequested = false;
   let playbackRevision = 0;
@@ -223,6 +224,7 @@ const initLaserShowcase = (section) => {
         const failed = () => {
           if (revision !== playbackRevision || index !== activeIndex) return;
           playbackRequested = false;
+          manuallyPaused = true;
           soundEnabled = false;
           panel.classList.add('is-playback-blocked');
           syncVideo();
@@ -264,7 +266,7 @@ const initLaserShowcase = (section) => {
   };
 
   const activate = (index, { focus = false, scroll = false } = {}) => {
-    if (index !== activeIndex) { playbackRequested = false; soundEnabled = false; }
+    if (index !== activeIndex) { playbackRequested = isVisible && !reducedMotion.matches && !manuallyPaused; soundEnabled = false; }
     activeIndex = (index + triggers.length) % triggers.length;
     mountProducts(panels[activeIndex]);
     panels.forEach((panel, panelIndex) => {
@@ -305,6 +307,7 @@ const initLaserShowcase = (section) => {
     panel.querySelector('[data-zod-laser-play]')?.addEventListener('click', () => {
       if (index !== activeIndex) activate(index);
       playbackRequested = !playbackRequested;
+      manuallyPaused = !playbackRequested;
       syncVideo();
     });
     const control = panel.querySelector('[data-zod-laser-sound]');
@@ -327,6 +330,7 @@ const initLaserShowcase = (section) => {
 
   const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
     isVisible = entries.some(entry => entry.isIntersecting);
+    if (!manuallyPaused && !reducedMotion.matches) playbackRequested = isVisible;
     if (isVisible && !soundCueShown && !reducedMotion.matches) {
       soundCueShown = true;
       section.classList.add('is-sound-cue');
@@ -336,7 +340,7 @@ const initLaserShowcase = (section) => {
   }, { threshold: 0.18 }) : null;
   observer?.observe(section);
   document.addEventListener('visibilitychange', syncVideo);
-  reducedMotion.addEventListener?.('change', syncVideo);
+  reducedMotion.addEventListener?.('change', () => { if (reducedMotion.matches) playbackRequested = false; syncVideo(); });
   activate(0);
 
 };

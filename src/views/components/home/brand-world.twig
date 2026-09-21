@@ -1,12 +1,12 @@
 {% set world_name = component.brand_name|default(trans('zod.campaign.brand')) %}
 {% set world_title = component.title|default(trans('zod.campaign.brand_title')) %}
 {% set world_text = component.text|default(trans('zod.campaign.brand_text')) %}
-{% set world_image = component.image|default((component.power_style ? 'images/campaign-power.webp' : 'images/campaign-living.webp')|asset) %}
+{% set world_image = component.image|default(null) %}
 {% set world_groups = [] %}{% for group in component['groups']|default([]) %}{% if group.title %}{% set world_groups = world_groups|merge([group]) %}{% endif %}{% endfor %}
 <section class="zod-section zod-brand-world {{ component.power_style ? 'is-power' : '' }}" data-zod-brand-world>
  <div class="container">
-  <div class="zod-brand-world__banner">
-   <img src="{{ world_image }}" width="1536" height="1024" loading="lazy" decoding="async" alt="">
+  <div class="zod-brand-world__banner {{ world_image ? 'has-world-image' : 'is-text-only' }}">
+   {% if world_image %}<img src="{{ world_image }}" width="1536" height="1024" loading="lazy" decoding="async" alt="">{% endif %}
    <div class="zod-brand-world__copy"><span class="zod-campaign__eyebrow">{{ trans('zod.campaign.eyebrow') }}</span><span class="zod-brand-world__name">{{ world_name }}</span><h2>{{ world_title }}</h2><p>{{ world_text }}</p>{% if component.brand_url %}<a class="zod-campaign__cta" href="{{ component.brand_url }}">{{ trans('zod.campaign.explore') }} ↗</a>{% endif %}</div>
   </div>
   {% if world_groups|length %}

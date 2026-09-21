@@ -355,7 +355,7 @@ console.log('PASS: v1.7.20 uploaded product video media-type support.');
   // Base card source may retain newer helpers, but the loaded legacy patch owns the visible card markup.
   assert.match(cardSource, /customElements\.define\('custom-salla-product-card'/, 'base custom card remains registered for the patch to extend');
   assert.match(read('src/assets/styles/app.scss'), /@media\(max-width:1023px\), \(hover:none\)[\s\S]*?zpc-quick-view[\s\S]*?display:none!important/, 'quick-view eye is hidden outside desktop hover layouts');
-  assert.match(read('src/assets/js/product.js'), /if \(rect\.bottom < 0\) activateDock\(\);/, 'sticky purchase bar waits until the inline purchase controls are passed');
+  assert.match(read('src/assets/js/product.js'), /classList\.toggle\('is-docked', enabled\)/, 'sticky purchase remains on screen when enabled');
   assert.doesNotMatch(productTwig, /sticky-product-bar is-docked is-ready/, 'product Twig does not start with an always-on dock');
   assert.doesNotMatch(productTwig, /data-zod-sale-countdown/, 'sale countdown is removed from the product page');
   assert.equal((productTwig.match(/<salla-offer\b/g)||[]).length, 1, 'one native offer component replaces estimated quantity tiers');

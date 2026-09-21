@@ -1,0 +1,6 @@
+{% set department_title = component.title|default(trans('zod.departments.emergency.title')) %}
+{% set department_text = component.text|default(trans('zod.departments.emergency.text')) %}
+{% set department_defaults = [{title:trans('zod.departments.emergency.group_0'),category:[1480654385],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/emergency-exit-signs/c1480654385"},{title:trans('zod.departments.emergency.group_1'),category:[707599666],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/emergency-lighting/c707599666"},{title:trans('zod.departments.emergency.group_2'),category:[],products:[],url:null}] %}
+{% set department_art = null %}
+{% set department_enabled = component.enabled is defined ? component.enabled : true %}
+{% include 'components.home.department-base' %}

@@ -1,0 +1,11 @@
+{% set shipping_target = theme.settings.get('shipping_goal_amount', 350) %}
+<aside class="zod-shipping-widget" data-shipping-widget data-shipping-goal data-threshold="{{ shipping_target }}" hidden>
+ <button type="button" class="zod-shipping-ring" data-shipping-toggle aria-expanded="false" aria-controls="zod-shipping-popup" aria-label="{{ trans('zod.shipping.title') }}"><span data-shipping-icon aria-hidden="true">🚚</span></button>
+ <div id="zod-shipping-popup" class="zod-shipping-popup" data-shipping-popup hidden>
+  <button type="button" data-shipping-close aria-label="{{ trans('zod.header.close') }}">×</button>
+  <strong data-shipping-message>{{ trans('zod.shipping.title') }}</strong>
+  <div class="zod-shipping-track" data-shipping-progress role="progressbar" aria-label="{{ trans('zod.shipping.title') }}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
+  <small>{{ trans('zod.shipping.terms') }}</small>
+ </div>
+ <span class="sr-only" role="status" aria-live="polite" data-shipping-live></span>
+</aside>

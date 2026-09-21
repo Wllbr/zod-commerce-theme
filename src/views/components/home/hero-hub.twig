@@ -8,14 +8,14 @@
 {% set campaign_title = component.campaign_title|default(trans('zod.campaign.title')) %}
 {% set campaign_text = component.campaign_text|default(trans('zod.campaign.intro')) %}
 {% set campaigns = [
-  {image:component.campaign_image|default('images/campaign-home.webp'|asset), title:campaign_title, text:campaign_text, url:category_urls.exhaust},
+  {image:component.campaign_image|default('images/campaign-home.webp'|asset), title:campaign_title, text:campaign_text, url:category_urls.intercom},
   {image:component.power_image|default('images/campaign-power.webp'|asset), title:component.power_title|default(trans('zod.campaign.power_title')), text:component.power_text|default(trans('zod.campaign.power_text')), url:component.power_url|default(null)},
-  {image:component.comfort_image|default('images/campaign-living.webp'|asset), title:trans('zod.campaign.comfort_title'), text:trans('zod.campaign.comfort_text'), url:category_urls.insect}
+  {image:component.comfort_image|default('images/campaign-living.webp'|asset), title:trans('zod.campaign.comfort_title'), text:trans('zod.campaign.comfort_text'), url:category_urls.exhaust}
 ] %}
 <section class="zod-campaign container" data-zod-campaign data-autoplay="{{ component.campaign_autoplay is defined and not component.campaign_autoplay ? 'false' : 'true' }}" data-play="{{ trans('zod.campaign.play') }}" data-pause="{{ trans('zod.campaign.pause') }}" aria-label="{{ trans('zod.campaign.eyebrow') }}" aria-roledescription="carousel">
   <div class="zod-campaign__viewport" data-campaign-viewport>
     {% for campaign in campaigns %}
-    <article class="zod-campaign__slide {{ loop.index == 3 ? 'is-pale' : '' }}" data-campaign-slide role="group" aria-roledescription="slide" aria-label="{{ loop.index }} / {{ campaigns|length }}" {% if not loop.first %}hidden{% endif %}>
+    <article class="zod-campaign__slide" data-campaign-slide role="group" aria-roledescription="slide" aria-label="{{ loop.index }} / {{ campaigns|length }}" {% if not loop.first %}hidden{% endif %}>
       <img class="zod-campaign__art" src="{{ campaign.image }}" width="1536" height="1024" alt="" decoding="async" {{ loop.first ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"' }}>
       <div class="zod-campaign__copy"><span class="zod-campaign__eyebrow">{{ trans('zod.campaign.eyebrow') }}</span><h2>{{ campaign.title }}</h2><p>{{ campaign.text }}</p>
         {% if campaign.url %}<a class="zod-campaign__cta" data-zod-category-link href="{{ campaign.url }}">{{ trans('zod.campaign.explore') }} <span aria-hidden="true">↗</span></a>{% endif %}
@@ -30,14 +30,8 @@
     <button type="button" data-campaign-next aria-label="{{ trans('zod.campaign.next') }}">←</button>
     <button type="button" data-campaign-pause aria-label="{{ trans('zod.campaign.pause') }}" aria-pressed="false"><span aria-hidden="true">Ⅱ</span></button>
   </div>
-  <nav class="zod-quick-categories" aria-label="{{ trans('zod.campaign.categories') }}">
-    <button type="button" aria-controls="zod-catalog-drawer" aria-expanded="false" onclick="window.zodMenu?.open(this)"><i class="sicon-menu" aria-hidden="true"></i>{{ trans('zod.campaign.all') }}</button>
-    {% for slot in ['exhaust','intercom','insect'] %}{% if category_urls[slot] %}<a data-zod-category-link href="{{ category_urls[slot] }}"><span class="zod-quick-categories__mark" aria-hidden="true">0{{ loop.index }}</span>{{ trans('zod.hub.' ~ slot ~ '_tag') }}</a>{% endif %}{% endfor %}
-    {% if component.power_url %}<a data-zod-category-link href="{{ component.power_url }}"><span class="zod-quick-categories__mark" aria-hidden="true">04</span>{{ trans('zod.campaign.power') }}</a>{% endif %}
-    <a href="{{ link('brands') }}"><i class="sicon-star" aria-hidden="true"></i>{{ trans('zod.campaign.brand') }}</a>
-  </nav>
-  <div class="zod-offer-tiles">
-    {% if component.show_shipping %}<article class="zod-offer-tile is-shipping"><span class="zod-offer-tile__number" aria-hidden="true">350<span>+</span></span><div><strong>{{ trans('zod.campaign.shipping') }}</strong><p>{{ trans('zod.campaign.shipping_text') }}</p>{% if component.shipping_terms %}<a href="{{ component.shipping_terms }}">{{ trans('zod.campaign.terms') }} ↗</a>{% endif %}</div></article>{% endif %}
+<div class="zod-offer-tiles">
+    {% if component.show_shipping %}<article class="zod-offer-tile is-shipping" data-shipping-goal><span class="zod-shipping-ring" aria-hidden="true"><span data-shipping-icon>🚚</span></span><div><strong data-shipping-message>{{ trans('zod.shipping.initial') }}</strong><div class="zod-shipping-track" data-shipping-progress role="progressbar" aria-label="{{ trans('zod.shipping.title') }}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div><small>{{ trans('zod.shipping.terms') }}</small></div></article>{% endif %}
     {% if component.show_mada and component.mada_terms %}<article class="zod-offer-tile is-mada"><span class="zod-offer-tile__number" aria-hidden="true">5<span>%</span></span><div><strong>{{ trans('zod.campaign.mada') }}</strong><p>{{ trans('zod.campaign.mada_text') }}</p><a href="{{ component.mada_terms }}">{{ trans('zod.campaign.terms') }} ↗</a></div></article>{% endif %}
     <a class="zod-offer-tile is-offers" href="{{ link('offers') }}"><span class="zod-offer-tile__number" aria-hidden="true">↗</span><div><strong>{{ trans('zod.campaign.offers') }}</strong><p>{{ trans('zod.campaign.offers_text') }}</p></div></a>
   </div>

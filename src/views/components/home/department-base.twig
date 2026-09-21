@@ -1,0 +1,25 @@
+{% set department_groups = [] %}
+{% for group in component['groups']|default([]) %}{% if group.title %}{% set department_groups = department_groups|merge([group]) %}{% endif %}{% endfor %}
+{% if not department_groups|length %}{% set department_groups = department_defaults %}{% endif %}
+{% set visible_groups = [] %}{% for group in department_groups %}{% if group.category|length or group.products|length %}{% set visible_groups = visible_groups|merge([group]) %}{% endif %}{% endfor %}
+{% if department_enabled and visible_groups|length %}
+<section class="zod-section zod-brand-world zod-department {{ department_art or component.image ? 'has-department-art' : '' }}" data-zod-brand-world>
+ <div class="container">
+  <div class="zod-brand-world__banner">
+   {% if department_art or component.image %}<img src="{{ component.image|default(department_art) }}" width="1536" height="1024" loading="lazy" decoding="async" alt="">{% endif %}
+   <div class="zod-brand-world__copy"><h2>{{ department_title }}</h2><p>{{ department_text }}</p></div>
+  </div>
+  <div class="zod-brand-world__nav" role="tablist" aria-label="{{ department_title }}">
+   {% for group in visible_groups %}<button type="button" role="tab" id="dept-tab-{{ position }}-{{ loop.index0 }}" aria-controls="dept-panel-{{ position }}-{{ loop.index0 }}" aria-selected="{{ loop.first ? 'true' : 'false' }}" tabindex="{{ loop.first ? '0' : '-1' }}" data-world-tab>{{ group.title }}</button>{% endfor %}
+  </div>
+  {% for group in visible_groups %}
+   {% set ids = [] %}{% for product in group.products|default([]) %}{% set ids = ids|merge([product.id|default(product.value)|default(product)]) %}{% endfor %}
+   {% set category = group.category|default(null) %}{% if category is iterable and category.id is not defined and category.value is not defined %}{% set category = category|first %}{% endif %}{% set category_id = category.id|default(category.value)|default(category) %}
+   <div role="tabpanel" tabindex="0" id="dept-panel-{{ position }}-{{ loop.index0 }}" aria-labelledby="dept-tab-{{ position }}-{{ loop.index0 }}" data-world-panel {% if not loop.first %}hidden{% endif %}>
+    {% if group.url %}<a class="zod-world-all" data-zod-category-link href="{{ group.url }}">{{ trans('zod.home.view_all') }} — {{ group.title }} ↗</a>{% endif %}
+    <template data-world-products><salla-products-slider source="{{ ids|length ? 'selected' : 'categories' }}" source-value="{{ (ids|length ? ids : [category_id])|json_encode }}" limit="8" slider-id="dept-{{ position }}-{{ loop.index0 }}" product-card-component="custom-salla-product-card"></salla-products-slider></template>
+   </div>
+  {% endfor %}
+ </div>
+</section>
+{% endif %}

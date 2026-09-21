@@ -3,7 +3,7 @@ import vm from 'node:vm';
 import assert from 'node:assert/strict';
 const read=p=>fs.readFileSync(new URL('../'+p,import.meta.url),'utf8');
 const source=read('src/assets/js/product.js').replace(/^import[^\n]+\n/,'');
-const classes=()=>{const values=new Set();return{add:(...v)=>v.forEach(x=>values.add(x)),remove:(...v)=>v.forEach(x=>values.delete(x)),contains:v=>values.has(v)}};
+const classes=()=>{const values=new Set();return{add:(...v)=>v.forEach(x=>values.add(x)),remove:(...v)=>v.forEach(x=>values.delete(x)),toggle:(v,on)=>on?values.add(v):values.delete(v),contains:v=>values.has(v)}};
 function harness(enabled){
  const events={},frames=[];let bottom=120;
  const style={values:{},setProperty(k,v){this.values[k]=v},removeProperty(k){delete this.values[k]}};
@@ -17,10 +17,10 @@ function harness(enabled){
  return{buyBar,buyAnchor,events,flush,scroll:(n)=>{bottom=n;events.scroll?.();flush();}};
 }
 const active=harness(true);
-assert(!active.buyBar.classList.contains('is-docked'),'starts in normal flow');
-active.scroll(-1);assert(active.buyBar.classList.contains('is-ready'));assert.equal(active.buyAnchor.style.values['min-height'],'72px');
+assert(active.buyBar.classList.contains('is-docked'),'visible from initial page load');
+active.scroll(-1);assert(active.buyBar.classList.contains('is-ready'));assert.equal(active.buyAnchor.style.values['min-height'],undefined,'no empty placeholder for permanently fixed controls');
 active.scroll(-200);assert(active.buyBar.classList.contains('is-docked'),'stays stable while passed');
-active.scroll(1);assert(!active.buyBar.classList.contains('is-docked'));assert.equal(active.buyAnchor.style.values['min-height'],undefined);
+active.scroll(1);assert(active.buyBar.classList.contains('is-docked'),'remains visible at top');assert.equal(active.buyAnchor.style.values['min-height'],undefined);
 const disabled=harness(false);assert(!disabled.events.scroll,'disabled setting installs no scroll controller');
 const pdp=read('src/views/pages/product/single.twig');
 assert(pdp.indexOf('store-product-add-to-cart')<pdp.indexOf('store-product-description'));
@@ -29,4 +29,4 @@ assert(!read('src/assets/js/legacy-product-card.js').includes('class="zpc-model"
 const header=read('src/views/components/header/header.twig');
 assert(!header.includes('zod-search-row'),'no separate header search bar');
 assert.equal((header.match(/search::open/g)||[]).length,1,'single desktop search icon');
-console.log('PASS: inline purchase, dock after scroll, stable repeated scroll, return to flow, disabled setting, single CTA and description order.');
+console.log('PASS: persistent purchase, stable repeated scroll, top-of-page visibility, disabled setting, single CTA and description order.');

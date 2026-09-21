@@ -73,6 +73,7 @@
 {% endif %}
 <script defer crossorigin="anonymous" src="{{ 'app.js' | asset }}"></script>
 <script defer crossorigin="anonymous" src="{{ 'legacy-product-card.js' | asset }}"></script>
+{% if theme.settings.get('show_shipping_goal', true) %}{% include 'components.shipping-goal' %}{% endif %}
 <salla-offer-modal data-testid="store-offer-modal"></salla-offer-modal>
 <salla-search data-testid="store-search-modal"></salla-search>
 <salla-login-modal data-testid="store-login-modal"></salla-login-modal>
