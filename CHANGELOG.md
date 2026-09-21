@@ -1,3 +1,7 @@
+# v1.9.2
+
+Preserve hero category locale and native URL priority; recover laser controls from playback failures and ignore stale requests. See QA_REPORT.md for verification limits.
+
 # v1.9.0 — storefront refinement and native purchase layout
 
 - Rounded, icon-only search header; removed duplicate search row and category rail.

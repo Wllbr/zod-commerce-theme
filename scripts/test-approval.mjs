@@ -41,7 +41,8 @@ assert.match(laser,/position\|default\(0\)/,'multiple laser components get uniqu
 const config=JSON.parse(read('twilight.json'));
 assert.equal(config.components.filter(c=>c.path==='home.hero-hub').length,1);
 const hero=read('src/views/components/home/hero-hub.twig');
-assert.match(hero,/category\.url\|default\(null\)/);
+assert(hero.includes("category.url|default(component[slot ~ '_url']|default(null))"), 'native category URL precedes manual fallback');
+assert(hero.includes('data-zod-category-link'), 'hero opts into scoped locale routing');
 assert.doesNotMatch(hero,/href="#"/);
 for(const lang of ['en','ar']){
  const locale=JSON.parse(read(`src/locales/${lang}.json`)).zod;

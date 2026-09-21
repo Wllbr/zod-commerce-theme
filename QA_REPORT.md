@@ -1,3 +1,37 @@
+# ZOD Commerce v1.9.2 — continuation audit
+
+Date: 21 September 2026.
+
+## Score
+
+Overall editorial assessment remains **8.5/10**. Visual design 9.2; UX 9.0; mobile 8.9; discovery 9.0; compatibility 8.8; trust 8.2; conversion readiness 8.2; publishing readiness 7.0. These are judgment-based review scores, not Salla approval, measured conversion, or measured web-vitals results.
+
+## Changes in this revision
+
+- Hero category links prefer native Salla category URLs when available. Explicit fallback links within the same store inherit the current Arabic or English locale. Other stores, external links, product links and unsupported locales remain unchanged. Destination query and fragment are preserved; current-page credentials are not added by locale normalization.
+- Laser demo playback failures reset the control to Watch demo and muted state. Old promise failures cannot stop a newly selected demo. Media errors and synchronous failures also reset the control.
+- Header icon-only search, enlarged cards, generated artwork, reduced-motion support and all three approval fixes are preserved.
+
+## Verification and limits
+
+- Existing English Salla preview inspected: all three hero category links reproduced the Arabic navigation issue before the fix.
+- Regression checks cover both locale directions, external/store isolation, query preservation, rejected/synchronous video playback, stale rejection after switching panels, and media errors.
+- Full production build and complete regression suite passed. Build integrity: 107 inputs and 22 outputs match. Approval guards passed. CSS budget: 70,815 bytes combined gzip, within the unchanged 73 KiB budget. Webpack retains two raw-size warnings for app.css and the app entrypoint; real-device performance remains unmeasured.
+- Updated Salla draft verification is blocked: the partner portal displays Cloudflare Incorrect device time. No security challenge was bypassed or device setting changed. Current draft 1617631033 still contains the preceding revision until a new preview is created.
+
+## Remaining launch gates
+
+1. Verify this revision in a newly created Salla draft once portal access is restored, including English hero navigation and successful/failed video interactions.
+2. Where native category URL data is absent, replace preview-domain manual fallback links with real production store category links before launch. Locale routing deliberately does not transfer links between domains.
+3. Checkout, quantity/coupons/shipping/tax/options/attachments and order-review flows still need end-to-end staging validation. No payment or order was submitted.
+4. Physical iOS/Android, keyboard/screen-reader, contrast and measured performance checks remain incomplete.
+5. Merchant English catalog content, service claims and test labels need review.
+6. Salla approval and explicit user approval to publish remain required. No live publication or main merge was performed.
+
+## Prior design audit
+
+The appended v1.9.1 report is historical evidence for design changes and earlier browser checks; it does not certify this revision's browser behavior.
+
 # ZOD Commerce v1.9.1 — QA and release report
 
 Date: 21 September 2026. Scope: three initial improvement rounds continuing v1.8.2, plus the user’s explicit follow-up to refine current components until ready for review. This report supersedes earlier QA summaries.

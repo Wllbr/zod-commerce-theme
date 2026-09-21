@@ -27,8 +27,27 @@ function run(reduced){
  triggers[1].events.click();assert.equal(panels[1].video.src,'','switching panel does not autoplay');assert.equal(panels[0].playControl.attrs['aria-pressed'],'false');
  panels[1].playControl.events.click();assert.equal(panels[1].video.muted,true,'new panel resets sound');
  panels[1].playControl.events.click();assert.equal(panels[1].playControl.attrs['aria-pressed'],'false');
+ return {panels,triggers,doc};
 }
 run(false);run(true);
+const {panels,triggers}=run(false);
+panels[1].video.play=()=>Promise.reject(new Error('blocked'));
+panels[1].playControl.events.click();
+await new Promise(resolve=>setImmediate(resolve));
+assert.equal(panels[1].playControl.attrs['aria-pressed'],'false','failed playback resets pressed state');
+assert.equal(panels[1].playControl.querySelector('span').textContent,'Watch','failure offers retry');
+let rejectOld;
+panels[1].video.play=()=>new Promise((_,reject)=>{rejectOld=reject});
+panels[1].playControl.events.click();
+triggers[0].events.click();panels[0].playControl.events.click();
+rejectOld(new Error('old request'));
+await new Promise(resolve=>setImmediate(resolve));
+assert.equal(panels[0].playControl.attrs['aria-pressed'],'true','stale failure cannot stop current panel');
+panels[0].video.events.error();
+assert.equal(panels[0].playControl.attrs['aria-pressed'],'false','media error resets playback');
+panels[0].video.play=()=>{throw new Error('synchronous failure')};
+panels[0].playControl.events.click();
+assert.equal(panels[0].playControl.attrs['aria-pressed'],'false','synchronous failure resets playback');
 const interactive=home.slice(home.indexOf('const initInteractiveShowcase'),home.indexOf('const initLaserShowcase'));
 assert(!interactive.includes('playbackRequested'),'laser playback state stays scoped to laser');
 console.log('PASS: laser opt-in video loading/playback, pause, muted default, explicit sound, panel reset, reduced-motion interaction and state scope.');

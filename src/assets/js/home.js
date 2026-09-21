@@ -158,6 +158,7 @@ const initLaserShowcase = (section) => {
   let isVisible = true;
   let soundEnabled = false;
   let playbackRequested = false;
+  let playbackRevision = 0;
   let soundCueShown = false;
   let soundCueTimer = 0;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -209,6 +210,7 @@ const initLaserShowcase = (section) => {
   };
 
   const syncVideo = () => {
+    const revision = ++playbackRevision;
     panels.forEach((panel, index) => {
       const video = panel.querySelector('[data-zod-laser-video]');
       if (!video) return;
@@ -217,17 +219,20 @@ const initLaserShowcase = (section) => {
       video.muted = !(index === activeIndex && soundEnabled);
       if (shouldPlay) {
         if (!video.src && video.dataset.videoSrc) video.src = video.dataset.videoSrc;
+        const failed = () => {
+          if (revision !== playbackRevision || index !== activeIndex) return;
+          playbackRequested = false;
+          soundEnabled = false;
+          panel.classList.add('is-playback-blocked');
+          syncVideo();
+        };
         try {
           const playback = video.play?.();
-          if (playback?.then) playback.then(() => panel.classList.remove('is-playback-blocked')).catch(() => {
-            panel.classList.add('is-playback-blocked');
-            if (!soundEnabled) video.muted = true;
-          });
+          if (playback?.then) playback.then(() => {
+            if (revision === playbackRevision) panel.classList.remove('is-playback-blocked');
+          }).catch(failed);
           else panel.classList.remove('is-playback-blocked');
-        } catch (_) {
-          panel.classList.add('is-playback-blocked');
-          if (!soundEnabled) video.muted = true;
-        }
+        } catch (_) { failed(); }
       } else {
         video.pause();
       }
@@ -313,6 +318,7 @@ const initLaserShowcase = (section) => {
       syncVideo();
     });
     video.addEventListener('error', () => {
+      if (index === activeIndex) { playbackRequested = false; soundEnabled = false; syncVideo(); }
       control.hidden = true;
       panel.classList.add('is-video-error');
     });

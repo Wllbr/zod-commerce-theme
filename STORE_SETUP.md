@@ -1,4 +1,4 @@
-# ZOD v1.9.1 store setup
+# ZOD v1.9.2 store setup
 
 ## Homepage order
 
@@ -32,3 +32,7 @@ Verify simple/optioned/out-of-stock/booking/digital products, cart edits and att
 ## Laser and card design
 
 v1.9.1 enlarges homepage carousel cards and integrates the laser purchase area into its dark stage. Two bundled generated posters match the existing spider and six-lens bar products. Keep each poster tied to its actual model; use the image field for new generated art when selecting another product. Clips play only after Watch demo; sound stays muted until separately enabled. Scroll reveals respect reduced motion.
+
+## v1.9.2 link and playback checks
+
+Native category URLs now take priority. Where category selectors provide no URL, replace the manual draft-domain destination with the real store category URL before launch. Check all three links in Arabic and English in a fresh draft. Verify laser play, pause, panel switching and retry after a failed video. Partner portal currently reports Incorrect device time, so the new draft check remains pending.

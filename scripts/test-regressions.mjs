@@ -463,3 +463,13 @@ console.log('PASS: dual product badges, product payment cleanup, and 3-column po
   assert.match(appJs, /SALLA-PRODUCT-OPTIONS/, 'v1.7.32 scopes notification silencing to product option interaction');
 }
 console.log('PASS: v1.7.32 out-of-stock variant selections stay inline without notification toasts.');
+
+const englishDraft={href:'https://salla.design/en/dev-zod?signature=private'};
+const arCategory='https://salla.design/ar/dev-zod/fans/c123?sort=price#products';
+assert.equal(previewLinks.normalizeCategoryLocale(arCategory,englishDraft,'en'),'https://salla.design/en/dev-zod/fans/c123?sort=price#products');
+for(const href of ['https://other.test/ar/fans/c123','https://salla.design/ar/dev-other/fans/c123','https://salla.design/ar/dev-zod/product/p123','mailto:test@example.test']) {
+ assert.equal(previewLinks.normalizeCategoryLocale(href,englishDraft,'en'),href,'unrelated destinations unchanged');
+}
+assert.equal(previewLinks.normalizeCategoryLocale('/en/fans/c123',{href:'https://shop.example/ar'},'ar'),'https://shop.example/ar/fans/c123');
+assert.equal(previewLinks.normalizeCategoryLocale(arCategory,englishDraft,'fr'),arCategory);
+console.log('PASS: scoped category locale routing, external/store isolation and query preservation.');
