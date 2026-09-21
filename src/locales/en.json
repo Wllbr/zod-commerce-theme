@@ -473,6 +473,18 @@
         "group_1": "وحدات تشغيل",
         "group_2": "بروفايلات وملحقات"
       }
+    },
+    "hero_products": {
+      "intercom_title": "See who’s there. Welcome with confidence.",
+      "intercom_text": "COMMAX 70QT monitor and 40K door camera. Explore entrance communication.",
+      "intercom_cta": "Shop intercom",
+      "ventilation_title": "Fresh air. Everyday comfort.",
+      "ventilation_text": "Explore KDK 25AUA and ventilation solutions for your space.",
+      "ventilation_cta": "Explore ventilation",
+      "insects_title": "A more comfortable space.",
+      "insects_text": "Ocarina insect zappers and insect-control products for home and work.",
+      "insects_cta": "Shop insect control",
+      "navigation": "Swipe or use arrow keys to change campaign. Escape stops rotation."
     }
   }
 }

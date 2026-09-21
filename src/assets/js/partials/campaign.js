@@ -14,6 +14,7 @@ export const initCampaign = section => {
     if (!paused && !hovered && !focused && visible && !document.hidden && !motion.matches && section.isConnected) timer = setTimeout(() => show(index + 1), 6500);
   };
   const updateToggle = () => {
+    if (!toggle) return;
     toggle.setAttribute('aria-pressed', String(paused));
     toggle.setAttribute('aria-label', paused ? section.dataset.play : section.dataset.pause);
     toggle.querySelector('span').textContent = paused ? '▶' : 'Ⅱ';
@@ -25,10 +26,10 @@ export const initCampaign = section => {
     schedule();
   };
   const manual = next => { paused = true; updateToggle(); show(next); };
-  section.querySelector('[data-campaign-next]').addEventListener('click', () => manual(index + 1));
-  section.querySelector('[data-campaign-prev]').addEventListener('click', () => manual(index - 1));
+  section.querySelector('[data-campaign-next]')?.addEventListener('click', () => manual(index + 1));
+  section.querySelector('[data-campaign-prev]')?.addEventListener('click', () => manual(index - 1));
   dots.forEach((dot,i) => dot.addEventListener('click', () => manual(i)));
-  toggle.addEventListener('click', () => { paused = !paused; updateToggle(); schedule(); });
+  toggle?.addEventListener('click', () => { paused = !paused; updateToggle(); schedule(); });
   section.addEventListener('mouseenter', () => { hovered = true; stop(); });
   section.addEventListener('mouseleave', () => { hovered = false; schedule(); });
   section.addEventListener('focusin', () => { focused = true; stop(); });
@@ -40,6 +41,13 @@ export const initCampaign = section => {
     if (Math.abs(x) > 55 && Math.abs(x) > Math.abs(y) * 1.5) manual(index + ((x > 0) === (document.documentElement.dir === 'rtl') ? 1 : -1));
     touchX = touchY = null;
   }, {passive:true});
+  viewport.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {paused=true;stop();return;}
+    if (!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+    event.preventDefault();
+    const rtl=document.documentElement.dir==='rtl';
+    manual(event.key==='Home'?0:event.key==='End'?slides.length-1:index+((event.key==='ArrowRight')===rtl?-1:1));
+  });
   document.addEventListener('visibilitychange', schedule);
   motion.addEventListener?.('change', () => { if (motion.matches) paused = true; updateToggle(); schedule(); });
   if ('IntersectionObserver' in window) new IntersectionObserver(entries => { visible = entries.some(e=>e.isIntersecting); schedule(); }).observe(section);

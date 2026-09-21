@@ -5,34 +5,26 @@
   {% set category_url = category.url|default(component[slot ~ '_url']|default(null)) %}
   {% set category_urls = category_urls|merge({(slot): category_url}) %}
 {% endfor %}
-{% set campaign_title = component.campaign_title|default(trans('zod.campaign.title')) %}
-{% set campaign_text = component.campaign_text|default(trans('zod.campaign.intro')) %}
 {% set campaigns = [
-  {image:component.campaign_image|default('images/campaign-home.webp'|asset), title:campaign_title, text:campaign_text, url:category_urls.intercom},
-  {image:component.power_image|default('images/campaign-power.webp'|asset), title:component.power_title|default(trans('zod.campaign.power_title')), text:component.power_text|default(trans('zod.campaign.power_text')), url:component.power_url|default(null)},
-  {image:component.comfort_image|default('images/campaign-living.webp'|asset), title:trans('zod.campaign.comfort_title'), text:trans('zod.campaign.comfort_text'), url:category_urls.exhaust}
+ {key:'intercom', image:component.hero_intercom_image|default('images/hero-commax.webp'|asset), url:category_urls.intercom},
+ {key:'ventilation', image:component.hero_ventilation_image|default('images/hero-kdk.webp'|asset), url:category_urls.exhaust},
+ {key:'insects', image:component.hero_insects_image|default('images/hero-ocarina.webp'|asset), url:category_urls.insect}
 ] %}
-<section class="zod-campaign container" data-zod-campaign data-autoplay="{{ component.campaign_autoplay is defined and not component.campaign_autoplay ? 'false' : 'true' }}" data-play="{{ trans('zod.campaign.play') }}" data-pause="{{ trans('zod.campaign.pause') }}" aria-label="{{ trans('zod.campaign.eyebrow') }}" aria-roledescription="carousel">
-  <div class="zod-campaign__viewport" data-campaign-viewport>
-    {% for campaign in campaigns %}
-    <article class="zod-campaign__slide" data-campaign-slide role="group" aria-roledescription="slide" aria-label="{{ loop.index }} / {{ campaigns|length }}" {% if not loop.first %}hidden{% endif %}>
-      <img class="zod-campaign__art" src="{{ campaign.image }}" width="1536" height="1024" alt="" decoding="async" {{ loop.first ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"' }}>
-      <div class="zod-campaign__copy"><span class="zod-campaign__eyebrow">{{ trans('zod.campaign.eyebrow') }}</span><h2>{{ campaign.title }}</h2><p>{{ campaign.text }}</p>
-        {% if campaign.url %}<a class="zod-campaign__cta" data-zod-category-link href="{{ campaign.url }}">{{ trans('zod.campaign.explore') }} <span aria-hidden="true">↗</span></a>{% endif %}
-      </div>
-      <span class="zod-campaign__edition" aria-hidden="true">ZOD / 0{{ loop.index }}</span>
-    </article>
-    {% endfor %}
-  </div>
-  <div class="zod-campaign__controls">
-    <button type="button" data-campaign-prev aria-label="{{ trans('zod.campaign.previous') }}">→</button>
-    <div class="zod-campaign__dots">{% for campaign in campaigns %}<button type="button" data-campaign-dot aria-label="{{ trans('zod.campaign.slide') }} {{ loop.index }}" aria-pressed="{{ loop.first ? 'true' : 'false' }}"><span></span></button>{% endfor %}</div>
-    <button type="button" data-campaign-next aria-label="{{ trans('zod.campaign.next') }}">←</button>
-    <button type="button" data-campaign-pause aria-label="{{ trans('zod.campaign.pause') }}" aria-pressed="false"><span aria-hidden="true">Ⅱ</span></button>
-  </div>
-<div class="zod-offer-tiles">
-    {% if component.show_shipping %}{% include 'components.shipping-progress' %}{% endif %}
-    {% if component.show_mada and component.mada_terms %}<article class="zod-offer-tile is-mada"><span class="zod-offer-tile__number" aria-hidden="true">5<span>%</span></span><div><strong>{{ trans('zod.campaign.mada') }}</strong><p>{{ trans('zod.campaign.mada_text') }}</p><a href="{{ component.mada_terms }}">{{ trans('zod.campaign.terms') }} ↗</a></div></article>{% endif %}
-    <a class="zod-offer-tile is-offers" href="{{ link('offers') }}"><span class="zod-offer-tile__number" aria-hidden="true">↗</span><div><strong>{{ trans('zod.campaign.offers') }}</strong><p>{{ trans('zod.campaign.offers_text') }}</p></div></a>
-  </div>
+<section class="zod-campaign container" data-zod-campaign data-autoplay="{{ component.campaign_autoplay is defined and not component.campaign_autoplay ? 'false' : 'true' }}" aria-label="{{ trans('zod.campaign.eyebrow') }}" aria-roledescription="carousel">
+ <div class="zod-campaign__viewport" data-campaign-viewport tabindex="0" aria-label="{{ trans('zod.hero_products.navigation') }}">
+ {% for campaign in campaigns %}
+  <article class="zod-campaign__slide" data-campaign-slide role="group" aria-roledescription="slide" aria-label="{{ trans('zod.hero_products.' ~ campaign.key ~ '_cta') }}" {% if not loop.first %}hidden{% endif %}>
+   <div class="zod-campaign__copy">
+    <h2>{{ component['hero_' ~ campaign.key ~ '_title']|default(trans('zod.hero_products.' ~ campaign.key ~ '_title')) }}</h2>
+    <p>{{ component['hero_' ~ campaign.key ~ '_text']|default(trans('zod.hero_products.' ~ campaign.key ~ '_text')) }}</p>
+    {% if campaign.url %}<a class="zod-campaign__cta" data-zod-category-link href="{{ campaign.url }}">{{ trans('zod.hero_products.' ~ campaign.key ~ '_cta') }}</a>{% endif %}
+   </div>
+   <img class="zod-campaign__art" src="{{ campaign.image }}" width="1536" height="1024" alt="" decoding="async" {{ loop.first ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"' }}>
+  </article>
+ {% endfor %}
+ </div>
+ <div class="zod-offer-tiles">
+  {% if component.show_shipping %}{% include 'components.shipping-progress' with {shipping_component:component} %}{% endif %}
+  {% if component.show_mada and component.mada_terms %}<article class="zod-offer-tile is-mada"><span class="zod-offer-tile__number" aria-hidden="true">5<span>%</span></span><div><strong>{{ trans('zod.campaign.mada') }}</strong><p>{{ trans('zod.campaign.mada_text') }}</p><a href="{{ component.mada_terms }}">{{ trans('zod.campaign.terms') }}</a></div></article>{% endif %}
+ </div>
 </section>

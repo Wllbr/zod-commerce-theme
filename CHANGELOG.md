@@ -1,3 +1,11 @@
+# 1.9.9 — independent component targets and product hero
+
+- Per-instance shipping amount, discount basis, copy and icons; all hosts share one cart refresh while calculating independently.
+- Rebuilt hero for desktop and mobile; removed visible playback/arrows/dots/numbering and obsolete editor fields.
+- Generated product-reference artwork: COMMAX CDV-70QT + DRC-40K, KDK 25AUA series, Ocarina metal insect zapper. Artwork is illustrative, not a substitute for product specifications.
+- Reused relevant COMMAX/KDK art in their department panels and removed superseded imagery from the package.
+- Regression coverage for independent hosts and carousel operation without controls.
+
 # 1.9.8 — manual free-shipping campaign
 
 - Replaced native shipping eligibility dependency with an editable merchant target.

@@ -18,12 +18,8 @@ export const goalState = (cart, target, afterDiscount = true) => {
 };
 export const shippingMessage = (template, remaining, target) => String(template).replaceAll('{remaining}',remaining).replaceAll('{target}',target);
 
-export const initShippingGoal = () => {
-  const widget = document.querySelector('[data-shipping-widget]');
-  const hosts = [...document.querySelectorAll('[data-shipping-goal]')];
-  if (!hosts.length || document.documentElement.dataset.shippingReady) return;
-  document.documentElement.dataset.shippingReady = 'true';
-  const config = hosts[0].dataset;
+const shippingController = (host, widget) => {
+  const config = host.dataset;
   const ar = document.documentElement.lang.startsWith('ar');
   const format = n => new Intl.NumberFormat(ar ? 'ar-SA' : 'en', {maximumFractionDigits:2}).format(n);
   const money = n => {
@@ -41,7 +37,7 @@ export const initShippingGoal = () => {
   const toggle = widget?.querySelector('[data-shipping-toggle]');
   const popup = widget?.querySelector('[data-shipping-popup]');
   const live = widget?.querySelector('[data-shipping-live]');
-  let revision = 0, timer, closeTimer, previous, showNotice = false, wasComplete = false;
+  let closeTimer, previous, wasComplete = false;
   const close = () => { if(popup) popup.hidden = true; toggle?.setAttribute('aria-expanded','false'); };
   const open = () => { clearTimeout(closeTimer); if(popup) popup.hidden = false; toggle?.setAttribute('aria-expanded','true'); };
   toggle?.addEventListener('click', () => popup.hidden ? open() : close());
@@ -49,7 +45,7 @@ export const initShippingGoal = () => {
   widget?.addEventListener('keydown', e => { if (e.key === 'Escape') { close(); toggle.focus(); } });
   const render = (state, notify) => {
     const message = shippingMessage(state ? (state.complete ? successText : progressText) : initialText, money(state?.remaining ?? target), money(target));
-    hosts.forEach(host => {
+    [host].forEach(host => {
       host.hidden = false; host.closest?.('[data-shipping-section]')?.removeAttribute('hidden');
       host.classList.toggle('is-unconfirmed',!state);
       host.classList.toggle('is-complete',Boolean(state?.complete));
@@ -77,21 +73,30 @@ export const initShippingGoal = () => {
     }
     wasComplete=Boolean(state?.complete); previous=message;
   };
-  const refresh = (notify=false) => {
-    const current=++revision; showNotice=showNotice||notify; clearTimeout(timer);
+  render(null,false);
+  return (cart,notify)=>{const state=goalState(cart,target,afterDiscount);if(state)render(state,notify);};
+};
+
+export const initShippingGoal = () => {
+  const hosts=[...document.querySelectorAll('[data-shipping-goal]')];
+  if(!hosts.length || document.documentElement.dataset.shippingReady)return;
+  document.documentElement.dataset.shippingReady='true';
+  const widget=document.querySelector('[data-shipping-widget]');
+  const controllers=hosts.map(host=>shippingController(host,host===widget?widget:null)).filter(Boolean);
+  if(!controllers.length)return;
+  let revision=0,timer,showNotice=false;
+  const refresh=(notify=false)=>{
+    const current=++revision;showNotice=showNotice||notify;clearTimeout(timer);
     timer=setTimeout(async()=>{
-      try {
+      try{
         const response=await window.salla.cart.details();
-        if(current!==revision) return;
+        if(current!==revision)return;
         const roots=[response?.data?.cart,response?.cart,response?.data?.data,response?.data,response];
         const cart=roots.find(r=>r && typeof r==='object' && 'sub_total' in r);
-        const state=goalState(cart,target,afterDiscount);
-        // Incomplete/failed requests never reset a confirmed basket to zero.
-        if(state) {render(state,showNotice);showNotice=false;}
-      } catch (_) {}
+        if(cart){controllers.forEach(render=>render(cart,showNotice));showNotice=false;}
+      }catch(_){}
     },180);
   };
-  render(null,false);
   const boot=()=>{
     refresh();
     const events=window.salla.cart?.event;

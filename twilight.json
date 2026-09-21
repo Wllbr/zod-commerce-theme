@@ -428,56 +428,6 @@
           "maxLength": 800
         },
         {
-          "id": "campaign_title",
-          "label": "عنوان الحملة الرئيسية",
-          "type": "string",
-          "icon": "sicon-format-text-alt",
-          "format": "text",
-          "value": "شوف زائرك. وتواصل بوضوح.",
-          "required": false,
-          "maxLength": 220
-        },
-        {
-          "id": "campaign_text",
-          "label": "وصف الحملة الرئيسية",
-          "type": "string",
-          "icon": "sicon-format-text-alt",
-          "format": "textarea",
-          "value": "شاشات إنتركوم وكاميرات أبواب وسماعات داخلية. اختر النظام المناسب لمدخل منزلك أو مشروعك.",
-          "required": false,
-          "maxLength": 220
-        },
-        {
-          "id": "power_url",
-          "label": "رابط مجموعة الكهرباء",
-          "type": "string",
-          "icon": "sicon-format-text-alt",
-          "format": "url",
-          "value": null,
-          "required": false,
-          "maxLength": 800
-        },
-        {
-          "id": "power_title",
-          "label": "عنوان حملة الكهرباء",
-          "type": "string",
-          "icon": "sicon-format-text-alt",
-          "format": "text",
-          "value": "توصيلة تناسب مكانك.",
-          "required": false,
-          "maxLength": 220
-        },
-        {
-          "id": "power_text",
-          "label": "وصف حملة الكهرباء",
-          "type": "string",
-          "icon": "sicon-format-text-alt",
-          "format": "textarea",
-          "value": "بكرات كهرباء وتوصيلات مكتبية ومشتركات متعددة. اختر الطول وعدد المخارج المناسبين.",
-          "required": false,
-          "maxLength": 220
-        },
-        {
           "id": "campaign_autoplay",
           "label": "تبديل البنرات تلقائياً",
           "type": "boolean",
@@ -485,7 +435,8 @@
           "format": "switch",
           "value": true,
           "selected": true,
-          "required": false
+          "required": false,
+          "description": "تبديل تلقائي بلا أزرار أو نقاط. يمكن السحب بين الصور، أو استخدام الأسهم بلوحة المفاتيح. Escape يوقف التبديل. تُحترم الحركة المخفّضة."
         },
         {
           "id": "show_shipping",
@@ -508,16 +459,6 @@
           "required": false
         },
         {
-          "id": "shipping_terms",
-          "label": "رابط شروط الشحن",
-          "type": "string",
-          "icon": "sicon-format-text-alt",
-          "format": "url",
-          "value": null,
-          "required": false,
-          "maxLength": 800
-        },
-        {
           "id": "mada_terms",
           "label": "رابط شروط عرض مدى",
           "type": "string",
@@ -528,46 +469,182 @@
           "maxLength": 800
         },
         {
-          "id": "campaign_image",
-          "label": "صورة الحملة الرئيسية",
+          "id": "shipping_goal_target",
           "type": "string",
-          "icon": "sicon-image",
-          "format": "image",
-          "value": null,
-          "required": false,
-          "description": "اختياري. تستخدم الصورة الإبداعية المرفقة عند تركه فارغاً. بدون نص مدمج؛ يظهر النص مستقلاً فوق الصورة.",
-          "settings": {
-            "width": 1536,
-            "height": 1024
-          }
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "مبلغ الوصول إلى الشحن المجاني",
+          "value": "350",
+          "description": "هدف هذا المكوّن فقط. عدّله إلى أي مبلغ بعملة المتجر. الأيقونة العائمة تُعدّل من خيارات التصميم.",
+          "maxLength": 20,
+          "required": false
         },
         {
-          "id": "power_image",
-          "label": "صورة حملة الكهرباء",
-          "type": "string",
-          "icon": "sicon-image",
-          "format": "image",
-          "value": null,
-          "required": false,
-          "description": "اختياري. تستخدم الصورة الإبداعية المرفقة عند تركه فارغاً. بدون نص مدمج؛ يظهر النص مستقلاً فوق الصورة.",
-          "settings": {
-            "width": 1536,
-            "height": 1024
-          }
+          "id": "shipping_after_discount",
+          "type": "boolean",
+          "format": "switch",
+          "icon": "sicon-toggle-off",
+          "label": "احتساب قيمة المنتجات بعد الخصومات",
+          "value": true,
+          "selected": true,
+          "description": "عند إيقافه تحتسب قيمة المنتجات قبل الخصم. رسوم الشحن والدفع لا تدخل في التقدم.",
+          "required": false
         },
         {
-          "id": "comfort_image",
-          "label": "صورة حملة التهوية",
+          "id": "shipping_initial_text",
           "type": "string",
-          "icon": "sicon-image",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "نص الهدف أثناء تحميل السلة",
+          "value": "شحن مجاني للطلبات من {target}",
+          "description": "{target} = المبلغ المطلوب مع العملة. اتركه فارغاً للنص الافتراضي حسب اللغة.",
+          "maxLength": 220,
+          "required": false
+        },
+        {
+          "id": "shipping_remaining_text",
+          "type": "string",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "نص المبلغ المتبقي",
+          "value": "باقي لك {remaining} للشحن المجاني",
+          "description": "{remaining} = المبلغ المتبقي، {target} = المبلغ المطلوب. استخدم الرموز كما هي.",
+          "maxLength": 220,
+          "required": false
+        },
+        {
+          "id": "shipping_success_text",
+          "type": "string",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "رسالة الوصول إلى الهدف",
+          "value": "مبروك! شحنك مجاني 🎉",
+          "description": "تظهر عند بلوغ مبلغ الهدف. اتركه فارغاً للنص الافتراضي حسب اللغة.",
+          "maxLength": 220,
+          "required": false
+        },
+        {
+          "id": "shipping_terms_text",
+          "type": "string",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "وصف أو شروط العرض تحت الرسالة",
+          "value": "وفق شروط الشحن في المتجر",
+          "description": "اختياري. يظهر كما تكتبه؛ اتركه فارغاً لإخفائه.",
+          "maxLength": 220,
+          "required": false
+        },
+        {
+          "id": "shipping_icon",
+          "type": "string",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "رمز الأيقونة قبل بلوغ الهدف",
+          "value": "🚚",
+          "description": "رمز تعبيري أو نص قصير.",
+          "maxLength": 8,
+          "required": false
+        },
+        {
+          "id": "shipping_complete_icon",
+          "type": "string",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "رمز الأيقونة بعد بلوغ الهدف",
+          "value": "🎉",
+          "description": "رمز تعبيري أو نص قصير.",
+          "maxLength": 8,
+          "required": false
+        },
+        {
+          "id": "hero_intercom_title",
+          "type": "string",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "عنوان حملة الإنتركوم",
+          "value": "شوف زائرك. افتح بثقة.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "hero_intercom_text",
+          "type": "string",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "وصف حملة الإنتركوم",
+          "value": "شاشة COMMAX 70QT وكاميرا 40K. اكتشف حلول الاتصال لمدخل منزلك.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "hero_intercom_image",
+          "type": "string",
           "format": "image",
+          "icon": "sicon-image",
+          "label": "صورة حملة الإنتركوم — اختياري",
           "value": null,
           "required": false,
-          "description": "اختياري. تستخدم الصورة الإبداعية المرفقة عند تركه فارغاً. بدون نص مدمج؛ يظهر النص مستقلاً فوق الصورة.",
-          "settings": {
-            "width": 1536,
-            "height": 1024
-          }
+          "description": "اتركها فارغة لاستخدام الصورة المولدة المطابقة للمنتج."
+        },
+        {
+          "id": "hero_ventilation_title",
+          "type": "string",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "عنوان حملة التهوية",
+          "value": "هواء يتجدد. راحة تدوم.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "hero_ventilation_text",
+          "type": "string",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "وصف حملة التهوية",
+          "value": "KDK 25AUA ضمن مجموعة حلول الشفط والتهوية لمساحتك.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "hero_ventilation_image",
+          "type": "string",
+          "format": "image",
+          "icon": "sicon-image",
+          "label": "صورة حملة التهوية — اختياري",
+          "value": null,
+          "required": false,
+          "description": "اتركها فارغة لاستخدام الصورة المولدة المطابقة للمنتج."
+        },
+        {
+          "id": "hero_insects_title",
+          "type": "string",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "عنوان حملة مكافحة الحشرات",
+          "value": "مساحتك أريح.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "hero_insects_text",
+          "type": "string",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "وصف حملة مكافحة الحشرات",
+          "value": "صواعق Ocarina وحلول مكافحة الحشرات للمنزل والعمل.",
+          "required": false,
+          "maxLength": 220
+        },
+        {
+          "id": "hero_insects_image",
+          "type": "string",
+          "format": "image",
+          "icon": "sicon-image",
+          "label": "صورة حملة مكافحة الحشرات — اختياري",
+          "value": null,
+          "required": false,
+          "description": "اتركها فارغة لاستخدام الصورة المولدة المطابقة للمنتج."
         }
       ]
     },
@@ -5533,9 +5610,97 @@
           "type": "boolean",
           "format": "switch",
           "label": "إظهار مكوّن هدف الشحن المجاني",
-          "description": "عدّل المبلغ والنصوص والرموز والإشعارات من خيارات التصميم ← إعدادات هدف الشحن المجاني اليدوي. تتشارك الأيقونة والبنر وهذا المكوّن الإعدادات نفسها.",
+          "description": "المبلغ والنصوص أدناه خاصة بنسخة هذا المكوّن. يمكنك إضافة نسخ بأهداف مختلفة. الأيقونة العائمة لها إعدادات مستقلة في خيارات التصميم.",
           "value": true,
           "selected": true,
+          "required": false
+        },
+        {
+          "id": "shipping_goal_target",
+          "type": "string",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "مبلغ الوصول إلى الشحن المجاني",
+          "value": "350",
+          "description": "هدف هذا المكوّن فقط. عدّله إلى أي مبلغ بعملة المتجر. الأيقونة العائمة تُعدّل من خيارات التصميم.",
+          "maxLength": 20,
+          "required": false
+        },
+        {
+          "id": "shipping_after_discount",
+          "type": "boolean",
+          "format": "switch",
+          "icon": "sicon-toggle-off",
+          "label": "احتساب قيمة المنتجات بعد الخصومات",
+          "value": true,
+          "selected": true,
+          "description": "عند إيقافه تحتسب قيمة المنتجات قبل الخصم. رسوم الشحن والدفع لا تدخل في التقدم.",
+          "required": false
+        },
+        {
+          "id": "shipping_initial_text",
+          "type": "string",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "نص الهدف أثناء تحميل السلة",
+          "value": "شحن مجاني للطلبات من {target}",
+          "description": "{target} = المبلغ المطلوب مع العملة. اتركه فارغاً للنص الافتراضي حسب اللغة.",
+          "maxLength": 220,
+          "required": false
+        },
+        {
+          "id": "shipping_remaining_text",
+          "type": "string",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "نص المبلغ المتبقي",
+          "value": "باقي لك {remaining} للشحن المجاني",
+          "description": "{remaining} = المبلغ المتبقي، {target} = المبلغ المطلوب. استخدم الرموز كما هي.",
+          "maxLength": 220,
+          "required": false
+        },
+        {
+          "id": "shipping_success_text",
+          "type": "string",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "رسالة الوصول إلى الهدف",
+          "value": "مبروك! شحنك مجاني 🎉",
+          "description": "تظهر عند بلوغ مبلغ الهدف. اتركه فارغاً للنص الافتراضي حسب اللغة.",
+          "maxLength": 220,
+          "required": false
+        },
+        {
+          "id": "shipping_terms_text",
+          "type": "string",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "وصف أو شروط العرض تحت الرسالة",
+          "value": "وفق شروط الشحن في المتجر",
+          "description": "اختياري. يظهر كما تكتبه؛ اتركه فارغاً لإخفائه.",
+          "maxLength": 220,
+          "required": false
+        },
+        {
+          "id": "shipping_icon",
+          "type": "string",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "رمز الأيقونة قبل بلوغ الهدف",
+          "value": "🚚",
+          "description": "رمز تعبيري أو نص قصير.",
+          "maxLength": 8,
+          "required": false
+        },
+        {
+          "id": "shipping_complete_icon",
+          "type": "string",
+          "format": "text",
+          "icon": "sicon-format-text-alt",
+          "label": "رمز الأيقونة بعد بلوغ الهدف",
+          "value": "🎉",
+          "description": "رمز تعبيري أو نص قصير.",
+          "maxLength": 8,
           "required": false
         }
       ]
@@ -5546,5 +5711,5 @@
     "ar": "ثيم متجر زود التجاري — واجهة احترافية ثنائية اللغة للمنتجات التقنية والإلكترونية والأجهزة.",
     "en": "ZOD Commerce — a professional bilingual storefront for technical products, electronics, appliances, and equipment."
   },
-  "version": "1.9.8"
+  "version": "1.9.9"
 }

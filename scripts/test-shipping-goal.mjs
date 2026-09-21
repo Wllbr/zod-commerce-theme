@@ -29,7 +29,9 @@ popup.contains=element=>element===closeButton;
 const widget={...node(),dataset:{shippingTarget:'350',shippingRemaining:'Only {remaining} to {target}',shippingSuccess:'Delivery is free!'},style:{setProperty(){}},classList:{toggle(){},remove(){},add(){}},
   querySelector:selector=>({'[data-shipping-toggle]':toggle,'[data-shipping-popup]':popup,'[data-shipping-close]':closeButton,'[data-shipping-live]':live}[selector]),
   querySelectorAll:selector=>({'[data-shipping-message]':[message],'[data-shipping-progress]':[progress],'[data-shipping-icon]':[icon]}[selector]||[])};
-const doc={documentElement:{lang:'en',dataset:{}},activeElement:null,events:{},querySelector:()=>widget,querySelectorAll:()=>[widget],addEventListener(name,fn){this.events[name]=fn}};
+const componentMessage=node(),componentProgress=node();
+const component={...widget,dataset:{shippingTarget:'500',shippingRemaining:'Section {remaining} / {target}'},querySelector:()=>null,querySelectorAll:selector=>({'[data-shipping-message]':[componentMessage],'[data-shipping-progress]':[componentProgress]}[selector]||[])};
+const doc={documentElement:{lang:'en',dataset:{}},activeElement:null,events:{},querySelector:()=>widget,querySelectorAll:()=>[component,widget],addEventListener(name,fn){this.events[name]=fn}};
 const callbacks={},requests=[],timers=new Map();let serial=0;
 const event=Object.fromEntries(['onItemAdded','onItemUpdated','onItemDeleted','onCouponAdded','onCouponDeleted'].map(name=>[name,fn=>callbacks[name]=fn]));
 const runtime={document:doc,Intl,window:{matchMedia:()=>({matches:false}),salla:{onReady:()=>Promise.resolve(),cart:{event,details:()=>new Promise((resolve,reject)=>requests.push({resolve,reject}))}}},
@@ -41,9 +43,12 @@ assert.equal(widget.hidden,false,'manual target is visible before SDK confirmati
 assert.equal(progress.hidden,true,'unknown eligibility must not show a progress claim');
 await tick();fire(180);requests[0].resolve({data:cart(200)});await tick();
 assert.equal(widget.hidden,false);assert.equal(message.textContent,'Only 150 to 350');
+assert.equal(componentMessage.textContent,'Section 300 / 500','component before widget retains its independent target');
+assert.equal(requests.length,1,'multiple components share one cart request');
 callbacks.onItemAdded();fire(180);callbacks.onCouponAdded();fire(180);
 requests[2].resolve({data:{cart:cart(350)}});await tick();
 assert.equal(icon.textContent,'🎉');assert.equal(popup.hidden,false);
+assert.equal(componentMessage.textContent,'Section 150 / 500');assert.equal(componentProgress.attrs['aria-valuenow'],'70');
 requests[1].resolve({data:cart(210)});await tick();
 assert.equal(icon.textContent,'🎉','late response cannot overwrite current cart');
 doc.activeElement=closeButton;fire(5500);assert.equal(popup.hidden,false,'focused popup cannot disappear on timer');

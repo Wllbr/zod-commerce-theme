@@ -1,5 +1,5 @@
 {% if component.enabled is not defined or component.enabled %}
 <section class="zod-section zod-shipping-section" data-shipping-section hidden><div class="container">
- {% include 'components.shipping-progress' %}
+ {% include 'components.shipping-progress' with {shipping_component:component} %}
 </div></section>
 {% endif %}
