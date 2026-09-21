@@ -220,20 +220,10 @@
       "type": "boolean",
       "format": "switch",
       "icon": "sicon-shipping-fast",
-      "label": "إظهار تقدم الشحن المجاني — اضبط العرض الفعلي في سلة",
+      "label": "أيقونة تقدم الشحن — تتبع عرض الشحن المجاني في سلة",
       "value": true,
       "selected": true,
       "required": false
-    },
-    {
-      "id": "shipping_goal_amount",
-      "type": "number",
-      "format": "units",
-      "label": "هدف الشحن المجاني بالريال",
-      "icon": "sicon-shipping-fast",
-      "value": 350,
-      "required": true,
-      "minimum": 1
     }
   ],
   "components": [
@@ -389,7 +379,7 @@
         },
         {
           "id": "show_shipping",
-          "label": "إظهار إعلان الشحن المجاني — بعد ضبط شروط الشحن",
+          "label": "عرض تقدم الشحن حسب العرض الفعّال في سلة",
           "type": "boolean",
           "icon": "sicon-toggle-off",
           "format": "switch",
@@ -5418,6 +5408,27 @@
           "description": "المجموعات غير المرتبطة بمنتجات أو تصنيف تبقى مخفية. املأ القائمة لاستبدال المجموعات الجاهزة. تجهيز زود الحالي موضح في دليل الأقسام."
         }
       ]
+    },
+    {
+      "key": "cfe82b72-f5be-4cea-8562-3d543ce849fd",
+      "title": {
+        "ar": "تقدم الشحن المجاني — عروض سلة",
+        "en": "Free shipping progress — Salla offers"
+      },
+      "icon": "sicon-shipping-fast",
+      "path": "home.shipping-progress",
+      "fields": [
+        {
+          "id": "enabled",
+          "type": "boolean",
+          "format": "switch",
+          "label": "إظهار المؤشر عند وجود عرض شحن مجاني فعّال",
+          "description": "المبلغ والتقدم من سلة تلقائياً. عند إيقاف العرض يختفي المكوّن. إعداد الأيقونة العائمة في خيارات الثيم.",
+          "value": true,
+          "selected": true,
+          "required": false
+        }
+      ]
     }
   ],
   "support_url": "https://zodstore.sa/",
@@ -5425,5 +5436,5 @@
     "ar": "ثيم متجر زود التجاري — واجهة احترافية ثنائية اللغة للمنتجات التقنية والإلكترونية والأجهزة.",
     "en": "ZOD Commerce — a professional bilingual storefront for technical products, electronics, appliances, and equipment."
   },
-  "version": "1.9.5"
+  "version": "1.9.6"
 }

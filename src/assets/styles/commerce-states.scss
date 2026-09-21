@@ -1,0 +1,17 @@
+[data-shipping-goal][hidden],[data-shipping-section][hidden]{display:none!important}
+.zod-shipping-section .zod-offer-tile{max-width:720px;margin:auto}
+.zod-commerce #zod-notifications .zod-notice{border-radius:12px;background:#fff;color:#24343a;border:1px solid #d8e5dd;box-shadow:0 8px 30px #14281a20;font-size:13px;line-height:1.6;animation:none;max-width:min(420px,calc(100vw - 24px))}
+.zod-commerce #zod-notifications .zod-notice:before{display:none}.zod-commerce #zod-notifications .zod-notice.is-error{color:#8d2424;border-color:#e4baba;background:#fff8f8}.zod-commerce #zod-notifications .zod-notice button{width:40px;height:40px;flex:none;border-radius:8px;font-size:22px}.zod-commerce #zod-notifications .zod-notice.is-collapsing{opacity:0;transition:opacity .25s}
+@media(max-width:1023px){
+ body.zod-commerce.has-mobile-bottom-nav{padding-bottom:calc(var(--zod-navigation-height,68px) + var(--zod-fixed-action-height,0px) + 20px)!important}
+ body.zod-commerce.has-mobile-bottom-nav .zod-mobile-dock{display:flex!important;position:fixed!important;bottom:0!important;transform:none!important;visibility:visible!important;opacity:1!important;height:calc(68px + env(safe-area-inset-bottom));z-index:110!important}
+ body.zod-commerce.product-single .zod-buy-controls.is-docked{bottom:var(--zod-navigation-height,0px)!important;z-index:109!important;padding-bottom:10px!important}
+ body.zod-commerce.has-mobile-bottom-nav.product-single .zod-buy-controls.is-docked{bottom:var(--zod-navigation-height,68px)!important}
+ body.zod-commerce salla-cart-summary-card.zod-cart-summary-card{display:block!important;bottom:var(--zod-navigation-height,0px)!important;z-index:109!important;border:1px solid #e3e7e8;border-bottom:0;box-shadow:0 -6px 24px #14231c12;padding-bottom:8px;border-radius:16px 16px 0 0}
+ .zod-commerce .s-cart-summary-card-sheet-wrap{max-height:45vh;overflow:auto}.zod-commerce .s-cart-summary-card-action{padding-inline:14px}.zod-commerce .zod-cart-summary-intro{display:none}
+ body.zod-commerce.product-single .zod-dock-search,body.zod-commerce.cart-page .zod-dock-search{width:32px!important;height:32px!important;margin-top:0!important;border:0!important;box-shadow:none!important}
+ body.zod-commerce .zod-shipping-widget,body.zod-commerce .zod-whatsapp-float{bottom:calc(var(--zod-navigation-height,0px) + var(--zod-fixed-action-height,0px) + 14px)!important}
+ body.zod-commerce #zod-notifications{bottom:calc(var(--zod-navigation-height,0px) + var(--zod-fixed-action-height,0px) + 20px)!important;z-index:200}
+ .zod-commerce .zod-cart-item{border-radius:14px}.zod-commerce .zod-cart-item__price{flex-wrap:wrap;justify-content:flex-end}.zod-commerce .zod-cart-item-offer-details>summary small{font-size:11px}
+ .zod-commerce .zod-brand-hero{grid-template-columns:72px minmax(0,1fr);gap:16px;padding:18px;text-align:start;margin-bottom:20px}.zod-commerce .zod-brand-hero__logo{width:72px;height:72px;padding:8px;margin:0}.zod-commerce .zod-brand-hero h1{font-size:26px}.zod-commerce .zod-brand-hero .zod-eyebrow{margin-bottom:4px}.zod-commerce .zod-brand-hero.no-logo{grid-template-columns:1fr}
+}

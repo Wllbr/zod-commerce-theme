@@ -122,7 +122,7 @@ class ZodAddProductToast extends HTMLElement {
 
   startTimer() {
     clearInterval(this.timer);
-    this.remaining = 8000;
+    this.remaining = 5000;
     this.timer = setInterval(() => {
       if (document.hidden || this.hovered || this.focused) return;
       this.remaining -= 250;

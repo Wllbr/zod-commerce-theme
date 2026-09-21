@@ -262,7 +262,7 @@
       "unit_price": "Unit price",
       "line_total": "Item total",
       "review_summary": "Review total and checkout",
-      "native_summary_hint": "Discounts, delivery charges, tax and checkout are shown in Salla’s order summary below.",
+      "native_summary_hint": "Review your total and applied discounts before checkout.",
       "latest_products": "Latest products",
       "items_count": "Items"
     },
@@ -348,7 +348,7 @@
     },
     "shipping": {
       "title": "Free delivery progress",
-      "initial": "Free delivery from SAR 350",
+      "initial": "Free shipping progress",
       "terms": "Eligible products and delivery conditions apply"
     },
     "departments": {

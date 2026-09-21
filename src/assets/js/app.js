@@ -1,3 +1,6 @@
+import { initDockLayout } from './partials/dock-layout';
+import { initOfferCopy } from './partials/offer-copy';
+import { showNotification } from './partials/notifications';
 import { initShippingGoal } from './partials/shipping-goal';
 import './partials/product-card';
 import { isOutOfStock, isOutStatus } from './partials/stock';
@@ -44,6 +47,8 @@ class ZodTheme {
       'initSearchCardNavigation',
       'initCartExperience',
       'initShippingGoal',
+      'initDockLayout',
+      'initOfferCopy',
       'initLiveShowcasePrices',
       'initProductCardReveal',
       'initNativeStockBadges',
@@ -65,6 +70,8 @@ class ZodTheme {
   }
 
   initShippingGoal() { initShippingGoal(); }
+  initDockLayout() { initDockLayout(); }
+  initOfferCopy() { initOfferCopy(); }
 
   syncOverlayLock() {
     const drawerOpen = document.getElementById('zod-catalog-drawer')?.classList.contains('is-open');
@@ -552,7 +559,7 @@ class ZodTheme {
       // Never paint a cached count as authoritative. The live Salla cart owns the badge.
       this.updateCartBadge(0);
       const cartEvents = salla?.cart?.event;
-      cartEvents?.onItemUpdated?.(() => this.refreshCartBadge());
+      cartEvents?.onItemUpdated?.(() => { this.refreshCartBadge(); this.showNotification(salla.lang.get('zod.cart.updated'),'success'); });
       cartEvents?.onItemAdded?.((response, productId) => {
         this.animateProductToCart(productId);
         const responseCount = this.extractCartCount(response, false);
@@ -560,6 +567,7 @@ class ZodTheme {
         setTimeout(() => this.refreshCartBadge({ animate: responseCount === null }), 100);
       });
       cartEvents?.onItemDeleted?.((response) => {
+        this.showNotification(salla.lang.get('zod.cart.removed'),'success');
         const responseCount = this.extractCartCount(response, false);
         if (responseCount !== null) this.updateCartBadge(responseCount);
         setTimeout(() => this.refreshCartBadge(), 100);
@@ -585,57 +593,7 @@ class ZodTheme {
     else document.addEventListener('zod::ready', bind, {once:true});
   }
 
-  showNotification(message, type = 'info') {
-    let region = document.getElementById('zod-notifications');
-    if (!region) {
-      region = document.createElement('div');
-      region.id = 'zod-notifications';
-      document.body.appendChild(region);
-    }
-    if (type !== 'error') region.querySelectorAll('.zod-notice:not(.is-error)').forEach(item => item.remove());
-
-    const notice = document.createElement('div');
-    notice.className = `zod-notice ${type === 'error' ? 'is-error' : 'is-success'}`;
-    notice.setAttribute('role', type === 'error' ? 'alert' : 'status');
-    const icon = document.createElement('i');
-    icon.className = type === 'error' ? 'sicon-cancel' : 'sicon-check-circle';
-    icon.setAttribute('aria-hidden', 'true');
-    const copy = document.createElement('span');
-    // Notifications may contain markup; show its text without injecting HTML.
-    const parsed = new DOMParser().parseFromString(String(message || ''), 'text/html');
-    copy.textContent = parsed.body.textContent;
-    let removed = false;
-    const dismiss = () => {
-      if (removed) return;
-      removed = true;
-      notice.classList.add('is-collapsing');
-      notice.addEventListener('animationend', () => notice.remove(), { once: true });
-      setTimeout(() => notice.remove(), 650);
-    };
-
-    notice.append(icon, copy);
-    if (type === 'error') {
-      const close = document.createElement('button');
-      close.type = 'button';
-      close.textContent = '×';
-      close.setAttribute('aria-label', document.documentElement.lang.startsWith('ar') ? 'إغلاق' : 'Close');
-      close.addEventListener('click', event => {
-        event.stopPropagation();
-        dismiss();
-      });
-      notice.append(close);
-    } else {
-      notice.tabIndex = 0;
-      notice.setAttribute('aria-label', `${copy.textContent}. ${document.documentElement.lang.startsWith('ar') ? 'اضغط للإغلاق' : 'Press to dismiss'}`);
-      notice.addEventListener('click', dismiss);
-      notice.addEventListener('keydown', event => {
-        if (event.key === 'Enter' || event.key === ' ') dismiss();
-      });
-    }
-    region.appendChild(notice);
-    if (type !== 'error') setTimeout(dismiss, 2600);
-  }
-
+  showNotification(message, type = 'info') { showNotification(message, type); }
 
   initNativeStockBadges() {
     const outAr = 'نفدت الكمية';

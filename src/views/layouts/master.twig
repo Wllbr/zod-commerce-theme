@@ -54,7 +54,7 @@
   </style>
   {% hook 'head:end' %}
 </head>
-<body id="app" class="zod-commerce overflow-x-hidden {% hook 'body:classes' %} {{ is_page('product.single') and theme.settings.get('sticky_add_to_cart') ? 'is-sticky-product-bar' : '' }} {{ theme.settings.get('show_mobile_bottom_nav', true) and not is_page('cart') and not is_page('product.single') ? 'has-mobile-bottom-nav' : '' }} {{ is_page('product.single') ? 'product-single' : '' }} {{ is_page('cart') ? 'cart-page' : '' }}">
+<body id="app" class="zod-commerce overflow-x-hidden {% hook 'body:classes' %} {{ is_page('product.single') and theme.settings.get('sticky_add_to_cart') ? 'is-sticky-product-bar' : '' }} {{ theme.settings.get('show_mobile_bottom_nav', true) ? 'has-mobile-bottom-nav' : '' }} {{ is_page('product.single') ? 'product-single' : '' }} {{ is_page('cart') ? 'cart-page' : '' }}">
 <a class="zod-skip-link" href="#main-content">{{ trans('zod.common.skip_content') }}</a>
 <noscript><div class="zod-noscript">{{ trans('zod.common.javascript_required') }}</div></noscript>
 <div class="app-inner min-h-screen flex flex-col">
@@ -78,7 +78,7 @@
 <salla-search data-testid="store-search-modal"></salla-search>
 <salla-login-modal data-testid="store-login-modal"></salla-login-modal>
 {% if store.scope %}<salla-scopes data-testid="store-scopes" selection="{{ store.scope.display_as == 'popup' ? 'mandatory' : 'optional' }}"></salla-scopes>{% endif %}
-{% if theme.settings.get('show_mobile_bottom_nav', true) and not is_page('cart') and not is_page('product.single') %}
+{% if theme.settings.get('show_mobile_bottom_nav', true) %}
 <nav class="zod-mobile-dock lg:hidden" aria-label="{{ trans('zod.header.menu') }}">
   <a href="{{ link('/') }}" {% if is_page('index') %}aria-current="page"{% endif %}><i class="sicon-home"></i><span>{{ trans('zod.mobile.home') }}</span></a>
   <button type="button" onclick="window.zodMenu?.open(this)"><i class="sicon-layout-grid"></i><span>{{ trans('zod.mobile.categories') }}</span></button>

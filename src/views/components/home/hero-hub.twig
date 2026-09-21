@@ -31,7 +31,7 @@
     <button type="button" data-campaign-pause aria-label="{{ trans('zod.campaign.pause') }}" aria-pressed="false"><span aria-hidden="true">Ⅱ</span></button>
   </div>
 <div class="zod-offer-tiles">
-    {% if component.show_shipping %}<article class="zod-offer-tile is-shipping" data-shipping-goal><span class="zod-shipping-ring" aria-hidden="true"><span data-shipping-icon>🚚</span></span><div><strong data-shipping-message>{{ trans('zod.shipping.initial') }}</strong><div class="zod-shipping-track" data-shipping-progress role="progressbar" aria-label="{{ trans('zod.shipping.title') }}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div><small>{{ trans('zod.shipping.terms') }}</small></div></article>{% endif %}
+    {% if component.show_shipping %}{% include 'components.shipping-progress' %}{% endif %}
     {% if component.show_mada and component.mada_terms %}<article class="zod-offer-tile is-mada"><span class="zod-offer-tile__number" aria-hidden="true">5<span>%</span></span><div><strong>{{ trans('zod.campaign.mada') }}</strong><p>{{ trans('zod.campaign.mada_text') }}</p><a href="{{ component.mada_terms }}">{{ trans('zod.campaign.terms') }} ↗</a></div></article>{% endif %}
     <a class="zod-offer-tile is-offers" href="{{ link('offers') }}"><span class="zod-offer-tile__number" aria-hidden="true">↗</span><div><strong>{{ trans('zod.campaign.offers') }}</strong><p>{{ trans('zod.campaign.offers_text') }}</p></div></a>
   </div>
