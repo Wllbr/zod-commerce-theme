@@ -1,3 +1,15 @@
+// The last-item deletion reloads the cart to render its native empty state.
+// Carry only a short-lived success flag across that same-page reload.
+export const rememberCartRemoval = () => {
+  try { sessionStorage.setItem('zod:cart-removed', JSON.stringify({path:location.pathname,at:Date.now()})); } catch (_) {}
+};
+export const consumeCartRemoval = () => {
+  try {
+    const value = JSON.parse(sessionStorage.getItem('zod:cart-removed') || 'null');
+    sessionStorage.removeItem('zod:cart-removed');
+    return value?.path === location.pathname && Date.now() - value.at >= 0 && Date.now() - value.at < 10000;
+  } catch (_) { return false; }
+};
 export const showNotification = (message, type = 'info') => {
   const parsed = new DOMParser().parseFromString(String(message || ''), 'text/html');
   const text = parsed.body.textContent.trim();

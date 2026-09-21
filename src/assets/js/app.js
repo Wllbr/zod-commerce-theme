@@ -1,6 +1,6 @@
 import { initDockLayout } from './partials/dock-layout';
 import { initOfferCopy } from './partials/offer-copy';
-import { showNotification } from './partials/notifications';
+import { showNotification, rememberCartRemoval, consumeCartRemoval } from './partials/notifications';
 import { initShippingGoal } from './partials/shipping-goal';
 import './partials/product-card';
 import { isOutOfStock, isOutStatus } from './partials/stock';
@@ -512,7 +512,7 @@ class ZodTheme {
       const count = this.extractCartCount(response, false);
       if (count !== null) this.updateCartBadge(count, false);
       else this.refreshCartBadge();
-      if (count === 0) setTimeout(() => window.location.reload(), 430);
+      if (count === 0) { rememberCartRemoval(); setTimeout(() => window.location.reload(), 430); }
       return response;
     } catch (error) {
       card?.classList.remove('is-removing');
@@ -522,6 +522,7 @@ class ZodTheme {
 
   initCartExperience() {
     const bind = () => {
+      if (consumeCartRemoval()) this.showNotification(salla.lang.get('zod.cart.removed'),'success');
       // Twilight uses the browser's blocking alert() as its default notifier.
       // Product additions use the required salla-add-product-toast. Its official
       // event metadata suppresses only the duplicate success notice, never errors.

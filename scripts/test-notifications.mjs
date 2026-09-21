@@ -15,8 +15,13 @@ class Node {
 const body=new Node(),timers=new Map();let serial=0;
 const doc={body,documentElement:{lang:'ar'},getElementById:id=>body.children.find(node=>node.id===id),createElement:()=>new Node()};
 const context={document:doc,DOMParser:class{parseFromString(text){return {body:{textContent:text.replace(/<[^>]*>/g,'')}}}},setTimeout:(fn,ms)=>{timers.set(++serial,{fn,ms});return serial},clearTimeout:id=>timers.delete(id)};
-const source=fs.readFileSync(new URL('../src/assets/js/partials/notifications.js',import.meta.url),'utf8').replace('export const','const');
-vm.runInNewContext(source+'\nthis.show=showNotification;',context);
+const source=fs.readFileSync(new URL('../src/assets/js/partials/notifications.js',import.meta.url),'utf8').replaceAll('export const','const');
+const storage=new Map();let now=100;
+Object.assign(context,{location:{pathname:'/cart'},Date:{now:()=>now},sessionStorage:{setItem:(k,v)=>storage.set(k,v),getItem:k=>storage.get(k),removeItem:k=>storage.delete(k)}});
+vm.runInNewContext(source+'\nthis.show=showNotification;this.remember=rememberCartRemoval;this.consume=consumeCartRemoval;',context);
+context.remember();assert(context.consume(),'last removal survives empty-cart reload');assert(!context.consume(),'flash is consumed once');
+context.remember();now+=10001;assert(!context.consume(),'expired removal is not announced');
+context.remember();context.location.pathname='/product';assert(!context.consume(),'another page cannot announce cart removal');context.location.pathname='/cart';
 const fire=ms=>{const entry=[...timers].find(([,timer])=>timer.ms===ms);assert(entry);timers.delete(entry[0]);entry[1].fn()};
 context.show('Not Found!','error');context.show('Not Found!','error');context.show('Not Found!','error');
 const region=body.children[0];assert.equal(region.children.length,1,'repeated errors collapse');

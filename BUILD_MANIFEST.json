@@ -23,7 +23,7 @@
     "scripts/test-component-defaults.mjs": "48a0b2fb9bd41e268b1c25623fedc677ab52d46bc1fd1cac3bdf8a54a0e5efd3",
     "scripts/test-continuation.mjs": "80a0f1f9de3114467c74e2d79cb584babcaa90aaa08e18953204c33861f725bc",
     "scripts/test-laser-playback.mjs": "034b1003371a311b62dd9209935cf911998f035993f03494da06dc66e8354eed",
-    "scripts/test-notifications.mjs": "60c808f8028c93fa65cd2cc4ae4c9fa1e66a9bb62e9251dc0d3d4a247cdf3746",
+    "scripts/test-notifications.mjs": "aa26cde7baa6805e151b846a0fb8466fc13b64175b36f1771fda158b31be9a95",
     "scripts/test-purchase-layout.mjs": "e5130fd918515cfc6e03674d47da4601a8499a8a836a9e0e07706db11e29dce3",
     "scripts/test-regressions.mjs": "f54fa7de65eb0f5b9fab11b58a98366ebfe804c9861fed515cd9f725404d42f0",
     "scripts/test-shipping-goal.mjs": "231fd124f5d397011970190e5934dc58674429f0e226a6250072cf5d8fdc40f4",
@@ -35,7 +35,7 @@
     "src/assets/images/laser-bar-generated.webp": "d4387c238474b25b1bf60968bb6df13fa431c5c9389a69fd0012cf397c73b237",
     "src/assets/images/laser-spider-generated.webp": "9285ec89481bee6a1410bf25e5c75cad34226a4f24453fcadcf73327c7c7a217",
     "src/assets/images/placeholder.svg": "b4a0b8e8beda6cf59ac4739286b09f2b9946fe45413252e0234d3f4b27d913aa",
-    "src/assets/js/app.js": "f26d1687a6de28fa99fa71741831289833f2db38680ed529133518c0698bbbab",
+    "src/assets/js/app.js": "ac43e104d69a6766e73d4f66178ae389188aa34ebad0a8f44df6cef91a45937a",
     "src/assets/js/home.js": "ec012e7cd1be672c2ce32681137b5e60bb0afb587843a814ce38d5e7b9da1cde",
     "src/assets/js/legacy-product-card.js": "c1f94506d19ea7d1940bc30a84c660d8fcfc4cb06792b0d3dfe0cff691a7f069",
     "src/assets/js/pages.js": "7291103a5b491b60880f539bc268fb21bbdc8db8b5235197c26a5a232548cf6d",
@@ -44,7 +44,7 @@
     "src/assets/js/partials/dialog-focus.js": "55a504e139a1a3fb55174849b853855f9417a6c69eb63cbb68e5d075f1e44f7e",
     "src/assets/js/partials/digital-files.js": "1e4a7901a5fcc5d95caffb44b981e530058927cfe143a005450fbd218f200a47",
     "src/assets/js/partials/dock-layout.js": "cf4c38bd66f0c2a11f15d5db810cc619d86b0160585b1e71f3b598abb5445368",
-    "src/assets/js/partials/notifications.js": "8916110ef9416a8eaec12d71ba4f4d90d546391473d39db7171dafe0a23baf56",
+    "src/assets/js/partials/notifications.js": "e48287977893b7c4109a6d96c15de5ff99374e785b783983b674c3b1ac0b551a",
     "src/assets/js/partials/offer-copy.js": "4a7d500afb8dfa5ad649dedf57695134696b4332ca6342cb13df2a2746f71647",
     "src/assets/js/partials/preview-links.js": "5c5b7875161c4f8e3985daabb7460aa2260e7c1b8992427c71e97de018cbc5f9",
     "src/assets/js/partials/product-card.js": "fe619baf0d082c919a5e19ee0ab03ee00042f2e3711ec3849bbc283edfb8abbc",
@@ -159,7 +159,7 @@
       "mode": "webpack-production-output"
     },
     "public/app.js": {
-      "sha256": "cb7616001e888e97c778a5dd40c5b253b9f7310a1633e7187142a334059c5902",
+      "sha256": "8bfe65b5831b774f72b55d046d0b2fedd9f6340e3bde2e574b6d9feab9e062fd",
       "mode": "webpack-production-output"
     },
     "public/digital-files.js": {
