@@ -72,7 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const syncList = () => {
     if (!list) return;
     // Do not inspect product names for words like "failed": they are not errors.
-    const failed = Boolean(list.querySelector('.s-infinite-scroll-error,.s-products-list-error'));
+    const failed = [...list.querySelectorAll('.s-infinite-scroll-error,.s-products-list-error')]
+      .some(error => !error.hidden && error.getAttribute('aria-hidden') !== 'true' && error.getClientRects().length > 0);
     if (recovery && !busy) recovery.hidden = !failed;
     const cards = list.querySelectorAll('custom-salla-product-card,salla-product-card');
     if (count) {
@@ -80,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (count.textContent !== value) count.textContent = value;
     }
   };
-  if (list) { new MutationObserver(syncList).observe(list, { childList: true, subtree: true }); syncList(); }
+  if (list) { new MutationObserver(syncList).observe(list, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'style', 'hidden', 'aria-hidden'] }); syncList(); }
   sort?.addEventListener('change', async () => {
     const value = sort.value;
     if (busy || ![...sort.options].some(option => option.value === value)) return;

@@ -1,3 +1,12 @@
+# v1.8.3 — production build and catalog recovery
+
+- Completed a frozen-lockfile dependency install and full Webpack production build under Node 22.18.0. The production manifest and release gate pass.
+- Fixed the catalog retry panel appearing when Salla retains an error element that is hidden after products load. Added a controller regression case for hidden and visible native errors.
+- Updated release tests to validate compiled production assets without requiring minified output to equal source byte for byte.
+- Inspected the Salla draft homepage, exhaust category, product detail page and cart. This revision is packaged locally; it has not been uploaded to the draft or published.
+
+---
+
 # v1.8.2 — shopping-flow correctness and coordinated page controls
 
 Staging snapshot, not a completed production build or Salla approval. See QA_REPORT.md.

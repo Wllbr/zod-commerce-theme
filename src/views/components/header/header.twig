@@ -10,9 +10,11 @@
           </a>
         </span>
         <salla-user-menu data-testid="store-header-user-menu" avatar-only show-header show-trigger></salla-user-menu>
+        {% if not theme.settings.get('show_header_search', true) %}
         <button class="zod-header-icon-button" type="button" aria-label="{{ trans('zod.mobile.search') }}" onclick="salla.event.dispatch('search::open')">
           <i class="sicon-search"></i>
         </button>
+        {% endif %}
         {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
           <div class="zod-header-localization">
             <salla-localization-modal id="zod-localization-modal" language="{{ language.code }}" data-testid="store-header-localization"></salla-localization-modal>
@@ -37,7 +39,6 @@
 
   {% if theme.settings.get('show_header_search', true) %}
   <div class="container zod-search-row">
-    <span class="zod-search-row__intro">{{ trans('zod.header.specialists') }}</span>
     <button class="zod-search-launch" type="button" onclick="salla.event.dispatch('search::open')" aria-haspopup="dialog">
       <i class="sicon-search" aria-hidden="true"></i>
       <span>{{ trans('zod.header.search_placeholder') }}</span>
@@ -45,14 +46,7 @@
     </button>
   </div>
   {% endif %}
-  {% if theme.settings.get('show_department_rail', true) %}
-  <nav class="zod-department-nav" aria-label="{{ trans('zod.header.all_categories') }}">
-    <div class="container zod-department-nav__inner">
-      <button type="button" onclick="window.zodMenu?.open(this)" aria-controls="zod-catalog-drawer"><i class="sicon-layout-grid" aria-hidden="true"></i>{{ trans('zod.header.all_categories') }}</button>
-      <div class="zod-department-links" data-zod-departments></div>
-    </div>
-  </nav>
-  {% endif %}
+  {# Category navigation is available in the accessible catalog drawer. #}
 
   {# Hidden menu data source. Categories themselves always come from Salla menus/categories. #}
   <zod-main-menu class="zod-menu-source" data-home-url="{{ store.url }}" aria-hidden="true"></zod-main-menu>

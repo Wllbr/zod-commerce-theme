@@ -29,7 +29,9 @@ assert.match(toast,/this\.hovered \|\| this\.focused/);
 assert.doesNotMatch(toast,/\.getDetails\s*\(/);
 if(JSON.parse(read('BUILD_MANIFEST.json')).builder !== 'webpack-production') assert.equal(toast,read('public/add-product-toast.js'));
 // Production output is transpiled/minified; hash integrity is verified separately.
-assert.equal(read('src/assets/styles/refinement.css'),read('public/refinement.css'));
+if(JSON.parse(read('BUILD_MANIFEST.json')).builder === 'webpack-production') {
+ assert.match(read('public/refinement.css'),/zod-hub-card/, 'compiled refinement styles include the hero category cards');
+} else assert.equal(read('src/assets/styles/refinement.css'),read('public/refinement.css'));
 assert.match(master,/zod-skip-link/);
 assert.doesNotMatch(read('src/views/pages/page-single.twig'),/<main\b/,'no nested main landmark');
 const laser=read('src/views/components/home/laser-showcase.twig');

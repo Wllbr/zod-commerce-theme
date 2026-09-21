@@ -1,24 +1,8 @@
-
-> zod-commerce-theme@1.8.2 test
-> node scripts/validate-theme.mjs && node scripts/test-regressions.mjs && node scripts/check-css-budget.mjs && node scripts/test-approval.mjs && node scripts/test-continuation.mjs && node scripts/test-shopping.mjs && node scripts/check-build-integrity.mjs
-
-✓ ZOD Commerce validation passed: 56 Twig templates, 18 custom components, 222 ZOD translation references, 16 JavaScript files.
-PASS: stock snapshots, unlimited inventory, Quick View ordering/offline fallback, and cart stale-cache/request races.
-PASS: menu failure recovery and empty menu handling.
-PASS: mobile dialog layering, cart dock isolation, bilingual showcase routing, and category drawer calls to action.
-PASS: legacy-card routing plus current Raed/Twilight product-page hardening.
-PASS: v1.7.19 custom showcase Twig price-safety hardening.
-PASS: v1.7.20 uploaded product video media-type support.
-PASS: purchase dock, native Salla offers, and no sale countdown.
-PASS: native promotion and checkout ownership replaces estimated offer tiers and mobile summary calculations.
-PASS: v1.7.28 scroll stability, centered dock, smart mobile header, and price cleanup.
-PASS: v1.7.29 mobile card metadata, compact cart details, shared category cards, and footer regrouping.
-PASS: dual product badges, product payment cleanup, and 3-column policy footer.
-PASS: v1.7.32 out-of-stock variant selections stay inline without notification toasts.
-CSS budget OK: 389436 bytes raw, 63635 bytes gzip.
-Refinement CSS: 38296 bytes raw, 7896 bytes gzip. Combined: 71531 bytes gzip.
-PASS: 1.8 approval guards, list-only card data, native toast/reviews, lazy laser panels, locale keys and packaged JavaScript syntax.
-PASS: native blog fields/pagination/comments, pending-payment paths, order links/fallbacks, opt-in empty shelves and skip-link focus.
-PASS: 17 shopping regression checks: canonical updates use server total, never derive tax/savings; special line total uses valid zero; unit/original prices stay distinct; special totals apply only with native detailed offers; unknown price is not fabricated as zero; localized digits accepted; unavailable status replaces stale item amount; stock/weight/offer state refreshes without reading native internals; shipping partial response preserves state; explicit removal hides it; failed item mutation clears busy state without claiming success; mutation timeout is not a success signal; confirmed successful mutation ends busy state; late pre-mutation read cannot replace canonical total; latest confirmed refresh can update total; native offer outside product form; reviews follow merchant setting; catalog first fetch matches selected sort, with explicit fallback; cart attachment uploader retains native item context and files; checkout summary is unique and no proxy action or invented breakdown remains; sticky setting false leaves purchase controller inactive.
-PASS: 3 catalog controller scenarios — preserved queries/filter state + duplicate-request guard; rejected reload navigation; absent reload navigation.
-PASS: 100 build inputs + 18 outputs match (offline-local-esm-snapshot).
+ZOD Commerce v1.8.3 local validation — 2026-09-21
+Node 22.18.0; pnpm 11.19.0; frozen lockfile installation succeeded.
+pnpm production: PASS (Webpack 5.109.2; two asset-size warnings).
+pnpm test: PASS (56 Twig templates; 18 components; 222 ZOD translation references; 16 JavaScript source files; approval, shopping and controller regressions; 100 input / 18 output hash integrity).
+pnpm release:check: PASS (webpack-production manifest).
+Compiled app.css: 385,534 raw / 62,321 gzip bytes.
+Compiled refinement.css: 36,695 raw / 6,975 gzip bytes.
+The Salla draft inspected in this pass has not received v1.8.3. Real Twig rendering, merchant preview and checkout require follow-up.

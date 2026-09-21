@@ -158,41 +158,6 @@
 
       </div>
 
-      {% if product.description %}
-      <section class="zod-buybox-description" data-zod-buybox-description>
-        <div class="zod-buybox-description__body {{ product.has_read_more ? 'is-collapsed' : '' }}" data-testid="store-product-description" data-zod-description-body>
-          {{ product.description|replace({'&nbsp;':' '})|raw }}
-        </div>
-        {% if product.has_read_more %}<button type="button" class="zod-description-toggle" data-zod-description-toggle data-more="{{ trans('zod.product.read_more') }}" data-less="{{ trans('zod.product.read_less') }}">{{ trans('zod.product.read_more') }}</button>{% endif %}
-      </section>
-      {% endif %}
-
-      {% if product.category or product.weight or product.sku or product.barcode %}
-      <div class="zod-product-facts" aria-label="{{ trans('zod.product.details') }}">
-        {% if product.category %}<a class="zod-product-fact" href="{{ product.category.url }}"><span><i class="sicon-folder"></i>{{ trans('zod.product.category') }}</span><strong>{{ product.category.name }}</strong></a>{% endif %}
-        {% if product.sku and theme.settings.get('show_product_sku', true) %}<div class="zod-product-fact"><span><i class="sicon-barcode"></i>{{ trans('zod.product.model') }}</span><strong class="product-sku">{{ product.sku }}</strong></div>{% endif %}
-        {% if product.barcode %}<div class="zod-product-fact"><span><i class="sicon-barcode"></i>{{ trans('pages.products.barcode') }}</span><strong class="product-barcode">{{ product.barcode }}</strong></div>{% endif %}
-        {% if product.weight %}<div class="zod-product-fact"><span><i class="sicon-luggage-cart"></i>{{ trans('pages.products.weight') }}</span><strong class="product-weight">{{ product.weight }}</strong></div>{% endif %}
-      </div>
-      {% endif %}
-
-      {% if product.tags|length and theme.settings.get('show_tags', true) %}<div class="zod-tags">{% for tag in product.tags %}<a href="{{ tag.url }}">{{ tag.name }}</a>{% endfor %}</div>{% endif %}
-
-      {% hook 'product:single.description' %}
-
-      {% if show_product_reviews and theme.settings.get('show_product_reviews_summary', true) %}
-      <section class="zod-buybox-review-card" aria-label="{{ trans('zod.product.reviews_title') }}">
-        <div class="zod-buybox-review-card__head">
-          <div>
-            <span class="zod-buybox-review-card__eyebrow"><i class="sicon-star"></i>{{ trans('zod.product.reviews_summary') }}</span>
-            <strong>{{ trans('zod.product.reviews_title') }}</strong>
-          </div>
-          {% if product.rating %}<a href="#reviews" class="zod-buybox-review-card__rating"><salla-rating-stars value="{{ product.rating.stars }}" reviews="{{ product.rating.count }}"></salla-rating-stars></a>{% endif %}
-        </div>
-        <salla-reviews-summary item-id="{{ product.id }}"></salla-reviews-summary>
-      </section>
-      {% endif %}
-
       <div class="zod-installment-zone">
         <salla-installment data-testid="store-product-installment" price="{{ product.price }}"></salla-installment>
       </div>
@@ -214,7 +179,7 @@
         {% if product.has_preorder_campaign %}<div class="zod-preorder"><salla-count-down data-testid="store-product-preorder-countdown" pre-order='{{ product.preorder|json_encode }}' boxed labeled></salla-count-down></div>{% endif %}
 
         <div class="zod-buy-controls-anchor" data-zod-buy-anchor>
-          <div class="zod-buy-controls sticky-product-bar {{ sticky_enabled ? 'zod-dock-persistent-v1726 is-docked is-ready' : '' }} {{ product.is_hidden_quantity or product.type == 'booking' ? 'zod-buy-controls--no-qty' : '' }} {{ product.can_quick_buy ? 'zod-buy-controls--quick' : '' }} {{ not product_available ? 'zod-buy-controls--unavailable' : '' }}" data-zod-sticky-buy data-zod-sticky-enabled="{{ sticky_enabled ? '1' : '0' }}">
+          <div class="zod-buy-controls sticky-product-bar {{ product.is_hidden_quantity or product.type == 'booking' ? 'zod-buy-controls--no-qty' : '' }} {{ product.can_quick_buy ? 'zod-buy-controls--quick' : '' }} {{ not product_available ? 'zod-buy-controls--unavailable' : '' }}" data-zod-sticky-buy data-zod-sticky-enabled="{{ sticky_enabled ? '1' : '0' }}">
             <div class="zod-sticky-product-summary">
               <div class="zod-sticky-product-summary__image">
                 {% if sticky_image and sticky_image.url %}<img src="{{ sticky_image.url }}" alt="{{ sticky_image.alt|default(product.name) }}">{% else %}<img src="{{ 'images/placeholder.svg'|asset }}" alt="{{ product.name }}">{% endif %}
@@ -306,6 +271,43 @@
   </div>
 
   <div class="container zod-product-lower">
+      {% if product.description %}
+      <section id="product-description" class="zod-buybox-description zod-product-detail-section" data-zod-buybox-description>
+        <h2>{{ trans('zod.product.details') }}</h2>
+        <div class="zod-buybox-description__body {{ product.has_read_more ? 'is-collapsed' : '' }}" data-testid="store-product-description" data-zod-description-body>
+          {{ product.description|replace({'&nbsp;':' '})|raw }}
+        </div>
+        {% if product.has_read_more %}<button type="button" class="zod-description-toggle" data-zod-description-toggle data-more="{{ trans('zod.product.read_more') }}" data-less="{{ trans('zod.product.read_less') }}">{{ trans('zod.product.read_more') }}</button>{% endif %}
+      </section>
+      {% endif %}
+
+      {% if product.category or product.weight or product.sku or product.barcode %}
+      <div class="zod-product-facts" aria-label="{{ trans('zod.product.details') }}">
+        {% if product.category %}<a class="zod-product-fact" href="{{ product.category.url }}"><span><i class="sicon-folder"></i>{{ trans('zod.product.category') }}</span><strong>{{ product.category.name }}</strong></a>{% endif %}
+        {% if product.sku and theme.settings.get('show_product_sku', true) %}<div class="zod-product-fact"><span><i class="sicon-barcode"></i>{{ trans('zod.product.model') }}</span><strong class="product-sku">{{ product.sku }}</strong></div>{% endif %}
+        {% if product.barcode %}<div class="zod-product-fact"><span><i class="sicon-barcode"></i>{{ trans('pages.products.barcode') }}</span><strong class="product-barcode">{{ product.barcode }}</strong></div>{% endif %}
+        {% if product.weight %}<div class="zod-product-fact"><span><i class="sicon-luggage-cart"></i>{{ trans('pages.products.weight') }}</span><strong class="product-weight">{{ product.weight }}</strong></div>{% endif %}
+      </div>
+      {% endif %}
+
+      {% if product.tags|length and theme.settings.get('show_tags', true) %}<div class="zod-tags">{% for tag in product.tags %}<a href="{{ tag.url }}">{{ tag.name }}</a>{% endfor %}</div>{% endif %}
+
+      {% hook 'product:single.description' %}
+
+      {% if show_product_reviews and theme.settings.get('show_product_reviews_summary', true) %}
+      <section class="zod-buybox-review-card" aria-label="{{ trans('zod.product.reviews_title') }}">
+        <div class="zod-buybox-review-card__head">
+          <div>
+            <span class="zod-buybox-review-card__eyebrow"><i class="sicon-star"></i>{{ trans('zod.product.reviews_summary') }}</span>
+            <strong>{{ trans('zod.product.reviews_title') }}</strong>
+          </div>
+          {% if product.rating %}<a href="#reviews" class="zod-buybox-review-card__rating"><salla-rating-stars value="{{ product.rating.stars }}" reviews="{{ product.rating.count }}"></salla-rating-stars></a>{% endif %}
+        </div>
+        <salla-reviews-summary item-id="{{ product.id }}"></salla-reviews-summary>
+      </section>
+      {% endif %}
+
+
     {% if product.has_metadata %}
     <section id="specifications" class="zod-product-detail-section zod-specification-panel">
       <div class="zod-detail-heading"><span><i class="sicon-list"></i></span><div><h2>{{ trans('zod.product.specifications') }}</h2><p>{{ trans('zod.product.details_text') }}</p></div></div>

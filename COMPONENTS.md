@@ -1,4 +1,4 @@
-# Component manual — ZOD 1.8.2 / دليل المكونات
+# Component manual — ZOD 1.8.3 / دليل المكونات
 
 
 All 18 IDs from v1.8.0 are preserved; `home.hero-hub` was introduced in that release. Existing settings are not automatically populated. The first configuration field of each component now includes usage guidance in the theme editor. Image sizes below are editorial suggestions, not Salla API limits.
@@ -254,3 +254,4 @@ These are not extra homepage components; the 18 existing component IDs are uncha
 - Product review visibility follows the merchant's native review setting. / التقييمات تتبع إعداد التاجر.
 - Native cart summary and native product offers need no duplicate theme component. Promotions are configured in Salla. / لا تضف ملخص سلة أو حساب خصومات موازياً.
 - Mobile bottom navigation is omitted on the cart page. / يُخفى التنقل السفلي في السلة لإعطاء الأولوية لإتمام الطلب.
+

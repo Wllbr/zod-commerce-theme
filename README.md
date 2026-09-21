@@ -1,64 +1,31 @@
-# ZOD Commerce — v1.8.2
+# ZOD Commerce v1.8.3
 
-Continuation of the previously delivered v1.8.1, based on your original v1.7.32. **This package is a locally tested staging snapshot, not a verified production build or Salla approval.** No store was published or changed remotely.
+This package is for Salla draft/staging review. It contains a complete Webpack production build. It has not been uploaded as v1.8.3, published live, or approved by Salla.
 
-## Start here
+## What changed
 
-Read **MERCHANT_GUIDE_AR.md** (Arabic setup), **STORE_SETUP.md** (English), **COMPONENTS.md** (all 18 custom components), and **QA_REPORT.md** (evidence and remaining release gates). Open **START_HERE.html** for a quick orientation. Existing component IDs and the original dependency lock are preserved.
+The exhaust category preview showed 15 loaded products and a theme retry message at the same time. Salla retained a hidden native error element; the theme treated its mere presence as a visible failure. The catalog now shows its retry panel only when the native error is actually displayed.
 
-## What's new in 1.8.2
+Production release tests now accept minified Webpack output while still checking required compiled features and every input/output hash. The v1.8.0 approval fixes remain: add-product toast in the master layout, order-item review in customer order details, and no automatic product-detail requests from listing cards. Quick View still requests details only after a shopper opens it.
 
-- The cart keeps a single visible native `salla-cart-summary-card` on desktop and mobile. Its own checkout remains the authority; the former fixed proxy checkout and theme-calculated tax, discount and savings breakdowns have been removed.
-- Cart rows display native special line totals, including legitimate zero-price promotions, separately from unit prices. Confirmed updates refresh stock, weight, offers and free-shipping state; stale delayed responses cannot overwrite newer mutations.
-- Saved cart notes and attachments retain the native cart-item context. Option disclosures have connected labels and expanded states.
-- Catalog initial sorting matches the selected control and native list. Changes use native reload, preserve query parameters and filter state, avoid repeated busy requests, and provide ordinary-navigation fallbacks. Mobile filters handle Escape, changed events and responsive focus transitions.
-- Product offers use one native `salla-offer` outside the add-to-cart form. Heuristic volume-discount tiers are removed. Sticky purchasing and review links now respect merchant settings.
-- Optional bilingual purchase-selection reminder (`show_product_selection_help`) encourages checking the supplied specifications without inventing compatibility claims. All 18 custom component IDs are preserved.
+## Build and verification
 
-**Upgrade note:** a merchant who previously disabled sticky purchasing will now get the inline purchase layout. The mobile navigation dock deliberately does not appear on cart pages. Configure promotions in Salla; the theme no longer estimates eligibility or per-unit savings.
-
-All 1.8.0 approval fixes remain: master toast, per-product order reviews, list-payload-only cards, explicitly opened Quick View details, and deferred laser panels. The three-category hero for exhaust fans, intercom and insect control remains the recommended homepage entry.
-
-## Full production workflow — still required
-
-Use a supported Node version declared in `package.json` (`^22.18.0 || >=24.11.0`) and the declared `pnpm@11.21.0`. Dependencies/lockfile were not upgraded.
+Use Node 22.18.0 or a version allowed by package.json. Dependencies are locked in pnpm-lock.yaml.
 
 ```sh
-corepack enable
 pnpm install --frozen-lockfile
 pnpm production
 pnpm test
 pnpm release:check
 ```
 
-`production` runs Webpack first and records a production manifest only after that command succeeds. `test` checks the freshly built source/output hashes. Editing source after building requires another build. `release:check` rejects a snapshot manifest even when its hashes match.
+The supplied BUILD_MANIFEST.json records a webpack-production build. Edit source, scripts, or documentation only before rebuilding, because the integrity check hashes all build inputs. The locally executed release gate passed. The package does not prove Salla's Twig/schema renderer, browser compatibility, checkout, or marketplace approval.
 
-The full workflow **was not executed here**. Corepack failed to download pnpm because `registry.npmjs.org` could not be resolved (`EAI_AGAIN`). The final snapshot build and repository tests ran with Node 24.11.1, which satisfies the declared engine range. Dependency installation and Webpack remain blocked; passing local checks does not certify the complete toolchain.
+## Salla draft checklist
 
-## Shipped snapshot workflow
+1. Keep v1.8.2 for rollback. Upload this ZIP to a draft, not the live theme.
+2. In the home editor, add the available “واجهة الأقسام الرئيسية — زود” component and select the actual exhaust, intercom, and insect-control categories, imagery, and localized text. It is available in the editor but currently not active on the inspected draft homepage.
+3. Check category sorting/filtering, the exhaust list retry state, product options, native offers, cart summary and checkout handoff in Arabic RTL and English LTR on desktop and mobile.
+4. Check order review, attachments, saved notes, payment states, and assistive technology with real account/order data. Test before any publication.
 
-```sh
-node scripts/build-offline.mjs
-npm test
-npm run build:verify
-```
-
-The offline builder refreshes supported local JavaScript entries and plain refinement CSS. It retains the previously supplied compiled base stylesheet, PDP bundle and vendor snapshot. Their hashes, mapped source, dependency declarations and build configuration are pinned in `scripts/SNAPSHOT_BASELINE.json`. Unsupported imports or edits to retained inputs stop the offline builder rather than silently using stale output. It is **not** a replacement for Sass/Tailwind/Webpack/Babel or the Salla renderer.
-
-`BUILD_MANIFEST.json` identifies every source/configuration input and public output. These hashes prove consistency with the recorded snapshot, not runtime correctness or approval. `npm run release:check` is intentionally expected to fail on this delivered snapshot until a full production build is completed.
-
-## Packaging and rollback
-
-On Windows, `pnpm release` verifies production provenance before packaging. An explicitly labelled staging snapshot may be packaged with:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-release.ps1 -AllowSnapshot
-```
-
-The PowerShell packaging script was updated but could not be executed here; the delivered archive was independently created and inspected with Python. ZIP roots contain `twilight.json`, `src/` and `public/`. Keep the old ZIP and merchant settings for rollback. The 1 MiB compressed size threshold is this project's own budget, not a claim about a current Salla limit.
-
-Preview products/prices, mock widgets, fixture illustrations and browser screenshots belong only to the separate preview package. No font files or fixture data are shipped in the theme ZIP.
-
-## Before live publication
-
-Complete the full production build, Salla schema validation and actual Twig rendering, then test real native widgets, product options, carts, search, order reviews, pending-payment orders and checkout in your store's staging preview. See the detailed checklist in QA_REPORT.md. Nothing in the local test results substitutes for those gates.
+See STORE_SETUP.md, MERCHANT_GUIDE_AR.md, COMPONENTS.md and QA_REPORT.md for configuration and remaining gates.

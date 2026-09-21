@@ -1,7 +1,7 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.8.2",
-  "description": "ZOD Commerce v1.8.2 — native cart pricing and offers, catalog sorting, mobile filters, product preferences and attachment continuity.",
+  "version": "1.9.0",
+  "description": "ZOD Commerce — rounded storefront, focused purchasing and category discovery.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

@@ -338,10 +338,15 @@ console.log('PASS: v1.7.20 uploaded product video media-type support.');
   assert.match(legacySource, /zpc-discount-badge[\s\S]*zpc-offer-badge/, 'legacy card renders separate discount and promotion badges');
   assert.match(legacySource, /class="zpc-add/, 'legacy runtime restores the full-width purchase action');
   assert.doesNotMatch(legacySource, /zpc-media-add|zpc-media-dots|zpc-brand/, 'legacy runtime does not render marketplace plus/dots/brand rows');
-  assert.equal(publicLegacy, legacySource, 'packaged legacy product-card runtime exactly matches source');
+  const productionBuild = JSON.parse(read('BUILD_MANIFEST.json')).builder === 'webpack-production';
+  if (productionBuild) {
+    assert.match(publicLegacy, /zod-product-card--legacy/, 'compiled legacy card is present');
+    assert.match(publicLegacy, /zpc-quick-view/, 'compiled legacy card keeps Quick View');
+  } else assert.equal(publicLegacy, legacySource, 'snapshot legacy runtime exactly matches source');
   assert.match(webpack, /'legacy-product-card': asset\('js\/legacy-product-card\.js'\)/, 'future production builds include the legacy card patch');
   assert.doesNotMatch(webpack, /product-card-marketplace/, 'future production builds cannot regenerate the rejected marketplace runtime entry');
-  assert.equal(publicRuntime, runtime, 'packaged product compatibility runtime exactly matches source runtime');
+  if (productionBuild) assert.match(publicRuntime, /product::price\.updated\.failed/, 'compiled compatibility runtime is present');
+  else assert.equal(publicRuntime, runtime, 'snapshot compatibility runtime exactly matches source');
   assert.doesNotMatch(productTwig, /discount_percentage[^\n]*\|\s*(?:replace|round)/, 'discounted product Twig cannot fail on numeric-vs-string discount types');
   assert.doesNotMatch(productTwig, /(?:sale_price|regular_price|starting_price|discount_percentage)\s*[<>+*\/]/, 'product Twig performs no unsafe arithmetic/comparison on polymorphic Salla price fields');
   assert.match(productTwig, /data-type="\{\{ image\.video_type \?\? 'image' \}\}"/, 'product Twig keeps current uploaded-video media type contract');
@@ -395,7 +400,7 @@ console.log('PASS: native promotion and checkout ownership replaces estimated of
   const appCss = read('src/assets/styles/app.scss');
   assert(productTwig.includes("{% set sticky_price_value = product.is_on_sale ? product.sale_price : product.price %}"), 'v1.7.28 sticky price must not use starting_price');
   assert(!productTwig.includes("product.starting_price ? product.starting_price|money : product.price|money"), 'v1.7.28 product page must not render starting_price as the main price');
-  assert(productJs.includes("this.buyBar.classList.contains('zod-dock-persistent-v1726')"), 'v1.7.28 old sticky controller must yield to the persistent dock');
+  assert(!productTwig.includes("zod-dock-persistent-v1726"), "purchase controls start inline before docking on scroll");
   assert(!purchaseJs.includes("window.addEventListener('scroll', schedule"), 'v1.7.28 persistent dock must not rewrite itself on scroll');
   assert(appJs.includes('initMobileSmartHeader') && appJs.includes('delta < -1'), 'v1.7.28 smart mobile header behavior missing');
   assert(appCss.includes('v1.7.28 — product-page scroll stability') && appCss.includes('left:50%!important'), 'v1.7.28 centered desktop dock CSS missing');

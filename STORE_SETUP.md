@@ -1,4 +1,4 @@
-# ZOD Commerce 1.8.2 — English setup
+# ZOD Commerce 1.8.3 — English setup
 
 ## 1. Keep a rollback copy
 
@@ -46,7 +46,7 @@ Check Arabic and English, desktop and phone, real category selection, search/sor
 
 Use a real order with multiple products and, where available, split shipments. Submit a product review through the actual Salla control. Check missing/deleted product data, digital attachments and order payment links if those order types apply.
 
-No staging credentials or remote-store deployment were available for this update. Do not treat passing local tests as final marketplace approval.
+The Salla draft was inspected but v1.8.3 has not been uploaded or deployed. Do not treat passing local tests as final marketplace approval.
 
 
 ## 8. Buying guides and order confirmation
@@ -55,7 +55,7 @@ Publish real blog articles in Salla and link the homepage buying-guide cards to 
 
 The confirmation page automatically reads real order instructions and distinguishes received, pending-payment and expired-payment states. No theme setting should be used to force a paid label. Test a real pending order and the invoice-email action in Salla. Verify carrier/tracking and preorder dates on applicable customer orders.
 
-For developers: `npm run build:verify` validates the current snapshot; `pnpm release:check` requires a fresh full production build. Do not remove the production gate merely to make a snapshot appear production-built.
+For developers: the supplied manifest records a complete Webpack production build and `pnpm release:check` passed locally. Rebuild after any source edits.
 
 ## 1.8.2 shopping settings and upgrade checks
 
@@ -66,3 +66,4 @@ Configure offers in Salla. The theme now renders native offers rather than infer
 `sticky_add_to_cart` now controls the persistent product purchase bar. Turning it off keeps purchasing inline. The optional `show_product_selection_help` setting displays a general specifications reminder, not an assertion of technical compatibility. Product review links follow the merchant's review setting. These controls are page settings, not additional homepage components.
 
 Verify saved cart notes/files after quantity changes; test catalog sorting with existing search and filter state. Local fixtures cannot prove server-side checkout validation, attachment persistence or payment correctness.
+

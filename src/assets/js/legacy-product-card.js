@@ -78,7 +78,6 @@
             ? `<a class="zpc-category" href="${this.esc?.(category.url) || category.url}">${this.esc?.(category.name) || category.name}</a>`
             : `<span class="zpc-category">${this.esc?.(category.name) || category.name}</span>`) : ''}
           <h3><a href="${this.esc?.(url || '#') || '#'}">${this.esc?.(p.name) || p.name || ''}</a></h3>
-          ${p.sku ? `<p class="zpc-model" dir="auto">${this.esc?.(this.t?.('zod.product.model', 'Model / SKU'))}: ${this.esc?.(p.sku)}</p>` : ''}
           ${subtitle ? `<p class="zpc-subtitle">${this.esc?.(subtitle) || subtitle}</p>` : ''}
           ${p.rating?.stars ? `<div class="zpc-meta"><span class="zpc-rating"><i class="sicon-star2"></i>${this.esc?.(p.rating.stars) || p.rating.stars}${p.rating.count ? ` <small>(${this.esc?.(p.rating.count) || p.rating.count})</small>` : ''}</span></div>` : '<div class="zpc-meta"></div>'}
           <div class="zpc-bottom">${priceHtml}</div>
