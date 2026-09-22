@@ -26,8 +26,9 @@
 .zod-mobile-dock .zod-dock-cart-count{position:absolute;top:3px;inset-inline-start:calc(50% + 3px);display:grid;place-items:center;min-width:17px;height:17px;padding:0 3px;border:2px solid #fff;border-radius:20px;background:#ec1526;color:#fff;font:700 9px/1 sans-serif}
 .zod-mobile-dock .zod-dock-cart-count[hidden]{display:none!important}
 @media(min-width:1024px){
- body.zod-commerce:has(.zod-cart-page--has-items){padding-bottom:100px!important}
- .zod-commerce .zod-cart-summary-card .s-cart-summary-card-action{position:fixed;inset-inline:0;bottom:16px;width:min(440px,calc(100vw - 32px));margin-inline:auto;padding:12px;border:1px solid #e3e7e8;border-radius:16px;background:#fff;box-shadow:0 6px 28px #17252a24;z-index:109}
+ /* Desktop checkout belongs directly below the native order totals. Mobile keeps
+    Salla's fixed summary action through commerce-states.scss. */
+ .zod-commerce .zod-cart-summary-card .s-cart-summary-card-action{position:static!important;inset:auto!important;bottom:auto!important;width:auto!important;margin:0!important;padding:12px 14px 14px!important;border:0!important;border-top:1px solid #edf0f1!important;border-radius:0!important;background:#fff;box-shadow:none!important;z-index:auto!important}
 }
 .zod-interactive-features__icons{flex-wrap:wrap;gap:8px}
 .is-showcase-visible .zod-feature-icon.is-active svg{animation:zodFeatureGlow 2.4s ease-in-out infinite;transform-origin:center}

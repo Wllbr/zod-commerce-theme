@@ -1,6 +1,6 @@
-# ZOD Commerce 1.9.11
+# ZOD Commerce 1.9.12
 
-Salla/Twilight theme with optional merchant-hosted images, compact Arabic campaigns, a synchronized range slider, reusable departments, laser product rail, persistent purchasing and manual free-shipping goals.
+Salla/Twilight theme with optional merchant-hosted images, compact Arabic campaigns, a synchronized range slider, reusable departments, laser product rail, responsive purchasing and manual free-shipping goals. The desktop cart checkout sits below its order summary; mobile retains its fixed checkout dock.
 
 Generated media belongs to Salla component settings. No campaign WebP images or store-specific media URLs are bundled. Only the neutral 308-byte product placeholder remains. An empty hero image slot hides that slide.
 

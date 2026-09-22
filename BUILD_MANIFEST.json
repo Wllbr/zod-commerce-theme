@@ -1,5 +1,5 @@
 {
-  "version": "1.9.11",
+  "version": "1.9.12",
   "builder": "webpack-production",
   "toolchain": {
     "node": "v22.18.0",
@@ -7,7 +7,7 @@
   },
   "inputs": {
     ".npmrc": "f84e69fe032956925070936b1557ae1320d29d06b58db541649515e05db580c6",
-    "package.json": "90e208159cd33265e2a8028396edb5fccb7400cd5af4f3d8e60fd511ab05955f",
+    "package.json": "6c6ccda00925b1db5d9bb289b3760a17a18be7ff4d3b217a78fa12c82360ecbb",
     "pnpm-lock.yaml": "3f2bcf6cb159d4dacbffa697add62fb88fe97bfcda1260644f33381a3024f963",
     "pnpm-workspace.yaml": "9082b3fed56a9b818282d1ab4d450eab0fa4da7c8f191072e9dc4dde32f21eb2",
     "postcss.config.js": "134370dcd34c87ed8277c373743326a1f87b669d66ac1cf3fc98abc024208c76",
@@ -16,7 +16,7 @@
     "scripts/build-offline.mjs": "9162eee67c9508101584a25a4fbe69a867c9a41139effb5e4b806c28a60dd707",
     "scripts/check-build-integrity.mjs": "a55b85f4b6fa61ece185ebef9c955d2e5a63772753866ec87fbf9a966e6fa5a0",
     "scripts/check-css-budget.mjs": "054cc25f1a3715a011fc1e5c0a196b69e81497538c8f691a197a79fe0b9e1001",
-    "scripts/package-release.ps1": "a32b51ac730b4a6ac943d8145446b346bdd8c01ce621b6da6f7d56c5d3658568",
+    "scripts/package-release.ps1": "0d031d6ba1fcfeaca41b0ab716cbb6db27d1b55bca52ee1aebb5a34a78e76265",
     "scripts/record-build.mjs": "671b6a42cdd2dbeec4955851180a9d4d3308daff3c1bdaca0aea8ad3a9e6689c",
     "scripts/test-approval.mjs": "d30c1f3ddc122b2cd1bb0583e11e8f485d2d988fcd76597c571c3a83717a2b3b",
     "scripts/test-campaign.mjs": "efe119140bc2cc7466af17025d82c1cc1be1da6248e6695a376faf7530048c6f",
@@ -29,7 +29,7 @@
     "scripts/test-purchase-layout.mjs": "e5130fd918515cfc6e03674d47da4601a8499a8a836a9e0e07706db11e29dce3",
     "scripts/test-regressions.mjs": "682884b24853625f42a9929d2b83813c901a3c8e00dff620ac4cd0183ad6710b",
     "scripts/test-shipping-goal.mjs": "b22e89ce115fcf3dacb1222f28b629219cd67e0ddbd361b469198aae66ebc11f",
-    "scripts/test-shopping.mjs": "bdefbbc41d580b056833f10382d25be854844d6a114521d7000d5d86025cefe4",
+    "scripts/test-shopping.mjs": "612d1c8e103e83396bcf498fb3781df586776d764191796165b82cabf54cb8aa",
     "scripts/validate-theme.mjs": "597877959bad421b24ec0f800e778465e63e839616ae4ea22e73f8fe192d6309",
     "src/assets/images/placeholder.svg": "b4a0b8e8beda6cf59ac4739286b09f2b9946fe45413252e0234d3f4b27d913aa",
     "src/assets/js/app.js": "a102256699c494a7e26fc7c03f2ed8e22df002b9e4681b93a96eaee7ff8960e1",
@@ -59,7 +59,7 @@
     "src/assets/styles/product-polish.scss": "cd3869a174d4a9184c63c4357da589fe3fd8a528cf1708f3d6fec94c19f69c85",
     "src/assets/styles/refinement.css": "a2a99c5d975cb76243b20adf1fa8bfee0da256c37d71efb9207fb4c02ae7a381",
     "src/assets/styles/retail-refresh.scss": "4f795f8cea97b0a359b2d3f6ab93f45ff4344ba907b5de2b85d5b5f97ba0bfaa",
-    "src/assets/styles/revision-1910.scss": "792cd9982a5d17ba41d1e1cf03462a2c871222fb75fe18409828cac32f734e62",
+    "src/assets/styles/revision-1910.scss": "501c91ca7298be92c45b45ea07b1e2a7b35451d9fbfc05dc881150130b96f87e",
     "src/assets/styles/showcase-refresh.scss": "9ff4a4cbbeaa2757722a06b226a92506bd82c72fec4741b3186dafa8ad0a664c",
     "src/locales/ar.json": "98219bb1d359c8e39f1abdb849ce791e4becbf9f32b04ccc269c7115dea7b8c7",
     "src/locales/en.json": "3786e316b9a17923c9e5cec40ec7a2b934674dddf7fb44245c11c90121c453b4",
@@ -143,7 +143,7 @@
     "src/views/pages/testimonials.twig": "d499be8138a23a6daa457cbf1000759df3a15024fb9272d8f8395018ec945323",
     "src/views/pages/thank-you.twig": "a51fb48179d9d21eb5b21b01b485642edfe5612800ad5233d742ff5a59012dc8",
     "tailwind.config.js": "f321881ec2a51603ba55316b6841c2b0950a4b33b00c04dd4818d1de9d79d169",
-    "twilight.json": "bb805d0f5663bc81892db43fe8355384338df99b90aa7b7aef6251177e7947ff",
+    "twilight.json": "d1da82732d3a41b1dc8056c284e4e709b5c0710b52f95b50f833fac398082a84",
     "webpack.config.js": "4308d439ba372bbe507188cf29ea4762a830b88baa136c1af49eafdcd2e4589e"
   },
   "files": {
@@ -156,7 +156,7 @@
       "mode": "webpack-production-output"
     },
     "public/app.css": {
-      "sha256": "3ac15ddff14a210392e71e21f5dcdaaf947ef435a261a19b5e748552282e2060",
+      "sha256": "00599662a336138d4a434d584b2d1159a8394e84b844abd86bf1029dd653cecf",
       "mode": "webpack-production-output"
     },
     "public/app.js": {

@@ -1,15 +1,15 @@
 {
-  "version": "1.9.11",
+  "version": "1.9.12",
   "productionBuild": "passed",
   "tests": "passed",
   "buildInputs": 139,
   "publicOutputs": 15,
   "css": {
-    "appRaw": 398170,
-    "appGzip": 65470,
+    "appRaw": 398186,
+    "appGzip": 65449,
     "refinementRaw": 38753,
     "refinementGzip": 7134,
-    "combinedGzip": 72604
+    "combinedGzip": 72583
   },
   "bundledCampaignImages": 0,
   "optionalImageFields": 26,

@@ -1,6 +1,6 @@
-# ZOD Commerce 1.9.11 — final media and layout review
+# ZOD Commerce 1.9.12 — final media and layout review
 
-22 September 2026. Review candidate, not published live. Code inspected: 201ba45 on codex/zod-1.9.0-review. Final Salla draft: 2041070824; mobile PDP/cart also inspected on preceding draft 1683470819 (same assets, before the one-line null-setting fix).
+22 September 2026. Review candidate, not published live. Version 1.9.12 adds the requested desktop-only checkout placement to the validated 1.9.11 media/layout candidate.
 
 ## Completed
 
@@ -10,6 +10,7 @@
 - Replaced named banner selectors with a small range track. It follows automatic slide changes; dragging or keyboard selection chooses a slide and stops automatic rotation. Added an optional display switch; corrected Salla's null value for existing saved components.
 - Removed legacy department sample catalog IDs/links. Existing merchant selections remain editable. Small compatibility templates are retained so saved older components can migrate safely.
 - Upload packaging enforces a strict 1,000,000-byte limit, retaining full source and production assets.
+- Desktop checkout is in normal flow directly below the native order totals. Mobile keeps its existing fixed checkout and persistent bottom navigation.
 
 ## Validation evidence
 

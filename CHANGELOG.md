@@ -1,3 +1,7 @@
+# 1.9.12 — responsive cart checkout placement
+
+Desktop checkout now follows the native order summary in normal page flow. Mobile keeps the existing fixed checkout above the persistent bottom navigation. See REVISION_1_9_12.md.
+
 # 1.9.11 — Salla-hosted optional media
 
 Removed bundled campaign images and legacy catalog defaults; added synchronized range navigation and optional-image guards. Strict 1,000,000-byte upload limit. See REVISION_1_9_11.md.
