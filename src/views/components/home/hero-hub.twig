@@ -27,7 +27,7 @@
   </article>
  {% endfor %}
  </div>
- {% if campaigns|length > 1 and (component.show_campaign_progress is not defined or component.show_campaign_progress) %}
+ {% if campaigns|length > 1 and (component.show_campaign_progress is not defined or component.show_campaign_progress is null or component.show_campaign_progress) %}
  <div class="zod-campaign__progress"><input type="range" min="1" max="{{ campaigns|length }}" step="1" value="1" data-campaign-progress aria-label="{{ trans('zod.hero_products.navigation') }}" aria-valuetext="{{ (campaigns|first).alt }}"></div>
  {% endif %}
  {% endif %}
