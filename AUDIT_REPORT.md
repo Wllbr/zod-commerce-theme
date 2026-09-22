@@ -1,41 +1,36 @@
-# ZOD Commerce 1.9.10
+# ZOD Commerce 1.9.11 — final media and layout review
 
-22 September 2026. Review branch only; do not publish without merchant approval.
+22 September 2026. Review candidate, not published live. Code inspected: 201ba45 on codex/zod-1.9.0-review. Final Salla draft: 2041070824; mobile PDP/cart also inspected on preceding draft 1683470819 (same assets, before the one-line null-setting fix).
 
-## Changes
+## Completed
 
-- Compact campaigns with editable Arabic HTML headings, descriptions and shopping buttons over generated text-free backgrounds. Generated dark installed-product scenes: COMMAX 70QT/40K at an entrance, KDK 25AUA through a room wall, and the merchant's exact Ocarina reference suspended in a covered seating area. Separate desktop and mobile compositions preserve product visibility. The same Arabic copy and imagery are used on English pages. Alt descriptions remain available to assistive technology.
-- Default artwork area is 320px on desktop, 280px on tablet and 220px on mobile; longer merchant copy or enlarged text can grow the area for accessibility. Corners are rounded, with three named selectors below. Arabic transitions move physically left to right; English page transitions reverse while using the same Arabic artwork. Touch swipe, desktop mouse drag, named selection, keyboard, Escape, focus/hover pause, reduced motion and background pause are supported. Manual navigation stops rotation.
-- Laser browse-all moved into the header. A horizontal rail with previous/next controls supports up to 35 configured products. Inactive product lists mount only when selected; video visibility/pause behavior is preserved.
-- One reusable department entry replaces 16 department-specific entries. Existing intercom component key/path retained, with editable heading/image and up to 12 groups. Repeat this component for any brand or department. Legacy templates are retained for migration; older department definitions remain in the preceding release ZIP. Existing sections using removed entries need migration before a live upgrade.
-- Interactive showcase now offers 24 icons and up to 12 benefits. Active icons animate only in view; reduced-motion preference stops animation. Manual benefit selection stops automatic rotation, and focus pauses it.
-- Mobile dock and header share the same cart quantity updates. Zero hides the badge, and quantities above 99 display 99+.
-- Removed the cart's extra summary/proceed-style link. The existing native checkout button is the sole checkout action; it remains fixed at the bottom on desktop and in the native mobile dock.
-- Shipping target independence, native approval components and the ban on automatic product-details calls remain unchanged.
+- Uploaded nine optimized generated WebPs to the Salla media gallery of demo store 261553813. Saved and reloaded six hero image selections and two laser poster selections. The power campaign remains available in the gallery for optional use.
+- Removed all nine campaign/showcase WebPs from source and compiled theme assets. Retained the 308-byte neutral missing-product SVG. Media backups are outside the theme ZIP.
+- All 26 component image fields are optional with empty defaults. Empty hero image pairs omit their slide; no images omit the carousel. Other image displays have empty-image guards or use the selected catalog product's actual image.
+- Replaced named banner selectors with a small range track. It follows automatic slide changes; dragging or keyboard selection chooses a slide and stops automatic rotation. Added an optional display switch; corrected Salla's null value for existing saved components.
+- Removed legacy department sample catalog IDs/links. Existing merchant selections remain editable. Small compatibility templates are retained so saved older components can migrate safely.
+- Upload packaging enforces a strict 1,000,000-byte limit, retaining full source and production assets.
 
-## Zud
+## Validation evidence
 
-The installed app's visible bundle editor includes quantity discounts, gifts, targeting and conversion/revenue analytics. Pricing, gifts and analytics require app/backend services. Those features remain in Zud; no imitated checkout discounts or analytics component was added.
+- Production Webpack build passed; 139 inputs and 15 outputs match the manifest. Existing raw CSS/entrypoint size recommendations remain.
+- Full regression suite passed, including approval markers, shopping/cart/notifications, shipping goals, media defaults, campaign navigation, CSS budget and build integrity. After the final Twig null-setting correction, production build and campaign/media/integrity checks passed again.
+- Native final draft: three mobile and three desktop hero images load from Salla CDN; range visible, automatic position changes observed, End selects slide 3 and Home selects slide 1 with matching accessible labels.
+- Actual rendered hero height: 220 px at 375 px mobile content width; 320 px at 1265 px desktop content width. No horizontal overflow at those inspected widths.
+- Mobile KDK 25AUA PDP: compact gallery, persistent purchase controls and mobile navigation; three trust blocks in one row; offer disclosure opens and exposes the supplied Salla offer details. No visible Not Found toasts during this sample.
+- Mobile cart: exactly one visible checkout button in the sticky summary; quantity badge 5; native total 1,120.05 SAR and displayed saving 58.95 SAR; shipping celebration visible. Cart contents were not changed during this pass.
+- Wall-exhaust category direct destination loads 15 products with consistent header/cards and no desktop horizontal overflow. Footer category, policy, contact and payment content present.
+- Approval fixes retained: salla-add-product-toast in master, salla-review-order-item in order details, no automatic product-details requests during product-card/list initialization.
 
-## Build/QA status
+## Adjustments and checks required before publication
 
-Production build and the complete automated suite passed. Manifest: 147 inputs / 24 compiled outputs. 79 Twig templates, 21 custom components, 331 locale references, 21 JavaScript files. Combined stylesheet transfer: 72,536 gzip bytes. Two existing Webpack raw asset-size recommendations remain; no build errors.
+1. Images and component settings were saved in the demo store, not copied into a live merchant store. Select/upload these images and actual category/product links in the destination store. Theme installation alone does not migrate those settings. Empty optional sections intentionally stay absent until configured.
+2. Clean merchant test content before launch: offer titles include C3453--1/C873-1 and a product badge says «تحب تشوف خصم شوف». Confirm the top 9 SAR shipping announcement agrees with the manually configured 350 SAR free-shipping message and actual Salla delivery rules. The visual progress component does not enable free delivery in checkout.
+3. Salla preview console still reports page-view POST 405, live-reload connection failure and getInitialData timeout. Root causes are not established. A footer category click did not navigate in one standalone preview observation although the exact direct destination loaded successfully; retest navigation in the merchant draft before live release.
+4. Complete a real-device mobile check and the destination store's address/carrier/checkout test. Only bank payment was exposed in this demo; Tabby/Tamara/Apple Pay and successful payment were not verified. No payment was submitted.
+5. Zud's enabled bundle widget supplies quantities/pricing/gifts; reconcile its offers with native Salla offers before launch. No backend discount or analytics behavior was copied into the theme.
+6. This is a focused final media/layout regression review, not a complete accessibility/performance certification, a 35-product stress test, or a diagnosis of the old live 1.8.0 PDP errors. No unsupported 9/10 score or marketplace approval is claimed.
 
-Earlier native draft 1289633877, code commit 219fa3b (before the compact overlay refinement): laser header browse button measured at physical left, rail navigation changed the active product; native editor lists one reusable department and 24 icon options. Existing intercom content retained all four groups. Featured dimension/power icons saved in the native editor and verified after reloading the storefront. Mobile cart count changed 3 → 4 → 3 and was restored; only one checkout button rendered. Desktop native checkout measured fixed at bottom (440px width, 16px bottom inset).
+## Editing images and navigation
 
-## Images and performance
-
-Built-in image generation was used. Original PNGs and exact prompts are retained in outputs/hero-v1.9.10 in the delivery workspace. Files ending desktop-background/mobile-background are the final artwork; older baked-text files are superseded. Optimized WebP images total 201,200 bytes (six responsive images; only the selected device source loads); first image eager/high-priority, later images lazy. The local ZIP budget rises to 1.25 MiB because the package contains both source and compiled image copies. This is a project budget, not a claimed Salla platform limit.
-
-## Final compact-hero staging check
-
-Draft 1712384850 served code commit 5fa0dc2 from codex/zod-1.9.0-review. Measured in the native storefront: 320px artwork height at 1425px content width; 220px at 375px. All three mobile compositions were visually inspected, with readable Arabic HTML copy, a real category CTA and no horizontal overflow. Three selector buttons changed the active campaign. A desktop drag advanced COMMAX to ventilation. The English/LTR page retained the Arabic campaigns, used English category routes and remained 220px without overflow. Bidirectional touch/mouse behavior and cancellation are covered by automated tests; a physical touchscreen was not tested. Native editor exposes all nine copy fields and three separate mobile-image fields. No live publication.
-
-The Salla preview console still reports its page-view POST 405, getInitialData timeout and live-reload disconnection, plus a Twilight CDN listener-count warning. These were not traced to a final root cause in this pass and remain documented; the storefront must not be described as error-free. The banner itself rendered and its controls worked.
-
-## Remaining gates
-
-- Merchant review of the new artwork and category links.
-- Migrate any saved department-specific sections to the reusable department before live upgrade.
-- Physical-device and complete storefront/accessibility/performance audit have not been completed in this revision.
-- Checkout payment completion, shipping-rule configuration and Zud discount calculations were not altered or transacted.
+Open «واجهة الحملات والأقسام — زود» in the Salla editor. Choose desktop/mobile images from the gallery for each campaign. Clear both fields to omit that campaign. Toggle «إظهار شريط التنقل أسفل البنر» to hide/show the new track. Text and shopping links remain editable over the images. Catalog images continue to come from Salla.

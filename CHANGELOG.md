@@ -1,3 +1,7 @@
+# 1.9.11 — Salla-hosted optional media
+
+Removed bundled campaign images and legacy catalog defaults; added synchronized range navigation and optional-image guards. Strict 1,000,000-byte upload limit. See REVISION_1_9_11.md.
+
 ## Final 1.9.10 hero refinement
 
 Compact 320px desktop / 220px mobile campaign area with editable Arabic headings and CTA links, separate text-free generated backgrounds for each device, desktop drag, touch swipe and named selectors. Supersedes the interim image-only campaign design.

@@ -1,9 +1,8 @@
-# ZOD Commerce v1.9.10
+# ZOD Commerce 1.9.11
 
-Compact dark banners show installed COMMAX, KDK and Ocarina products behind editable Arabic headings and buttons. Default heights: desktop 320px, mobile 220px; separate mobile images, swipe/drag and named selection. Includes directional slides, one reusable department, a 35-product laser rail, 24 interactive icons, mobile cart count and one fixed native checkout action.
+Salla/Twilight theme with optional merchant-hosted images, compact Arabic campaigns, a synchronized range slider, reusable departments, laser product rail, persistent purchasing and manual free-shipping goals.
 
-Build: pnpm run production
-Tests: pnpm test
-Package: pnpm release
+Generated media belongs to Salla component settings. No campaign WebP images or store-specific media URLs are bundled. Only the neutral 308-byte product placeholder remains. An empty hero image slot hides that slide.
 
-See REVISION_1_9_10.md and QA_REPORT.md. Review branch only; no live publication.
+Build: `pnpm run production` · Test: `pnpm test` · Package: `pnpm run release`.
+Upload ZIP is limited to 1,000,000 bytes. See QA_REPORT.md for measured results and publication gates. Live publication requires merchant approval.

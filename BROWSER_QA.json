@@ -1,44 +1,34 @@
 {
-  "version": "1.9.10",
+  "version": "1.9.11",
   "date": "2026-09-22",
-  "inspectedDraft": "1712384850",
-  "inspectedCodeCommit": "5fa0dc2",
+  "inspectedDraft": "2041070824",
+  "inspectedCodeCommit": "201ba45",
   "reviewBranch": "codex/zod-1.9.0-review",
-  "verified": [
-    "Native desktop hero height 320px at 1425px content width",
-    "Native mobile hero height 220px at 375px content width",
-    "All three mobile generated backgrounds, Arabic headings and category buttons visually inspected",
-    "No mobile horizontal overflow in Arabic or English",
-    "Manual selectors and native desktop mouse drag",
-    "English page retains Arabic campaign copy with English category routes",
-    "Native editor nine copy fields and three mobile image fields"
-  ],
-  "earlierSameRevisionEvidence": {
-    "draft": "1289633877",
-    "commit": "219fa3b",
-    "verified": [
-      "Laser browse button physical top left and rail navigation",
-      "One generic department editor entry; existing four intercom groups retained",
-      "24 feature icons and updated native dimension/power choices",
-      "Mobile cart badge 3 to 4 to 3, quantity restored",
-      "Single fixed native checkout button on mobile and desktop"
-    ]
+  "publishedLive": false,
+  "media": {
+    "galleryStore": "261553813",
+    "uploaded": 9,
+    "savedHeroFields": 6,
+    "savedLaserPosters": 2,
+    "bundledCampaignImages": 0
   },
-  "notVerified": [
-    "Physical touchscreen testing",
-    "Complete storefront/accessibility/performance audit",
-    "35-product populated rail stress test",
-    "Live 1.8.0 product-error root cause",
-    "Payment completion or Zud backend discounts"
+  "verified": [
+    "Six hero CDN sources loaded",
+    "Native range follows autoplay and Home/End selection",
+    "220px mobile and 320px desktop hero",
+    "No overflow at inspected mobile/desktop widths",
+    "Mobile PDP offer disclosure and horizontal trust row",
+    "One mobile sticky checkout; cart quantity 5 unchanged",
+    "Manual shipping celebration visible",
+    "Category direct destination renders 15 products"
   ],
-  "previewConsoleIssues": [
-    "Page-view POST 405",
-    "getInitialData timeout",
-    "Live reload disconnected",
-    "Twilight CDN listener-count warning"
+  "limitations": [
+    "Media/settings require destination-store configuration",
+    "Test offer and shipping copy requires cleanup",
+    "Preview page-view POST 405, live reload and getInitialData issues remain",
+    "Footer link click inconclusive; direct category route passed",
+    "Payment, physical device, complete accessibility/performance audit not verified",
+    "No claim to diagnose live 1.8.0 product errors"
   ],
-  "cartMutated": true,
-  "cartOriginalQuantityRestored": true,
-  "livePublished": false,
-  "overallScore": null
+  "earlierDraftForPdpCart": "1683470819"
 }

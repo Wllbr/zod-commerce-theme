@@ -1,5 +1,5 @@
 {
-  "version": "1.9.10",
+  "version": "1.9.11",
   "base": "1.8.2",
   "changes": [
     "Relevant generated category campaigns",
@@ -29,7 +29,12 @@
     "35-item laser rail and top-left browse action",
     "24 interactive feature icons with reduced-motion support",
     "Synchronized mobile cart quantity badge",
-    "Single native sticky checkout action"
+    "Single native sticky checkout action",
+    "All campaign artwork moved to merchant media settings; no bundled WebP defaults",
+    "Range slider replaces named campaign selectors",
+    "26 optional image fields and empty image guards",
+    "Strict sub-1MB upload archive gate",
+    "Removed legacy fixed product/category presets"
   ],
   "auditStatus": "hero-and-component-target-validation",
   "livePublished": false

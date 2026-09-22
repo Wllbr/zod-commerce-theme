@@ -12,4 +12,4 @@ Review candidate, 22 September 2026. Not published live.
 
 ## Publication checks
 
-Build, test and native staging results will be recorded in QA_REPORT.md. Approval-specific native components remain required. Merchant shipping campaign values must match the active Salla rules. Payment completion and physical-device testing are separate gates; no payment will be submitted in this review.
+Build, test and native staging results are recorded in QA_REPORT.md. Final inspected draft: 2041070824, code 201ba45. Image assignments are saved in demo store 261553813 and must also be configured in the destination merchant store. Approval-specific native components remain required. Merchant shipping campaign values must match the active Salla rules. Payment completion and physical-device testing are separate gates; no payment will be submitted in this review.

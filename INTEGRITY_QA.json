@@ -1,20 +1,22 @@
 {
-  "version": "1.9.10",
+  "version": "1.9.11",
   "productionBuild": "passed",
   "tests": "passed",
-  "buildInputs": 147,
-  "publicOutputs": 24,
+  "buildInputs": 139,
+  "publicOutputs": 15,
   "css": {
-    "appRaw": 397806,
-    "appGzip": 65402,
+    "appRaw": 398170,
+    "appGzip": 65470,
     "refinementRaw": 38753,
     "refinementGzip": 7134,
-    "combinedGzip": 72536
+    "combinedGzip": 72604
   },
-  "heroWebpBytes": 201200,
+  "bundledCampaignImages": 0,
+  "optionalImageFields": 26,
+  "uploadLimitBytes": 1000000,
   "approvalGuards": "passed",
   "warnings": [
-    "Webpack raw CSS/app entry recommendations"
+    "Webpack raw CSS and entrypoint size recommendations"
   ],
   "certifiesMarketplaceApproval": false
 }
