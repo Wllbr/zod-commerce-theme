@@ -1,6 +1,6 @@
 {% set department_title = component.title|default(trans('zod.departments.flashlights.title')) %}
 {% set department_text = component.text|default(trans('zod.departments.flashlights.text')) %}
-{% set department_defaults = [{title:trans('zod.departments.flashlights.group_0'),category:[176913372],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/rechargeable-lights/c176913372"},{title:trans('zod.departments.flashlights.group_1'),category:[],products:[],url:null},{title:trans('zod.departments.flashlights.group_2'),category:[],products:[],url:null}] %}
+{% set department_defaults = [] %}
 {% set department_art = null %}
 {% set department_enabled = component.enabled is defined ? component.enabled : true %}
 {% include 'components.home.department-base' %}

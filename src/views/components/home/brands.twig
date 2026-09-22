@@ -20,7 +20,7 @@
       <div slot="items">
         {% for brand in component.brands %}
           <a class="swiper-slide zod-brand-card" href="{{ brand.url }}">
-            <span class="zod-brand-card__logo"><img src="{{ brand.logo|default(brand.image) }}" alt="{{ brand.name }}" loading="lazy"></span>
+            {% if brand.logo or brand.image %}<span class="zod-brand-card__logo"><img src="{{ brand.logo|default(brand.image) }}" alt="{{ brand.name }}" loading="lazy"></span>{% endif %}
             <span>{{ brand.name }}</span>
           </a>
         {% endfor %}

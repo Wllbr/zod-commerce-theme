@@ -4,7 +4,7 @@
   {% set banner_title = banner.title is iterable ? banner.title[language.code]|default(banner.title|first) : banner.title %}
   {% set banner_text = banner.text is iterable ? banner.text[language.code]|default(banner.text|first) : banner.text %}
   <a href="{{ banner.url.url|default(banner.url)|default('#') }}" class="zod-promo-card {{ banner.light_text ? 'is-light' : '' }}">
-    <img src="{{ banner.image }}" alt="{{ banner_title|default(store.name) }}" loading="lazy"><span class="zod-promo-card__shade"></span>
+    {% if banner.image %}<img src="{{ banner.image }}" alt="{{ banner_title|default(store.name) }}" loading="lazy">{% endif %}<span class="zod-promo-card__shade"></span>
     {% if banner_title or banner_text %}<span class="zod-promo-card__content">{% if banner_title %}<strong>{{ banner_title }}</strong>{% endif %}{% if banner_text %}<small>{{ banner_text }}</small>{% endif %}<i class="sicon-arrow-left rtl:rotate-180" aria-hidden="true"></i></span>{% endif %}
   </a>
 {% endfor %}

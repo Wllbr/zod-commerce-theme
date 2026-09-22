@@ -1,6 +1,6 @@
 {% set department_title = component.title|default(trans('zod.departments.insects.title')) %}
 {% set department_text = component.text|default(trans('zod.departments.insects.text')) %}
-{% set department_defaults = [{title:trans('zod.departments.insects.group_0'),category:[457446698],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/electric-insect-traps/c457446698"},{title:trans('zod.departments.insects.group_1'),category:[1965110315],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/adhesive-insect-traps/c1965110315"},{title:trans('zod.departments.insects.group_2'),category:[1192121140],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/insect-trap-parts/c1192121140"}] %}
+{% set department_defaults = [] %}
 {% set department_art = null %}
 {% set department_enabled = component.enabled is defined ? component.enabled : true %}
 {% include 'components.home.department-base' %}

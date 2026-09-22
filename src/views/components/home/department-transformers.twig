@@ -1,6 +1,6 @@
 {% set department_title = component.title|default(trans('zod.departments.transformers.title')) %}
 {% set department_text = component.text|default(trans('zod.departments.transformers.text')) %}
-{% set department_defaults = [{title:trans('zod.departments.transformers.group_0'),category:[1610102218],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/converters-inverters/c1610102218"},{title:trans('zod.departments.transformers.group_1'),category:[34805449],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/voltage-stabilizers/c34805449"}] %}
+{% set department_defaults = [] %}
 {% set department_art = null %}
 {% set department_enabled = component.enabled is defined ? component.enabled : true %}
 {% include 'components.home.department-base' %}

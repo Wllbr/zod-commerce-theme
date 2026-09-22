@@ -10,7 +10,7 @@
         {% set item_title = item.title is iterable ? item.title[language.code]|default(item.title|first) : item.title %}
         {% set item_text = item.text is iterable ? item.text[language.code]|default(item.text|first) : item.text %}
         <a href="{{ item_url|default('#') }}" class="zod-need-card">
-          <span class="zod-need-card__media"><img src="{{ item.image }}" alt="{{ item_title|default(store.name) }}" loading="lazy"></span>
+          {% if item.image %}<span class="zod-need-card__media"><img src="{{ item.image }}" alt="{{ item_title|default(store.name) }}" loading="lazy"></span>{% endif %}
           <span class="zod-need-card__body"><strong>{{ item_title }}</strong>{% if item_text %}<small>{{ item_text }}</small>{% endif %}<i class="sicon-arrow-left rtl:rotate-180" aria-hidden="true"></i></span>
         </a>
       {% endfor %}

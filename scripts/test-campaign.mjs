@@ -2,14 +2,14 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import assert from 'node:assert/strict';
 const code=fs.readFileSync(new URL('../src/assets/js/partials/campaign.js',import.meta.url),'utf8').replaceAll('export const ','const ');
-const element=()=>({dataset:{},attrs:{},events:{},hidden:false,isConnected:true,addEventListener(n,f){this.events[n]=f},setAttribute(n,v){this.attrs[n]=v},querySelector(){return {textContent:''}},contains(){return false}});
+const element=()=>({dataset:{},attrs:{},events:{},hidden:false,isConnected:true,addEventListener(n,f){this.events[n]=f},setAttribute(n,v){this.attrs[n]=v},getAttribute(n){return this.attrs[n]},querySelector(){return {textContent:''}},contains(){return false}});
 function fixture(reduced=false,controls=true){
- const slides=[element(),element(),element()],dots=[element(),element(),element()],toggle=element(),viewport=element(),prev=element(),next=element(),section=element();section.dataset={autoplay:'true',play:'Play',pause:'Pause'};
- section.querySelectorAll=s=>s.includes('slide')?slides:controls?dots:[];section.querySelector=s=>({'[data-campaign-pause]':controls?toggle:null,'[data-campaign-viewport]':viewport,'[data-campaign-next]':controls?next:null,'[data-campaign-prev]':controls?prev:null}[s]);
+ const slides=[element(),element(),element()],dots=[element(),element(),element()],toggle=element(),viewport=element(),progress=element(),prev=element(),next=element(),section=element();section.dataset={autoplay:'true',play:'Play',pause:'Pause'};
+ section.querySelectorAll=s=>s.includes('slide')?slides:controls?dots:[];section.querySelector=s=>({'[data-campaign-pause]':controls?toggle:null,'[data-campaign-viewport]':viewport,'[data-campaign-progress]':progress,'[data-campaign-next]':controls?next:null,'[data-campaign-prev]':controls?prev:null}[s]);
  const timers=new Map();let serial=0;const doc={hidden:false,documentElement:{dir:'rtl'},events:{},addEventListener(n,f){this.events[n]=f}};
  const context={document:doc,window:{matchMedia:()=>({matches:reduced,addEventListener(){}})},clearTimeout:n=>timers.delete(n),setTimeout:f=>{timers.set(++serial,f);return serial}};
  vm.runInNewContext(code+'\nthis.init=initCampaign;this.brand=initBrandWorld;',context);context.init(section);
- return{slides,dots,toggle,prev,next,section,viewport,timers,doc,context};
+ return{slides,dots,toggle,prev,next,section,viewport,progress,timers,doc,context};
 }
 let f=fixture();assert.equal(f.timers.size,1);assert.deepEqual(f.slides.map(s=>s.hidden),[false,true,true]);
 f.section.events.focusin();assert.equal(f.timers.size,0,'keyboard focus stops rotation');f.section.events.focusout({relatedTarget:null});assert.equal(f.timers.size,1);
@@ -63,3 +63,10 @@ for (const dir of ['rtl','ltr']) {
  assert.equal(f.slides[2].hidden,false,'cancelled drag does not navigate');
 }
 console.log('PASS: desktop drag in both directions, selector navigation and CTA/cancelled-drag protection.');
+
+f=fixture(); assert.equal(f.progress.value,'1');
+[...f.timers.values()][0](); assert.equal(f.progress.value,'2','automatic slide advances progress');
+f.progress.value='3';f.progress.events.input();assert.equal(f.slides[2].hidden,false,'range selects third slide');assert.equal(f.timers.size,0,'range selection pauses rotation');
+f.progress.value='99';f.progress.events.input();assert.equal(f.slides[2].hidden,false,'invalid range ignored');
+const empty=element();empty.querySelectorAll=()=>[];empty.querySelector=()=>null;assert.doesNotThrow(()=>f.context.init(empty),'empty optional hero does not crash homepage');
+console.log('PASS: moving range follows autoplay, selects slides, rejects invalid input and allows an empty hero.');

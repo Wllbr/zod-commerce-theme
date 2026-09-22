@@ -6,7 +6,7 @@
   <div class="zod-guide-grid">{% for item in component.items %}
     {% set item_title = item.title is iterable ? item.title[language.code]|default(item.title|first) : item.title %}
     {% set item_text = item.text is iterable ? item.text[language.code]|default(item.text|first) : item.text %}
-    <a class="zod-guide-card" href="{{ item.url.url|default(item.url)|default('#') }}"><span class="zod-guide-card__media"><img src="{{ item.image }}" alt="{{ item_title|default(store.name) }}" loading="lazy"></span><span class="zod-guide-card__body"><strong>{{ item_title }}</strong>{% if item_text %}<small>{{ item_text }}</small>{% endif %}<i class="sicon-arrow-left rtl:rotate-180" aria-hidden="true"></i></span></a>
+    <a class="zod-guide-card" href="{{ item.url.url|default(item.url)|default('#') }}">{% if item.image %}<span class="zod-guide-card__media"><img src="{{ item.image }}" alt="{{ item_title|default(store.name) }}" loading="lazy"></span>{% endif %}<span class="zod-guide-card__body"><strong>{{ item_title }}</strong>{% if item_text %}<small>{{ item_text }}</small>{% endif %}<i class="sicon-arrow-left rtl:rotate-180" aria-hidden="true"></i></span></a>
   {% endfor %}</div>
 </div></section>
 {% endif %}

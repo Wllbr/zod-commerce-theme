@@ -5,6 +5,8 @@ export const initCampaign = section => {
   const dots = [...section.querySelectorAll('[data-campaign-dot]')];
   const toggle = section.querySelector('[data-campaign-pause]');
   const viewport = section.querySelector('[data-campaign-viewport]');
+  const progress = section.querySelector('[data-campaign-progress]');
+  if (!viewport || !slides.length) return;
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let animations = [];
   let index = 0, timer, paused = section.dataset.autoplay === 'false' || motion.matches;
@@ -12,7 +14,7 @@ export const initCampaign = section => {
   const stop = () => { clearTimeout(timer); timer = null; };
   const schedule = () => {
     stop();
-    if (!paused && !hovered && !focused && visible && !document.hidden && !motion.matches && section.isConnected) timer = setTimeout(() => show(index + 1), 6500);
+    if (slides.length > 1 && !paused && !hovered && !focused && visible && !document.hidden && !motion.matches && section.isConnected) timer = setTimeout(() => show(index + 1), 6500);
   };
   const updateToggle = () => {
     if (!toggle) return;
@@ -38,12 +40,20 @@ export const initCampaign = section => {
       animations = [leave, enter];
     }
     dots.forEach((dot,i) => dot.setAttribute('aria-pressed', String(i === index)));
+    if (progress) {
+      progress.value = String(index + 1);
+      progress.setAttribute('aria-valuetext', slides[index].getAttribute('aria-label') || String(index + 1));
+    }
     schedule();
   };
   const manual = next => { paused = true; updateToggle(); show(next); };
   section.querySelector('[data-campaign-next]')?.addEventListener('click', () => manual(index + 1));
   section.querySelector('[data-campaign-prev]')?.addEventListener('click', () => manual(index - 1));
   dots.forEach((dot,i) => dot.addEventListener('click', () => manual(i)));
+  progress?.addEventListener('input', () => {
+    const next = Number(progress.value) - 1;
+    if (Number.isInteger(next) && next >= 0 && next < slides.length) manual(next);
+  });
   toggle?.addEventListener('click', () => { paused = !paused; updateToggle(); schedule(); });
   section.addEventListener('mouseenter', () => { hovered = true; stop(); });
   section.addEventListener('mouseleave', () => { hovered = false; schedule(); });

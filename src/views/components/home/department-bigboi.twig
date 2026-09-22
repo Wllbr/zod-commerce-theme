@@ -1,6 +1,6 @@
 {% set department_title = component.title|default(trans('zod.departments.bigboi.title')) %}
 {% set department_text = component.text|default(trans('zod.departments.bigboi.text')) %}
-{% set department_defaults = [{title:trans('zod.departments.bigboi.group_0'),category:[],products:[],url:null},{title:trans('zod.departments.bigboi.group_1'),category:[],products:[],url:null}] %}
+{% set department_defaults = [] %}
 {% set department_art = null %}
 {% set department_enabled = component.enabled is defined ? component.enabled : false %}
 {% include 'components.home.department-base' %}

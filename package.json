@@ -1,11 +1,11 @@
 {
   "name": "zod-commerce-theme",
-  "version": "1.9.10",
-  "description": "ZOD Commerce — rounded storefront, focused purchasing and category discovery.",
+  "version": "1.9.11",
+  "description": "ZOD Commerce â€” rounded storefront, focused purchasing and category discovery.",
   "license": "UNLICENSED",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "test": "node scripts/validate-theme.mjs && node scripts/test-regressions.mjs && node scripts/check-css-budget.mjs && node scripts/test-approval.mjs && node scripts/test-continuation.mjs && node scripts/test-shopping.mjs && node scripts/test-purchase-layout.mjs && node scripts/test-laser-playback.mjs && node scripts/test-campaign.mjs && node scripts/test-cart-badges.mjs && node scripts/test-notifications.mjs && node scripts/test-shipping-goal.mjs && node scripts/test-component-defaults.mjs && node scripts/check-build-integrity.mjs",
+    "test": "node scripts/validate-theme.mjs && node scripts/test-regressions.mjs && node scripts/check-css-budget.mjs && node scripts/test-approval.mjs && node scripts/test-continuation.mjs && node scripts/test-shopping.mjs && node scripts/test-purchase-layout.mjs && node scripts/test-laser-playback.mjs && node scripts/test-campaign.mjs && node scripts/test-cart-badges.mjs && node scripts/test-notifications.mjs && node scripts/test-shipping-goal.mjs && node scripts/test-component-defaults.mjs && node scripts/test-optional-media.mjs && node scripts/check-build-integrity.mjs",
     "css:budget": "node scripts/check-css-budget.mjs",
     "production": "webpack --mode production && node scripts/record-build.mjs production",
     "prod": "pnpm run production",

@@ -1,6 +1,6 @@
 {% set department_title = component.title|default(trans('zod.departments.decorative.title')) %}
 {% set department_text = component.text|default(trans('zod.departments.decorative.text')) %}
-{% set department_defaults = [{title:trans('zod.departments.decorative.group_0'),category:[1683069661],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/decorative-lighting/c1683069661"},{title:trans('zod.departments.decorative.group_1'),category:[],products:[],url:null},{title:trans('zod.departments.decorative.group_2'),category:[],products:[],url:null},{title:trans('zod.departments.decorative.group_3'),category:[],products:[],url:null}] %}
+{% set department_defaults = [] %}
 {% set department_art = null %}
 {% set department_enabled = component.enabled is defined ? component.enabled : true %}
 {% include 'components.home.department-base' %}

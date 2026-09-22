@@ -1,6 +1,6 @@
 {% set department_title = component.title|default(trans('zod.departments.fans.title')) %}
 {% set department_text = component.text|default(trans('zod.departments.fans.text')) %}
-{% set department_defaults = [{title:trans('zod.departments.fans.group_0'),category:[1077500701],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/exhaust-ventilation/c1077500701"},{title:trans('zod.departments.fans.group_1'),category:[96190918],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/stand-fans/c96190918"},{title:trans('zod.departments.fans.group_2'),category:[736010949],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/wall-fans/c736010949"},{title:trans('zod.departments.fans.group_3'),category:[1468063943],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/ceiling-fans/c1468063943"},{title:trans('zod.departments.fans.group_4'),category:[560795584],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/box-fans/c560795584"}] %}
-{% set department_art = 'images/hero-kdk.webp'|asset %}
+{% set department_defaults = [] %}
+{% set department_art = null %}
 {% set department_enabled = component.enabled is defined ? component.enabled : true %}
 {% include 'components.home.department-base' %}

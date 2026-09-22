@@ -1,6 +1,6 @@
 {% set department_title = component.title|default(trans('zod.departments.air_curtains.title')) %}
 {% set department_text = component.text|default(trans('zod.departments.air_curtains.text')) %}
-{% set department_defaults = [{title:trans('zod.departments.air_curtains.group_0'),category:[519859395],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/air-curtains/c519859395"},{title:trans('zod.departments.air_curtains.group_1'),category:[],products:[],url:null},{title:trans('zod.departments.air_curtains.group_2'),category:[],products:[],url:null},{title:trans('zod.departments.air_curtains.group_3'),category:[],products:[],url:null}] %}
+{% set department_defaults = [] %}
 {% set department_art = null %}
 {% set department_enabled = component.enabled is defined ? component.enabled : true %}
 {% include 'components.home.department-base' %}

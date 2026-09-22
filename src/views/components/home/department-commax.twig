@@ -1,6 +1,6 @@
 {% set department_title = component.title|default(trans('zod.departments.commax.title')) %}
 {% set department_text = component.text|default(trans('zod.departments.commax.text')) %}
-{% set department_defaults = [{title:trans('zod.departments.commax.group_0'),category:[],products:[916540833,184487847,1865793957,1132692571],url:null},{title:trans('zod.departments.commax.group_1'),category:[],products:[255367053,291440312,1198712767],url:null},{title:trans('zod.departments.commax.group_2'),category:[],products:[],url:null},{title:trans('zod.departments.commax.group_3'),category:[],products:[],url:null}] %}
-{% set department_art = 'images/hero-commax.webp'|asset %}
+{% set department_defaults = [] %}
+{% set department_art = null %}
 {% set department_enabled = component.enabled is defined ? component.enabled : true %}
 {% include 'components.home.department-base' %}

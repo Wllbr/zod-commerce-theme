@@ -11,13 +11,10 @@
 .zod-campaign__copy p{font-size:15px;line-height:1.7;margin:0 0 20px;color:#e5e7ef;max-width:440px}
 .zod-campaign__cta{display:inline-flex;align-items:center;justify-content:center;gap:16px;min-height:44px;padding:10px 22px;border-radius:10px;background:#ef1838;color:#fff;font-size:14px;font-weight:700;cursor:pointer}
 .zod-campaign__cta:hover{background:#cd0d2b}
-.zod-campaign__selectors{display:flex;justify-content:center;gap:8px;margin-top:10px}
-.zod-campaign__selectors button{min-height:40px;padding:8px 22px;border:1px solid #e1e3e8;border-radius:30px;background:#f5f6f8;color:#424550;font-size:12px;font-weight:700}
-.zod-campaign__selectors [aria-pressed=true]{background:#171b28;border-color:#171b28;color:#fff}
 .zod-campaign :focus-visible{outline:3px solid #ff4a53;outline-offset:-3px}
 .zod-campaign .zod-offer-tiles{margin-top:12px}.zod-campaign .zod-offer-tiles:empty{display:none}
 @media(min-width:1024px){.zod-campaign__slide{min-height:320px}}
-@media(max-width:767px){.zod-campaign__slide{min-height:220px}.zod-campaign__copy{width:55%;padding:18px 14px 18px 5px}.zod-campaign__copy h2{font-size:23px;margin-bottom:9px}.zod-campaign__copy p{font-size:11px;line-height:1.65;margin-bottom:12px}.zod-campaign__cta{font-size:11px;padding:8px 12px;gap:8px}.zod-campaign__selectors{gap:6px}.zod-campaign__selectors button{padding:8px 12px;font-size:10px}}
+@media(max-width:767px){.zod-campaign__slide{min-height:220px}.zod-campaign__copy{width:55%;padding:18px 14px 18px 5px}.zod-campaign__copy h2{font-size:23px;margin-bottom:9px}.zod-campaign__copy p{font-size:11px;line-height:1.65;margin-bottom:12px}.zod-campaign__cta{font-size:11px;padding:8px 12px;gap:8px}}
 .zod-commerce .zod-laser-showcase__head{display:flex;align-items:center;justify-content:space-between;gap:18px}
 .zod-commerce .zod-laser-showcase__browse{display:inline-flex!important;flex-shrink:0;justify-content:center;align-items:center;gap:12px;min-height:52px;padding:14px 24px!important;width:auto!important;margin:0!important;font-size:16px!important;border-radius:12px;background:#e51d37;color:#fff}
 .zod-commerce .zod-laser-sidebar{display:flex!important;min-width:0;gap:8px}
@@ -48,3 +45,10 @@
  .zod-interactive-features__icons .zod-feature-icon{width:42px;height:42px;flex:0 0 42px}
 }
 @media(prefers-reduced-motion:reduce){.is-showcase-visible .zod-feature-icon.is-active svg,.is-showcase-visible .zod-feature-panel.is-active{animation:none}}
+
+.zod-campaign__progress{width:min(220px,60%);margin:6px auto 0;display:flex;align-items:center;height:32px}
+.zod-campaign__progress input{appearance:none;-webkit-appearance:none;width:100%;height:28px;background:transparent;cursor:pointer;padding:0;border:0;box-shadow:none}
+.zod-campaign__progress input::-webkit-slider-runnable-track{height:4px;border-radius:8px;background:#dfe2e8}
+.zod-campaign__progress input::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:42px;height:8px;margin-top:-2px;border-radius:8px;background:#ef1838;box-shadow:0 0 0 5px transparent}
+.zod-campaign__progress input::-moz-range-track{height:4px;border-radius:8px;background:#dfe2e8}
+.zod-campaign__progress input::-moz-range-thumb{width:42px;height:8px;border:0;border-radius:8px;background:#ef1838}

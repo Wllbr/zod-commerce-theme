@@ -12,7 +12,7 @@
 <section class="zod-section zod-spotlight-section">
   <div class="container">
     <article class="zod-spotlight">
-      <div class="zod-spotlight__media"><img src="{{ component.media|default(featured.image.url|default(featured.thumbnail)) }}" alt="{{ custom_title|default(featured.name) }}" loading="lazy"></div>
+      {% if component.media or featured.image.url or featured.thumbnail %}<div class="zod-spotlight__media"><img src="{{ component.media|default(featured.image.url|default(featured.thumbnail)) }}" alt="{{ custom_title|default(featured.name) }}" loading="lazy"></div>{% endif %}
       <div class="zod-spotlight__content">
         <h2>{{ custom_title|default(featured.name) }}</h2>
         {% if text %}<p>{{ text }}</p>{% endif %}
