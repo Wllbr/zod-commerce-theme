@@ -47,3 +47,19 @@ for (const dir of ['rtl','ltr']) {
  assert.equal(calls.at(-1).frames[0].transform,`translateX(${dir==='rtl'?-100:100}%)`,'wrap continues in the same direction');
 }
 console.log('PASS: Arabic/English animation direction, rapid transitions, inert outgoing slides and seamless wrap direction.');
+for (const dir of ['rtl','ltr']) {
+ f=fixture(); f.doc.documentElement.dir=dir;
+ const down={pointerType:'mouse',button:0,pointerId:1,clientX:150,clientY:30,target:{closest:()=>null},preventDefault(){}};
+ f.viewport.events.pointerdown(down);
+ f.viewport.events.pointerup({pointerId:1,clientX:dir==='rtl'?250:50,clientY:35});
+ assert.equal(f.slides[1].hidden,false,'desktop drag advances in locale direction');
+ assert.equal(f.timers.size,0,'drag pauses autoplay');
+ f.dots[2].events.click(); assert.equal(f.slides[2].hidden,false,'label selector opens chosen campaign');
+ f.viewport.events.pointerdown({...down,target:{closest:()=>({})}});
+ f.viewport.events.pointerup({pointerId:1,clientX:350,clientY:30});
+ assert.equal(f.slides[2].hidden,false,'CTA clicks do not start a drag');
+ f.viewport.events.pointerdown(down); f.viewport.events.pointercancel();
+ f.viewport.events.pointerup({pointerId:1,clientX:350,clientY:30});
+ assert.equal(f.slides[2].hidden,false,'cancelled drag does not navigate');
+}
+console.log('PASS: desktop drag in both directions, selector navigation and CTA/cancelled-drag protection.');

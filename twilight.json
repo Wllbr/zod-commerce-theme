@@ -564,10 +564,10 @@
           "label": "صورة حملة الإنتركوم — اختياري",
           "value": null,
           "required": false,
-          "description": "بنر عربي كامل مع النص داخل الصورة بنسبة 2:1. يعرض دون قص في الجوال والكمبيوتر.",
+          "description": "خلفية الكمبيوتر دون نص. ضع المنتج يساراً واترك مساحة داكنة يميناً للنص والأزرار. المقاس المقترح 2100 × 700.",
           "settings": {
-            "width": 1774,
-            "height": 887
+            "width": 2100,
+            "height": 700
           }
         },
         {
@@ -578,10 +578,10 @@
           "label": "صورة حملة التهوية — اختياري",
           "value": null,
           "required": false,
-          "description": "بنر عربي كامل مع النص داخل الصورة بنسبة 2:1. يعرض دون قص في الجوال والكمبيوتر.",
+          "description": "خلفية الكمبيوتر دون نص. ضع المنتج يساراً واترك مساحة داكنة يميناً للنص والأزرار. المقاس المقترح 2100 × 700.",
           "settings": {
-            "width": 1774,
-            "height": 887
+            "width": 2100,
+            "height": 700
           }
         },
         {
@@ -592,10 +592,10 @@
           "label": "صورة حملة مكافحة الحشرات — اختياري",
           "value": null,
           "required": false,
-          "description": "بنر عربي كامل مع النص داخل الصورة بنسبة 2:1. يعرض دون قص في الجوال والكمبيوتر.",
+          "description": "خلفية الكمبيوتر دون نص. ضع المنتج يساراً واترك مساحة داكنة يميناً للنص والأزرار. المقاس المقترح 2100 × 700.",
           "settings": {
-            "width": 1774,
-            "height": 887
+            "width": 2100,
+            "height": 700
           }
         },
         {
@@ -624,6 +624,129 @@
           "value": null,
           "required": false,
           "maxLength": 250
+        },
+        {
+          "id": "hero_intercom_mobile_image",
+          "type": "string",
+          "format": "image",
+          "icon": "sicon-image",
+          "label": "خلفية الجوال — كوماكس",
+          "value": null,
+          "required": false,
+          "description": "خلفية مستقلة للجوال دون نص. المنتج يساراً ومساحة النص يميناً. المقاس المقترح 1600 × 900.",
+          "settings": {
+            "width": 1600,
+            "height": 900
+          }
+        },
+        {
+          "id": "hero_intercom_heading",
+          "type": "string",
+          "format": "text",
+          "label": "العنوان — كوماكس",
+          "value": "بابك أقرب إليك",
+          "required": false,
+          "maxLength": 70
+        },
+        {
+          "id": "hero_intercom_text",
+          "type": "string",
+          "format": "text",
+          "label": "النص — كوماكس",
+          "value": "شاشات كوماكس وكاميرات خارجية لاتصال واضح عند المدخل.",
+          "required": false,
+          "maxLength": 140
+        },
+        {
+          "id": "hero_intercom_button",
+          "type": "string",
+          "format": "text",
+          "label": "نص الزر — كوماكس",
+          "value": "اكتشف الإنتركوم",
+          "required": false,
+          "maxLength": 35
+        },
+        {
+          "id": "hero_ventilation_mobile_image",
+          "type": "string",
+          "format": "image",
+          "icon": "sicon-image",
+          "label": "خلفية الجوال — التهوية",
+          "value": null,
+          "required": false,
+          "description": "خلفية مستقلة للجوال دون نص. المنتج يساراً ومساحة النص يميناً. المقاس المقترح 1600 × 900.",
+          "settings": {
+            "width": 1600,
+            "height": 900
+          }
+        },
+        {
+          "id": "hero_ventilation_heading",
+          "type": "string",
+          "format": "text",
+          "label": "العنوان — التهوية",
+          "value": "هواء يتجدد",
+          "required": false,
+          "maxLength": 70
+        },
+        {
+          "id": "hero_ventilation_text",
+          "type": "string",
+          "format": "text",
+          "label": "النص — التهوية",
+          "value": "حلول تهوية KDK للمساحات التي تحتاج نفساً جديداً.",
+          "required": false,
+          "maxLength": 140
+        },
+        {
+          "id": "hero_ventilation_button",
+          "type": "string",
+          "format": "text",
+          "label": "نص الزر — التهوية",
+          "value": "تسوق التهوية",
+          "required": false,
+          "maxLength": 35
+        },
+        {
+          "id": "hero_insects_mobile_image",
+          "type": "string",
+          "format": "image",
+          "icon": "sicon-image",
+          "label": "خلفية الجوال — مكافحة الحشرات",
+          "value": null,
+          "required": false,
+          "description": "خلفية مستقلة للجوال دون نص. المنتج يساراً ومساحة النص يميناً. المقاس المقترح 1600 × 900.",
+          "settings": {
+            "width": 1600,
+            "height": 900
+          }
+        },
+        {
+          "id": "hero_insects_heading",
+          "type": "string",
+          "format": "text",
+          "label": "العنوان — مكافحة الحشرات",
+          "value": "جلسة بلا إزعاج",
+          "required": false,
+          "maxLength": 70
+        },
+        {
+          "id": "hero_insects_text",
+          "type": "string",
+          "format": "text",
+          "label": "النص — مكافحة الحشرات",
+          "value": "اكتشف صواعق أوكارينا وحلول مكافحة الحشرات.",
+          "required": false,
+          "maxLength": 140
+        },
+        {
+          "id": "hero_insects_button",
+          "type": "string",
+          "format": "text",
+          "label": "نص الزر — مكافحة الحشرات",
+          "value": "اكتشف المنتجات",
+          "required": false,
+          "maxLength": 35
         }
       ]
     },

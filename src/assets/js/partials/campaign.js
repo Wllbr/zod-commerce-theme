@@ -56,6 +56,22 @@ export const initCampaign = section => {
     if (Math.abs(x) > 55 && Math.abs(x) > Math.abs(y) * 1.5) manual(index + ((x > 0) === (document.documentElement.dir === 'rtl') ? 1 : -1));
     touchX = touchY = null;
   }, {passive:true});
+  viewport.addEventListener('touchcancel', () => { touchX = touchY = null; });
+  let drag = null;
+  viewport.addEventListener('pointerdown', event => {
+    if (event.pointerType !== 'mouse' || event.button !== 0 || event.target.closest('a,button')) return;
+    drag = {x:event.clientX,y:event.clientY,id:event.pointerId};
+    viewport.setPointerCapture?.(event.pointerId);
+    event.preventDefault();
+  });
+  viewport.addEventListener('pointerup', event => {
+    if (!drag || drag.id !== event.pointerId) return;
+    const x = event.clientX - drag.x, y = event.clientY - drag.y;
+    drag = null;
+    if (Math.abs(x) > 55 && Math.abs(x) > Math.abs(y) * 1.5) manual(index + ((x > 0) === (document.documentElement.dir === 'rtl') ? 1 : -1));
+  });
+  viewport.addEventListener('pointercancel', () => { drag = null; });
+  viewport.addEventListener('lostpointercapture', () => { drag = null; });
   viewport.addEventListener('keydown', event => {
     if (event.key === 'Escape') {paused=true;stop();return;}
     if (!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;

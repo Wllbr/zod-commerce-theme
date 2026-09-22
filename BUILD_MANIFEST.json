@@ -19,7 +19,7 @@
     "scripts/package-release.ps1": "02d1b41c6727ed4dab8be0140aa632b4d31716d3f6e5776b2706aa50b9437567",
     "scripts/record-build.mjs": "671b6a42cdd2dbeec4955851180a9d4d3308daff3c1bdaca0aea8ad3a9e6689c",
     "scripts/test-approval.mjs": "d30c1f3ddc122b2cd1bb0583e11e8f485d2d988fcd76597c571c3a83717a2b3b",
-    "scripts/test-campaign.mjs": "b58556829b98076146a1c95b708a6fa8e0b6e4b6211cf8b256aac7d89aba4d94",
+    "scripts/test-campaign.mjs": "89627fcac8da3e61ba13d46af7e70d3aab405be305e8762b5894e62fe6c1243b",
     "scripts/test-cart-badges.mjs": "258246ca7e129d4e5d0727ae275ccfa0990ffc833c6de4fa29b5e838cda8a68b",
     "scripts/test-component-defaults.mjs": "028bfbd101d9df220a72a8db7357280f21e2c68316a3295bb755472055f80d4f",
     "scripts/test-continuation.mjs": "80a0f1f9de3114467c74e2d79cb584babcaa90aaa08e18953204c33861f725bc",
@@ -31,9 +31,12 @@
     "scripts/test-shopping.mjs": "bdefbbc41d580b056833f10382d25be854844d6a114521d7000d5d86025cefe4",
     "scripts/validate-theme.mjs": "597877959bad421b24ec0f800e778465e63e839616ae4ea22e73f8fe192d6309",
     "src/assets/images/campaign-power.webp": "bf488cda0a1873dca294ae49c51f77b37fe25db3d92f6c21c5146906d4cfbeaf",
-    "src/assets/images/hero-commax.webp": "755b9c593490cd538ed2c896cf2aa1bc947ccb486b779e95e7f9c191fd39b6ee",
-    "src/assets/images/hero-kdk.webp": "3f31614bc7738007db97fa3f9c710f60d380e9da78a0a8de3887f006f7a93abf",
-    "src/assets/images/hero-ocarina.webp": "4a4f1c5842b10e0308b1aa862e043e6227ab73e7e9e4a5f79aca917163c62f5a",
+    "src/assets/images/hero-commax-mobile.webp": "aea316e77551c59df82519748b9a0ce8d6453e5600afe367c2317cb961659d23",
+    "src/assets/images/hero-commax.webp": "2a10ce5a5a0cd15dd17e12b3c2f496e444d955aff78323d34b60f0858c8295d6",
+    "src/assets/images/hero-kdk-mobile.webp": "40f0376a8c5f4d86261de74628611886b63076ce3fd72074b7796dc06857de9a",
+    "src/assets/images/hero-kdk.webp": "47f499f498663acc0d50bc6b7f5d31cebcff1a5f8fd5df598f493585be1ad831",
+    "src/assets/images/hero-ocarina-mobile.webp": "2f867e23be37cbb237758b5b29c477fc4fda3851f3de9718ff7df67f18b145bc",
+    "src/assets/images/hero-ocarina.webp": "bbd814a8b641a249a715243f62aaf97df3a11f444f33da3ae013b65ea9f36ac9",
     "src/assets/images/laser-bar-generated.webp": "d4387c238474b25b1bf60968bb6df13fa431c5c9389a69fd0012cf397c73b237",
     "src/assets/images/laser-spider-generated.webp": "9285ec89481bee6a1410bf25e5c75cad34226a4f24453fcadcf73327c7c7a217",
     "src/assets/images/placeholder.svg": "b4a0b8e8beda6cf59ac4739286b09f2b9946fe45413252e0234d3f4b27d913aa",
@@ -42,7 +45,7 @@
     "src/assets/js/legacy-product-card.js": "c1f94506d19ea7d1940bc30a84c660d8fcfc4cb06792b0d3dfe0cff691a7f069",
     "src/assets/js/pages.js": "7291103a5b491b60880f539bc268fb21bbdc8db8b5235197c26a5a232548cf6d",
     "src/assets/js/partials/add-product-toast.js": "7765af99f6afbe8c250d41e8efa5a996a59404379f1f02d56e132e84d915a18d",
-    "src/assets/js/partials/campaign.js": "bff4c99dc0c2425ff6f5423e3106856082c93366c5c96bb064c23e5a6922ffff",
+    "src/assets/js/partials/campaign.js": "634fc8c51f871914b7e5517b88a7f360d66483560bd232ee672ff2b4308e883c",
     "src/assets/js/partials/dialog-focus.js": "55a504e139a1a3fb55174849b853855f9417a6c69eb63cbb68e5d075f1e44f7e",
     "src/assets/js/partials/digital-files.js": "1e4a7901a5fcc5d95caffb44b981e530058927cfe143a005450fbd218f200a47",
     "src/assets/js/partials/dock-layout.js": "cf4c38bd66f0c2a11f15d5db810cc619d86b0160585b1e71f3b598abb5445368",
@@ -64,10 +67,10 @@
     "src/assets/styles/product-polish.scss": "cd3869a174d4a9184c63c4357da589fe3fd8a528cf1708f3d6fec94c19f69c85",
     "src/assets/styles/refinement.css": "a2a99c5d975cb76243b20adf1fa8bfee0da256c37d71efb9207fb4c02ae7a381",
     "src/assets/styles/retail-refresh.scss": "4f795f8cea97b0a359b2d3f6ab93f45ff4344ba907b5de2b85d5b5f97ba0bfaa",
-    "src/assets/styles/revision-1910.scss": "749957efb7ba104e27e294fbd834b4fea833f14246042485f7291c74dc7f1997",
+    "src/assets/styles/revision-1910.scss": "d52b4a1903b6e1dce12f2a9c4e77d08c2518c6c07cf6c0f52ca4f7bf92443b2b",
     "src/assets/styles/showcase-refresh.scss": "9ff4a4cbbeaa2757722a06b226a92506bd82c72fec4741b3186dafa8ad0a664c",
-    "src/locales/ar.json": "108307efc4c1bc152ca9b0d47096aa38d3057c1ae3e88c1d25da2fa72ead31a7",
-    "src/locales/en.json": "c476d36e95e7b76994066d18d5e5ede11f44a34ce3318bbd7c057cbd25163acf",
+    "src/locales/ar.json": "98219bb1d359c8e39f1abdb849ce791e4becbf9f32b04ccc269c7115dea7b8c7",
+    "src/locales/en.json": "3786e316b9a17923c9e5cec40ec7a2b934674dddf7fb44245c11c90121c453b4",
     "src/views/components/blog/article-card.twig": "08e54744a1e11e571ef7dfa67e6e183ee85b1817662c6f237e99e1b748ff2e76",
     "src/views/components/footer/footer.twig": "49804402760c8fe2c429bda62f854b9d94557d6335e396b51e399a864beda107",
     "src/views/components/header/header.twig": "cde1d0092bcba830a9b4200c0c5cff3c3e0aac158e216e618e7e5530fae80201",
@@ -100,7 +103,7 @@
     "src/views/components/home/featured-products.twig": "9f3f298ff9d99a7e8d6b92d1c8c4b4b6091ed23db4cec1e6060f6f4166bd25bb",
     "src/views/components/home/fixed-banner.twig": "e8500a31a94d350bf4dc22beb6b1571609417fb25489a9d650e60cc795ffc506",
     "src/views/components/home/fixed-products.twig": "1ed30b6c59b4fe9fe5472760a8ae6f464139226e2be15f38a857387fe779fd77",
-    "src/views/components/home/hero-hub.twig": "8a1f6cc68238f03093e03958475cb96bf43f2ba23f0c8f406777794f0fe1bc32",
+    "src/views/components/home/hero-hub.twig": "19614797b60b61a5e48589f060feea69ea2f1a67fd5e782cf8d3d3cde417d38f",
     "src/views/components/home/hero.twig": "08b2cd98923ecac88d40f5e73fbffed0d747c12872c946fff647c050aeb603c0",
     "src/views/components/home/interactive-product-showcase.twig": "7b869e3579742c95590ad639b6858abfc079be32601dd816ce19afdd7737bb24",
     "src/views/components/home/laser-showcase.twig": "d8f8c045d0b975200666da9763df569ed3d423df7b1d4e7c12cda1d58b0717d8",
@@ -148,7 +151,7 @@
     "src/views/pages/testimonials.twig": "d499be8138a23a6daa457cbf1000759df3a15024fb9272d8f8395018ec945323",
     "src/views/pages/thank-you.twig": "a51fb48179d9d21eb5b21b01b485642edfe5612800ad5233d742ff5a59012dc8",
     "tailwind.config.js": "f321881ec2a51603ba55316b6841c2b0950a4b33b00c04dd4818d1de9d79d169",
-    "twilight.json": "c146eeea43e6bb0c707c802fd34f99a1044798a9733b3f52573954b6a4b74f4e",
+    "twilight.json": "a58dc91f351daa5b6ce6a351abd905e2dc8b4556e2e4548bddfac975c21bd37a",
     "webpack.config.js": "4308d439ba372bbe507188cf29ea4762a830b88baa136c1af49eafdcd2e4589e"
   },
   "files": {
@@ -161,7 +164,7 @@
       "mode": "webpack-production-output"
     },
     "public/app.css": {
-      "sha256": "3192009b767ff86408165ddaa8f524bab914cba91a381c643b617af19fc684f1",
+      "sha256": "ec49d896a7d1286ed9d50eecca7c663beebb204dce0d9cb45b9f2379ab50fcb3",
       "mode": "webpack-production-output"
     },
     "public/app.js": {
@@ -173,23 +176,35 @@
       "mode": "webpack-production-output"
     },
     "public/home.js": {
-      "sha256": "7d9ed699320a45c7d19044b2791bcf6fad11e66ff6a96f148982aee3b2656593",
+      "sha256": "483cc8e8f8ec500c78d7e3756dc8d622d71f056db91f8500f3de701b788d4f4f",
       "mode": "webpack-production-output"
     },
     "public/images/campaign-power.webp": {
       "sha256": "bf488cda0a1873dca294ae49c51f77b37fe25db3d92f6c21c5146906d4cfbeaf",
       "mode": "webpack-production-output"
     },
+    "public/images/hero-commax-mobile.webp": {
+      "sha256": "aea316e77551c59df82519748b9a0ce8d6453e5600afe367c2317cb961659d23",
+      "mode": "webpack-production-output"
+    },
     "public/images/hero-commax.webp": {
-      "sha256": "755b9c593490cd538ed2c896cf2aa1bc947ccb486b779e95e7f9c191fd39b6ee",
+      "sha256": "2a10ce5a5a0cd15dd17e12b3c2f496e444d955aff78323d34b60f0858c8295d6",
+      "mode": "webpack-production-output"
+    },
+    "public/images/hero-kdk-mobile.webp": {
+      "sha256": "40f0376a8c5f4d86261de74628611886b63076ce3fd72074b7796dc06857de9a",
       "mode": "webpack-production-output"
     },
     "public/images/hero-kdk.webp": {
-      "sha256": "3f31614bc7738007db97fa3f9c710f60d380e9da78a0a8de3887f006f7a93abf",
+      "sha256": "47f499f498663acc0d50bc6b7f5d31cebcff1a5f8fd5df598f493585be1ad831",
+      "mode": "webpack-production-output"
+    },
+    "public/images/hero-ocarina-mobile.webp": {
+      "sha256": "2f867e23be37cbb237758b5b29c477fc4fda3851f3de9718ff7df67f18b145bc",
       "mode": "webpack-production-output"
     },
     "public/images/hero-ocarina.webp": {
-      "sha256": "4a4f1c5842b10e0308b1aa862e043e6227ab73e7e9e4a5f79aca917163c62f5a",
+      "sha256": "bbd814a8b641a249a715243f62aaf97df3a11f444f33da3ae013b65ea9f36ac9",
       "mode": "webpack-production-output"
     },
     "public/images/laser-bar-generated.webp": {

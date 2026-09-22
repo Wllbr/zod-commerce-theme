@@ -1,12 +1,23 @@
-/* Full artwork, consistent aspect ratio and no text overlays or cropping. */
-.zod-campaign{margin-block:18px 32px}
-.zod-campaign__viewport{display:grid;isolation:isolate;border-radius:20px;overflow:hidden;background:#11151f;touch-action:pan-y}
-.zod-campaign__slide{display:block;grid-area:1/1;min-width:0;aspect-ratio:2/1;background:#11151f}
+/* Compact Arabic campaigns with responsive artwork and editable copy. */
+.zod-campaign{margin-block:18px 28px}
+.zod-campaign__viewport{display:grid;isolation:isolate;border-radius:20px;overflow:hidden;background:#11151f;touch-action:pan-y;cursor:grab}
+.zod-campaign__viewport:active{cursor:grabbing}
+.zod-campaign__slide{position:relative;display:flex;align-items:center;grid-area:1/1;min-width:0;min-height:280px;background:#11151f}
 .zod-campaign__slide[hidden]{display:none!important}
-.zod-campaign__image-link{display:block;width:100%;height:100%}
-.zod-campaign__art{display:block;width:100%;height:auto;aspect-ratio:2/1;object-fit:contain}
-.zod-campaign :focus-visible{outline:3px solid #ff4a53;outline-offset:-4px}
+.zod-campaign__slide picture{position:absolute;inset:0;pointer-events:none}
+.zod-campaign__art{display:block;width:100%;height:100%;object-fit:cover;object-position:left center}
+.zod-campaign__copy{position:relative;margin-left:auto;width:52%;padding:28px 40px;color:#fff;text-align:right;background:linear-gradient(270deg,#0a0d16a8,transparent);cursor:default}
+.zod-campaign__copy h2{font-size:clamp(26px,2.5vw,36px);line-height:1.3;font-weight:800;margin:0 0 12px;color:#fff}
+.zod-campaign__copy p{font-size:15px;line-height:1.7;margin:0 0 20px;color:#e5e7ef;max-width:440px}
+.zod-campaign__cta{display:inline-flex;align-items:center;justify-content:center;gap:16px;min-height:44px;padding:10px 22px;border-radius:10px;background:#ef1838;color:#fff;font-size:14px;font-weight:700;cursor:pointer}
+.zod-campaign__cta:hover{background:#cd0d2b}
+.zod-campaign__selectors{display:flex;justify-content:center;gap:8px;margin-top:10px}
+.zod-campaign__selectors button{min-height:40px;padding:8px 22px;border:1px solid #e1e3e8;border-radius:30px;background:#f5f6f8;color:#424550;font-size:12px;font-weight:700}
+.zod-campaign__selectors [aria-pressed=true]{background:#171b28;border-color:#171b28;color:#fff}
+.zod-campaign :focus-visible{outline:3px solid #ff4a53;outline-offset:-3px}
 .zod-campaign .zod-offer-tiles{margin-top:12px}.zod-campaign .zod-offer-tiles:empty{display:none}
+@media(min-width:1024px){.zod-campaign__slide{min-height:320px}}
+@media(max-width:767px){.zod-campaign__slide{min-height:220px}.zod-campaign__copy{width:55%;padding:18px 14px 18px 5px}.zod-campaign__copy h2{font-size:23px;margin-bottom:9px}.zod-campaign__copy p{font-size:11px;line-height:1.65;margin-bottom:12px}.zod-campaign__cta{font-size:11px;padding:8px 12px;gap:8px}.zod-campaign__selectors{gap:6px}.zod-campaign__selectors button{padding:8px 12px;font-size:10px}}
 .zod-commerce .zod-laser-showcase__head{display:flex;align-items:center;justify-content:space-between;gap:18px}
 .zod-commerce .zod-laser-showcase__browse{display:inline-flex!important;flex-shrink:0;justify-content:center;align-items:center;gap:12px;min-height:52px;padding:14px 24px!important;width:auto!important;margin:0!important;font-size:16px!important;border-radius:12px;background:#e51d37;color:#fff}
 .zod-commerce .zod-laser-sidebar{display:flex!important;min-width:0;gap:8px}
