@@ -1,9 +1,8 @@
 {
-  "version": "1.9.9",
+  "version": "1.9.10",
   "base": "1.8.2",
   "changes": [
     "Relevant generated category campaigns",
-    "Sixteen editable department templates",
     "Persistent single native purchase dock",
     "Product-page header search restored",
     "Muted viewport-triggered laser playback",
@@ -23,7 +22,14 @@
     "Merchant-requested manual shipping goal replaces eligibility-dependent display; shared editable target, copy, icons, discount basis and notices",
     "Independent per-instance shipping targets, messages and icons with a shared cart refresh",
     "Generated COMMAX 70QT/40K, KDK 25AUA and Ocarina hero artwork; compact responsive split layout",
-    "Removed visible hero controls/numbering and obsolete fields; equal-height slides avoid carousel layout shifts"
+    "Removed visible hero controls/numbering and obsolete fields; equal-height slides avoid carousel layout shifts",
+    "One reusable department component, with legacy templates retained for migration",
+    "Compact editable Arabic hero overlays and six responsive generated backgrounds",
+    "Desktop drag, touch swipe, manual selectors and locale-aware transitions",
+    "35-item laser rail and top-left browse action",
+    "24 interactive feature icons with reduced-motion support",
+    "Synchronized mobile cart quantity badge",
+    "Single native sticky checkout action"
   ],
   "auditStatus": "hero-and-component-target-validation",
   "livePublished": false

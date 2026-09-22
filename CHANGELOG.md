@@ -1,6 +1,10 @@
+## Final 1.9.10 hero refinement
+
+Compact 320px desktop / 220px mobile campaign area with editable Arabic headings and CTA links, separate text-free generated backgrounds for each device, desktop drag, touch swipe and named selectors. Supersedes the interim image-only campaign design.
+
 # 1.9.10 — Arabic installed-product campaigns and reusable sections
 
-Full-image dark banners, directional transitions, laser rail for 35 products, one reusable department, 24 interactive icons, synchronized cart badges and one fixed native checkout action. See REVISION_1_9_10.md.
+Compact dark banners with editable copy and buttons, directional transitions, laser rail for 35 products, one reusable department, 24 interactive icons, synchronized cart badges and one fixed native checkout action. See REVISION_1_9_10.md.
 
 # 1.9.9 — independent component targets and product hero
 

@@ -1,36 +1,44 @@
 {
-  "version": "1.9.9",
-  "date": "2026-09-21",
-  "inspectedDraft": "602971975",
-  "inspectedCodeCommit": "b087522",
+  "version": "1.9.10",
+  "date": "2026-09-22",
+  "inspectedDraft": "1712384850",
+  "inspectedCodeCommit": "5fa0dc2",
   "reviewBranch": "codex/zod-1.9.0-review",
   "verified": [
-    "COMMAX, KDK and Ocarina generated campaigns on mobile and desktop",
-    "Hero has no visible pause/play, arrows, dots or edition numbering",
-    "Keyboard navigation and stable slide height: mobile 391px; desktop 458.61px",
-    "All three existing shipping surfaces remain visible with fallback target 350",
-    "Native existing component save to 1000; custom copy persisted after reload; 67% / 327.97 SAR remaining while other hosts retained 350 / 100%",
-    "Native target 350 and default copy restored and reloaded"
+    "Native desktop hero height 320px at 1425px content width",
+    "Native mobile hero height 220px at 375px content width",
+    "All three mobile generated backgrounds, Arabic headings and category buttons visually inspected",
+    "No mobile horizontal overflow in Arabic or English",
+    "Manual selectors and native desktop mouse drag",
+    "English page retains Arabic campaign copy with English category routes",
+    "Native editor nine copy fields and three mobile image fields"
   ],
-  "editorFieldsVerified": [
-    "independent target",
-    "discount basis",
-    "initial and remaining copy",
-    "success message",
-    "terms",
-    "normal and completion symbols",
-    "hero campaign headings, copy and optional images"
-  ],
+  "earlierSameRevisionEvidence": {
+    "draft": "1289633877",
+    "commit": "219fa3b",
+    "verified": [
+      "Laser browse button physical top left and rail navigation",
+      "One generic department editor entry; existing four intercom groups retained",
+      "24 feature icons and updated native dimension/power choices",
+      "Mobile cart badge 3 to 4 to 3, quantity restored",
+      "Single fixed native checkout button on mobile and desktop"
+    ]
+  },
   "notVerified": [
-    "Full English, physical-device, accessibility and performance audit",
-    "Complete storefront approval and prior live error trace"
+    "Physical touchscreen testing",
+    "Complete storefront/accessibility/performance audit",
+    "35-product populated rail stress test",
+    "Live 1.8.0 product-error root cause",
+    "Payment completion or Zud backend discounts"
   ],
   "previewConsoleIssues": [
-    "Salla page-view POST 405",
+    "Page-view POST 405",
     "getInitialData timeout",
-    "Live reload server disconnected"
+    "Live reload disconnected",
+    "Twilight CDN listener-count warning"
   ],
-  "cartMutated": false,
+  "cartMutated": true,
+  "cartOriginalQuantityRestored": true,
   "livePublished": false,
   "overallScore": null
 }

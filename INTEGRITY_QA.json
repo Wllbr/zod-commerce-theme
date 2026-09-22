@@ -1,17 +1,17 @@
 {
-  "version": "1.9.9",
+  "version": "1.9.10",
   "productionBuild": "passed",
   "tests": "passed",
-  "buildInputs": 142,
-  "publicOutputs": 21,
+  "buildInputs": 147,
+  "publicOutputs": 24,
   "css": {
-    "appRaw": 394136,
-    "appGzip": 64651,
+    "appRaw": 397806,
+    "appGzip": 65402,
     "refinementRaw": 38753,
     "refinementGzip": 7134,
-    "combinedGzip": 71785
+    "combinedGzip": 72536
   },
-  "heroWebpBytes": 98488,
+  "heroWebpBytes": 201200,
   "approvalGuards": "passed",
   "warnings": [
     "Webpack raw CSS/app entry recommendations"
