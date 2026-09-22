@@ -1,6 +1,6 @@
 # ZOD Commerce 1.9.12 — final media and layout review
 
-22 September 2026. Review candidate, not published live. Version 1.9.12 adds the requested desktop-only checkout placement to the validated 1.9.11 media/layout candidate.
+22 September 2026. Review candidate, not published live. Final inspected Salla draft: 1656205508; code commit: b95da9b on codex/zod-1.9.0-review.
 
 ## Completed
 
@@ -20,6 +20,7 @@
 - Actual rendered hero height: 220 px at 375 px mobile content width; 320 px at 1265 px desktop content width. No horizontal overflow at those inspected widths.
 - Mobile KDK 25AUA PDP: compact gallery, persistent purchase controls and mobile navigation; three trust blocks in one row; offer disclosure opens and exposes the supplied Salla offer details. No visible Not Found toasts during this sample.
 - Mobile cart: exactly one visible checkout button in the sticky summary; quantity badge 5; native total 1,120.05 SAR and displayed saving 58.95 SAR; shipping celebration visible. Cart contents were not changed during this pass.
+- Final 1.9.12 cart check: at 1186px desktop width the checkout action computed as static, directly below the native totals inside the 360px summary card. In Salla's narrow mobile editor preview, the same action remained fixed above the persistent mobile navigation. No second checkout button appeared.
 - Wall-exhaust category direct destination loads 15 products with consistent header/cards and no desktop horizontal overflow. Footer category, policy, contact and payment content present.
 - Approval fixes retained: salla-add-product-toast in master, salla-review-order-item in order details, no automatic product-details requests during product-card/list initialization.
 

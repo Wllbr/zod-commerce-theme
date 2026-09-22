@@ -1,8 +1,8 @@
 {
-  "version": "1.9.11",
+  "version": "1.9.12",
   "date": "2026-09-22",
-  "inspectedDraft": "2041070824",
-  "inspectedCodeCommit": "201ba45",
+  "inspectedDraft": "1656205508",
+  "inspectedCodeCommit": "b95da9b",
   "reviewBranch": "codex/zod-1.9.0-review",
   "publishedLive": false,
   "media": {
@@ -19,6 +19,7 @@
     "No overflow at inspected mobile/desktop widths",
     "Mobile PDP offer disclosure and horizontal trust row",
     "One mobile sticky checkout; cart quantity 5 unchanged",
+    "Desktop checkout is static directly below native totals; mobile checkout remains sticky above the bottom navigation",
     "Manual shipping celebration visible",
     "Category direct destination renders 15 products"
   ],
