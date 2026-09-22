@@ -429,19 +429,20 @@ class ZodTheme {
   }
 
   updateCartBadge(count = this.getStoredCartCount(), animate = false) {
-    const badge = document.querySelector('[data-zod-cart-count]');
-    const cart = document.querySelector('.zod-cart-link');
-    if (!badge || !cart) return;
-    const safeCount = Math.max(0, Number(count) || 0);
-    badge.textContent = safeCount > 99 ? '99+' : String(safeCount);
-    badge.hidden = safeCount === 0;
-    cart.classList.toggle('has-items', safeCount > 0);
-    if (animate && safeCount > 0) {
-      cart.classList.remove('is-bumping');
-      void cart.offsetWidth;
-      cart.classList.add('is-bumping');
-      setTimeout(() => cart.classList.remove('is-bumping'), 650);
-    }
+    const safeCount = Math.max(0, Math.floor(Number(count) || 0));
+    document.querySelectorAll('[data-zod-cart-count]').forEach(badge => {
+      badge.textContent = safeCount > 99 ? '99+' : String(safeCount);
+      badge.hidden = safeCount === 0;
+    });
+    document.querySelectorAll('.zod-cart-link, .zod-dock-cart').forEach(cart => {
+      cart.classList.toggle('has-items', safeCount > 0);
+      if (animate && safeCount > 0) {
+        cart.classList.remove('is-bumping');
+        void cart.offsetWidth;
+        cart.classList.add('is-bumping');
+        setTimeout(() => cart.classList.remove('is-bumping'), 650);
+      }
+    });
   }
 
   recoverEmptyCartPage(count) {

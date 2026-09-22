@@ -16,7 +16,8 @@ function run(reduced){
  });
  const section=element();section.dataset={labelPlay:'Watch',labelPause:'Pause',labelMute:'Mute',labelUnmute:'Unmute'};
  section.querySelectorAll=s=>s.includes('trigger')?triggers:panels;
- section.querySelector=()=>({scrollHeight:0,clientHeight:0,scrollWidth:0,clientWidth:0,getBoundingClientRect:()=>({top:0,left:0,height:60,width:200})});
+ const next=element(),prev=element();
+ section.querySelector=s=>s==='[data-zod-laser-next]'?next:s==='[data-zod-laser-prev]'?prev:({scrollHeight:0,clientHeight:0,scrollWidth:0,clientWidth:0,getBoundingClientRect:()=>({top:0,left:0,height:60,width:200})});
  const doc={hidden:false,events:{},documentElement:{dir:'rtl'},addEventListener(n,f){this.events[n]=f}};
  const context={document:doc,window:{IntersectionObserver:true,matchMedia:()=>({matches:reduced,addEventListener(){}}),clearTimeout(){},setTimeout(){return 1}},IntersectionObserver:class{constructor(cb){observers.push(cb)}observe(){}}};
  vm.runInNewContext(code+'\nthis.init=initLaserShowcase;',context);context.init(section);
@@ -29,6 +30,8 @@ function run(reduced){
  triggers[1].events.click();assert.equal(Boolean(panels[1].video.src),!reduced,'new active panel follows visible playback preference');assert.equal(panels[0].playControl.attrs['aria-pressed'],'false');
  if(!reduced) panels[1].playControl.events.click(); panels[1].playControl.events.click();assert.equal(panels[1].video.muted,true,'new panel resets sound');
  panels[1].playControl.events.click();assert.equal(panels[1].playControl.attrs['aria-pressed'],'false');
+ next.events.click();assert.equal(triggers[0].attrs['aria-selected'],'true','rail next wraps');
+ prev.events.click();assert.equal(triggers[1].attrs['aria-selected'],'true','rail previous wraps');
  return {panels,triggers,doc};
 }
 run(false);run(true);

@@ -95,6 +95,14 @@ const initInteractiveShowcase = (section) => {
   let activeIndex = 0;
   let timer = null;
   const delay = 3600;
+  let visible = !('IntersectionObserver' in window), hovered = false, focused = false, manual = false;
+  const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const video = section.querySelector('video');
+  const syncVideo = () => {
+    if (!video) return;
+    if (visible && !document.hidden && !motion.matches) video.play()?.catch(() => {});
+    else video.pause();
+  };
 
   const activate = (index, userInitiated = false) => {
     activeIndex = (index + triggers.length) % triggers.length;
@@ -105,7 +113,7 @@ const initInteractiveShowcase = (section) => {
       trigger.tabIndex = active ? 0 : -1;
     });
     panels.forEach((panel, i) => { panel.classList.toggle('is-active', i === activeIndex); panel.setAttribute('aria-hidden', i === activeIndex ? 'false' : 'true'); panel.inert = i !== activeIndex; });
-    if (userInitiated) restart();
+    if (userInitiated) { manual = true; stop(); }
   };
 
   const stop = () => {
@@ -115,11 +123,10 @@ const initInteractiveShowcase = (section) => {
 
   const start = () => {
     stop();
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || triggers.length < 2) return;
+    if (motion.matches || triggers.length < 2 || !visible || hovered || focused || manual || document.hidden) return;
     timer = window.setInterval(() => activate(activeIndex + 1), delay);
   };
 
-  const restart = () => start();
 
   triggers.forEach((trigger, i) => {
     trigger.addEventListener('click', () => activate(i, true));
@@ -134,13 +141,20 @@ const initInteractiveShowcase = (section) => {
       event.preventDefault(); activate(next, true); triggers[activeIndex].focus(); stop();
     });
   });
-  section.addEventListener('mouseenter', stop);
-  section.addEventListener('mouseleave', start);
-  section.addEventListener('focusin', stop);
+  section.addEventListener('mouseenter', () => { hovered = true; stop(); });
+  section.addEventListener('mouseleave', () => { hovered = false; start(); });
+  section.addEventListener('focusin', () => { focused = true; stop(); });
   section.addEventListener('focusout', (event) => {
-    if (!section.contains(event.relatedTarget)) start();
+    if (!section.contains(event.relatedTarget)) { focused = false; start(); }
   });
-  document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+  document.addEventListener('visibilitychange', () => { start(); syncVideo(); });
+  motion.addEventListener?.('change', () => { start(); syncVideo(); });
+  if ('IntersectionObserver' in window) new IntersectionObserver(entries => {
+    visible = entries.some(entry => entry.isIntersecting);
+    section.classList.toggle('is-showcase-visible', visible);
+    start(); syncVideo();
+  }, {threshold:.15}).observe(section);
+  else section.classList.add('is-showcase-visible');
 
   activate(0);
   start();
@@ -302,6 +316,9 @@ const initLaserShowcase = (section) => {
       activate(nextIndex, { focus: true, scroll: true });
     });
   });
+
+  section.querySelector('[data-zod-laser-next]')?.addEventListener('click', () => activate(activeIndex + 1, {scroll:true}));
+  section.querySelector('[data-zod-laser-prev]')?.addEventListener('click', () => activate(activeIndex - 1, {scroll:true}));
 
   panels.forEach((panel, index) => {
     panel.querySelector('[data-zod-laser-play]')?.addEventListener('click', () => {

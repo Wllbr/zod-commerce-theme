@@ -214,7 +214,9 @@
       "unmute": "Turn sound on",
       "mute": "Mute video",
       "play": "Watch demo",
-      "pause": "Pause demo"
+      "pause": "Pause demo",
+      "previous": "Previous product",
+      "next": "Next product"
     },
     "cart": {
       "added": "Product added to cart",
@@ -485,6 +487,11 @@
       "insects_text": "Ocarina insect zappers and insect-control products for home and work.",
       "insects_cta": "Shop insect control",
       "navigation": "Swipe or use arrow keys to change campaign. Escape stops rotation."
+    },
+    "hero_art": {
+      "intercom": "بابك أقرب — إنتركوم كوماكس — اكتشف المجموعة",
+      "ventilation": "جدّد هواء المكان — تهوية كيه دي كيه — اكتشف مراوح الشفط",
+      "insects": "راحة تكمّل جلستك — مكافحة الحشرات من أوكارينا — اكتشف المجموعة"
     }
   }
 }

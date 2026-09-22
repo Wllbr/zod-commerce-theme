@@ -12,11 +12,12 @@
           <h2>{{ section_title|default(trans('zod.laser.title')) }}</h2>
           <p>{{ section_subtitle|default(trans('zod.laser.subtitle')) }}</p>
         </div>
+        {% if browse_url %}<a class="zod-laser-showcase__browse" href="{{ browse_url }}"><span>{{ browse_label|default(trans('zod.laser.browse_all')) }}</span><i class="sicon-arrow-left rtl:rotate-180" aria-hidden="true"></i></a>{% endif %}
       </header>
 
       <div class="zod-laser-layout">
         <aside class="zod-laser-sidebar">
-          {% if browse_url %}<a class="zod-laser-showcase__browse zod-laser-showcase__browse--desktop" href="{{ browse_url }}"><span>{{ browse_label|default(trans('zod.laser.browse_all')) }}</span><i class="sicon-arrow-left rtl:rotate-180" aria-hidden="true"></i></a>{% endif %}
+          <button type="button" class="zod-laser-rail-control" data-zod-laser-prev aria-label="{{ trans('zod.laser.previous') }}">‹</button>
           <div class="zod-laser-selector" role="tablist" aria-label="{{ trans('zod.laser.choose_product') }}">
           {% for item in component.items %}
             {% set product_ids = [] %}
@@ -36,6 +37,7 @@
             {% endif %}
           {% endfor %}
           </div>
+          <button type="button" class="zod-laser-rail-control" data-zod-laser-next aria-label="{{ trans('zod.laser.next') }}">›</button>
         </aside>
 
         <div class="zod-laser-stage">
@@ -92,7 +94,6 @@
         </div>
       </div>
 
-      {% if browse_url %}<a class="zod-laser-showcase__browse zod-laser-showcase__browse--mobile" href="{{ browse_url }}">{{ browse_label|default(trans('zod.laser.browse_all')) }} <i class="sicon-arrow-left rtl:rotate-180" aria-hidden="true"></i></a>{% endif %}
     </div>
   </section>
 {% endif %}

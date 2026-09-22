@@ -6,20 +6,17 @@
   {% set category_urls = category_urls|merge({(slot): category_url}) %}
 {% endfor %}
 {% set campaigns = [
- {key:'intercom', image:component.hero_intercom_image|default('images/hero-commax.webp'|asset), url:category_urls.intercom},
- {key:'ventilation', image:component.hero_ventilation_image|default('images/hero-kdk.webp'|asset), url:category_urls.exhaust},
- {key:'insects', image:component.hero_insects_image|default('images/hero-ocarina.webp'|asset), url:category_urls.insect}
+ {key:'intercom', alt:trans('zod.hero_art.intercom'), image:component.hero_intercom_image|default('images/hero-commax.webp'|asset), url:category_urls.intercom},
+ {key:'ventilation', alt:trans('zod.hero_art.ventilation'), image:component.hero_ventilation_image|default('images/hero-kdk.webp'|asset), url:category_urls.exhaust},
+ {key:'insects', alt:trans('zod.hero_art.insects'), image:component.hero_insects_image|default('images/hero-ocarina.webp'|asset), url:category_urls.insect}
 ] %}
 <section class="zod-campaign container" data-zod-campaign data-autoplay="{{ component.campaign_autoplay is defined and not component.campaign_autoplay ? 'false' : 'true' }}" aria-label="{{ trans('zod.campaign.eyebrow') }}" aria-roledescription="carousel">
  <div class="zod-campaign__viewport" data-campaign-viewport tabindex="0" aria-label="{{ trans('zod.hero_products.navigation') }}">
  {% for campaign in campaigns %}
   <article class="zod-campaign__slide" data-campaign-slide role="group" aria-roledescription="slide" aria-label="{{ trans('zod.hero_products.' ~ campaign.key ~ '_cta') }}" {% if not loop.first %}hidden{% endif %}>
-   <div class="zod-campaign__copy">
-    <h2>{{ component['hero_' ~ campaign.key ~ '_title']|default(trans('zod.hero_products.' ~ campaign.key ~ '_title')) }}</h2>
-    <p>{{ component['hero_' ~ campaign.key ~ '_text']|default(trans('zod.hero_products.' ~ campaign.key ~ '_text')) }}</p>
-    {% if campaign.url %}<a class="zod-campaign__cta" data-zod-category-link href="{{ campaign.url }}">{{ trans('zod.hero_products.' ~ campaign.key ~ '_cta') }}</a>{% endif %}
-   </div>
-   <img class="zod-campaign__art" src="{{ campaign.image }}" width="1536" height="1024" alt="" decoding="async" {{ loop.first ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"' }}>
+   {% if campaign.url %}<a class="zod-campaign__image-link" data-zod-category-link href="{{ campaign.url }}" lang="ar">{% endif %}
+   <img class="zod-campaign__art" src="{{ campaign.image }}" width="1774" height="887" alt="{{ component['hero_' ~ campaign.key ~ '_alt']|default(campaign.alt) }}" lang="ar" decoding="async" {{ loop.first ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"' }}>
+   {% if campaign.url %}</a>{% endif %}
   </article>
  {% endfor %}
  </div>

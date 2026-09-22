@@ -1,5 +1,5 @@
 {
-  "version": "1.9.9",
+  "version": "1.9.10",
   "builder": "webpack-production",
   "toolchain": {
     "node": "v22.18.0",
@@ -7,7 +7,7 @@
   },
   "inputs": {
     ".npmrc": "f84e69fe032956925070936b1557ae1320d29d06b58db541649515e05db580c6",
-    "package.json": "7275c8d571a37dcfda918d8c077fbb0e809630f8807d3e16ec7f10f03c586e15",
+    "package.json": "5457265171a65c7e6551098aa7a506a72640f0f1bd3748e2301d49b912154148",
     "pnpm-lock.yaml": "3f2bcf6cb159d4dacbffa697add62fb88fe97bfcda1260644f33381a3024f963",
     "pnpm-workspace.yaml": "9082b3fed56a9b818282d1ab4d450eab0fa4da7c8f191072e9dc4dde32f21eb2",
     "postcss.config.js": "134370dcd34c87ed8277c373743326a1f87b669d66ac1cf3fc98abc024208c76",
@@ -16,32 +16,33 @@
     "scripts/build-offline.mjs": "9162eee67c9508101584a25a4fbe69a867c9a41139effb5e4b806c28a60dd707",
     "scripts/check-build-integrity.mjs": "a55b85f4b6fa61ece185ebef9c955d2e5a63772753866ec87fbf9a966e6fa5a0",
     "scripts/check-css-budget.mjs": "054cc25f1a3715a011fc1e5c0a196b69e81497538c8f691a197a79fe0b9e1001",
-    "scripts/package-release.ps1": "945180b1d71c5f796dcc950492a0c5e4db418f89a81db44103e1f9545797f693",
+    "scripts/package-release.ps1": "02d1b41c6727ed4dab8be0140aa632b4d31716d3f6e5776b2706aa50b9437567",
     "scripts/record-build.mjs": "671b6a42cdd2dbeec4955851180a9d4d3308daff3c1bdaca0aea8ad3a9e6689c",
     "scripts/test-approval.mjs": "d30c1f3ddc122b2cd1bb0583e11e8f485d2d988fcd76597c571c3a83717a2b3b",
-    "scripts/test-campaign.mjs": "c9ec886016f325b5f6e32738f0868a0482f610606811edc9167af3bad0dce74f",
-    "scripts/test-component-defaults.mjs": "48a0b2fb9bd41e268b1c25623fedc677ab52d46bc1fd1cac3bdf8a54a0e5efd3",
+    "scripts/test-campaign.mjs": "b58556829b98076146a1c95b708a6fa8e0b6e4b6211cf8b256aac7d89aba4d94",
+    "scripts/test-cart-badges.mjs": "258246ca7e129d4e5d0727ae275ccfa0990ffc833c6de4fa29b5e838cda8a68b",
+    "scripts/test-component-defaults.mjs": "028bfbd101d9df220a72a8db7357280f21e2c68316a3295bb755472055f80d4f",
     "scripts/test-continuation.mjs": "80a0f1f9de3114467c74e2d79cb584babcaa90aaa08e18953204c33861f725bc",
-    "scripts/test-laser-playback.mjs": "034b1003371a311b62dd9209935cf911998f035993f03494da06dc66e8354eed",
+    "scripts/test-laser-playback.mjs": "e38ae4cb813a5e39e083c71fafdb13ef73be425aa96e8608f85ec024cf0d6de8",
     "scripts/test-notifications.mjs": "aa26cde7baa6805e151b846a0fb8466fc13b64175b36f1771fda158b31be9a95",
     "scripts/test-purchase-layout.mjs": "e5130fd918515cfc6e03674d47da4601a8499a8a836a9e0e07706db11e29dce3",
-    "scripts/test-regressions.mjs": "f54fa7de65eb0f5b9fab11b58a98366ebfe804c9861fed515cd9f725404d42f0",
+    "scripts/test-regressions.mjs": "682884b24853625f42a9929d2b83813c901a3c8e00dff620ac4cd0183ad6710b",
     "scripts/test-shipping-goal.mjs": "b22e89ce115fcf3dacb1222f28b629219cd67e0ddbd361b469198aae66ebc11f",
     "scripts/test-shopping.mjs": "bdefbbc41d580b056833f10382d25be854844d6a114521d7000d5d86025cefe4",
     "scripts/validate-theme.mjs": "597877959bad421b24ec0f800e778465e63e839616ae4ea22e73f8fe192d6309",
     "src/assets/images/campaign-power.webp": "bf488cda0a1873dca294ae49c51f77b37fe25db3d92f6c21c5146906d4cfbeaf",
-    "src/assets/images/hero-commax.webp": "3aeb7951a4fb57db69a21444606738ab4f5ca6a29d2b0dda56db7b1291e4974f",
-    "src/assets/images/hero-kdk.webp": "d86123b53d41239ede202d628efbf9162adf3e8e6e465d3296d777c000e33d4a",
-    "src/assets/images/hero-ocarina.webp": "d04cbcd5bab63f2f1c51750b50226b532dbf8720e6bfa21f4418f719a5b334ea",
+    "src/assets/images/hero-commax.webp": "755b9c593490cd538ed2c896cf2aa1bc947ccb486b779e95e7f9c191fd39b6ee",
+    "src/assets/images/hero-kdk.webp": "3f31614bc7738007db97fa3f9c710f60d380e9da78a0a8de3887f006f7a93abf",
+    "src/assets/images/hero-ocarina.webp": "4a4f1c5842b10e0308b1aa862e043e6227ab73e7e9e4a5f79aca917163c62f5a",
     "src/assets/images/laser-bar-generated.webp": "d4387c238474b25b1bf60968bb6df13fa431c5c9389a69fd0012cf397c73b237",
     "src/assets/images/laser-spider-generated.webp": "9285ec89481bee6a1410bf25e5c75cad34226a4f24453fcadcf73327c7c7a217",
     "src/assets/images/placeholder.svg": "b4a0b8e8beda6cf59ac4739286b09f2b9946fe45413252e0234d3f4b27d913aa",
-    "src/assets/js/app.js": "ac43e104d69a6766e73d4f66178ae389188aa34ebad0a8f44df6cef91a45937a",
-    "src/assets/js/home.js": "ec012e7cd1be672c2ce32681137b5e60bb0afb587843a814ce38d5e7b9da1cde",
+    "src/assets/js/app.js": "a102256699c494a7e26fc7c03f2ed8e22df002b9e4681b93a96eaee7ff8960e1",
+    "src/assets/js/home.js": "920ce1bc532305eabb82a82ff9ce29da4ce2c18dd84fa17008726853406dfdb2",
     "src/assets/js/legacy-product-card.js": "c1f94506d19ea7d1940bc30a84c660d8fcfc4cb06792b0d3dfe0cff691a7f069",
     "src/assets/js/pages.js": "7291103a5b491b60880f539bc268fb21bbdc8db8b5235197c26a5a232548cf6d",
     "src/assets/js/partials/add-product-toast.js": "7765af99f6afbe8c250d41e8efa5a996a59404379f1f02d56e132e84d915a18d",
-    "src/assets/js/partials/campaign.js": "4004c3416345efe2b51a0180b06ea5925290d95053ce8c96ba6338b971e79dbb",
+    "src/assets/js/partials/campaign.js": "bff4c99dc0c2425ff6f5423e3106856082c93366c5c96bb064c23e5a6922ffff",
     "src/assets/js/partials/dialog-focus.js": "55a504e139a1a3fb55174849b853855f9417a6c69eb63cbb68e5d075f1e44f7e",
     "src/assets/js/partials/digital-files.js": "1e4a7901a5fcc5d95caffb44b981e530058927cfe143a005450fbd218f200a47",
     "src/assets/js/partials/dock-layout.js": "cf4c38bd66f0c2a11f15d5db810cc619d86b0160585b1e71f3b598abb5445368",
@@ -57,15 +58,16 @@
     "src/assets/js/product-runtime-compat.js": "dd978365b238b8d74ccac90acdc5cbafb005ffe03633c51d8ff2ec63c035e34c",
     "src/assets/js/product.js": "2a33420f53167be3dfc9d25c6c4febcf5808ece217a2606854e09f275a9bbc67",
     "src/assets/js/products.js": "2288737674b5b18ec7301e0e8c5c951edeb089b2371fbadebd8342665922fb5b",
-    "src/assets/styles/app.scss": "d663f6981cefb1139058a80eea1e7f936bfceda6494acfac99a7c5ec57e47d3c",
+    "src/assets/styles/app.scss": "860dc0fd4e3987e24296c3e77710086b32938d27bb400029b878172c33f818b7",
     "src/assets/styles/campaign.scss": "73c67e7ab82793f1348e572026ae406e47480118cc0eb8e3b5132c01ad7ee073",
     "src/assets/styles/commerce-states.scss": "e9707bcfef9455e780fb0dc7c0b82f43bbaf8e6eb0b742518c97df133c197392",
     "src/assets/styles/product-polish.scss": "cd3869a174d4a9184c63c4357da589fe3fd8a528cf1708f3d6fec94c19f69c85",
     "src/assets/styles/refinement.css": "a2a99c5d975cb76243b20adf1fa8bfee0da256c37d71efb9207fb4c02ae7a381",
     "src/assets/styles/retail-refresh.scss": "4f795f8cea97b0a359b2d3f6ab93f45ff4344ba907b5de2b85d5b5f97ba0bfaa",
+    "src/assets/styles/revision-1910.scss": "749957efb7ba104e27e294fbd834b4fea833f14246042485f7291c74dc7f1997",
     "src/assets/styles/showcase-refresh.scss": "9ff4a4cbbeaa2757722a06b226a92506bd82c72fec4741b3186dafa8ad0a664c",
-    "src/locales/ar.json": "72c8f023b104ffc56358417e56e8b2ada978e90fc9ddb0015b7ab615e94a5151",
-    "src/locales/en.json": "d1d5ba00c094eb7735edea0e9d339af342fb8f9550093c67da93ace291a7cef0",
+    "src/locales/ar.json": "108307efc4c1bc152ca9b0d47096aa38d3057c1ae3e88c1d25da2fa72ead31a7",
+    "src/locales/en.json": "c476d36e95e7b76994066d18d5e5ede11f44a34ce3318bbd7c057cbd25163acf",
     "src/views/components/blog/article-card.twig": "08e54744a1e11e571ef7dfa67e6e183ee85b1817662c6f237e99e1b748ff2e76",
     "src/views/components/footer/footer.twig": "49804402760c8fe2c429bda62f854b9d94557d6335e396b51e399a864beda107",
     "src/views/components/header/header.twig": "cde1d0092bcba830a9b4200c0c5cff3c3e0aac158e216e618e7e5530fae80201",
@@ -85,7 +87,7 @@
     "src/views/components/home/department-fans.twig": "351a3a8167a2b367e50b787a0ebc35a5523c90deecaa469ee4191b63dc73aed7",
     "src/views/components/home/department-flashlights.twig": "63c96a62ceed791b2bae29b670d7426e9b5d3734b8f0c3b1d65c2763c9db0b34",
     "src/views/components/home/department-insects.twig": "734fd04dc24d906a4e507c0d2327d4fe44633fdf33ba498f7a03286d072c9854",
-    "src/views/components/home/department-intercom.twig": "532ad14e2cd6705b2f30ab6c808ccdfe37740ae00f4a31112ce714283fe58bdb",
+    "src/views/components/home/department-intercom.twig": "9eda3172f32ee1278099b82d7f5fbe29d7ecf185a442554b888335b1c4899b52",
     "src/views/components/home/department-led-strips.twig": "b0a848684e737bbb292da822565c9973c89cc33724bd1d4e596432e8c77aa04d",
     "src/views/components/home/department-sensors.twig": "df0423e0bdf52bd51ca0db2c20d86a932720b6c6a29a9d3bf1dd8fa6d5b8ffec",
     "src/views/components/home/department-sound.twig": "c1a2ac4d941a88d2e78e84dad48775aedbcc429030b3e9f561d2da0340bd6c31",
@@ -98,10 +100,10 @@
     "src/views/components/home/featured-products.twig": "9f3f298ff9d99a7e8d6b92d1c8c4b4b6091ed23db4cec1e6060f6f4166bd25bb",
     "src/views/components/home/fixed-banner.twig": "e8500a31a94d350bf4dc22beb6b1571609417fb25489a9d650e60cc795ffc506",
     "src/views/components/home/fixed-products.twig": "1ed30b6c59b4fe9fe5472760a8ae6f464139226e2be15f38a857387fe779fd77",
-    "src/views/components/home/hero-hub.twig": "49ca49d21c858838982cd735efb37a631951d17828da46aaca5065c7b1ef7730",
+    "src/views/components/home/hero-hub.twig": "8a1f6cc68238f03093e03958475cb96bf43f2ba23f0c8f406777794f0fe1bc32",
     "src/views/components/home/hero.twig": "08b2cd98923ecac88d40f5e73fbffed0d747c12872c946fff647c050aeb603c0",
-    "src/views/components/home/interactive-product-showcase.twig": "8751aa2a6b921964e78e50a6f9c275755bf5726126481918c73b859a141027c1",
-    "src/views/components/home/laser-showcase.twig": "7230cad02453e155840dc61322def19af5927cd347e01084a1972464285c0c92",
+    "src/views/components/home/interactive-product-showcase.twig": "7b869e3579742c95590ad639b6858abfc079be32601dd816ce19afdd7737bb24",
+    "src/views/components/home/laser-showcase.twig": "d8f8c045d0b975200666da9763df569ed3d423df7b1d4e7c12cda1d58b0717d8",
     "src/views/components/home/locations.twig": "fc6870f0983eeb13a076705c5594c704984df16571c904faa667166e908399c2",
     "src/views/components/home/photos-slider.twig": "35e80ffb4da74737b48d1b6d214a0afd70d3ce715a9e6f3fdad04973fdc00420",
     "src/views/components/home/product-shelf.twig": "12774c937176cd710be2d3ad92be371f327cabef8e2fba24938942d4ccb124ef",
@@ -124,12 +126,12 @@
     "src/views/components/shipping-progress.twig": "6308e0654c6443912af62f92fcbfe5fac2b8bd1733d4d125bf6d6c964d82c96a",
     "src/views/components/trust-icon.twig": "06428abdae31ebe08438866e22bc47b832ff835b6a43752d119ff611fa52da0f",
     "src/views/layouts/customer.twig": "04f6376ca00ad99ac91b0d4baf89c01729728ec8550f1ab5c1f1d63531a404b9",
-    "src/views/layouts/master.twig": "801d32eb35555b318f4928522baf6c67257fbee989da94ab38f0e96c6357a327",
+    "src/views/layouts/master.twig": "9da8d44b8dc996c3a55a4b891a6a0c751b54b1c92b5c294698965b2694b4c699",
     "src/views/pages/blog/index.twig": "e084826bb7e6e22c5b7c2ee760c823071d9d48ef83844f9471e97ae34e3fd724",
     "src/views/pages/blog/single.twig": "3f850a97a1d5429dd6cf309dcedd1750bc54d4b4fdc877e944654d0c89a01d45",
     "src/views/pages/brands/index.twig": "696b29af931a52ea82e3f022c273fcaea7483ed4605eece5cbfaf0cc2a7080b6",
     "src/views/pages/brands/single.twig": "6aa54da25378e12342d385479b7d3b1fbf23981ec4d3688355fba7c26feaa964",
-    "src/views/pages/cart.twig": "f913cab9b5b142f707dab4bc774f95b37fd7198b16c6efad23298ca99bd4475a",
+    "src/views/pages/cart.twig": "4ee846a524b774b48ae5e82972be385ac5302b266a39c96ff238399298406c05",
     "src/views/pages/customer/notifications.twig": "4581ebf78d1c9958c9164ccb37e58e57542d990721f9834b5485471d9a9222b8",
     "src/views/pages/customer/orders/index.twig": "788a71adf29beb388c97e8bd92cb2059253eecce9249c677e0f72d1ab21eee68",
     "src/views/pages/customer/orders/single.twig": "a347346faa17e57a76774c878837648100d57750f78f00010b05f847b7ca78c7",
@@ -146,7 +148,7 @@
     "src/views/pages/testimonials.twig": "d499be8138a23a6daa457cbf1000759df3a15024fb9272d8f8395018ec945323",
     "src/views/pages/thank-you.twig": "a51fb48179d9d21eb5b21b01b485642edfe5612800ad5233d742ff5a59012dc8",
     "tailwind.config.js": "f321881ec2a51603ba55316b6841c2b0950a4b33b00c04dd4818d1de9d79d169",
-    "twilight.json": "fb39776615e0390947cf55b5c2913d254ec8dab2f42f80b58ff2920b5ecea136",
+    "twilight.json": "c146eeea43e6bb0c707c802fd34f99a1044798a9733b3f52573954b6a4b74f4e",
     "webpack.config.js": "4308d439ba372bbe507188cf29ea4762a830b88baa136c1af49eafdcd2e4589e"
   },
   "files": {
@@ -159,11 +161,11 @@
       "mode": "webpack-production-output"
     },
     "public/app.css": {
-      "sha256": "b359f95104f724f5955d323172160940cfb1ee651a5310695de90a315fff24c0",
+      "sha256": "3192009b767ff86408165ddaa8f524bab914cba91a381c643b617af19fc684f1",
       "mode": "webpack-production-output"
     },
     "public/app.js": {
-      "sha256": "1450b6f1118eff6cd7eae51fc4ca5875ad7c87bc1e8d1a1804e3b36c14e0ba5e",
+      "sha256": "18a488406f1812494f87d8bb3af2b05a065cfe9170d78c592335a0c513370e9e",
       "mode": "webpack-production-output"
     },
     "public/digital-files.js": {
@@ -171,7 +173,7 @@
       "mode": "webpack-production-output"
     },
     "public/home.js": {
-      "sha256": "4b9ffb62fc3dcc51fa83bcdc1ef902dc14044338160ee65ce3e0af982f139a2b",
+      "sha256": "7d9ed699320a45c7d19044b2791bcf6fad11e66ff6a96f148982aee3b2656593",
       "mode": "webpack-production-output"
     },
     "public/images/campaign-power.webp": {
@@ -179,15 +181,15 @@
       "mode": "webpack-production-output"
     },
     "public/images/hero-commax.webp": {
-      "sha256": "3aeb7951a4fb57db69a21444606738ab4f5ca6a29d2b0dda56db7b1291e4974f",
+      "sha256": "755b9c593490cd538ed2c896cf2aa1bc947ccb486b779e95e7f9c191fd39b6ee",
       "mode": "webpack-production-output"
     },
     "public/images/hero-kdk.webp": {
-      "sha256": "d86123b53d41239ede202d628efbf9162adf3e8e6e465d3296d777c000e33d4a",
+      "sha256": "3f31614bc7738007db97fa3f9c710f60d380e9da78a0a8de3887f006f7a93abf",
       "mode": "webpack-production-output"
     },
     "public/images/hero-ocarina.webp": {
-      "sha256": "d04cbcd5bab63f2f1c51750b50226b532dbf8720e6bfa21f4418f719a5b334ea",
+      "sha256": "4a4f1c5842b10e0308b1aa862e043e6227ab73e7e9e4a5f79aca917163c62f5a",
       "mode": "webpack-production-output"
     },
     "public/images/laser-bar-generated.webp": {

@@ -1,6 +1,6 @@
-{% set department_title = component.title|default(trans('zod.departments.intercom.title')) %}
-{% set department_text = component.text|default(trans('zod.departments.intercom.text')) %}
-{% set department_defaults = [{title:trans('zod.departments.intercom.group_0'),category:[1792203262],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/intercom-monitors/c1792203262"},{title:trans('zod.departments.intercom.group_1'),category:[1153431807],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/door-cameras-panels/c1153431807"},{title:trans('zod.departments.intercom.group_2'),category:[377751544],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/audio-intercom/c377751544"},{title:trans('zod.departments.intercom.group_3'),category:[843990522],products:[],url:"https://salla.design/ar/dev-lzzllycttpjfcngw/access-systems-parts/c843990522"}] %}
+{% set department_title = component.title|default(trans('zod.home.view_all')) %}
+{% set department_text = component.text|default('') %}
+{% set department_defaults = [] %}
 {% set department_art = null %}
 {% set department_enabled = component.enabled is defined ? component.enabled : true %}
 {% include 'components.home.department-base' %}

@@ -23,5 +23,9 @@ for (const component of theme.components) {
     }
   }
 }
-assert.equal(collections, 16, 'all department default collections are checked');
+const departments = theme.components.filter(component => component.path.startsWith('home.department-'));
+assert.equal(departments.length, 1, 'the editor exposes one reusable department');
+assert.equal(departments[0].key, '63ab1172-e60b-4531-b90e-eb3f83cd5ca5', 'existing saved department key is retained');
+assert.equal(departments[0].fields.find(field => field.id === 'groups').maxLength, 12);
+assert.equal(theme.components.find(component => component.path === 'home.laser-showcase').fields.find(field => field.id === 'items').maxLength, 35);
 console.log(`PASS: ${collections} department collections match native editor field IDs and selection limits.`);

@@ -6,6 +6,7 @@ export const initCampaign = section => {
   const toggle = section.querySelector('[data-campaign-pause]');
   const viewport = section.querySelector('[data-campaign-viewport]');
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let animations = [];
   let index = 0, timer, paused = section.dataset.autoplay === 'false' || motion.matches;
   let hovered = false, focused = false, visible = true, touchX = null, touchY = null;
   const stop = () => { clearTimeout(timer); timer = null; };
@@ -20,8 +21,22 @@ export const initCampaign = section => {
     toggle.querySelector('span').textContent = paused ? '▶' : 'Ⅱ';
   };
   const show = next => {
+    if (!slides.length) return;
+    const previous = index;
+    animations.forEach(animation => { animation.onfinish = null; animation.cancel(); });
+    animations = [];
     index = (next + slides.length) % slides.length;
-    slides.forEach((slide,i) => { slide.hidden = i !== index; });
+    slides.forEach((slide,i) => { slide.hidden = i !== index; slide.inert = i !== index; slide.setAttribute('aria-hidden', String(i !== index)); });
+    if (previous !== index && !motion.matches && slides[index].animate) {
+      const direction = (document.documentElement.dir === 'rtl' ? 1 : -1) * (next >= previous ? 1 : -1);
+      const outgoing = slides[previous], incoming = slides[index];
+      outgoing.hidden = false;
+      const options = { duration: 650, easing: 'cubic-bezier(.22,.61,.36,1)' };
+      const leave = outgoing.animate([{transform:'translateX(0)'},{transform:`translateX(${direction * 100}%)`}], options);
+      const enter = incoming.animate([{transform:`translateX(${-direction * 100}%)`},{transform:'translateX(0)'}], options);
+      leave.onfinish = () => { outgoing.hidden = true; };
+      animations = [leave, enter];
+    }
     dots.forEach((dot,i) => dot.setAttribute('aria-pressed', String(i === index)));
     schedule();
   };

@@ -1,3 +1,7 @@
+# 1.9.10 — Arabic installed-product campaigns and reusable sections
+
+Full-image dark banners, directional transitions, laser rail for 35 products, one reusable department, 24 interactive icons, synchronized cart badges and one fixed native checkout action. See REVISION_1_9_10.md.
+
 # 1.9.9 — independent component targets and product hero
 
 - Per-instance shipping amount, discount basis, copy and icons; all hosts share one cart refresh while calculating independently.

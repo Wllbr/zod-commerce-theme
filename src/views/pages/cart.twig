@@ -13,7 +13,6 @@
     {% if cart.items|length %}
     <div class="zod-cart-overview">
       <div><span>{{ trans('zod.cart.order_summary') }}</span><strong data-zod-cart-grand-total>{{ cart.total|money }}</strong></div>
-      <a href="#zod-cart-summary" class="zod-btn zod-btn--primary">{{ trans('zod.cart.review_summary') }}<i class="sicon-arrow-left rtl:rotate-180" aria-hidden="true"></i></a>
     </div>
     <div class="zod-cart-progress zod-cart-progress--two" aria-label="{{ trans('zod.cart.progress_label') }}">
       <span class="zod-cart-progress__step is-active" data-zod-progress-cart><i class="sicon-shopping-bag"></i><b>{{ trans('zod.cart.step_cart') }}</b></span>

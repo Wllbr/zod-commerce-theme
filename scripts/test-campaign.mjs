@@ -26,3 +26,24 @@ f.viewport.events.keydown({key:'ArrowLeft',preventDefault(){}});assert.equal(f.s
 f.viewport.events.keydown({key:'End',preventDefault(){}});assert.equal(f.slides[2].hidden,false);
 f=fixture(false,false);f.viewport.events.keydown({key:'Escape'});assert.equal(f.timers.size,0,'Escape stops autoplay');
 console.log('PASS: hero without buttons/dots retains keyboard navigation and pause.');
+
+// Native animation frames must travel in the requested physical direction,
+// and cancellation must never leave an older slide visible over a new one.
+for (const dir of ['rtl','ltr']) {
+ f=fixture(false,false);f.doc.documentElement.dir=dir;
+ const calls=[];
+ f.slides.forEach(slide=>slide.animate=(frames,options)=>{
+   const animation={frames,options,cancelled:false,onfinish:null,cancel(){this.cancelled=true}};
+   calls.push(animation);return animation;
+ });
+ const tick=()=>[...f.timers.values()][0]();tick();
+ assert.equal(calls[1].frames[0].transform,`translateX(${dir==='rtl'?-100:100}%)`);
+ assert.equal(f.slides[0].inert,true,'outgoing slide cannot receive focus');
+ const older=calls[0];tick();
+ assert.equal(older.cancelled,true);assert.equal(older.onfinish,null,'stale completion is detached');
+ assert.equal(f.slides[0].hidden,true);
+ calls.at(-2).onfinish();assert.equal(f.slides[1].hidden,true);
+ tick();assert.equal(f.slides[0].inert,false,'wraparound activates first slide');
+ assert.equal(calls.at(-1).frames[0].transform,`translateX(${dir==='rtl'?-100:100}%)`,'wrap continues in the same direction');
+}
+console.log('PASS: Arabic/English animation direction, rapid transitions, inert outgoing slides and seamless wrap direction.');
